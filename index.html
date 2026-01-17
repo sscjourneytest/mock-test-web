@@ -20,24 +20,25 @@
       padding: 30px 16px 36px;
       text-align: center;
     }
-
-    /* LOGO CIRCLE */
     .logo-circle {
-      width: 110px;
-      height: 110px;
-      margin: 0 auto 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* VERY IMPORTANT */
+}
 
-    .logo-circle img {
-      width: 80%;
-      height: auto;
-      border-radius: 50%;
-    }
+.logo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* KEY FIX */
+}
+
+    
 
     .hero h1 {
       font-size: 26px;
