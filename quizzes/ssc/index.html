@@ -14,11 +14,34 @@
     }
 
     header {
-      background: #2a5298;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
       color: white;
-      padding: 25px;
+      padding: 35px 20px;
       text-align: center;
     }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    /* JOIN BUTTONS */
+    .join-buttons {
+      margin-top: 15px;
+    }
+
+    .join-buttons a {
+      display: inline-block;
+      margin: 6px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      color: white;
+    }
+
+    .telegram { background: #0088cc; }
+    .whatsapp { background: #25d366; }
 
     .container {
       max-width: 900px;
@@ -46,8 +69,16 @@
       display: block;
     }
 
-    .quiz-list a:hover {
-      text-decoration: underline;
+    /* BACK BUTTON */
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+      background: #2a5298;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-size: 14px;
     }
 
     footer {
@@ -61,21 +92,36 @@
 
 <body>
 
+  <!-- HEADER -->
   <header>
-    <h1>SSC MOCK TESTS</h1>
+    <h1>SSC MOCK TEST</h1>
     <p>Select a test to start practice</p>
+
+    <!-- JOIN BUTTONS -->
+    <div class="join-buttons">
+      <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">
+        JOIN TELEGRAM
+      </a>
+      <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">
+        JOIN WHATSAPP
+      </a>
+    </div>
   </header>
 
+  <!-- QUIZ LIST -->
   <div class="container">
-    <ul class="quiz-list">
 
+    <ul class="quiz-list">
       <li>
         <a href="/quizzes/ssc/dp-constable-computer-1.html">
           DP Constable – Computer – Test 1
         </a>
       </li>
 
-    </ul>
+
+    <!-- BACK TO HOME -->
+    <a class="back-btn" href="/">← Back to Home</a>
+
   </div>
 
   <footer>
