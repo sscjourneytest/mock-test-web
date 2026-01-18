@@ -2,46 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>FULL MOCK TEST</title>
+<title>FULL MOCK TESTS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ===== GLOBAL ===== */
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:#1e293b;          /* lighter dark */
-  color:#e5e7eb;
+  font-family:Arial,sans-serif;
+  background:#f4f6fb;          /* light & eye-friendly */
+  color:#333;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header{
-  background:#111827;
-  padding:25px 20px 35px;
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  padding:30px 20px 35px;
   position:relative;
   text-align:center;
-  border-bottom:1px solid #334155;
+  color:#fff;
 }
 
+/* BACK BUTTON */
 .back{
   position:absolute;
-  top:20px;
-  left:20px;
-  background:#334155;
-  color:#e5e7eb;
-  padding:10px 18px;
-  border-radius:6px;
+  top:8px;
+  left:14px;
+  background:#ffffff;
+  color:#2a5298;
+  padding:8px 16px;
+  border-radius:20px;
   text-decoration:none;
   font-weight:bold;
-  font-size:14px;
+  font-size:13px;
 }
 
 /* JOIN BUTTONS */
 .join a{
   display:inline-block;
   margin:6px;
-  padding:10px 20px;
-  border-radius:6px;
+  padding:10px 18px;
+  border-radius:20px;
   font-weight:bold;
   font-size:14px;
   text-decoration:none;
@@ -50,48 +50,61 @@ header{
 .telegram{background:#0088cc;}
 .whatsapp{background:#25d366;}
 
-/* ===== CONTENT ===== */
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:40px 20px;
+/* FILTERS */
+.filters{
+  margin-top:18px;
 }
 
-/* SEARCH */
-.search-box{
-  width:100%;
-  padding:12px 14px;
-  font-size:15px;
-  border-radius:6px;
+.filter-row{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.filter-btn{
+  padding:9px 18px;
+  border-radius:20px;
   border:none;
-  outline:none;
-  margin-bottom:25px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+  background:#e0e7ff;
+  color:#1e3c72;
+  transition:0.2s;
+}
+.filter-btn.active{
+  background:#16a34a;   /* visible green */
+  color:#ffffff;
+}
+
+
+/* CONTENT */
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:40px 20px;
 }
 
 /* QUIZ GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:20px;
 }
 
-/* COMMON QUIZ CARD STYLE */
-.quiz-card{
-  background:#111827;
-  border:1px solid #334155;
-  border-radius:10px;
+/* QUIZ CARD */
+.quiz{
+  background:#ffffff;
+  border-radius:12px;
   padding:22px;
   text-align:center;
-  transition:0.2s;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-.quiz-card:hover{
-  border-color:#38bdf8;
-}
-
-.quiz-card a{
+.quiz a{
   text-decoration:none;
-  color:#38bdf8;
+  color:#1e3c72;
   font-weight:bold;
   font-size:15px;
 }
@@ -100,12 +113,13 @@ header{
 .coming{
   text-align:center;
   padding:60px 20px;
-  background:#111827;
-  border:1px solid #334155;
+  background:#ffffff;
   border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
-.coming h2{color:#f8fafc}
-.coming p{color:#cbd5f5}
+
+.coming h2{margin-bottom:10px;}
+.coming p{color:#555;}
 </style>
 </head>
 
@@ -113,59 +127,66 @@ header{
 
 <header>
   <a class="back" href="../">BACK</a>
-  <h1>FULL MOCK TEST</h1>
+  <h1>FULL MOCK TESTS</h1>
 
   <div class="join">
     <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">JOIN TELEGRAM</a>
     <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   </div>
+
+  <!-- YEAR FILTERS BELOW JOIN -->
+  <div class="filters">
+    <div class="filter-row">
+      <button class="filter-btn" onclick="setYear('2025',this)">2025</button>
+      <button class="filter-btn" onclick="setYear('2026',this)">2026</button>
+    </div>
+  </div>
 </header>
 
 <div class="container">
 
-  <!-- 🔍 SEARCH -->
-  <input
-    type="text"
-    class="search-box"
-    placeholder="Search mock test by name..."
-    onkeyup="searchQuiz()"
-    id="searchInput"
-  >
-
-  <!-- ✅ QUIZ LIST (REPLACE WHEN AVAILABLE) -->
-  <div class="grid" id="quizGrid">
-
-    <!-- Example quizzes (REMOVE if none uploaded yet) -->
-    <div class="quiz-card">
-      <a href="#">SSC CGL FULL MOCK TEST 1</a>
-    </div>
-
-    <div class="quiz-card">
-      <a href="#">SSC CGL FULL MOCK TEST 2</a>
-    </div>
-
+  <!-- SHOW FIRST -->
+  <div class="coming">
+    <h2>Full Mock Tests Coming Soon</h2>
+    <p>No full mock tests have been uploaded yet.</p>
+    <strong>COMING SOON 🚀</strong>
   </div>
 
-  <!-- ❌ COMING SOON (USE WHEN NO QUIZ) -->
+  <!-- QUIZ LIST (ENABLE WHEN UPLOADED) -->
   <!--
-  <div class="coming">
-    <h2>No Full Mock Available</h2>
-    <p>Full mock tests for this exam have not been uploaded yet.</p>
-    <strong>COMING SOON 🚀</strong>
+  <div class="grid" id="quizGrid">
+
+    <div class="quiz">
+      <a href="cgl-2026-full-mock-1.html">
+        SSC CGL 2026 FULL MOCK TEST 1
+      </a>
+    </div>
+
   </div>
   -->
 
 </div>
 
 <script>
-function searchQuiz(){
-  const input = document.getElementById("searchInput").value.toLowerCase();
-  const cards = document.getElementsByClassName("quiz-card");
+let selectedYear = "";
 
-  for(let i=0;i<cards.length;i++){
-    const text = cards[i].innerText.toLowerCase();
-    cards[i].style.display = text.includes(input) ? "block" : "none";
-  }
+function setYear(year, btn){
+  selectedYear = year;
+  activate(btn);
+  filter();
+}
+
+function activate(btn){
+  btn.parentElement.querySelectorAll(".filter-btn")
+    .forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+function filter(){
+  document.querySelectorAll(".quiz").forEach(q=>{
+    const name = q.innerText.toUpperCase();
+    q.style.display = name.includes(selectedYear) ? "block" : "none";
+  });
 }
 </script>
 
