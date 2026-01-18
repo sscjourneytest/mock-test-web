@@ -2,46 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SECTIONAL TEST</title>
+<title>SECTIONAL MOCK TESTS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ===== GLOBAL ===== */
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:#1e293b;
-  color:#e5e7eb;
+  font-family:Arial,sans-serif;
+  background:#f4f6fb;              /* light, eye-friendly */
+  color:#333;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header{
-  background:#111827;
-  padding:25px 20px 35px;
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  padding:30px 20px 35px;
   position:relative;
   text-align:center;
-  border-bottom:1px solid #334155;
+  color:#fff;
 }
 
+/* BACK BUTTON */
 .back{
   position:absolute;
-  top:20px;
-  left:20px;
-  background:#334155;
-  color:#e5e7eb;
-  padding:10px 18px;
-  border-radius:6px;
+  top:8px;
+  left:14px;
+  background:#ffffff;
+  color:#2a5298;
+  padding:8px 16px;
+  border-radius:20px;
   text-decoration:none;
   font-weight:bold;
-  font-size:14px;
+  font-size:13px;
 }
 
 /* JOIN BUTTONS */
 .join a{
   display:inline-block;
   margin:6px;
-  padding:10px 20px;
-  border-radius:6px;
+  padding:10px 18px;
+  border-radius:20px;
   font-weight:bold;
   font-size:14px;
   text-decoration:none;
@@ -50,40 +50,77 @@ header{
 .telegram{background:#0088cc;}
 .whatsapp{background:#25d366;}
 
-/* ===== CONTENT ===== */
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:50px 20px;
+/* FILTERS */
+.filters{
+  margin-top:18px;                 /* below join buttons */
 }
 
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
-  gap:22px;
+.filter-row{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:10px;
 }
 
-/* SUBJECT CARD */
-.card{
-  background:#111827;
-  border:1px solid #334155;
-  border-radius:12px;
-  padding:30px 20px;
-  text-align:center;
+.filter-btn{
+  padding:9px 18px;
+  border-radius:20px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+  background:#e0e7ff;
+  color:#1e3c72;
   transition:0.2s;
 }
-
-.card:hover{
-  border-color:#38bdf8;
+.filter-btn.active{
+  background:#16a34a;   /* visible green */
+  color:#ffffff;
 }
 
-.card a{
+
+/* CONTENT */
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+/* QUIZ GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+/* QUIZ CARD */
+.quiz{
+  background:#ffffff;
+  border-radius:12px;
+  padding:22px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.quiz a{
   text-decoration:none;
-  color:#38bdf8;
+  color:#1e3c72;
   font-weight:bold;
-  font-size:16px;
+  font-size:15px;
 }
+
+/* COMING SOON */
+.coming{
+  text-align:center;
+  padding:60px 20px;
+  background:#ffffff;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.coming h2{margin-bottom:10px;}
+.coming p{color:#555;}
 </style>
 </head>
 
@@ -91,35 +128,86 @@ header{
 
 <header>
   <a class="back" href="../">BACK</a>
-  <h1>SECTIONAL TEST</h1>
+  <h1>SECTIONAL MOCK TESTS</h1>
 
   <div class="join">
     <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">JOIN TELEGRAM</a>
     <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   </div>
-</header>
 
-<div class="container">
-  <div class="grid">
+  <!-- FILTERS BELOW JOIN -->
+  <div class="filters">
 
-    <div class="card">
-      <a href="maths/">MATHS</a>
+    <div class="filter-row">
+      <button class="filter-btn" onclick="setYear('2025',this)">2025</button>
+      <button class="filter-btn" onclick="setYear('2026',this)">2026</button>
     </div>
 
-    <div class="card">
-      <a href="english/">ENGLISH</a>
-    </div>
-
-    <div class="card">
-      <a href="reasoning/">REASONING</a>
-    </div>
-
-    <div class="card">
-      <a href="gk/">GENERAL AWARENESS (GK)</a>
+    <div class="filter-row">
+      <button class="filter-btn" onclick="setSubject('MATHS',this)">MATHS</button>
+      <button class="filter-btn" onclick="setSubject('REASONING',this)">REASONING</button>
+      <button class="filter-btn" onclick="setSubject('ENGLISH',this)">ENGLISH</button>
+      <button class="filter-btn" onclick="setSubject('GENERAL AWARENESS',this)">GK</button>
     </div>
 
   </div>
+</header>
+
+<div class="container">
+
+  <!-- SHOW THIS FIRST IF NO QUIZ -->
+  <div class="coming">
+    <h2>Sectional Mock Tests Coming Soon</h2>
+    <p>No sectional mock tests have been uploaded yet.</p>
+    <strong>COMING SOON 🚀</strong>
+  </div>
+
+  <!-- QUIZ LIST (ENABLE WHEN UPLOADED) -->
+  <!--
+  <div class="grid" id="quizGrid">
+
+    <div class="quiz">
+      <a href="cgl-2025-maths-sectional-1.html">
+        SSC CGL 2025 MATHS SECTIONAL TEST 1
+      </a>
+    </div>
+
+  </div>
+  -->
+
 </div>
+
+<script>
+let selectedYear = "";
+let selectedSubject = "";
+
+function setYear(year, btn){
+  selectedYear = year;
+  activate(btn);
+  filter();
+}
+
+function setSubject(subject, btn){
+  selectedSubject = subject;
+  activate(btn);
+  filter();
+}
+
+function activate(btn){
+  btn.parentElement.querySelectorAll(".filter-btn")
+    .forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+function filter(){
+  document.querySelectorAll(".quiz").forEach(q=>{
+    const name = q.innerText.toUpperCase();
+    const yearOk = !selectedYear || name.includes(selectedYear);
+    const subjectOk = !selectedSubject || name.includes(selectedSubject);
+    q.style.display = (yearOk && subjectOk) ? "block" : "none";
+  });
+}
+</script>
 
 </body>
 </html>
