@@ -9,7 +9,7 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:#f4f6fb;          /* light & eye-friendly */
+  background:#f4f6fb;
   color:#333;
 }
 
@@ -54,14 +54,12 @@ header{
 .filters{
   margin-top:18px;
 }
-
 .filter-row{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
   gap:10px;
 }
-
 .filter-btn{
   padding:9px 18px;
   border-radius:20px;
@@ -71,13 +69,11 @@ header{
   font-size:14px;
   background:#e0e7ff;
   color:#1e3c72;
-  transition:0.2s;
 }
 .filter-btn.active{
-  background:#16a34a;   /* visible green */
-  color:#ffffff;
+  background:#16a34a;
+  color:#fff;
 }
-
 
 /* CONTENT */
 .container{
@@ -86,40 +82,81 @@ header{
   padding:40px 20px;
 }
 
-/* QUIZ GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
+/* SEARCH */
+#searchBox{
+  width:100%;
+  max-width:420px;
+  padding:12px 16px;
+  margin:0 auto 25px;
+  display:block;
+  border-radius:25px;
+  border:1.5px solid #c7d2fe;
+  font-size:15px;
+}
+#searchBox:focus{
+  border-color:#1e3c72;
+  outline:none;
 }
 
-/* QUIZ CARD */
+/* GRID – ONE BOX PER ROW */
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+
+/* QUIZ CARD – LIST STYLE */
 .quiz{
   background:#ffffff;
   border-radius:12px;
-  padding:22px;
-  text-align:center;
+  padding:18px 20px;
   box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
 }
 
-.quiz a{
-  text-decoration:none;
-  color:#1e3c72;
-  font-weight:bold;
+/* LEFT CONTENT */
+.quiz-left{
+  flex:1;
+}
+.quiz-title{
   font-size:15px;
+  font-weight:700;
+  color:#000000;
+  margin-bottom:6px;
+}
+.quiz-info{
+  font-size:13px;
+  color:#555;
+}
+
+/* START BUTTON */
+.start-btn{
+  background:#1e3c72;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.start-btn:hover{
+  opacity:0.9;
 }
 
 /* COMING SOON */
-.coming{
-  text-align:center;
-  padding:60px 20px;
+.coming-soon{
   background:#ffffff;
   border-radius:12px;
+  padding:50px 20px;
+  text-align:center;
   box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  font-weight:bold;
+  color:#444;
 }
-
-.coming h2{margin-bottom:10px;}
-.coming p{color:#555;}
 </style>
 </head>
 
@@ -134,58 +171,72 @@ header{
     <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   </div>
 
-  <!-- YEAR FILTERS BELOW JOIN -->
+  <!-- YEAR FILTERS ONLY -->
   <div class="filters">
     <div class="filter-row">
-      <button class="filter-btn" onclick="setYear('2025',this)">2025</button>
-      <button class="filter-btn" onclick="setYear('2026',this)">2026</button>
+      <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
+      <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
     </div>
   </div>
 </header>
 
 <div class="container">
 
-  <!-- SHOW FIRST -->
-  <div class="coming">
-    <h2>Full Mock Tests Coming Soon</h2>
-    <p>No full mock tests have been uploaded yet.</p>
-    <strong>COMING SOON 🚀</strong>
-  </div>
+<input type="text" id="searchBox" placeholder="Search full mock..." onkeyup="applyFilters()">
 
-  <!-- QUIZ LIST (ENABLE WHEN UPLOADED) -->
+<!-- COMMON COMING SOON MESSAGE -->
+<div class="coming-soon">
+  FULL MOCK TESTS COMING SOON
+</div>
+
+<div class="grid" id="quizGrid">
+
   <!--
-  <div class="grid" id="quizGrid">
-
-    <div class="quiz">
-      <a href="cgl-2026-full-mock-1.html">
-        SSC CGL 2026 FULL MOCK TEST 1
-      </a>
+  <div class="quiz">
+    <div class="quiz-left">
+      <div class="quiz-title">SSC CGL 2026 FULL MOCK TEST 1</div>
+      <div class="quiz-info">100 Questions • 60 Min</div>
     </div>
-
+    <a href="cgl-2026-full-mock-1.html" class="start-btn">START</a>
   </div>
   -->
 
+  <!--
+  <div class="quiz">
+    <div class="quiz-left">
+      <div class="quiz-title">SSC CGL 2026 FULL MOCK TEST 2</div>
+      <div class="quiz-info">100 Questions • 60 Min</div>
+    </div>
+    <a href="cgl-2026-full-mock-2.html" class="start-btn">START</a>
+  </div>
+  -->
+
+</div>
 </div>
 
 <script>
 let selectedYear = "";
 
-function setYear(year, btn){
-  selectedYear = year;
-  activate(btn);
-  filter();
+function toggleYear(year, btn){
+  if(selectedYear === year){
+    selectedYear = "";
+    btn.classList.remove("active");
+  }else{
+    selectedYear = year;
+    btn.parentElement.querySelectorAll(".filter-btn")
+      .forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+  }
+  applyFilters();
 }
 
-function activate(btn){
-  btn.parentElement.querySelectorAll(".filter-btn")
-    .forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-}
-
-function filter(){
+function applyFilters(){
+  const search = document.getElementById("searchBox").value.toLowerCase();
   document.querySelectorAll(".quiz").forEach(q=>{
-    const name = q.innerText.toUpperCase();
-    q.style.display = name.includes(selectedYear) ? "block" : "none";
+    const text = q.innerText.toLowerCase();
+    const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
+    const searchOk = !search || text.includes(search);
+    q.style.display = (yOk && searchOk) ? "flex" : "none";
   });
 }
 </script>
