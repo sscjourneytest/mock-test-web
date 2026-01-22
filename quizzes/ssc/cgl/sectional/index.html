@@ -9,7 +9,7 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:#f4f6fb;              /* light, eye-friendly */
+  background:#f4f6fb;
   color:#333;
 }
 
@@ -52,9 +52,8 @@ header{
 
 /* FILTERS */
 .filters{
-  margin-top:18px;                 /* below join buttons */
+  margin-top:18px;
 }
-
 .filter-row{
   display:flex;
   justify-content:center;
@@ -62,7 +61,6 @@ header{
   gap:10px;
   margin-bottom:10px;
 }
-
 .filter-btn{
   padding:9px 18px;
   border-radius:20px;
@@ -72,13 +70,11 @@ header{
   font-size:14px;
   background:#e0e7ff;
   color:#1e3c72;
-  transition:0.2s;
 }
 .filter-btn.active{
-  background:#16a34a;   /* visible green */
-  color:#ffffff;
+  background:#16a34a;
+  color:#fff;
 }
-
 
 /* CONTENT */
 .container{
@@ -87,40 +83,81 @@ header{
   padding:40px 20px;
 }
 
-/* QUIZ GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
+/* SEARCH */
+#searchBox{
+  width:100%;
+  max-width:420px;
+  padding:12px 16px;
+  margin:0 auto 25px;
+  display:block;
+  border-radius:25px;
+  border:1.5px solid #c7d2fe;
+  font-size:15px;
+}
+#searchBox:focus{
+  border-color:#1e3c72;
+  outline:none;
 }
 
-/* QUIZ CARD */
+/* GRID – ONE BOX PER ROW */
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+
+/* QUIZ CARD – LIST STYLE */
 .quiz{
   background:#ffffff;
   border-radius:12px;
-  padding:22px;
-  text-align:center;
+  padding:18px 20px;
   box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
 }
 
-.quiz a{
-  text-decoration:none;
-  color:#1e3c72;
-  font-weight:bold;
+/* LEFT CONTENT */
+.quiz-left{
+  flex:1;
+}
+.quiz-title{
   font-size:15px;
+  font-weight:700;
+  color:#000000;
+  margin-bottom:6px;
+}
+.quiz-info{
+  font-size:13px;
+  color:#555;
+}
+
+/* START BUTTON */
+.start-btn{
+  background:#1e3c72;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.start-btn:hover{
+  opacity:0.9;
 }
 
 /* COMING SOON */
-.coming{
-  text-align:center;
-  padding:60px 20px;
+.coming-soon{
   background:#ffffff;
   border-radius:12px;
+  padding:40px 20px;
+  text-align:center;
   box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  font-weight:bold;
+  color:#444;
 }
-
-.coming h2{margin-bottom:10px;}
-.coming p{color:#555;}
 </style>
 </head>
 
@@ -135,76 +172,95 @@ header{
     <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   </div>
 
-  <!-- FILTERS BELOW JOIN -->
   <div class="filters">
-
     <div class="filter-row">
-      <button class="filter-btn" onclick="setYear('2025',this)">2025</button>
-      <button class="filter-btn" onclick="setYear('2026',this)">2026</button>
+      <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
+      <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
     </div>
-
     <div class="filter-row">
-      <button class="filter-btn" onclick="setSubject('MATHS',this)">MATHS</button>
-      <button class="filter-btn" onclick="setSubject('REASONING',this)">REASONING</button>
-      <button class="filter-btn" onclick="setSubject('ENGLISH',this)">ENGLISH</button>
-      <button class="filter-btn" onclick="setSubject('GENERAL AWARENESS',this)">GK</button>
+      <button class="filter-btn" onclick="toggleSubject('MATHS',this)">MATHS</button>
+      <button class="filter-btn" onclick="toggleSubject('REASONING',this)">REASONING</button>
+      <button class="filter-btn" onclick="toggleSubject('ENGLISH',this)">ENGLISH</button>
+      <button class="filter-btn" onclick="toggleSubject('GK',this)">GK</button>
     </div>
-
   </div>
 </header>
 
 <div class="container">
 
-  <!-- SHOW THIS FIRST IF NO QUIZ -->
-  <div class="coming">
-    <h2>Sectional Mock Tests Coming Soon</h2>
-    <p>No sectional mock tests have been uploaded yet.</p>
-    <strong>COMING SOON 🚀</strong>
-  </div>
+<input type="text" id="searchBox" placeholder="Search quiz..." onkeyup="applyFilters()">
 
-  <!-- QUIZ LIST (ENABLE WHEN UPLOADED) -->
+<!-- COMMON COMING SOON MESSAGE -->
+<div class="coming-soon">
+  SECTIONAL MOCK TESTS COMING SOON
+</div>
+
+<div class="grid" id="quizGrid">
+
   <!--
-  <div class="grid" id="quizGrid">
-
-    <div class="quiz">
-      <a href="cgl-2025-maths-sectional-1.html">
-        SSC CGL 2025 MATHS SECTIONAL TEST 1
-      </a>
+  <div class="quiz">
+    <div class="quiz-left">
+      <div class="quiz-title">SSC CGL 2025 ENGLISH SUBJECT WISE TEST 1</div>
+      <div class="quiz-info">20 Questions • 20 Min</div>
     </div>
-
+    <a href="#" class="start-btn">START</a>
   </div>
   -->
 
+  <!--
+  <div class="quiz">
+    <div class="quiz-left">
+      <div class="quiz-title">SSC CGL 2025 ENGLISH SUBJECT WISE TEST 2</div>
+      <div class="quiz-info">25 Questions • 25 Min</div>
+    </div>
+    <a href="#" class="start-btn">START</a>
+  </div>
+  -->
+
+</div>
 </div>
 
 <script>
 let selectedYear = "";
 let selectedSubject = "";
 
-function setYear(year, btn){
-  selectedYear = year;
-  activate(btn);
-  filter();
+function toggleYear(year, btn){
+  if(selectedYear === year){
+    selectedYear = "";
+    btn.classList.remove("active");
+  }else{
+    selectedYear = year;
+    clearRow(btn);
+    btn.classList.add("active");
+  }
+  applyFilters();
 }
 
-function setSubject(subject, btn){
-  selectedSubject = subject;
-  activate(btn);
-  filter();
+function toggleSubject(subject, btn){
+  if(selectedSubject === subject){
+    selectedSubject = "";
+    btn.classList.remove("active");
+  }else{
+    selectedSubject = subject;
+    clearRow(btn);
+    btn.classList.add("active");
+  }
+  applyFilters();
 }
 
-function activate(btn){
+function clearRow(btn){
   btn.parentElement.querySelectorAll(".filter-btn")
     .forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
 }
 
-function filter(){
+function applyFilters(){
+  const search = document.getElementById("searchBox").value.toLowerCase();
   document.querySelectorAll(".quiz").forEach(q=>{
-    const name = q.innerText.toUpperCase();
-    const yearOk = !selectedYear || name.includes(selectedYear);
-    const subjectOk = !selectedSubject || name.includes(selectedSubject);
-    q.style.display = (yearOk && subjectOk) ? "block" : "none";
+    const text = q.innerText.toLowerCase();
+    const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
+    const sOk = !selectedSubject || text.includes(selectedSubject.toLowerCase());
+    const searchOk = !search || text.includes(search);
+    q.style.display = (yOk && sOk && searchOk) ? "flex" : "none";
   });
 }
 </script>
