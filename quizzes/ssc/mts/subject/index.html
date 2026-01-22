@@ -171,24 +171,25 @@ header{
     <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">JOIN TELEGRAM</a>
     <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   </div>
-
-  <div class="filters">
-    <div class="filter-row">
-      <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
-      <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
-    </div>
-    <div class="filter-row">
-      <button class="filter-btn" onclick="toggleSubject('MATHS',this)">MATHS</button>
-      <button class="filter-btn" onclick="toggleSubject('REASONING',this)">REASONING</button>
-      <button class="filter-btn" onclick="toggleSubject('ENGLISH',this)">ENGLISH</button>
-      <button class="filter-btn" onclick="toggleSubject('GK',this)">GK</button>
-    </div>
-  </div>
 </header>
 
 <div class="container">
 
 <input type="text" id="searchBox" placeholder="Search quiz..." onkeyup="applyFilters()">
+
+<div class="filters">
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="clearAll(this)">ALL</button>
+    <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
+    <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn" onclick="toggleSubject('MATHS',this)">MATHS</button>
+    <button class="filter-btn" onclick="toggleSubject('REASONING',this)">REASONING</button>
+    <button class="filter-btn" onclick="toggleSubject('ENGLISH',this)">ENGLISH</button>
+    <button class="filter-btn" onclick="toggleSubject('GK',this)">GK</button>
+  </div>
+</div>
 
 <!-- COMMON COMING SOON MESSAGE -->
 <div class="coming-soon">
@@ -223,6 +224,15 @@ header{
 <script>
 let selectedYear = "";
 let selectedSubject = "";
+
+function clearAll(btn){
+  selectedYear = "";
+  selectedSubject = "";
+  document.querySelectorAll(".filter-btn")
+    .forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  applyFilters();
+}
 
 function toggleYear(year, btn){
   if(selectedYear === year){
