@@ -1477,19 +1477,10 @@ function reattemptQuiz() {
   }
 }
 
-// Restore Dashboard (From History/Solution Mode)
-function restoreLatestResult() {
-  if(LAST_RESULT_HTML) {
-    document.getElementById("results").innerHTML = LAST_RESULT_HTML;
-    document.getElementById("results").style.display = "block";
 
-    // Hide other views
-    document.getElementById("quizMainArea").style.display = "none";
-    document.getElementById("previousAttempts").style.display = "none";
-    document.getElementById("mainHeader").style.display = "none";
-    document.getElementById("floatBar").style.display = "none";
-  }
-}
+          card.querySelector(".section-title")?.textContent === "📊 You vs Topper"
+        );
+
 // Refresh Rank Button Logic (STRICT submitQuiz aligned + Time Taken)
 function refreshLatestRankOnDemand(btn) {
   btn.disabled = true;
@@ -1535,21 +1526,23 @@ function refreshLatestRankOnDemand(btn) {
         .textContent = `${rankData.percentile}%`;
 
       // 3️⃣ Update comparison bars & topper table
-      return getToppersList(QUIZ_ID).then(toppersList => {
+          return getToppersList(QUIZ_ID).then(toppersList => {
 
         const topperStats = getTopperStatsForComparison(
           toppersList,
           QUESTIONS.length
         );
 
-        // 🔄 Comparison card (EXACT submitQuiz structure)
-        const comparisonCard = Array.from(
-          document.querySelectorAll(".card-dashboard")
-        ).find(card =>
-          card.querySelector(".section-title")?.textContent === "📊 You vs Topper"
-        );
+        // 🟢 1. Define Container FIRST to ensure we target the correct dashboard
+        const resultsContainer = document.getElementById("results");
+        if (!resultsContainer) return;
 
-        if (comparisonCard) {
+        // 🔄 2. Comparison card - Robust Selection (Finds card INSIDE results)
+        const comparisonCard = Array.from(resultsContainer.querySelectorAll(".section-title"))
+          .find(el => el.textContent.includes("You vs Topper"))
+          ?.closest(".card-dashboard");
+          
+                  if (comparisonCard) {
           comparisonCard.innerHTML = `
             <h3 class="section-title">📊 You vs Topper</h3>
             ${renderComparisonBar("Score", att.score, att.total, topperStats.score, att.total)}
@@ -1558,32 +1551,15 @@ function refreshLatestRankOnDemand(btn) {
             ${renderComparisonBar("Wrong", att.wrong, QUESTIONS.length, topperStats.wrong, QUESTIONS.length, "", true)}
             ${renderComparisonBar(
               "Time Taken",
-              timeTakenSeconds,
+              att.timeTaken,   // <--- ✅ FIXED: Changed from 'timeTakenSeconds' to 'att.timeTaken'
               TOTAL_TIME_SECONDS,
               topperStats.time,
               TOTAL_TIME_SECONDS
             )}
           `;
         }
-        // 🔧 Fix Time Taken display text to mm:ss (bars still use seconds)
-resBox.querySelectorAll(".bar-section").forEach(sec => {
-  const label = sec.querySelector(".bar-label span")?.textContent;
-  if (label === "Time Taken") {
-    const values = sec.querySelectorAll("span[style*='text-align:right']");
-    if (values.length === 2) {
-      values[0].textContent = fmt(timeTakenSeconds);   // YOU
-      values[1].textContent = fmt(topperStats.time);   // TOPPER
-    }
-  }
-});
-
-
-        // 🔄 Topper table (medals preserved)
-        const topperCard = Array.from(
-          document.querySelectorAll(".card-dashboard")
-        ).find(card =>
-          card.querySelector(".section-title")?.textContent === "🏆 Top 10 Toppers (First Attempt)"
-        );
+        // 🔄 3. Topper table - Robust Selection (Finds table INSIDE results)
+        const topperCard = resultsContainer.querySelector(".topper-table")?.closest(".card-dashboard");
 
         if (topperCard) {
           topperCard.innerHTML = `
@@ -1604,9 +1580,20 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
           `;
         }
 
-        // 4️⃣ Persist updated dashboard for reload
-        const resBox = document.getElementById("results");
-        LAST_RESULT_HTML = resBox.innerHTML;
+        // 🔧 4. Update Time Taken text to mm:ss format
+        resultsContainer.querySelectorAll(".bar-section").forEach(sec => {
+          const label = sec.querySelector(".bar-label span")?.textContent;
+          if (label === "Time Taken") {
+            const values = sec.querySelectorAll("span[style*='text-align:right']");
+            if (values.length === 2) {
+              values[0].textContent = fmt(latestAttempt.timeTaken); // YOU
+              values[1].textContent = fmt(topperStats.time);        // TOPPER
+            }
+          }
+        });
+
+        // 5️⃣ Persist updated dashboard for reload
+        LAST_RESULT_HTML = resultsContainer.innerHTML;
         localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
           submitted: true,
           resultHTML: LAST_RESULT_HTML,
@@ -1614,8 +1601,9 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
           marked,
           current: 0
         }));
-      });
-    })
+      }); // Close getToppersList .then
+     })
+    .catch(err => console.error("Rank Update Error:", err)) // Added for safety
 
     .finally(() => {
       btn.disabled = false;
@@ -1956,14 +1944,26 @@ function init(){
       el("floatBar").style.display = "none";
       if(el("studentName")) el("studentName").style.display = "none";
 
-      // Show Result
+                // Show Result
       const res = document.getElementById("results");
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
-      renderMath();
-      return; // Stop here
-    }
+
+      // 🔧 FIX: Restore mm:ss format in bars after reload
+      res.querySelectorAll(".bar-section").forEach(sec => {
+        const label = sec.querySelector(".bar-label span")?.textContent;
+        if (label === "Time Taken") {
+          const values = sec.querySelectorAll("span[style*='text-align:right']");
+          values.forEach(val => {
+            const rawText = val.textContent.replace('%', '').trim();
+            if(!isNaN(rawText) && rawText !== "") {
+              val.textContent = fmt(parseInt(rawText));
+            }
+          });
+        }
+      });
+     }
   }
 
   // 2. RESTORE PROGRESS (Resume Quiz)
