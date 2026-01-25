@@ -2,57 +2,72 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>FULL MOCK TESTS</title>
+<title>FULL MOCK TESTS | SSC Journey Test</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4B6V3MV51Q');
+</script>
 
 <style>
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f6fb;
-  color:#333;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background:#eff6ff; /* Premium light blue background */
+  color:#334155;
 }
 
-/* HEADER */
+/* HEADER - Premium Gradient & Spacing */
 header{
-  background:linear-gradient(135deg,#1e3c72,#2a5298);
-  padding:30px 20px 35px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  padding:40px 20px 45px;
   position:relative;
   text-align:center;
   color:#fff;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
 }
 
-/* BACK BUTTON */
+/* BACK BUTTON - Glassmorphism style */
 .back{
   position:absolute;
-  top:8px;
+  top:12px;
   left:14px;
-  background:#ffffff;
-  color:#2a5298;
+  background: rgba(255, 255, 255, 0.2);
+  color:#ffffff;
   padding:8px 16px;
   border-radius:20px;
   text-decoration:none;
   font-weight:bold;
-  font-size:13px;
+  font-size:12px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.3);
 }
 
-/* JOIN BUTTONS */
+/* JOIN BUTTONS - Modern Pills */
 .join a{
   display:inline-block;
   margin:6px;
-  padding:10px 18px;
-  border-radius:20px;
+  padding:10px 20px;
+  border-radius:50px;
   font-weight:bold;
-  font-size:14px;
+  font-size:13px;
   text-decoration:none;
   color:#fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: 0.3s;
 }
 .telegram{background:#0088cc;}
 .whatsapp{background:#25d366;}
+.join a:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
 /* FILTERS */
 .filters{
-  margin-top:18px;
+  margin-top:25px;
 }
 .filter-row{
   display:flex;
@@ -63,16 +78,19 @@ header{
 .filter-btn{
   padding:9px 18px;
   border-radius:20px;
-  border:none;
+  border: 1px solid #e2e8f0;
   cursor:pointer;
   font-weight:bold;
-  font-size:14px;
-  background:#e0e7ff;
-  color:#1e3c72;
+  font-size:13px;
+  background:#ffffff;
+  color:#1e40af;
+  transition: 0.3s;
 }
 .filter-btn.active{
-  background:#16a34a;
+  background:#22c55e; /* Active success green */
   color:#fff;
+  border-color: #22c55e;
+  box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
 }
 
 /* CONTENT */
@@ -82,80 +100,103 @@ header{
   padding:40px 20px;
 }
 
-/* SEARCH */
+/* SEARCH - Kept above filters as per original logic */
 #searchBox{
   width:100%;
   max-width:420px;
-  padding:12px 16px;
+  padding:14px 20px;
   margin:0 auto 25px;
   display:block;
-  border-radius:25px;
-  border:1.5px solid #c7d2fe;
+  border-radius:30px;
+  border:1px solid #cbd5e1;
   font-size:15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  outline: none;
 }
 #searchBox:focus{
-  border-color:#1e3c72;
-  outline:none;
+  border-color:#3b82f6;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
 }
 
-/* GRID – ONE BOX PER ROW */
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:1fr;
   gap:16px;
 }
 
-/* QUIZ CARD – LIST STYLE */
+/* QUIZ CARD - List Style Modernized */
 .quiz{
   background:#ffffff;
-  border-radius:12px;
-  padding:18px 20px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  border-radius:16px;
+  padding:20px 25px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.04);
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:15px;
+  border: 1px solid #f1f5f9;
+  transition: 0.3s;
 }
+.quiz:hover { transform: scale(1.01); border-color: #3b82f6; }
 
 /* LEFT CONTENT */
 .quiz-left{
   flex:1;
 }
 .quiz-title{
-  font-size:15px;
+  font-size:16px;
   font-weight:700;
-  color:#000000;
+  color:#1e293b;
   margin-bottom:6px;
 }
 .quiz-info{
   font-size:13px;
-  color:#555;
+  color:#64748b;
 }
 
 /* START BUTTON */
 .start-btn{
-  background:#1e3c72;
+  background:#2563eb;
   color:#fff;
-  padding:10px 16px;
-  border-radius:8px;
+  padding:12px 25px;
+  border-radius:12px;
   font-size:14px;
   font-weight:bold;
   text-decoration:none;
   white-space:nowrap;
+  transition: 0.3s;
 }
 .start-btn:hover{
-  opacity:0.9;
+  background: #1e40af;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
-/* COMING SOON */
+/* COMING SOON - Premium styled */
 .coming-soon{
   background:#ffffff;
-  border-radius:12px;
+  border-radius:16px;
   padding:50px 20px;
   text-align:center;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  box-shadow:0 10px 20px rgba(0,0,0,0.03);
   font-weight:bold;
-  color:#444;
+  color:#94a3b8;
+  border: 2px dashed #e2e8f0;
+}
+
+/* FOOTER - Necessary for Approval */
+footer {
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 40px 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+.footer-links a {
+  color: #f1f5f9;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 13px;
 }
 </style>
 </head>
@@ -163,7 +204,7 @@ header{
 <body>
 
 <header>
-  <a class="back" href="../">BACK</a>
+  <a class="back" href="../">← BACK</a>
   <h1>FULL MOCK TESTS</h1>
 
   <div class="join">
@@ -184,35 +225,24 @@ header{
   </div>
 </div>
 
-<!-- COMMON COMING SOON MESSAGE -->
-<div class="coming-soon">
-  FULL MOCK TESTS COMING SOON
+<div class="coming-soon" id="comingSoonMsg">
+  🚀 FULL MOCK TESTS COMING SOON
 </div>
 
 <div class="grid" id="quizGrid">
 
-  <!--
-  <div class="quiz">
-    <div class="quiz-left">
-      <div class="quiz-title">SSC CGL 2026 FULL MOCK TEST 1</div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <a href="cgl-2026-full-mock-1.html" class="start-btn">START</a>
   </div>
-  -->
+</div>
 
-  <!--
-  <div class="quiz">
-    <div class="quiz-left">
-      <div class="quiz-title">SSC CGL 2026 FULL MOCK TEST 2</div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
+<footer>
+    <div class="footer-links">
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/disclaimer.html">Disclaimer</a>
     </div>
-    <a href="cgl-2026-full-mock-2.html" class="start-btn">START</a>
-  </div>
-  -->
-
-</div>
-</div>
+    <p style="font-size: 11px; margin-top: 15px; opacity: 0.5;">© 2026 SSC Journey Test. Premium Preparation Platform.</p>
+</footer>
 
 <script>
 let selectedYear = "";
@@ -240,13 +270,33 @@ function toggleYear(year, btn){
 
 function applyFilters(){
   const search = document.getElementById("searchBox").value.toLowerCase();
-  document.querySelectorAll(".quiz").forEach(q=>{
+  const quizzes = document.querySelectorAll(".quiz");
+  let found = 0;
+
+  quizzes.forEach(q=>{
     const text = q.innerText.toLowerCase();
     const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
     const searchOk = !search || text.includes(search);
-    q.style.display = (yOk && searchOk) ? "flex" : "none";
+    
+    if(yOk && searchOk) {
+        q.style.display = "flex";
+        found++;
+    } else {
+        q.style.display = "none";
+    }
   });
+
+  // Toggle Coming Soon logic based on content
+  const msg = document.getElementById("comingSoonMsg");
+  if(quizzes.length === 0 || found === 0) {
+      msg.style.display = "block";
+  } else {
+      msg.style.display = "none";
+  }
 }
+
+// Initial run to check for empty grid
+applyFilters();
 </script>
 
 </body>
