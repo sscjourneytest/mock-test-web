@@ -1954,15 +1954,27 @@ function init(){
       el("floatBar").style.display = "none";
       if(el("studentName")) el("studentName").style.display = "none";
 
-      // Show Result
+               // Show Result
       const res = document.getElementById("results");
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
-      renderMath();
-      return; // Stop here
+
+      // 🔧 FIX: Restore mm:ss format in bars after reload
+      res.querySelectorAll(".bar-section").forEach(sec => {
+        const label = sec.querySelector(".bar-label span")?.textContent;
+        if (label === "Time Taken") {
+          const values = sec.querySelectorAll("span[style*='text-align:right']");
+          values.forEach(val => {
+            const rawText = val.textContent.replace('%', '').trim();
+            if(!isNaN(rawText) && rawText !== "") {
+              val.textContent = fmt(parseInt(rawText));
+            }
+          });
+        }
+      });
+     }
     }
-  }
 
   // 2. RESTORE PROGRESS (Resume Quiz)
   const savedName = localStorage.getItem("ssc_quiz_name");
