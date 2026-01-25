@@ -104,6 +104,18 @@
       border-radius: 6px;
       font-weight: bold;
     }
+    /* 📱 MOBILE FIX: 1 BUTTON PER ROW */
+@media (max-width: 768px) {
+  .exams {
+    grid-template-columns: 1fr;
+  }
+}
+    @media (max-width: 768px) {
+  .exam a {
+    width: 100%;
+    text-align: center;
+  }
+    }
 
   
   </style>
