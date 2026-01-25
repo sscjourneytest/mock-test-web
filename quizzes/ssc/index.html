@@ -2,142 +2,183 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SSC Mock Tests</title>
+  <title>SSC Mock Tests | 2025 Ediquity Pattern</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-4B6V3MV51Q');
-</script>
-
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4B6V3MV51Q');
+  </script>
 
   <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #1e40af;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --accent: #f59e0b;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #eef1f6;
-      color: #333;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #eff6ff;
+      color: #334155;
+      line-height: 1.6;
     }
 
+    /* HEADER */
     header {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
       color: white;
-      padding: 25px 20px 35px;
-      position: relative;
+      padding: 50px 20px 60px;
       text-align: center;
-    }
-   
-  .back-home {
-  position:absolute;
-  top:8px;
-  left:14px;
-  background:#ffffff;
-  color:#2a5298;
-  padding:8px 16px;
-  border-radius:20px;
-  text-decoration:none;
-  font-weight:bold;
-  font-size:13px;
-}
-
-
-  
-    .join-buttons {
-      margin-top: 15px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
     }
 
-    .join-buttons a {
-      display: inline-block;
-      margin: 6px;
-      padding: 10px 20px;
-      border-radius: 6px;
+    .back-home {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
       text-decoration: none;
       font-weight: bold;
-      font-size: 14px;
-      color: white;
+      font-size: 12px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: 0.3s;
     }
 
+    .back-home:hover {
+      background: white;
+      color: var(--primary);
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin: 10px 0;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .join-buttons { margin-top: 20px; }
+    .join-buttons a {
+      display: inline-flex;
+      align-items: center;
+      margin: 6px;
+      padding: 10px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      color: white;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
     .telegram { background: #0088cc; }
     .whatsapp { background: #25d366; }
+    .join-buttons a:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
+    /* CONTAINER & GRID */
     .container {
       max-width: 1100px;
-      margin: auto;
-      padding: 35px 20px;
+      margin: -30px auto 50px;
+      padding: 0 20px;
     }
 
-    /* ✅ 3 COLUMNS – RESPONSIVE */
     .exams {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
 
     .exam {
-      background: #f9fafc;
-      padding: 25px;
-      border-radius: 10px;
+      background: white;
+      padding: 30px 20px;
+      border-radius: 20px;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-
-      /* FIX: perfect alignment */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
     }
 
+    .exam:hover {
+      transform: translateY(-8px);
+      border-color: var(--primary);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
     .exam h3 {
-      margin: 0 0 12px;
-      color: #000; /* pure black */
+      margin: 0 0 15px;
+      color: var(--dark);
+      font-size: 20px;
     }
 
     .exam a {
       display: inline-block;
       text-decoration: none;
       color: white;
-      background: #2a5298;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: bold;
+      background: var(--primary);
+      padding: 10px 25px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: 0.3s;
     }
-    /* 📱 MOBILE FIX: 1 BUTTON PER ROW */
-@media (max-width: 768px) {
-  .exams {
-    grid-template-columns: 1fr;
-  }
-}
-    @media (max-width: 768px) {
-  .exam a {
-    width: 100%;
-    text-align: center;
-  }
-    }
-@media (max-width: 768px) {
-  .exam a {
-    display: inline-block;
-    padding: 6px 16px;   /* controls length */
-    font-size: 12px;
-    margin: 0 auto;     /* keeps it centered */
-    width: auto;        /* IMPORTANT: no long button */
-  }
-}
-    
 
-  
+    .exam a:hover {
+      background: var(--secondary);
+      letter-spacing: 0.5px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: #94a3b8;
+      padding: 50px 20px;
+      text-align: center;
+      margin-top: 60px;
+    }
+    .footer-links { margin: 20px 0; }
+    .footer-links a {
+      color: #f1f5f9;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 14px;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* MOBILE RESPONSIVE */
+    @media (max-width: 900px) {
+      .exams { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .exams { grid-template-columns: 1fr; }
+      header h1 { font-size: 24px; }
+      .exam { padding: 25px; }
+    }
   </style>
 </head>
 
 <body>
 
 <header>
-  <a class="back-home" href="/">BACK TO HOME</a>
-
+  <a class="back-home" href="/">← HOME</a>
   <h1>SSC MOCK TESTS</h1>
-  <p>Select an exam to continue</p>
+  <p>Latest 2025 Ediquity Pattern Practice Sets</p>
 
   <div class="join-buttons">
     <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">JOIN TELEGRAM</a>
@@ -149,37 +190,54 @@
   <div class="exams">
 
     <div class="exam">
+      <div style="font-size: 30px; margin-bottom: 10px;">🏆</div>
       <h3>SSC CGL</h3>
-      <a href="/quizzes/ssc/cgl/">OPEN</a>
+      <a href="/quizzes/ssc/cgl/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
+      <div style="font-size: 30px; margin-bottom: 10px;">📖</div>
       <h3>SSC CHSL</h3>
-      <a href="/quizzes/ssc/chsl/">OPEN</a>
+      <a href="/quizzes/ssc/chsl/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
+      <div style="font-size: 30px; margin-bottom: 10px;">📝</div>
       <h3>SSC MTS</h3>
-      <a href="/quizzes/ssc/mts/">OPEN</a>
+      <a href="/quizzes/ssc/mts/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
+      <div style="font-size: 30px; margin-bottom: 10px;">👮</div>
       <h3>DELHI POLICE</h3>
-      <a href="/quizzes/ssc/delhi-police/">OPEN</a>
+      <a href="/quizzes/ssc/delhi-police/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
-      <h3>CPO</h3>
-      <a href="/quizzes/ssc/cpo/">OPEN</a>
+      <div style="font-size: 30px; margin-bottom: 10px;">🎖️</div>
+      <h3>SSC CPO</h3>
+      <a href="/quizzes/ssc/cpo/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
+      <div style="font-size: 30px; margin-bottom: 10px;">📂</div>
       <h3>SELECTION POST</h3>
-      <a href="/quizzes/ssc/selection-post/">OPEN</a>
+      <a href="/quizzes/ssc/selection-post/">OPEN MOCKS</a>
     </div>
 
   </div>
 </div>
+
+<footer>
+    <div style="font-weight: bold; color: white; margin-bottom: 10px;">SSC JOURNEY TEST</div>
+    <div class="footer-links">
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p style="font-size: 12px; opacity: 0.6;">© 2026 SSC Journey Test. All Rights Reserved.</p>
+</footer>
 
 </body>
 </html>
