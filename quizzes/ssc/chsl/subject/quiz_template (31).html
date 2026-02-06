@@ -1032,7 +1032,7 @@ let QUESTIONS = [];
 let SECTIONS = {};           // New: Grouped questions
 let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
 let currentSectionIdx = 0;   // New: Active section tracking
-
+let ALLOW_RESUME = false; // 🔒 IMPORTANT: blocks auto resume
 let sectionTime = {};        // <-- ADD THIS LINE
 
 // ===============================
@@ -1739,8 +1739,24 @@ function getSectionalRank(quizId, sectionName, myScore) {
 function enterSolutionMode() {
   // 1. Switch Flags
   isQuiz = false;
+  
   document.body.classList.add("mode-solution");
   document.body.classList.remove("mode-quiz");
+
+  // 🔧 FORCE section navigation rebuild (CRITICAL FIX)
+const sectionNav = document.getElementById("sectionNav");
+sectionNav.innerHTML = "";
+sectionNav.style.display = "flex";
+
+SECTION_NAMES.forEach((name, idx) => {
+  const btn = document.createElement("button");
+  btn.className = "sec-btn";
+  btn.textContent = name;
+  btn.onclick = () => switchSection(idx);
+  if (idx === currentSectionIdx) btn.classList.add("active");
+  sectionNav.appendChild(btn);
+});
+
       // 7. 🔥 REBUILD AND RE-RENDER (The Fix)
   buildPalette();      // Re-creates the 1, 2, 3... buttons
   updatePaletteLegend();
@@ -2341,6 +2357,7 @@ function init(){
       nameInput.value = ""; // ✅ Clear it so validation triggers
     }
   }
+  
     // --- UPDATE STEP 2 INSIDE init() ---
 const stateSaved = localStorage.getItem(QUIZ_STATE_KEY);
 if (stateSaved) {
@@ -2393,6 +2410,8 @@ if (stateSaved) {
 
 // 🚦 START BUTTON LISTENER
 document.getElementById("welcomeStartBtn").addEventListener("click", function() {
+  ALLOW_RESUME = true;
+
   const selected = document.getElementById("welcomeLangSelect").value;
   const isChecked = document.getElementById("instrConfirm").checked;
   if (!selected) {
