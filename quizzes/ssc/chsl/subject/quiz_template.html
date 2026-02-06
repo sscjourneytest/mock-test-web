@@ -1751,6 +1751,9 @@ function enterSolutionMode() {
   document.getElementById("results").style.display = "none";
   document.getElementById("previousAttempts").style.display = "none";
   document.getElementById("attemptReplay").style.display = "none";
+  // Force show the Section Nav
+  const sNav = el("sectionNav");
+  if(sNav) sNav.style.display = "flex"; 
 
   // 3. Prepare the Quiz Container
   const quizArea = document.getElementById("quizMainArea");
@@ -1759,7 +1762,8 @@ function enterSolutionMode() {
 
   header.style.display = "block";
   palette.style.display = "flex"; // Ensure palette container is visible
-
+  // Force load Section 0
+  switchSection(0);
   // 4. Header UI Adjustments
   document.getElementById("backToAnalysisBtn").style.display = "inline-block";
   document.getElementById("timer").style.display = "none";
@@ -1918,6 +1922,8 @@ async function refreshLatestRankOnDemand(btn) {
     }));
 
     alert("All Ranks, Percentiles, and Comparison Bars updated to the latest data!");
+
+  
 
   } catch (err) {
     console.error("Live Update Error:", err);
