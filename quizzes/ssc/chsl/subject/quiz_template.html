@@ -1091,6 +1091,11 @@ function startTimer() {
     seconds--;
     el("timer").textContent = fmt(seconds);
 
+    // NEW: Track time for the active section
+    const activeSectionName = SECTION_NAMES[currentSectionIdx];
+    if (!sectionTime[activeSectionName]) sectionTime[activeSectionName] = 0;
+    sectionTime[activeSectionName]++; 
+
     // Save state safely
     if (seconds % 5 === 0) saveQuizState();
 
@@ -1351,11 +1356,13 @@ function submitQuiz(isAuto = false) {
 
   // 3. 🧮 Calculate Global & Sectional Scores
   let totalCorrect = 0, totalWrong = 0, totalMarks = 0, maxTotalMarks = 0;
+  let totalQuestionsCount = 0; // Added for precise math
   const sectionalDataForFirebase = {};
   let sectionalBarsHTML = "";
 
   SECTION_NAMES.forEach(sName => {
     let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
+    totalQuestionsCount += SECTIONS[sName].length;
     
     SECTIONS[sName].forEach(q => {
       sMax += Number(q.correct_score ?? 2);
@@ -1369,14 +1376,14 @@ function submitQuiz(isAuto = false) {
       }
     });
 
-    // Store per section
+    // Store per section - UPDATED: sectionTime[sName] tracks the real time spent
     sectionalDataForFirebase[sName] = {
       score: sScore,
       total: sMax,
       correct: sCor,
       wrong: sWr,
       unattempted: SECTIONS[sName].length - (sCor + sWr),
-      timeTaken: 0 // Local sectional time tracking would require advanced event listeners
+      timeTaken: sectionTime[sName] || 0 
     };
 
     totalCorrect += sCor;
@@ -1386,7 +1393,6 @@ function submitQuiz(isAuto = false) {
   });
 
   const attempted = totalCorrect + totalWrong;
-  const unattempted = (maxTotalMarks > 0) ? (totalCorrect + totalWrong) : 0; // Simplified for display
   const accuracy = attempted ? ((totalCorrect / attempted) * 100).toFixed(2) : "0.00";
   const timeFormatted = fmt(timeTakenSeconds);
 
@@ -1401,7 +1407,7 @@ function submitQuiz(isAuto = false) {
     quizId: QUIZ_ID,
     deviceId: DEVICE_ID,
     submittedAt: Date.now(),
-    sections: sectionalDataForFirebase // NEW: Sectional data saved to Firebase
+    sections: sectionalDataForFirebase 
   };
 
   // 5. ☁️ Firebase Operations
@@ -1422,7 +1428,7 @@ function submitQuiz(isAuto = false) {
         <div style="overflow-x:auto">
           <table class="analysis-table">
             <tr>
-              <th>Section</th><th>Marks</th><th>Total</th><th>Correct</th><th>Wrong</th><th>Left</th><th>Rank</th><th>%ile</th>
+              <th>Section</th><th>Marks</th><th>Correct</th><th>Wrong</th><th>Left</th><th>Time Spent</th><th>Rank</th><th>%ile</th>
             </tr>`;
 
       SECTION_NAMES.forEach(name => {
@@ -1432,17 +1438,16 @@ function submitQuiz(isAuto = false) {
             <tr>
               <td><b>${name}</b></td>
               <td>${d.score}</td>
-              <td>${d.total}</td>
               <td>${d.correct}</td>
               <td>${d.wrong}</td>
               <td>${d.unattempted}</td>
+              <td>${fmt(d.timeTaken)}</td>
               <td id="rank-${secId}" style="color:var(--accent); font-weight:800;">#--</td>
               <td id="perc-${secId}" style="color:var(--accent); font-weight:800;">--%</td>
             </tr>`;
         
-        // Prepare comparison bars for each section
         sectionalBarsHTML += `<h4 class="section-title" style="margin-top:25px; border-left:4px solid var(--accent); padding-left:10px;">Part: ${name}</h4>`;
-        sectionalBarsHTML += renderComparisonBar("Score", d.score, d.total, 0, d.total); // Topper value 0 until Live Update
+        sectionalBarsHTML += renderComparisonBar("Score", d.score, d.total, 0, d.total); 
       });
       sectionalTableHtml += `</table></div></div>`;
 
@@ -1484,7 +1489,7 @@ function submitQuiz(isAuto = false) {
         <div class="card-dashboard attempt-summary">
            <div class="attempt-box at-correct">✅ Correct<span>${totalCorrect}</span></div>
            <div class="attempt-box at-wrong">❌ Wrong<span>${totalWrong}</span></div>
-           <div class="attempt-box at-unattempted">🟡 Left<span>${firebasePayload.total / 2 - attempted}</span></div>
+           <div class="attempt-box at-unattempted">🟡 Left<span>${totalQuestionsCount - attempted}</span></div>
            <div class="attempt-box at-total">✍️ Attempted<span>${attempted}</span></div>
         </div>
 
@@ -1498,7 +1503,7 @@ function submitQuiz(isAuto = false) {
           <h3 class="section-title">📊 You vs Topper (Complete Test)</h3>
           ${renderComparisonBar("Score", totalMarks, maxTotalMarks, topperStats.score, maxTotalMarks)}
           ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
-          ${renderComparisonBar("Correct", totalCorrect, firebasePayload.total / 2, topperStats.correct, firebasePayload.total / 2)}
+          ${renderComparisonBar("Correct", totalCorrect, totalQuestionsCount, topperStats.correct, totalQuestionsCount)}
           ${renderComparisonBar("Time Taken", timeTakenSeconds, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
 
           <div id="sectionalBarsContainer">
@@ -1527,7 +1532,6 @@ function submitQuiz(isAuto = false) {
       resBox.innerHTML = dashboardHTML;
       resBox.style.display = "block";
 
-      // Fix Time format in comparison bars
       resBox.querySelectorAll(".bar-section").forEach(sec => {
         const label = sec.querySelector(".bar-label span")?.textContent;
         if (label === "Time Taken") {
@@ -1549,7 +1553,7 @@ function submitQuiz(isAuto = false) {
         sectionalData: sectionalDataForFirebase,
         totalMarks,
         timeTakenSeconds,
-        firebasePayload // Keep payload for live update reference
+        firebasePayload 
       }));
 
       normalizeMathForQuiz(resBox);
