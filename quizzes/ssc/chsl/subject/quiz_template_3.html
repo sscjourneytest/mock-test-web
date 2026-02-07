@@ -2502,38 +2502,38 @@ async function loadQuizData() {
 
     // 6. Hide Loader
     document.getElementById("loadingOverlay").style.display = "none";
-    
-    // 7. Run Initialization
+
+        // 7. Run Initialization
     init();
 
-    // 8. 🔥 AUTO-RESUME LOGIC 🔥
+    // 8. 🔥 FIXED AUTO-RESUME LOGIC 🔥
     const savedState = localStorage.getItem(QUIZ_STATE_KEY);
     const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
 
     if (savedState && !alreadySubmitted) {
-      console.log("Resuming active session...");
       const state = JSON.parse(savedState);
-      currentSectionIdx = state.currentSectionIdx || 0;
+      // ONLY resume if the timer has actually started (seconds < total time)
+      if (state.seconds < TOTAL_TIME_SECONDS) {
+        console.log("Resuming active session...");
+        currentSectionIdx = state.currentSectionIdx || 0;
 
-      document.getElementById("welcomeScreen").style.display = "none";
-      document.getElementById("mainHeader").style.display = "block";
-      const sNav = document.getElementById("sectionNav");
-      if(sNav) sNav.style.display = "flex";
-      
-      document.body.classList.add("mode-quiz");
-      document.body.classList.remove("mode-solution");
+        document.getElementById("welcomeScreen").style.display = "none";
+        document.getElementById("mainHeader").style.display = "block";
+        if(el("sectionNav")) el("sectionNav").style.display = "flex";
+        
+        document.body.classList.add("mode-quiz");
+        const quizArea = document.getElementById("quizMainArea");
+        if(window.innerWidth >= 992) {
+            quizArea.style.display = "grid";
+        } else {
+            quizArea.style.display = "block";
+            document.getElementById("floatBar").style.display = "flex";
+        }
 
-      const quizArea = document.getElementById("quizMainArea");
-      if(window.innerWidth >= 992) {
-          quizArea.style.display = "grid";
-      } else {
-          quizArea.style.display = "block";
-          document.getElementById("floatBar").style.display = "flex";
+        switchSection(currentSectionIdx); 
+        startTimer();
       }
-
-      switchSection(currentSectionIdx); // Loads correct section
-      startTimer();
-    }
+    
 
   } catch (error) {
     console.error(error);
