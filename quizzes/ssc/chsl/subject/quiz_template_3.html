@@ -1737,6 +1737,7 @@ function getSectionalRank(quizId, sectionName, myScore) {
 
 // Enter "Detailed Solution" Mode (Testbook Style)
 
+  
 function enterSolutionMode() {
   // 1. Switch Flags
   isQuiz = false;
@@ -1758,6 +1759,7 @@ function enterSolutionMode() {
   // 2. Hide Dashboard & Other Result Views
   document.getElementById("results").style.display = "none";
   document.getElementById("previousAttempts").style.display = "none";
+  document.getElementById("quizMainArea").style.display = "block"; 
   document.getElementById("attemptReplay").style.display = "none";
 
   // 3. Prepare the Quiz Container
@@ -2298,6 +2300,8 @@ function updatePaletteLegend() {
 // 🚀 INITIALIZATION
 // ===============================
 
+  
+
 function init(){
   // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
   const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
@@ -2305,6 +2309,12 @@ function init(){
     const data = JSON.parse(resultSaved);
     if (data.submitted && data.resultHTML) {
       isQuiz = false; // <--- ✅ ADD THIS LINE HERE
+            
+      // ✅ ADD THIS: Pre-load data so Solution Mode works after refresh
+      if (SECTION_NAMES.length > 0) {
+        QUESTIONS = SECTIONS[SECTION_NAMES[0]];
+      }
+      
       updatePaletteLegend();
       // Hide Welcome & Quiz
       answers = data.answers || {};
