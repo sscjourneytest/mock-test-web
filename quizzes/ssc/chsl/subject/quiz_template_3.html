@@ -1736,11 +1736,19 @@ function getSectionalRank(quizId, sectionName, myScore) {
 // ===============================
 
 // Enter "Detailed Solution" Mode (Testbook Style)
+
 function enterSolutionMode() {
   // 1. Switch Flags
   isQuiz = false;
+  currentSectionIdx = 0; // ✅ ADD THIS: Resets to first section (e.g., Reasoning)
+  QUESTIONS = SECTIONS[SECTION_NAMES[0]]; // ✅ ADD THIS: Loads the first section's questions array
+
   document.body.classList.add("mode-solution");
   document.body.classList.remove("mode-quiz");
+  
+  // ... rest of your code stays exactly the same
+  
+
       // 7. 🔥 REBUILD AND RE-RENDER (The Fix)
   buildPalette();      // Re-creates the 1, 2, 3... buttons
   updatePaletteLegend();
@@ -1756,7 +1764,8 @@ function enterSolutionMode() {
   const quizArea = document.getElementById("quizMainArea");
   const header = document.getElementById("mainHeader");
   const palette = document.getElementById("palette"); // Targeted palette
-
+  if (el("sectionNav")) el("sectionNav").style.display = "flex";
+  
   header.style.display = "block";
   palette.style.display = "flex"; // Ensure palette container is visible
 
