@@ -1850,9 +1850,6 @@ function restoreLatestResult() {
     document.getElementById("floatBar").style.display = "none";
   }
 }
-
-// Enhanced: Powerful Live Updated Rank (Updates Total + All Sections + All Bars)
-
 // Enhanced: Powerful Live Updated Rank (Fixed Variable Scope)
 async function refreshLatestRankOnDemand(btn) {
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
@@ -1884,13 +1881,15 @@ async function refreshLatestRankOnDemand(btn) {
 
     // 2. Fetch Topper Data
     const toppersList = await getToppersList(QUIZ_ID);
-    const topperStats = getTopperStatsForComparison(toppersList, QUESTIONS.length);
+    
+    // FIX: Calculate this here so topperStats doesn't crash on reload (replaces QUESTIONS.length)
+    const totalQuestionsCount = payload.total / (CORRECT_SCORE || 2); 
+    const topperStats = getTopperStatsForComparison(toppersList, totalQuestionsCount);
     const resultsContainer = document.getElementById("results");
 
-    // 3. Calculate local variables needed for the bars (Fixing the "Undefined" error)
-    const totalQuestionsCount = payload.total / (CORRECT_SCORE || 2); // Derived from max marks
+    // 3. Calculate local variables needed for the bars
     const totalAttempted = payload.correct + payload.wrong;
-    const currentAccuracy = totalAttempted > 0 
+    const accuracy = totalAttempted > 0 
         ? ((payload.correct / totalAttempted) * 100).toFixed(2) 
         : "0.00";
 
@@ -1930,16 +1929,18 @@ async function refreshLatestRankOnDemand(btn) {
       mainBars.innerHTML = `
         <h3 class="section-title">📊 You vs Topper (Complete Test)</h3>
         ${renderComparisonBar("Score", payload.score, payload.total, topperStats.score, payload.total)}
-        ${renderComparisonBar("Accuracy", currentAccuracy, 100, topperStats.accuracy, 100, "%")}
+        ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
         ${renderComparisonBar("Correct", payload.correct, totalQuestionsCount, topperStats.correct, totalQuestionsCount)}
         ${renderComparisonBar("Wrong", payload.wrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
         ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
-      
+
       // Re-format time strings from seconds to MM:SS
       formatTimeValues(mainBars);
     }
+
+      
 
     // 5. Save updated HTML back to storage
     LAST_RESULT_HTML = resultsContainer.innerHTML;
@@ -1948,16 +1949,17 @@ async function refreshLatestRankOnDemand(btn) {
       resultHTML: LAST_RESULT_HTML
     }));
 
-    alert("All Ranks and Comparison Bars updated to the latest live data!");
+    alert("All Ranks, Percentiles, and Comparison Bars updated to the latest data!");
 
   } catch (err) {
     console.error("Live Update Error:", err);
-    alert("Could not update ranks. Check console for details.");
+    alert("Could not update ranks. Please check your connection.");
   } finally {
     btn.disabled = false;
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
 }
+
 
 // Helper to fix the time formatting in bars
 function formatTimeValues(container) {
@@ -2594,6 +2596,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
