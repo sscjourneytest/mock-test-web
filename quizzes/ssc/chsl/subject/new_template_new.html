@@ -1,0 +1,2619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Loading Quiz...</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4B6V3MV51Q');
+</script>
+
+<style>
+
+/* =========================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================= */
+:root {
+  --accent: #0b5ed7;       /* Testbook Blue */
+  --accent-dark: #094bc0;
+  --success: #198754;      /* Green */
+  --danger: #dc3545;       /* Red */
+  --warning: #ffc107;      /* Yellow/Orange */
+  --muted: #6c757d;
+  --bg-color: #ffffff;     /* Solid White Background */
+  --light-gray: #f5f7fa;
+  --border-color: #e0e0e0;
+  --max-width: 1280px;     /* Wider for Desktop */
+  --header-height: 60px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-color);
+  color: #212121;
+  padding-bottom: 60px; /* Space for mobile bottom bar */
+  -webkit-user-select: none; /* Security */
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection in inputs */
+input, textarea { user-select: text !important; }
+
+/* =========================================
+   2. LAYOUT CONTAINERS
+   ========================================= */
+.container {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 12px 16px;
+}
+
+/* Wrapper for Quiz vs Palette Layout */
+.quiz-main-area {
+  display: block; /* Default mobile: Stacked */
+  position: relative;
+}
+
+/* =========================================
+   3. HEADER (Timer & Top Actions)
+   ========================================= */
+header {
+  background: #fff;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 16px;
+  max-width: var(--max-width);
+  margin: auto;
+}
+
+h1 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Timer Text */
+.timer-text {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 18px;
+  color: #333;
+  background: #f0f2f5;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+/* Desktop Actions Container (Hidden on Mobile) */
+.top-actions {
+  display: none;
+  gap: 8px;
+}
+
+/* Common Button Styles */
+.btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn:hover { background: var(--accent-dark); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 7px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-ghost:hover { background: #f0f6ff; }
+/* =========================================
+   4. WELCOME SCREEN (Continuous Page Layout)
+   ========================================= */
+.welcome-screen {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column; 
+  padding: 0;
+  overflow-y: auto; /* ENTIRE page now handles the scrolling */
+}
+
+.welcome-container {
+  /* Removed flex: 1 and overflow-y: auto to allow natural page flow */
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 20px 100px 20px; /* Extra bottom padding so content isn't hidden by fixed footer */
+}
+
+.welcome-header { text-align: center; margin-bottom: 24px; }
+.welcome-header h1 { font-size: 28px; color: #d32f2f; margin-bottom: 8px; }
+
+/* Dedicated Scrolling removed - Box now expands with content */
+.welcome-instructions {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 20px;
+  /* Removed max-height and overflow-y to make it a continuous page */
+}
+
+/* RESTORED: Boxed Test Details Styling */
+.test-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 24px;
+}
+.detail-item {
+  background: #f8fbff;
+  border: 1px solid #e1ecff;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+/* Legend Symbol Styles */
+.symbol-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 15px 0; }
+.symbol-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.leg-box { 
+  width: 42px; height: 35px; display: flex; align-items: center; justify-content: center; 
+  font-weight: 700; color: #fff; border-radius: 2px; position: relative; 
+}
+.leg-current { background: #dc3545; clip-path: polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%); }
+.leg-answered { background: #198754; }
+.leg-notvisited { background: #bdbdbd; color: #000; border: 1px solid #ababab; }
+.leg-marked { background: #0b5ed7; }
+.leg-marked-ans { background: #0b5ed7; }
+.leg-marked-ans::after { content: "★"; position: absolute; bottom: -2px; right: 1px; color: #ffeb3b; font-size: 14px; }
+
+/* FIXED BOTTOM BAR (Testbook Style) */
+.welcome-footer {
+  background: #fff;
+  border-top: 1px solid #ddd;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  position: sticky; /* Keeps it at the bottom of the screen while scrolling */
+  bottom: 0;
+  width: 100%;
+  z-index: 2001;
+}
+
+.start-btn {
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.back-btn {
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.channel-link-top {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #0088cc;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* =========================================
+   5. QUIZ CARD & QUESTIONS
+   ========================================= */
+/* The main card holding the question */
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  /* No shadow for flat Testbook look */
+}
+
+.qbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.qmeta { font-size: 14px; font-weight: 600; color: #555; }
+.marking { font-size: 13px; font-weight: 600; }
+
+.qtext {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #222;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Options */
+.opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fff;
+}
+.opt:hover { background: #f8f9fa; border-color: #bbb; }
+
+.opt.selected {
+  border-color: var(--accent);
+  background: #eef5ff;
+}
+
+/* Radio Circle styling */
+.custom-radio {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #757575;
+  border-radius: 50%;
+  margin-top: 3px;
+  flex-shrink: 0;
+  position: relative;
+}
+.opt.selected .custom-radio {
+  border-color: var(--accent);
+}
+.opt.selected .custom-radio::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+/* Solution Explanation Box */
+.explanation {
+  background: #f0f7ff;
+  border-left: 4px solid var(--accent);
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 4px;
+  display: none; /* Hidden by default */
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   6. VIEW PALETTE (Right Side)
+   ========================================= */
+#palette {
+  background: #dae5f0 !important;
+  
+  border-radius: 8px;
+  display: none; /* Hidden on mobile by default */
+  flex-direction: column;
+  padding: 15px;
+  z-index: 1000;
+}
+
+/* Palette Header/Legend */
+#palette-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+.lg-box { width: 12px; height: 12px; border-radius: 2px; display: inline-block; vertical-align: middle; margin-right: 4px; }
+
+/* Palette Button Grid */
+.palette-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: flex-start;
+}
+/* Palette grid scroll only */
+#palette-grid {
+  overflow-y: auto;
+  max-height: calc(100vh - 220px);
+  padding-right: 4px;
+  overscroll-behavior: contain;
+}
+
+
+ .qbtn {
+  /* Shape and Size */
+  position: relative !important; /* REQUIRED for the star to stay inside */
+  width: 42px; 
+  height: 35px;
+  border-radius: 2px; /* Very slight rounding as seen in SS */
+  
+  /* Color and Background (The Gradient) */
+  background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 100%); 
+  border: 1px solid #ababab; /* The grey border from your image */
+  
+  /* Text Style */
+  color: #000000;
+  font-weight: 700;
+  
+  /* The "Lifted" Effect */
+  box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(0,0,0,0.1);
+} 
+.qbtn:hover { background: #e0e0e0; }
+/* Pentagon shape (both modes) */
+.qbtn.current {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%);
+   
+  border: none;
+  position: relative;
+}
+
+/* 🔴 Red outline ONLY in QUIZ MODE */
+body.mode-quiz .qbtn.current::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  background: #dc3545;
+  clip-path: inherit;
+  z-index: -1;
+}
+
+/* ❌ NO outline in solution mode */
+body.mode-solution .qbtn.current::before {
+  content: none;
+}
+
+
+/* --- QUIZ MODE COLORS --- */
+.qbtn.answered { background: var(--success); color: #fff; border-color: var(--success); }
+.qbtn.marked { background: var(--accent); color: #fff; border-color: var(--accent); }
+.qbtn.notvisited {
+  background: #bdbdbd;  /* darker dense grey */
+  color: #000;
+}
+.qbtn.marked-answered {
+  background: var(--accent);
+  color: #fff;
+}
+/* Updated Star Positioning - Sit exactly in the corner of the button */
+.qbtn.marked-answered::after {
+  content: "★";
+  position: absolute;
+  bottom: -2px;   /* Adjusted to sit on the bottom edge */
+  right: 1px;     /* Adjusted to sit on the right edge */
+  font-size: 14px;
+  color: #ffeb3b; /* Bright Yellow Star */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  line-height: 1;
+  z-index: 5;
+}
+
+.lg-box.notvisited { background: #e0e0e0; }
+.lg-box.answered { background: var(--success); }
+.lg-box.marked { background: var(--accent); }
+.lg-box.marked-answered { background: var(--accent); } /* Legend hack */
+
+/* --- SOLUTION MODE COLORS (New Requirement) --- */
+.qbtn.sol-right { background: var(--success); color: #fff; border-color: var(--success); }
+.qbtn.sol-wrong { background: var(--danger); color: #fff; border-color: var(--danger); }
+.qbtn.sol-skip  { background: #9e9e9e; color: #fff; border-color: #9e9e9e; }
+
+/* Star Indicators for Solution Mode */
+.qbtn.sol-right.has-star::after,
+.qbtn.sol-wrong.has-star::after {
+  content: "★";
+  position: absolute;
+  bottom: 0px;
+  font-size: 12px;
+  color: #ffeb3b;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* =========================================
+   7. BOTTOM NAVIGATION BAR (Mobile)
+   ========================================= */
+.fbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  z-index: 900;
+}
+
+.fbar button {
+  flex: 1;
+  padding: 10px 4px;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+/* Specific Button Colors */
+#prevBtn { background: #fff; color: #333; border: 1px solid #ccc; }
+#clearBtn { background: #fff; color: #333; border: 1px solid #ccc; }
+#markBtn { background: var(--accent); color: #fff; }
+#nextBtn { background: var(--accent); color: #fff; }
+
+/* Active Mark Button (Green) */
+#markBtn.active-mark { background: var(--success) !important; }
+
+
+/* =========================================
+   8. MEDIA QUERIES (The "Testbook" Logic)
+   ========================================= */
+/* DESKTOP LAYOUT */
+@media (min-width: 992px) {
+
+  /* 1. Grid Layout */
+  .quiz-main-area {
+    display: grid;
+    grid-template-columns: 1fr 320px; /* Question | Palette */
+    gap: 24px;
+    align-items: start;
+  }
+ 
+  /* 2. Palette Sticky & Visible */
+  #palette {
+    display: flex !important; /* Always show */
+    position: sticky;
+    top: 80px; /* Below header */
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    overscroll-behavior: contain;
+    z-index: 10; /* Lower z-index so header buttons stay on top */
+  }
+
+  /* Desktop specific Submit Button inside Palette */
+  #palette #submitBtn {
+    display: block !important;
+    width: 95%;
+    margin: 20px auto 10px auto; /* Centered with top margin */
+    background: #1a73e8;
+    color: white;
+    font-weight: 700;
+    padding: 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15);
+  }
+
+  /* Hide the original header submit button on desktop since it's now in palette */
+  header #submitBtn { display: none !important; }
+
+  /* 3. Hide Mobile Bottom Bar */
+  .fbar { display: none !important; }
+
+  /* Update this specific block inside @media (min-width: 992px) */
+.top-actions { 
+    display: flex !important; 
+    gap: 12px; /* Increased spacing between buttons */
+    align-items: center;
+}
+
+.top-actions .btn,
+.top-actions .btn-ghost {
+    padding: 14px 20px;
+    font-size: 15px;      /* Professional readable size */
+    font-weight: 800;
+    border-radius: 4px;
+    line-height: 1.2;
+    min-width: 100px;    /* Ensures buttons aren't squashed */
+    text-align: center;
+    white-space: nowrap; /* Prevents text from wrapping */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Optional: Make the primary blue buttons stand out more */
+#markBtn, #nextBtn {
+    min-width: 140px;    /* Slightly wider for the main action buttons */
+}
+  
+  /* 5. Hide Mobile "View" Toggle in Header */
+  #paletteBtn { display: none !important; }
+}
+
+/* MOBILE LAYOUT */
+@media (max-width: 991px) {
+  /* Palette is a popup overlay */
+  #palette {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    bottom: 0; /* Full height */
+    width: 280px;
+    border-left: 1px solid #ccc;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+@media (max-width: 991px) {
+
+  /* ==================================================
+     MOBILE HEADER FIX — QUIZ MODE ONLY
+     ================================================== */
+
+  body.mode-quiz .header-inner {
+    flex-wrap: wrap;
+  }
+
+  /* Quiz title on its own line */
+  body.mode-quiz .header-inner > div:first-child {
+    width: 100%;
+    justify-content: flex-start;
+    
+  }
+
+  body.mode-quiz #headerTitle {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+  }
+
+  /* Buttons row (View / Timer / Submit) */
+  body.mode-quiz .header-inner > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;   /* push group to right */
+    gap: 8px;                    /* SAME spacing as now */
+    padding-left: 30%;           /*  starts from middle */
+  }
+
+}
+
+/* =========================================
+   9. ANALYSIS DASHBOARD (From gem test.html)
+   ========================================= */
+.analysis-container { max-width: 900px; margin: auto; display: flex; flex-direction: column; gap: 14px; padding: 10px 0; }
+.card-dashboard { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.08); border: 1px solid #edf2f7; }
+
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 14px; color: #444; }
+.info-grid div b { color: #111; }
+
+.score-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; text-align: center; }
+.score-item { background: #f8fbff; border-radius: 10px; padding: 14px; border: 1px solid #e1ecff; }
+.score-item h4 { margin: 0; font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+.score-item p { margin: 6px 0 0; font-size: 20px; font-weight: 800; color: #222; }
+
+.attempt-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; text-align: center; }
+.attempt-box { padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; border: 1px solid transparent; }
+.attempt-box span { display: block; font-size: 20px; margin-top: 4px; font-weight: 800; }
+
+.at-correct { background: #e6f7ee; color: var(--success); border-color: #c3e6cb; }
+.at-wrong { background: #fdeaea; color: var(--danger); border-color: #f5c6cb; }
+.at-unattempted { background: #fff8e1; color: #b77c00; border-color: #ffeeba; }
+.at-total { background: #e7f0ff; color: var(--accent); border-color: #b6d4fe; }
+
+.action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 10px; }
+.btn-dash { padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; transition: 0.2s; text-align: center; border: 2px solid transparent; }
+.btn-solid { background: var(--accent); color: #fff; }
+.btn-solid:hover { background: var(--accent-dark); }
+.btn-outline { background: #fff; color: var(--accent); border-color: var(--accent); }
+.btn-outline:hover { background: #f0f6ff; }
+
+/* Comparison Bars */
+.bar-section { margin-top: 10px; }
+.bar-row { margin-bottom: 16px; }
+.bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #555; }
+.bar-track { height: 10px; background: #e9ecef; border-radius: 99px; overflow: hidden; position: relative; }
+.bar-fill { height: 100%; border-radius: 99px; transition: width 1s ease-out; }
+.fill-you { background: var(--accent); }
+.fill-topper { background: var(--success); }
+.bar-values { display: flex; justify-content: space-between; font-size: 12px; margin-top: 4px; color: #777; font-weight: 600; }
+
+/* Topper Table */
+.topper-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+.topper-table th { background: #f1f5f9; color: #444; font-weight: 700; padding: 10px; text-align: left; border-bottom: 2px solid #e2e8f0; }
+.topper-table td { padding: 10px; border-bottom: 1px solid #eee; color: #333; }
+.section-title { font-size: 16px; font-weight: 700; margin: 0 0 14px; color: #222; padding-bottom: 8px; border-bottom: 1px solid #eee; }
+
+  /* Language Dropdown Styling */
+#langSelect {
+  background-color: #fff;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Ensure header items don't overlap on small screens */
+@media (max-width: 600px) {
+  .header-inner {
+    padding: 0 8px;
+  }
+  #langSelect {
+    font-size: 11px;
+    padding: 2px;
+  }
+  .timer-text {
+    font-size: 14px;
+    padding: 2px 6px;
+  }
+}
+/* =========================================
+   10. UTILITIES & MODALS
+   ========================================= */
+.hidden { display: none !important; }
+
+/* Modal */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 3000; }
+.modal-content { background: #fff; padding: 20px; border-radius: 8px; max-width: 400px; width: 90%; text-align: center; }
+.modal h3 { margin-top: 0; color: var(--accent); }
+.modal .actions { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+
+/* Watermark */
+.ssc-watermark { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.ssc-wm { position: absolute; font-size: 26px; font-weight: 700; color: rgba(0,0,0,0.045); transform: rotate(-30deg); white-space: nowrap; }
+
+/* MathJax */
+mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: auto; }
+
+
+/* Loader Overlay */
+#loadingOverlay {
+  position: fixed; inset:0; background:#fff; z-index:9999;
+  display:flex; justify-content:center; align-items:center; flex-direction:column;
+}
+.spinner {
+  width: 40px; height: 40px; border: 4px solid #f3f3f3;
+  border-top: 4px solid #0b5ed7; border-radius: 50%;
+  animation: spin 1s linear infinite; margin-bottom:15px;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+  /* =========================================
+   NEW: SECTION NAVIGATION & TABLE STYLES
+   ========================================= */
+.section-nav {
+  display: flex; 
+  gap: 8px; 
+  padding: 10px 16px; 
+  background: #fff;
+  border-bottom: 2px solid #eee; 
+  overflow-x: auto; 
+  white-space: nowrap;
+}
+
+/* Part Buttons (Reasoning, Math, etc.) */
+.sec-btn {
+  padding: 8px 18px; 
+  background: #0000ff; /* Blue for Inactive */
+  color: #fff; 
+  border: none;
+  border-radius: 4px; 
+  font-weight: 700; 
+  cursor: pointer; 
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+/* Active Section Button - Becomes Green */
+.sec-btn.active { 
+  background: #008000 !important; 
+}
+
+/* Sectional Analysis Table */
+.analysis-table {
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-bottom: 20px; 
+  font-size: 13px;
+}
+.analysis-table th { 
+  background: #f1f5f9; 
+  padding: 10px; 
+  border: 1px solid #ddd; 
+}
+.analysis-table td { 
+  padding: 10px; 
+  border: 1px solid #ddd; 
+  text-align: center; 
+  font-weight: 600; 
+}
+</style>
+
+
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)'], ['$', '$']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+      skipHtmlTags: ['script', 'style', 'textarea', 'pre']
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+</head>
+<body>
+
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <h3 id="loadingText">Loading Quiz Data...</h3>
+</div>
+
+<div class="welcome-screen" id="welcomeScreen">
+  <div class="welcome-container">
+
+    <div style="text-align: center;">
+      <a class="channel-link-top" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">📢 Join Telegram Channel</a>
+    </div>
+    
+      <div class="welcome-header">
+      <h1 id="disp_quizTitle">Loading...</h1> <p>Quiz ID: <span id="disp_quizId">...</span></p>
+    </div>
+
+    <div class="test-details">
+      <div class="detail-item">
+        <div class="detail-label">Total Questions</div>
+        <div class="detail-value" id="disp_totalQ">-</div>
+      </div>
+
+      <div class="detail-item">
+        <div class="detail-label">Correct Marks</div>
+        <div class="detail-value" id="disp_correct">-</div>
+      </div>
+
+      <div class="detail-item">
+        <div class="detail-label">Negative Marks</div>
+        <div class="detail-value" id="disp_negative">-</div>
+      </div>
+
+      <div class="detail-item">
+        <div class="detail-label">Total Time</div>
+        <div class="detail-value"><span id="disp_time">-</span> Minutes</div>
+      </div>
+    </div>
+    <div class="welcome-instructions">
+      <h3>1. Quiz Mode Symbols (During Test)</h3>
+      <div class="symbol-list">
+        <div class="symbol-item"><div class="leg-box leg-answered">1</div> Answered</div>
+        <div class="symbol-item"><div class="leg-box leg-marked-ans">2</div> Answered & Marked for Review</div>
+        <div class="symbol-item"><div class="leg-box leg-marked">3</div> Marked for Review (Unanswered)</div>
+        <div class="symbol-item"><div class="leg-box leg-current">4</div> Current Question</div>
+        <div class="symbol-item"><div class="leg-box leg-notvisited">5</div> Not Visited</div>
+      </div>
+
+      <h3>2. Solution Mode Symbols (Analysis)</h3>
+      <div class="symbol-list">
+        <div class="symbol-item"><div class="leg-box" style="background: #198754;">✔</div> Correct Answer</div>
+        <div class="symbol-item"><div class="leg-box" style="background: #dc3545;">✖</div> Wrong Answer</div>
+        <div class="symbol-item"><div class="leg-box" style="background: #bdbdbd; color:#000;">0</div> Skipped</div>
+      </div>
+
+      <h3>3. General Instructions / सामान्य निर्देश</h3>
+      <ul>
+        <li><b>Name Entry:</b> You <u>MUST</u> enter your full name in the box provided inside the quiz to submit.</li>
+        <li><b>Do not reload the page.</b><br><span>कृपया पेज को रीलोड न करें।</span></li>
+        <li><b>Stable internet is required.</b><br><span>स्थिर इंटरनेट सुनिश्चित करें।</span></li>
+        <li><b>Submit before time ends.</b><br><span>समय समाप्त होने से पहले जमा करें।</span></li>
+      </ul>
+
+      <div style="margin-top: 20px; padding: 10px; border: 1px solid #ddd; background: #fff;">
+         <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer;">
+           <input type="checkbox" id="instrConfirm" style="margin-top: 3px;">
+           <span>I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination.</span>
+         </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="welcome-footer">
+    <button class="back-btn" onclick="window.location.href='./'">Back</button>
+    
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 13px; font-weight: 700;">Select Language:</span>
+      <select id="welcomeLangSelect" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+        <option value="">Select Language</option>
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bilingual">Bilingual</option>
+      </select>
+    </div>
+
+    <button id="welcomeStartBtn" class="start-btn">Start Test</button>
+  </div>
+</div>
+       
+<div id="ssc-watermark" class="ssc-watermark">
+  <div class="ssc-wm" style="top:10%; left:5%;">@SSC_COMPILATIONS_2025</div>
+  <div class="ssc-wm" style="top:30%; left:60%;">@SSC_COMPILATIONS_2025</div>
+  <div class="ssc-wm" style="top:55%; left:25%;">@SSC_COMPILATIONS_2025</div>
+  <div class="ssc-wm" style="top:75%; left:65%;">@SSC_COMPILATIONS_2025</div>
+  <div class="ssc-wm" style="top:90%; left:10%;">@SSC_COMPILATIONS_2025</div>
+</div>
+
+
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA27fx3B80S6RicFp-DM0wcZmLSxUsfnAU",
+    authDomain: "ssc-journey-rank-percentile-2.firebaseapp.com",
+    databaseURL: "https://ssc-journey-rank-percentile-2-default-rtdb.firebaseio.com",
+    projectId: "ssc-journey-rank-percentile-2",
+    storageBucket: "ssc-journey-rank-percentile-2.firebasestorage.app",
+    messagingSenderId: "801617177136",
+    appId: "1:801617177136:web:b8fb85cabbe677280cdbf5"
+    };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
+
+
+<header id="mainHeader" style="display:none;">
+  <div class="header-inner">
+
+    <div style="display:flex; align-items:center; gap:10px;">
+      <button id="backToAnalysisBtn" class="btn-ghost" style="display:none;">⬅ Analysis</button>
+      <h1 id="headerTitle">Loading...</h1>
+    </div>
+    
+    <div style="display:flex; align-items:center; gap:10px;">
+      <select id="langSelect" class="btn-ghost" style="padding: 4px; font-size: 13px;">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bilingual">EN+HI</option>
+      </select>
+      <div id="topActions" class="top-actions"></div>
+      <div class="timer-text" id="timer">00:00</div>
+      <button id="submitBtn" class="btn">Submit</button>
+      <button id="paletteBtn" class="btn-ghost">View</button>
+    </div>
+  </div>
+</header>
+
+<div id="nameContainer" style="max-width: 1280px; margin: 10px auto; padding: 0 16px;">
+  <input type="text" id="studentName" placeholder="Enter Your Name (Required)"
+    style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px;"
+    oninput="localStorage.setItem('ssc_quiz_name', this.value)">
+</div>
+
+<div id="sectionNav" class="section-nav" style="display:none; margin: 10px auto; max-width: 1280px;"></div>
+<div class="container">
+
+  <div class="quiz-main-area" id="quizMainArea" style="display:none;">
+
+    <div id="quizCard" class="card">
+      <div class="qbar">
+        <div class="qmeta">Question <span id="qindex">1</span> / <span id="qtotal">-</span></div>
+   
+        <div class="marking" id="marking"></div>
+      </div>
+
+      <div class="qtext" id="qtext"></div>
+      <div id="questionImage" style="margin:12px 0;"></div>
+      <div class="options" id="options"></div>
+
+      <div id="explanation" class="explanation"></div>
+    </div>
+
+    <div id="palette" aria-hidden="true">
+
+      <div id="palette-legend">
+        <div><span class="lg-box notvisited"></span> Not Visited</div>
+        <div><span class="lg-box answered"></span> Answered</div>
+        <div><span class="lg-box marked"></span> Marked</div>
+        <div><span class="lg-box marked-answered">★</span> Ans & Marked</div>
+      </div>
+
+      <div id="palette-summary" style="margin-bottom:10px; font-weight:700; font-size:13px; text-align:center;"></div>
+
+      <div id="palette-grid" class="palette-grid"></div>
+
+    </div>
+
+  </div> <div id="results" class="results" style="display:none"></div>
+  <div id="previousAttempts" class="results" style="display:none"></div>
+  <div id="attemptReplay" class="results" style="display:none"></div>
+
+</div>
+
+<div class="fbar" id="floatBar" style="display:none;">
+  <button id="prevBtn">← Prev</button>
+  <button id="clearBtn">Clear</button>
+  <button id="markBtn">Mark for Review</button>
+  <button id="nextBtn">Next →</button>
+</div>
+
+<div id="submitModal" class="modal">
+  <div class="modal-content">
+    <h3>Submit Quiz?</h3>
+    <p id="submitMsg">Are you sure you want to submit?</p>
+    <div class="actions">
+      <button id="cancelSubmit" class="btn-ghost">Cancel</button>
+      <button id="confirmSubmit" class="btn">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// 🔐 SAFE Device ID
+let DEVICE_ID = localStorage.getItem("ssc_quiz_device_id");
+if (!DEVICE_ID) {
+  DEVICE_ID = "dev-" + Date.now() + "-" + Math.random().toString(36).substring(2, 12);
+  localStorage.setItem("ssc_quiz_device_id", DEVICE_ID);
+}
+// 🔧 DYNAMIC CONFIGURATION
+let QUIZ_TITLE = "";
+let QUIZ_ID = "";
+let QUIZ_STATE_KEY = "";
+let QUIZ_RESULT_KEY = "";
+let CORRECT_SCORE = 2; // Default, will update
+let NEGATIVE_SCORE = 0.5; // Default, will update
+let TOTAL_TIME_SECONDS = 0;
+
+
+// ⏱ VARIABLES
+let current = 0;
+let answers = {};
+let marked = {};
+let seconds = 0;              // Changed from placeholder
+let timerInterval = null;
+let isQuiz = true;
+let LAST_RESULT_HTML = "";
+let currentLang = "en";
+
+
+// 🗄 DATA ARRAYS
+let QUESTIONS = [];
+let SECTIONS = {};           // New: Grouped questions
+let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
+let currentSectionIdx = 0;   // New: Active section tracking
+
+let sectionTime = {};        // <-- ADD THIS LINE
+
+// ===============================
+// 🛠️ HELPER FUNCTIONS
+// ===============================
+
+// Short helper for getting elements
+const el = id => document.getElementById(id);
+
+// Format seconds into MM:SS
+function fmt(s){
+  s = Math.max(0, s);
+  const m = Math.floor(s/60);
+  const sec = s%60;
+  return `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+}
+
+// Save current progress to LocalStorage
+function saveQuizState(){
+  // Don't save state if we are just viewing solutions
+  if(!isQuiz) return;
+
+  const state = {
+    current,
+    answers,
+    marked,
+    currentLang,
+    seconds,
+    currentSectionIdx // NEW: Save the active section index (PART-1, PART-2, etc.)
+  };
+  localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
+}
+// ===============================
+// ⏱️ TIMER LOGIC
+// ===============================
+function startTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+
+  // Always show valid time
+  seconds = Math.max(0, seconds);
+  el("timer").textContent = fmt(seconds);
+
+  timerInterval = setInterval(() => {
+
+    // ⛔ STOP exactly at zero
+    if (seconds <= 0) {
+      seconds = 0;
+      el("timer").textContent = "00:00";
+      clearInterval(timerInterval);
+
+      // 🔥 AUTO SUBMIT
+      autoSubmitQuiz();
+      return;
+    }
+
+    // Normal countdown
+    seconds--;
+    el("timer").textContent = fmt(seconds);
+
+    // NEW: Track time for the active section
+    const activeSectionName = SECTION_NAMES[currentSectionIdx];
+    if (!sectionTime[activeSectionName]) sectionTime[activeSectionName] = 0;
+    sectionTime[activeSectionName]++; 
+
+    // Save state safely
+    if (seconds % 5 === 0) saveQuizState();
+
+  }, 1000);
+}
+// NEW: Logic to switch between PART-1, PART-2 etc.
+function switchSection(idx) {
+  currentSectionIdx = idx;
+  const sName = SECTION_NAMES[idx];
+  
+  // Update the QUESTIONS global to only show this section's questions
+  QUESTIONS = SECTIONS[sName];
+  current = 0; // Restart numbering at 1 for this section
+
+  // Update Section Button Colors (Green for Active, Blue for Inactive)
+  document.querySelectorAll('.sec-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === idx);
+  });
+
+  // Re-build the palette grid for the new section
+  buildPalette();
+  renderQuestion(0);
+  saveQuizState(); // Persist the current section if user reloads
+}
+// ===============================
+// 📝 RENDER QUESTION ENGINE
+// ===============================
+function renderQuestion(i) {
+  current = i;
+  const q = QUESTIONS[i];
+
+  // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
+  el("qindex").textContent = i + 1;
+  el("qtotal").textContent = QUESTIONS.length;
+
+  // --- LANGUAGE HELPER FUNCTION ---
+  const getLangText = (obj) => {
+    if (!obj) return "";
+    if (typeof obj === "string") return obj; 
+
+    if (currentLang === "bilingual") {
+      const enText = obj.en || "";
+      const hiText = obj.hi || "";
+      return enText + (enText && hiText ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hiText;
+    }
+    return obj[currentLang] || obj["en"] || "";
+  };
+
+  // 2. Render Question Text & Math
+  const qTextEl = el("qtext");
+  qTextEl.innerHTML = getLangText(q.question);
+  normalizeMathForQuiz(qTextEl);
+
+  // 🖼️ QUESTION IMAGE RENDER (40% size)
+  const imgBox = document.getElementById("questionImage");
+  imgBox.innerHTML = "";
+
+  if (q.question_image && q.question_image.trim() !== "") {
+    const img = document.createElement("img");
+    img.src = q.question_image;
+    img.alt = "Question Image";
+    img.style.width = "40%"; 
+    img.style.height = "auto";
+    img.style.display = "block";
+    img.style.margin = "10px auto";
+    img.style.border = "1px solid #ddd";
+    img.style.borderRadius = "6px";
+    img.loading = "lazy";
+
+    img.onerror = () => {
+      imgBox.innerHTML = "<div style='color:red;font-size:13px'>⚠ Image failed to load</div>";
+    };
+
+    imgBox.appendChild(img);
+  }
+
+  // 3. Update Marks
+  el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0)}</span>`;
+
+  // 4. Render Options (Updated to include Option Images)
+  const optsContainer = el("options");
+  optsContainer.innerHTML = "";
+
+  const optionKeys = ["option_1", "option_2", "option_3", "option_4", "option_5"];
+
+  optionKeys.forEach((key, idx) => {
+    if (!q[key]) return; 
+
+    const optionIndex = idx + 1; 
+    const isSelected = answers[q.id] === String(optionIndex); // Use q.id strictly
+    const isCorrectAns = String(q.answer) === String(optionIndex);
+
+    const div = document.createElement("div");
+    div.className = "opt";
+
+    if (isQuiz) {
+      if (isSelected) div.classList.add("selected");
+      div.onclick = () => selectOption(q, optionIndex, div);
+    } else {
+      div.style.cursor = "default";
+      if (isCorrectAns) {
+        div.classList.add("correct");
+        div.style.backgroundColor = "#e6f7ee";
+        div.style.borderColor = "#2e7d32";
+      }
+      if (isSelected && !isCorrectAns) {
+        div.classList.add("wrong");
+        div.style.backgroundColor = "#fdeaea";
+        div.style.borderColor = "#c82d3f";
+      }
+    }
+
+    // 🖼️ OPTION IMAGE RENDER (40% size)
+    const optImgKey = `option_image_${optionIndex}`;
+    let optImgHtml = "";
+    if (q[optImgKey] && q[optImgKey].trim() !== "") {
+      optImgHtml = `<div style="margin-top:8px;"><img src="${q[optImgKey]}" style="width:40%; height:auto; border-radius:4px; border:1px solid #eee;"></div>`;
+    }
+
+    div.innerHTML = `
+      <div class="custom-radio"></div>
+      <div style="flex:1">
+        <div class="opt-text">${getLangText(q[key])}</div>
+        ${optImgHtml}
+      </div>
+    `;
+
+    optsContainer.appendChild(div);
+    normalizeMathForQuiz(div.querySelector(".opt-text"));
+  });
+
+  // 5. Render Explanation (Only in Solution Mode)
+  const expBox = el("explanation");
+  if (!isQuiz) {
+    const qid = q.id;
+    const userAns = answers[qid];
+    const isCorrect = userAns && String(userAns) === String(q.answer);
+
+    let statusText = "";
+    if (!userAns) {
+      statusText = `<span style="color:#9e9e9e">Skipped (0)</span>`;
+    } else if (isCorrect) {
+      statusText = `<span style="color:var(--success)">Correct (+${q.correct_score ?? 3})</span>`;
+    } else {
+      statusText = `<span style="color:var(--danger)">Wrong (-${q.negative_score ?? 1})</span>`;
+    }
+
+    let solImgHtml = "";
+    if (q.solution_image && q.solution_image.trim() !== "") {
+      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${q.solution_image}" style="width:40%; height:auto; border-radius:6px; border:1px solid #ddd;"></div>`;
+    }
+
+    expBox.style.display = "block";
+    expBox.innerHTML = `<div style="margin-bottom:8px; font-weight:700;">Status: ${statusText}</div>` +
+      (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br>${getLangText(q.solution_text)}` : "") +
+      solImgHtml;
+    normalizeMathForQuiz(expBox);
+  } else {
+    expBox.style.display = "none";
+  }
+
+  // 6. Update MathJax
+  renderMath();
+
+  // 7. Update Palette & Buttons
+  if (typeof highlightPalette === "function") highlightPalette();
+  updateNavButtons();
+
+  // Handle language synchronization
+  const langSelect = document.getElementById("langSelect");
+  if (langSelect) {
+    langSelect.onchange = (e) => {
+      currentLang = e.target.value;
+      saveQuizState();
+      renderQuestion(current);
+    };
+  }
+}
+
+
+// ===============================
+// 🖱️ OPTION SELECTION
+// ===============================
+function selectOption(q, val, divEl){
+  // Prevent changing answers in Solution Mode
+  if(!isQuiz) return;
+
+  const qid = q.id ?? current;
+
+  // Toggle Logic: If clicking same option, unselect it?
+  // Testbook usually allows changing, not unselecting easily,
+  // but let's stick to: Click new -> Select new.
+
+  answers[qid] = String(val);
+  saveQuizState();
+
+  // Re-render to update visuals
+  renderQuestion(current);
+}
+
+// ===============================
+// 🔄 MATHJAX UTILS
+// ===============================
+function renderMath(){
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+}
+
+function normalizeMathForQuiz(container) {
+  if (!container) return;
+  // Convert $$...$$ block math to \(...\) inline math for better mobile flow
+  container.innerHTML = container.innerHTML
+    .replace(/(\S)\s*\$\$(.+?)\$\*\s*(\S)/g, '$1 \\($2\\) $3')
+    .replace(/\$\$(.+?)\$\$/g, '\\($1\\)');
+}
+
+// Update Prev/Next Button States
+function updateNavButtons() {
+  const prev = el("prevBtn");
+  const next = el("nextBtn");
+
+  if(prev) prev.disabled = current === 0;
+  if(next) next.disabled = current === QUESTIONS.length - 1;
+}
+// ===============================
+// 🚀 SUBMIT & ANALYSIS ENGINE
+// ===============================
+function submitQuiz(isAuto = false) {
+  const nameInput = document.getElementById("studentName");
+  const studentNameValue = nameInput ? nameInput.value.trim() : "";
+
+  if (!studentNameValue || studentNameValue.toLowerCase() === "student" || studentNameValue === "") {
+    alert("Please enter your full name to submit quiz");
+    el("nameContainer").style.display = "block";
+    nameInput?.focus();
+    return;
+  }
+
+  // 2. 🛑 Stop Timer & Hide Quiz UI
+  if (timerInterval) clearInterval(timerInterval);
+  const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
+
+  document.getElementById("mainHeader").style.display = "none";
+  document.getElementById("nameContainer").style.display = "none";
+  if (el("sectionNav")) el("sectionNav").style.display = "none";
+  document.getElementById("floatBar").style.display = "none";
+  const quizArea = document.getElementById("quizMainArea");
+  if(quizArea) quizArea.style.display = "none";
+
+  const resBox = document.getElementById("results");
+  resBox.style.display = "block";
+  resBox.innerHTML = `<div class="card-dashboard" style="text-align:center; padding:50px;">
+                        <h2 style="color:var(--accent);">Generating analysis...</h2>
+                        <p>Please wait while we calculate your sectional ranks and toppers list.</p>
+                      </div>`;
+
+
+  // 3. 🧮 Calculate Global & Sectional Scores
+  let totalCorrect = 0, totalWrong = 0, totalMarks = 0, maxTotalMarks = 0;
+  let totalQuestionsCount = 0; // Added for precise math
+  const sectionalDataForFirebase = {};
+  let sectionalBarsHTML = "";
+
+  SECTION_NAMES.forEach(sName => {
+    let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
+    totalQuestionsCount += SECTIONS[sName].length;
+    
+    SECTIONS[sName].forEach(q => {
+      sMax += Number(q.correct_score ?? 2);
+      const ans = answers[q.id];
+      if (ans == q.answer) {
+        sCor++;
+        sScore += Number(q.correct_score ?? 2);
+      } else if (ans) {
+        sWr++;
+        sScore -= Number(q.negative_score ?? 0.5);
+      }
+    });
+
+    // Store per section - UPDATED: sectionTime[sName] tracks the real time spent
+    sectionalDataForFirebase[sName] = {
+      score: sScore,
+      total: sMax,
+      correct: sCor,
+      wrong: sWr,
+      unattempted: SECTIONS[sName].length - (sCor + sWr),
+      timeTaken: sectionTime[sName] || 0 
+    };
+
+    totalCorrect += sCor;
+    totalWrong += sWr;
+    totalMarks += sScore;
+    maxTotalMarks += sMax;
+  });
+
+  const attempted = totalCorrect + totalWrong;
+  const accuracy = attempted ? ((totalCorrect / attempted) * 100).toFixed(2) : "0.00";
+  const timeFormatted = fmt(timeTakenSeconds);
+
+  // 4. 📦 Prepare Data Payload
+  const firebasePayload = {
+    name: studentNameValue,
+    score: totalMarks,
+    total: maxTotalMarks,
+    correct: totalCorrect,
+    wrong: totalWrong,
+    timeTaken: timeTakenSeconds,
+    quizId: QUIZ_ID,
+    deviceId: DEVICE_ID,
+    submittedAt: Date.now(),
+    sections: sectionalDataForFirebase 
+  };
+
+  // 5. ☁️ Firebase Operations
+  saveResultFirebase(firebasePayload).finally(() => {
+    saveAttemptHistory(firebasePayload);
+
+    Promise.all([
+      getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
+      getToppersList(QUIZ_ID)
+    ]).then(([rankData, toppersList]) => {
+
+      const topperStats = getTopperStatsForComparison(toppersList, attempted);
+
+      // 6. 📊 Generate Sectional Summary Table
+      let sectionalTableHtml = `
+      <div class="card-dashboard">
+        <h3 class="section-title">📊 Sectional Summary</h3>
+        <div style="overflow-x:auto">
+          <table class="analysis-table">
+            <tr>
+              <th>Section</th><th>Marks</th><th>Correct</th><th>Wrong</th><th>Left</th><th>Time Spent</th>
+            </tr>`;
+
+
+SECTION_NAMES.forEach(name => {
+  const d = sectionalDataForFirebase[name];
+  const secId = name.replace(/\s+/g, ''); 
+
+  sectionalTableHtml += `
+    <tr>
+      <td><b>${name}</b></td>
+      <td>${d.score}</td>
+      <td>${d.correct}</td>
+      <td>${d.wrong}</td>
+      <td>${d.unattempted}</td>
+      <td>${fmt(d.timeTaken)}</td>
+      
+    </tr>`;
+  const topperSecRaw = topperStats.sections?.[name] || {};
+const topperSec = {
+  score: topperSecRaw.score || 0,
+  correct: topperSecRaw.correct || 0,
+  wrong: topperSecRaw.wrong || 0,
+  timeTaken: topperSecRaw.timeTaken || 0
+};
+
+  const secAttempted = d.correct + d.wrong;
+
+const topperSecRaw = topperStats.sections?.[name] || {};
+const topperSec = {
+  score: topperSecRaw.score || 0,
+  correct: topperSecRaw.correct || 0,
+  wrong: topperSecRaw.wrong || 0,
+  timeTaken: topperSecRaw.timeTaken || 0
+};
+
+const topperAttempted = topperSec.correct + topperSec.wrong;
+
+const accuracy = secAttempted
+  ? ((d.correct / secAttempted) * 100).toFixed(2)
+  : "0.00";
+
+const topperAccuracy = topperAttempted
+  ? ((topperSec.correct / topperAttempted) * 100).toFixed(2)
+  : "0.00";
+
+sectionalBarsHTML += `
+  <h4 class="section-title" style="margin-top:25px; border-left:4px solid var(--accent); padding-left:10px;">
+    Part: ${name}
+  </h4>
+
+  ${renderComparisonBar("Score", d.score, d.total, topperSec.score, d.total)}
+  ${renderComparisonBar("Accuracy", accuracy, 100, topperAccuracy, 100, "%")}
+  ${renderComparisonBar("Correct", d.correct, d.total, topperSec.correct, d.total)}
+  ${renderComparisonBar("Wrong", d.wrong, d.total, topperSec.wrong, d.total, "", true)}
+  ${renderComparisonBar(
+    "Time Taken",
+    d.timeTaken,
+    TOTAL_TIME_SECONDS,
+    topperSec.timeTaken,
+    TOTAL_TIME_SECONDS
+  )}
+`;
+  
+});
+sectionalTableHtml += `</table></div></div>`;
+
+      // 7. 🎨 Generate Dashboard HTML
+      let dashboardHTML = `
+      <div class="analysis-container">
+        <div style="margin-bottom: 10px;">
+          <button class="btn-dash btn-outline" style="width: 100%; background: #ffffff; color: #333; border: 2px solid #333; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="window.location.href='./'">
+            <span style="font-size: 18px;">⬅</span> GO TO ALL TESTS
+          </button>
+        </div>
+
+        <div class="card-dashboard">
+          <div class="info-grid">
+            <div><b>Name:</b> ${firebasePayload.name}</div>
+            <div><b>Quiz ID:</b> ${QUIZ_ID}</div>
+            <div><b>Quiz Name:</b> ${QUIZ_TITLE}</div>
+          </div>
+        </div>
+
+        <div class="card-dashboard">
+           <div class="action-grid">
+              <button class="btn-dash btn-solid" onclick="reattemptQuiz()">🔄 Reattempt</button>
+              <button class="btn-dash btn-outline" onclick="enterSolutionMode()">📊 Detailed Solution</button>
+           </div>
+           <div class="action-grid">
+              <button class="btn-dash btn-outline" onclick="restoreLatestResult()">⬅ Back to Latest Result</button>
+              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts('${QUIZ_ID}', '${DEVICE_ID}')">📁 Previous Results</button>
+           </div>
+        </div>
+
+        <div class="card-dashboard score-summary">
+          <div class="score-item"><h4>🏆 Rank</h4><p>${rankData.rank} / ${rankData.total}</p></div>
+          <div class="score-item"><h4>📊 Percentile</h4><p>${rankData.percentile}%</p></div>
+          <div class="score-item"><h4>🧮 Score</h4><p>${totalMarks}</p></div>
+          <div class="score-item"><h4>⏱ Time</h4><p>${timeFormatted}</p></div>
+        </div>
+
+        <div class="card-dashboard attempt-summary">
+           <div class="attempt-box at-correct">✅ Correct<span>${totalCorrect}</span></div>
+           <div class="attempt-box at-wrong">❌ Wrong<span>${totalWrong}</span></div>
+           <div class="attempt-box at-unattempted">🟡 Left<span>${totalQuestionsCount - attempted}</span></div>
+           <div class="attempt-box at-total">✍️ Attempted<span>${attempted}</span></div>
+        </div>
+
+        <div style="text-align:center">
+           <button class="btn-dash btn-solid" style="width:100%; max-width:400px;" onclick="refreshLatestRankOnDemand(this)">🔄 GET LIVE UPDATED RANK</button>
+        </div>
+
+        ${sectionalTableHtml}
+
+        <div class="card-dashboard" id="comparisonModule">
+          <h3 class="section-title">📊 You vs Topper (Complete Test)</h3>
+          ${renderComparisonBar("Score", totalMarks, maxTotalMarks, topperStats.score, maxTotalMarks)}
+          ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
+          ${renderComparisonBar("Correct", totalCorrect, totalQuestionsCount, topperStats.correct, totalQuestionsCount)}
+          ${renderComparisonBar("Wrong", totalWrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
+          ${renderComparisonBar("Time Taken", timeTakenSeconds, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
+
+          <div id="sectionalBarsContainer">
+            ${sectionalBarsHTML}
+          </div>
+        </div>
+
+        <div class="card-dashboard">
+          <h3 class="section-title">🏆 Top 10 Toppers(first attempt)</h3>
+          <div style="overflow-x:auto">
+            <table class="topper-table">
+              <tr><th>Rank</th><th>Name</th><th>Score</th><th>Time</th></tr>
+              ${toppersList.map((t, idx) => `
+                <tr>
+                  <td>${idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : '#' + (idx + 1)))}</td>
+                  <td>${t.name}</td>
+                  <td><b>${t.score}</b></td>
+                  <td>${fmt(t.timeTaken)}</td>
+                </tr>
+              `).join('')}
+            </table>
+          </div>
+        </div>
+      </div>`;
+
+      resBox.innerHTML = dashboardHTML;
+      resBox.style.display = "block";
+
+      // 🔧 format Time Taken bars (section + total)
+resBox.querySelectorAll(".bar-section").forEach(sec => {
+  const label = sec.querySelector(".bar-label span")?.textContent;
+  if (label === "Time Taken") {
+    const values = sec.querySelectorAll("span[style*='text-align:right']");
+    values.forEach(val => {
+      const raw = val.textContent.trim();
+      if (!isNaN(raw) && raw !== "") {
+        val.textContent = fmt(parseInt(raw));
+      }
+    });
+  }
+});
+
+      
+      
+
+      LAST_RESULT_HTML = dashboardHTML;
+      localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
+        submitted: true,
+        resultHTML: dashboardHTML,
+        answers,
+        marked,
+        current: 0,
+        sectionalData: sectionalDataForFirebase,
+        totalMarks,
+        timeTakenSeconds,
+        firebasePayload 
+      }));
+
+      normalizeMathForQuiz(resBox);
+      renderMath();
+    });
+  });
+}
+function autoSubmitQuiz() {
+  // Prevent double submit
+  if (!isQuiz) return;
+
+  clearInterval(timerInterval);
+
+  // 🔐 ENSURE NAME EXISTS
+  let name = document.getElementById("studentName")?.value?.trim();
+
+  if (!name) {
+    name = "Anonymous";
+    localStorage.setItem("ssc_quiz_name", name);
+
+    const nameInput = document.getElementById("studentName");
+    if (nameInput) nameInput.value = name;
+  }
+
+  isQuiz = false;
+
+  // Inform user (optional)
+  alert("Time is up! Your test has been submitted automatically.");
+
+  // Submit quiz silently
+  submitQuiz(true); // true = auto submit
+}
+// ===============================
+// 📊 FIREBASE & DATA FUNCTIONS
+// ===============================
+
+// 1. Save Result (Admin - First Attempt Only)
+function saveResultFirebase(payload) {
+  const ref = db.ref("quiz_results/" + payload.quizId + "/" + payload.deviceId);
+  return ref.once("value").then(snap => {
+    if (snap.exists()) return false; // Don't overwrite first attempt
+    return ref.set(payload);
+  });
+}
+
+// 2. Save History (All Attempts)
+function saveAttemptHistory(payload) {
+  const ref = db.ref("attempt_history/" + payload.quizId + "/" + payload.deviceId + "/" + payload.submittedAt);
+  return ref.set(payload);
+}
+
+// 3. Calculate Rank & Percentile (Enhanced for Sectional Support)
+function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
+  return db.ref("attempt_history/" + quizId).once("value").then(snapshot => {
+    const data = snapshot.val() || {};
+    let attempts = [];
+
+    // Flatten all attempts
+    Object.values(data).forEach(deviceData => {
+      Object.values(deviceData).forEach(att => attempts.push(att));
+    });
+
+    // Sort: Score DESC, Time ASC
+    attempts.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.timeTaken - b.timeTaken;
+    });
+
+    const total = attempts.length;
+    let rank = total + 1; 
+
+    // Find my rank
+    for (let i = 0; i < attempts.length; i++) {
+      if (attempts[i].score === myScore &&
+          attempts[i].timeTaken === myTime &&
+          attempts[i].submittedAt === mySubmittedAt) {
+        rank = i + 1;
+        break;
+      }
+    }
+
+    // Calculate Percentile
+    const below = attempts.filter(a =>
+      a.score < myScore || (a.score === myScore && a.timeTaken > myTime)
+    ).length;
+
+    const percentile = total ? ((below / total) * 100).toFixed(2) : "0.00";
+
+    return { rank, percentile, total };
+  });
+}
+
+// 4. Fetch Top 10 List
+function getToppersList(quizId) {
+  return db.ref("quiz_results/" + quizId).once("value").then(snapshot => {
+    const data = snapshot.val();
+    if (!data) return [];
+
+    let all = Object.values(data);
+    // Sort: Score High->Low, Time Low->High
+    all.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.timeTaken - b.timeTaken;
+    });
+
+    return all.slice(0, 10);
+  });
+}
+
+// 5. Get Topper Stats for Bar Chart (Updated for Sectional scaling)
+function getTopperStatsForComparison(toppersList, totalQ) {
+  if (!toppersList || toppersList.length === 0) {
+    return { score: 0, accuracy: 0, correct: 0, wrong: 0, time: 0, sections: {} };
+  }
+  const t = toppersList[0]; // Rank 1 Topper
+  const att = (t.correct || 0) + (t.wrong || 0);
+  const acc = att > 0 ? ((t.correct / att) * 100).toFixed(1) : 0;
+
+  return { 
+    score: t.score, 
+    accuracy: acc, 
+    correct: t.correct, 
+    wrong: t.wrong, 
+    time: t.timeTaken,
+    sections: t.sections || {} // NEW: Include topper's sectional breakdown
+  };
+}
+
+// 6. Render Comparison Bar HTML (Deto same as before, used for Total and Sections)
+function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, unit = "", isReverse = false) {
+  const userPct = (userVal > 0) ? Math.min(100, (userVal / maxVal) * 100) : 0;
+  const topperPct = (topperVal > 0) ? Math.min(100, (topperVal / maxTopperVal) * 100) : 0;
+
+  return `
+  <div class="bar-section">
+    <div class="bar-label"><span>${label}</span></div>
+
+    <div style="display:grid; grid-template-columns: 60px 1fr 80px; gap:10px; align-items:center; margin-bottom:6px;">
+        <span style="font-size:12px; font-weight:700; color:var(--accent);">YOU</span>
+        <div class="bar-track"><div class="bar-fill fill-you" style="width:${userPct}%"></div></div>
+        <span style="font-size:12px; font-weight:700; text-align:right;">${userVal}${unit}</span>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 60px 1fr 80px; gap:10px; align-items:center;">
+        <span style="font-size:12px; font-weight:700; color:var(--success);">TOPPER</span>
+        <div class="bar-track"><div class="bar-fill fill-topper" style="width:${topperPct}%"></div></div>
+        <span style="font-size:12px; font-weight:700; text-align:right;">${topperVal}${unit}</span>
+    </div>
+  </div>`;
+}
+
+// ===============================
+// 🎮 DASHBOARD INTERACTIONS
+// ===============================
+
+// Enter "Detailed Solution" Mode (Testbook Style)
+
+function enterSolutionMode() {
+  // 1. Switch Flags
+  isQuiz = false;
+  currentSectionIdx = 0; // ✅ ADD THIS: Resets to first section (e.g., Reasoning)
+  QUESTIONS = SECTIONS[SECTION_NAMES[0]]; // ✅ ADD THIS: Loads the first section's questions array
+
+  document.body.classList.add("mode-solution");
+  document.body.classList.remove("mode-quiz");
+  
+  // ... rest of your code stays exactly the same
+  
+
+      // 7. 🔥 REBUILD AND RE-RENDER (The Fix)
+  buildPalette();      // Re-creates the 1, 2, 3... buttons
+  updatePaletteLegend();
+  highlightPalette();  // Apply Red/Green colors to the new buttons
+  renderQuestion(0);   // Show first question
+
+  // 2. Hide Dashboard & Other Result Views
+  document.getElementById("results").style.display = "none";
+  document.getElementById("previousAttempts").style.display = "none";
+  document.getElementById("attemptReplay").style.display = "none";
+
+  // 3. Prepare the Quiz Container
+  const quizArea = document.getElementById("quizMainArea");
+  const header = document.getElementById("mainHeader");
+  const palette = document.getElementById("palette"); // Targeted palette
+  if (el("sectionNav")) el("sectionNav").style.display = "flex";
+  
+  header.style.display = "block";
+  palette.style.display = "flex"; // Ensure palette container is visible
+
+  // 4. Header UI Adjustments
+  document.getElementById("backToAnalysisBtn").style.display = "inline-block";
+  document.getElementById("timer").style.display = "none";
+  document.getElementById("submitBtn").style.display = "none";
+  document.getElementById("headerTitle").textContent = "Solution Mode";
+
+  // 5. Layout Restoration (Critical for the "nothing showing" issue)
+  if (window.innerWidth >= 992) {
+      quizArea.style.display = "grid";
+      // Re-organize desktop buttons
+      const topActions = document.getElementById("topActions");
+      topActions.appendChild(document.getElementById("prevBtn"));
+      topActions.appendChild(document.getElementById("clearBtn"));
+      topActions.appendChild(document.getElementById("markBtn"));
+      topActions.appendChild(document.getElementById("nextBtn"));
+      document.getElementById("floatBar").style.display = "none";
+  } else {
+      quizArea.style.display = "block";
+      document.getElementById("floatBar").style.display = "flex";
+      palette.style.display = "none"; // Hide mobile palette until "View" clicked
+  }
+
+  // 6. Fix Button Visibility
+  document.getElementById("clearBtn").style.display = "none";
+  document.getElementById("markBtn").style.display = "none";
+  attachListeners();   // Re-links the clicks
+
+  // 8. Refresh Math Rendering
+  if (window.MathJax) {
+    MathJax.typesetPromise();
+  }
+}
+
+
+// Reattempt (Clear and Reload)
+function reattemptQuiz() {
+  if(confirm("Are you sure you want to reattempt? Your current progress in this session will be reset.")) {
+    localStorage.removeItem(QUIZ_RESULT_KEY);
+    localStorage.removeItem(QUIZ_STATE_KEY);
+    localStorage.removeItem('ssc_quiz_name'); // ✅ Add this to clear the name for the new attempt
+    window.location.reload();
+  }
+}
+
+// Restore Dashboard (From History/Solution Mode)
+function restoreLatestResult() {
+  if(LAST_RESULT_HTML) {
+    // 🔴 CRITICAL FIX: analysis page must NEVER show section buttons
+    const sNav = document.getElementById("sectionNav");
+    if (sNav) sNav.style.display = "none";
+    
+    document.getElementById("results").innerHTML = LAST_RESULT_HTML;
+    document.getElementById("results").style.display = "block";
+
+    // Hide other views
+    document.getElementById("quizMainArea").style.display = "none";
+    document.getElementById("previousAttempts").style.display = "none";
+    document.getElementById("mainHeader").style.display = "none";
+    document.getElementById("floatBar").style.display = "none";
+  }
+}
+
+// Enhanced: Powerful Live Updated Rank (Updates Total + All Sections + All Bars)
+async function refreshLatestRankOnDemand(btn) {
+  const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
+  if (!resultData || !resultData.firebasePayload) {
+    alert("No submission data found to update.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Updating All Parts...";
+
+  try {
+    const payload = resultData.firebasePayload;
+
+    // 1. Update Latest Global Total Rank
+    const totalRank = await getRankAndPercentile(
+      QUIZ_ID,
+      payload.score,
+      payload.timeTaken,
+      payload.submittedAt
+    );
+    
+    // Update Score Summary Boxes
+    const scoreItems = document.querySelectorAll(".score-item p");
+    if(scoreItems.length >= 2) {
+      scoreItems[0].textContent = `${totalRank.rank} / ${totalRank.total}`;
+      scoreItems[1].textContent = `${totalRank.percentile}%`;
+    }
+
+    
+
+    // 3. Update All Comparison Bars (Total + Sections)
+    const toppersList = await getToppersList(QUIZ_ID);
+    const topperStats = getTopperStatsForComparison(toppersList, QUESTIONS.length);
+    const resultsContainer = document.getElementById("results");
+
+    // Refresh Total Bars
+    const mainBars = Array.from(resultsContainer.querySelectorAll(".section-title"))
+      .find(el => el.textContent.includes("Complete Test"))?.closest(".card-dashboard");
+
+    if (mainBars) {
+      const accuracy = payload.correct + payload.wrong > 0 
+        ? ((payload.correct / (payload.correct + payload.wrong)) * 100).toFixed(2) 
+        : "0.00";
+      
+      // Correct Logic for Sectional Comparison Bars
+let secBarsHTML = "";
+SECTION_NAMES.forEach(name => {
+  const mySec = payload.sections[name];
+
+  const topperSecRaw = topperStats.sections?.[name] || {};
+  const topperSec = {
+    score: topperSecRaw.score || 0,
+    correct: topperSecRaw.correct || 0,
+    wrong: topperSecRaw.wrong || 0,
+    timeTaken: topperSecRaw.timeTaken || 0
+  };
+
+  const myAttempted = mySec.correct + mySec.wrong;
+  const topperAttempted = topperSec.correct + topperSec.wrong;
+
+  const myAcc = myAttempted
+    ? ((mySec.correct / myAttempted) * 100).toFixed(2)
+    : "0.00";
+
+  const topperAcc = topperAttempted
+    ? ((topperSec.correct / topperAttempted) * 100).toFixed(2)
+    : "0.00";
+
+  secBarsHTML += `
+    <h4 class="section-title" style="margin-top:25px; border-left:4px solid var(--accent); padding-left:10px;">
+      Part: ${name}
+    </h4>
+
+    ${renderComparisonBar("Score", mySec.score, mySec.total, topperSec.score, mySec.total)}
+    ${renderComparisonBar("Accuracy", myAcc, 100, topperAcc, 100, "%")}
+    ${renderComparisonBar("Correct", mySec.correct, mySec.total, topperSec.correct, mySec.total)}
+    ${renderComparisonBar("Wrong", mySec.wrong, mySec.total, topperSec.wrong, mySec.total, "", true)}
+    ${renderComparisonBar(
+      "Time Taken",
+      mySec.timeTaken,
+      TOTAL_TIME_SECONDS,
+      topperSec.timeTaken,
+      TOTAL_TIME_SECONDS
+    )}
+  `;
+});
+     
+
+      
+      mainBars.innerHTML = `
+        <h3 class="section-title">📊 You vs Topper (Complete Test)</h3>
+        ${renderComparisonBar("Score", payload.score, payload.total, topperStats.score, payload.total)}
+        ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
+        ${renderComparisonBar("Correct", payload.correct, payload.total/2, topperStats.correct, payload.total/2)}
+        ${renderComparisonBar("Wrong", totalWrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
+        ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
+        <div id="sectionalBarsContainer">${secBarsHTML}</div>
+      `;
+
+      // 🔧 format Time Taken bars (section + total)
+resBox.querySelectorAll(".bar-section").forEach(sec => {
+  const label = sec.querySelector(".bar-label span")?.textContent;
+  if (label === "Time Taken") {
+    const values = sec.querySelectorAll("span[style*='text-align:right']");
+    values.forEach(val => {
+      const raw = val.textContent.trim();
+      if (!isNaN(raw) && raw !== "") {
+        val.textContent = fmt(parseInt(raw));
+      }
+    });
+  }
+});
+    }
+
+    // 4. Persist updated HTML
+    LAST_RESULT_HTML = resultsContainer.innerHTML;
+    localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
+      ...resultData,
+      resultHTML: LAST_RESULT_HTML
+    }));
+
+    alert("All Ranks, Percentiles, and Comparison Bars updated to the latest data!");
+
+  } catch (err) {
+    console.error("Live Update Error:", err);
+    alert("Could not update ranks. Please check your connection.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "🔄 GET LIVE UPDATED RANK";
+  }
+}
+
+
+// ===============================
+// ?? HISTORY & ATTEMPT REVIEW
+// ===============================
+
+// Load list of past attempts
+function loadPreviousAttempts(quizId, deviceId) {
+  const box = document.getElementById("previousAttempts");
+  box.innerHTML = '<div style="text-align:center; padding:20px;">Loading history...</div>';
+  box.style.display = "block";
+
+  // Hide other views
+  document.getElementById("results").style.display = "none";
+  document.getElementById("attemptReplay").style.display = "none";
+
+  db.ref("attempt_history/" + quizId + "/" + deviceId)
+    .once("value")
+    .then(snapshot => {
+      const data = snapshot.val();
+      if (!data) {
+        box.innerHTML = '<div class="card"><p style="text-align:center">No previous attempts found.</p><button class="btn-dash btn-outline" style="width:100%" onclick="restoreLatestResult()">⬅ Back</button></div>';
+        return;
+      }
+
+      // Sort by date (Newest first)
+      const attempts = Object.values(data).sort((a, b) => b.submittedAt - a.submittedAt);
+
+      let html = `<div class="card-dashboard">
+        <h3 class="section-title">📂 Attempt History</h3>
+        <div style="display:flex; flex-direction:column; gap:10px;">`;
+
+      attempts.forEach((a, i) => {
+        const date = new Date(a.submittedAt).toLocaleDateString();
+        html += `
+          <div style="background:#f8f9fa; padding:12px; border:1px solid #eee; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-weight:700; color:#333;">Attempt ${attempts.length - i}</div>
+              <div style="font-size:12px; color:#666;">${date} • Score: ${a.score}</div>
+            </div>
+            <button class="btn-ghost" onclick='showAttempt(${JSON.stringify(a)})'>View Analysis</button>
+          </div>
+        `;
+      });
+
+      html += `</div><div style="margin-top:15px"><button class="btn-dash btn-outline" style="width:100%" onclick="restoreLatestResult()">⬅ Back to Latest Result</button></div></div>`;
+
+      box.innerHTML = html;
+    });
+}
+
+// Render Analysis Dashboard for a Past Attempt
+function showAttempt(attempt) {
+  const box = document.getElementById("attemptReplay");
+  box.innerHTML = '<div style="text-align:center; padding:20px;">Loading analysis...</div>';
+  box.style.display = "block";
+  document.getElementById("previousAttempts").style.display = "none";
+
+  // Fetch Rank for this old attempt
+  getRankAndPercentile(QUIZ_ID, attempt.score, attempt.timeTaken, attempt.submittedAt)
+    .then(rankData => {
+
+      // Calculate Stats
+      const totalQ = QUESTIONS.length;
+      // Note: We don't have full topper list for past dates easily, so we skip Topper Comparison bars for history
+      // or use current topper data as reference (using current toppers for simplicity)
+
+      let dashboardHTML = `
+      <div class="analysis-container">
+        <div class="card-dashboard">
+          <div class="info-grid">
+            <div><b>Attempt Date:</b> ${new Date(attempt.submittedAt).toLocaleString()}</div>
+            <div><b>Quiz ID:</b> ${QUIZ_ID}</div>
+          </div>
+        </div>
+
+        <div class="card-dashboard">
+           <div class="action-grid">
+              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts('${QUIZ_ID}', '${DEVICE_ID}')">⬅ Back to History</button>
+              <button class="btn-dash btn-outline" onclick="restoreLatestResult()">🏠 Latest Result</button>
+           </div>
+        </div>
+
+        <div class="card-dashboard score-summary">
+          <div class="score-item"><h4>🏆 Rank</h4><p>${rankData.rank} / ${rankData.total}</p></div>
+          <div class="score-item"><h4>📊 Percentile</h4><p>${rankData.percentile}%</p></div>
+          <div class="score-item"><h4>🧮 Score</h4><p>${attempt.score}</p></div>
+          <div class="score-item"><h4>⏱ Time</h4><p>${fmt(attempt.timeTaken)}</p></div>
+        </div>
+
+        <div class="card-dashboard attempt-summary">
+           <div class="attempt-box at-correct">✅ Correct<span>${attempt.correct}</span></div>
+           <div class="attempt-box at-wrong">❌ Wrong<span>${attempt.wrong}</span></div>
+           <div class="attempt-box at-unattempted">🟡 Left<span>${totalQ - (attempt.correct + attempt.wrong)}</span></div>
+        </div>
+      </div>`;
+
+      box.innerHTML = dashboardHTML;
+    });
+}
+
+// ===============================
+// 🎮 UI INTERACTIONS & LISTENERS
+// ===============================
+
+function attachListeners(){
+
+
+  // ✅ ADD THIS BLOCK (Fixes Back to Analysis Button)
+  const backAnaBtn = document.getElementById("backToAnalysisBtn");
+  if(backAnaBtn) {
+    backAnaBtn.addEventListener("click", () => {
+       restoreLatestResult();
+      
+    });
+  }
+
+
+
+  // Navigation
+  el("nextBtn").onclick = () => { if(current < QUESTIONS.length-1) renderQuestion(current+1); };
+  el("prevBtn").onclick = () => { if(current > 0) renderQuestion(current-1); };
+  el("clearBtn").onclick = () => {
+    if(!isQuiz) return;
+    delete answers[QUESTIONS[current].id ?? current];
+    renderQuestion(current);
+  };
+
+  // Mark for Review
+  el("markBtn").onclick = () => {
+    const qid = QUESTIONS[current].id ?? current;
+    if(marked[qid]) delete marked[qid];
+    else marked[qid] = true;
+    highlightPalette(); // Update color
+    renderQuestion(current); // Update button state if needed
+  };
+
+  // Palette Toggle (Mobile)
+  el("paletteBtn").onclick = (e) => {
+    e.stopPropagation();
+    const pal = el("palette");
+    if(pal.style.display === "flex" || pal.style.display === "block") {
+        // Hide
+        if(window.innerWidth < 992) pal.style.display = "none";
+    } else {
+        // Show
+        pal.style.display = "flex";
+        highlightPalette();
+        updatePaletteLegend();
+    }
+  };
+
+  // Close Palette when clicking outside (Mobile)
+  document.addEventListener("click", (e) => {
+    if(window.innerWidth >= 992) return; // Ignore on Desktop
+    const pal = el("palette");
+    const btn = el("paletteBtn");
+    if(pal.style.display === "flex" && !pal.contains(e.target) && e.target !== btn) {
+      pal.style.display = "none";
+    }
+  });
+
+  // Submit Modal
+  el("submitBtn").onclick = () => {
+    const attempted = Object.keys(answers).length;
+    el("submitMsg").textContent = `You have attempted ${attempted} of ${QUESTIONS.length} questions.\nAre you sure you want to submit?`;
+    el("submitModal").style.display = "flex";
+  };
+  el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
+  el("confirmSubmit").addEventListener("click", ()=> { el("submitModal").style.display = "none"; submitQuiz(); });
+}
+// Build Palette Buttons
+function buildPalette() {
+  const pal = el("palette");
+  
+  // Re-structure palette to include legend, SECTION LABEL, grid, and fixed submit button
+  pal.innerHTML = `
+    <div id="palette-legend"></div>
+    <div id="palSectionLabel" style="background:#fff; padding:6px; margin-bottom:10px; text-align:center; font-weight:800; border:1px solid #ccc; font-size:12px; color:#333;"></div>
+    <div id="palette-summary" style="margin-bottom:10px; font-weight:700; font-size:13px; text-align:center;"></div>
+    <div id="palette-grid" class="palette-grid" style="overflow-y:auto; flex-grow:1;"></div>
+    <div class="palette-submit-container" id="palSubmitArea" style="padding:10px 0; border-top:1px solid #ccc; background:#dae5f0; text-align:center;">
+      <button id="palSubmitBtn" class="btn" style="width:95%; background:#1a73e8; color:white; font-weight:700; padding:12px; border-radius:4px; border:none; cursor:pointer;">Submit Test</button>
+    </div>
+  `;
+
+  // NEW: Update Section Label inside Palette
+  const sName = SECTION_NAMES[currentSectionIdx] || "";
+  el("palSectionLabel").textContent = sName.toUpperCase();
+
+  const grid = el("palette-grid");
+  grid.innerHTML = "";
+  
+  // UPDATED: Numbering restarts from 1 because QUESTIONS is now scoped to the active section array
+  QUESTIONS.forEach((q, i) => {
+    const btn = document.createElement("button");
+    btn.className = "qbtn notvisited";
+    btn.textContent = i + 1; 
+    btn.onclick = () => {
+      renderQuestion(i);
+      if (window.innerWidth < 992) el("palette").style.display = "none";
+    };
+    grid.appendChild(btn);
+  });
+
+  // Attach submit event to the new button
+  el("palSubmitBtn").onclick = () => {
+    if (isQuiz) {
+        el('submitBtn').click(); // Triggers your existing submit logic/modal
+    } else {
+        restoreLatestResult(); // If in solution mode, goes back to analysis
+    }
+  };
+
+  updatePaletteLegend();
+}
+
+// Update Palette Colors
+function highlightPalette() {
+  const btns = document.querySelectorAll(".qbtn");
+  if (btns.length === 0) return;
+
+  btns.forEach((btn, i) => {
+    const qid = QUESTIONS[i].id ?? i;
+    btn.className = "qbtn"; // Reset
+
+    if (current === i) btn.classList.add("current");
+
+    if (isQuiz) {
+      if (marked[qid]) {
+        btn.classList.add(answers[qid] ? "marked-answered" : "marked");
+      } else if (answers[qid]) {
+        btn.classList.add("answered");
+      } else {
+        btn.classList.add("notvisited");
+      }
+    } else {
+      const myAns = answers[qid];
+      const correctAns = String(QUESTIONS[i].answer);
+      if (!myAns) {
+        btn.classList.add("sol-skip");
+      } else if (String(myAns) === correctAns) {
+        btn.classList.add("sol-right");
+      } else {
+        btn.classList.add("sol-wrong");
+      }
+      if (marked[qid]) btn.classList.add("has-star");
+    }
+  });
+
+  // Handle the Submit Button Visibility inside palette
+  const palSubmitBtn = el("palSubmitBtn");
+  if (palSubmitBtn) {
+    if (isQuiz) {
+        palSubmitBtn.textContent = "Submit Test";
+    } else {
+        palSubmitBtn.textContent = "Back to Analysis";
+    }
+  }
+
+  const curQid = QUESTIONS[current].id ?? current;
+  const mkBtn = el("markBtn");
+  if (mkBtn) {
+    if (marked[curQid]) {
+      mkBtn.textContent = "Unmark Review";
+      mkBtn.classList.add("active-mark");
+    } else {
+      mkBtn.textContent = "Mark for Review";
+      mkBtn.classList.remove("active-mark");
+    }
+  }
+  updatePaletteLegend();
+}
+
+// update function - NOW WITH SECTIONAL SUMMARY
+function updatePaletteLegend() {
+  const legend = document.getElementById("palette-legend");
+  const summary = document.getElementById("palette-summary");
+  if (!legend || !summary) return;
+
+  if (isQuiz) {
+    legend.innerHTML = `
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; font-size:12px; margin-bottom:10px;">
+        <div><span class="lg-box notvisited" style="background:#bdbdbd"></span> Not Visited</div>
+        <div><span class="lg-box answered" style="background:var(--success)"></span> Answered</div>
+        <div><span class="lg-box marked" style="background:var(--accent)"></span> Marked</div>
+        <div><span class="lg-box marked-answered" style="background:var(--accent)">★</span> Ans & Marked</div>
+      </div>
+    `;
+
+    // NEW: Calculate counts ONLY for questions in the current active section
+    let s_answered = 0, s_notAnswered = 0, s_markedOnly = 0, s_markedAnswered = 0;
+    
+    QUESTIONS.forEach((q) => {
+      const qid = q.id;
+      const hasAnswer = !!answers[qid];
+      const isMarked = !!marked[qid];
+      
+      if (hasAnswer && isMarked) s_markedAnswered++;
+      else if (hasAnswer) s_answered++;
+      else if (isMarked) s_markedOnly++;
+      else s_notAnswered++;
+    });
+
+    summary.innerHTML = `
+      <div style="border-top:1px solid #ccc; padding-top:8px; color:#555; font-size:12px;">
+        <b>Section Summary:</b><br>
+        Ans: <span style="color:var(--success)">${s_answered}</span> | 
+        Left: <span style="color:var(--danger)">${s_notAnswered}</span> | 
+        Marked: <span style="color:var(--accent)">${s_markedOnly + s_markedAnswered}</span>
+      </div>
+    `;
+  } else {
+    legend.innerHTML = `
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; font-size:12px; margin-bottom:10px;">
+        <div><span class="lg-box" style="background:var(--success)"></span> Correct</div>
+        <div><span class="lg-box" style="background:var(--danger)"></span> Wrong</div>
+        <div><span class="lg-box" style="background:#9e9e9e"></span> Skipped</div>
+      </div>
+    `;
+    
+    let s_correct = 0, s_wrong = 0, s_skipped = 0;
+    QUESTIONS.forEach((q) => {
+      const qid = q.id;
+      const myAns = answers[qid];
+      if (!myAns) s_skipped++;
+      else if (String(myAns) === String(q.answer)) s_correct++;
+      else s_wrong++;
+    });
+    
+    summary.innerHTML = `
+      <div style="border-top:1px solid #ccc; padding-top:8px; color:#555; font-size:12px;">
+        <b>Section Results:</b><br>
+        Correct: ${s_correct} | Wrong: ${s_wrong} | Skipped: ${s_skipped}
+      </div>
+    `;
+  }
+}
+// ===============================
+// 🚀 INITIALIZATION
+// ===============================
+
+function init(){
+  // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
+  const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
+  if (resultSaved) {
+    const data = JSON.parse(resultSaved);
+    if (data.submitted && data.resultHTML) {
+      isQuiz = false; // <--- ✅ ADD THIS LINE HERE
+      updatePaletteLegend();
+      // Hide Welcome & Quiz
+      answers = data.answers || {};
+      marked  = data.marked  || {};
+      current = data.current || 0;
+      el("welcomeScreen").style.display = "none";
+      el("mainHeader").style.display = "none";
+      el("quizMainArea").style.display = "none";
+      el("floatBar").style.display = "none";
+      if(el("studentName")) el("studentName").style.display = "none";
+
+               // Show Result
+      const res = document.getElementById("results");
+      res.innerHTML = data.resultHTML;
+      res.style.display = "block";
+      LAST_RESULT_HTML = data.resultHTML;
+
+      // 🔧 FIX: Restore mm:ss format in bars after reload
+      res.querySelectorAll(".bar-section").forEach(sec => {
+        const label = sec.querySelector(".bar-label span")?.textContent;
+        if (label === "Time Taken") {
+          const values = sec.querySelectorAll("span[style*='text-align:right']");
+          values.forEach(val => {
+            const rawText = val.textContent.replace('%', '').trim();
+            if(!isNaN(rawText) && rawText !== "") {
+              val.textContent = fmt(parseInt(rawText));
+            }
+          });
+        }
+      });
+     }
+    }
+
+  // 2. RESTORE PROGRESS (Resume Quiz)
+  const savedName = localStorage.getItem("ssc_quiz_name");
+  const nameInput = document.getElementById("studentName");
+
+  if (nameInput) {
+    // Only restore if it's a real name and NOT the default "Student"
+    if (savedName && savedName !== "Student") {
+      nameInput.value = savedName;
+    } else {
+      nameInput.value = ""; // ✅ Clear it so validation triggers
+    }
+  }
+    // --- UPDATE STEP 2 INSIDE init() ---
+const stateSaved = localStorage.getItem(QUIZ_STATE_KEY);
+if (stateSaved) {
+  const state = JSON.parse(stateSaved);
+  current = state.current ?? 0;
+  answers = state.answers ?? {};
+  marked = state.marked ?? {};
+  seconds = state.seconds ?? seconds;
+  
+  // RESTORE SECTION PERSISTENCE
+  if (state.currentSectionIdx !== undefined) {
+    currentSectionIdx = state.currentSectionIdx;
+  }
+  
+  // RESTORE LANGUAGE PERSISTENCE HERE
+  if (state.currentLang) {
+    currentLang = state.currentLang;
+    const headerLangSelect = el("langSelect");
+    if (headerLangSelect) headerLangSelect.value = currentLang;
+  }
+}
+
+  // 3. SETUP UI
+  if (window.innerWidth >= 992) {
+    // Move buttons to header for desktop
+    const topActions = document.getElementById("topActions");
+    topActions.appendChild(el("prevBtn"));
+    topActions.appendChild(el("clearBtn"));
+    topActions.appendChild(el("markBtn"));
+    topActions.appendChild(el("nextBtn"));
+  }
+
+  // UPDATED: Use switchSection to ensure palette and navigation buttons are synced correctly
+  if (isQuiz && SECTION_NAMES.length > 0) {
+      switchSection(currentSectionIdx);
+      // We manually set 'current' again because switchSection resets it to 0
+      if (stateSaved) {
+          const state = JSON.parse(stateSaved);
+          current = state.current ?? 0;
+      }
+  }
+
+  renderQuestion(current);
+  buildPalette();
+  updatePaletteLegend();
+  highlightPalette();
+  attachListeners();
+  renderMath();
+}
+
+// 🚦 START BUTTON LISTENER
+document.getElementById("welcomeStartBtn").addEventListener("click", function() {
+  const selected = document.getElementById("welcomeLangSelect").value;
+  const isChecked = document.getElementById("instrConfirm").checked;
+  if (!selected) {
+    alert("Please select a language! / कृपया भाषा चुनें!");
+    return; // STOP: Button won't work without selection
+  }
+  if (!isChecked) {
+    alert("Please confirm that you have read the instructions.");
+    return;
+  }
+
+  // Set persistence
+  currentLang = selected;
+  document.getElementById("langSelect").value = selected; // Sync header dropdown
+
+  // Proceed to quiz
+  document.getElementById("welcomeScreen").style.display = "none";
+  document.getElementById("mainHeader").style.display = "block";
+  
+  // SHOW Section Navigation
+  const sNav = el("sectionNav");
+  if(sNav) sNav.style.display = "flex";
+ 
+  document.body.classList.add("mode-quiz");
+  document.body.classList.remove("mode-solution");
+
+  const quizArea = document.getElementById("quizMainArea");
+  if(window.innerWidth >= 992) {
+      quizArea.style.display = "grid";
+  } else {
+      quizArea.style.display = "block";
+      document.getElementById("floatBar").style.display = "flex";
+  }
+  
+  // Start with the first section
+  switchSection(0);
+  
+  startTimer();
+  renderQuestion(current);
+});
+
+// 🔄 STARTUP SCRIPT
+document.addEventListener("DOMContentLoaded", function () {
+    loadQuizData(); 
+});
+
+// ===============================
+// 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
+// ===============================
+async function loadQuizData() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const quizIdParam = urlParams.get('id');
+
+  if (!quizIdParam) {
+    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.<br><small>Example: ?id=Rajuhari</small>";
+    return;
+  }
+
+  try {
+    // 1. Fetch JSON Data
+    const response = await fetch(`./data/${quizIdParam}.json?t=${Date.now()}`);
+    
+    if (!response.ok) throw new Error("Quiz file not found (404)");
+    
+    const data = await response.json();
+
+    // 2. Assign Global Variables
+    QUIZ_TITLE = data.meta.title;
+    QUIZ_ID = data.meta.id;
+    CORRECT_SCORE = data.meta.correct_score;
+    NEGATIVE_SCORE = data.meta.negative_score;
+    TOTAL_TIME_SECONDS = data.meta.timer_seconds;
+    
+    // Set initial seconds
+    seconds = data.meta.timer_seconds;
+
+    // SECTIONAL LOGIC HANDLING
+    SECTIONS = data.sections; 
+    SECTION_NAMES = Object.keys(SECTIONS);
+
+    // 3. Set Derived Keys
+    QUIZ_STATE_KEY = "ssc_quiz_state_" + QUIZ_ID;
+    QUIZ_RESULT_KEY = "ssc_quiz_result_" + QUIZ_ID;
+
+    // 4. Build Section Buttons (PART-A, PART-B...)
+    const nav = document.getElementById("sectionNav");
+    if(nav) {
+      nav.innerHTML = "";
+      SECTION_NAMES.forEach((name, i) => {
+        const btn = document.createElement("button");
+        btn.className = "sec-btn" + (i === 0 ? " active" : "");
+        btn.textContent = name;
+        btn.onclick = () => switchSection(i);
+        nav.appendChild(btn);
+      });
+    }
+
+    // 5. Update UI Texts
+    document.title = QUIZ_TITLE;
+    document.getElementById("headerTitle").textContent = QUIZ_TITLE;
+    document.getElementById("disp_quizTitle").textContent = QUIZ_TITLE;
+    document.getElementById("disp_quizId").textContent = QUIZ_ID;
+    document.getElementById("disp_totalQ").textContent = "Sectional Test"; 
+    document.getElementById("disp_correct").textContent = "+" + CORRECT_SCORE;
+    document.getElementById("disp_negative").textContent = "-" + NEGATIVE_SCORE;
+    document.getElementById("disp_time").textContent = data.meta.timer_minutes;
+
+    // 6. Hide Loader
+    document.getElementById("loadingOverlay").style.display = "none";
+
+        // 7. Run Initialization
+    init();
+
+    // 8. 🔥 FIXED AUTO-RESUME LOGIC 🔥
+    const savedState = localStorage.getItem(QUIZ_STATE_KEY);
+    const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
+
+    if (savedState && !alreadySubmitted) {
+      const state = JSON.parse(savedState);
+      // ONLY resume if the timer has actually started (seconds < total time)
+      if (state.seconds < TOTAL_TIME_SECONDS) {
+        console.log("Resuming active session...");
+        currentSectionIdx = state.currentSectionIdx || 0;
+
+        document.getElementById("welcomeScreen").style.display = "none";
+        document.getElementById("mainHeader").style.display = "block";
+        if(el("sectionNav")) el("sectionNav").style.display = "flex";
+        
+        document.body.classList.add("mode-quiz");
+        const quizArea = document.getElementById("quizMainArea");
+        if(window.innerWidth >= 992) {
+            quizArea.style.display = "grid";
+        } else {
+            quizArea.style.display = "block";
+            document.getElementById("floatBar").style.display = "flex";
+        }
+
+        switchSection(currentSectionIdx); 
+        startTimer();
+      }
+    }
+
+    
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById("loadingText").innerHTML = `Error loading quiz.<br><small>${error.message}</small>`;
+  }
+}
+
+// 🛡️ PROTECTION SCRIPT
+(function () {
+  // Disable right click
+  document.addEventListener("contextmenu", e => e.preventDefault());
+
+  // Disable shortcuts (C, V, X, U, F12)
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "F12" ||
+       (e.ctrlKey && ["u","s","p","c","v","x"].includes(e.key.toLowerCase()))) {
+      e.preventDefault();
+    }
+  });
+
+  // Watermark Integrity Check
+  setInterval(() => {
+    const wm = document.getElementById("ssc-watermark");
+    if(!wm || wm.style.display === "none" || wm.style.opacity === "0") {
+       document.body.innerHTML = "Security Violation: Watermark Tampered";
+    }
+  }, 3000);
+})();
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
