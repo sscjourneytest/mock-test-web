@@ -1447,13 +1447,14 @@ SECTION_NAMES.forEach(name => {
       <td>${fmt(d.timeTaken)}</td>
       
     </tr>`;
+  const topperSecRaw = topperStats.sections?.[name] || {};
+const topperSec = {
+  score: topperSecRaw.score || 0,
+  correct: topperSecRaw.correct || 0,
+  wrong: topperSecRaw.wrong || 0,
+  timeTaken: topperSecRaw.timeTaken || 0
+};
 
-  const topperSection = topperStats.sections?.[name] || {
-    score: 0,
-    correct: 0,
-    wrong: 0,
-    timeTaken: 0
-  };
 
   const secAttempted = d.correct + d.wrong;
   const topperAttempted = topperSection.correct + topperSection.wrong;
@@ -1569,17 +1570,21 @@ sectionalTableHtml += `</table></div></div>`;
       resBox.innerHTML = dashboardHTML;
       resBox.style.display = "block";
 
-      resBox.querySelectorAll("#comparisonModule > .bar-section").forEach(sec => {
+      // 🔧 format Time Taken bars (section + total)
+resBox.querySelectorAll(".bar-section").forEach(sec => {
   const label = sec.querySelector(".bar-label span")?.textContent;
   if (label === "Time Taken") {
     const values = sec.querySelectorAll("span[style*='text-align:right']");
-    if (values.length === 2) {
-      values[0].textContent = fmt(timeTakenSeconds);   // YOU (total)
-      values[1].textContent = fmt(topperStats.time);   // TOPPER (total)
-    }
+    values.forEach(val => {
+      const raw = val.textContent.trim();
+      if (!isNaN(raw) && raw !== "") {
+        val.textContent = fmt(parseInt(raw));
+      }
+    });
   }
 });
 
+      
       
 
       LAST_RESULT_HTML = dashboardHTML;
@@ -2591,6 +2596,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
