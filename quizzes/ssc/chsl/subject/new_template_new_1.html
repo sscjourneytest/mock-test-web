@@ -2476,6 +2476,17 @@ function init(){
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
+      // 🔓 CRITICAL FIX: Re-enable Live Rank button after reload restore
+setTimeout(() => {
+  const liveBtn = document.querySelector(
+    "button[onclick*='refreshLatestRankOnDemand']"
+  );
+  if (liveBtn) {
+    liveBtn.disabled = false;
+    liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
+  }
+}, 0);
+
 
       // 🔧 FIX: Restore mm:ss format in bars after reload
       res.querySelectorAll(".bar-section").forEach(sec => {
@@ -2778,6 +2789,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
