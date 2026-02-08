@@ -1365,20 +1365,17 @@ function updateNavButtons() {
   if(prev) prev.disabled = current === 0;
   if(next) next.disabled = current === QUESTIONS.length - 1;
 }
-
 function bindRefreshRankButton() {
   const btn = document.getElementById("refreshRankBtn");
   if (!btn) return;
 
-  // 🔒 prevent double binding
-  if (btn.dataset.bound === "1") return;
+  // Remove any previous handler (important)
+  btn.onclick = null;
 
-  btn.dataset.bound = "1";
-
-  btn.addEventListener("click", function () {
-    refreshLatestRankOnDemand(btn);
-  });
+  btn.onclick = () => refreshLatestRankOnDemand();
 }
+
+
 
 // ===============================
 // 🚀 SUBMIT & ANALYSIS ENGINE
@@ -1917,8 +1914,12 @@ function restoreLatestResult() {
 
  
  // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
-async function refreshLatestRankOnDemand(btn) {
-  btn.dataset.loading = "0";
+
+async function refreshLatestRankOnDemand() {
+  const btn = document.getElementById("refreshRankBtn");
+  if (!btn) return;
+
+
 
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
   if (!resultData || !resultData.firebasePayload) {
@@ -1936,10 +1937,7 @@ async function refreshLatestRankOnDemand(btn) {
     return;
   }
 
-  // 🔥 FIX 2: Button lock safety guard
-  if (btn.dataset.loading === "1") return;
-  btn.dataset.loading = "1";
-
+  
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
@@ -2078,11 +2076,15 @@ if (topperTable) {
   } catch (err) {
     console.error("Live Update Error:", err);
     alert("Could not update ranks. Please check your connection.");
-  } finally {
-    // 🔥 Always unlock button
-    btn.disabled = false;
-    btn.textContent = "🔄 GET LIVE UPDATED RANK";
-    btn.dataset.loading = "0";
+
+  
+} finally {
+  // 🔥 Always unlock the CURRENT button in DOM
+  const liveBtn = document.getElementById("refreshRankBtn");
+  if (liveBtn) {
+    liveBtn.disabled = false;
+    liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
+    delete liveBtn.dataset.loading;
   }
 }
 
@@ -2845,6 +2847,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
