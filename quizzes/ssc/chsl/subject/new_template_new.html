@@ -1897,6 +1897,8 @@ function restoreLatestResult() {
  
  // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
 async function refreshLatestRankOnDemand(btn) {
+  btn.dataset.loading = "0";
+
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
   if (!resultData || !resultData.firebasePayload) {
     alert("No submission data found to update.");
@@ -2811,6 +2813,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
