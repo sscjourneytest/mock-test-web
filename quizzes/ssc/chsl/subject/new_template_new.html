@@ -1898,12 +1898,20 @@ async function refreshLatestRankOnDemand(btn) {
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
-  try {
-    // SAFETY: Use payload total or default to calculate question count if CORRECT_SCORE is missing
+ 
+
+    try {
+    // 1. Define payload FIRST
+    const payload = resultData.firebasePayload;
+    
+    // 2. Define resultsContainer SECOND
+    const resultsContainer = document.getElementById("results");
+
+    // 3. NOW you can use payload to calculate other things
     const scorePerQ = Number(CORRECT_SCORE) || 2;
     const totalQuestionsCount = payload.total / scorePerQ; 
-    const payload = resultData.firebasePayload;
-    const resultsContainer = document.getElementById("results");
+    
+   
 
     // 1. Update Latest Global Total Rank
     const totalRank = await getRankAndPercentile(
@@ -2759,6 +2767,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
