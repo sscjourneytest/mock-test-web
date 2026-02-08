@@ -1905,9 +1905,7 @@ async function refreshLatestRankOnDemand(btn) {
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
- 
-
-    try {
+  try {
     // 1. Define payload FIRST
     const payload = resultData.firebasePayload;
     
@@ -1918,7 +1916,7 @@ async function refreshLatestRankOnDemand(btn) {
     const scorePerQ = Number(CORRECT_SCORE) || 2;
     const totalQuestionsCount = payload.total / scorePerQ; 
     
-   
+    
 
     // 1. Update Latest Global Total Rank
     const totalRank = await getRankAndPercentile(
@@ -2021,7 +2019,8 @@ async function refreshLatestRankOnDemand(btn) {
     btn.disabled = false;
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
-}
+
+ 
 
 // Helper to fix the time formatting in bars
 function formatTimeValues(container) {
@@ -2769,3 +2768,4 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
