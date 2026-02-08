@@ -1897,11 +1897,11 @@ function restoreLatestResult() {
 
 // Enhanced: Powerful Live Updated Rank (Firebase-Authoritative, Reload-Safe)
 async function refreshLatestRankOnDemand(btn) {
-
+try {
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
-  try {
+  
     /* ======================================================
        1️⃣ ALWAYS FETCH LATEST ATTEMPT FROM FIREBASE
        (Same behaviour as quiz_template (33).html)
@@ -2804,6 +2804,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
