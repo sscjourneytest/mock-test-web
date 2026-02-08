@@ -1365,18 +1365,6 @@ function updateNavButtons() {
   if(prev) prev.disabled = current === 0;
   if(next) next.disabled = current === QUESTIONS.length - 1;
 }
-function bindRefreshRankButton() {
-  const btn = document.getElementById("refreshRankBtn");
-  if (!btn) return;
-
-  // Remove any previous handler (important)
-  btn.onclick = null;
-
-  btn.onclick = () => refreshLatestRankOnDemand();
-}
-
-
-
 // ===============================
 // 🚀 SUBMIT & ANALYSIS ENGINE
 // ===============================
@@ -1408,6 +1396,7 @@ function submitQuiz(isAuto = false) {
                         <h2 style="color:var(--accent);">Generating analysis...</h2>
                         <p>Please wait while we calculate your sectional ranks and toppers list.</p>
                       </div>`;
+
 
   // 3. 🧮 Calculate Global & Sectional Scores
   let totalCorrect = 0, totalWrong = 0, totalMarks = 0, maxTotalMarks = 0;
@@ -1587,11 +1576,7 @@ sectionalTableHtml += `</table></div></div>`;
         </div>
 
         <div style="text-align:center">
-        <button id="refreshRankBtn"
-        class="btn-dash btn-solid"
-        style="width:100%; max-width:400px;">
-  🔄 GET LIVE UPDATED RANK
-</button>
+           <button class="btn-dash btn-solid" style="width:100%; max-width:400px;" onclick="refreshLatestRankOnDemand(this)">🔄 GET LIVE UPDATED RANK</button>
         </div>
 
         ${sectionalTableHtml}
@@ -1609,7 +1594,7 @@ sectionalTableHtml += `</table></div></div>`;
           </div>
         </div>
 
-        <div class="card-dashboard" id="topperTableCard">
+        <div class="card-dashboard">
           <h3 class="section-title">🏆 Top 10 Toppers(first attempt)</h3>
           <div style="overflow-x:auto">
             <table class="topper-table">
@@ -1629,8 +1614,6 @@ sectionalTableHtml += `</table></div></div>`;
 
       resBox.innerHTML = dashboardHTML;
       resBox.style.display = "block";
-      bindRefreshRankButton();
-
 
       // 🔧 format Time Taken bars (section + total)
 resBox.querySelectorAll(".bar-section").forEach(sec => {
@@ -1662,9 +1645,8 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
         firebasePayload 
       }));
 
-      renderMath();
       normalizeMathForQuiz(resBox);
-
+      renderMath();
     });
   });
 }
@@ -1754,22 +1736,21 @@ function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
 }
 
 // 4. Fetch Top 10 List
-
 function getToppersList(quizId) {
-  return firebase.database().ref("quiz_results/" + quizId)
-    .get()
-    .then(snapshot => {
-      if (!snapshot.exists()) return [];
-      let all = Object.values(snapshot.val());
-      all.sort((a,b)=>{
-        if (b.score !== a.score) return b.score - a.score;
-        return a.timeTaken - b.timeTaken;
-      });
-      return all.slice(0,10);
+  return db.ref("quiz_results/" + quizId).once("value").then(snapshot => {
+    const data = snapshot.val();
+    if (!data) return [];
+
+    let all = Object.values(data);
+    // Sort: Score High->Low, Time Low->High
+    all.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.timeTaken - b.timeTaken;
     });
+
+    return all.slice(0, 10);
+  });
 }
-
-
 
 // 5. Get Topper Stats for Bar Chart (Updated for Sectional scaling)
 function getTopperStatsForComparison(toppersList, totalQ) {
@@ -1913,32 +1894,14 @@ function restoreLatestResult() {
   }
 }
 
- 
- // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
-
-async function refreshLatestRankOnDemand() {
-  const btn = document.getElementById("refreshRankBtn");
-  if (!btn) return;
-
-
-
+  // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
+async function refreshLatestRankOnDemand(btn) {
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
   if (!resultData || !resultData.firebasePayload) {
     alert("No submission data found to update.");
     return;
   }
 
-  // 🔥 FIX 1: Restore critical globals on reload
-  QUIZ_ID = resultData.firebasePayload.quizId;
-  TOTAL_TIME_SECONDS = resultData.timeTakenSeconds || TOTAL_TIME_SECONDS;
-  CORRECT_SCORE = CORRECT_SCORE || 2;
-
-  if (!QUIZ_ID) {
-    alert("Quiz data not fully loaded. Please refresh once.");
-    return;
-  }
-
-  
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
@@ -1952,6 +1915,8 @@ async function refreshLatestRankOnDemand() {
     // 3. NOW you can use payload to calculate other things
     const scorePerQ = Number(CORRECT_SCORE) || 2;
     const totalQuestionsCount = payload.total / scorePerQ; 
+    
+    
 
     // 1. Update Latest Global Total Rank
     const totalRank = await getRankAndPercentile(
@@ -1963,50 +1928,23 @@ async function refreshLatestRankOnDemand() {
     
     // Update Score Summary UI Boxes
     const scoreItems = document.querySelectorAll(".score-item p");
-    if (scoreItems.length >= 2) {
+    if(scoreItems.length >= 2) {
       scoreItems[0].textContent = `${totalRank.rank} / ${totalRank.total}`;
       scoreItems[1].textContent = `${totalRank.percentile}%`;
     }
 
     // 2. Fetch Topper Data
+    const toppersList = await getToppersList(QUIZ_ID);
     
-    const toppersList = await Promise.race([
-  getToppersList(QUIZ_ID),
-  new Promise(resolve => setTimeout(() => resolve([]), 4000))
-]);
-
-
+    
     
     const topperStats = getTopperStatsForComparison(toppersList, totalQuestionsCount);
 
-    
-const topperTable = document.getElementById("topperTableCard");
-
-if (topperTable) {
-  topperTable.innerHTML = `
-    <h3 class="section-title">🏆 Top 10 Toppers(first attempt)</h3>
-    <div style="overflow-x:auto">
-      <table class="topper-table">
-        <tr><th>Rank</th><th>Name</th><th>Score</th><th>Time</th></tr>
-        ${toppersList.map((t, idx) => `
-          <tr>
-            <td>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '#' + (idx + 1)}</td>
-            <td>${t.name}</td>
-            <td><b>${t.score}</b></td>
-            <td>${fmt(t.timeTaken)}</td>
-          </tr>
-        `).join('')}
-      </table>
-    </div>
-  `;
-}
-
-
     // 3. Calculate local variables needed for the bars
     const totalAttempted = payload.correct + payload.wrong;
-    const accuracy = totalAttempted > 0
-      ? ((payload.correct / totalAttempted) * 100).toFixed(2)
-      : "0.00";
+    const accuracy = totalAttempted > 0 
+        ? ((payload.correct / totalAttempted) * 100).toFixed(2) 
+        : "0.00";
 
     // 4. Update Comparison Bars
     const mainBars = Array.from(resultsContainer.querySelectorAll(".section-title"))
@@ -2016,9 +1954,9 @@ if (topperTable) {
       let secBarsHTML = "";
       
       // SAFETY: Use keys from payload sections if SECTION_NAMES is empty on reload
-      const namesToProcess = (SECTION_NAMES && SECTION_NAMES.length > 0)
-        ? SECTION_NAMES
-        : Object.keys(payload.sections || {});
+      const namesToProcess = (SECTION_NAMES && SECTION_NAMES.length > 0) 
+                             ? SECTION_NAMES 
+                             : Object.keys(payload.sections || {});
 
       namesToProcess.forEach(name => {
         const mySec = payload.sections[name];
@@ -2058,15 +1996,14 @@ if (topperTable) {
         ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS || 3600, topperStats.time, TOTAL_TIME_SECONDS || 3600)}
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
-
-      // Re-format time strings from seconds to MM:SS
+      
+       // Re-format time strings from seconds to MM:SS
       formatTimeValues(mainBars);
     }
 
+
     // 5. Save updated HTML back to storage
     LAST_RESULT_HTML = resultsContainer.innerHTML;
-    bindRefreshRankButton();
-
     localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
       ...resultData,
       resultHTML: LAST_RESULT_HTML
@@ -2077,44 +2014,29 @@ if (topperTable) {
   } catch (err) {
     console.error("Live Update Error:", err);
     alert("Could not update ranks. Please check your connection.");
-
-  
-} finally {
-  // 🔥 Always unlock the CURRENT button in DOM
-  const liveBtn = document.getElementById("refreshRankBtn");
-  if (liveBtn) {
-    liveBtn.disabled = false;
-    liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
-    delete liveBtn.dataset.loading;
+  } finally {
+    // This ensures the button is ALWAYS reset regardless of errors
+    btn.disabled = false;
+    btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
 }
-}
+ 
+
+// Helper to fix the time formatting in bars
 function formatTimeValues(container) {
-  if (!container) return;
-
   container.querySelectorAll(".bar-section").forEach(sec => {
-    const labelEl = sec.querySelector(".bar-label span");
-    if (!labelEl) return;
-
-    if (labelEl.textContent !== "Time Taken") return;
-
-    const values = sec.querySelectorAll("span[style*='text-align:right']");
-    values.forEach(val => {
-      if (!val || !val.textContent) return;
-
-      const txt = val.textContent.trim();
-
-      // ⛔ already formatted MM:SS → skip
-      if (txt.includes(":")) return;
-
-      if (!isNaN(txt)) {
-        val.textContent = fmt(parseInt(txt, 10));
-      }
-    });
+    const label = sec.querySelector(".bar-label span")?.textContent;
+    if (label === "Time Taken") {
+      const values = sec.querySelectorAll("span[style*='text-align:right']");
+      values.forEach(val => {
+        const raw = val.textContent.replace('%', '').trim();
+        if (!isNaN(raw) && raw !== "") {
+          val.textContent = fmt(parseInt(raw));
+        }
+      });
+    }
   });
 }
-
-
  
 // ===============================
 // ?? HISTORY & ATTEMPT REVIEW
@@ -2544,8 +2466,6 @@ function init(){
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
-      bindRefreshRankButton();
-
 
       // 🔧 FIX: Restore mm:ss format in bars after reload
       res.querySelectorAll(".bar-section").forEach(sec => {
@@ -2848,17 +2768,4 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
