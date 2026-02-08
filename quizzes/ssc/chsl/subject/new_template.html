@@ -1429,7 +1429,7 @@ function submitQuiz(isAuto = false) {
         <div style="overflow-x:auto">
           <table class="analysis-table">
             <tr>
-              <th>Section</th><th>Marks</th><th>Correct</th><th>Wrong</th><th>Left</th><th>Time Spent</th><th>Rank</th><th>%ile</th>
+              <th>Section</th><th>Marks</th><th>Correct</th><th>Wrong</th><th>Left</th><th>Time Spent</th>
             </tr>`;
 
 
@@ -1742,31 +1742,6 @@ function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, un
   </div>`;
 }
 
-// 7. NEW: Calculate Sectional Rank from Firebase (Specifically for the Live Update button)
-function getSectionalRank(quizId, sectionName, myScore) {
-  return db.ref("attempt_history/" + quizId).once("value").then(snap => {
-    let sectionalScores = [];
-    snap.forEach(device => {
-      device.forEach(attempt => {
-        const data = attempt.val();
-        if(data.sections && data.sections[sectionName]) {
-          sectionalScores.push(data.sections[sectionName].score);
-        }
-      });
-    });
-    
-    sectionalScores.sort((a, b) => b - a);
-    const total = sectionalScores.length;
-    const rank = sectionalScores.indexOf(myScore) + 1;
-    const below = sectionalScores.filter(s => s < myScore).length;
-    
-    return { 
-      rank: rank || "--", 
-      percentile: total ? ((below / total) * 100).toFixed(2) : "0.00" 
-    };
-  });
-}
-
 // ===============================
 // 🎮 DASHBOARD INTERACTIONS
 // ===============================
@@ -1956,12 +1931,13 @@ SECTION_NAMES.forEach(name => {
     ${renderComparisonBar("Correct", mySec.correct, mySec.total, topperSec.correct, mySec.total)}
     ${renderComparisonBar("Wrong", mySec.wrong, mySec.total, topperSec.wrong, mySec.total, "", true)}
     ${renderComparisonBar(
-      "Time Taken",
-      mySec.timeTaken,
-      Math.max(mySec.timeTaken, topperSec.timeTaken),
-      topperSec.timeTaken,
-      Math.max(mySec.timeTaken, topperSec.timeTaken)
-    )}
+  "Time Taken",
+  d.timeTaken,              // user section time
+  TOTAL_TIME_SECONDS,       // FULL test duration
+  topperSection.timeTaken,  // topper section time
+  TOTAL_TIME_SECONDS
+)}
+
   `;
 });
       
@@ -2006,28 +1982,7 @@ SECTION_NAMES.forEach(name => {
   }
 }
 
-// Helper: Calculate Sectional Rank from Firebase
-function getSectionalRank(quizId, sectionName, myScore) {
-  return db.ref("attempt_history/" + quizId).once("value").then(snap => {
-    let scores = [];
-    snap.forEach(device => {
-      device.forEach(attempt => {
-        const data = attempt.val();
-        if(data.sections && data.sections[sectionName]) {
-          scores.push(data.sections[sectionName].score);
-        }
-      });
-    });
-    scores.sort((a, b) => b - a);
-    const total = scores.length;
-    const rank = scores.indexOf(myScore) + 1;
-    const below = scores.filter(s => s < myScore).length;
-    return { 
-      rank: rank || "--", 
-      percentile: total ? ((below / total) * 100).toFixed(2) : "0" 
-    };
-  });
-}
+
 // ===============================
 // ?? HISTORY & ATTEMPT REVIEW
 // ===============================
@@ -2647,5 +2602,6 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
