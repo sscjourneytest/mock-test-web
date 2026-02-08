@@ -1898,12 +1898,14 @@ async function refreshLatestRankOnDemand(btn) {
 let secBarsHTML = "";
 SECTION_NAMES.forEach(name => {
   const mySec = payload.sections[name];
-  const topperSec = topperStats.sections?.[name] || {
-    score: 0,
-    correct: 0,
-    wrong: 0,
-    timeTaken: 0
-  };
+  const topperSecRaw = topperStats.sections?.[name] || {};
+const topperSec = {
+  score: topperSecRaw.score || 0,
+  correct: topperSecRaw.correct || 0,
+  wrong: topperSecRaw.wrong || 0,
+  timeTaken: topperSecRaw.timeTaken || 0
+};
+  
 
   const myAttempted = mySec.correct + mySec.wrong;
   const topperAttempted = topperSec.correct + topperSec.wrong;
@@ -1927,9 +1929,9 @@ SECTION_NAMES.forEach(name => {
     ${renderComparisonBar("Wrong", mySec.wrong, mySec.total, topperSec.wrong, mySec.total, "", true)}
     ${renderComparisonBar(
   "Time Taken",
-  d.timeTaken,              // user section time
-  TOTAL_TIME_SECONDS,       // FULL test duration
-  topperSection.timeTaken,  // topper section time
+  mySec.timeTaken,          // ✅ user section time
+  TOTAL_TIME_SECONDS,       // ✅ full test duration
+  topperSec.timeTaken,      // ✅ topper section time
   TOTAL_TIME_SECONDS
 )}
 
@@ -1946,14 +1948,17 @@ SECTION_NAMES.forEach(name => {
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
 
-      resBox.querySelectorAll("#comparisonModule > .bar-section").forEach(sec => {
+      // 🔧 format Time Taken bars (section + total)
+resBox.querySelectorAll(".bar-section").forEach(sec => {
   const label = sec.querySelector(".bar-label span")?.textContent;
   if (label === "Time Taken") {
     const values = sec.querySelectorAll("span[style*='text-align:right']");
-    if (values.length === 2) {
-      values[0].textContent = fmt(timeTakenSeconds);   // YOU (total)
-      values[1].textContent = fmt(topperStats.time);   // TOPPER (total)
-    }
+    values.forEach(val => {
+      const raw = val.textContent.trim();
+      if (!isNaN(raw) && raw !== "") {
+        val.textContent = fmt(parseInt(raw));
+      }
+    });
   }
 });
     }
@@ -2596,6 +2601,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
