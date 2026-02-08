@@ -1050,6 +1050,13 @@ function startTimer() {
 // 📝 RENDER QUESTION ENGINE
 // ===============================
 function renderQuestion(i) {
+  
+  // --- ADD THIS SAFETY GUARD AT THE TOP ---
+  if (!QUESTIONS || QUESTIONS.length === 0 || !QUESTIONS[i]) {
+    console.warn("renderQuestion skipped: Data not ready yet.");
+    return; 
+  }
+ 
   current = i;
   const q = QUESTIONS[i];
 
