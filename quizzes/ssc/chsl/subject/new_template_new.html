@@ -1896,38 +1896,15 @@ function restoreLatestResult() {
 
   // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
 async function refreshLatestRankOnDemand(btn) {
-  btn.disabled = true;
-btn.textContent = "Updating All Parts...";
-
-// ✅ ALWAYS get latest attempt from Firebase (reload-safe)
-let latestAttempt = null;
-
-const snap = await db
-  .ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID)
-  .limitToLast(1)
-  .once("value");
-
-const data = snap.val();
-if (!data) {
-  alert("No submission data found to update.");
-  btn.disabled = false;
-  btn.textContent = "🔄 GET LIVE UPDATED RANK";
-  return;
-}
-
-latestAttempt = Object.values(data)[0];
-
-// 🔐 SINGLE SOURCE OF TRUTH (same as working template)
-const payload = {
-  score: latestAttempt.score,
-  correct: latestAttempt.correct,
-  wrong: latestAttempt.wrong,
-  timeTaken: latestAttempt.timeTaken,
-  total: latestAttempt.total,
-  sections: latestAttempt.sections || {}
-};
-
  
+  const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
+  if (!resultData || !resultData.firebasePayload) {
+    alert("No submission data found to update.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Updating All Parts...";
 
   try {
     // 1. Define payload FIRST
@@ -2792,5 +2769,6 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
