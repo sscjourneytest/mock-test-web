@@ -1365,6 +1365,21 @@ function updateNavButtons() {
   if(prev) prev.disabled = current === 0;
   if(next) next.disabled = current === QUESTIONS.length - 1;
 }
+
+function bindRefreshRankButton() {
+  const btn = document.getElementById("refreshRankBtn");
+  if (!btn) return;
+
+  // 🔒 prevent double binding
+  if (btn.dataset.bound === "1") return;
+
+  btn.dataset.bound = "1";
+
+  btn.addEventListener("click", function () {
+    refreshLatestRankOnDemand(btn);
+  });
+}
+
 // ===============================
 // 🚀 SUBMIT & ANALYSIS ENGINE
 // ===============================
@@ -1396,7 +1411,6 @@ function submitQuiz(isAuto = false) {
                         <h2 style="color:var(--accent);">Generating analysis...</h2>
                         <p>Please wait while we calculate your sectional ranks and toppers list.</p>
                       </div>`;
-
 
   // 3. 🧮 Calculate Global & Sectional Scores
   let totalCorrect = 0, totalWrong = 0, totalMarks = 0, maxTotalMarks = 0;
@@ -1618,6 +1632,8 @@ sectionalTableHtml += `</table></div></div>`;
 
       resBox.innerHTML = dashboardHTML;
       resBox.style.display = "block";
+      bindRefreshRankButton();
+
 
       // 🔧 format Time Taken bars (section + total)
 resBox.querySelectorAll(".bar-section").forEach(sec => {
@@ -2050,6 +2066,8 @@ if (topperTable) {
 
     // 5. Save updated HTML back to storage
     LAST_RESULT_HTML = resultsContainer.innerHTML;
+    bindRefreshRankButton();
+
     localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
       ...resultData,
       resultHTML: LAST_RESULT_HTML
@@ -2523,10 +2541,8 @@ function init(){
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
-      const btn = document.getElementById("refreshRankBtn");
-if (btn) {
-  btn.onclick = () => refreshLatestRankOnDemand(btn);
-}
+      bindRefreshRankButton();
+
 
       // 🔧 FIX: Restore mm:ss format in bars after reload
       res.querySelectorAll(".bar-section").forEach(sec => {
@@ -2829,6 +2845,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
