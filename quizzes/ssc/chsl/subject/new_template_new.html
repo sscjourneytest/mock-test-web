@@ -1950,6 +1950,32 @@ async function refreshLatestRankOnDemand(btn) {
     const toppersList = await getToppersList(QUIZ_ID);
     const topperStats = getTopperStatsForComparison(toppersList, totalQuestionsCount);
 
+    // 🔥 FIX: Update Top-10 Toppers Table (LIVE)
+const topperTable = Array.from(
+  resultsContainer.querySelectorAll(".section-title")
+).find(el => el.textContent.includes("Top 10 Toppers"))
+ ?.closest(".card-dashboard");
+
+if (topperTable) {
+  topperTable.innerHTML = `
+    <h3 class="section-title">🏆 Top 10 Toppers(first attempt)</h3>
+    <div style="overflow-x:auto">
+      <table class="topper-table">
+        <tr><th>Rank</th><th>Name</th><th>Score</th><th>Time</th></tr>
+        ${toppersList.map((t, idx) => `
+          <tr>
+            <td>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '#' + (idx + 1)}</td>
+            <td>${t.name}</td>
+            <td><b>${t.score}</b></td>
+            <td>${fmt(t.timeTaken)}</td>
+          </tr>
+        `).join('')}
+      </table>
+    </div>
+  `;
+}
+
+
     // 3. Calculate local variables needed for the bars
     const totalAttempted = payload.correct + payload.wrong;
     const accuracy = totalAttempted > 0
@@ -2778,6 +2804,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
