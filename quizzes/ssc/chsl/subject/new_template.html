@@ -1445,8 +1445,7 @@ SECTION_NAMES.forEach(name => {
       <td>${d.wrong}</td>
       <td>${d.unattempted}</td>
       <td>${fmt(d.timeTaken)}</td>
-      <td id="rank-${secId}" style="color:var(--accent); font-weight:800;">#--</td>
-      <td id="perc-${secId}" style="color:var(--accent); font-weight:800;">--%</td>
+      
     </tr>`;
 
   const topperSection = topperStats.sections?.[name] || {
@@ -1477,12 +1476,13 @@ SECTION_NAMES.forEach(name => {
   ${renderComparisonBar("Correct", d.correct, d.total, topperSection.correct, d.total)}
   ${renderComparisonBar("Wrong", d.wrong, d.total, topperSection.wrong, d.total, "", true)}
   ${renderComparisonBar(
-    "Time Taken",
-    d.timeTaken,
-    Math.max(d.timeTaken, topperSection.timeTaken),
-    topperSection.timeTaken,
-    Math.max(d.timeTaken, topperSection.timeTaken)
-  )}
+  "Time Taken",
+  d.timeTaken,              // user section time
+  TOTAL_TIME_SECONDS,       // FULL test duration
+  topperSection.timeTaken,  // topper section time
+  TOTAL_TIME_SECONDS
+)}
+
   `;
 });
 sectionalTableHtml += `</table></div></div>`;
@@ -2647,4 +2647,5 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
