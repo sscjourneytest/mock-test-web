@@ -1576,7 +1576,11 @@ sectionalTableHtml += `</table></div></div>`;
         </div>
 
         <div style="text-align:center">
-           <button class="btn-dash btn-solid" style="width:100%; max-width:400px;" onclick="refreshLatestRankOnDemand(this)">🔄 GET LIVE UPDATED RANK</button>
+        <button id="refreshRankBtn"
+        class="btn-dash btn-solid"
+        style="width:100%; max-width:400px;">
+  🔄 GET LIVE UPDATED RANK
+</button>
         </div>
 
         ${sectionalTableHtml}
@@ -2519,6 +2523,10 @@ function init(){
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
+      const btn = document.getElementById("refreshRankBtn");
+if (btn) {
+  btn.onclick = () => refreshLatestRankOnDemand(btn);
+}
 
       // 🔧 FIX: Restore mm:ss format in bars after reload
       res.querySelectorAll(".bar-section").forEach(sec => {
@@ -2821,6 +2829,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
