@@ -1852,6 +1852,8 @@ function restoreLatestResult() {
 }
 
 // Enhanced: Powerful Live Updated Rank (Updates Total + All Sections + All Bars)
+
+// Enhanced: Powerful Live Updated Rank (Fixed Variable Scope)
 async function refreshLatestRankOnDemand(btn) {
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
   if (!resultData || !resultData.firebasePayload) {
@@ -1873,118 +1875,106 @@ async function refreshLatestRankOnDemand(btn) {
       payload.submittedAt
     );
     
-    // Update Score Summary Boxes
+    // Update Score Summary UI Boxes
     const scoreItems = document.querySelectorAll(".score-item p");
     if(scoreItems.length >= 2) {
       scoreItems[0].textContent = `${totalRank.rank} / ${totalRank.total}`;
       scoreItems[1].textContent = `${totalRank.percentile}%`;
     }
 
-    
-
-    // 3. Update All Comparison Bars (Total + Sections)
+    // 2. Fetch Topper Data
     const toppersList = await getToppersList(QUIZ_ID);
     const topperStats = getTopperStatsForComparison(toppersList, QUESTIONS.length);
     const resultsContainer = document.getElementById("results");
 
-    // Refresh Total Bars
+    // 3. Calculate local variables needed for the bars (Fixing the "Undefined" error)
+    const totalQuestionsCount = payload.total / (CORRECT_SCORE || 2); // Derived from max marks
+    const totalAttempted = payload.correct + payload.wrong;
+    const currentAccuracy = totalAttempted > 0 
+        ? ((payload.correct / totalAttempted) * 100).toFixed(2) 
+        : "0.00";
+
+    // 4. Update Comparison Bars
     const mainBars = Array.from(resultsContainer.querySelectorAll(".section-title"))
       .find(el => el.textContent.includes("Complete Test"))?.closest(".card-dashboard");
 
     if (mainBars) {
-      const accuracy = payload.correct + payload.wrong > 0 
-        ? ((payload.correct / (payload.correct + payload.wrong)) * 100).toFixed(2) 
-        : "0.00";
-      
-      // Correct Logic for Sectional Comparison Bars
-let secBarsHTML = "";
-SECTION_NAMES.forEach(name => {
-  const mySec = payload.sections[name];
+      let secBarsHTML = "";
+      SECTION_NAMES.forEach(name => {
+        const mySec = payload.sections[name];
+        const topperSecRaw = topperStats.sections?.[name] || {};
+        const topperSec = {
+          score: topperSecRaw.score || 0,
+          correct: topperSecRaw.correct || 0,
+          wrong: topperSecRaw.wrong || 0,
+          timeTaken: topperSecRaw.timeTaken || 0
+        };
 
-  const topperSecRaw = topperStats.sections?.[name] || {};
-  const topperSec = {
-    score: topperSecRaw.score || 0,
-    correct: topperSecRaw.correct || 0,
-    wrong: topperSecRaw.wrong || 0,
-    timeTaken: topperSecRaw.timeTaken || 0
-  };
+        const myAttempted = mySec.correct + mySec.wrong;
+        const topperAttempted = topperSec.correct + topperSec.wrong;
+        const myAcc = myAttempted ? ((mySec.correct / myAttempted) * 100).toFixed(2) : "0.00";
+        const topperAcc = topperAttempted ? ((topperSec.correct / topperAttempted) * 100).toFixed(2) : "0.00";
 
-  const myAttempted = mySec.correct + mySec.wrong;
-  const topperAttempted = topperSec.correct + topperSec.wrong;
+        secBarsHTML += `
+          <h4 class="section-title" style="margin-top:25px; border-left:4px solid var(--accent); padding-left:10px;">
+            Part: ${name}
+          </h4>
+          ${renderComparisonBar("Score", mySec.score, mySec.total, topperSec.score, mySec.total)}
+          ${renderComparisonBar("Accuracy", myAcc, 100, topperAcc, 100, "%")}
+          ${renderComparisonBar("Correct", mySec.correct, mySec.total / (CORRECT_SCORE || 2), topperSec.correct, mySec.total / (CORRECT_SCORE || 2))}
+          ${renderComparisonBar("Wrong", mySec.wrong, mySec.total / (CORRECT_SCORE || 2), topperSec.wrong, mySec.total / (CORRECT_SCORE || 2), "", true)}
+          ${renderComparisonBar("Time Taken", mySec.timeTaken, TOTAL_TIME_SECONDS, topperSec.timeTaken, TOTAL_TIME_SECONDS)}
+        `;
+      });
 
-  const myAcc = myAttempted
-    ? ((mySec.correct / myAttempted) * 100).toFixed(2)
-    : "0.00";
-
-  const topperAcc = topperAttempted
-    ? ((topperSec.correct / topperAttempted) * 100).toFixed(2)
-    : "0.00";
-
-  secBarsHTML += `
-    <h4 class="section-title" style="margin-top:25px; border-left:4px solid var(--accent); padding-left:10px;">
-      Part: ${name}
-    </h4>
-
-    ${renderComparisonBar("Score", mySec.score, mySec.total, topperSec.score, mySec.total)}
-    ${renderComparisonBar("Accuracy", myAcc, 100, topperAcc, 100, "%")}
-    ${renderComparisonBar("Correct", mySec.correct, mySec.total, topperSec.correct, mySec.total)}
-    ${renderComparisonBar("Wrong", mySec.wrong, mySec.total, topperSec.wrong, mySec.total, "", true)}
-    ${renderComparisonBar(
-      "Time Taken",
-      mySec.timeTaken,
-      TOTAL_TIME_SECONDS,
-      topperSec.timeTaken,
-      TOTAL_TIME_SECONDS
-    )}
-  `;
-});
-     
-
-      
       mainBars.innerHTML = `
         <h3 class="section-title">📊 You vs Topper (Complete Test)</h3>
         ${renderComparisonBar("Score", payload.score, payload.total, topperStats.score, payload.total)}
-        ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
-        ${renderComparisonBar("Correct", payload.correct, payload.total/2, topperStats.correct, payload.total/2)}
-        ${renderComparisonBar("Wrong", totalWrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
+        ${renderComparisonBar("Accuracy", currentAccuracy, 100, topperStats.accuracy, 100, "%")}
+        ${renderComparisonBar("Correct", payload.correct, totalQuestionsCount, topperStats.correct, totalQuestionsCount)}
+        ${renderComparisonBar("Wrong", payload.wrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
         ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
-
-      // 🔧 format Time Taken bars (section + total)
-resBox.querySelectorAll(".bar-section").forEach(sec => {
-  const label = sec.querySelector(".bar-label span")?.textContent;
-  if (label === "Time Taken") {
-    const values = sec.querySelectorAll("span[style*='text-align:right']");
-    values.forEach(val => {
-      const raw = val.textContent.trim();
-      if (!isNaN(raw) && raw !== "") {
-        val.textContent = fmt(parseInt(raw));
-      }
-    });
-  }
-});
+      
+      // Re-format time strings from seconds to MM:SS
+      formatTimeValues(mainBars);
     }
 
-    // 4. Persist updated HTML
+    // 5. Save updated HTML back to storage
     LAST_RESULT_HTML = resultsContainer.innerHTML;
     localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
       ...resultData,
       resultHTML: LAST_RESULT_HTML
     }));
 
-    alert("All Ranks, Percentiles, and Comparison Bars updated to the latest data!");
+    alert("All Ranks and Comparison Bars updated to the latest live data!");
 
   } catch (err) {
     console.error("Live Update Error:", err);
-    alert("Could not update ranks. Please check your connection.");
+    alert("Could not update ranks. Check console for details.");
   } finally {
     btn.disabled = false;
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
 }
 
-
+// Helper to fix the time formatting in bars
+function formatTimeValues(container) {
+  container.querySelectorAll(".bar-section").forEach(sec => {
+    const label = sec.querySelector(".bar-label span")?.textContent;
+    if (label === "Time Taken") {
+      const values = sec.querySelectorAll("span[style*='text-align:right']");
+      values.forEach(val => {
+        const raw = val.textContent.replace('%', '').trim();
+        if (!isNaN(raw) && raw !== "") {
+          val.textContent = fmt(parseInt(raw));
+        }
+      });
+    }
+  });
+}
+ 
 // ===============================
 // ?? HISTORY & ATTEMPT REVIEW
 // ===============================
@@ -2604,6 +2594,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
