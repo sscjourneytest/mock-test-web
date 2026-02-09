@@ -512,17 +512,37 @@ body.mode-solution .qbtn.current::before {
     align-items: start;
   }
  
-  /* 2. Palette Sticky & Visible */
   #palette {
-    display: flex !important; /* Always show */
-    position: sticky;
-    top: 80px; /* Below header */
-    height: calc(100vh - 100px);
+    display: flex !important;
+
+    /* 🔑 THIS is the key */
+    position: fixed;
+
+    /* Start exactly below header */
+    top: var(--header-height);
+    right: 0;
+
+    /* Full height till bottom */
+    height: calc(100vh - var(--header-height));
+
+    /* Width from quiz card to right edge */
+    width: 360px;
+
+    /* Continuous look */
+    border-radius: 0;
+    border-left: 1px solid var(--border-color);
+    border-right: none;
+
+    background: #dae5f0 !important;
+
+    /* Internal scroll */
     overflow-y: auto;
-    border: 1px solid var(--border-color);
     overscroll-behavior: contain;
-    z-index: 10; /* Lower z-index so header buttons stay on top */
+
+    z-index: 50;
   }
+
+
 
   /* Desktop specific Submit Button inside Palette */
   #palette #submitBtn {
