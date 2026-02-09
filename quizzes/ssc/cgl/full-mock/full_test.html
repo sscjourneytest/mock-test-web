@@ -532,13 +532,34 @@ body.mode-solution .qbtn.current::before {
     overscroll-behavior: contain;
     z-index: 50;
   }
-#nameContainer {
-    max-width: calc(100% - 360px); /* 🔑 stops before palette */
-    padding-right: 16px;           /* keeps clean spacing */
+
+  #nameContainer {
+    max-width: calc(100% - 360px);
+    margin-right: 360px;
+    padding-right: 16px;
+  }
+
+  /* 🔑 Allow quiz to use full screen width */
+  .container {
+    max-width: none;
+    width: 100%;
+    padding-right: 0;
+  }
+
+  /* Quiz content stops exactly at palette */
+  .quiz-main-area {
+    margin-right: 360px; /* palette width */
+  }
+
+  /* Card stretches fully till palette */
+  #quizCard {
+    max-width: none;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
   }
 
 
-  
+
 
 
   /* Desktop specific Submit Button inside Palette */
