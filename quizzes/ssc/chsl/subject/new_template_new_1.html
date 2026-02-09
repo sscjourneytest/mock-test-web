@@ -509,25 +509,40 @@ body.mode-solution .qbtn.current::before {
     display: grid;
     grid-template-columns: 1fr 320px; /* Question | Palette */
     gap: 24px;
-    align-items: start;
+    align-items: stretch;   /* 🔑 makes palette continuous */
   }
  
-  
+ 
   /* 3. Palette Positioning */
-  #palette {
-    display: flex !important;
-    position: sticky;
-    top: var(--header-height);
-    margin-right: -16px;   /* cancel container right padding */
-    height: calc(100vh - 60px); /* Full height from header to bottom */
-    border-radius: 0; /* Remove rounding for the edge-to-edge look */
-    border-left: 1px solid var(--border-color);
-    border-right: none; /* Touches screen edge */
-    z-index: 10;
-     overflow-y: auto;
-    overscroll-behavior: contain;
-    background: #dae5f0 !important;
-  }
+  /* DESKTOP – CONTINUOUS RIGHT PANEL */
+#palette {
+  display: flex !important;
+
+  /* NOT floating */
+  position: relative;        /* 🔑 key change */
+  top: 0;
+
+  /* Start just below header naturally */
+  margin-top: 0;
+
+  /* Touch right edge */
+  margin-right: -16px;
+
+  /* Full usable height */
+  min-height: calc(100vh - var(--header-height));
+
+  /* Edge-to-edge look */
+  border-radius: 0;
+  border-left: 1px solid var(--border-color);
+  border-right: none;
+
+  /* Scrolling inside palette */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  background: #dae5f0 !important;
+}
+
   
 
   /* Desktop specific Submit Button inside Palette */
@@ -2807,6 +2822,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
