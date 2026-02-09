@@ -512,12 +512,13 @@ body.mode-solution .qbtn.current::before {
     align-items: start;
   }
  
-  /* 2. Palette Sticky & Visible */
+  
   /* 3. Palette Positioning */
   #palette {
     display: flex !important;
     position: sticky;
-    top: 60px; /* Starts exactly below the Main Header height */
+    top: var(--header-height);
+    margin-right: -16px;   /* cancel container right padding */
     height: calc(100vh - 60px); /* Full height from header to bottom */
     border-radius: 0; /* Remove rounding for the edge-to-edge look */
     border-left: 1px solid var(--border-color);
@@ -2806,6 +2807,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
