@@ -1980,31 +1980,20 @@ function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, un
     </div>
   </div>`;
 }
-  
-function resetForSolutionMode() {
-  // 🔁 HARD RESET OF NAVIGATION STATE
+  function resetForSolutionMode() {
+   if (isQuiz) return;
+  // ✅ always start from first section
   currentSectionIdx = 0;
   current = 0;
-
-  // 🔁 FORCE FIRST SECTION DATA
   QUESTIONS = SECTIONS[SECTION_NAMES[0]];
 
-  // 🔁 CLEAR TIMER
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
-
-  // 🔁 FIX BODY MODES
-  document.body.classList.add("mode-solution");
-  document.body.classList.remove("mode-quiz");
-
-  // 🔁 RE-ENABLE ALL SECTION BUTTONS
+  // ✅ solution mode = free navigation
   document.querySelectorAll(".sec-btn").forEach((btn, i) => {
     btn.disabled = false;
     btn.classList.toggle("active", i === 0);
   });
 }
+
 
 // ===============================
 // 🎮 DASHBOARD INTERACTIONS
