@@ -1657,8 +1657,23 @@ sectionalBarsHTML += `
 
   ${renderComparisonBar("Score", d.score, d.total, topperSec.score, d.total)}
   ${renderComparisonBar("Accuracy", accuracy, 100, topperAccuracy, 100, "%")}
-  ${renderComparisonBar("Correct", d.correct, d.total, topperSec.correct, d.total)}
-  ${renderComparisonBar("Wrong", d.wrong, d.total, topperSec.wrong, d.total, "", true)}
+    ${renderComparisonBar(
+  "Correct",
+  d.correct,
+  SECTIONS[name].length,
+  topperSec.correct,
+  SECTIONS[name].length
+)}
+${renderComparisonBar(
+  "Wrong",
+  d.wrong,
+  SECTIONS[name].length,
+  topperSec.wrong,
+  SECTIONS[name].length,
+  "",
+  true
+)}
+
   ${renderComparisonBar(
     "Time Taken",
     d.timeTaken,
@@ -1702,7 +1717,7 @@ sectionalTableHtml += `</table></div></div>`;
         <div class="card-dashboard score-summary">
           <div class="score-item"><h4>🏆 Rank</h4><p>${rankData.rank} / ${rankData.total}</p></div>
           <div class="score-item"><h4>📊 Percentile</h4><p>${rankData.percentile}%</p></div>
-          <div class="score-item"><h4>🧮 Score</h4><p>${totalMarks}</p></div>
+          <div class="score-item"><h4>🧮 Score</h4><p>${totalMarks} / ${maxTotalMarks}</p></div>
           <div class="score-item"><h4>⏱ Time</h4><p>${timeFormatted}</p></div>
         </div>
 
@@ -1931,6 +1946,17 @@ function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, un
     </div>
   </div>`;
 }
+function resetForSolutionMode() {
+
+  // ❌ do absolutely nothing if quiz is still running
+  if (isQuiz) return;
+
+  // ✅ always start from first section
+  currentSectionIdx = 0;
+  current = 0;
+  QUESTIONS = SECTIONS[SECTION_NAMES[0]];
+
+}
 
 // ===============================
 // 🎮 DASHBOARD INTERACTIONS
@@ -1941,9 +1967,7 @@ function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, un
 function enterSolutionMode() {
   // 1. Switch Flags
   isQuiz = false;
-  currentSectionIdx = 0; // ✅ ADD THIS: Resets to first section (e.g., Reasoning)
-  QUESTIONS = SECTIONS[SECTION_NAMES[0]]; // ✅ ADD THIS: Loads the first section's questions array
-
+    resetForSolutionMode();
   document.body.classList.add("mode-solution");
   document.body.classList.remove("mode-quiz");
   
@@ -2291,7 +2315,7 @@ function showAttempt(attempt) {
         <div class="card-dashboard score-summary">
           <div class="score-item"><h4>🏆 Rank</h4><p>${rankData.rank} / ${rankData.total}</p></div>
           <div class="score-item"><h4>📊 Percentile</h4><p>${rankData.percentile}%</p></div>
-          <div class="score-item"><h4>🧮 Score</h4><p>${attempt.score}</p></div>
+          <div class="score-item"><h4>🧮 Score</h4><p>${attempt.score} / ${attempt.total}</p></div>
           <div class="score-item"><h4>⏱ Time</h4><p>${fmt(attempt.timeTaken)}</p></div>
         </div>
 
