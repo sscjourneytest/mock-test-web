@@ -17,6 +17,7 @@
 </script>
 
 <style>
+<style>
 
 /* =========================================
    1. GLOBAL VARIABLES & RESET
@@ -249,79 +250,130 @@ h1 {
   font-weight: 700;
   margin-bottom: 20px;
 }
-
 /* =========================================
-   5. QUIZ CARD & QUESTIONS
+   5. QUIZ CARD & QUESTIONS (TESTBOOK STYLE)
    ========================================= */
-/* The main card holding the question */
+
+/* Quiz card with its OWN scrollbar */
 .card {
   background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 20px;
+  border: 1px solid #d6d6d6;
+  border-radius: 4px;
+  padding: 0;
   margin-bottom: 20px;
-  /* No shadow for flat Testbook look */
+
+  /* 👇 separate scrollbar ALWAYS */
+  max-height: calc(100vh - 140px);
+  overflow-y: scroll;
 }
 
+/* =========================
+   BOX 1: META ROW
+   ========================= */
 .qbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 12px;
-  margin-bottom: 16px;
-}
-.qmeta { font-size: 14px; font-weight: 600; color: #555; }
-.marking { font-size: 13px; font-weight: 600; }
 
+  padding: 10px 14px;
+  border-bottom: 1px solid #d6d6d6;
+  background: #fff;
+}
+
+.qmeta {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+}
+
+.marking {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* =========================
+   BOX 2: QUESTION TEXT
+   ========================= */
 .qtext {
+  padding: 12px 14px;
   font-size: 17px;
   line-height: 1.6;
   color: #222;
-  margin-bottom: 20px;
   font-weight: 500;
-}
 
-/* Options */
-.opt {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 16px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
+  border-bottom: 1px solid #d6d6d6;
   background: #fff;
 }
-.opt:hover { background: #f8f9fa; border-color: #bbb; }
 
-.opt.selected {
-  border-color: var(--accent);
-  background: #eef5ff;
+/* =========================
+   BOX 3: OPTIONS TABLE
+   ========================= */
+
+/* Option row */
+.opt {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+
+  border-bottom: 1px solid #d6d6d6;
+  background: #fff;
+  margin: 0;
 }
 
-/* Radio Circle styling */
+/* Left radio column (separate box) */
 .custom-radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-right: 1px solid #d6d6d6;
+  cursor: pointer;
+
+  width: 100%;
+  height: 100%;
+  min-height: 42px;
+
+  border-radius: 0;
+}
+
+/* Radio circle itself */
+.custom-radio::before {
+  content: "";
   width: 18px;
   height: 18px;
   border: 2px solid #757575;
   border-radius: 50%;
-  margin-top: 3px;
-  flex-shrink: 0;
-  position: relative;
 }
-.opt.selected .custom-radio {
+
+/* Selected radio */
+.opt.selected .custom-radio::before {
   border-color: var(--accent);
 }
+
 .opt.selected .custom-radio::after {
   content: "";
   position: absolute;
-  inset: 3px;
+  width: 10px;
+  height: 10px;
   background: var(--accent);
   border-radius: 50%;
 }
+.opt-text {
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #222;
+  display: block;        /* ✅ REQUIRED */
+  line-height: 1.6;
+}
+
+
+
+/* Selected row background */
+.opt.selected {
+  background: #eef5ff;
+}
+
+
 
 /* Solution Explanation Box */
 .explanation {
@@ -795,6 +847,12 @@ body.mode-solution .qbtn.current::before {
     width: 100%;
   }
   }
+  @media (min-width: 992px) {
+  body {
+    overflow-y: scroll;
+  }
+}
+
 /* =========================================
    10. UTILITIES & MODALS
    ========================================= */
@@ -875,6 +933,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
   text-align: center; 
   font-weight: 600; 
 }
+
 </style>
 
 
