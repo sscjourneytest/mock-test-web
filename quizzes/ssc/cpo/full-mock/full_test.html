@@ -1666,13 +1666,12 @@ ${renderComparisonBar(
   "",
   true
 )}
-
-  ${renderComparisonBar(
+${renderComparisonBar(
   "Time Taken",
   d.timeTaken,
-  SECTION_TIMERS[name],
+  SECTION_TIMERS[name] || d.timeTaken || 1,
   topperSec.timeTaken,
-  SECTION_TIMERS[name]
+  SECTION_TIMERS[name] || d.timeTaken || 1
 )}
 `;
   
