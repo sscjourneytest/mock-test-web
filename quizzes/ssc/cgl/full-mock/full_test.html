@@ -320,8 +320,27 @@ h1 {
   margin: 0;
 }
 
-/* Left radio column (separate box) */
+
+
+/* Selected radio */
+.opt.selected .custom-radio::before {
+  border-color: var(--accent);
+  
+}
+
+
+.opt-text {
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #222;
+  display: block;        /* ✅ REQUIRED */
+  line-height: 1.6;
+}
+
+
+/* Radio container MUST be positioning context */
 .custom-radio {
+  position: relative;   /* 🔥 MOST IMPORTANT LINE */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -336,7 +355,7 @@ h1 {
   border-radius: 0;
 }
 
-/* Radio circle itself */
+/* Outer circle */
 .custom-radio::before {
   content: "";
   width: 18px;
@@ -345,32 +364,15 @@ h1 {
   border-radius: 50%;
 }
 
-
-/* Selected radio */
-.opt.selected .custom-radio::before {
-  border-color: var(--accent);
-  
-}
-
+/* Selected inner dot */
 .opt.selected .custom-radio::after {
   content: "";
-  position: relative;
-  position: absolute;
+  position: absolute;   /* now relative to .custom-radio */
   width: 10px;
   height: 10px;
   background: var(--accent);
   border-radius: 50%;
 }
-.opt-text {
-  padding: 10px 14px;
-  font-size: 15px;
-  color: #222;
-  display: block;        /* ✅ REQUIRED */
-  line-height: 1.6;
-}
-
-
-
 /* Selected row background */
 .opt.selected {
   background: #eef5ff;
