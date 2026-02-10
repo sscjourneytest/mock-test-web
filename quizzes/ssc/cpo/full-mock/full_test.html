@@ -1179,8 +1179,7 @@ function fmt(s){
 // Save current progress to LocalStorage
 function saveQuizState(){
   // Don't save state if we are just viewing solutions
-  if(!isQuiz) return;
-
+  if (!isQuiz || document.body.classList.contains("mode-solution")) return;
   const state = {
     current,
     answers,
@@ -1981,6 +1980,31 @@ function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, un
     </div>
   </div>`;
 }
+  
+function resetForSolutionMode() {
+  // 🔁 HARD RESET OF NAVIGATION STATE
+  currentSectionIdx = 0;
+  current = 0;
+
+  // 🔁 FORCE FIRST SECTION DATA
+  QUESTIONS = SECTIONS[SECTION_NAMES[0]];
+
+  // 🔁 CLEAR TIMER
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  // 🔁 FIX BODY MODES
+  document.body.classList.add("mode-solution");
+  document.body.classList.remove("mode-quiz");
+
+  // 🔁 RE-ENABLE ALL SECTION BUTTONS
+  document.querySelectorAll(".sec-btn").forEach((btn, i) => {
+    btn.disabled = false;
+    btn.classList.toggle("active", i === 0);
+  });
+}
 
 // ===============================
 // 🎮 DASHBOARD INTERACTIONS
@@ -1991,10 +2015,9 @@ function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, un
 function enterSolutionMode() {
   // 1. Switch Flags
   isQuiz = false;
-  currentSectionIdx = 0; // ✅ ADD THIS: Resets to first section (e.g., Reasoning)
-  QUESTIONS = SECTIONS[SECTION_NAMES[0]]; // ✅ ADD THIS: Loads the first section's questions array
 
-  document.body.classList.add("mode-solution");
+  resetForSolutionMode();
+ document.body.classList.add("mode-solution");
   document.body.classList.remove("mode-quiz");
   
   // ... rest of your code stays exactly the same
