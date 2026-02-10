@@ -1167,7 +1167,6 @@ function fmt(s){
   const sec = s%60;
   return `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
 }
-
 // Save current progress to LocalStorage
 function saveQuizState(){
   // Don't save state if we are just viewing solutions
@@ -1178,67 +1177,79 @@ function saveQuizState(){
     answers,
     marked,
     currentLang,
-    seconds,
-    currentSectionIdx // NEW: Save the active section index (PART-1, PART-2, etc.)
+    currentSectionIdx,
+
+    // ✅ NEW (required for sectional timer)
+    sectionSecondsLeft,
+    sectionTime,
+    completedSections
   };
+
   localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
 }
-// ===============================
-// ⏱️ TIMER LOGIC
-// ===============================
-function startTimer() {
+
+
+
+function startSectionTimer() {
   if (timerInterval) clearInterval(timerInterval);
 
-  // Always show valid time
-  seconds = Math.max(0, seconds);
-  el("timer").textContent = fmt(seconds);
+  const secName = SECTION_NAMES[currentSectionIdx];
+
+  // Restore remaining time or load fresh section time
+  if (!sectionSecondsLeft) {
+    sectionSecondsLeft = SECTION_TIMERS[secName];
+  }
+
+  el("timer").textContent = fmt(sectionSecondsLeft);
 
   timerInterval = setInterval(() => {
 
-    // ⛔ STOP exactly at zero
-    if (seconds <= 0) {
-      seconds = 0;
-      el("timer").textContent = "00:00";
+    if (sectionSecondsLeft <= 0) {
       clearInterval(timerInterval);
-
-      // 🔥 AUTO SUBMIT
-      autoSubmitQuiz();
+      autoSubmitSection();
       return;
     }
 
-    // Normal countdown
-    seconds--;
-    el("timer").textContent = fmt(seconds);
+    sectionSecondsLeft--;
+    el("timer").textContent = fmt(sectionSecondsLeft);
 
-    // NEW: Track time for the active section
-    const activeSectionName = SECTION_NAMES[currentSectionIdx];
-    if (!sectionTime[activeSectionName]) sectionTime[activeSectionName] = 0;
-    sectionTime[activeSectionName]++; 
+    // Track section-wise time (used in analysis)
+    if (!sectionTime[secName]) sectionTime[secName] = 0;
+    sectionTime[secName]++;
 
-    // Save state safely
-    if (seconds % 5 === 0) saveQuizState();
+    saveQuizState();
 
   }, 1000);
 }
-// NEW: Logic to switch between PART-1, PART-2 etc.
+
 function switchSection(idx) {
+
+  // ❌ Prevent reopening submitted sections
+  if (completedSections.includes(SECTION_NAMES[idx])) {
+    alert("This section is already submitted.");
+    return;
+  }
+
   currentSectionIdx = idx;
   const sName = SECTION_NAMES[idx];
-  
-  // Update the QUESTIONS global to only show this section's questions
-  QUESTIONS = SECTIONS[sName];
-  current = 0; // Restart numbering at 1 for this section
 
-  // Update Section Button Colors (Green for Active, Blue for Inactive)
+  // Load section questions
+  QUESTIONS = SECTIONS[sName];
+  current = 0;
+
+  // Update Section Button UI
   document.querySelectorAll('.sec-btn').forEach((btn, i) => {
     btn.classList.toggle('active', i === idx);
+    btn.disabled = i < idx; // ⛔ lock previous sections
   });
 
-  // Re-build the palette grid for the new section
   buildPalette();
   renderQuestion(0);
-  saveQuizState(); // Persist the current section if user reloads
+  updatePaletteSubmitButtons();
+  saveQuizState();
 }
+
+
 // ===============================
 // 📝 RENDER QUESTION ENGINE
 // ===============================
