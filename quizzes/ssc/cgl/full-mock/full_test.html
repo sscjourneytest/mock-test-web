@@ -264,7 +264,7 @@ h1 {
 
   /* 👇 separate scrollbar ALWAYS */
   max-height: calc(100vh - 140px);
-  overflow-y: scroll;
+  
 }
 
 /* =========================
@@ -392,6 +392,31 @@ h1 {
   line-height: 1.5;
 }
 
+  /* =========================
+   SOLUTION MODE – STRONGER COLORS
+   ========================= */
+
+/* Correct answer */
+body.mode-solution .opt.correct {
+  background: #dff5e7;            /* deeper green tint */
+  border-left: 4px solid #198754; /* strong green bar */
+}
+
+body.mode-solution .opt.correct .custom-radio::before {
+  border-color: #198754;
+  background: #198754;
+}
+
+/* Wrong selected answer */
+body.mode-solution .opt.wrong {
+  background: #fde2e2;            /* deeper red tint */
+  border-left: 4px solid #dc3545; /* strong red bar */
+}
+
+body.mode-solution .opt.wrong .custom-radio::before {
+  border-color: #dc3545;
+  background: #dc3545;
+}
 /* =========================================
    6. VIEW PALETTE (Right Side)
    ========================================= */
@@ -601,6 +626,9 @@ body.mode-solution .qbtn.current::before {
     max-width: none;
     margin-right: 12px;   /* 👈 visual gap from palette */
     border-radius: 8px;
+  }
+  .card {
+    overflow-y: scroll;
   }
 
   /* ===============================
@@ -1385,13 +1413,11 @@ function renderQuestion(i) {
       div.style.cursor = "default";
       if (isCorrectAns) {
         div.classList.add("correct");
-        div.style.backgroundColor = "#e6f7ee";
-        div.style.borderColor = "#2e7d32";
+        
       }
       if (isSelected && !isCorrectAns) {
         div.classList.add("wrong");
-        div.style.backgroundColor = "#fdeaea";
-        div.style.borderColor = "#c82d3f";
+        
       }
     }
 
