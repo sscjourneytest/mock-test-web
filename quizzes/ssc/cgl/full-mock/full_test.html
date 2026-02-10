@@ -405,7 +405,7 @@ body.mode-solution .opt.correct {
 
 body.mode-solution .opt.correct .custom-radio::before {
   border-color: #198754;
-  background: #198754;
+
 }
 
 /* Wrong selected answer */
@@ -416,7 +416,7 @@ body.mode-solution .opt.wrong {
 
 body.mode-solution .opt.wrong .custom-radio::before {
   border-color: #dc3545;
-  background: #dc3545;
+  
 }
 /* =========================================
    6. VIEW PALETTE (Right Side)
@@ -967,18 +967,19 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
 
 </style>
 
-
 <script>
   window.MathJax = {
     tex: {
-      inlineMath: [['\\(', '\\)'], ['$', '$']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      /* ONLY these are allowed */
+      inlineMath: [['\\(', '\\)']],     // optional inline math
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]  // block math ONLY
     },
     options: {
       skipHtmlTags: ['script', 'style', 'textarea', 'pre']
     }
   };
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 
 </head>
