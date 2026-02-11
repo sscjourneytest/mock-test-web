@@ -411,6 +411,19 @@ body.mode-solution .opt.wrong .custom-radio::before {
   background: #dc3545;
   }
 
+/* ===============================
+   DESKTOP: RADIO ONLY SELECTION
+   =============================== */
+@media (hover: hover) and (pointer: fine) {
+  .opt {
+    pointer-events: none;        /* ❌ disable box clicks */
+  }
+
+  .custom-radio {
+    pointer-events: auto;        /* ✅ enable radio only */
+    cursor: pointer;
+  }
+}
 
 /* =========================================
    6. VIEW PALETTE (Right Side)
@@ -702,6 +715,11 @@ body.mode-solution .qbtn.current::before {
     padding-left: 30%;           /*  starts from middle */
   }
 
+}
+ @media (min-width: 992px) {
+  body {
+    overflow-y: scroll;
+  }
 }
 
 /* =========================================
@@ -1215,7 +1233,7 @@ function renderQuestion(i) {
     // --- LOGIC: QUIZ vs SOLUTION MODE ---
     if (isQuiz) {
       if (isSelected) div.classList.add("selected");
-      div.onclick = () => selectOption(q, optionIndex, div);
+      
     } else {
       div.style.cursor = "default";
       if (isCorrectAns) {
@@ -1242,6 +1260,14 @@ function renderQuestion(i) {
         ${optImgHtml}
       </div>
     `;
+const radio = div.querySelector(".custom-radio");
+
+if (isQuiz) {
+  radio.addEventListener("click", (e) => {
+    e.stopPropagation();   // 🔥 CRITICAL
+    selectOption(q, optionIndex, div);
+  });
+}
 
     optsContainer.appendChild(div);
     normalizeMathForQuiz(div.querySelector(".opt-text"));
