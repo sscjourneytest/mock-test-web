@@ -2823,6 +2823,7 @@ document.getElementById("welcomeStartBtn").addEventListener("click", function() 
 // 🔄 STARTUP SCRIPT
 document.addEventListener("DOMContentLoaded", function () {
     loadQuizData(); 
+  SECURITY.init();
 });
 
 
@@ -2996,6 +2997,107 @@ async function loadQuizData() {
     }
   }, 3000);
 })();
+// ================= SECURITY (MERGED) =================
+const SECURITY = {
+  tabSwitchCount: 0,
+  maxTabSwitches: 3,
+  devToolsWarned: false,
+
+  init() {
+    this.detectTabSwitch();
+    this.detectDevTools();
+    this.disablePrint();
+    this.disableDragDrop();
+  },
+
+  detectTabSwitch() {
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && isQuiz) {
+        this.tabSwitchCount++;
+        this.showWarning(
+          `Tab switch detected (${this.tabSwitchCount}/${this.maxTabSwitches})`,
+          this.tabSwitchCount >= this.maxTabSwitches ? "error" : "warning"
+        );
+
+        if (this.tabSwitchCount >= this.maxTabSwitches) {
+          setTimeout(() => autoSubmitQuiz?.(), 1500);
+        }
+      }
+    });
+
+    window.addEventListener("blur", () => {
+      if (isQuiz) console.warn("Window lost focus");
+    });
+  },
+
+  detectDevTools() {
+    const threshold = 160;
+
+    const check = () => {
+      const w = window.outerWidth - window.innerWidth > threshold;
+      const h = window.outerHeight - window.innerHeight > threshold;
+      if ((w || h) && !this.devToolsWarned) {
+        this.devToolsWarned = true;
+        this.showWarning("Developer tools detected!", "error");
+      }
+    };
+
+    window.addEventListener("resize", check);
+    setInterval(check, 1000);
+
+    setInterval(() => {
+      const t = performance.now();
+      debugger;
+      if (performance.now() - t > 100) {
+        this.showWarning("Debugger detected!", "error");
+      }
+    }, 1000);
+  },
+
+  disablePrint() {
+    const style = document.createElement("style");
+    style.innerHTML = `
+      @media print {
+        body * { display: none !important; }
+        body::after {
+          content: "Printing is not allowed during exam.";
+          font-size: 24px;
+          display: block;
+          text-align: center;
+          padding: 50px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    window.print = () => this.showWarning("Printing disabled!", "error");
+  },
+
+  disableDragDrop() {
+    document.addEventListener("dragstart", e => e.preventDefault());
+    document.addEventListener("drop", e => e.preventDefault());
+  },
+
+  showWarning(msg, type="warning") {
+    const old = document.getElementById("secWarn");
+    if (old) old.remove();
+
+    const div = document.createElement("div");
+    div.id = "secWarn";
+    div.innerHTML = msg;
+    div.style = `
+      position:fixed;top:20px;left:50%;
+      transform:translateX(-50%);
+      background:${type==="error"?"#fee2e2":"#fef3c7"};
+      border:2px solid ${type==="error"?"#ef4444":"#f59e0b"};
+      padding:12px 20px;border-radius:8px;
+      font-weight:700;z-index:999999;
+    `;
+    document.body.appendChild(div);
+
+    setTimeout(() => div.remove(), 3000);
+  }
+};
 
 </script>
 </body>
