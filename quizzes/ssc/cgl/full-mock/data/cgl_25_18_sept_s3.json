@@ -1,0 +1,4421 @@
+{
+  "meta": {
+    "title": "CGL 18 SEPT 2025 SHIFT 3 (HARDEST SHIFT)",
+    "id": "cgl_25_18_sept_s3",
+    "total_questions": 100,
+    "correct_score": "2",
+    "negative_score": "0.5",
+    "timer_minutes": "60",
+    "timer_seconds": 3600
+  },
+  "sections": {
+    "REASONING": [
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50001",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "LKA",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "JNA",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "GVA",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "XCH",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.<br> DIN, INS, NSX, SXC, ?",
+          "hi": "दिए गए विकल्पों में से उस अक्षर-समूह का चयन करें जो निम्नलिखित श्रृंखला में प्रश्न चिह्न (?) को प्रतिस्थापित कर सके।<br> DIN, INS, NSX, SXC, ?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50002",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "4",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "8",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "16",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "10",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "If 6 @ 2 = 9, 15 @ 3 = 125, then 8 @ 4 = ?",
+          "hi": "अगर 6 @ 2 = 9, 15 @ 3 = 125, तो 8 @ 4 = ?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50003",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "+ and x",
+          "hi": "+ और x"
+        },
+        "option_2": {
+          "en": "+ and -",
+          "hi": "+ और -"
+        },
+        "option_3": {
+          "en": "+ and ÷",
+          "hi": "+ और ÷"
+        },
+        "option_4": {
+          "en": "- and x",
+          "hi": "- और x"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the correct signs to swap.<br> 40 ÷ 8 + 10 - 5 x 2 = 5",
+          "hi": "अदला-बदली के लिए सही चिह्न चुनें।<br> 40 ÷ 8 + 10 - 5 x 2 = 5"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50004",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Sister",
+          "hi": "बहन"
+        },
+        "option_2": {
+          "en": "Aunt",
+          "hi": "चाची"
+        },
+        "option_3": {
+          "en": "Niece",
+          "hi": "भतीजी"
+        },
+        "option_4": {
+          "en": "Can't say",
+          "hi": "कह नहीं सकतें"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A is the brother of B. B is the sister of C. C is the brother of D. How is B related to D?",
+          "hi": "A, B का भाई है। B, C की बहन है। C, D का भाई है।<br> B का D से क्या संबंध है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50005",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "VP",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "WT",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "VQ",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "UW",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Solve:<br> FD: KH :: QM:?",
+          "hi": "हल करें :<br> FD: KH :: QM:?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50006",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "70",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "66",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "67",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "68",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "What comes next: 13, 16, 21, 30, 45, ?",
+          "hi": "इसके बाद क्या आएगा: 13, 16, 21, 30, 45, ?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50007",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Only I follows",
+          "hi": "केवल I अनुसरण करता है"
+        },
+        "option_2": {
+          "en": "Only II follows",
+          "hi": "केवल II अनुसरण करता है"
+        },
+        "option_3": {
+          "en": "Both follow",
+          "hi": "दोनों अनुसरण करते हैं"
+        },
+        "option_4": {
+          "en": "Neither follows",
+          "hi": "कोई भी अनुसरण नहीं करता है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Statement: Rising noise pollution in urban areas is affecting children's concentration.<br> Conclusion I: Urban children can't study well.<br> Conclusion II: Controlling noise pollution may improve children's concentration.",
+          "hi": "कथनः शहरी क्षेत्रों में बढ़ता ध्वनि प्रदूषण बच्चों की एकाग्रता को प्रभावित कर रहा है।<br> निष्कर्ष I: शहरी बच्चे अच्छी तरह से पढ़ाई नहीं कर सकते।<br> निष्कर्ष II: ध्वनि प्रदूषण को नियंत्रित करने से बच्चों की एकाग्रता में सुधार हो सकता है।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50008",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "121",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "131",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "444",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "544",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Identify the odd one out:",
+          "hi": "इनमें से विषम को पहचानें:"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50009",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Only I and II are implicit",
+          "hi": "केवल I और II निहित हैं"
+        },
+        "option_2": {
+          "en": "Only II and III are implicit",
+          "hi": "केवल II और III निहित हैं"
+        },
+        "option_3": {
+          "en": "All I, II and III are implicit",
+          "hi": "सभी I, II और III निहित हैं"
+        },
+        "option_4": {
+          "en": "Only I is implicit",
+          "hi": "केवल I निहित है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Instruction: Identify the assumptions that must hold for the statement to be valid, then choose the correct option.<br> Statement: The introduction of Artificial Intelligence into healthcare systems can enhance diagnostic accuracy, but its widespread implementation may lead to ethical dilemmas in patient care.<br> Assumptions:<br> I. AI can improve healthcare diagnostics.<br> II. The ethical concerns surrounding AI in healthcare are significant.<br> III. AI will eventually replace human healthcare professionals.",
+          "hi": "निर्देशः कथन को मान्य बनाने के लिए आवश्यक मान्यताओं की पहचान करें, फिर सही विकल्प चुनें।<br> कथनः स्वास्थ्य सेवा प्रणालियों में आर्टिफिशियल इंटेलिजेंस की शुरूआत निदान सटीकता को बढ़ा सकती है, लेकिन इसके व्यापक कार्यान्वयन से रोगी देखभाल में नैतिक दुविधाएँ पैदा हो सकती हैं।<br> मान्यताएँ:<br> I. AI स्वास्थ्य सेवा निदान में सुधार कर सकता है।<br> II. स्वास्थ्य सेवा में AI से जुड़ी नैतिक चिंताएँ महत्वपूर्ण हैं।<br> III. AI अंततः मानव स्वास्थ्य सेवा पेशेवरों की जगह ले लेगा।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50010",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Only Conclusion I follows",
+          "hi": "केवल निष्कर्ष I अनुसरण करता है"
+        },
+        "option_2": {
+          "en": "Only Conclusion II follows",
+          "hi": "केवल निष्कर्ष II अनुसरण करता है"
+        },
+        "option_3": {
+          "en": "Both I and II follow",
+          "hi": "I और II दोनों अनुसरण करते हैं"
+        },
+        "option_4": {
+          "en": "Neither I nor II follows",
+          "hi": "न तो I और न ही II अनुसरण करता है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Statement: All metro stations are under CCTV surveillance.<br> Conclusions:<br> I. Activities at metro stations are being monitored.<br> II. No criminal activity can happen in metro stations.",
+          "hi": "कथनः सभी मेट्रो स्टेशन सीसीटीवी निगरानी में हैं।<br> निष्कर्षः<br> I. मेट्रो स्टेशनों पर गतिविधियों पर नज़र रखी जा रही है।<br> II. मेट्रो स्टेशनों पर कोई आपराधिक गतिविधि नहीं हो सकती।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50011",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Neha",
+          "hi": "नेहा"
+        },
+        "option_2": {
+          "en": "Tina",
+          "hi": "टीना"
+        },
+        "option_3": {
+          "en": "Dia",
+          "hi": "दीया"
+        },
+        "option_4": {
+          "en": "Raj",
+          "hi": "राज"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Direction: Study the information carefully and answer the given questions.<br> Eight People Tina, Raj, Dia, Viraj, Soma, Meena, Neha and Ria are living in an eight-storey building, but not necessarily in the same order.<br> The ground floor is numbered 1 and the floor above it is numbered 2, and so on, until the topmost floor is numbered 8. Dia lives on the lowermost floor.<br> Only three people live between Dia and Ria. Tina lives on the 4th floor.<br> Only two people live between Tina and Raj. Only five people live between Viraj and Soma.<br> Neha lives on an odd numbered floor. Only one person lives between Meena and Viraj.<br><br> Who lives three floors below the one who lives immediate below Raj?",
+          "hi": "निर्देशः दी गई जानकारी का ध्यानपूर्वक अध्ययन कीजिए और दिए गए प्रश्नों के उत्तर दीजिए।<br> आठ व्यक्ति टीना, राज, दीया, विराज, सोमा, मीना, नेहा और रिया एक आठ मंजिला इमारत में रहते हैं, लेकिन जरूरी नहीं कि इसी क्रम में हों।<br> भूतल को 1 से क्रमांकित किया गया है और उसके ऊपर की मंजिल को 2 से क्रमांकित किया गया है, और इसी प्रकार सबसे ऊपरी मंजिल को 8 से क्रमांकित किया जाता है।<br> दीया सबसे निचली मंजिल पर रहती है। दीया और रिया के बीच केवल तीन व्यक्ति रहते हैं।<br> टीना चौथी मंजिल पर रहती है। टीना और राज के बीच केवल दो व्यक्ति रहते हैं।<br> विराज और सोमा के बीच केवल पाँच व्यक्ति रहते हैं। नेहा विषम क्रमांकित मंजिल पर रहती है।<br> मीना और विराज के बीच केवल एक व्यक्ति रहता है।<br><br> राज के ठीक नीचे रहने वाले व्यक्ति से तीन मंजिल नीचे कौन रहता है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50012",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Only I follows",
+          "hi": "केवल I अनुसरण करता है"
+        },
+        "option_2": {
+          "en": "Only II follows",
+          "hi": "केवल II अनुसरण करता है"
+        },
+        "option_3": {
+          "en": "Both I and II follow",
+          "hi": "I और II दोनों अनुसरण करते हैं"
+        },
+        "option_4": {
+          "en": "Neither I nor II follows",
+          "hi": "न तो I और न ही II अनुसरण करता है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Statement:<br> No painters are athletes.<br> Some artists are athletes.<br>All artists are painters.<br> Conclusions:<br> I. Some painters are athletes.<br> II. Some athletes are not painters.",
+          "hi": "कथनः<br> कोई भी चित्रकार एथलीट नहीं है। कुछ कलाकार एथलीट हैं। सभी कलाकार चित्रकार हैं।<br> निष्कर्षः<br> I. कुछ चित्रकार एथलीट हैं।<br> II. कुछ एथलीट चित्रकार नहीं हैं।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "bonus by SSC",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50013",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Pacific",
+          "hi": "प्रशांत"
+        },
+        "option_2": {
+          "en": "Atlantic",
+          "hi": "अटलांटिक"
+        },
+        "option_3": {
+          "en": "Mediterranean",
+          "hi": "भूमध्य सागर"
+        },
+        "option_4": {
+          "en": "Arctic",
+          "hi": "आर्कटिक"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Find the odd one out:<br> Pacific, Atlantic, Indian, Arctic, Mediterranean",
+          "hi": "इनमें से विषम चुनेंः<br> प्रशांत, अटलांटिक, हिंद, आर्कटिक, भूमध्य सागर"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50014",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "QZHMX",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "QZHLX",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "QZHLW",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "QZHMV",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "If CLOUD is coded as BKNTC, how is RAINY written?",
+          "hi": "अगर CLOUD को BKNTC के रूप में कोड किया जाता है, तो RAINY को कैसे लिखा जाएगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50015",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "HKQL",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "GLKP",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "GKLP",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "HLKP",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "AEFJ: KOPT::?: QUVZ",
+          "hi": "AEFJ: KOPT :: ?: QUVZ"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50016",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "PATIENT",
+          "hi": "PATIENT"
+        },
+        "option_2": {
+          "en": "SCALPEL",
+          "hi": "SCALPEL"
+        },
+        "option_3": {
+          "en": "OPERATION",
+          "hi": "OPERATION"
+        },
+        "option_4": {
+          "en": "OT (Operation Theatre)",
+          "hi": "OT (Operation Theatre)"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "TEACHER is to CLASSROOM as SURGEON is to:",
+          "hi": "जिस प्रकार TEACHER को CLASSROOM लिखा जाता है, उसी प्रकार SURGEON को क्या लिखा जाएगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50017",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "90",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "100",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "110",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "120",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "What is the sum of the first 10 terms of the series?<br> 1, 3, 5, 7, ...?",
+          "hi": "निम्नलिखित श्रृंखला के प्रथम 10 पदों का योग क्या है?<br> 1, 3, 5, 7, ...?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50018",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "HSJ",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "IQK",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "HQJ",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "JQL",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "What comes next?<br> BYD, DWF, FUH, ?",
+          "hi": "निम्नलिखित श्रृंखला में अगले स्थान पर कौन सा विकल्प आएगा?<br> BYD, DWF, FUH, ?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50019",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Troposphere",
+          "hi": "क्षोभ मंडल"
+        },
+        "option_2": {
+          "en": "Stratosphere",
+          "hi": "स्ट्रैटोस्फियर"
+        },
+        "option_3": {
+          "en": "Hydrosphere",
+          "hi": "हीड्रास्फीयर"
+        },
+        "option_4": {
+          "en": "Mesosphere",
+          "hi": "मीसोस्फीयर"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Find the odd one out from the given alternatives:",
+          "hi": "दिए गए विकल्पों में से विषम विकल्प को चुनिएः"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50020",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Retina",
+          "hi": "रेटिना"
+        },
+        "option_2": {
+          "en": "Cornea",
+          "hi": "कॉर्निया"
+        },
+        "option_3": {
+          "en": "Iris",
+          "hi": "आइरिस"
+        },
+        "option_4": {
+          "en": "Femur",
+          "hi": "जांध की हड्डी"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Find the odd one out from the given alternatives:",
+          "hi": "दिए गए विकल्पों में से विषम विकल्प को चुनिएः"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50021",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "MHJIS",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "KJHIS",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "LIHIS",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "MIHIS",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "In a certain code, NIGHT is written as OHJIS How will LIGHT be written?",
+          "hi": "एक निश्चित कोड में, NIGHT को OHJIS लिखा जाता है। LIGHT को कैसे लिखा जाएगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50022",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Sister",
+          "hi": "बहन"
+        },
+        "option_2": {
+          "en": "Cousin",
+          "hi": "चचेरा"
+        },
+        "option_3": {
+          "en": "Sister-in-law",
+          "hi": "भाभी"
+        },
+        "option_4": {
+          "en": "Niece",
+          "hi": "भतीजी"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "\"Pointing to a woman, John says, \"She is the wife of my uncle's only son.\" How is the woman related to John?",
+          "hi": "एक महिला की ओर इशारा करते हुए जॉन कहता है, \"वह मेरे चाचा के इकलौते बेटे की पत्नी है।\" वह महिला जॉन से किस प्रकार संबंधित है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50023",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "3",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "7",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "35",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "29",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "if x = +, + = -, - = x; then 4 x 5 + 2 - 3 = ?",
+          "hi": "यदि x = +, + = -, - = x; तो 4 x 5 + 2 - 3 = ?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50024",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "100",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "104",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "106",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "110",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "If the sum of 13 and 39 is multiplied by 2, what is the result?",
+          "hi": "यदि 13 और 39 के योग को 2 से गुणा किया जाए तो परिणाम क्या होगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50025",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "32",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "46",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "97",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "67",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The series given below contains a sequence of numbers. Accordingly identify the incorrect combination. 25, 32, 46, 67, 97",
+          "hi": "नीचे दी गई श्रृंखला में संख्याओं का एक अनुक्रम है। तदनुसार गलत संयोजन की पहचान कीजिए। 25, 32, 46, 67, 97"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      }
+    ],
+    "GENERAL AWARENESS": [
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50026",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Launch site for ISRO missions",
+          "hi": "इसरो मिशन के लिए प्रक्षेपण स्थल"
+        },
+        "option_2": {
+          "en": "Designs and builds launch vehicles",
+          "hi": "प्रक्षेपण वाहनों का डिजाइन और निर्माण"
+        },
+        "option_3": {
+          "en": "Trains Indian astronauts",
+          "hi": "भारतीय अंतरिक्ष यात्रियों को प्रशिक्षित करता है"
+        },
+        "option_4": {
+          "en": "Controls ISRO satellites",
+          "hi": "इसरो उपग्रहों को नियंत्रित करता है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "What is the contribution of Vikram Sarabhai Space Centre (VSSC) to India's space program?",
+          "hi": "भारत के अंतरिक्ष कार्यक्रम में विक्रम साराभाई अंतरिक्ष केंद्र (वीएसएससी) का क्या योगदान है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50027",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Skill India Centers",
+          "hi": "कौशल भारत केंद्र"
+        },
+        "option_2": {
+          "en": "Startup India Seed Fund Scheme",
+          "hi": "स्टार्टअप इंडिया सीड फंड योजना"
+        },
+        "option_3": {
+          "en": "Atal Tinkering Labs (ATLS)",
+          "hi": "अटल टिंकरिंग लैब्स (एटीएल)"
+        },
+        "option_4": {
+          "en": "Pradhan Mantri Kaushal Vikas Yojana (PMKVY)",
+          "hi": "प्रधानमंत्री कौशल विकास योजना (पीएमकेवीवाई)"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The \"Atal Innovation Mission (AIM)\" is a flagship initiative to promote innovation and entrepreneurship in India. Which of the following is a key component or program under AIM?",
+          "hi": "\"अटल इनोवेशन मिशन (एआईएम)\" भारत में नवाचार और उद्यमिता को बढ़ावा देने के लिए एक प्रमुख पहल है। निम्नलिखित में से कौन सा एआईएम के तहत एक प्रमुख घटक या कार्यक्रम है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50028",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "The overwhelming military superiority of the newly formed Pakistani state, compelling the rulers to seek protection within India.",
+          "hi": "नवगठित पाकिस्तानी राज्य की अत्यधिक सैन्य श्रेष्ठता के कारण शासकों को भारत में सुरक्षा लेने के लिए बाध्य होना पड़ा।"
+        },
+        "option_2": {
+          "en": "The consistent and unwavering support provided by the British government to the princely states seeking independence.",
+          "hi": "स्वतंत्रता चाहने वाली रियासतों को ब्रिटिश सरकार द्वारा प्रदान किया गया निरंतर और अटूट समर्थन।"
+        },
+        "option_3": {
+          "en": "The strong undercurrent of popular will within the princely states favoring accession to India, often expressed through organized movements and protests.",
+          "hi": "रियासतों के भीतर भारत में विलय के पक्ष में लोकप्रिय इच्छा की प्रबल भावना, अक्सर संगठित आंदोलनों और विरोध प्रदर्शनों के माध्यम से व्यक्त की जाती थी।"
+        },
+        "option_4": {
+          "en": "The economic prosperity and stability offered by remaining independent, making integration into the financially strained Indian Union unattractive.",
+          "hi": "स्वतंत्र रहने से प्राप्त होने वाली आर्थिक समृद्धि और स्थिरता, वित्तीय रूप से तनावग्रस्त भारतीय संघ में एकीकरण को अनाकर्षक बनाती है।"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The integration of the princely states into the Indian Union after 1947 involved a complex interplay of political negotiation, popular movements, and, at times, coercion. Which of the following factors most significantly undermined the initial aspirations of some princely rulers to maintain independent or autonomous status?",
+          "hi": "1947 के बाद रियासतों के भारतीय संघ में एकीकरण में राजनीतिक बातचीत, लोकप्रिय आंदोलनों और कई बार जबरदस्ती की जटिल अंतर्क्रिया शामिल थी। निम्नलिखित में से किस कारक ने कुछ रियासतों की स्वतंत्र या स्वायत्त स्थिति बनाए रखने की शुरुआती आकांक्षाओं को सबसे महत्वपूर्ण रूप से कमजोर किया?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50029",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "The effort to codify personal laws.",
+          "hi": "व्यक्तिगत कानूनों को संहिताबद्ध करने का प्रयास।"
+        },
+        "option_2": {
+          "en": "The effort to modernize and decolonize India's criminal justice system.",
+          "hi": "भारत की आपराधिक न्याय प्रणाली को आधुनिक बनाने और उपनिवेशवाद मुक्त करने का प्रयास।"
+        },
+        "option_3": {
+          "en": "The new taxation policy.",
+          "hi": "नई कराधान नीति।"
+        },
+        "option_4": {
+          "en": "A trade agreement.",
+          "hi": "एक व्यापार समझौता।"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The Bharatiya Nyaya Sanhita (BNS) was introduced as part of:",
+          "hi": "भारतीय न्याय संहिता (बीएनएस) को इसके भाग के रूप में पेश किया गया थाः"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50030",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Aravalli and Delhi Ridge",
+          "hi": "अरावली और दिल्ली रिज"
+        },
+        "option_2": {
+          "en": "Deccan Plateau",
+          "hi": "दक्कन का पठार"
+        },
+        "option_3": {
+          "en": "North-Eastern India",
+          "hi": "पूर्वोत्तर भारत"
+        },
+        "option_4": {
+          "en": "Western Coastal Plains",
+          "hi": "पश्चिमी तटीय मैदान"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Digboi, Moran, Sivasagar, and Naharkatiya oil fields are located in which of the following regions of India?",
+          "hi": "डिगबोई, मोरन, शिवसागर और नहरकटिया तेल क्षेत्र भारत के निम्नलिखित में से किस क्षेत्र में स्थित हैं?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50031",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "A specific type of raga",
+          "hi": "राग का एक विशिष्ट प्रकार"
+        },
+        "option_2": {
+          "en": "A melody composed using the seven notes of the scale",
+          "hi": "स्केल के सात स्वरों का उपयोग करके रचित एक राग"
+        },
+        "option_3": {
+          "en": "Ornamentation and embellishment of a raga",
+          "hi": "राग का अलंकरण और ठाठ"
+        },
+        "option_4": {
+          "en": "A rhythmic cycle used in carnatic music",
+          "hi": "कर्नाटक संगीत में प्रयुक्त एक लयबद्ध चक्र"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The term 'svaravalis' refers to what in the context of Indian classical music?",
+          "hi": "भारतीय शास्त्रीय संगीत के संदर्भ में 'स्वरावली' शब्द का क्या अर्थ है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50032",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "1 and 3 only",
+          "hi": "केवल 1 और 3"
+        },
+        "option_2": {
+          "en": "3 only",
+          "hi": "केवल 3"
+        },
+        "option_3": {
+          "en": "2 and 3 only",
+          "hi": "केवल 2 और 3"
+        },
+        "option_4": {
+          "en": "1, 2, and 3",
+          "hi": "1, 2, और 3"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Consider the following physiographic features.<br> 1. Tors<br> 2. Spurs<br> 3. Block Mountains<br> Which of the feature/features given above is/are found in the peninsular plateau of India?",
+          "hi": "निम्नलिखित भौतिक विशेषताओं पर विचार करें।<br> 1. टोर<br> 2. स्पर्स<br> 3. ब्लॉक पर्वत<br> उपर्युक्त विशेषता/विशेषताओं में से कौन सी / कौन सी विशेषता भारत के प्रायद्वीपीय पठार में पाई जाती है/हैं?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50033",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Granite and lime plaster",
+          "hi": "ग्रेनाइट और चूने का प्लास्टर"
+        },
+        "option_2": {
+          "en": "Concrete and red bricks",
+          "hi": "कंक्रीट और लाल ईंटें"
+        },
+        "option_3": {
+          "en": "Sandstone and marble",
+          "hi": "बलुआ पत्थर और संगमरमर"
+        },
+        "option_4": {
+          "en": "Wood and terracotta",
+          "hi": "लकड़ी और टेराकोटा"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Which of the following building materials were primarily used in constructing Purana Qila?",
+          "hi": "पुराना किला के निर्माण में मुख्य रूप से निम्नलिखित में से किस निर्माण सामग्री का उपयोग किया गया था?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50034",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Soma",
+          "hi": "सोम"
+        },
+        "option_2": {
+          "en": "Apong",
+          "hi": "अपोंग"
+        },
+        "option_3": {
+          "en": "Thukpa",
+          "hi": "थुकपा"
+        },
+        "option_4": {
+          "en": "Chhang",
+          "hi": "छांग"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "During the Solung festival celebrated by the Adi tribe of Arunachal Pradesh, which traditional drink is shared to promote social bonding?",
+          "hi": "अरुणाचल प्रदेश की आदि जनजाति द्वारा मनाए जाने वाले सोलुंग त्योहार के दौरान सामाजिक बंधन को बढ़ावा देने के लिए कौन सा पारंपरिक पेय साझा किया जाता है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50035",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "An underground water tank",
+          "hi": "एक भूमिगत पानी की टंकी"
+        },
+        "option_2": {
+          "en": "A central pillar for support",
+          "hi": "समर्थन के लिए एक केंद्रीय स्तंभ"
+        },
+        "option_3": {
+          "en": "A covered street drain",
+          "hi": "एक ढकी हुई सड़क नाली"
+        },
+        "option_4": {
+          "en": "A rooftop reservoir",
+          "hi": "छत पर जलाशय"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The drainage system at Mohenjodaro was notable because each house was connected to:",
+          "hi": "मोहनजोदड़ो की जल निकासी प्रणाली उल्लेखनीय थी क्योंकि प्रत्येक घर निम्नलिखित से जुड़ा हुआ थाः"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50036",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "A team is allowed two Golden Raids before the result is decided.",
+          "hi": "परिणाम तय होने से पहले एक टीम को दो गोल्डन रेड की अनुमति होती है।"
+        },
+        "option_2": {
+          "en": "A Green Card leads to a 2-minute suspension from the game.",
+          "hi": "ग्रीन कार्ड मिलने पर खिलाड़ी को खेल से 2 मिनट के लिए निलंबित कर दिया जाता है।"
+        },
+        "option_3": {
+          "en": "A fresh toss is taken if the match is tied even after 5-5 raids.",
+          "hi": "यदि 5-5 रेड के बाद भी मैच बराबर रहता है तो पुनः टॉस लिया जाता है।"
+        },
+        "option_4": {
+          "en": "A Red Card results in a warning with no match suspension.",
+          "hi": "रेड कार्ड के परिणामस्वरूप चेतावनी दी जाती है, मैच पर कोई प्रतिबंध नहीं लगाया जाता।"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Which of the following statements is correct regarding the Golden Raid and card system in Kabaddi?",
+          "hi": "कबड्डी में गोल्डन रेड और कार्ड प्रणाली के संबंध में निम्नलिखित में से कौन सा कथन सही है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50037",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Lack of seeds",
+          "hi": "बीजों की कमी"
+        },
+        "option_2": {
+          "en": "Lack of labour",
+          "hi": "श्रमिक अभाव"
+        },
+        "option_3": {
+          "en": "Irrigation water",
+          "hi": "सिंचाई जल"
+        },
+        "option_4": {
+          "en": "Pest infestation",
+          "hi": "कीट संक्रमण"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "What was a major challenge for agriculture in the Chola kingdom apart from rocky land?",
+          "hi": "चट्टानी भूमि के अलावा चोल साम्राज्य में कृषि के लिए प्रमुख चुनौती क्या थी?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50038",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Only 1 is Correct",
+          "hi": "केवल 1 सही है"
+        },
+        "option_2": {
+          "en": "Only 2 is Correct",
+          "hi": "केवल 2 सही है"
+        },
+        "option_3": {
+          "en": "1 and 2 are Correct",
+          "hi": "1 और 2 सही हैं"
+        },
+        "option_4": {
+          "en": "Neither 1 nor 2 is Correct",
+          "hi": "न तो 1 और न ही 2 सही है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Consider the following statements about recent National Basketball Championships:<br> 1) Tamil Nadu won the 74th Senior Men's title; Punjab and Indian Railways were runner-up and second runner-up.<br> 2) Rajasthan won the 39th Youth Boys, and Karnataka won the Youth Girls tournament.<br> Which of the statements is/are correct?",
+          "hi": "हाल ही में आयोजित राष्ट्रीय बास्केटबॉल चैंपियनशिप के बारे में निम्नलिखित कथनों पर विचार करें:<br> 1) तमिलनाडु ने 74वां सीनियर पुरुष खिताब जीता; पंजाब और भारतीय रेलवे उपविजेता और दूसरे उपविजेता रहे।<br> 2) राजस्थान ने 39वां युवा लड़कों का खिताब जीता और कर्नाटक ने युवा लड़कियों का टूर्नामेंट जीता।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50039",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "China",
+          "hi": "चीन"
+        },
+        "option_2": {
+          "en": "Myanmar",
+          "hi": "म्यांमार"
+        },
+        "option_3": {
+          "en": "Bangladesh",
+          "hi": "बांग्लादेश"
+        },
+        "option_4": {
+          "en": "Nepal",
+          "hi": "नेपाल"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The \"Kaladan Multimodal Transit Transport Project\" links India with which country?",
+          "hi": "\"कलादान मल्टीमॉडल ट्रांजिट ट्रांसपोर्ट प्रोजेक्ट\" भारत को किस देश से जोड़ता है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50040",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Jhumpa Lahiri",
+          "hi": "झुम्पा लाहिड़ी"
+        },
+        "option_2": {
+          "en": "Arundhati Roy",
+          "hi": "अरुंधति रॉय"
+        },
+        "option_3": {
+          "en": "Chitra Banerjee",
+          "hi": "चित्रा बनर्जी"
+        },
+        "option_4": {
+          "en": "Kiran Desai",
+          "hi": "किरण देसाई"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "'The Namesake' is a famous novel by which Indian-American author?",
+          "hi": "'द नेमसेक' किस भारतीय-अमेरिकी लेखक का प्रसिद्ध उपन्यास है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50041",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Stabilization occurs when birth rate exceeds death rate",
+          "hi": "स्थिरीकरण तब होता है जब जन्म दर मृत्यु दर से अधिक हो जाती है"
+        },
+        "option_2": {
+          "en": "Stabilization is reached when fertility rate drops to zero",
+          "hi": "स्थिरीकरण तब होता है जब प्रजनन दर शून्य हो जाती है"
+        },
+        "option_3": {
+          "en": "Stabilization occurs when birth and death rates are nearly equal",
+          "hi": "स्थिरीकरण तब होता है जब जन्म और मृत्यु दर लगभग बराबर होती हैं"
+        },
+        "option_4": {
+          "en": "Stabilization refers to doubling of population every decade",
+          "hi": "स्थिरीकरण का अर्थ है हर दशक में जनसंख्या का दोगुना होना"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Which of the following statements is correct regarding population stabilization?",
+          "hi": "जनसंख्या स्थिरीकरण के संबंध में निम्नलिखित में से कौन सा कथन सही है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50042",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Ajit Doval's current tenure as NSA, which began in June 2025, is his first independent term after serving as Principal Advisor on National Security for a decade.",
+          "hi": "एनएसए के रूप में अजीत डोभाल का वर्तमान कार्यकाल, जो जून 2025 में शुरू होगा, एक दशक तक राष्ट्रीय सुरक्षा पर प्रधान सलाहकार के रूप में कार्य करने के बाद उनका पहला स्वतंत्र कार्यकाल है।"
+        },
+        "option_2": {
+          "en": "He holds the ex-officio rank equivalent to a Cabinet Secretary, with his appointment typically for a fixed five-year term irrespective of the government's tenure.",
+          "hi": "वह कैबिनेट सचिव के समकक्ष पद पर होते हैं, तथा उनकी नियुक्ति आमतौर पर सरकार के कार्यकाल से परे, पांच वर्ष की निश्चित अवधि के लिए होती है।"
+        },
+        "option_3": {
+          "en": "Having been reappointed for a fresh term in June 2024, his current position is co-terminus with the Prime Minister's term and he holds the rank of a Cabinet Minister.",
+          "hi": "जून 2024 में नए कार्यकाल के लिए पुनर्नियुक्त होने के बाद, उनका वर्तमान पद प्रधानमंत्री के कार्यकाल के साथ समाप्त हो जाएगा और उन्हें कैबिनेट मंत्री का दर्जा प्राप्त होगा।"
+        },
+        "option_4": {
+          "en": "As NSA, his primary role is to chair the National Security Council (NSC), where he holds voting power on all key security policy decisions, including those related to defence procurement.",
+          "hi": "एनएसए के रूप में उनकी प्राथमिक भूमिका राष्ट्रीय सुरक्षा परिषद (एनएससी) की अध्यक्षता करना है, जहां उनके पास रक्षा खरीद से संबंधित निर्णयों सहित सभी प्रमुख सुरक्षा नीति निर्णयों पर मतदान का अधिकार है।"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Ajit Doval is known as a key figure in India's strategic affairs, remains the National Security Advisor (NSA). In light of his ongoing tenure and recent developments, which of the following statements best reflects his current status as of July 2025?",
+          "hi": "अजीत डोभाल भारत के रणनीतिक मामलों में एक प्रमुख व्यक्ति के रूप में जाने जाते हैं और राष्ट्रीय सुरक्षा सलाहकार (NSA) के पद पर बने हुए हैं। उनके वर्तमान कार्यकाल और हालिया घटनाक्रमों के मद्देनजर, निम्नलिखित में से कौन सा कथन जुलाई 2025 तक उनकी वर्तमान स्थिति को सबसे अच्छी तरह दर्शाता है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50043",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Parul Chaudhary - 3000m steeplechase; Jyothi Yarraji - 100m hurdles",
+          "hi": "पारुल चौधरी - 3000 मीटर स्टीपलचेज़; ज्योति याराजी 100 मीटर बाधा दौड़"
+        },
+        "option_2": {
+          "en": "Lovlina 100m hurdles; Amoj Jacob - Shot Put",
+          "hi": "लवलीना 100 मीटर बाधा दौड़; अमोज जैकब - शॉटपुट"
+        },
+        "option_3": {
+          "en": "Swapnil Kusale Boxing; Sarabjot - Sprint",
+          "hi": "स्वप्निल कुसाले मुक्केबाजी; सरबजोत - स्प्रिंट"
+        },
+        "option_4": {
+          "en": "Amoj Jacob - Wrestling; Jyothi - Relay",
+          "hi": "अमोज जैकब कुश्ती; ज्योति - रिले"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Which of the following combinations of athletics winners at the 2025 National Games is entirely correct?",
+          "hi": "2025 राष्ट्रीय खेलों में एथलेटिक्स विजेताओं का निम्नलिखित में से कौन सा संयोजन पूरी तरह से सही है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50044",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "States need Presidential assent to assign functions to Union",
+          "hi": "राज्यों को संघ को कार्य सौंपने के लिए राष्ट्रपति की सहमति की आवश्यकता है"
+        },
+        "option_2": {
+          "en": "Governor can entrust Union tasks to State Legislature with President's consent",
+          "hi": "राज्यपाल राष्ट्रपति की सहमति से संघीय कार्यों को राज्य विधानमंडल को सौंप सकते हैं"
+        },
+        "option_3": {
+          "en": "State Legislature can entrust Union work to State officers with Centre's approval",
+          "hi": "राज्य विधानमंडल केंद्र की मंजूरी से राज्य के अधिकारियों को संघीय कार्य सौंप सकता है"
+        },
+        "option_4": {
+          "en": "State Government can, with Union's consent, assign Union functions to its officers",
+          "hi": "राज्य सरकार संघ की सहमति से अपने अधिकारियों को संघ के कार्य सौंप सकती है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Under Article 258A, what power is granted to States?",
+          "hi": "अनुच्छेद 258ए के तहत राज्यों को क्या शक्ति प्रदान की गई है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50045",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "1 and 2 only",
+          "hi": "केवल 1 और 2"
+        },
+        "option_2": {
+          "en": "2 and 3 only",
+          "hi": "केवल 2 और 3"
+        },
+        "option_3": {
+          "en": "1 and 3 only",
+          "hi": "केवल 1 और 3"
+        },
+        "option_4": {
+          "en": "1, 2 and 3",
+          "hi": "1, 2 और 3"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read the following statements about the photoelectric effect:<br> 1. The kinetic energy of emitted photoelectrons increases with increasing intensity of incident light.<br> 2. The photoelectric effect demonstrates the particle nature of light.<br> 3. There is a threshold frequency below which no photoemission occurs, regardless of light intensity.<br> Which of the above statements are correct?",
+          "hi": "प्रकाश-विद्युत प्रभाव के बारे में निम्नलिखित कथन पढ़ेंः<br> 1. उत्सर्जित प्रकाश-इलेक्ट्रॉनों की गतिज ऊर्जा, आपतित प्रकाश की तीव्रता बढ़ने पर बढ़ती है।<br> 2. प्रकाश-विद्युत प्रभाव प्रकाश की कणिकीय प्रकृति को दर्शाता है।<br> 3. एक सीमा आवृत्ति होती है जिसके नीचे प्रकाश की तीव्रता चाहे जो भी हो, कोई प्रकाश-उत्सर्जन नहीं होता है<br> उपरोक्त में से कौन से कथन सत्य हैं?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50046",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Shiva",
+          "hi": "शिव"
+        },
+        "option_2": {
+          "en": "Saraswati",
+          "hi": "सरस्वती"
+        },
+        "option_3": {
+          "en": "Krishna",
+          "hi": "कृष्ण"
+        },
+        "option_4": {
+          "en": "Ganesha",
+          "hi": "गणेश"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Fill in the Blank:<br> Ghoomar was originally performed to worship",
+          "hi": "रिक्त स्थान भरेंः<br> घूमर मूल रूप से की पूजा करने के लिए किया जाता था।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50047",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "It evaluates only land-based transport systems",
+          "hi": "यह केवल भूमि-आधारित परिवहन प्रणालियों का मूल्यांकन करता है"
+        },
+        "option_2": {
+          "en": "It ranks countries based on tourism potential",
+          "hi": "यह पर्यटन क्षमता के आधार पर देशों को रैंक करता है"
+        },
+        "option_3": {
+          "en": "It includes indicators measuring trade speed using big data",
+          "hi": "इसमें बड़े डेटा का उपयोग करके व्यापार की गति को मापने वाले संकेतक शामिल हैं"
+        },
+        "option_4": {
+          "en": "It excludes lower-income economies from the analysis",
+          "hi": "यह विश्लेषण से निम्न आय वाली अर्थव्यवस्थाओं को बाहर रखता है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Which new element was incorporated in the 2023 edition of the Logistics Performance Index (LPI)?",
+          "hi": "लॉजिस्टिक्स परफॉर्मेंस इंडेक्स (LPI) के 2023 संस्करण में कौन सा नया तत्व शामिल किया गया?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50048",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Indian National Centre for Ocean Information Services (INCOIS)",
+          "hi": "भारतीय राष्ट्रीय महासागर सूचना सेवा केंद्र (आईएनसीओआईएस)"
+        },
+        "option_2": {
+          "en": "Wadia Institute of Himalayan Geology (WIHG)",
+          "hi": "वाडिया हिमालय भूविज्ञान संस्थान (डब्ल्यूआईएचजी)"
+        },
+        "option_3": {
+          "en": "Central Marine Fisheries Research Institute (CMFRI)",
+          "hi": "केंद्रीय समुद्री मत्स्य अनुसंधान संस्थान (सीएमएफआरआई)"
+        },
+        "option_4": {
+          "en": "Zoological Survey of India (ZSI)",
+          "hi": "भारतीय प्राणी सर्वेक्षण (जेडएसआई)"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Which institute has been studying the Pensilungpa Glacier in Zanskar, Ladakh, to monitor its retreat and mass balance?",
+          "hi": "कौन सा संस्थान लद्दाख के ज़ांस्कर में पेनसिलुंगपा ग्लेशियर का अध्ययन कर रहा है, ताकि इसके पीछे हटने और द्रव्यमान संतुलन की निगरानी की जा सके?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50049",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "100 km",
+          "hi": "100 किमी"
+        },
+        "option_2": {
+          "en": "1000 km",
+          "hi": "1000 किमी"
+        },
+        "option_3": {
+          "en": "10,000 km",
+          "hi": "10,000 किमी"
+        },
+        "option_4": {
+          "en": "100,000 km",
+          "hi": "100,000 किमी"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Earth's atmosphere reaches what height approximately (Kármán line)?",
+          "hi": "पृथ्वी का वायुमंडल लगभग कितनी ऊंचाई तक पहुंचता है (कारमन रेखा)?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50050",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Only 1",
+          "hi": "केवल 1"
+        },
+        "option_2": {
+          "en": "Only 2",
+          "hi": "केवल 2"
+        },
+        "option_3": {
+          "en": "Both 1 and 2",
+          "hi": "1 और 2 दोनों"
+        },
+        "option_4": {
+          "en": "Neither 1 nor 2",
+          "hi": "न तो 1 और न ही 2"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Consider the following statements:<br> 1. Article 300 allows legal suits against State Governments.<br> 2. The term 'Government of India' is a legal entity under Article 300.<br> Which of the above is/are correct?",
+          "hi": "निम्नलिखित कथनों पर विचार कीजिए:<br> 1. अनुच्छेद 300 राज्य सरकारों के विरुद्ध कानूनी मुकदमों की अनुमति देता है।<br> 2. अनुच्छेद 300 के अंतर्गत 'भारत सरकार' शब्द एक कानूनी इकाई है।<br> उपर्युक्त में से कौन सा/से सही है/हैं?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      }
+    ],
+    "MATH": [
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50051",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "7.75",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "8.75",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "9.75",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "10.75",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "solve: (√6400-√2401)×(1/4)",
+          "hi": "हल करना: (√6400-√2401)×(1/4)"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50052",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "3.5",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "4.5",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "6.5",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "7.5",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Solve: (√5776-√4761)×(1/2)",
+          "hi": "हल करना: (√5776-√4761)×(1/2)"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50053",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "5:4:2",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "10:8:5",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "5:4:8",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "5:10:20",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "If 40% of A = 0.5 of B = 1/4 of C, then what is A: B: C?",
+          "hi": "यदि A का 40% = B का 0.5 = C का 1/4 तो A: B: C क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50054",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "1:1",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "2:3",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "3:2",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "5:5",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Two containers of equal capacity filled with milk and water. The first contains milk and water in the ratio 2: 3, and the second in the ratio 3: 2. The mixtures are then combined. What is the ratio of milk to water in the resulting mixture?",
+          "hi": "बराबर क्षमता वाले दो बर्तन दूध और पानी से भरे हुए हैं। पहले बर्तन में दूध और पानी का अनुपात 2: 3 है, और दूसरे बर्तन में 3: 2 है। फिर मिश्रण को मिलाया जाता है। परिणामी मिश्रण में दूध और पानी का अनुपात क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50055",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "12%",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "14%",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "15%",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "18%",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A pair of shoes is listed at 800. After two successive discounts, it is sold for 612. If the first discount offered was 10%, what was the second discount percentage?",
+          "hi": "एक जोड़ी जूते का मूल्य ₹ 800 है। दो क्रमिक छूट के बाद इसे ₹612 में बेचा जाता है। यदि दी गई पहली छूट 10% थी, तो दूसरी छूट का प्रतिशत क्या था?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50056",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "2000",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "2500",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "₹1080",
+          "hi": "₹1080"
+        },
+        "option_4": {
+          "en": "₹1000",
+          "hi": "₹1000"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A retailer marked a product 60% above its cost price. He provided two successive discounts of 25% and 10%. If he earned a profit of 160, what was the cost price of the product?",
+          "hi": "एक खुदरा विक्रेता ने एक उत्पाद को उसके लागत मूल्य से 60% अधिक मूल्य पर अंकित किया। उसने 25% और 10% की दो क्रमिक छूट प्रदान की। यदि उसने ₹160 का लाभ कमाया, तो उत्पाद का लागत मूल्य क्या था?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50057",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "256",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "301",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "352",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "298",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "If (x+2/x=7) find the value of x³+8/x³.",
+          "hi": "यदि (x+2/x=7). तो x³+8/x³ का मान ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50058",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "14,000",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "16,000",
+          "hi": "₹16,000"
+        },
+        "option_3": {
+          "en": "₹18,000",
+          "hi": "₹18,000"
+        },
+        "option_4": {
+          "en": "20,000",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "An educational fund of ₹6,00,000 earns simple interest at 9% per annum. This annual interest is used to grant three scholarships. If the first and third scholarships are 18,000 and 22,000 respectively, what is the value of the second scholarship?",
+          "hi": "₹6,00,000 के एक शैक्षिक कोष पर 9% प्रति वर्ष साधारण ब्याज मिलता है। इस वार्षिक ब्याज का उपयोग तीन छात्रवृत्तियाँ प्रदान करने के लिए किया जाता है। यदि पहली और तीसरी छात्रवृत्तियाँ क्रमशः ₹18,000 और ₹22,000 हैं, तो दूसरी छात्रवृत्ति का मूल्य क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50059",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Y=X+Z",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Y²=XZ",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "X=Y+Z",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "X²=Y+Z",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Suppose X is invested, and after 2 years at 5% simple interest, it yields Y interest. If Y is then invested for 2 years at 5% simple interest, it yields Z interest. Which of the following is true?",
+          "hi": "मान लीजिए ₹x का निवेश किया जाता है, और 2 वर्ष बाद 5% साधारण ब्याज पर, इस पर ₹ ब्याज मिलता है। यदि ₹ को 2 वर्ष के लिए 5% साधारण ब्याज पर निवेश किया जाता है, तो इस पर ₹2 ब्याज मिलता है। निम्नलिखित में से कौन सा कथन सत्य है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50060",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "300(√3-1)m",
+          "hi": "300(√3-1)m"
+        },
+        "option_2": {
+          "en": "300√3m",
+          "hi": "300/3 मीटर"
+        },
+        "option_3": {
+          "en": "300(1+1/√3)m",
+          "hi": "300(1+1/√3)m"
+        },
+        "option_4": {
+          "en": "300(√3+1)m",
+          "hi": "300(√3+1)m"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "An airplane flying at a height of 300 m notices the angles of depression to two boats located on opposite sides as 45° and 30°. Find the distance between the two boats.",
+          "hi": "300 मीटर की ऊंचाई पर उड़ता एक हवाई जहाज विपरीत दिशाओं में स्थित दो नावों के अवनमन कोण 45° और 30° देखता है। दोनों नावों के बीच की दूरी ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50061",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "0.8(√3-1)m",
+          "hi": "0.8(√3-1)m"
+        },
+        "option_2": {
+          "en": "1.6(√3-1)m",
+          "hi": "1.6(√3-1)m"
+        },
+        "option_3": {
+          "en": "0.8(√3+1)m",
+          "hi": "0.8(√3 + 1) मीटर"
+        },
+        "option_4": {
+          "en": "1.6(√3+1)m",
+          "hi": "1.6(√3+1)m"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A statue that is 1.6 meters in height is positioned on top of a pedestal. From a location on the ground, the angle of elevation to the top of the statue measures 60 degrees, while the angle of elevation to the top of the pedestal from the same point is 45 degrees. Determine the height of the pedestal.",
+          "hi": "एक प्रतिमा जिसकी ऊँचाई 1.6 मीटर है, एक आधारस्तंभ (पेडेस्टल) के ऊपर स्थित है। जमीन पर एक बिंदु से, प्रतिमा के शीर्ष तक का उन्नयन कोण 60° जबकि उसी बिंदु से आधारस्तंभ के शीर्ष तक का उन्नयन कोण 45° है। आधारस्तंभ की ऊँचाई ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50062",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "5987.25 cm³",
+          "hi": "5987.25 cm³"
+        },
+        "option_2": {
+          "en": "5026.33 cm³",
+          "hi": "5026.33 cm³"
+        },
+        "option_3": {
+          "en": "4500.8 cm³",
+          "hi": "4500.8 cm³"
+        },
+        "option_4": {
+          "en": "5500 cm³",
+          "hi": "5500 cm³"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The inner and outer radius of a hollow hemispherical shell are 7 cm and 14 cm respectively. Find the approximate volume of the metal used.",
+          "hi": "एक खोखले अर्धगोलाकार खोल की आंतरिक और बाहरी त्रिज्याएँ क्रमशः 7 सेमी और 14 सेमी हैं। प्रयुक्त धातु का लगभग आयतन ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50063",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "1:1",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "1:7",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "5:1",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "6:1",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A right circular cone is divided into two sections by a plane that is parallel to the base, with the volumes of the frustum and the smaller cone having a ratio of 7:1. Determine the ratio of their heights.",
+          "hi": "एक समकोण वृत्तीय शंकु को उसके आधार के समांतर एक तल द्वारा दो भागों में विभाजित किया गया है। इन भागों में से एक एक छोटा शंकु है और दूसरा एक खंड (फ्रसटम)। यदि खंड और छोटे शंकु के आयतनों का अनुपात 7:1 है, तो उनके ऊँचाइयों का अनुपात ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50064",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Doubled",
+          "hi": "दोगुनी"
+        },
+        "option_2": {
+          "en": "Tripled",
+          "hi": "तीन गुना"
+        },
+        "option_3": {
+          "en": "Quadrupled",
+          "hi": "चार गुना"
+        },
+        "option_4": {
+          "en": "Increases 6 times",
+          "hi": "6 गुना बढ़ जाता है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "If the side of a regular hexagon is doubled, what happens to its area?",
+          "hi": "यदि एक समषट्‌भुज की भुजा को दोगुना कर दिया जाए, तो उसके क्षेत्रफल पर क्या प्रभाव पड़ेगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50065",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "753.6 cm³",
+          "hi": "753.6 सेमी³"
+        },
+        "option_2": {
+          "en": "847.8 cm³",
+          "hi": "847.8"
+        },
+        "option_3": {
+          "en": "942.0 cm³",
+          "hi": "942.0"
+        },
+        "option_4": {
+          "en": "1130.4 cm³",
+          "hi": "1130.4 सेमी³"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A cylindrical storage container has a base radius of 3 cm. It is designed with sections whose heights form an arithmetic progression, starting from 2 cm for the bottom section and reaching 10 cm for the topmost section, covering a total of 5 sections. What is the total volume of the container? (Use π≈3.14)",
+          "hi": "एक बेलनाकार भंडारण पात्र की आधार त्रिज्या 3 सेमी है। इसे ऐसे खंडों में डिज़ाइन किया गया है जिनकी ऊँचाई एक अंकगणितीय क्रम में है, जो सबसे निचले भाग के लिए 2 सेमी से शुरू होकर सबसे ऊपरी भाग के लिए 10 सेमी तक है, और कुल 5 खंडों को कवर करती है। पात्र का कुल आयतन क्या है? ( π≈3.14 का प्रयोग करें)"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50066",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "-7/4",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "7/4",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "-4/7",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "4/7",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Find slope of line 7x+4y=8",
+          "hi": "7x+4y=8 रेखा का ढाल ज्ञात कीजिए"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50067",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "180°",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "360°",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Depends on the number of sides",
+          "hi": "पक्षों की संख्या पर निर्भर करता है"
+        },
+        "option_4": {
+          "en": "540°",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "What is the total sum of the exterior angles of any polygon, one at each vertex?",
+          "hi": "किसी बहुभुज के प्रत्येक शीर्ष पर एक बाह्य कोणों का कुल योग क्या होता है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50068",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "10 cm²",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "15 cm²",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "20 cm²",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "30 cm²",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "In triangle ABC, medians AD, BE, and CF intersect at the Centroid G. If the area of triangle ABC is 60 cm², what is the area of triangle GBC?",
+          "hi": "त्रिभुज ABC में, माध्यिकाएँ AD, BE और CF केन्द्रक G पर प्रतिच्छेद करती हैं। यदि त्रिभुज ABC का क्षेत्रफल 60 वर्ग सेमी है, तो त्रिभुज GBC का क्षेत्रफल क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50069",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "3",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "4",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "5",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "2",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Given, (√5+x+√5-x)/(√5+x-√5-x)=3, then what is the value of x?",
+          "hi": "दिया गया है, (√(5+x)+√(5-x))/(√(5+x)-√(5-x))=3 तो x का मान क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50070",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "3 cm",
+          "hi": "3 सेमी"
+        },
+        "option_2": {
+          "en": "4 cm",
+          "hi": "4 सेमी"
+        },
+        "option_3": {
+          "en": "5 cm",
+          "hi": "5 सेमी"
+        },
+        "option_4": {
+          "en": "6 cm",
+          "hi": "6 सेमी"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Two circles have radii in the ratio 2: 1. The length of a direct common tangent is 8 cm, and the distance between their centers is 10 cm. What is the radius of the smaller circle?",
+          "hi": "दो वृत्तों की त्रिज्याएँ इस अनुपात में हैं 2: 1. एक सीधी उभयनिष्ठ स्पर्श रेखा की लंबाई है 8 सेमी, और उनके केंद्रों के बीच की दूरी है 10 सेमी. छोटे वृत्त की त्रिज्या क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50071",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "16 cm",
+          "hi": "16 सेमी"
+        },
+        "option_2": {
+          "en": "12 cm",
+          "hi": "12 सेमी"
+        },
+        "option_3": {
+          "en": "14 cm",
+          "hi": "14 सेमी"
+        },
+        "option_4": {
+          "en": "18 cm",
+          "hi": "18 सेमी"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "In a circle having a radius 10 cm, a chord is 6 cm away from the center. Find the length of the chord.",
+          "hi": "10 सेमी त्रिज्या वाले एक वृत्त में, एक जीवा केंद्र से 6 सेमी दूर है। जीवा की लंबाई ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50072",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "14+8√3",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "15+8√3",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "16+6√2",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "13+4√3",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "If tanA+cotA=4 and tanA cotA=1 find tan²A+sec²A.",
+          "hi": "यदि tanA+cotA=4 और tanA cotA=1, तो ज्ञात कीजिए tan²A+sec²A"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50073",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "(1+x²)/(1-x²)",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "(1-x²)/(1+x²)",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "2x/(1-x²)",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "(1-x²)/2x",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "If sin A = 2x/(1+x²) what is cosA?",
+          "hi": "sin A = 2x/(1+x²) cosA क्या है ?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50074",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "0.25",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "0.125",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "0.5",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "0.75",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Simplify: (0.25³+0.05³)/(0.5³+0.1³)",
+          "hi": "सरल करें: (0.25³+0.05³)/(0.5³+0.1³)"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50075",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "1/5",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "1/25",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "1/125",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "1/625",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Find the value of (0.05³+0.005³)/(0.25³+0.025³)",
+          "hi": "(0.05³+0.005³)/(0.25³+0.025³) का मान ज्ञात कीजिए"
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      }
+    ],
+    "ENGLISH": [
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50076",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Insecure",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Anxious",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Alert",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Submissive",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the most appropriate synonym of the given word: COMPLAISANT",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "bonus by ssc",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50077",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Disgrace",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Contempt",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Honor",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Censure",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the most appropriate antonym of the given word. Opprobrium",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50078",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "A pleasant illusion",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "A constant threat hanging over someone",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "A royal invitation",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "A wise judgment",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the correct meaning of idiom:<br>The sword of Damocles",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50079",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Serves generous and high-quality meals",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Maintains a disciplined home",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Follows religious rules strictly",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Provides food to the poor regularly",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the correct meaning of idiom:<br>Keeps a good table",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50080",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Adept",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Adapt",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Addept",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Adeptt",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Which is the correct spelling of a word meaning 'clever or skillful'?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50081",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Hermit",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Reveler",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Glutton",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Epicure",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the correct one-word substitution for: 'One who lives entirely for pleasure'.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "bonus by ssc",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50082",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Dreamer",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Realist",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Idealist",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Fatalist",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the correct one-word substitution for: 'A person who believes in fate or destiny'.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50083",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "confuse",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "confusing",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "confusion",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "confused",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the appropriate word form:<br>The policy's lack of clarity led to widespread __________",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50084",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "what",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "which",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "that",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "this",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the correct option:<br>She arrived at the interview ten minutes early, __________ showed professionalism.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50085",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "(1)",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "(2)",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "(3)",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "(4)",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Find the part of the sentence that contains an error:<br>The CEO demanded that the report is submitted (1)/ to the board (2)/ not later than Wednesday afternoon (3)/ for immediate evaluation. (4)/",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50086",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "(1)",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "(2)",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "(3)",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "(4)",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Find the part of the sentence that contains an error:<br>No sooner had the proposal been circulated (1)/ that objections were raised (2)/ regarding its feasibility and financial implications (3)/ across all departments. (4)",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50087",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "The animals are fed twice a day.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "The animals were fed twice a day.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "The animals are being fed twice a day.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "The animals have been fed twice a day.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Change the following from active to passive:<br>They feed the animals twice a day.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50088",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "The altar server retrieved the amice from the vestry.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "The novelist described her protagonist's scarf as an amice.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "The bishop adjusted the amice before the blessing.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "The amice was embroidered with gold thread.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the sentence containing the homonym of the highlighted word:<br>The cleric wore a silk *amice* over his alb during the liturgy.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "bonus by ssc",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50089",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "The legal department is understood to have reviewed the draft last week.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "The draft was reviewed last week, as is understood.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "It was understood the legal team is reviewing the draft.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "The draft understood itself to be reviewed.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Convert the sentence provided below from its passive voice structure to an active voice structure:<br>The draft is understood to have been reviewed by the legal department last week.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50090",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "has",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "had",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "has had",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "is having",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the most suitable option to replace the highlighted part of the sentence:<br>He *is having* a car for five years.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "bonus by ssc",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50091",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "in order that he does not fail",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "for not failing",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "lest he should fail",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "so that he did not fail",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the most suitable option to replace the highlighted part of the sentence:<br>He worked very hard lest he *may fail*.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50092",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Communication is a tool for fast information delivery.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "It is an act of linguistic persuasion.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Communication is foundational to constructing shared human realities.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "It functions primarily as a cultural symbol across civilizations.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read the following passage and answer the questions based on the passage:<br>In the tapestry of human civilization, communication functions as the warp thread-a foundational axis around which all societal patterns are woven. Far from being a mere conduit of information, communication embodies the dynamic interplay of perception, cognition, intention, and empathy. The profound necessity of communication arises not solely from the need to disseminate knowledge or coordinate actions, but from the imperative to construct meaning, cultivate understanding, and negotiate the complex terrain of human relationships. Historically, communication has been the catalytic force behind societal transformation-from the oral traditions that preserved mythological cosmologies to the written word that enabled legal systems and codified morality. The printing press, the telegraph, and now digital media are not just technological milestones; they are paradigmatic shifts in the communicative capacity of humankind. Each advancement has not only expanded the velocity and reach of messages but has also redefined the epistemological contours of truth, authority, and discourse. At the interpersonal level, communication is far from unidirectional. It encompasses verbal, non-verbal, and paralinguistic dimensions that function in concert to convey nuance and intention. Eye contact, silence, body posture, and even prosody become carriers of latent meaning-often transcending the spoken word. The failure to decode or acknowledge these layers frequently leads to misapprehension, conflict, or alienation. Thus, effective communication is not merely the transmission of speech, but the art of calibrated expression and attentive reception. In professional and organizational contexts, the strategic deployment of communication is pivotal. It determines leadership efficacy, influences team cohesion, and governs decision-making processes. Hierarchical structures often obfuscate open communication, resulting in informational asymmetries and the erosion of institutional trust. In contrast, transparent, dialogic, and inclusive communication frameworks nurture a culture of accountability and innovation. Cultural semiotics also shape communication, embedding within language a constellation of values, assumptions, and power dynamics. What is deemed assertive in one cultural matrix may be interpreted as aggressive in another. Consequently, intercultural communication necessitates a heightened awareness of contextual sensitivity, linguistic pluralism, and implicit biases. In an era marked by algorithmic echo chambers and hyper-mediated realities, the ethical imperative of responsible communication becomes paramount. The virality of misinformation, the commodification of attention, and the erosion of discourse norms threaten the democratic fabric of societies. Hence, communicative competence today must be coupled with critical media literacy, epistemic humility, and ethical discernment. Ultimately, communication is not ancillary to human existence-it is constitutive of it. To communicate is to assert presence, to co-create reality, and to engage in the continuous reconstitution of the social world. In its highest form, communication becomes a moral act: a commitment to understanding, mutuality, and the transcendence of solipsism.<br><br><br>Which of the following best encapsulates the primary thesis of the passage?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50093",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Cultures are astronomically defined.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Values are isolated and static in different cultures.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Communication patterns are random across cultures.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Communication carries embedded assumptions and norms shaped by culture.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read the following passage and answer the questions based on the passage:<br>In the tapestry of human civilization, communication functions as the warp thread-a foundational axis around which all societal patterns are woven. Far from being a mere conduit of information, communication embodies the dynamic interplay of perception, cognition, intention, and empathy. The profound necessity of communication arises not solely from the need to disseminate knowledge or coordinate actions, but from the imperative to construct meaning, cultivate understanding, and negotiate the complex terrain of human relationships. Historically, communication has been the catalytic force behind societal transformation-from the oral traditions that preserved mythological cosmologies to the written word that enabled legal systems and codified morality. The printing press, the telegraph, and now digital media are not just technological milestones; they are paradigmatic shifts in the communicative capacity of humankind. Each advancement has not only expanded the velocity and reach of messages but has also redefined the epistemological contours of truth, authority, and discourse. At the interpersonal level, communication is far from unidirectional. It encompasses verbal, non-verbal, and paralinguistic dimensions that function in concert to convey nuance and intention. Eye contact, silence, body posture, and even prosody become carriers of latent meaning-often transcending the spoken word. The failure to decode or acknowledge these layers frequently leads to misapprehension, conflict, or alienation. Thus, effective communication is not merely the transmission of speech, but the art of calibrated expression and attentive reception. In professional and organizational contexts, the strategic deployment of communication is pivotal. It determines leadership efficacy, influences team cohesion, and governs decision-making processes. Hierarchical structures often obfuscate open communication, resulting in informational asymmetries and the erosion of institutional trust. In contrast, transparent, dialogic, and inclusive communication frameworks nurture a culture of accountability and innovation. Cultural semiotics also shape communication, embedding within language a constellation of values, assumptions, and power dynamics. What is deemed assertive in one cultural matrix may be interpreted as aggressive in another. Consequently, intercultural communication necessitates a heightened awareness of contextual sensitivity, linguistic pluralism, and implicit biases. In an era marked by algorithmic echo chambers and hyper-mediated realities, the ethical imperative of responsible communication becomes paramount. The virality of misinformation, the commodification of attention, and the erosion of discourse norms threaten the democratic fabric of societies. Hence, communicative competence today must be coupled with critical media literacy, epistemic humility, and ethical discernment. Ultimately, communication is not ancillary to human existence-it is constitutive of it. To communicate is to assert presence, to co-create reality, and to engage in the continuous reconstitution of the social world. In its highest form, communication becomes a moral act: a commitment to understanding, mutuality, and the transcendence of solipsism.<br><br><br>In the context of intercultural communication, what is implied by the phrase \"constellation of values\"?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50094",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "They replace verbal communication entirely.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "They act as secondary embellishments.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "They convey subtle or latent meanings often missed by verbal speech.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "They are irrelevant in professional contexts.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read the following passage and answer the questions based on the passage:<br>In the tapestry of human civilization, communication functions as the warp thread-a foundational axis around which all societal patterns are woven. Far from being a mere conduit of information, communication embodies the dynamic interplay of perception, cognition, intention, and empathy. The profound necessity of communication arises not solely from the need to disseminate knowledge or coordinate actions, but from the imperative to construct meaning, cultivate understanding, and negotiate the complex terrain of human relationships. Historically, communication has been the catalytic force behind societal transformation-from the oral traditions that preserved mythological cosmologies to the written word that enabled legal systems and codified morality. The printing press, the telegraph, and now digital media are not just technological milestones; they are paradigmatic shifts in the communicative capacity of humankind. Each advancement has not only expanded the velocity and reach of messages but has also redefined the epistemological contours of truth, authority, and discourse. At the interpersonal level, communication is far from unidirectional. It encompasses verbal, non-verbal, and paralinguistic dimensions that function in concert to convey nuance and intention. Eye contact, silence, body posture, and even prosody become carriers of latent meaning-often transcending the spoken word. The failure to decode or acknowledge these layers frequently leads to misapprehension, conflict, or alienation. Thus, effective communication is not merely the transmission of speech, but the art of calibrated expression and attentive reception. In professional and organizational contexts, the strategic deployment of communication is pivotal. It determines leadership efficacy, influences team cohesion, and governs decision-making processes. Hierarchical structures often obfuscate open communication, resulting in informational asymmetries and the erosion of institutional trust. In contrast, transparent, dialogic, and inclusive communication frameworks nurture a culture of accountability and innovation. Cultural semiotics also shape communication, embedding within language a constellation of values, assumptions, and power dynamics. What is deemed assertive in one cultural matrix may be interpreted as aggressive in another. Consequently, intercultural communication necessitates a heightened awareness of contextual sensitivity, linguistic pluralism, and implicit biases. In an era marked by algorithmic echo chambers and hyper-mediated realities, the ethical imperative of responsible communication becomes paramount. The virality of misinformation, the commodification of attention, and the erosion of discourse norms threaten the democratic fabric of societies. Hence, communicative competence today must be coupled with critical media literacy, epistemic humility, and ethical discernment. Ultimately, communication is not ancillary to human existence-it is constitutive of it. To communicate is to assert presence, to co-create reality, and to engage in the continuous reconstitution of the social world. In its highest form, communication becomes a moral act: a commitment to understanding, mutuality, and the transcendence of solipsism.<br><br><br>According to the passage, what role do non-verbal cues primarily serve in interpersonal communication?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50095",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Increased productivity due to streamlined authority.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Erosion of institutional trust and communication breakdown.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Faster decision-making due to lack of dissent.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Decentralization of organizational roles.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read the following passage and answer the questions based on the passage:<br>In the tapestry of human civilization, communication functions as the warp thread-a foundational axis around which all societal patterns are woven. Far from being a mere conduit of information, communication embodies the dynamic interplay of perception, cognition, intention, and empathy. The profound necessity of communication arises not solely from the need to disseminate knowledge or coordinate actions, but from the imperative to construct meaning, cultivate understanding, and negotiate the complex terrain of human relationships. Historically, communication has been the catalytic force behind societal transformation-from the oral traditions that preserved mythological cosmologies to the written word that enabled legal systems and codified morality. The printing press, the telegraph, and now digital media are not just technological milestones; they are paradigmatic shifts in the communicative capacity of humankind. Each advancement has not only expanded the velocity and reach of messages but has also redefined the epistemological contours of truth, authority, and discourse. At the interpersonal level, communication is far from unidirectional. It encompasses verbal, non-verbal, and paralinguistic dimensions that function in concert to convey nuance and intention. Eye contact, silence, body posture, and even prosody become carriers of latent meaning-often transcending the spoken word. The failure to decode or acknowledge these layers frequently leads to misapprehension, conflict, or alienation. Thus, effective communication is not merely the transmission of speech, but the art of calibrated expression and attentive reception. In professional and organizational contexts, the strategic deployment of communication is pivotal. It determines leadership efficacy, influences team cohesion, and governs decision-making processes. Hierarchical structures often obfuscate open communication, resulting in informational asymmetries and the erosion of institutional trust. In contrast, transparent, dialogic, and inclusive communication frameworks nurture a culture of accountability and innovation. Cultural semiotics also shape communication, embedding within language a constellation of values, assumptions, and power dynamics. What is deemed assertive in one cultural matrix may be interpreted as aggressive in another. Consequently, intercultural communication necessitates a heightened awareness of contextual sensitivity, linguistic pluralism, and implicit biases. In an era marked by algorithmic echo chambers and hyper-mediated realities, the ethical imperative of responsible communication becomes paramount. The virality of misinformation, the commodification of attention, and the erosion of discourse norms threaten the democratic fabric of societies. Hence, communicative competence today must be coupled with critical media literacy, epistemic humility, and ethical discernment. Ultimately, communication is not ancillary to human existence-it is constitutive of it. To communicate is to assert presence, to co-create reality, and to engage in the continuous reconstitution of the social world. In its highest form, communication becomes a moral act: a commitment to understanding, mutuality, and the transcendence of solipsism.<br><br><br>What does the passage suggest is the consequence of informational asymmetry within hierarchical institutions?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50096",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Reluctance to speak in public discourse.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Acceptance of one's cultural superiority.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Awareness of the limits of one's knowledge in communicative contexts.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Dependence on traditional forms of communication.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read the following passage and answer the questions based on the passage:<br>In the tapestry of human civilization, communication functions as the warp thread-a foundational axis around which all societal patterns are woven. Far from being a mere conduit of information, communication embodies the dynamic interplay of perception, cognition, intention, and empathy. The profound necessity of communication arises not solely from the need to disseminate knowledge or coordinate actions, but from the imperative to construct meaning, cultivate understanding, and negotiate the complex terrain of human relationships. Historically, communication has been the catalytic force behind societal transformation-from the oral traditions that preserved mythological cosmologies to the written word that enabled legal systems and codified morality. The printing press, the telegraph, and now digital media are not just technological milestones; they are paradigmatic shifts in the communicative capacity of humankind. Each advancement has not only expanded the velocity and reach of messages but has also redefined the epistemological contours of truth, authority, and discourse. At the interpersonal level, communication is far from unidirectional. It encompasses verbal, non-verbal, and paralinguistic dimensions that function in concert to convey nuance and intention. Eye contact, silence, body posture, and even prosody become carriers of latent meaning-often transcending the spoken word. The failure to decode or acknowledge these layers frequently leads to misapprehension, conflict, or alienation. Thus, effective communication is not merely the transmission of speech, but the art of calibrated expression and attentive reception. In professional and organizational contexts, the strategic deployment of communication is pivotal. It determines leadership efficacy, influences team cohesion, and governs decision-making processes. Hierarchical structures often obfuscate open communication, resulting in informational asymmetries and the erosion of institutional trust. In contrast, transparent, dialogic, and inclusive communication frameworks nurture a culture of accountability and innovation. Cultural semiotics also shape communication, embedding within language a constellation of values, assumptions, and power dynamics. What is deemed assertive in one cultural matrix may be interpreted as aggressive in another. Consequently, intercultural communication necessitates a heightened awareness of contextual sensitivity, linguistic pluralism, and implicit biases. In an era marked by algorithmic echo chambers and hyper-mediated realities, the ethical imperative of responsible communication becomes paramount. The virality of misinformation, the commodification of attention, and the erosion of discourse norms threaten the democratic fabric of societies. Hence, communicative competence today must be coupled with critical media literacy, epistemic humility, and ethical discernment. Ultimately, communication is not ancillary to human existence-it is constitutive of it. To communicate is to assert presence, to co-create reality, and to engage in the continuous reconstitution of the social world. In its highest form, communication becomes a moral act: a commitment to understanding, mutuality, and the transcendence of solipsism.<br><br><br>The phrase \"epistemic humility\" in the passage most likely refers to which of the following?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50097",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "He said, \"The sculpture would have commanded greater gravitas had the pedestal been proportionally austere.\"",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "He said, \"If the pedestal is proportionally austere, the sculpture commands greater gravitas.\"",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "He said, \"The sculpture will command greater gravitas if the pedestal had been austere.\"",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "He said, \"Had the pedestal been austere, the sculpture must have commanded greater gravitas.\"",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the correct option for the Direct Speech conversion of the sentence below.<br>He remarked that the sculpture would have commanded greater gravitas had the pedestal been proportionally austere.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50098",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "She asked why I lied to her.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "She asked why I had lied to her.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "She asked why had I lied to her.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "She asked why did I lie to her.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A sentence is provided in direct speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding indirect speech.<br>She said, \"Why did you lie to me?\"",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50099",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "2-1-3-4",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "3-1-2-4",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "1-2-3-4",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "4-3-2-1",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Rearrange the following sentences to form a meaningful passage:<br>1. Machine learning models require large datasets to train.<br>2. Data preprocessing ensures that the input is clean and formatted correctly.<br>3. The model is tested to evaluate its accuracy.<br>4. Once trained, the model can be deployed for real-world applications.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50100",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "2-1-3-4",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "2-4-1-3",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "3-4-2-1",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "2-3-1-4",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Rearrange the following sentences in correct order to make a logical passage.<br>1. The first step is to recognize unhealthy patterns.<br>2. Breaking bad habits requires discipline and self-awareness.<br>3. Seeking support from friends or professionals can be helpful.<br>4. Consistency in applying new behaviors is key to lasting change.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl_25_18_sept_s3",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      }
+    ]
+  }
+}
