@@ -1890,6 +1890,14 @@ function restoreLatestResult() {
     document.getElementById("results").innerHTML = LAST_RESULT_HTML;
     document.getElementById("results").style.display = "block";
 
+    // 🔓 Re-enable Live Rank button after restore (CRITICAL)
+const liveBtn = document.querySelector(
+  "button[onclick*='refreshLatestRankOnDemand']"
+);
+if (liveBtn) {
+  liveBtn.disabled = false;
+  liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
+}
     // Hide other views
     document.getElementById("quizMainArea").style.display = "none";
     document.getElementById("previousAttempts").style.display = "none";
