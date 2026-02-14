@@ -1906,10 +1906,12 @@ if (liveBtn) {
     document.getElementById("floatBar").style.display = "none";
   }
 }
-// Refresh Rank Button Logic (STRICT submitQuiz aligned + Time Taken)
+
+// Refresh Rank Button Logic (Firebase Source of Truth + STRICT submitQuiz aligned)
 async function refreshLatestRankOnDemand(btn) {
-  const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
-  if (!resultData || !resultData.answers) {
+  // 1. Initial State Check
+  const localData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
+  if (!localData || !localData.answers) {
     alert("No submission data found to update.");
     return;
   }
@@ -1918,13 +1920,22 @@ async function refreshLatestRankOnDemand(btn) {
   btn.textContent = "Updating...";
 
   try {
-    // 1. Fresh Fetch: Get latest version of JSON to bypass cache
+    // 2. Fetch LATEST attempt data from Firebase (Reliable Source)
+    // We use the submittedAt timestamp from local storage to find the specific entry in history
+    const firebaseSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID + "/" + localData.submittedAt).get();
+    const fbData = firebaseSnap.val();
+
+    if (!fbData) {
+      throw new Error("Could not find submission record in database.");
+    }
+
+    // 3. Fresh JSON Fetch: Get latest version of answers to bypass cache
     const response = await fetch(`./data/${QUIZ_ID}.json?t=${Date.now()}`);
     if (!response.ok) throw new Error("Failed to fetch latest quiz data");
     const freshData = await response.json();
     const freshQuestions = freshData.questions;
 
-    // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
+    // 4. Re-Calculation Loop: Re-evaluate original answers against new JSON keys
     let newCorrect = 0, newWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     
     freshQuestions.forEach((q, i) => {
@@ -1932,7 +1943,8 @@ async function refreshLatestRankOnDemand(btn) {
       const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0);
       newMaxTotalMarks += qCorScore;
 
-      const userAns = resultData.answers[q.id ?? i];
+      // Use the saved answers from localStorage (which contains what the user actually clicked)
+      const userAns = localData.answers[q.id ?? i];
       if (userAns) {
         if (String(userAns) === String(q.answer)) {
           newCorrect++;
@@ -1947,8 +1959,11 @@ async function refreshLatestRankOnDemand(btn) {
     const attempted = newCorrect + newWrong;
     const unattempted = freshQuestions.length - attempted;
     const accuracy = attempted ? ((newCorrect / attempted) * 100).toFixed(2) : "0.00";
+    
+    // Use timeTaken directly from Firebase record for reliability
+    const myTime = fbData.timeTaken || 0; 
 
-    // 3. Firebase Sync: Update BOTH nodes so Rank calculation is accurate
+    // 5. Firebase Sync: Update BOTH nodes with re-calculated scores
     const fbUpdate = {
       score: newTotalMarks,
       total: newMaxTotalMarks,
@@ -1957,23 +1972,23 @@ async function refreshLatestRankOnDemand(btn) {
     };
 
     await db.ref("quiz_results/" + QUIZ_ID + "/" + DEVICE_ID).update(fbUpdate);
-    await db.ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID + "/" + resultData.submittedAt).update(fbUpdate);
+    await db.ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID + "/" + localData.submittedAt).update(fbUpdate);
 
-    // 4. Update Rank & Percentile based on NEW score
+    // 6. Update Rank & Percentile based on NEW re-calculated score
     const rankData = await getRankAndPercentile(
       QUIZ_ID,
       newTotalMarks,
-      resultData.timeTaken || resultData.timeTakenSeconds, 
-      resultData.submittedAt
+      myTime, 
+      localData.submittedAt
     );
-  
 
-    // 5. UI Refresh: Update Score Summary & Attempt Summary Boxes
-    document.querySelector(".score-summary .score-item:nth-child(1) p").textContent = `${rankData.rank} / ${rankData.total}`;
-    document.querySelector(".score-summary .score-item:nth-child(2) p").textContent = `${rankData.percentile}%`;
-    document.querySelector(".score-summary .score-item:nth-child(3) p").textContent = `${newTotalMarks}`;
+    // 7. UI Refresh: Update Score Summary & Attempt Summary Boxes
+    const resultsContainer = document.getElementById("results");
+    resultsContainer.querySelector(".score-summary .score-item:nth-child(1) p").textContent = `${rankData.rank} / ${rankData.total}`;
+    resultsContainer.querySelector(".score-summary .score-item:nth-child(2) p").textContent = `${rankData.percentile}%`;
+    resultsContainer.querySelector(".score-summary .score-item:nth-child(3) p").textContent = `${newTotalMarks}`;
     
-    const attBoxes = document.querySelectorAll(".attempt-box span");
+    const attBoxes = resultsContainer.querySelectorAll(".attempt-box span");
     if(attBoxes.length >= 4) {
       attBoxes[0].textContent = newCorrect;
       attBoxes[1].textContent = newWrong;
@@ -1981,10 +1996,9 @@ async function refreshLatestRankOnDemand(btn) {
       attBoxes[3].textContent = `${attempted} / ${freshQuestions.length}`;
     }
 
-    // 6. Fetch Topper Data & Update Comparison Bars
+    // 8. Fetch Topper Data & Update Comparison Bars
     const toppersList = await getToppersList(QUIZ_ID);
     const topperStats = getTopperStatsForComparison(toppersList, freshQuestions.length);
-    const resultsContainer = document.getElementById("results");
 
     const comparisonCard = Array.from(resultsContainer.querySelectorAll(".section-title"))
       .find(el => el.textContent.includes("You vs Topper"))?.closest(".card-dashboard");
@@ -1996,11 +2010,11 @@ async function refreshLatestRankOnDemand(btn) {
         ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
         ${renderComparisonBar("Correct", newCorrect, freshQuestions.length, topperStats.correct, freshQuestions.length)}
         ${renderComparisonBar("Wrong", newWrong, freshQuestions.length, topperStats.wrong, freshQuestions.length, "", true)}
-        ${renderComparisonBar("Time Taken", resultData.timeTaken || resultData.timeTakenSeconds, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
+        ${renderComparisonBar("Time Taken", myTime, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
       `;
     }
 
-    // 🔄 Update Topper Table
+    // 9. Update Topper Table
     const topperCard = resultsContainer.querySelector(".topper-table")?.closest(".card-dashboard");
     if (topperCard) {
       topperCard.innerHTML = `
@@ -2021,30 +2035,34 @@ async function refreshLatestRankOnDemand(btn) {
       `;
     }
 
-    // 🔧 Fix Time Taken text format
+    // 10. Fix Time Taken labels to mm:ss format inside bars
     resultsContainer.querySelectorAll(".bar-section").forEach(sec => {
       const label = sec.querySelector(".bar-label span")?.textContent;
       if (label === "Time Taken") {
         const values = sec.querySelectorAll("span[style*='text-align:right']");
         if (values.length === 2) {
-          // Use timeTakenSeconds if timeTaken is undefined (fixes NaN after refresh)
-          values[0].textContent = fmt(resultData.timeTaken || resultData.timeTakenSeconds);
+          values[0].textContent = fmt(myTime);
           values[1].textContent = fmt(topperStats.time);
         }
       }
     });
 
-    // 💾 STEP B: SAVE TO LOCAL STORAGE (Inside Try to prevent ReferenceError)
+    // 11. Final Reset and Local Cache Update
+    btn.disabled = false;
+    btn.textContent = "🔄 GET LIVE UPDATED RANK";
+
     LAST_RESULT_HTML = resultsContainer.innerHTML;
     localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
-      ...resultData, // 🔥 CRITICAL: Maintains timeTaken and submittedAt to prevent nan:nan
+      ...localData,
+      timeTaken: myTime,
+      totalMarks: newTotalMarks,
       resultHTML: LAST_RESULT_HTML
     }));
 
-    alert("Rank and Scores updated from latest data!");
+    alert("Rank and Scores synced from Firebase and updated from latest JSON!");
 
   } catch (err) {
-    console.error("Rank Update Error:", err);
+    console.error("Firebase Sync Error:", err);
     alert("Could not update ranks. Please check your connection.");
   } finally {
     btn.disabled = false;
