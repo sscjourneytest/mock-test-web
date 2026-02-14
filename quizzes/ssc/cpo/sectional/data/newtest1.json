@@ -13,7 +13,7 @@
       "time_seconds": 1200,
       "questions": [
       {
-        "answer": "4",
+        "answer": "1",
         "correct_score": "2",
         "deleted": "0",
         "difficulty_level": "0",
@@ -57,7 +57,7 @@
         "sortingparam": "0.00"
       },
       {
-        "answer": "2",
+        "answer": "1",
         "correct_score": "2",
         "deleted": "0",
         "difficulty_level": "0",
@@ -1119,7 +1119,7 @@
       "time_seconds": 1200,
       "questions": [
       {
-        "answer": "2",
+        "answer": "1",
         "correct_score": "2",
         "deleted": "0",
         "difficulty_level": "0",
@@ -1163,7 +1163,7 @@
         "sortingparam": "0.00"
       },
       {
-        "answer": "2",
+        "answer": "1",
         "correct_score": "2",
         "deleted": "0",
         "difficulty_level": "0",
@@ -1207,7 +1207,7 @@
         "sortingparam": "0.00"
       },
       {
-        "answer": "2",
+        "answer": "1",
         "correct_score": "2",
         "deleted": "0",
         "difficulty_level": "0",
