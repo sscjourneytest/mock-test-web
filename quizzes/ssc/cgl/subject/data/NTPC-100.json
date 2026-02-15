@@ -40,7 +40,7 @@
       "option_image_5": "",
       "question": {
         "en": "Three numbers are in the ratio 2:14:3, and their LCM is 4116. Their HCF is:",
-        "hi": "तीन संख्याएँ 2:14:3 के अनुपात में हैं, और उनका LCM, 4116 है। उनका HCF ज्ञात कीजिए। $$5 + \frac{1}{5 + \frac{1}{6 + \frac{1}{2}}}$$"
+        "hi": "तीन संख्याएँ 2:14:3 के अनुपात में हैं, और उनका LCM, 4116 है। उनका HCF ज्ञात कीजिए। $$\\5 + \\dfrac{1}{5 + \\dfrac{1}{6 + \\dfrac{1}{2}}}$$"
       },
       "question_image": "",
       "quiz_id": "NTPC-100",
