@@ -1,0 +1,2213 @@
+{
+  "meta": {
+    "title": "MATHS TOP 100 QNS MOCK-1(NTPC-G-2025)",
+    "id": "ntpc-g-25-math-top-100-1",
+    "total_questions": 50,
+    "correct_score": "1",
+    "negative_score": "0.33",
+    "timer_minutes": "60",
+    "timer_seconds": 3600
+  },
+  "questions": [
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50001",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "98",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "100",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "108",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "95",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Three numbers are in the ratio 2 : 14 : 3, and their LCM is 4116. Their HCF is:",
+        "hi": "तीन संख्याएँ 2 : 14 : 3 के अनुपात में हैं, और उनका LCM, 4116 है। उनका HCF ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50002",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "−65",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "−60",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "−62",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "−66",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "When 1063, 2815 and 3451 are divided by the greatest number x, the remainder in each case is y. What is the value of (3x − 14y)?",
+        "hi": "जब 1063, 2815 और 3451 को सबसे बड़ी संख्या x से विभाजित किया जाता है, तो प्रत्येक स्थिति में शेषफल y होता है। (3x − 14y) का मान ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50003",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "2",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "10",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "8",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "3",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Manoj has 200 litres of Oil A and 274 litres of Oil B. He fills a number of identical containers with the two types of oil in a manner that each container has only one type of oil, and all containers are completely filled. What can be the maximum volume (in litres) of each container that Manoj uses, so that all the oil that Manoj has, of both the types, can be poured into these containers?",
+        "hi": "मनोज के पास 200 लीटर तेल A और 274 लीटर तेल B है। वह कई समान कंटेनरों को दो प्रकार के तेल से इस तरह भरता है कि प्रत्येक कंटेनर में केवल एक प्रकार का तेल होता है, और सभी कंटेनर पूरी तरह से भरे होते हैं। मनोज द्वारा उपयोग किए जाने वाले प्रत्येक कंटेनर का आयतन (लीटर में) कितना हो सकता है, ताकि मनोज के पास मौजूद दोनों प्रकार के संपूर्ण तेल को इन कंटेनरों में डाला जा सके?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50004",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "17",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "13",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "12",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "11",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Two positive numbers differ by 2858. When the greater number is divided by the smaller number, the quotient is 5 and the remainder is 178. What is the HCF of the greater of the two given numbers and 3828?",
+        "hi": "दो धनात्मक संख्याओं के बीच 2858 का अंतर है। जब बड़ी संख्या को छोटी संख्या से विभाजित किया जाता है, तो भागफल 5 होता है और शेषफल 178 होता है। दी गई दो संख्याओं में से बड़ी संख्या और 3828 का HCF कितना है?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50005",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "$$\\frac{49}{151}$$",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "$$\\frac{49}{145}$$",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "$$\\frac{49}{144}$$",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "$$\\frac{49}{159}$$",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If the ratio of two numbers is 3 : 16 and the product of their LCM and their HCF is 432, then the sum of the reciprocals of the LCM and the HCF is:",
+        "hi": "यदि दो संख्याओं का अनुपात 3 : 16 है तथा उनके लघुत्तम समापवर्त्य (LCM) और महत्तम समापवर्तक (HCF) का गुणनफल 432 है, तो उनके LCM तथा HCF के व्युत्क्रमों का योगफल ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50006",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "7814 and 7824",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "7794 and 7804",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "7864 and 7874",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "7834 and 7854",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Nandan had some marbles. When he distributed the marbles equally among 32 children, he found that 4 marbles were left. Had he distributed the marbles equally among 41 children and 48 children, he still would have had 13 and 20 marbles, respectively, left with him. But when he distributed them equally among 53 children, no marble was left. The number of marbles that Nandan initially had may lie between __________.",
+        "hi": "नंदन के पास कुछ कंचे थे। जब उसने कंचों को 32 बच्चों में बराबर-बराबर बाँटा, तो उसने पाया कि 4 कंचे शेष बच गए। यदि उसने कंचों को 41 बच्चों और 48 बच्चों में बराबर-बराबर बाँटा होता, तो भी उसके पास क्रमशः 13 और 20 कंचे शेष बचते। लेकिन जब उसने उन्हें 53 बच्चों में बराबर-बराबर बाँटा, तो एक भी कंचा शेष नहीं बचा। नंदन के पास आरंभ में जितने कंचे थे, उनकी संख्या _________ के बीच हो सकती है।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50007",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "22475",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "22480",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "22470",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "22476",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "In finding the HCF of two numbers by division method, the quotients are 1, 4, and 6, respectively, and the last divisor is 29. What is the LCM of the two numbers?",
+        "hi": "विभाजन विधि द्वारा दो संख्याओं का HCF ज्ञात करने पर, भागफल क्रमशः 1, 4 और 6 प्राप्त होते हैं तथा अंतिम भाजक 29 है। दोनों संख्याओं का LCM ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50008",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "70",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "72",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "78",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "74",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "P is any point inside the rectangle ABCD. If PA = 69 cm, PB = 27 cm and PC = 38 cm, then the length of PD (in cm) is:",
+        "hi": "P, आयत ABCD के भीतर कोई बिंदु है। यदि PA = 69 cm, PB = 27 cm और PC = 38 cm है, तो PD की लंबाई (cm में) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50009",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "34",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "42",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "38",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "43",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "ABCD is a quadrilateral in which AB || DC, and E and F are the mid points of the diagonals AC and BD, respectively. If AB = 14 cm, BC = 73 cm, DC = 90 cm and AD = 22 cm, then what is the length (in cm) of EF?",
+        "hi": "ABCD एक चतुर्भुज है जिसमें AB || DC है, तथा E और F क्रमशः विकर्ण AC और BD के मध्य बिंदु हैं। यदि AB = 14 cm, BC = 73 cm, DC = 90 cm और AD = 22 cm है, तो EF की लंबाई (cm में) कितनी है?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50010",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "13 cm",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "12 cm",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "15 cm",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "14 cm",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "P is a point outside a circle and is 17 cm away from its centre. A secant drawn from the point P intersects the circle at points A and B in such a way that PA = 8 cm and AB = 7 cm, where PB &gt; PA. The radius of the circle is:",
+        "hi": "P, एक वृत्त के बाहर स्थित एक बिंदु है और उसके केंद्र से 17 cm की दूरी पर है। बिंदु P से खींची गई एक छेदक रेखा, वृत्त को बिंदु A और B पर इस प्रकार काटती है कि PA = 8 cm और AB = 7 cm है, जहाँ PB &gt; PA है। वृत्त की त्रिज्या ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50011",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "94",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "49",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "60",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "82",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The sides of a triangle are 109 cm, 171 cm, and 100 cm. What is the length (in cm) of its altitude corresponding to the side with a length of 171 cm?",
+        "hi": "एक त्रिभुज की भुजाएँ 109 cm, 171 cm और 100 cm हैं। 171 cm लंबाई वाली भुजा के समरूप इसकी ऊँचाई की लंबाई (cm में) कितनी होगी?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50012",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "4°",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "7°",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "14°",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "10°",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "ABCD is a trapezium in which BC || AD and AC = CD. If ∠ABC = 69° and ∠BAC = 23°, then what is the measure of ∠ACD?",
+        "hi": "ABCD एक समलम्ब चतुर्भुज है जिसमें BC ∥ AD तथा AC = CD है। यदि ∠ABC = 69° तथा ∠BAC = 23° है, तो ∠ACD का माप कितना होगा?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50013",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "(16.5, 8.5)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(13.5, 12.5)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(8.5, 16.5)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(15.5, 9.5)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "A (x, 5), B (3, −4) and C (−6, y) are the three vertices of a triangle ABC. If (3.5, 4.5) is the centroid of the triangle, find the point (x + 3, y − 4).",
+        "hi": "A (x, 5), B (3, −4) और C (−6, y), त्रिभुज ABC के तीन शीर्ष हैं। यदि (3.5, 4.5) त्रिभुज का केंद्रक है, तो बिंदु (x + 3, y − 4) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50014",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "1329",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "1314",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "1311",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "1320",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The sides (in cm) of a right triangle are (x − 18), (x − 25) and x. Its area (in cm²) is:",
+        "hi": "एक समकोण त्रिभुज की भुजाएँ (cm में) (x − 18), (x − 25) और x हैं। इसका क्षेत्रफल (cm² में) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50015",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "$$2\\sqrt{29}$$",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "$$2\\sqrt{58}$$",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "$$\\sqrt{58}$$",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "$$\\sqrt{29}$$",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "In a circle, two chords, AB and CD, measuring 14 cm and 6 cm, respectively, are parallel to each other on the same side of the centre. If the distance between them is 4 cm, find the length (in cm) of the diameter of the circle.",
+        "hi": "एक वृत्त में, दो जीवाएँ AB और CD, जिनकी माप क्रमशः 14 cm और 6 cm है, जो केंद्र के एक ही तरफ हैं तथा एक दूसरे के समानांतर हैं। यदि उनके बीच की दूरी 4 cm है, तो वृत्त के व्यास की लंबाई (cm में) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50016",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "140",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "150",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "145",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "120",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "For a regular polygon, the sum of the interior angles is 250% more than the sum of its exterior angles. Each interior angle of the polygon measures x°. What is the value of x?",
+        "hi": "एक सम बहुभुज के लिए, अंतः कोणों का योगफल उसके बाह्य कोणों के योगफल से 250% अधिक है। बहुभुज के प्रत्येक अंतः कोण की माप x° है। x का मान ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50017",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "4°",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "7°",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "2°",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "5°",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "In quadrilateral PQRS, the bisectors of ∠R and ∠S meet at point T (inside the quadrilateral), and ∠STR = 8°. If the ratio of ∠P to ∠Q is 7 : 9, then what is the difference between the measures of ∠Q and ∠P?",
+        "hi": "चतुर्भुज PQRS में, ∠R और ∠S के समद्विभाजक, बिंदु T (चतुर्भुज के अंदर) पर मिलते हैं, तथा ∠STR = 8° है। यदि ∠P और ∠Q का अनुपात 7 : 9 है, तो ∠Q और ∠P की माप के बीच कितना अंतर है?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50018",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "57°",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "60°",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "59°",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "68°",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "AB is parallel to CD. A transversal PQ intersects AB and CD at E and F, respectively, and ∠PEB = 49°. G is a point between AB and CD such that ∠BEG = 35° and ∠GFE = 16°. What is the measure of ∠EGF?",
+        "hi": "AB, CD के समांतर है। एक तिर्यक रेखा PQ, AB और CD को क्रमशः E और F पर प्रतिच्छेद करती है, तथा ∠PEB = 49° है। AB और CD के बीच स्थित एक बिंदु G इस प्रकार है कि ∠BEG = 35° और ∠GFE = 16° है। ∠EGF का माप क्या है?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50019",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "124.6 m",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "128.8 m",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "130.3 m",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "122.2 m",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "A vertical stick 14 m long, casts a shadow 5 m long on the ground. At the same time, a tower casts a shadow of 44.5 m long on the ground. The height of the tower is _____.",
+        "hi": "14 m लंबी एक ऊर्ध्वाधर छड़, जमीन पर 5 m लंबी छाया बनाती है। उसी समय, एक टॉवर जमीन पर 44.5 m लंबी छाया बनाता है। टॉवर की ऊँचाई _____ है।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50020",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "48",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "37",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "46",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "54",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "When x is added to each of 22, 26, 19 and 21, then the numbers so obtained, in this order, are in proportion. Then, if 2x : y :: y : (4x − 8), and y &gt; 0, what is the value of y?",
+        "hi": "जब 22, 26, 19 और 21 में से प्रत्येक में x जोड़ा जाता है, तो इस क्रम में प्राप्त संख्याएँ समानुपात में होती हैं। तो, यदि 2x : y :: y : (4x − 8) है, और y &gt; 0 है, तो y का मान कितना होगा?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50021",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "873",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "871",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "872",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "875",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "X is directly proportional to A² and A is inversely proportional to Y. If X is 97 when Y is 6, find X when Y is 2.",
+        "hi": "X, A² के समानुपाती है और A, Y के व्युत्क्रमानुपाती है। यदि Y का मान 6 होने पर X का मान 97 होता है, तो Y का मान 2 होने पर X का मान ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50022",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "$$17\\sqrt{7}$$",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "$$\\sqrt{112 + 109\\sqrt{2}}$$",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "$$\\sqrt{109 + 112\\sqrt{2}}$$",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "$$4\\sqrt{7}$$",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The mean proportional between (21 + 16√2) and (16 − 7√2) is:",
+        "hi": "(21 + 16√2) और (16 − 7√2) का माध्यानुपाती ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50023",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "14",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "24",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "19",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "21",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The sum of the present ages of a father and his son is 19 years more than 2 times the present age of the son. After 15 years, 12 times the father's age will be 17 years less than 13 times the son's age. The difference (in years) between the present ages of the father and the son is:",
+        "hi": "एक पिता और उसके पुत्र की वर्तमान आयु का योग, पुत्र की वर्तमान आयु के 2 गुने से 19 वर्ष अधिक है। 15 वर्ष बाद, पिता की आयु का 12 गुना पुत्र की आयु के 13 गुने से 17 वर्ष कम होगा। पिता और पुत्र की वर्तमान आयु के बीच अंतर (वर्ष में) कितना है?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50024",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "4,21,000",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "4,18,500",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "4,18,000",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "4,22,000",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The ratio of incomes of Seema and Darshan is 2 : 3. They save ₹15,000 and ₹9,000, respectively. If the ratio of their expenditures is 12 : 19, then what is the total expenditure (in ₹) of Seema and Darshan?",
+        "hi": "सीमा और दर्शन की आय का अनुपात 2 : 3 है। वे क्रमशः ₹15,000 और ₹9,000 की बचत करते हैं। यदि उनके व्यय का अनुपात 12 : 19 है, तो सीमा और दर्शन का कुल व्यय (₹ में) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50025",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "2,992",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "2,839",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "3,488",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "3,241",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Umesh sold an article at a loss of 22%. If he had bought the item at 5% less and had sold it for ₹935 more, then he would have gained 15%. Find the cost price (in ₹) of the article.",
+        "hi": "उमेश ने एक वस्तु को 22% की हानि पर बेचा। यदि उसने वस्तु को 5% कम में खरीदा होता और उसे ₹935 अधिक में बेचा होता, तो उसे 15% का लाभ होता। वस्तु का क्रय मूल्य (₹ में) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50026",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "7,150",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "7,148",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "7,151",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "7,149",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "On selling a stool for ₹8,378, the value of gain is 20% more than the value of loss incurred on selling it for ₹1,756. In order to gain 50%, find the selling price (in ₹).",
+        "hi": "एक स्टूल को ₹8,378 में बेचने पर, लाभ का मूल्य इसे ₹1,756 में बेचने पर हुई हानि के मूल्य से 20% अधिक है। 50% लाभ प्राप्त करने के लिए, विक्रय मूल्य (₹ में) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50027",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "250",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "20",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "28.57",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "350",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If the selling price of a bed is 2-times of initial, then the profit is 7-times of initial. Find the initial profit percentage (in %).",
+        "hi": "यदि किसी बिस्तर का विक्रय मूल्य प्रारंभिक मूल्य का 2 गुना है, तो लाभ प्रारंभिक लाभ का 7 गुना होगा। प्रारंभिक लाभ प्रतिशत (% में) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50028",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "52",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "16",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "34",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "76",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "A vendor buys 42 laptop bags for ₹41,622 and sells them at 35 for ₹37,345. How many laptop bags should be bought and sold to earn a profit of ₹3,952?",
+        "hi": "एक विक्रेता ₹41,622 में 42 लैपटॉप बैग खरीदता है और उन्हें ₹37,345 में 35 लैपटॉप बैग की दर से बेचता है। ₹3,952 का लाभ अर्जित करने के लिए कितने लैपटॉप बैग खरीदे और बेचे जाने चाहिए?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50029",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "14%",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "17%",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "15%",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "16%",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "A dealer sells two dryers at the rate of ₹63,000 per dryer. On one, he earns a profit of 5% and on the other he loses 30%. What is his loss percentage in the whole transaction?",
+        "hi": "एक डीलर ₹63,000 प्रति ड्रायर की दर से दो ड्रायर बेचता है। एक पर उसे 5% का लाभ होता है और दूसरे पर उसे 30% की हानि होती है। पूरे लेन-देन में उसका हानि प्रतिशत कितना है?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50030",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "₹202",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "₹199",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "₹195",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "₹197",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The cost of 6 pens and 5 pencils is ₹259. If the cost of a pen decreases by ₹9 and the cost of a pencil increases by ₹4, then the cost of 19 pens and 2 pencils is ₹90. What is the original cost of 13 pens and 2 pencils?",
+        "hi": "6 पेन और 5 पेंसिल की कीमत ₹259 है। यदि एक पेन की कीमत ₹9 कम हो जाती है और एक पेंसिल की कीमत ₹4 बढ़ जाती है, तो 19 पेन और 2 पेंसिल की कीमत ₹90 हो जाती है। 13 पेन और 2 पेंसिल की मूल कीमत ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50031",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "350",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "300",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "275",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "325",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Govind bought two items at a total cost of ₹4,800. He sold one item at 34% profit and the other at 10% loss. If Govind sold both the items together for ₹5,442, then what is the difference between the cost price (in ₹) of both the items?",
+        "hi": "गोविंद ने ₹4,800 के कुल क्रय मूल्य पर दो वस्तुएँ खरीदीं। उसने एक वस्तु को 34% लाभ पर और दूसरी को 10% हानि पर बेचा। यदि गोविंद ने दोनों वस्तुओं को कुल ₹5,442 में बेचा, तो दोनों वस्तुओं के क्रय मूल्यों का अंतर (₹ में) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50032",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "1023",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "1025",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "1091",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "1089",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If $$\\frac{x+1}{x}=33$$, then $$\\frac{x^2+1}{x^2}$$ is:",
+        "hi": "यदि $$\\frac{x+1}{x}=33$$ है, तो $$\\frac{x^2+1}{x^2}$$ का मान ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50033",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "$$\\sqrt{\\frac{57}{111}}$$",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "$$\\sqrt{\\frac{53}{121}}$$",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "$$\\frac{57}{111}$$",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "$$\\frac{121}{55}$$",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If $$a^2+b^2=168$$, $$a\\times b=27$$, and $$a&gt;b$$, find $$\\frac{a-b}{a+b}$$.",
+        "hi": "यदि $$a^2+b^2=168$$, $$a\\times b=27$$, और $$a&gt;b$$ है, तो $$\\frac{a-b}{a+b}$$ का मान ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50034",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "$$\\frac{11}{6}$$",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "$$\\frac{11}{36}$$",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "$$-\\frac{11}{36}$$",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "$$-\\frac{11}{6}$$",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If α, β and γ are the roots of the equation $$6x^3-11x^2+6x-1=0$$, find $$\\Sigma \\alpha^2\\beta\\gamma$$.",
+        "hi": "यदि समीकरण $$6x^3-11x^2+6x-1=0$$ के मूल α, β और γ हैं, तो $$\\Sigma \\alpha^2\\beta\\gamma$$ ज्ञात करें।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50035",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "12",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "−3",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "4",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "3",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Given the cubic equation: $$x^3-3x^2+4x-12=0$$. Find the sum of the products of the roots taken two at a time.",
+        "hi": "बिघात समीकरण $$x^3-3x^2+4x-12=0$$ दिया गया है। एक समय में लिए गए दो मूलों के गुणनफल का योग ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50036",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "6, 2",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "2, 4",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "4, 2",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "2, 6",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If the quadratic equations $$4x^2+bx+3=0$$ and $$8x^2+4x+c=0$$ have both the roots common, find the values for b and c, respectively.",
+        "hi": "यदि द्विघात समीकरण $$4x^2+bx+3=0$$ और $$8x^2+4x+c=0$$ में दोनों मूल समान हों, तो क्रमशः b और c के मान ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50037",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "$$(x^2-4+\\sqrt{3})(x^2-4-\\sqrt{3})$$",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "$$(x^2-3+\\sqrt{3})(x^2-3-\\sqrt{3})$$",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "$$(x^2-2+\\sqrt{3})(x^2-2-\\sqrt{3})$$",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "$$(x^2-5+\\sqrt{3})(x^2-5-\\sqrt{3})$$",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Factorise the polynomial $$x^4-10x^2+22$$ into product of two quadratic polynomials.",
+        "hi": "बहुपद $$x^4-10x^2+22$$ को दो द्विघात बहुपदों के गुणनफल में गुणनखंडित करें।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50038",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "20",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "18",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "16",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "14",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If the sum of three numbers a, b and c is 5, the sum of the product of two numbers at a time is −2 and the product of the numbers a, b and c is 3. Find the value of $$a^3+b^3+c^3$$.",
+        "hi": "यदि तीन संख्याओं a, b और c का योगफल 5 है, तथा एक समय पर दो संख्याओं के गुणनफल का योगफल −2 है और संख्याओं a, b और c का गुणनफल 3 है, तो $$a^3+b^3+c^3$$ का मान ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50039",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "$$x^2-x+960=0$$",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "$$x^2+x-960=0$$",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "$$x^2-x-960=0$$",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "$$x^2+x+960=0$$",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The product of two consecutive positive integers is 960. If the smaller of these two integers is represented by x, which of the options below will correspond to the equation for finding the value of x?",
+        "hi": "दो क्रमागत धनात्मक पूर्णांकों का गुणनफल 960 है। यदि इन दो पूर्णांकों में से छोटे पूर्णांक को x द्वारा निरूपित किया जाता है, तो नीचे दिए गए विकल्पों में से कौन-सा विकल्प x का मान ज्ञात करने के लिए समीकरण के संगत होगा?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50040",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "$$4a-2b+c=0$$",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "$$a-b+c=0$$",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "$$4a=2c+2b$$",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "$$a+c=b$$",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If the equations $$x^2+3x+2=0$$ and $$ax^2+bx+c=0$$ have both roots in common, then which of the following is NOT true?",
+        "hi": "यदि समीकरण $$x^2+3x+2=0$$ और $$ax^2+bx+c=0$$ के दोनों मूल समान हैं, तो निम्न में से कौन-सा विकल्प सत्य नहीं है?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50041",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "$$-\\frac{17}{5}$$",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "$$-\\frac{24}{7}$$",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "$$-\\frac{36}{5}$$",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "$$-\\frac{21}{8}$$",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If the polynomial $$ax^3+4x^2+3x-4$$ and $$x^3-7x+a$$ leaves the same remainder, when divided by $$(x-2)$$, then find the value of a.",
+        "hi": "यदि बहुपद $$ax^3+4x^2+3x-4$$ और $$x^3-7x+a$$ को $$(x-2)$$ से विभाजित करने पर समान शेषफल प्राप्त होता है, तो a का मान ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50042",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "67.5",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "71.5",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "68.5",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "70.5",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The average weight of 10 boys is 70 kg. But later, it was found that at two places the weight 54 kg was read as 44 kg and at one place weight 35 kg was read as 40 kg. Find the correct average weight (in kg) of the 10 boys.",
+        "hi": "10 लड़कों का औसत वजन 70 kg है। लेकिन बाद में, यह पाया गया कि दो स्थानों पर वजन 54 kg को 44 kg के रूप में पढ़ा गया था और एक स्थान पर वजन 35 kg को 40 kg के रूप में पढ़ा गया था। 10 लड़कों का सही औसत वजन (kg में) ज्ञात करें।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50043",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "1,028.33",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "1,003.33",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "1,013.33",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "1,023.33",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Mohan bought 51 books at ₹1,120 per book from one shop and 48 books at ₹900 per book from another. What is the average price (rounded off to two decimal places, in ₹) he paid per book?",
+        "hi": "मोहन ने एक दुकान से ₹1,120 प्रति किताब की दर से 51 किताबें खरीदीं और दूसरी दुकान से ₹900 प्रति किताब की दर से 48 किताबें खरीदीं। उसने प्रति किताब कितनी औसत कीमत (₹ में दो दशमलव स्थानों तक पूर्णांकित) चुकाई?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50044",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "165",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "165.6",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "166.6",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "164",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The average height of 15 boys out of a class of 50 is 160 cm. If the average height of the remaining boys is 168 cm, the average height (in cm) of all the boys of the class is:",
+        "hi": "50 लड़कों की एक कक्षा में से 15 लड़कों की औसत लंबाई 160 cm है। यदि शेष लड़कों की औसत लंबाई 168 cm है, तो कक्षा के सभी लड़कों की औसत लंबाई (cm में) कितनी है?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50045",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "15.52%",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "18.65%",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "14.59%",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "16.79%",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The marked price of a bed is ₹744, which is 31% above the cost price. If the profit percentage is 9%. Find the discount percentage. (rounded off to two decimal places)",
+        "hi": "एक बेड का अंकित मूल्य ₹744 है, जो लागत मूल्य से 31% अधिक है। यदि लाभ प्रतिशत 9% है, तो छूट प्रतिशत (दशमलव के दो स्थानों तक पूर्णांकित) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50046",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "47.56%",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "47.12%",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "48.51%",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "48.86%",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Find a single discount (rounded up to two decimal places) equal to three consecutive discounts of 26%, 29% and 2%.",
+        "hi": "26%, 29% और 2% की तीन क्रमिक छूटों के बराबर एकल छूट (दशमलव के दो स्थानों तक पूर्णांकित) ज्ञात कीजिए।"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50047",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "III",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "I",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "IV",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "II",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "A retailer offers the following discount schemes for buyers on an article.<br>I. Two successive discounts of 27%.<br>II. A discount of 36% followed by a discount of 45%.<br>III. Successive discounts of 19% and 32%.<br>IV. A discount of 34% followed by a discount of 7%.<br>Which scheme will fetch the maximum selling price?",
+        "hi": "एक खुदरा विक्रेता वस्तु पर खरीदारों के लिए निम्नलिखित छूट योजनाएँ प्रदान करता है।<br>I. 27% की दो क्रमिक छूटें।<br>II. 36% की छूट के बाद 45% की एक छूट।<br>III. 19% और 32% की क्रमिक छूटें।<br>IV. 34% की छूट के बाद 7% की एक छूट।<br>किस योजना का विक्रय मूल्य अधिकतम होगा?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50048",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "249",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "252",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "253",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "251",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The marked price of a smartwatch set is ₹640. It sells with two successive discounts of 30% and 25%. An additional 25% discount is given on cash payment. What is the selling price (in ₹) of the smartwatch set on cash payment?",
+        "hi": "एक स्मार्टवॉच सेट का अंकित मूल्य ₹640 है। इसे 30% और 25% की दो क्रमिक छूटों पर बेचा जाता है। नकद भुगतान पर 25% की अतिरिक्त छूट दी जाती है। नकद भुगतान पर स्मार्टवॉच सेट का विक्रय मूल्य (₹ में) कितना होगा?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50049",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "87",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "81.9",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "76",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "83.8",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Rishika travels a certain distance at a speed of 52 km/hr and double the earlier distance at 39 km/hr. She then returns to the starting point through the same route. If her average speed for the entire journey is 56 km/h, then what is her speed (in km/hr) for the return journey?",
+        "hi": "ऋषिका 52 km/hr की चाल से एक निश्चित दूरी तय करती है और पहले की दूरी की दोगुनी दूरी 39 km/hr की चाल से तय करती है। फिर वह उसी मार्ग से प्रारंभिक बिंदु पर वापस आती है। यदि पूरी यात्रा के लिए उसकी औसत चाल 56 km/h है, तो वापसी यात्रा के लिए उसकी चाल (km/hr में) कितनी है?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "1",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50050",
+      "negative_score": "0.33",
+      "option_1": {
+        "en": "36",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "20",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "26",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "33",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "In a 2295 m circular race, Siddharth finishes one round in 85 seconds and Yash finishes one round in 45 seconds. How many different meeting points are there on the circumference if they are running in the opposite directions?",
+        "hi": "2295 m की वृत्तीय दौड़ में, सिद्धार्थ 85 सेकंड में एक चक्कर पूरा करता है और यश 45 सेकंड में एक चक्कर पूरा करता है। यदि वे विपरीत दिशाओं में दौड़ रहे हैं, तो परिधि पर वे कितने अलग-अलग बिंदुओं पर मिलेंगे?"
+      },
+      "question_image": "",
+      "quiz_id": "ntpc-g-25-math-top-100-1",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    }
+  ]
+}
