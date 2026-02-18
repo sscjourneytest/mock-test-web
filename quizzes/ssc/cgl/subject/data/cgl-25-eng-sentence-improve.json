@@ -1,0 +1,3709 @@
+{
+  "meta": {
+    "title": "CGL 2025 ENGLISH - SENTENCE IMPROVEMENT",
+    "id": "cgl-25-eng-sentence-improve",
+    "total_questions": 84,
+    "correct_score": "2",
+    "negative_score": "0.5",
+    "timer_minutes": "50",
+    "timer_seconds": 3000
+  },
+  "questions": [
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50001",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "to meet the deadline",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "on meeting the deadline",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "to have met the deadline",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "for meeting the deadline",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The manager insisted *on meet the deadline*.<br>[SSC CGL 12/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.1.(b) on meeting the deadline<br>Verb 'insist' के बाद आमतौर पर preposition<br>'on' का प्रयोग होता है, जिसके साथ object के<br>रूप में एक gerund (V-ing form) का प्रयोग होता<br>है। अतः, 'on meeting the deadline' सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50002",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "to return books on time and to keep the noise levels down",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "returning books on time and keeping noise levels down",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "to return books on time and keep down the noise levels",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "returning books on time and to keep noise levels down",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The librarian instructed the patrons *to return books on time and keeping noise levels down* in the reading area.<br>[SSC CGL 12/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.2.(a) to return books on time and to<br>keep the noise levels down<br>दिया गया sentence, infinitive \"to return<br>books on time\" के साथ parallel structure<br>का प्रयोग करता है। इसलिए, parallel structure<br>को maintain करने के लिए ‘keeping’ के स्थान<br>पर ‘to keep’ का प्रयोग किया जायेगा। अतः,<br>option (a) सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50003",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "than the applause erupted",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "when the applause had erupted",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "when the applause erupted",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "that the applause erupted",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Scarcely had she finished her speech *then the applause erupted*.<br>[SSC CGL 12/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.3.(c) when the applause erupted<br>‘Scarcely…when’ एक fix conjunction pair<br>है। ‘When’ के बाद simple past tense का<br>प्रयोग किया जाता है तथा ‘scarcely’ के बाद<br>past perfect tense का प्रयोग होता है। अतः,<br>‘when the applause erupted’ सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50004",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "to postpone",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "on postponing",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "for postponing",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "postpone",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee decided *on to postpone* the decision until the next meeting.<br>[SSC CGL 12/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.4.(a) to postpone<br>Verb 'decided' के बाद आमतौर पर एक<br>infinitive (to + V1) का प्रयोग होता है, जो उस<br>action को indicate करता है जिसका निर्णय<br>लिया गया था। Phrase \"on to postpone\"<br>grammatically गलत है। अतः, ‘to postpone’<br>सबसे उपयुक्त है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50005",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "that we consider a different approach",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "us considering a different approach",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "to consider a different approach by us",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "that we considered a different approach",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "They proposed *us to consider a different approach*.<br>[SSC CGL 12/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.5.(a)<br>that we consider a different approach<br>Verb \"propose\" के बाद जब किसी<br>कार्य/action को करने के लिए suggest किया<br>जाता है, तो आमतौर पर उसके बाद verb के<br>subjunctive form (base form) 'that' का<br>प्रयोग होता है। अतः, \"that we consider a<br>different approach\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50006",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "what the reason is for her sudden departure",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "what the reason for her sudden departure is",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "what is the reason her sudden departure",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "the reason for her sudden departure is what",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "I wonder *what is the reason for her sudden departure*.<br>[SSC CGL 12/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.6.(a) what the reason is for her<br>sudden departure.<br>दिया गया sentence एक indirect question है,<br>और ऐसे structures में, ''wh-word'' के बाद सही<br>grammatical order \"subject + verb\" है, न<br>कि \"verb + subject\"। दिए गए sentence में,<br>\"what the reason is for her sudden<br>departure\" सही तरीके से इस structure को<br>follow करता है: \"what\" (wh-word) + \"the<br>reason\" (subject) + \"is\" (verb)। अतः, \"what<br>the reason is for her sudden departure\"<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50007",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "answered the question carefully",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "answer the question carefully",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "has answered the question carefully",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "should answers the question carefully",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The teacher insisted that every student *answers the question carefully*.<br>[SSC CGL 13/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.7.(b) answer the question carefully<br>Insist, suggest, demand, या recommend<br>जैसे verb के बाद, subjuntive mood का प्रयोग<br>होता है, जो verb का base form होता है।<br>इसलिए, 'answers' के स्थान पर 'answer' का<br>प्रयोग होगा। अतः, 'answer the question<br>carefully' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50008",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "to work",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "for working",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "with working",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "to working",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She is accustomed *to working* long hours during peak season.<br>[SSC CGL 13/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.8.(d) to working<br>कुछ phrase ऐसे होते हैं जिनके बाद हमेशा एक<br>gerund (V-ing) आता है। जैसे कि 'with a view<br>to, looking forward to, in addition to,<br>accustomed to, habituated to, be used to,<br>prone to’ आदि। अतः, 'accustomed to<br>working' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50009",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "achieving higher grades",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "to achieve higher grades",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "for achieving higher grades",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "achieve higher grades",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The students formed a study group with a view *to achieve higher grades*.<br>[SSC CGL 13/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.9.(a) achieving higher grades<br>कुछ phrase ऐसे होते हैं जिनके बाद हमेशा एक<br>gerund(V-ing) आता है। जैसे कि “with a view<br>to, looking forward to, in addition to,<br>accustomed to, habituated to, be used to,<br>prone to” आदि। अतः, achieving higher<br>grades’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50010",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "for their leader",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "their leader",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "to be their leader",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "as being their leader",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Many people consider him *as their leader*.<br>[SSC CGL 13/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.10.(b) their leader<br>Verb 'consider' के बाद सीधे object और<br>उसका complement (एक adjective या<br>noun) आता है, जिसमें 'as' या 'to be' की<br>आवश्यकता नहीं होती। अतः, \"their leader\"<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50011",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "approached to",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "approached",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "approached towards",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "went nearby",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "As we *approached near* the station, it started to rain heavily.<br>[SSC CGL 13/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.11.(b) approached<br>Verb ‘approach’ का प्रयोग बिना किसी<br>preposition के किया जाता है क्योंकिक्यों इसका<br>अर्थ किसी चीज़ के करीब आना है। अतः,<br>‘approached’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50012",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "for his controversial remarks",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "on his controversial remarks",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "with his controversial remarks",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "about his controversial remarks",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The politician was widely criticised *at his controversial remarks*.<br>[SSC CGL 13/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.12.(a) for his controversial remarks<br>‘For’ का प्रयोग किसी चीज़ के reason या<br>purpose को इंगित करने के लिए किया जाता है।<br>इसी तरह, दिए गए sentence में, ‘for’ राजनेता<br>(politician) की आलोचना (criticism) के<br>reason को इंगित करता है। अतः, ‘for his<br>controversial remarks’ सबसे उपयुक्त उत्तर<br>है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50013",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "knows you were coming",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "had known you were coming",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "was knowing you were coming",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "has known you were coming",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If she *knew you were coming*, she would have baked a cake.<br>[SSC CGL 14/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.13.(b) had known you were coming<br>दिया गया sentence एक third conditional<br>sentence का उदाहरण है और इसके लिए “If +<br>past perfect (had + V3)…….. Would have +<br>V3” सही grammatical structure है। अतः,<br>“had known you were coming” सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50014",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "started preparing for the exam",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "should have started preparing for the exam",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "start to prepare for the exam",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "will start preparing for the exam",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "It's high time they *should start preparing for the exam*.<br>[SSC CGL 14/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.14.(a) started preparing for the exam<br>“It’s high time” के बाद past tense verb का<br>प्रयोग होता है यह इंगित करने के लिए कि कुछ<br>पहले ही किया जाना चाहिए था। अतः, “started<br>preparing for the exam” सबसे उपयुक्त उत्तर<br>है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50015",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "discussed implementing",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "had a discussion about implementing",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "were discussing about implementing",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "had been discussed implementing",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee *discussed about implementing* new safety protocols during the meeting.<br>[SSC CGL 14/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.15.(a) discussed implementing<br>Verb “discuss” एक transitive verb है, अर्थात<br>इसके साथ direct object का प्रयोग होता है और<br>इसके लिए preposition “about” की<br>आवश्यकता नहीं होती है। अतः, “discussed<br>implementing” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50016",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "from discharging untreated waste into",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "from discharge of untreated waste into",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "to discharging untreated waste into",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "for discharging untreated waste in",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Strict regulations were enacted to prevent industries *to discharge untreated waste into* the river.<br>[SSC CGL 14/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.16.(a)<br>from discharging untreated waste into<br>Verb “prevent” के बाद हमेशा “from +<br>verb-ing” का प्रयोग प्रतिबंध (restriction) या<br>निषेध (prohibition) को दर्शाने के लिए किया<br>जाता है। अतः, “from discharging untreated<br>waste into” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50017",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "is comprised by",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "comprises of",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "comprises",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "is comprising",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee *is comprised of* members from various disciplines.<br>[SSC CGL 14/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.17.(c) comprises<br>Verb ‘comprise’ बिना किसी preposition के<br>प्रयोग किया जाता है। ‘Comprise’ एक stative<br>verb है तथा stative verb का प्रयोग आमतौर पर<br>continuous tense में नहीं किया जाता है। दिए<br>गए sentence में, ‘comprise’ एक singular<br>verb है जिसके साथ ‘comprises’ singular<br>verb का प्रयोग होगा। अतः, ‘comprises’ सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50018",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "with January 1st",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "by January 1st",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "as of January 1st",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "on January 1st",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The new regulations are effective *from January 1st* across all sectors.<br>[SSC CGL 14/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.18.(c) as of January 1st<br>Phrase 'As of' उस समय को indicate करने<br>का सबसे उपयुक्त और सामान्य तरीका है, जब से<br>कोई चीज प्रभावी (effective) या सत्य (true)<br>होना शुरू होती है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50019",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "junior from him",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "more junior than him",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "junior to him",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "younger to him",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She is *junior than him* in experience.<br>[SSC CGL 15/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.19.(c) junior to him<br>कुछ word ऐसे होते हैं जो comparison तो<br>करते हैं लेकिन उनके साथ 'than' का प्रयोग नहीं<br>होता है। बल्कि, उनके साथ 'to' का प्रयोग किया<br>जाता है। जैसे कि superior to, inferior to,<br>prior to, senior to, junior to, elder to आदि।<br>अतः, “junior to him” सबसे उपयुक्त answer<br>है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50020",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "do not like",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "does not liked",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "does not like",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "is not liking",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He *do not likes* to be disturbed while studying.<br>[SSC CGL 15/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.20.(c) does not like<br>\"Subject-Verb Agreement Rule\" के अनुसार,<br>singular subject के साथ हमेशा singular<br>verb का तथा plural subject के साथ हमेशा<br>plural verb का प्रयोग होता है। ‘He’ एक<br>singular subject है, जिसके साथ ‘does’<br>singular helping verb का प्रयोग होगा। अतः,<br>“does not like” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50021",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "are going abroad",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "are going for abroad",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "are going in abroad",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "are going towards abroad",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The tourists *are going to abroad* for a cultural exchange program.<br>[SSC CGL 15/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.21.(a) are going abroad<br>Word \"Abroad\" का अर्थ पहले से ही किसी<br>विदेशी देश में या उसके लिए है, इसलिए इसके<br>पहले to, for, in, या towards जैसे preposition<br>का प्रयोग नहीं किया जाता है। अतः, “are going<br>abroad” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50022",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "is looking forward for meeting you",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "is looking forward to meeting you",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "is looking forward about meeting you",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "is looking forward meet you",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She is *looking forward to meet you*.<br>[SSC CGL 15/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.22.(b)<br>is looking forward to meeting you<br>Phrase “look forward to” के बाद हमेशा एक<br>gerund (V+ing form) का प्रयोग होता है, न कि<br>base form का। अतः, “looking forward to<br>meeting you” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50023",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "quickly very",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "quick",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "quickly",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "more quickly",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She ran *very quick* to catch the bus.<br>[SSC CGL 15/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.23.(c) quickly<br>'Quick' word एक adjective है, लेकिन<br>sentence में यह describe करने के लिए कि<br>“वह कैसे दौड़ी” एक adverb की आवश्यकता है।<br>'Quickly' 'quick' का adverbial form है और<br>verb 'ran' को correctly modify करता है।<br>अतः, ‘quickly’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50024",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "unless you work",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "if you did not work",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "unless you will work",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "if you work",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "You will not succeed *unless you do not work* harder.<br>[SSC CGL 15/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.24.(a) unless you work<br>Conjunction 'unless' का अर्थ पहले से ही 'if<br>not' है। इसलिए, 'unless' के बाद 'do not' का<br>प्रयोग करने से double negative impact पड़ता<br>है, जिससे phrase grammatically गलत हो<br>जाता है। 'Unless you work harder' सही<br>structure है। अतः, ‘unless you work’ सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50025",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "discussed on the issue",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "discussed the issue",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "had discussed about the issue",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "was discussed the issue",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She *discussed about the issue* with her manager.<br>[SSC CGL 16/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.25.(b) discussed the issue<br>Verb \"discuss\" एक transitive verb है,<br>जिसका अर्थ है कि इसके साथ बिना preposition<br>के direct object का प्रयोग किया जाता है। अतः,<br>“discussed the issue” सबसे उपयुक्त उत्तर<br>है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50026",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "have agreed",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "has agreed",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "are agreeing",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "were agreed",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Either the committee members or the chairperson *have agreed* to the proposal.<br>[SSC CGL 16/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.26.(b) has agreed<br>यदि paired conjunctions ‘either…or’,<br>‘neither…nor’, ‘not only…but also’ का प्रयोग<br>किया जाता है, तो verb उसके निकटतम<br>subject के अनुसार प्रयोग होती है। यहाँ,<br>निकटतम subject “the chairperson” है, जो<br>singular है। अतः, “has agreed” सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50027",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "marry her",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "marrying with her",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "to marry to her",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "to marry her",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He decided *to marry with her* despite his parents' objections.<br>[SSC CGL 16/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.27.(d) to marry her<br>जब 'marry' का प्रयोग transitive verb (direct<br>object के साथ) के रूप में किया जाता है, तो इसे<br>'with' या 'to' जैसे preposition की आवश्यकता<br>नहीं होती है। इसलिए, ‘with’ को हटाना होगा।<br>अतः, ‘to marry her’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50028",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "has completed",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "are completing",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "were completing",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "complete",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Every one of the participants *have completed* the arduous obstacle course.<br>[SSC CGL 16/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.28.(a) has completed<br>\"Every one of\" एक singular subject को<br>इंगित करता है, इसलिए, singular verb 'has'<br>का प्रयोग किया जाएगा। अतः, ‘has completed’<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50029",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "tried harder to succeed",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "try harder to succeed",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "tries hard to succeed",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "should tried harder to succeed",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "I suggest that he *tries harder to succeed*.<br>[SSC CGL 16/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.29.(b) try harder to succeed<br>Suggest, recommend, insist, demand,<br>आदि जैसे verb के बाद, हम subjunctive<br>mood का प्रयोग करते हैं, जहाँ verb, base<br>form (बिना - ‘s’) में प्रयोग कि जाती है। अतः,<br>“try harder to succeed” सबसे उपयुक्त उत्तर<br>है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50030",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "married at",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "married to",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "married by",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "married from",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He is *married with* a lawyer.<br>[SSC CGL 16/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.30.(b) married to<br>किसी व्यक्ति का संदर्भित करते समय, 'married'<br>के साथ प्रयोग होने वाला सही preposition “to”<br>है। अतः, “married to” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50031",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "to learn swimming",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "on learning swimming",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "in learning to swim",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "on learning to swim",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He is keen *to learn of swimming*.<br>[SSC CGL 17/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.31.(d) on learning to swim<br>‘On’ एक fix preposition है जिसका प्रयोग<br>adjective ‘keen’ के बाद किसी चीज़ के प्रति<br>रुचि या उत्साह को इंगित करने के लिए किया<br>जाता है। अतः, “on learning to swim” सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50032",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "in reducing carbon emissions",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "for reducing carbon emissions",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "to reduce carbon emissions",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "with reducing carbon emissions",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The new policy aims *at reducing carbon emissions*.<br>[SSC CGL 17/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.32.(c) to reduce carbon emissions<br>Verb ‘aim’ के बाद आमतौर पर एक infinitive<br>(to + V1) का प्रयोग होता है। अतः, ‘to reduce<br>carbon emissions’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50033",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "that what must the user do",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "what the user must do",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "what must the user do",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "that the user must do what",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The instructions clarify *that what the user must do* to complete the registration.<br>[SSC CGL 17/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.33.(b) what the user must do<br>यहां, दो relative pronoun, ‘that’ और ‘what’<br>का प्रयोग एक single noun clause बनाने के<br>लिए किया गया है, जो कि grammatically गलत<br>है। इसलिए, हमें sentence से ‘that’ हटाने की<br>आवश्यकता है। अतः, ‘what the user must<br>do’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50034",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "did a decision",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "took a decision",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "had a decision",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "brought a decision",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She *made a decision* after thinking for a long time.<br>[SSC CGL 17/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.34.(b) took a decision<br>Phrase “took a decision” का प्रयोग यह व्यक्त<br>करने के लिए किया जाता है कि किसी ने विचार<br>करने के बाद कुछ तय किया। अतः, “took a<br>decision” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50035",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "fond of listening to",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "fond for listening to",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "fond with listening for",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "fond to listen for",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "My colleague was particularly *fond at listening to* classical music during his commute.<br>[SSC CGL 18/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.35.(a) fond of listening to<br>‘Fond of’ सही phrase है, जिसका अर्थ है किसी<br>चीज़ के प्रति स्नेह या पसंद होना। ‘Listen to’ का<br>प्रयोग किसी भी प्रकार की ध्वनि सुनने पर किया<br>जाता है। अतः, ‘fond of listening to’ सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50036",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "resulted for",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "resulted from",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "resulted into",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "resulted in",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Her constant complaints *resulted to* her losing friends.<br>[SSC CGL 18/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.36.(d) resulted in<br>‘Result in’ का अर्थ है किसी विशेष स्थिति का<br>कारण बनना। दिए गए sentence में कहा गया है<br>कि उसकी लगातार शिकायतों के परिणामस्वरूप<br>उसने दोस्तों को खो दिया। अतः, ‘resulted in’<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50037",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "hear a strange noise",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "have heard a strange noise",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "heard a strange noise",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "am hearing strange noise",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "I *am hearing a strange noise* from upstairs.<br>[SSC CGL 18/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.37.(a) hear a strange noise<br>Verb “hear” एक non-continuous (stative)<br>verb है, जिसका अर्थ है कि यह किसी state या<br>sense को describe करता है, न कि किसी चल<br>रहे action को। जब perception या senses के<br>बारे में बात कि जाती है तो ऐसे verb का प्रयोग<br>continuous (-ing) form में नहीं किया जाता है।<br>अतः, “hear a strange noise” सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50038",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "known the solution",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "knowingly solved",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "knowing the solution",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "been known the solution",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The government suspected that the scientist had *been knowing the solution* to the complex problem for months.<br>[SSC CGL 18/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.38.(a) known the solution<br>Verb ‘know’ एक stative verb है और stative<br>verb का प्रयोग आमतौर पर continuous tense<br>में नहीं किया जाता है। इस clause के लिए ‘Had<br>+ V3’ सही grammatical structure है जो past<br>perfect tense में है। अतः, ‘known(V3) the<br>solution’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50039",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "so he passes",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "so that he might pass",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "so that he will pass",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "so he might passing",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The student studied diligently *so he could pass* the difficult examination.<br>[SSC CGL 18/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.39.(b) so that he might pass<br>‘So that’ का प्रयोग किसी कार्य के पीछे के<br>purpose या intention को इंगित करने के लिए<br>किया जाता है। ‘Might’ का प्रयोग past में किसी<br>possibility को इंगित करने के लिए किया जाता<br>है। दिए गए sentence के अनुसार, student का<br>इरादा (intention) कठिन परीक्षा को pass<br>करना था। अतः, ‘so that he might’ सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50040",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "since five years",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "for five years",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "by five years",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "from five year",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He has been living in this city *since five years*.<br>[SSC CGL 19/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.40.(b) for five years<br>‘For’ का प्रयोग एक निश्चित समयावधि (fix<br>period of time - countable) को इंगित करने<br>के लिए किया जाता है, जैसे two years, three<br>months, four days, या eight hours आदि।<br>यह दर्शाता है कि कोई action कितने समय से<br>जारी है। दूसरी ओर, ‘since’ का प्रयोग समय के<br>एक विशिष्ट बिंदु के लिए किया जाता है जैसे<br>since 2020, since Monday, या since<br>morning आदि। दिए गए sentence में, “five<br>years” एक निश्चित अवधि को refer करता है,<br>इसलिए इसके साथ “for” का प्रयोग किया<br>जायेगा। अतः, “for five years” सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50041",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "debated on",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "debated over",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "debated",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "debated regarding",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee *debated about* the new policy for hours without a resolution.<br>[SSC CGL 19/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.41.(c) debated<br>'Debate' एक transitive verb है, जिसके साथ<br>आमतौर पर बिना किसी preposition के direct<br>object का प्रयोग किया जाता है। 'debate' के<br>बाद 'about', 'on', 'over' या 'regarding' का<br>प्रयोग grammatically गलत है। अतः, ‘debated<br>the new policy’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50042",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "from two hours",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "for two hours",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "since the two hours",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "from the last two hours",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She has been waiting for you *since two hours*.<br>[SSC CGL 19/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.42.(b) for two hours<br>‘For’ का प्रयोग एक निश्चित अवधि के लिए किया<br>जाता है। ‘Since’ का प्रयोग past में किसी समय<br>बिंदु को दर्शाने के लिए किया जाता है। यहाँ, ‘two<br>hours’ एक निश्चित अवधि है। अतः, ‘for two<br>hours’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50043",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "superior to",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "superior over",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "superior as compared to",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "superior from",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Her performance was *superior of* all her competitors.<br>[SSC CGL 19/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.43.(a) superior to<br>'Superior', 'inferior', 'junior', 'senior', 'prior',<br>और 'preferable' जैसे Adjective के बाद तुलना<br>करते समय preposition 'to' का प्रयोग किया<br>जाता है। अतः, ‘superior to’ सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50044",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "reverted again",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "reverted",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "returned back",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "reverted once more",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She *reverted back* to her old habits despite her promises.<br>[SSC CGL 19/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.44.(b) reverted<br>Word \"reverted\" का अर्थ ही पिछली स्थिति या<br>आदत पर वापस लौटना है, इसलिए \"back\" का<br>प्रयोग अनावश्यक है (unnecessary<br>repetition)। अतः, \"reverted\" सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50045",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "present their findings at the conference",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "presented their findings at the conference",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "have been presenting their findings at the conference",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "were presenting their findings at the conference",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "They *present their findings on the conference* when the power suddenly went out.<br>[SSC CGL 20/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.45.(d) were presenting their findings<br>at the conference<br>Verb ‘went out’ दर्शाता है कि action, past में<br>घटित हो रहा था, न कि present में। यहाँ, power<br>cut हो गया जिसने presentation को बाधित कर<br>दिया। इसका अर्थ है कि presentation की क्रिया<br>प्रगति पर थी। इसलिए, past continuous<br>tense (plural subject + were + Ving) का<br>प्रयोग होगा। अतः, ‘were presenting their<br>findings at the conference’ सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50046",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "by him",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "by himself",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "by his own",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "by myself",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He sat *by his* in the corner.<br>[SSC CGL 20/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.46.(b) by himself<br>Phrase ‘by + oneself’ का अर्थ है अकेले या<br>बिना किसी के साथ के। ‘Himself’ ‘he’ के लिए<br>सही reflexive pronoun है। अतः, ‘by himself’<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50047",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "of stealing",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "with stealing",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "about stealing",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "on stealing",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He was accused *for stealing* the confidential files.<br>[SSC CGL 20/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.47.(a) of stealing<br>‘Of’ एक fix preposition है जिसका प्रयोग verb<br>‘accuse’ के बाद किसी व्यक्ति पर लगाए गए<br>आरोप या कार्रवाई के कारण को इंगित करने के<br>लिए किया जाता है। अतः, \"of stealing\" सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50048",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "bearshead",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "bare headed",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "bareheadly",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "with naked head",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The old man walked *bare head* in the sun.<br>[SSC CGL 20/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.48.(b) bare headed<br>\"Bare headed\" एक proper adjective form<br>है जिसका अर्थ है, सिर पर कुछ भी ढका हुआ न<br>होना। अतः, \"bare headed\" सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50049",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "on making false promises",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "for making false promises",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "of making false promises",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "with making false promises",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The politician was criticised *on making false promises* during the campaign.<br>[SSC CGL 20/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.49.(b) for making false promises<br>जब आलोचना (criticism) का कारण बताया जा<br>रहा हो, तो verb \"criticised\" के बाद<br>preposition \"for\" का प्रयोग होता है। अतः, \"for<br>making false promises\" सबसे उपयुक्त उत्तर<br>है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50050",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "of handling",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "to handle",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "in handling",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "by handling",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He is capable *for handling* of the complex project.<br>[SSC CGL 21/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.50.(a) of handling<br>Adjective 'capable' के बाद हमेशा<br>preposition 'of' आता है, जिसके साथ gerund<br>(V-ing form) का प्रयोग होता है। अतः,<br>'capable of handling' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50051",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "where they have been",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "where had they been",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "where they had been",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "where have they been",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "I asked the children *where have they been*.<br>[SSC CGL 21/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.51.(c) where they had been<br>जब किसी sentence में Wh-word (what,<br>how, why, where, when आदि) का प्रयोग एक<br>relative clause की शुरुआत में किया जाता है,<br>तो उस clause में helping verb और main<br>verb, दोनों ही subject के बाद आते हैं। इसके<br>अलावा, दिया गया sentence, past tense में है,<br>इसलिए यहाँ past perfect tense (had + V3)<br>का प्रयोग किया जाएगा। अतः, ‘where they had<br>been’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50052",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "has submitted",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "will be submitted",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "be submitted",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "to be submitted",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The manager demanded that the report *is submitted* by Friday.<br>[SSC CGL 21/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.52.(c) be submitted<br>दिए गए sentence में, verb \"demand\" के लिए<br>subjunctive mood के प्रयोग की आवश्यकता<br>है, जिसके बाद verb की base form का प्रयोग<br>होता है। अतः, \"be submitted\" सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50053",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "that dangers are sailing alone",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "of the dangers of sailing alone",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "it's dangerous of sailing alone",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "of the dangers against sailing alone",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The police warned *against the dangers of sailing alone*.<br>[SSC CGL 21/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.53.(b) of the dangers of sailing alone<br>'Warn against' का अर्थ है किसी को किसी चीज़<br>के खतरों के बारे में चेतावनी देना। \"Warn<br>against\" के साथ 'risk / danger / problems'<br>जैसे word का प्रयोग करना अनावश्यक है। यहाँ<br>'Warn of' सही प्रयोग है। 'Warn of' का अर्थ है<br>किसी को किसी चीज़ के बारे में चेतावनी देना।<br>अतः, \"of the dangers of sailing alone\"<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50054",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "accused with",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "accused on",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "accused of",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "accused from",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The minister was *accused for* taking bribes from a foreign company.<br>[SSC CGL 22/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.54.(c) accused of<br>'Of' एक fix preposition है जिसका प्रयोग verb<br>'accused' के बाद आरोप या गलत काम को<br>इंगित करने के लिए किया जाता है। अतः,<br>'accused of' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50055",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "has shocked everyone in the office",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "have been shocking everyone in the office",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "is shocking everyone in the office",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "shocked everyone in the office",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The news *have shocked everyone in the office*.<br>[SSC CGL 22/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.55.(a)<br>has shocked everyone in the office<br>“Subject-Verb Agreement Rule” के अनुसार,<br>singular subject के साथ हमेशा singular<br>verb का तथा plural subject के साथ हमेशा<br>plural verb का प्रयोग होता है। दिए गए<br>sentence में “The news” एक singular<br>subject है। अतः, “has shocked everyone in<br>the office” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50056",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "so exhausted that he could finish the race",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "too exhausted to finish",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "very exhausted to finish the race",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "so much exhausted for finishing the race",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The athlete was *too exhausted that he could not finish* the race.<br>[SSC CGL 22/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.56.(b) too exhausted to finish<br>‘Too + adjective + to + V1’ सही<br>grammatical structure है। अतः, ‘too<br>exhausted to finish’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50057",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "by the bike",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "on bike",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "by bike",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "on the bike",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He travels to school *in bike* every morning.<br>[SSC CGL 22/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.57.(c) by bike<br>Preposition \"by\" का प्रयोग बिना किसी article<br>के, परिवहन के साधन को इंगित करने के लिए<br>किया जाता है (जैसे कि - by car, by bus, by<br>bike)। अतः, \"by bike\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50058",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "of completing the task on time",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "for completing the task on time",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "in completing the task on time",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "to completing the task on time",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He is responsible *to complete the task on time*.<br>[SSC CGL 22/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.58.(b)<br>for completing the task on time<br>'For' एक fix preposition है जिसका प्रयोग<br>adjective \"responsible\" के बाद duty या task<br>को इंगित करने के लिए किया जाता है। अतः, \"for<br>completing the task on time\" सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50059",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "was asked",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "were being asked",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "has asked",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "are asked",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Each of the candidates *were asked* submit his document before noon.<br>[SSC CGL 23/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.59.(a) was asked<br>दिया गया sentence simple past tense के<br>passive voice का एक example है। 'Each of<br>the candidates' एक singular subject है<br>जिसके साथ singular verb 'was' का प्रयोग<br>होगा, न कि 'were' का। अतः, 'was asked'<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50060",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "does not visit their grandparents",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "visit her grandparents in the countryside",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "visited her grandparents in the countryside",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "used to visit her grandparents in the countryside",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She *visits their grandparents in the countryside* last month to help them with the harvest.<br>[SSC CGL 23/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.60.(c) visited her grandparents in the<br>countryside<br>Adverb 'last month' एक past की घटना को<br>दर्शाता है, इसलिए present form 'visits' के<br>बजाय verb की past form का प्रयोग किया<br>जाएगा। 'Her', pronoun 'she' के लिए सही<br>possessive है। इसलिए, 'visits their<br>grandparents' के स्थान पर 'visited her<br>grandparents' का प्रयोग किया जायेगा। अतः,<br>'visited her grandparents in the<br>countryside' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50061",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "advised her friend take precautions",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "advised to her friend taking precautions",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "advised her friend to take precautions",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "advised her friend taking precaution",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She *advised to her friend to take precautions* during the trip.<br>[SSC CGL 23/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.61.(c) advised her friend to take<br>precautions<br>दिए गए sentence में, verb \"advise\" एक<br>transitive verb है जिसके बाद object से पहले<br>\"to\" नहीं आता है। अतः , \"advised her friend<br>to take precautions\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50062",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "is constructed with steel",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "is built of steel",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "has made by steel",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "is produced from steel",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "That bridge *is built from steel.*<br>[SSC CGL 23/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.62.(b) is built of steel<br>हम \"built of\" का प्रयोग तब करते हैं जब निर्माण<br>में प्रयुक्त सामग्री अंतिम संरचना में स्पष्ट रूप से<br>समान रहती है (जैसे लकड़ी, पत्थर या स्टील)।<br>अतः , \"is built of steel\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50063",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "for entering the room",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "from entering the room",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "to entering the room",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "of entering the room",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He prevented me *to enter the room*.<br>[SSC CGL 23/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.63.(b) from entering the room<br>‘From’ एक fix preposition है जिसका प्रयोग<br>'verb 'prevent' के बाद किसी को कुछ करने से<br>रोकने या उस पर प्रतिबंध लगाने के लिए किया<br>जाता है। अतः , \"from entering the room\"<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50064",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "finished",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "have finished",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "were finishing",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "had finished",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "By the time we *finish* dinner, the guests had already left.<br>[SSC CGL 24/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.64.(a) finished<br>दिया गया sentence, past tense में है, इसलिए,<br>'finish' के स्थान पर उसके past form<br>'finished' का प्रयोग किया जायेगा। अतः ,<br>'finished' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50065",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "completed his work",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "has been completing his work",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "had completed his work",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "completes his work",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He *has completed his work* yesterday.<br>[SSC CGL 24/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.65.(a) completed his work<br>Adverb “yesterday” past के एक specific<br>time को refer करता है, इसलिए verb simple<br>past tense में होनी चाहिए। अतः , \"completed<br>his work\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50066",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "doesn't he?",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "isn't he?",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "hasn't he?",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "didn't he?",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He plays football every evening, *isn't he*?<br>[SSC CGL 24/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.66.(a) doesn’t he?<br>“Question Tag rule” के अनुसार, यदि<br>statement, positive है, तो question tag,<br>negative होगा और यदि statement, negative<br>है, तो question tag, positive होगा । हालाँकि,<br>sentence और question tag, same tense में<br>होने चाहिए। इसी तरह, दिया गया sentence<br>positive है, इसलिए question tag negative<br>(doesn’t) होगा। अतः , 'doesn’t he' सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50067",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "like he was",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "as if he is",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "as though he was",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "as if he were",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He behaves *as if he was* the owner of the company.<br>[SSC CGL 24/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.67.(d) as if he were<br>'As if / as though' का प्रयोग किसी असामान्य<br>चीज़ के लिए एक अवास्तविक स्पष्टीकरण<br>(unrealistic explanation) प्रदान करने के लिए<br>किया जाता है। दिए गए sentence के अनुसार,<br>व्यक्ति अलग या असामान्य व्यवहार करता है,<br>और 'being the owner of the company' एक<br>unrealistic explanation है (actual नहीं) । ऐसे<br>case में, हम 'were' का प्रयोग करते हैं, न कि<br>'was' का। अतः , 'as if he were' सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50068",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "is",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "were",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "am",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "been",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If I *was* a bird, I would fly to distant lands.<br>[SSC CGL 25/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.68.(b) were<br>\"If I were … would + V1\" का प्रयोग एक<br>काल्पनिक या अवास्तविक स्थिति को व्यक्त करने<br>के लिए किया जाता है जो किसी इच्छा या कल्पना<br>को व्यक्त करता है। इसलिए, 'was' के स्थान पर<br>'were' का प्रयोग होगा। अतः , 'were' सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50069",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "has been living",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "has being lived",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "have lived",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "have been lived",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He *has been lived* in london for five years.<br>[SSC CGL 25/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.69.(a) has been living<br>दिया गया sentence, present perfect<br>continuous tense का एक example है तथा<br>इसके लिए 'Singular subject + has been +<br>Ving' सही grammatical structure है। अतः ,<br>'has been living' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50070",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "discussed the matter with",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "talked over the matter with",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "told the matter to",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "said to her mentor about the matter",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She *consulted the matter with* her mentor before submitting the report.<br>[SSC CGL 25/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.70.(a) discussed the matter with<br>दिए गए sentence में, verb \"consult\" के बाद<br>एक person होना चाहिए, इसलिए \"consulted<br>the matter with\" गलत है। क्योंकिक्यों \"consult\"<br>direct किसी person को object के रूप में<br>प्रयोग करता है। अतः , \"discussed the matter<br>with\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50071",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "because of her hard work and dedication",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "due to her hardworking and dedication",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "owing to her hard works and dedication",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "as she was hardworking and dedication",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She succeeded *because of her hard works and dedication*.<br>[SSC CGL 25/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.71.(a) because of her hard work and<br>dedication<br>इस context में word \"work\" सामान्यतः एक<br>uncountable noun है, जो सामान्यतः प्रयास या<br>श्रम को दर्शाता है। इसलिए, \"hard work\" सही<br>idiomatic phrase है, न कि \"hard works\"।<br>अतः , \"because of her hard work and<br>dedication\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50072",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "more superior than the one",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "superior to the one",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "superior then the one",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "superior over the one",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The analyst insisted that the latest forecasting model was *superior than the one* used last year.<br>[SSC CGL 25/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.72.(b) superior to the one<br>कुछ words ऐसे होते हैं जो comparison को<br>indicate करते हैं लेकिन उनके साथ 'than' का<br>प्रयोग नही होता है। बल्कि, उनके साथ 'to' का<br>प्रयोग किया जाता है। जैसे कि:- superior to,<br>inferior to, prior to, senior to, junior to,<br>elder to, prefer to, आदि। अतः , 'superior to<br>the one' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50073",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "published several report",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "publish several reports",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "publishing several reports",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "published several reports",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The researcher would have written and *publish several reports* in his early thirties if he had not fallen sick.<br>[SSC CGL 25/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.73.(d) published several reports<br>दिए गए sentence में, helping verb 'would<br>have' का प्रयोग 'written' और 'publish' दोनों के<br>लिए किया गया है। हालांकि, 'would have' के<br>बाद verb की third form का प्रयोग होता है।<br>इसलिए, 'publish' के स्थान पर 'published (V3)'<br>का प्रयोग होगा। अतः , 'published several<br>reports' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50074",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "that he could eat the entire meal",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "and he ate the entire meal",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "that he eats the entire meal",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "that he might eat the entire meal",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He was *so hungry to eat the entire meal*.<br>[SSC CGL 26/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.74.(a)<br>that he could eat the entire meal<br>Construction \"so … that …\" का प्रयोग किसी<br>परिणाम दिखाने के लिए किया जाता है। यहाँ, \"so<br>hungry\" indicate करता है कि वह पूरा भोजन<br>खा सकता था। अतः , \"that he could eat the<br>entire meal\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50075",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "superior to his colleague",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "superior than his colleague",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "more superior than his colleague",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "superior from his colleague",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He is *superior than his colleague* in experience.<br>[SSC CGL 26/09/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.75.(a) superior to his colleague<br>कुछ word ऐसे होते हैं जो comparison का अर्थ<br>तो देते हैं लेकिन उनके साथ 'than' का प्रयोग नहीं<br>होता है। बल्कि, उनके साथ 'to' का प्रयोग किया<br>जाता है। जैसे कि:- superior to, inferior to,<br>prior to, senior to, junior to, elder to, आदि।<br>अतः , 'superior to his colleague' सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50076",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "will be escape through",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "will escape through",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "will have to escaped through",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "shall escaped through",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "An anonymous person claims that the suspect *will escaped through* the back alley, unnoticed by the police.<br>[SSC CGL 26/09/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.76.(b) will escape through<br>'Will' एक modal verb है और हम आमतौर पर<br>modal के साथ verb की first form (V1) का<br>प्रयोग करते हैं। अतः , 'will escape (V1)<br>through' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50077",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "completes the task shortly",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "completed the task in short time",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "completed the task in a short time",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "completed shortly the task",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He *completed the task in short time*.<br>[SSC CGL 26/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.77.(c)<br>completed the task in a short time<br>दिए गए sentence में, phrase \"in short time\"<br>grammatically गलत है, क्योंकिक्यों इसे एक<br>संक्षिप्त अवधि को इंगित करने के लिए article<br>\"a\" की आवश्यकता है। अतः , \"completed the<br>task in a short time\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50078",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "faster than",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "more fast than",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "fastest than",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "more faster than",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He runs *more faster than* his brother.<br>[SSC CGL 26/09/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.78.(a) faster than<br>Word \"faster\" पहले से ही \"fast\" का<br>comparative form है। \"More faster\" का<br>प्रयोग अनावश्यक है क्योंकिक्यों comparative<br>adjective के साथ \"more\" की आवश्यकता नहीं<br>होती है। अतः , \"faster than\" सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50079",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "knows you were coming",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "had known you were coming",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "was knowing you were coming",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "has known you were coming",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If she *knew you were coming*, she would have baked a cake.<br>[SSC CGL 14/10/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.79.(b) had known you were coming<br>दिया गया sentence एक third conditional<br>sentence का उदाहरण है और इसके लिए “If +<br>past perfect (had + V3)…….. Would have +<br>V3” सही grammatical structure है। अतः ,<br>“had known you were coming” सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50080",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "of handling",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "to handle",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "in handling",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "by handling",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He is capable *for handling* of the complex project.<br>[SSC CGL 14/10/2025 (Shift 1)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.80.(a) of handling<br>Adjective 'capable' के बाद हमेशा<br>preposition 'of' आता है, जिसके साथ gerund<br>(V-ing form) का प्रयोग होता है। अतः ,<br>'capable of handling' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50081",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "the candidate whom the new role shall reporting to",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "the candidate whom will report to the new role",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "the candidate whom the new role would report to",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "the candidate whom the new role will report to",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The interviewer asked *the candidate whom will the new role report to* if they are selected for the position.<br>[SSC CGL 14/10/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.81.(d)<br>whom the new role will report to<br>जब Wh. word (who, whom, how, when,<br>why, etc.) का प्रयोग किसी sentence के बीच<br>में होता है, तो helping verb और main verb का<br>प्रयोग subject के बाद किया जाता है। इसलिए,<br>'will' का प्रयोग subject ‘the new role’ के बाद<br>किया जायेगा। अतः , 'the candidate whom<br>the new role will report to' सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50082",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "demands to know how is the critical error",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "demands to know how the critical error has",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "demands to know how critical the error is",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "demands to know how the critical error have",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Our team leader *demands to know how has the critical error* gone unnoticed for so long despite multiple review stages.<br>[SSC CGL 14/10/2025 (Shift 2)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.82.(b) demands to know how the<br>critical error has<br>जब Wh. word (who, whom, how, when,<br>why, etc.) का प्रयोग किसी sentence के बीच<br>में होता है, तो helping verb और main verb का<br>प्रयोग subject के बाद किया जाता है। इसलिए,<br>'has' का प्रयोग subject ‘the critical error’ के<br>बाद किया जायेगा। अतः , 'demands to know<br>how the critical error has' सबसे उपयुक्त<br>उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50083",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "advised her friend take precautions",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "advised to her friend taking precautions",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "advised her friend to take precautions",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "advised her friend taking precaution",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She *advised to her friend to take precautions* during the trip.<br>[SSC CGL 14/10/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.83.(c)<br>advised her friend to take precautions<br>दिए गए sentence में, verb \"advise\" एक<br>transitive verb है जिसके बाद object से पहले<br>\"to\" नहीं आता है। अतः , \"advised her friend<br>to take precautions\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50084",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "marry her",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "marrying with her",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "to marry to her",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "to marry her",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He decided *to marry with her* despite his parents' objections.<br>[SSC CGL 14/10/2025 (Shift 3)]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-sentence-improve",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "Sol.84.(d) to marry her<br>जब 'marry' का प्रयोग transitive verb (direct<br>object के साथ) के रूप में किया जाता है, तो इसे<br>'with' या 'to' जैसे preposition की आवश्यकता<br>नहीं होती है। इसलिए, ‘with’ को हटाना होगा।<br>अतः , ‘to marry her’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    }
+  ]
+}
