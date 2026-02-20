@@ -6,7 +6,7 @@ async function initAuth() {
     const { data: { user } } = await _supabase.auth.getUser();
     const path = window.location.pathname;
     
-    // Fix for Cloudflare "Pretty URLs" - checks for both /login and /login.html
+    // Fix for Cloudflare "Pretty URLs"
     const isLoginPage = path.endsWith("login.html") || path.endsWith("/login");
     const isHomePage = path === "/" || path.endsWith("index.html") || path.endsWith("/index");
     const isPublicPage = isLoginPage || isHomePage;
@@ -16,10 +16,12 @@ async function initAuth() {
 
     if (user) {
         // --- USER LOGGED IN ---
+        // Strictly fetch username from profiles table
         const { data: profile } = await _supabase.from('profiles').select('username').eq('id', user.id).single();
-        const username = profile ? profile.username : user.email.split('@')[0];
+        
+        // Only display the actual username from database
+        const username = profile ? profile.username : "User";
 
-        // UI: Top Right Profile Button + Dropdown
         authStatus.innerHTML = `
             <div class="profile-container">
                 <button class="profile-trigger" onclick="toggleDropdown()">👤 ${username}</button>
@@ -28,31 +30,27 @@ async function initAuth() {
                     <p><strong>Email:</strong> ${user.email}</p>
                     <hr style="border:0; border-top:1px solid #ffffff22; margin:10px 0;">
                     <button onclick="handleChangePassword()" style="width:100%; background: #2563eb; color:white; border:none; padding:8px; border-radius:6px; cursor:pointer; margin-bottom:8px; font-weight:bold;">Change Password</button>
-                    <button onclick="handleLogout()" class="logout-btn">Logout</button>
+                    <button onclick="handleLogout()" class="logout-btn">Logout Manually</button>
                 </div>
             </div>`;
         
-        // Prevent logged-in users from staying on login page
         if (isLoginPage) window.location.href = "/index.html";
 
     } else {
         // --- USER NOT LOGGED IN ---
         authStatus.innerHTML = `<a href="/login.html" class="top-login-btn">Login / Sign Up</a>`;
         
-        // Only redirect if NOT on home or login page
         if (!isPublicPage) {
             window.location.href = "/login.html";
         }
     }
 }
 
-// Profile Dropdown Logic
 function toggleDropdown() {
     const dropdown = document.getElementById('profile-dropdown');
     if (dropdown) dropdown.classList.toggle('show');
 }
 
-// Added Change Password Function
 async function handleChangePassword() {
     const { data: { user } } = await _supabase.auth.getUser();
     if (user) {
@@ -61,7 +59,6 @@ async function handleChangePassword() {
     }
 }
 
-// Close dropdown if clicking outside
 window.onclick = function(event) {
     if (!event.target.matches('.profile-trigger')) {
         const dropdowns = document.getElementsByClassName("dropdown-content");
