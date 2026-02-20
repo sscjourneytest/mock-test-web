@@ -1,174 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Join MockMatrixHub</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/auth.js"></script>
-    <style>
-        /* Professional Light Theme */
-        body { margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: #f0f4f8; font-family: 'Segoe UI', sans-serif; }
-        .auth-card { background: white; border-radius: 12px; padding: 40px; width: 100%; max-width: 400px; color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
-        h2 { text-align: center; color: #1e3a8a; margin-bottom: 5px; }
-        .mandatory-notice { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 25px; }
-        .mandatory-notice span { color: #ef4444; }
-        
-        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #475569; }
-        label span { color: #ef4444; }
+    <meta charset="UTF-8">
+    <title>Join MockMatrixHub</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/auth.js"></script>
+    <style>
+        /* Professional Light Theme */
+        body { margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: #f0f4f8; font-family: 'Segoe UI', sans-serif; }
+        .auth-card { background: white; border-radius: 12px; padding: 40px; width: 100%; max-width: 400px; color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        h2 { text-align: center; color: #1e3a8a; margin-bottom: 5px; }
+        .mandatory-notice { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 25px; }
+        .mandatory-notice span { color: #ef4444; }
+        
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #475569; }
+        label span { color: #ef4444; }
 
-        /* Password Eye Styling */
-        .password-wrapper { position: relative; width: 100%; }
-        .eye-icon { position: absolute; right: 12px; top: 12px; cursor: pointer; color: #94a3b8; font-size: 18px; user-select: none; }
+        .input-box { 
+            width: 100%; padding: 12px; margin-bottom: 18px; 
+            background: #f8fafc; border: 1px solid #cbd5e1; 
+            border-radius: 8px; color: #1e293b; box-sizing: border-box; 
+            outline: none; transition: 0.2s;
+        }
+        .input-box:focus { border-color: #2563eb; background: white; }
+        .input-box::placeholder { color: #94a3b8; font-weight: 400; }
 
-        .input-box { 
-            width: 100%; padding: 12px; margin-bottom: 18px; 
-            background: #f8fafc; border: 1px solid #cbd5e1; 
-            border-radius: 8px; color: #1e293b; box-sizing: border-box; 
-            outline: none; transition: 0.2s;
-        }
-        .input-box:focus { border-color: #2563eb; background: white; }
-        .input-box::placeholder { color: #94a3b8; font-weight: 400; }
-
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 5px; }
-        .btn-primary { background: #2563eb; color: white; }
-        .btn-primary:hover { background: #1e40af; }
-        
-        .btn-link { background: transparent; color: #2563eb; font-size: 13px; text-decoration: underline; margin-top: 15px; display: block; width: 100%; text-align: center; }
-        .hidden { display: none; }
-        #msg { text-align: center; font-size: 13px; margin-top: 15px; font-weight: 500; min-height: 20px; }
-    </style>
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 5px; }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-primary:hover { background: #1e40af; }
+        
+        .btn-link { background: transparent; color: #2563eb; font-size: 13px; text-decoration: underline; margin-top: 15px; display: block; width: 100%; text-align: center; }
+        .hidden { display: none; }
+        #msg { text-align: center; font-size: 13px; margin-top: 15px; font-weight: 500; min-height: 20px; }
+    </style>
 </head>
 <body>
-    <div class="auth-card">
-        <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 20px; font-size: 18px; font-weight: 800;">LOGIN/SIGN UP TO MOCK MATRIX HUB</h3>
+    <div class="auth-card">
+        <div id="login-section">
+            <h2>Welcome Back</h2>
+            <p class="mandatory-notice">All fields are mandatory <span>*</span></p>
+            
+            <label>Gmail or Username <span>*</span></label>
+            <input type="text" id="l-identity" class="input-box" placeholder="e.g. topper2025">
+            
+            <label>Password <span>*</span></label>
+            <input type="password" id="l-password" class="input-box" placeholder="••••••••">
+            
+            <button class="btn btn-primary" onclick="login()">Sign In</button>
+            <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
+        </div>
 
-        <div id="login-section">
-            <h2>Welcome Back</h2>
-            <p class="mandatory-notice">All fields are mandatory <span>*</span></p>
-            
-            <label>Gmail or Username <span>*</span></label>
-            <input type="text" id="l-identity" class="input-box" placeholder="e.g. topper2025">
-            
-            <label>Password <span>*</span></label>
-            <div class="password-wrapper">
-                <input type="password" id="l-password" class="input-box" placeholder="••••••••">
-                <span class="eye-icon" onclick="togglePassword('l-password')">👁️</span>
-            </div>
-            
-            <button class="btn btn-primary" onclick="login()">Sign In</button>
-            <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
-        </div>
+        <div id="signup-section" class="hidden">
+            <h2>Create Account</h2>
+            <p class="mandatory-notice">All fields are mandatory <span>*</span></p>
+            
+            <label>Full Name <span>*</span></label>
+            <input type="text" id="s-name" class="input-box" placeholder="Enter your name">
+            
+            <label>Unique Username <span>*</span></label>
+            <input type="text" id="s-username" class="input-box" placeholder="Don't use @ symbol">
+            
+            <label>Gmail Address <span>*</span></label>
+            <input type="email" id="s-email" class="input-box" placeholder="example@gmail.com">
+            
+            <label>Create Password <span>*</span></label>
+            <input type="password" id="s-password" class="input-box" placeholder="Min 6 characters">
+            
+            <button class="btn btn-primary" onclick="signup()">Verify & Register</button>
+            <button class="btn btn-link" onclick="toggleView('login')">Already have account? Login</button>
+        </div>
+        <p id="msg"></p>
+    </div>
 
-        <div id="signup-section" class="hidden">
-            <h2>Create Account</h2>
-            <p class="mandatory-notice">All fields are mandatory <span>*</span></p>
-            
-            <label>Full Name <span>*</span></label>
-            <input type="text" id="s-name" class="input-box" placeholder="Enter your name">
-            
-            <label>Unique Username <span>*</span></label>
-            <input type="text" id="s-username" class="input-box" placeholder="Don't use @ symbol">
-            
-            <label>Gmail Address <span>*</span></label>
-            <input type="email" id="s-email" class="input-box" placeholder="example@gmail.com">
-            
-            <label>Create Password <span>*</span></label>
-            <div class="password-wrapper">
-                <input type="password" id="s-password" class="input-box" placeholder="Min 6 characters">
-                <span class="eye-icon" onclick="togglePassword('s-password')">👁️</span>
-            </div>
-            
-            <button class="btn btn-primary" onclick="signup()">Verify & Register</button>
-            <button class="btn btn-link" onclick="toggleView('login')">Already have account? Login</button>
-        </div>
-        <p id="msg"></p>
-    </div>
+    <script>
+        function toggleView(v) {
+            document.getElementById('login-section').classList.toggle('hidden', v==='signup');
+            document.getElementById('signup-section').classList.toggle('hidden', v==='login');
+            document.getElementById('msg').innerText = "";
+        }
 
-    <script>
-        // Password Eye Logic
-        function togglePassword(id) {
-            const input = document.getElementById(id);
-            input.type = input.type === "password" ? "text" : "password";
-        }
+        async function signup() {
+            const email = document.getElementById('s-email').value;
+            const pass = document.getElementById('s-password').value;
+            const name = document.getElementById('s-name').value;
+            const user = document.getElementById('s-username').value.toLowerCase().trim();
+            const msg = document.getElementById('msg');
 
-        function toggleView(v) {
-            document.getElementById('login-section').classList.toggle('hidden', v==='signup');
-            document.getElementById('signup-section').classList.toggle('hidden', v==='login');
-            document.getElementById('msg').innerText = "";
-        }
+            // Reset Message Style
+            msg.style.color = "#ef4444"; 
 
-        async function signup() {
-            const email = document.getElementById('s-email').value;
-            const pass = document.getElementById('s-password').value;
-            const name = document.getElementById('s-name').value;
-            const user = document.getElementById('s-username').value.toLowerCase().trim();
-            const msg = document.getElementById('msg');
+            // 1. All Fields Mandatory Check
+            if(!email || !pass || !name || !user) {
+                return msg.innerText = "Error: All fields are mandatory!";
+            }
 
-            // Reset Message Style
-            msg.style.color = "#ef4444"; 
+            // 2. Block @ symbol in username
+            if(user.includes('@')) {
+                return msg.innerText = "Error: Don't use @ in username. Only English alphabets and numbers allowed.";
+            }
 
-            // 1. All Fields Mandatory Check
-            if(!email || !pass || !name || !user) {
-                return msg.innerText = "Error: All fields are mandatory!";
-            }
+            // 3. Unique Username Check
+            const { data: existing } = await _supabase.from('profiles').select('username').eq('username', user).single();
+            if (existing) {
+                return msg.innerText = "Error: This username already exists. Enter another unique username.";
+            }
 
-            // 2. Block @ symbol in username
-            if(user.includes('@')) {
-                return msg.innerText = "Error: Don't use @ in username. Only English alphabets and numbers allowed.";
-            }
+            // 4. Create Auth Account
+            const { data, error } = await _supabase.auth.signUp({
+                email, password: pass, options: { data: { full_name: name, user_name: user } }
+            });
+            
+            if (error) {
+                msg.innerText = "Error: " + error.message;
+            } else {
+                // 5. Create Profile Entry
+                await _supabase.from('profiles').insert([{ id: data.user.id, username: user, full_name: name }]);
+                msg.style.color = "#22c55e";
+                msg.innerText = "Success! Check Gmail for confirmation link.";
+            }
+        }
 
-            // 3. Unique Username Check
-            const { data: existing } = await _supabase.from('profiles').select('username').eq('username', user).single();
-            if (existing) {
-                return msg.innerText = "Error: This username already exists. Enter another unique username.";
-            }
+        async function login() {
+            const identity = document.getElementById('l-identity').value.trim();
+            const pass = document.getElementById('l-password').value;
+            const msg = document.getElementById('msg');
+            msg.style.color = "#ef4444";
 
-            // 4. Create Auth Account
-            const { data, error } = await _supabase.auth.signUp({
-                email, password: pass, options: { data: { full_name: name, user_name: user } }
-            });
-            
-            if (error) {
-                msg.innerText = "Error: " + error.message;
-            } else {
-                // 5. Create Profile Entry
-                await _supabase.from('profiles').insert([{ id: data.user.id, username: user, full_name: name }]);
-                msg.style.color = "#22c55e";
-                msg.innerText = "Success! Check Gmail for confirmation link.";
-            }
-        }
+            if(!identity || !pass) {
+                return msg.innerText = "Error: All fields are mandatory!";
+            }
 
-        async function login() {
-            const identity = document.getElementById('l-identity').value.trim();
-            const pass = document.getElementById('l-password').value;
-            const msg = document.getElementById('msg');
-            msg.style.color = "#ef4444";
+            let loginEmail = identity;
 
-            if(!identity || !pass) {
-                return msg.innerText = "Error: All fields are mandatory!";
-            }
+            // Dual Login Support: Convert Username to Email
+            if (!identity.includes('@')) {
+                const { data, error } = await _supabase
+                    .from('profiles')
+                    .select('id')
+                    .eq('username', identity.toLowerCase())
+                    .single();
 
-            let loginEmail = identity;
+                // For simple setups, users usually login with Email. 
+                // To login purely via username, you would need an Edge Function to fetch the email.
+            }
 
-            // Dual Login Support: Convert Username to Email
-            if (!identity.includes('@')) {
-                const { data, error } = await _supabase
-                    .from('profiles')
-                    .select('id')
-                    .eq('username', identity.toLowerCase())
-                    .single();
-
-                // For simple setups, users usually login with Email. 
-                // To login purely via username, you would need an Edge Function to fetch the email.
-            }
-
-            const { error } = await _supabase.auth.signInWithPassword({ email: loginEmail, password: pass });
-            if (error) {
-                msg.innerText = "Error: Invalid details or unverified email.";
-            } else {
-                window.location.href = "/index.html";
-            }
-        }
-    </script>
+            const { error } = await _supabase.auth.signInWithPassword({ email: loginEmail, password: pass });
+            if (error) {
+                msg.innerText = "Error: Invalid details or unverified email.";
+            } else {
+                window.location.href = "/index.html";
+            }
+        }
+    </script>
 </body>
 </html>
