@@ -80,81 +80,89 @@
         }
 
         async function signup() {
-            const email = document.getElementById('s-email').value;
-            const pass = document.getElementById('s-password').value;
-            const name = document.getElementById('s-name').value;
-            const user = document.getElementById('s-username').value.toLowerCase().trim();
-            const msg = document.getElementById('msg');
+    const email = document.getElementById('s-email').value;
+    const pass = document.getElementById('s-password').value;
+    const name = document.getElementById('s-name').value;
+    const user = document.getElementById('s-username').value.toLowerCase().trim();
+    const msg = document.getElementById('msg');
 
-            // Reset Message Style
-            msg.style.color = "#ef4444"; 
+    // Reset Message Style
+    msg.style.color = "#ef4444"; 
 
-            // 1. All Fields Mandatory Check
-            if(!email || !pass || !name || !user) {
-                return msg.innerText = "Error: All fields are mandatory!";
-            }
+    // 1. All Fields Mandatory Check
+    if(!email || !pass || !name || !user) {
+        return msg.innerText = "Error: All fields are mandatory!";
+    }
 
-            // 2. Block @ symbol in username
-            if(user.includes('@')) {
-                return msg.innerText = "Error: Don't use @ in username. Only English alphabets and numbers allowed.";
-            }
+    // 2. Block @ symbol in username
+    if(user.includes('@')) {
+        return msg.innerText = "Error: Don't use @ in username. Only English alphabets and numbers allowed.";
+    }
 
-            // 3. Unique Username Check
-            const { data: existing } = await _supabase.from('profiles').select('username').eq('username', user).single();
-            if (existing) {
-                return msg.innerText = "Error: This username already exists. Enter another unique username.";
-            }
+    // 3. Unique Username Check
+    const { data: existing } = await _supabase.from('profiles').select('username').eq('username', user).single();
+    if (existing) {
+        return msg.innerText = "Error: This username already exists. Enter another unique username.";
+    }
 
-            // 4. Create Auth Account
-            const { data, error } = await _supabase.auth.signUp({
-                email, password: pass, options: { data: { full_name: name, user_name: user } }
-            });
-            
-            if (error) {
-                msg.innerText = "Error: " + error.message;
-            } else {
-                // 5. Create Profile Entry
-                const { error: dbError } = await _supabase.from('profiles').insert([{ id: data.user.id, username: user, full_name: name }]);
-                
-                if (dbError) {
-                    msg.innerText = "Error: " + dbError.message;
-                } else {
-                    // Success: Redirect to home for automatic login (if email confirm is off)
-                    window.location.href = "/index.html";
-                }
-            }
+    // 4. Create Auth Account
+    const { data: authData, error: authError } = await _supabase.auth.signUp({
+        email, 
+        password: pass
+    });
+    
+    if (authError) {
+        msg.innerText = "Error: " + authError.message;
+    } else if (authData.user) {
+        // 5. Create Profile Entry using UUID
+        const { error: dbError } = await _supabase.from('profiles').insert([{ 
+            id: authData.user.id, 
+            username: user, 
+            full_name: name 
+        }]);
+        
+        if (dbError) {
+            msg.innerText = "Error: " + dbError.message;
+        } else {
+            // Success: Redirect to home for automatic login
+            window.location.href = "/index.html";
         }
+    }
+}
 
-        async function login() {
-            const identity = document.getElementById('l-identity').value.trim();
-            const pass = document.getElementById('l-password').value;
-            const msg = document.getElementById('msg');
-            msg.style.color = "#ef4444";
+async function login() {
+    const identity = document.getElementById('l-identity').value.trim();
+    const pass = document.getElementById('l-password').value;
+    const msg = document.getElementById('msg');
+    msg.style.color = "#ef4444";
 
-            if(!identity || !pass) {
-                return msg.innerText = "Error: All fields are mandatory!";
-            }
+    if(!identity || !pass) {
+        return msg.innerText = "Error: All fields are mandatory!";
+    }
 
-            let loginEmail = identity;
+    let loginEmail = identity;
 
-            // Dual Login Support: Convert Username to Email
-            if (!identity.includes('@')) {
-                const { data, error } = await _supabase
-                    .from('profiles')
-                    .select('id')
-                    .eq('username', identity.toLowerCase())
-                    .single();
+    // Dual Login Support: Convert Username to Email
+    if (!identity.includes('@')) {
+        const { data, error } = await _supabase
+            .from('profiles')
+            .select('id')
+            .eq('username', identity.toLowerCase())
+            .single();
+        
+        // If username found, loginEmail remains identity for the Auth call 
+        // Note: Full username login typically requires a custom Edge Function.
+    }
 
-                // Username login logic could be added here if needed
-            }
+    const { error } = await _supabase.auth.signInWithPassword({ email: loginEmail, password: pass });
+    if (error) {
+        msg.innerText = "Error: Invalid details or unverified email.";
+    } else {
+        window.location.href = "/index.html";
+    }
+}
 
-            const { error } = await _supabase.auth.signInWithPassword({ email: loginEmail, password: pass });
-            if (error) {
-                msg.innerText = "Error: Invalid details or unverified email.";
-            } else {
-                window.location.href = "/index.html";
-            }
-        }
+      
     </script>
 </body>
 </html>
