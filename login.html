@@ -16,6 +16,10 @@
         label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #475569; }
         label span { color: #ef4444; }
 
+        /* Password Eye Styling */
+        .password-wrapper { position: relative; width: 100%; }
+        .eye-icon { position: absolute; right: 12px; top: 12px; cursor: pointer; color: #94a3b8; font-size: 18px; user-select: none; }
+
         .input-box { 
             width: 100%; padding: 12px; margin-bottom: 18px; 
             background: #f8fafc; border: 1px solid #cbd5e1; 
@@ -36,6 +40,8 @@
 </head>
 <body>
     <div class="auth-card">
+        <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 20px; font-size: 18px; font-weight: 800;">LOGIN/SIGN UP TO MOCK MATRIX HUB</h3>
+
         <div id="login-section">
             <h2>Welcome Back</h2>
             <p class="mandatory-notice">All fields are mandatory <span>*</span></p>
@@ -44,7 +50,10 @@
             <input type="text" id="l-identity" class="input-box" placeholder="e.g. topper2025">
             
             <label>Password <span>*</span></label>
-            <input type="password" id="l-password" class="input-box" placeholder="••••••••">
+            <div class="password-wrapper">
+                <input type="password" id="l-password" class="input-box" placeholder="••••••••">
+                <span class="eye-icon" onclick="togglePassword('l-password')">👁️</span>
+            </div>
             
             <button class="btn btn-primary" onclick="login()">Sign In</button>
             <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
@@ -64,7 +73,10 @@
             <input type="email" id="s-email" class="input-box" placeholder="example@gmail.com">
             
             <label>Create Password <span>*</span></label>
-            <input type="password" id="s-password" class="input-box" placeholder="Min 6 characters">
+            <div class="password-wrapper">
+                <input type="password" id="s-password" class="input-box" placeholder="Min 6 characters">
+                <span class="eye-icon" onclick="togglePassword('s-password')">👁️</span>
+            </div>
             
             <button class="btn btn-primary" onclick="signup()">Verify & Register</button>
             <button class="btn btn-link" onclick="toggleView('login')">Already have account? Login</button>
@@ -73,6 +85,12 @@
     </div>
 
     <script>
+        // Password Eye Logic
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            input.type = input.type === "password" ? "text" : "password";
+        }
+
         function toggleView(v) {
             document.getElementById('login-section').classList.toggle('hidden', v==='signup');
             document.getElementById('signup-section').classList.toggle('hidden', v==='login');
