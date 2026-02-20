@@ -27,6 +27,7 @@ async function initAuth() {
                     <p><strong>Username:</strong> ${username}</p>
                     <p><strong>Email:</strong> ${user.email}</p>
                     <hr style="border:0; border-top:1px solid #ffffff22; margin:10px 0;">
+                    <button onclick="handleChangePassword()" style="width:100%; background: #2563eb; color:white; border:none; padding:8px; border-radius:6px; cursor:pointer; margin-bottom:8px; font-weight:bold;">Change Password</button>
                     <button onclick="handleLogout()" class="logout-btn">Logout</button>
                 </div>
             </div>`;
@@ -49,6 +50,15 @@ async function initAuth() {
 function toggleDropdown() {
     const dropdown = document.getElementById('profile-dropdown');
     if (dropdown) dropdown.classList.toggle('show');
+}
+
+// Added Change Password Function
+async function handleChangePassword() {
+    const { data: { user } } = await _supabase.auth.getUser();
+    if (user) {
+        const { error } = await _supabase.auth.resetPasswordForEmail(user.email);
+        alert(error ? "Error: " + error.message : "A password reset link has been sent to your Gmail!");
+    }
 }
 
 // Close dropdown if clicking outside
