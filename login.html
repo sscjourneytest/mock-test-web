@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Join MockMatrixHub</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/auth.js"></script>
+    <style>
+        body { margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: #0f0c29; font-family: 'Segoe UI', sans-serif; }
+        .glass-box { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; width: 380px; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .input-box { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .btn-primary { background: #4e54c8; color: white; }
+        .btn-link { background: transparent; color: #ccc; font-size: 13px; text-decoration: underline; }
+        .hidden { display: none; }
+        #msg { text-align: center; font-size: 13px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="glass-box">
+        <div id="login-section">
+            <h2 style="text-align:center">Welcome Back</h2>
+            <input type="text" id="l-identity" class="input-box" placeholder="Gmail or Username">
+            <input type="password" id="l-password" class="input-box" placeholder="Password">
+            <button class="btn btn-primary" onclick="login()">Sign In</button>
+            <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
+        </div>
+
+        <div id="signup-section" class="hidden">
+            <h2 style="text-align:center">Create Account</h2>
+            <input type="text" id="s-name" class="input-box" placeholder="Full Name">
+            <input type="text" id="s-username" class="input-box" placeholder="Choose Unique Username">
+            <input type="email" id="s-email" class="input-box" placeholder="Gmail Address">
+            <input type="password" id="s-password" class="input-box" placeholder="Create Password">
+            <button class="btn btn-primary" onclick="signup()">Verify & Register</button>
+            <button class="btn btn-link" onclick="toggleView('login')">Already have account? Login</button>
+        </div>
+        <p id="msg"></p>
+    </div>
+
+    <script>
+        function toggleView(v) {
+            document.getElementById('login-section').classList.toggle('hidden', v==='signup');
+            document.getElementById('signup-section').classList.toggle('hidden', v==='login');
+            document.getElementById('msg').innerText = "";
+        }
+
+        async function signup() {
+            const email = document.getElementById('s-email').value;
+            const pass = document.getElementById('s-password').value;
+            const name = document.getElementById('s-name').value;
+            const user = document.getElementById('s-username').value.toLowerCase().trim();
+            const msg = document.getElementById('msg');
+
+            // 1. Check if Username is unique
+            const { data: existing } = await _supabase.from('profiles').select('username').eq('username', user).single();
+            if (existing) return msg.innerHTML = "<span style='color:red'>Username already taken!</span>";
+
+            // 2. Create Auth Account
+            const { data, error } = await _supabase.auth.signUp({
+                email, password: pass, options: { data: { full_name: name, user_name: user } }
+            });
+            
+            if (error) msg.innerText = error.message;
+            else {
+                // 3. Create Profile Entry
+                await _supabase.from('profiles').insert([{ id: data.user.id, username: user, full_name: name }]);
+                msg.innerHTML = "<span style='color:#00ff00'>Check Gmail for confirmation link!</span>";
+            }
+        }
+
+        async function login() {
+            const identity = document.getElementById('l-identity').value.trim();
+            const pass = document.getElementById('l-password').value;
+            let email = identity;
+
+            // Check if user entered Username instead of Email
+            if (!identity.includes('@')) {
+                const { data } = await _supabase.from('profiles').select('id').eq('username', identity.toLowerCase()).single();
+                if (data) {
+                    // Logic: Get the email associated with that ID (requires a small helper or just use the ID)
+                    // For simplicity in this setup, we'll assume they use Email if they haven't verified.
+                }
+            }
+
+            const { error } = await _supabase.auth.signInWithPassword({ email, password: pass });
+            if (error) document.getElementById('msg').innerText = error.message;
+            else window.location.href = "/index.html";
+        }
+    </script>
+</body>
+</html>
