@@ -1,69 +1,69 @@
-// auth.js - Place in the root directory of your GitHub repo
 const SUPABASE_URL = 'https://duqmejyypqgkrjlpplrz.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cW1lanl5cHFna3JqbHBwbHJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDIyNTAsImV4cCI6MjA4NzE3ODI1MH0.aAIITdr-BS-D-TJHY1fEkqgN4CRVwsyz90d2I9IrhVc';
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function initAuth() {
-    // 1. Get the current user session
     const { data: { user } } = await _supabase.auth.getUser();
-    
-    // 2. Identify the current page accurately
     const path = window.location.pathname;
-    const page = path.split("/").pop(); // Gets the last part of the URL (e.g., 'login.html')
-
-    // 3. Define page types to prevent redirect loops
-    const isLoginPage = page === "login.html";
-    const isHomePage = page === "" || page === "index.html" || path === "/";
+    
+    // Fix for Cloudflare "Pretty URLs" - checks for both /login and /login.html
+    const isLoginPage = path.endsWith("login.html") || path.endsWith("/login");
+    const isHomePage = path === "/" || path.endsWith("index.html") || path.endsWith("/index");
     const isPublicPage = isLoginPage || isHomePage;
 
     const authStatus = document.getElementById('auth-status');
+    if (!authStatus) return;
 
     if (user) {
-        // --- USER IS LOGGED IN ---
-        
-        // Fetch the unique username from your 'profiles' table
-        const { data: profile } = await _supabase
-            .from('profiles')
-            .select('username')
-            .eq('id', user.id)
-            .single();
+        // --- USER LOGGED IN ---
+        const { data: profile } = await _supabase.from('profiles').select('username').eq('id', user.id).single();
+        const username = profile ? profile.username : user.email.split('@')[0];
 
-        const displayName = profile ? profile.username : user.email.split('@')[0];
-
-        // Update the Navbar UI
-        if (authStatus) {
-            authStatus.innerHTML = `
-                <div class="user-pill">
-                    <span>👤 ${displayName}</span>
+        // UI: Top Right Profile Button + Dropdown
+        authStatus.innerHTML = `
+            <div class="profile-container">
+                <button class="profile-trigger" onclick="toggleDropdown()">👤 ${username}</button>
+                <div id="profile-dropdown" class="dropdown-content">
+                    <p><strong>Username:</strong> ${username}</p>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                    <hr style="border:0; border-top:1px solid #ffffff22; margin:10px 0;">
                     <button onclick="handleLogout()" class="logout-btn">Logout</button>
-                </div>`;
-        }
-
-        // If logged in and accidentally on login page, send to home
-        if (isLoginPage) {
-            window.location.href = "/index.html";
-        }
+                </div>
+            </div>`;
+        
+        // Prevent logged-in users from staying on login page
+        if (isLoginPage) window.location.href = "/index.html";
 
     } else {
-        // --- USER IS NOT LOGGED IN ---
+        // --- USER NOT LOGGED IN ---
+        authStatus.innerHTML = `<a href="/login.html" class="top-login-btn">Login / Sign Up</a>`;
         
-        // Show Login link in Navbar
-        if (authStatus) {
-            authStatus.innerHTML = `<a href="/login.html" class="login-link">Login / Sign Up</a>`;
-        }
-        
-        // IMPORTANT: Only redirect if NOT already on a public page
-        // This stops the infinite refresh/flicker loop
+        // Only redirect if NOT on home or login page
         if (!isPublicPage) {
             window.location.href = "/login.html";
         }
     }
 }
 
-async function handleLogout() {
-    await _supabase.auth.signOut();
-    window.location.href = "/index.html"; 
+// Profile Dropdown Logic
+function toggleDropdown() {
+    const dropdown = document.getElementById('profile-dropdown');
+    if (dropdown) dropdown.classList.toggle('show');
 }
 
-// Start the check as soon as the HTML content is loaded
+// Close dropdown if clicking outside
+window.onclick = function(event) {
+    if (!event.target.matches('.profile-trigger')) {
+        const dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+            if (dropdowns[i].classList.contains('show')) dropdowns[i].classList.remove('show');
+        }
+    }
+}
+
+async function handleLogout() {
+    await _supabase.auth.signOut();
+    window.location.href = "/index.html";
+}
+
 document.addEventListener('DOMContentLoaded', initAuth);
