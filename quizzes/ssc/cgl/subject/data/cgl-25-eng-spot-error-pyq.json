@@ -1,0 +1,3621 @@
+{
+  "meta": {
+    "title": "CGL 2025 ENGLISH - SPOTTING ERROR PYQ",
+    "id": "cgl-25-eng-spot-error-pyq",
+    "total_questions": 82,
+    "correct_score": "2",
+    "negative_score": "0.5",
+    "timer_minutes": "45",
+    "timer_seconds": 2700
+  },
+  "questions": [
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50001",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "They are planning to build (1)/ a research centre near the river (2)/ where will scientists conduct (3)/environmental studies in the coming years. (4)<br>[ SSC CGL 23/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) where will scientists conduct<br>जब Wh-word (what, how, why, where, when आदि) का प्रयोग किसी sentence में एक relative clause शुरू करने के लिए किया जाता है, तो helping verb और main verb दोनों clause में subject के बाद प्रयोग किए जाते हैं। इसलिए, modal 'will' का प्रयोग subject 'scientists' के बाद किया जाएगा। अतः , 'where scientists will conduct' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50002",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "A large number of equipments were delivered to the warehouse (1)/ last week (2)/ to support the upcoming production schedule (3)/ without any delay. (4)<br>[ SSC CGL 23/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>Word \"equipment\" एक uncountable noun है और इसका कोई plural form नहीं होता है। इसलिए, \"equipments\" गलत है, इसके स्थान पर \"equipment\" होना चाहिए। अतः , \"A large number of equipments were\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50003",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The cybersecurity team is proficient for detecting (1)/ vulnerabilities in legacy systems that often evade (2)/ conventional monitoring tools and protocols (3)/ during routine audits. (4)/<br>[ SSC CGL 23/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>'In' एक fix preposition है जिसका प्रयोग adjective 'proficient' के बाद किसी कार्य में कुशलता दर्शाने के लिए किया जाता है। दिया गया sentence \"proficient for detecting\" का प्रयोग करता है, जो गलत है। अतः , \"proficient in detecting\" सबसे उपयुक्त सुधार है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50004",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Had she not postponed the meeting several times, (1)/ the committee would have had a greater opportunity (2)/ to discussing the budget allocations in detail (3)/ before the quarterly report was finalized. (4)<br>[ SSC CGL 23/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>\"To\" के बाद, हम verb की base form का प्रयोग करते हैं, न कि gerund (-ing form) का। अतः , \"opportunity to discuss\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50005",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She enjoys reading novels (1)/, listening to music (2)/ and to paint landscapes (3)/ during her free time. (4)<br>[ SSC CGL 24/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) and to paint landscapes<br>दिए गए sentence में, एक parallelism error है। 'Enjoys' main verb (finite verb) है और इसके बाद तीन non-finite verb हैं। 'Enjoy' के बाद एक gerund आता है। दो verb (reading, listening) gerund form में हैं। तीसरे verb 'to paint' के स्थान पर gerund form 'painting' का प्रयोग होगा। अतः , 'and painting landscapes' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50006",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The ancient tree is famous for (1)/ it's beautiful, sprawling branches (2)/ which provide shade for the entire park (3)/during the hot summer months. (4)<br>[ SSC CGL 24/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>“It’s” एक contraction है और इसका प्रयोग वहां किया जाना चाहिए जहां sentence में \"It is\" आता हो। \"Its\", बिना apostrophe के, एक possessive pronoun है, जैसे \"his\" और \"her\" जिसका प्रयोग बिना gender वाले noun के लिए किया जाता है। दिए गए sentence में, ‘branches’, ‘tree’ से संबंधित हैं, इसलिए possessive pronoun की आवश्यकता है। अतः , \"Its beautiful, sprawling branches\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50007",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The volunteers served sandwiches (1)/ to all the hungry children (2)/ at the shelter on paper plates (3)/ decorated with colorful patterns. (4)<br>[ SSC CGL 24/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>Phrase \"on paper plates\" का अर्थ यह describe करना है कि सैंडविच कैसे परोसे गए थे, लेकिन sentence में इसका placement ऐसा लगता है जैसे बच्चे या आश्रय (shelter) प्लेटों पर थे। इसे उस word के निकट रखा जाना चाहिए जिसे यह modify करता है। अतः \"The volunteers served sandwiches on paper plates to all the hungry children at the shelter\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50008",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The volunteers, (1)/ while collecting supplies for the flood victims, (2)/ the storage facility was inspected (3)/ for safety compliance. (4)<br>[ SSC CGL 24/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) the storage facility was inspected<br>दिए गए sentence में, 'The volunteers' subject है तथा phrase “while collecting supplies for the flood victims” subject को modify करता है। यहाँ, 'The volunteers', action (inspecting) का doer है, इसलिए, verb active form में होनी चाहिए, न कि passive form में। इसलिए, 'the storage facility was inspected' के स्थान पर 'inspected the storage facility' का प्रयोग होगा। अतः , 'inspected the storage facility' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50009",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She apologised (1)/ of the delay and (2)/ promised to submit (3)/ the report soon. (4)<br>[ SSC CGL 25/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(d) (2) of the delay<br>'For' का प्रयोग verb 'apologise' के साथ माफी के कारण को इंगित करने के लिए किया जाता है। इसी तरह, दिए गए sentence में, 'delay' माफी का कारण है। अतः , 'for the delay' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50010",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Hardly had the preliminary review been completed (1)/ when the auditors noticed (2)/ that several financial projections (3)/ was calculated using outdated parameters. (4)<br>[ SSC CGL 25/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(d) (4) was calculated using outdated parameters<br>दिए गए sentence में, 'several projections' एक plural subject है जिसके साथ plural helping verb का प्रयोग होगा। इसलिए, 'was' के स्थान पर 'were' का प्रयोग होगा। अतः , 'were calculated using outdated parameters' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50011",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "If the guidelines is enforced strictly (1)/ every participating institution (2)/ will be required to update its database (3)/ before the annual review begins. (4)<br>[ SSC CGL 25/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>\"Subject-Verb Agreement Rule\" के अनुसार, verb को number में noun (subject) से match होना चाहिए। यहाँ, noun \"guidelines\" एक plural है, इसलिए इसके साथ plural verb का प्रयोग होगा। अतः , \"If the guidelines are enforced strictly\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50012",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The coordinator carefully explained about the revised procedures (1)/ to all the participants during the orientation session (2)/ so that everyone could follow the updated guidelines (3)/ without any confusion or delay. (4)<br>[ SSC CGL 25/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1) The coordinator carefully explained about the revised procedures<br>\"Explain, mention, discuss, emphasise, enter, accompany, आदि\" जैसे verb जब एक object के साथ प्रयोग किये जाते हैं तो उनके साथ किसी भी preposition का प्रयोग नहीं होता है। इसलिए, 'about' को हटाना होगा। अतः , \"The coordinator carefully explained the revised procedures\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50013",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The novice programmer made (1) / a blunder mistake (2) / in the coding, which (3) / crashed the entire system. (4)<br>[ SSC CGL 25/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) a blunder mistake<br>'Blunder mistake' एक superfluous expression है। 'Blunder' का अर्थ है एक बड़ी गलती। इसलिए, हम 'mistake' और 'blunder' का एक साथ प्रयोग नहीं कर सकते। अतः , 'mistake' को हटा दिया जाएगा। अतः , 'a blunder' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50014",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Had the manager explained the policy clearly (1)/ to the staff members, (2)/ they would not have made (3)/ so many confusions. (4)/<br>[ SSC CGL 26/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(d) (4)<br>Word \"confusion\" एक uncountable noun है और इसका कोई plural form नहीं होता है। Uncountable noun के साथ ‘Much' का प्रयोग किया जाता है, 'many' का नहीं।हीं अतः , \"so much confusion\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50015",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The manager distributed (1)/ many important informations (2)/ during the morning briefing, (3)/ causing some confusion. (4)<br>[ SSC CGL 26/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - many important informations<br>Word 'Information' एक uncountable noun है और इसका कोई plural form नहीं होता है। इसे 'many pieces of important information' के रूप में प्रयोग किया जाना चाहिए। अतः , ‘many pieces of important information’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50016",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The company has decided (1)/ to implement new strategies (2)/ in order to boost its sale (3)/ and improve customer satisfaction. (4)/<br>[ SSC CGL 26/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>Word \"sale\" आमतौर पर एक single transaction या selling के act को संदर्भित करता है, जबकि \"sales\" (plural) समग्र राजस्व (overall revenue), business performance या multiple transaction को संदर्भित करता है। अतः , \"in order to boost its sales\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50017",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The manager appreciated (1)/ not only her dedication (2)/ but also for her innovative ideas. (3)/ Everyone was motivated by her example. (4)/<br>[ SSC CGL 14/10/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>\"Not only ... but also\" का प्रयोग करते समय, structure parallel होना चाहिए। दिए गए sentence में, \"her dedication\" एक noun phrase है, इसलिए \"her innovative ideas\" भी एक noun phrase होना चाहिए। अतः , \"her innovative ideas\" सबसे उपयुक्त सुधार है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50018",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He seldom if never (1)/ visits his family, (2)/ even though they live (3)/ in the same town. (4)<br>[ SSC CGL 14/10/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1) - He seldom if never<br>'Seldom if never' के स्थान पर 'seldom if ever' का प्रयोग किया जायेगा। 'Seldom if ever' सही phrase है, जिसका अर्थ है बहुत कम या लगभग कभी नहीं।हीं 'Seldom if never' grammatically गलत है। अतः , 'He seldom if ever' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50019",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Neither of the applicants (1)/ have submitted (2)/ the required documents (3)/ to the office yet. (4)<br>[ SSC CGL 14/10/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>Phrase “neither of” हमेशा singular होता है, इसलिए इसके बाद प्रयोग होने वाली verb भी singular form में होनी चाहिए। अतः , “applicants has submitted” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50020",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The training programme of the new coach was (1)/ more effective than the previous coach, (2)/ as it offered better structure and helped (3)/ participants stay focused for a greater portion of the day. (4)<br>[ SSC CGL 14/10/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) more effective than the previous coach<br>दिए गए sentence में, comparison, training programmes के बीच है, न कि coaches के। इसलिए, ‘the previous coach’ के स्थान पर 'that of the previous coach' का प्रयोग किया जायेगा। अतः , 'more effective than that of the previous coach' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50021",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The unique challenges of the project, including its remote location (1)/ and the unpredictable weather patterns, (2)/ makes its successful completion (3)/ a testament to the team's resilience. (4)<br>[ SSC CGL 14/10/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>'Subject-Verb Agreement Rule' के अनुसार, singular subject के साथ हमेशा singular verb का तथा plural subject के साथ हमेशा plural verb का प्रयोग होता है। दिए गए sentence में, main subject \"The unique challenges\" एक plural है। इसलिए, verb भी plural (\"make\") form में होनी चाहिए न कि singular (\"makes\") form में। अतः , \"make its successful completion\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50022",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "That the expedition faced unforeseen challenges (1)/ in the treacherous mountain terrain (2)/ were evident from their delayed return (3)/ and exhausted appearance. (4)<br>[ SSC CGL 14/10/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) - were evident from their delayed return<br>दिए गये sentence का subject एक noun clause \"That the expedition faced unforeseen challenges in the treacherous mountain terrain\" है। चूंकि यहाँ केवल एक ही noun clause है, इसलिए subject singular है। इसलिए, verb भी singular form (was) में होनी चाहिए, न कि plural form (were) में। अतः , 'was evident from their delayed return' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50023",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The fishermen caught many fishes (1)/ from the lake yesterday (2)/ and sold them in the market (3)/ at a good price. (4)/<br>[ SSC CGL 17/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>आमतौर पर, ‘fish’ का plural form ‘fish’ ही होता है। ‘Fishes’ का प्रयोग केवल तभी किया जाता है जब fish की विभिन्न प्रजातियों का उल्लेख हो। लेकिन sentence में ऐसा कोई उल्लेख नहीं है। अतः , ‘The fisherman caught many fish’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50024",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Seldom we realize (1)/ how fortunate we are (2)/ to have access to clean water (3)/ and healthy food. (4)<br>[ SSC CGL 17/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) Seldom we realize (1)<br>‘Seldom’ जैसे negative adverb के बाद, inversion की आवश्यकता होती है। Inversion एक ऐसा structure है जिसमें helping verb subject से पहले आता है तथा main verb subject के बाद आता है। Plural subject ‘we’ के लिए helping verb ‘do’ का प्रयोग किया जाएगा। अतः , ‘Seldom do we realize’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50025",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee is committed (1)/ for ensuring that all members (2)/ have an equal opportunity (3)/ to voice their opinions. (4)/<br>[ SSC CGL 17/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>‘To’ एक fix preposition है जिसका प्रयोग adjective ‘committed’ के बाद उद्देश्य या समर्पण को इंगित करने के लिए किया जाता है। अतः , “committed to ensuring” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50026",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "It was not until she finished her degree (1)/ and gained some experience (2)/ did she feel confident enough (3)/ to start her own business. (4)/<br>[ SSC CGL 17/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>Structure “It was not until” के लिए आवश्यक है कि इसके बाद आने वाला clause, affirmative form में हो, न कि interrogative structure में। अतः , “that she felt confident” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50027",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "After years of hard work (1)/ he finally decided to call off from (2)/ his struggling business and start anew (3)/ in a different field. (4)/<br>[ SSC CGL 18/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>he finally decided to call off from<br>Phrasal verb ‘call off’ के बाद किसी भी preposition का प्रयोग नही होता है। ‘Call off’ का अर्थ है रद्द करना या त्यागना। इसलिए, ‘from’ को हटाना होगा। अतः , ‘he finally decided to call off’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50028",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The museum, which located near the river, (1)/ attracts thousands of visitors (2)/ every year for its rare collection (3)/ of ancient manuscripts. (4)<br>[ SSC CGL 18/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1) - The museum, which located near the river<br>दिए गए sentence में, subject ‘The museum’ के बाद एक relative clause (which located near the river) दिया गया है। Relative clause में, pronoun ‘which’ के बाद कोई verb नहीं है। यहाँ, हमें singular antecedent ‘The museum’ के लिए singular verb ‘is’ की आवश्यकता है। अतः , ‘The museum, which is located near the river’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50029",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The main actor, as well as the supporting cast, (1)/ were praised (2)/ for their outstanding performance (3)/ in the play. (4)/<br>[ SSC CGL 18/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>जब दो subject “along with,” “as well as,” या “in addition to,” से जुड़े होते हैं, तो verb पहले subject के अनुसार प्रयोग कि जाती है। यहाँ, “The main actor” पहला subject है, जो singular है। अतः , “was praised” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50030",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The minister assured that (1)/ all possible measures (2)/ were being taken to address (3)/ the crisis effectively. (4)<br>[ SSC CGL 18/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>जब verb “assured” का प्रयोग direct object के साथ किया जाता है तो आमतौर पर “assured someone that…” structure का प्रयोग होता है। दिए गए sentence में, “assured” के बाद कोई object नहीं है। अतः , “assured the public that” या “assured the people (or us) that” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50031",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He seldom if never (1)/ visits his family, (2)/ even though they live (3)/ in the same town. (4)<br>[ SSC CGL 18/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1) - He seldom if never<br>'Seldom if never' के स्थान पर 'seldom if ever' का प्रयोग किया जायेगा। 'Seldom if ever' सही phrase है, जिसका अर्थ है बहुत कम या लगभग कभी नहीं।हीं 'Seldom if never' grammatically गलत है। अतः , 'He seldom if ever' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50032",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee recommended that the proposal (1)/ is reviewed by an independent expert (2)/ to ensure impartiality (3)/ before final approval. (4)<br>[ SSC CGL 18/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - the proposal is reviewed<br>'Is reviewed' के स्थान पर 'be reviewed' का प्रयोग किया जायेगा। 'Recommend, suggest, insist, demand' जैसे verb के बाद subjunctive mood (passive structure के लिए “be + V3”) का प्रयोग किया जाता है। अतः , “be reviewed by an independent expert” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50033",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He drives (1)/ very reckless (2)/ on the highway, ignoring (3)/ all traffic rules. (4)/<br>[ SSC CGL 19/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>Word 'reckless' एक adjective है, लेकिन 'very' के बाद, हमें verb 'drives' को describe करने के लिए एक adverb की आवश्यकता है। अतः , “very recklessly” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50034",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "So profound was the impact (1)/ of the new policy that it not only changed recruitment standards (2)/ but also reduced with overall efficiency (3)/ across departments. (4)<br>[ SSC CGL 19/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>Verb “reduce” एक transitive verb है, जिसका अर्थ है कि इसके साथ direct object का प्रयोग होता है बिना किसी preposition के। अतः , “reduced overall efficiency” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50035",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee, comprising (1)/ experts from various fields, (2)/ have submitted its report to the governing (3)/ body for review and approval. (4)<br>[ SSC CGL 19/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) - have submitted its report to the governing<br>‘Committee’ एक collective noun है जिसे आमतौर पर singular माना जाता है। इसलिए, ‘have’ के स्थान singular verb ‘has’ का प्रयोग होगा। अतः , “has submitted its report to the governing” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50036",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The number of participants (1)/ in the advanced workshop (2)/ were surprisingly low (3)/ given the extensive promotion. (4)<br>[ SSC CGL 19/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) - were surprisingly low<br>“The number + of + plural noun + singular verb” सही grammatical structure है। इसलिए, ‘were’ के स्थान पर singular verb ‘was’ का प्रयोग होगा। अतः , ‘was surprisingly low’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50037",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She emphasized on (1)/ the need for (2)/ regular practice (3)/ to improve performance. (4)/<br>[ SSC CGL 19/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>Verb \"emphasize\" के बाद \"on\" का प्रयोग नहीं होता है। यह एक transitive verb है जिसके साथ direct object का प्रयोग किया जाता है। अतः , \"emphasized the need for\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50038",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Neither of the applicants (1)/ have submitted (2)/ the required documents (3)/ to the office yet. (4)<br>[ SSC CGL 19/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>Phrase “neither of” हमेशा singular होता है, इसलिए इसके बाद verb भी singular form में होनी चाहिए। अतः , “applicants has submitted” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50039",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The newly discovered species was (1)/ quite unique, possessing characteristics (2)/ that set it apart from (3)/ all its known relatives. (4)<br>[ SSC CGL 20/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - quite unique, possessing characteristics<br>'Unique' एक absolute या non-gradable adjective है। इसका अर्थ है कि हम इसके साथ किसी भी quantifier का प्रयोग नहीं कर सकते। इसलिए, 'quite' को हटाना होगा। अतः , ‘unique, possessing characteristics’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50040",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee insisted that (1)/ each member provides a written report (2)/ before the final presentation (3)/ scheduled next week. (4)<br>[ SSC CGL 20/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>Insist, suggest, recommend, demand, request जैसे verb के बाद, हम subjunctive mood का प्रयोग करते हैं, जिसके बाद verb की base form (बिना \"s\" के) का प्रयोग होता है। अतः , \"each member provides a written report\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50041",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The director explained that (1)/ the report was delayed (2)/ because the data (3)/ was not yet collected. (4)<br>[ SSC CGL 20/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(d) (4)<br>Main verb \"explained\" past tense में है, यह दर्शाता है कि data collection का कार्य पहले हुआ था। इसलिए, past perfect passive सही tense है। अतः , \"data had not yet been collected\" सबसे उपयुक्त रूप है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50042",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The company plans to hire (1)/ new group of interns (2)/ to assist with the upcoming (3)/ marketing campaign this summer. (4)/<br>[ SSC CGL 20/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>दिए गए sentence में, noun “group” एक singular एवं countable है, इसलिए इसके पहले article “a” की आवश्यकता है। अतः , “a new group of interns” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50043",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "That the expedition faced unforeseen challenges (1)/ in the treacherous mountain terrain (2)/ were evident from their delayed return (3)/ and exhausted appearance. (4)<br>[ SSC CGL 21/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) - were evident from their delayed return<br>दिए गये sentence का subject एक noun clause \"That the expedition faced unforeseen challenges in the treacherous mountain terrain\" है। चूंकि यहाँ केवल एक ही noun clause है, इसलिए subject singular है। इसलिए, verb भी singular form (was) में होनी चाहिए, न कि plural form (were) में। अतः , 'was evident from their delayed return' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50044",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The sudden influx of tourists, (1)/ attracted by the newly opened resort, (2)/ have caused significant strain (3)/ on the local infrastructure. (4)<br>[ SSC CGL 21/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) - have caused significant strain<br>दिए गए sentence में, 'The sudden influx' एक singular subject है जिसके साथ singular verb का प्रयोग होगा। इसलिए, 'have' के स्थान पर 'has' का प्रयोग किया जायेग। अतः , 'has caused significant strain' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50045",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The new decorative pillows (1)/ perfectly compliment the colors (2)/ of the sofa and the curtains, (3)/ tying the whole room together. (4)/<br>[ SSC CGL 21/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>दिए गए sentence में, word compliment का गलत प्रयोग किया गया है। Word “compliment” का अर्थ है प्रशंसा करना या आभार व्यक्त करना, जबकि complement का अर्थ है किसी चीज़ को पूरा करना या उसके साथ अच्छी तरह से मेल खाना। अतः , “perfectly complement the colors” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50046",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The research team concluded that (1)/ each participant must submit (2)/ their reports before (3)/ the deadline on Monday. (4)<br>[ SSC CGL 21/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>'Each participant' एक singular pronoun है और हम आमतौर पर singular indefinite pronouns के लिए 'his' का प्रयोग करते हैं। इसलिए, 'their' के स्थान पर 'his' का प्रयोग होगा। अतः , 'his report before' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50047",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The players in the national team (1)/ works tirelessly (2)/ to improve their performance (3)/ before every major tournament. (4)<br>[ SSC CGL 21/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) works tirelessly<br>दिए गए sentence में, 'players' एक plural subject है जिसके साथ plural verb का प्रयोग होगा। इसलिए, 'works' के स्थान पर 'work' का प्रयोग किया जायेगा। अतः , 'work tirelessly' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50048",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The CEO, along with his senior advisors, (1)/ are traveling to the international conference (2)/ to announce the company's (3)/ latest technological breakthrough. (4)/<br>[ SSC CGL 22/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>यदि paired phrase जैसे \"along with\" \"together with\" या \"as well as\" का प्रयोग किया जाता है, तो verb उस subject के अनुसार प्रयोग होती है जिससे वे जुड़े होते हैं। दिए गए sentence में \"The CEO\" एक singular subject है और उसके बाद \"along with his senior advisors\" दिया गया है, इसलिए \"is traveling\" सही verb है। अतः , \"is traveling\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50049",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The strict rules of the library don't let students (1)/ to take more than two books (2)/ out at a time, which is often (3)/ inconvenient for researchers. (4)<br>[ SSC CGL 22/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - to take more than two books<br>Verb 'let' के बाद object का तथा उसके बाद bare infinitive (V1) का प्रयोग होता है। इसलिए, 'to' को हटाना होगा। अतः , 'take more than two books' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50050",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "coming from",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "in the park",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "My neighbor",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "complains for",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "My neighbor constantly complains for the noise coming from the children playing in the park.<br>[ SSC CGL 22/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(d) complains for<br>किसी शिकायत का कारण बताते समय verb 'complain' के बाद आमतौर पर preposition 'about' या 'of' का प्रयोग किया जाता है न कि 'for' का। अतः , 'complains about the noise' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50051",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The manager appreciated (1)/ not only her dedication (2)/ but also for her innovative ideas. (3)/ Everyone was motivated by her example. (4)/<br>[ SSC CGL 22/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>\"Not only ... but also\" का प्रयोग करते समय, structure parallel होना चाहिए। दिए गए sentence में, \"her dedication\" एक noun phrase है, इसलिए \"her innovative ideas\" भी एक noun phrase होना चाहिए। अतः , \"her innovative ideas\" सबसे उपयुक्त सुधार है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50052",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "seldom",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "never",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "attend",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "without",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "He seldom if never agrees to attend public events without thorough preparation.<br>[ SSC CGL 23/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) never<br>\"Seldom if ever\" सही phrase है, जिसका अर्थ है शायद ही कभी। अतः , 'seldom if ever' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50053",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Neither the students nor the teacher (1)/ were ready for the sudden fire drill, (2)/ leading to a moment of confusion (3)/ before everyone evacuated. (4)<br>[ SSC CGL 12/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - were ready for the sudden<br>fire drill<br>'Were' के स्थान पर 'was' का प्रयोग किया जाना<br>चाहिए। जब 'neither... nor' दो subject को<br>connect करता है, तो verb उसके सबसे<br>निकटतम subject के अनुसार प्रयुक्त होती है।<br>इस case में, 'the teacher' एक singular<br>subject जिसके साथ singular verb ('was')<br>का प्रयोग होगा। अतः , 'was ready for the<br>sudden fire drill' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50054",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The profound implications of the burgeoning quantum theories (1)/, a field still largely inscrutable to the uninitiated, remains a contentious subject (2)/ amongst the most eminent physicists (3)/ engaging in spirited academic discourse. (4)<br>[ SSC CGL 12/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - remains a contentious<br>subject<br>‘Remains’ के स्थान पर ‘remain’ का प्रयोग<br>किया जाना चाहिए। दिए गये sentence का<br>subject ‘The profound implications’<br>(plural) है। Phrase ‘a field still largely<br>inscrutable to the uninitiated’ ‘quantum<br>theories’ के बारे में अतिरिक्त जानकारी प्रदान<br>करता है लेकिन main subject के number को<br>change नहीं करता है। इसलिए यहाँ एक plural<br>verb की आवश्यकता है। अतः , ‘remain a<br>contentious subject’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50055",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The myriad challenges confronting modern urban planners (1)/, ranging from sustainable infrastructure to social equity, often demands (2)/ an interdisciplinary approach (3)/ to yield effective solutions. (4)<br>[ SSC CGL 12/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - ranging from sustainable<br>infrastructure to social equity, often<br>demands<br>‘Demands’ के स्थान पर ‘demand’ का प्रयोग<br>किया जाएगा। Sentence का subject ‘The<br>myriad challenges’ (plural) है। Phrase<br>‘confronting modern urban planners’ एक<br>participial phrase है जो इसकी संख्या को<br>बदले बिना subject को modify कर रहा है।<br>इसलिए, यहाँ एक plural verb की आवश्यकता<br>है। अतः , ‘often demand’ सबसे उपयुक्त<br>correction है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50056",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The manager, along with her entire team, (1)/ expects that the project will be completed (2)/ before the deadline, and they shall submits (3)/ the final report on Friday. (4)<br>[ SSC CGL 12/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) - before the deadline, and<br>they shall submits<br>‘Submits’ के स्थान पर ‘submit’ का प्रयोग<br>किया जायेगा। 'Shall' (या 'will', 'can', 'may',<br>आदि) जैसे modal verb का प्रयोग करते समय,<br>उसके बाद आने वाला main verb अपने base<br>form में होना चाहिए। इसलिए, 'shall submit'<br>सही form है। अतः , 'and they shall submit'<br>सबसे उपयुक्त correction है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50057",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee's objectives included (1)/ increasing membership, improving communication channels, and (2)/ to foster a sense of community (3)/ among its diverse members. (4)<br>[ SSC CGL 12/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>'Rule of Parallelism' के अनुसार, सूची में दो या<br>दो से अधिक word या phrase एक ही रूप में<br>होने चाहिए। दिए गए sentence में, \"increasing<br>membership\" और \"improving<br>communication channels\" gerund<br>phrases हैं। \"To foster a sense of<br>community\" एक infinitive phrase है।<br>Parallelism को बनाए रखने के लिए, एक third<br>item भी एक gerund phrase होना चाहिए।<br>अतः , \"and fostering a sense of<br>community\" सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50058",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The unique challenges of the project, including its remote location (1)/ and the unpredictable weather patterns, (2)/ makes its successful completion (3)/ a testament to the team's resilience. (4)<br>[ SSC CGL 12/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>'Subject-Verb Agreement Rule' के अनुसार,<br>singular subject के साथ हमेशा singular<br>verb का तथा plural subject के साथ हमेशा<br>plural verb का प्रयोग होता है। दिए गए<br>sentence में, main subject \"The unique<br>challenges\" एक plural है। इसलिए, verb भी<br>plural (\"make\") form में होनी चाहिए न कि<br>singular (\"makes\") form में। अतः , \"make its<br>successful completion\" सबसे उपयुक्त उत्तर<br>है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50059",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The venerable institution aims to both preserve ancient texts (1)/ and promoting critical scholarship (2)/ among its burgeoning community (3)/ of young researchers. (4)<br>[ SSC CGL 13/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) and promoting critical<br>scholarship<br>'Both … and' एक fix conjunction pair है और<br>प्रत्येक के बाद same part of speech का<br>प्रयोग होना चाहिए। इसलिए, verb 'preserve' के<br>form से match करने के लिए 'promoting' के<br>स्थान पर 'promote' का प्रयोग किया जायेगा।<br>अतः , 'and promote critical scholarship'<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50060",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The profound impact of digital technology on societal norms (1)/, a phenomenon universally acknowledged by sociologists, (2)/ are increasingly becoming a topic (3)/ of interdisciplinary academic debate. (4)<br>[ SSC CGL 13/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) - are increasingly becoming<br>a topic<br>'Are' के स्थान पर 'is' का प्रयोग होगा। Sentence<br>का subject 'The profound impact'<br>(singular) है। इसलिए, यहाँ एक singular verb<br>की आवश्यकता है। अतः , 'is increasingly<br>becoming a topic' सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50061",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She was confident that her plan would succeed, (1)/ for it was not only innovative (2)/ but also it was thoroughly tested (3)/ by an independent team. (4)<br>[ SSC CGL 13/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>‘Not only … but also’ एक fix conjunction<br>pair है और उनके बाद same part of speech<br>का प्रयोग होता है। चूँकि ‘not only’ के बाद एक<br>adjective है, इसलिए हमें ‘but also’ के बाद<br>एक adjective का प्रयोग करना होगा। इसलिए,<br>‘it was’ को हटाना होगा। अतः , ‘but also<br>thoroughly tested’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50062",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "What the ancient philosophers believed about the nature of reality (1)/ and the purpose of human existence (2)/ remain a subject of intense debate (3)/ among contemporary thinkers. (4)<br>[ SSC CGL 13/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) - remain a subject of<br>intense debate<br>Error, subject-verb agreement में है। दिए<br>गये sentence का subject एक noun clause<br>\"What the ancient philosophers believed<br>about the nature of reality and the<br>purpose of human existence\" है। यद्यपि यह<br>कई concepts को describe करता है, फिर भी<br>यह clause स्वयं एक singular entity के रूप में<br>कार्य करता है। इसलिए, verb भी singular<br>form (remains) में होनी चाहिए। अतः ,<br>‘remains a subject of intense debate’'<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50063",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The increase in the number of unresolved Cases (1) / and the lack of clear guidelines from the authorities (2)/ has contributed significantly to the confusion (3)/ surrounding the recent procedural changes. (4)<br>[ SSC CGL 13/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>दिए गए sentence में, conjunction ‘and’ से<br>जुड़े दो subject हैं, जो subject को plural<br>बनाता है। इसलिए, ‘has’ के स्थान पर plural<br>verb ‘have’ का प्रयोग होगा। अतः , ‘have<br>contributed significantly to the confusion’<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50064",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The list of recommended candidates for various regional posts (1)/ were prepared in haste without proper background checks, (2)/ which resulted in several administrative complications (3)/ during the initial phase of deployment. (4)<br>[ SSC CGL 13/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>दिए गए sentence में, main subject ‘The list’<br>है, जो कि singular है। इसलिए ‘were’ के स्थान<br>पर singular verb ‘was’ का प्रयोग किया<br>जाएगा। अतः , ‘was prepared in haste<br>without proper background checks’ सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50065",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The principal emphasized that it was not only a lack of funding for extracurricular activities (1)/ that disheartened students, but the inconsistent support from parents and faculty (2)/ which, despite being crucial for success, (3)/ contribute to a decline in overall participation rates. (4)<br>[ SSC CGL 14/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(d) (4)<br>Subject-Verb Agreement Rule के अनुसार,<br>singular subject के साथ हमेशा singular<br>verb का तथा plural subject के साथ हमेशा<br>plural verb का प्रयोग होता है। दिए गए<br>sentence में, “the inconsistent support”<br>एक singular subject है, जिसके साथ singular<br>verb का प्रयोग होगा। अतः , “contributes to a<br>decline” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50066",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The proposal seeks to neither expand existing facilities (1)/ nor hire additional staff members (2)/ until the budget allocation (3)/ for the next fiscal year is confirmed. (4)<br>[ SSC CGL 14/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>www.ssccglpinnacle.com Download Pinnacle Exam Preparation App<br>Pinnacle English<br>जब “neither…nor” एक infinitive (to + verb)<br>के बाद आता है, तो “neither” की सही स्थिति<br>infinitive marker “to” के बाद होनी चाहिए।<br>अतः , “seeks to expand neither existing<br>facilities” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50067",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee, which oversee multiple departments, (1)/ has been granted additional funds (2)/ to implement the new sustainability policies (3)/ across all regional offices. (4)<br>[ SSC CGL 14/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>\"Subject-Verb Agreement Rule\" के अनुसार,<br>singular subject के साथ हमेशा singular<br>verb का और plural subject के साथ always<br>plural verb का प्रयोग होता है। दिए गए<br>sentence में, subject “committee” एक<br>collective noun है और एक single unit के<br>रूप में कार्य कर रहा है। अतः , “which<br>oversees multiple departments” सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50068",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The emergence of new infectious variants (1)/ amid inconsistent global vaccination efforts (2)/ have reignited debates on public health preparedness (3)/ and international cooperation. (4)<br>[ SSC CGL 14/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>“Subject-Verb Agreement Rule” के अनुसार,<br>singular subject के साथ हमेशा singular<br>verb का तथा plural subject के साथ हमेशा<br>plural verb का प्रयोग होता है। दिए गए<br>sentence में, “The emergence” एक<br>singular subject है। अतः , “has reignited”<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50069",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "That the experimental results contradict prior findings (1)/ and challenges established theories (2)/ suggests the need for further investigation (3)/ into the novel methodology. (4)<br>[ SSC CGL 14/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - and challenges<br>established theories<br>दिए गए sentence में, subject एक<br>‘that-clause’ (That the experimental<br>results contradict prior findings and<br>challenges established theories) है। इसमें<br>एक clause है, जिसे singular माना जाता है।<br>तदनुसार, दिए गए sentence में singular verb<br>‘suggests’ का प्रयोग किया गया है, जो main<br>verb है। हालाँकि, ‘that-clause’ में एक plural<br>subject ‘results’ और दो verbs ‘contradict’<br>और ‘challenges’ शामिल हैं। इसलिए, plural<br>verb ‘challenge’ का प्रयोग किया जाएगा। अतः ,<br>‘and challenges established theories’<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50070",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "She had barely finished writing her essay (1)/ then the power went out, (2)/ leaving her work unsaved (3)/ and her progress lost. (4)<br>[ SSC CGL 14/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - then the power went out<br>'Barely' 'when' के साथ pair बनता है, 'then' के<br>साथ नहीं।हीं अतः , ‘when the power went out’<br>सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50071",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The professor postponed the discussion (1)/ until the research would be published (2)/ to maintain confidentiality (3)/ of the findings. (4)/<br>[ SSC CGL 15/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>\"Until\" के बाद, हम भविष्य की किसी घटना को<br>refer करने के लिए simple present tense का<br>प्रयोग करते हैं। अतः , “until the research is<br>published” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50072",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Were she to have known about the danger (1)/ she might have taken (2)/ different precautions to ensure her safety (3)/ and avoid the unfortunate incident. (4)/<br>[ SSC CGL 15/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>यह एक inverted third conditional<br>sentence है। Inverted third conditional के<br>लिए “Had + subject + past participle” सही<br>structure है। अतः , “Had she known about<br>the danger” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "4",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50073",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Neither the students nor the teacher (1)/ were aware that the schedule (2)/ for the annual function (3)/ have been changed by the principal. (4)<br>[ SSC CGL 15/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(d) (4)<br>यदि paired conjunctions ‘either…or’,<br>‘neither…nor’, ‘not only…but also’ का प्रयोग<br>किया जाता है, तो verb उसके सबसे निकटतम<br>subject के अनुसार होती है। यहाँ, निकटतम<br>subject \"teacher\" है, जो singular है। अतः ,<br>“has been changed” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50074",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The new algorithm, designed to process vast amounts of data, (1)/ promises to revolutionise our approach to analytics, (2)/ but it also rises concerns (3)/ about data privacy and ethical implications. (4)<br>[ SSC CGL 15/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3) - but it also rises concerns<br>'Rises' के स्थान पर 'raises' का प्रयोग होगा।<br>'Rise' का अर्थ है ऊपर उठना या खड़ा होना,<br>जबकि 'raise' का अर्थ है बहस (debate) या<br>चर्चा (discussion) के लिए किसी विषय को<br>उठाना। इस context में, चिंताओं (concerns)<br>को उठाया जा रहा है, इसलिए 'raises' सही verb<br>है। अतः , ‘but it also raises concerns’ सबसे<br>उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50075",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The consensus was, not that the data itself was flawed, but that its interpretation by the junior analysts (1)/ were overly optimistic (2)/ given the volatile market conditions (3)/ and the inherent uncertainties. (4)<br>[ SSC CGL 15/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2) - were overly optimistic<br>दिए गये sentence के इस part में verb का<br>main subject \"its interpretation\"<br>(singular) है, न कि \"analysts\" (plural)।<br>इसलिए, singular verb 'was' का प्रयोग होगा, न<br>कि plural verb 'were' का। \"Was overly<br>optimistic\" सही phrase है। अतः , ‘was<br>overly optimistic’ सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50076",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The committee has postponed (1)/ the announcement until (2)/ further informations is received (3)/ from the regional offices. (4)<br>[ SSC CGL 16/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>Cattle, work, Information, Scenery,<br>Furniture, आदि जैसे nouns हमेशा singular<br>form में लिखे जाते हैं, इसलिए हम उनका plural<br>form नहीं बना सकते। अतः , “further<br>information is” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50077",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Neither the scientists nor the research team (1)/ were willing to compromise (2)/ on the accuracy of the findings (3)/ despite external pressure. (4)<br>[ SSC CGL 16/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>“Neither…nor” एक conjunction pair है<br>जिसका प्रयोग केवल दो subject के लिए किया<br>जाता है, तथा verb का प्रयोग verb के निकटतम<br>subject के अनुसार होता है। यहाँ, निकटतम<br>subject “the research team” है, जो कि<br>singular है। अतः , “were willing to<br>compromise” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50078",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The central bank's decision not only aimed to curve inflation (1)/ but also intended to stimulate economic growth, (2)/ a dual objective that proved challenging (3)/ to balance effectively. (4)<br>[ SSC CGL 16/09/2025 (Shift 2) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) The central bank's decision<br>not only aimed to curve inflation (1)<br>दिए गये sentence में ‘curve’ का प्रयोग गलत<br>है। इसके बजाय, हमें ‘curb’ word का प्रयोग<br>करने की आवश्यकता है, जिसका अर्थ है मुद्रा<br>स्फीति (inflation) को नियंत्रित करना। अतः ,<br>“The central bank’s decision not only<br>aimed to curb inflation” सबसे उपयुक्त उत्तर<br>है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "1",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50079",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Hardly did the manager knew (1)/ that his decision would (2)/ trigger such a massive protest (3)/ among the employees. (4)/<br>[ SSC CGL 16/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(a) (1)<br>जब auxiliary verb do, does, या did का प्रयोग<br>किया जाता है, तो main verb अपने base form<br>में होनी चाहिए। अतः , “Hardly did the<br>manager know” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50080",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "What we need right now (1)/ are a strong leader (2)/ who can unite the team (3)/ and restore confidence. (4)<br>[ SSC CGL 16/09/2025 (Shift 3) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>“Subject-Verb Agreement Rule” के अनुसार,<br>singular subject के साथ हमेशा singular<br>verb का तथा plural subject के साथ हमेशा<br>plural verb का प्रयोग होता है। दिए गए<br>sentence में, subject “What we need right<br>now” एक singular है, इसलिए verb भी<br>singular form में होनी चाहिए। अतः , “is a<br>strong leader” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "3",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50081",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "The new research facility (1)/ is equipped with advanced instruments (2)/ that allows scientists to conduct (3)/ complex molecular experiments. (4)<br>[ SSC CGL 17/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(c) (3)<br>“Subject-Verb Agreement Rule” के अनुसार,<br>singular subject के साथ हमेशा singular<br>verb का तथा plural subject के साथ हमेशा<br>plural verb का प्रयोग होता है। दिए गए<br>sentence में, “instruments” एक plural<br>subject है, इसलिए verb भी plural form में<br>होना चाहिए। अतः , “that allow scientists to<br>conduct” सबसे उपयुक्त उत्तर है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    },
+    {
+      "answer": "2",
+      "correct_score": "2",
+      "deleted": "0",
+      "difficulty_level": "0",
+      "id": "50082",
+      "negative_score": "0.5",
+      "option_1": {
+        "en": "(1)",
+        "hi": ""
+      },
+      "option_2": {
+        "en": "(2)",
+        "hi": ""
+      },
+      "option_3": {
+        "en": "(3)",
+        "hi": ""
+      },
+      "option_4": {
+        "en": "(4)",
+        "hi": ""
+      },
+      "option_5": "",
+      "option_image_1": "",
+      "option_image_2": "",
+      "option_image_3": "",
+      "option_image_4": "",
+      "option_image_5": "",
+      "question": {
+        "en": "Not only did the committee reject the proposal (1)/ for its impracticality, but also criticized (2)/ the team for poor presentation. (3)/ No error (4)<br>[ SSC CGL 17/09/2025 (Shift 1) ]",
+        "hi": ""
+      },
+      "question_image": "",
+      "quiz_id": "cgl-25-eng-spot-error-pyq",
+      "solution_heading": "",
+      "solution_image": "",
+      "solution_text": {
+        "en": "(b) (2)<br>Parallelism के नियम के अनुसार, जब दो या दो<br>से अधिक verb, and, or, nor, not only... but<br>also जैसे conjunction से connect होते हैं, तो<br>वे एक ही grammatical form में होने चाहिए।<br>अतः , “but also criticize” सबसे उपयुक्त उत्तर<br>है।",
+        "hi": ""
+      },
+      "solution_video": "",
+      "sortingparam": "0.00"
+    }
+  ]
+}
