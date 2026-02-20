@@ -1,0 +1,4421 @@
+{
+  "meta": {
+    "title": "CGL 2025 12 SEP SHIFT 3 ( HARDEST SHIFT)",
+    "id": "cgl-25-12-sep-s3-full",
+    "total_questions": 100,
+    "correct_score": "2",
+    "negative_score": "0.5",
+    "timer_minutes": "60",
+    "timer_seconds": 3600
+  },
+  "sections": {
+    "REASONING": [
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50001",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "UYC",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "UKC",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "UYX",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "CJS",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.<br>EIM, IMQ, MQU, QUY?",
+          "hi": "दिए गए विकल्पों में से उस अक्षर-समूह का चयन करें जो निम्नलिखित श्रृंखला में प्रश्न चिह्न (?) को प्रतिस्थापित कर सकता है।<br>EIM, IMQ, MQU, QUY?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50002",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "QGS",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "UHS",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "UGS",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "UGD",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.<br>EIM, IOU, MUC, QAK, ?",
+          "hi": "दिए गए विकल्पों में से उस अक्षर-समूह का चयन करें जो निम्नलिखित श्रृंखला में प्रश्न चिह्न (?) को प्रतिस्थापित कर सकता है।<br>EIM, IOU, MUC, QAK, ?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50003",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "240",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "241",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "139",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "293",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". What comes next:<br>30, 56, 90, 132, 182?",
+          "hi": "अगला पद क्या होगा:<br>30, 56, 90, 132, 182?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50004",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "26",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "25",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "27",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "24",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". What will be come at the place of the question mark?<br>1, 2, 5, ?, 677, 458330",
+          "hi": "प्रश्न चिह्न के स्थान पर क्या आएगा?<br>1, 2, 5, ?, 677, 458330"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50005",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "37",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "35",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "36",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "38",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Find the number that fits:<br>5, 10, 17, 26?",
+          "hi": "वह संख्या ज्ञात कीजिए जो उपयुक्त हो:<br>5, 10, 17, 26?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50006",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Only I and II are implicit",
+          "hi": "केवल I और II अंतर्निहित हैं"
+        },
+        "option_2": {
+          "en": "Only II and III are implicit",
+          "hi": "केवल II और III अंतर्निहित हैं"
+        },
+        "option_3": {
+          "en": "Only I and III are implicit",
+          "hi": "केवल I और III अंतर्निहित हैं"
+        },
+        "option_4": {
+          "en": "All are implicit",
+          "hi": "सभी अंतर्निहित हैं"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Instruction: Identify the assumptions that must hold for the statement to be valid, then choose the correct option.<br>Statement: \"For the development of smart cities, it is important that equal emphasis be placed on citizen engagement and community empowerment, alongside technological innovations.\"<br>Assumptions:<br>I. Technological innovations alone are not sufficient for a successful smart city.<br>II. Citizen engagement creates unnecessary complexity for smart cities.<br>III. Community empowerment contributes to the long-term success of smart cities.",
+          "hi": "निर्देश: उन धारणाओं की पहचान करें जो कथन के मान्य होने के लिए आवश्यक हैं, फिर सही विकल्प चुनें।<br>कथन: \"स्मार्ट शहरों के विकास के लिए, यह महत्वपूर्ण है कि तकनीकी नवाचारों के साथ-साथ नागरिक जुड़ाव और सामुदायिक सशक्तिकरण पर समान जोर दिया जाए।\"<br>धारणाएं:<br>I. एक सफल स्मार्ट शहर के लिए केवल तकनीकी नवाचार पर्याप्त नहीं हैं।<br>II. नागरिक जुड़ाव स्मार्ट शहरों के लिए अनावश्यक जटिलता पैदा करता है।<br>III. सामुदायिक सशक्तिकरण स्मार्ट शहरों की दीर्घकालिक सफलता में योगदान देता है।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50007",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Two",
+          "hi": "दो"
+        },
+        "option_2": {
+          "en": "Four",
+          "hi": "चार"
+        },
+        "option_3": {
+          "en": "Three",
+          "hi": "तीन"
+        },
+        "option_4": {
+          "en": "Five",
+          "hi": "पांच"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". The position of how many letters will remain unchanged if each of the letters in the word FRIENDS is arranged in alphabetical order?",
+          "hi": "यदि FRIENDS शब्द के प्रत्येक अक्षर को वर्णानुक्रम में व्यवस्थित किया जाए तो कितने अक्षरों का स्थान अपरिवर्तित रहेगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50008",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "No. 35, 1st Avenue, R.A. Puram, Chennai, TN 101101",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "No. 35, First Avenue, Raja Annamalaipuram, Chennai, Tamil Nadu-101001",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "35, First Avenue, Raja Annamalai Puram, Chennai, Tamil Nadu - 101011",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "No. 35/1, First Avenue, R. Annamalaipuram, Chennai, Tamil Nadu100101",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Identify the similar address:<br>No. 35, First Avenue, Raja Annamalaipuram, Chennai, Tamil Nadu - 101001",
+          "hi": "समान पते की पहचान करें:<br>No. 35, First Avenue, Raja Annamalaipuram, Chennai, Tamil Nadu - 101001"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50009",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "CANCEL",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "RATION",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "TRAIN",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "NATION",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". From the given options, find the word which cannot be formed using the letters of the given word:<br>CONCENTRATION",
+          "hi": "दिए गए विकल्पों में से वह शब्द चुनिए जिसे दिए गए शब्द के अक्षरों का प्रयोग करके नहीं बनाया जा सकता है:<br>CONCENTRATION"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50010",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "W",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "O",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Q",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "U",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Eight persons P, Q, R, S, T, U, V and W are sitting around a circle facing the center. R is second to the right of P. T is opposite R. U is to the immediate left of T. Q is to the immediate right of P. V is to the immediate left of S. Who is sitting to the right of S?",
+          "hi": "आठ व्यक्ति P, Q, R, S, T, U, V और W केंद्र की ओर मुख करके एक वृत्त के चारों ओर बैठे हैं। R, P के दायें से दूसरे स्थान पर है। T, R के विपरीत है। U, T के ठीक बायें है। Q, P के ठीक दायें है। V, S के ठीक बायें है। S के दायें कौन बैठा है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50011",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "IAEQMRH",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "IBEQMRI",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "IBEQLMI",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "IBEDVWB",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". In each of the following questions, a specific alphabetic coding pattern has been applied to the first word to form the second word. Identify the same coding logic and apply it to the third word to determine the correct answer from the given options.<br>FRXQWUB: IUATZXE:: FYBNJOF:?",
+          "hi": "निम्नलिखित प्रत्येक प्रश्न में, पहले शब्द से दूसरे शब्द को बनाने के लिए एक विशिष्ट वर्णमाला कोडिंग पैटर्न लागू किया गया है। उसी कोडिंग लॉजिक को पहचानें और दिए गए विकल्पों में से सही उत्तर निर्धारित करने के लिए इसे तीसरे शब्द पर लागू करें।<br>FRXQWUB: IUATZXE:: FYBNJOF:?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50012",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "KOPTEN",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "KOPNEP",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "KOPNEM",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "KOPNET",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". In each of the following questions, the second word is formed by rearranging the letters of the first word using a specific transformation, such as reversal or block shifting. Identify that transformation and apply it to the third word to choose the correct option.<br>MITBAT: BATTIM :: ΤΕΝΚΟΡ:?",
+          "hi": "निम्नलिखित प्रत्येक प्रश्न में, दूसरा शब्द पहले शब्द के अक्षरों को एक विशिष्ट परिवर्तन, जैसे कि उत्क्रमण या ब्लॉक शिफ्टिंग का उपयोग करके पुनर्व्यवस्थित करके बनाया गया है। उस परिवर्तन को पहचानें और सही विकल्प चुनने के लिए इसे तीसरे शब्द पर लागू करें।<br>MITBAT: BATTIM :: ΤΕΝΚΟΡ:?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50013",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "X 2#: W3@:V4$",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Z5%: Y6^:X7&amp;",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "W1*:V2(:U3)",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "T10:S9@:R8$",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". In each of the following questions, a group of three numbers/symbols is given in each option. Identify the group that does NOT follow the same pattern as the others.",
+          "hi": "निम्नलिखित प्रत्येक प्रश्न में, प्रत्येक विकल्प में तीन संख्याओं/प्रतीकों का एक समूह दिया गया है। उस समूह की पहचान करें जो अन्य के समान पैटर्न का पालन नहीं करता है।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50014",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "clv, hmd, jkp, xnj",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "clv, xnj, jkp, trq",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "hmd, xnz, jkp, xnj",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "hmd, clv, xnj, xnz",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Instruction: In a certain coding system:<br>'swift move build skill' is coded as 'trq, xnz, hmd, clv'<br>'move quick swift' is coded as 'trq, jkp, xnz'<br>'hope quick build swift' is coded as 'xnj, clv, jkp, trq'<br>Question: What is the code for 'build skill quick hope'?",
+          "hi": "निर्देश: एक निश्चित कोडिंग प्रणाली में:<br>'swift move build skill' को 'trq, xnz, hmd, clv' के रूप में कोडित किया गया है<br>'move quick swift' को 'trq, jkp, xnz' के रूप में कोडित किया गया है<br>'hope quick build swift' को 'xnj, clv, jkp, trq' के रूप में कोडित किया गया है<br>प्रश्न: 'build skill quick hope' के लिए कोड क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50015",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "10.35",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "10",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "10.25",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "10.4",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". If x+4y=16 and x-y=9, find x.",
+          "hi": "यदि x+4y=16 और x-y=9 है, तो x का मान ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50016",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "26",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "27",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "28",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "25",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". If 5 $ 3 = 23 and 5 $ 4 = 29, then 6 $ 3 = ?",
+          "hi": "यदि 5 $ 3 = 23 और 5 $ 4 = 29 है, तो 6 $ 3 = ?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50017",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "6 * 4 #",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "6 # 7 *",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "6 # 4 *",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "6 # 4 *",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". If 'G A V E' is coded as '* 4 # 6', and 'VAGE' as '# 4 * 6' then what is the code for 'EVA G'?",
+          "hi": "यदि 'G A V E' को '* 4 # 6' के रूप में कोडित किया गया है, और 'VAGE' को '# 4 * 6' के रूप में, तो 'EVA G' के लिए कोड क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50018",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "36, 54",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "35, 53",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "37, 55",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "32, 48",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". If the ratio of two numbers is 4: 6 and their sum is 90, find the numbers",
+          "hi": "यदि दो संख्याओं का अनुपात 4: 6 है और उनका योग 90 है, तो संख्याएँ ज्ञात कीजिए"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50019",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "54",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "62",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "64",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "76",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". If 6 @ 4 = 40 and 5 @ 3 = 28, then what is 7 @ 5?",
+          "hi": "यदि 6 @ 4 = 40 और 5 @ 3 = 28 है, तो 7 @ 5 क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50020",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Son",
+          "hi": "बेटा"
+        },
+        "option_2": {
+          "en": "Nephew",
+          "hi": "भतीजा/भांजा"
+        },
+        "option_3": {
+          "en": "Brother",
+          "hi": "भाई"
+        },
+        "option_4": {
+          "en": "Cousin",
+          "hi": "कजिन"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Pointing to a boy, a woman said, \"He is the son of my father's only brother.\" How is the boy related to the woman?",
+          "hi": "एक लड़के की ओर इशारा करते हुए, एक महिला ने कहा, \"वह मेरे पिता के इकलौते भाई का बेटा है।\" लड़का महिला से किस प्रकार संबंधित है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50021",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Niece/Nephew",
+          "hi": "भतीजी/भतीजा (या भांजी/भांजा)"
+        },
+        "option_2": {
+          "en": "Cousin",
+          "hi": "कजिन"
+        },
+        "option_3": {
+          "en": "Son/Daughter",
+          "hi": "बेटा/बेटी"
+        },
+        "option_4": {
+          "en": "Uncle",
+          "hi": "चाचा/मामा"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". If T is the maternal uncle of U, how is U related to T's sister?",
+          "hi": "यदि T, U का मामा है, तो U, T की बहन से किस प्रकार संबंधित है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50022",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "(3+6)x10=36",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "(10+2)x6=10",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "(6+7)x10=60",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "(10+1)x6=24",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". After interchanging + &amp; x and 6 &amp; 10, which of the following equations will hold true?",
+          "hi": "+ और x तथा 6 और 10 को आपस में बदलने के बाद, निम्नलिखित में से कौन सा समीकरण सही होगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50023",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "50, 10",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "54, 10",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "32, 20",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "54, 20",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". If x % y = 74, where x % y = x + 2y, what is the value of x and y ?",
+          "hi": "यदि x % y = 74 है, जहाँ x % y = x + 2y है, तो x और y का मान क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50024",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "-8",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "-9",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "-7",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "16",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". If x = +, + = -, ÷ = x then 12 + 3 ÷ 8 x 4 = ?",
+          "hi": "यदि x = +, + = -, ÷ = x है तो 12 + 3 ÷ 8 x 4 = ?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50025",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "36",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "45",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "46",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "37",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". In a tournament of 9 players, each player plays every other player once. How many matches are there?",
+          "hi": "9 खिलाड़ियों के एक टूर्नामेंट में, प्रत्येक खिलाड़ी प्रत्येक दूसरे खिलाड़ी के साथ एक बार खेलता है। कुल कितने मैच होंगे?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      }
+    ],
+    "GENERAL AWARENESS": [
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50026",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "1-2-3-4",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "1-3-2-4",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "2-1-4-3",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "1-4-2-3",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Arrange the following Indian classical dance forms in the order of their earliest historical origins (from oldest to most recent):<br>1. Bharatanatyam<br>2. Kathak<br>3. Manipuri<br>4. Mohiniyattam",
+          "hi": "निम्नलिखित भारतीय शास्त्रीय नृत्य रूपों को उनके शुरुआती ऐतिहासिक मूल के क्रम में व्यवस्थित करें (पुराने से नए तक):<br>1. भरतनाट्यम<br>2. कथक<br>3. मणिपुरी<br>4. मोहिनीअट्टम"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50027",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Phamsana - Slabs rising upwards with straight inclines",
+          "hi": "फामसाना - सीधे झुकाव के साथ ऊपर की ओर बढ़ती स्लैब"
+        },
+        "option_2": {
+          "en": "Latina - Rectangular, wagon-shaped",
+          "hi": "लैटिना - आयताकार, वैगन के आकार की"
+        },
+        "option_3": {
+          "en": "Valabhi - Tall and curving inward sharply",
+          "hi": "वल्लभी - ऊँची और तेजी से अंदर की ओर मुड़ी हुई"
+        },
+        "option_4": {
+          "en": "Latina - Low and broad with stepped roofing",
+          "hi": "लैटिना - सीढ़ीदार छत के साथ नीची और चौड़ी"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Which of the following Temple Architecture is correctly matched with the shape of its roof?",
+          "hi": "निम्नलिखित में से कौन सी मंदिर वास्तुकला उसकी छत के आकार के साथ सही ढंग से सुमेलित है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50028",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Donyi - Polo",
+          "hi": "डोन्यी - पोलो"
+        },
+        "option_2": {
+          "en": "Nyegi Nyapa",
+          "hi": "नेगी न्यापा"
+        },
+        "option_3": {
+          "en": "Rangfraa",
+          "hi": "रंगफ्रा"
+        },
+        "option_4": {
+          "en": "Rangkhothak",
+          "hi": "रंगखोथक"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". The Pongtu Festival, observed by the Tutsa tribe of Arunachal Pradesh, is celebrated to seek the blessings of which deity before the millet harvest?",
+          "hi": "अरुणाचल प्रदेश की तुत्सा जनजाति द्वारा मनाया जाने वाला पोंगटू उत्सव, बाजरे की फसल से पहले किस देवता का आशीर्वाद लेने के लिए मनाया जाता है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50029",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "13",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "5",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "9",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "1",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Fill in the blank: In Teen Taal of Hindustani Classical Music, the Khali is marked on the _ matra.",
+          "hi": "रिक्त स्थान भरें: हिंदुस्तानी शास्त्रीय संगीत के तीन ताल में, खाली को _ मात्रा पर चिह्नित किया जाता है।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50030",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Heavier balls favor bowlers, lighter ones favor batsmen, so balance is needed",
+          "hi": "भारी गेंदें गेंदबाजों के पक्ष में होती हैं, हल्की गेंदें बल्लेबाजों के पक्ष में होती हैं, इसलिए संतुलन की आवश्यकता होती है"
+        },
+        "option_2": {
+          "en": "Differences affect bounce, swing, and fairness on standard pitches",
+          "hi": "अंतर मानक पिचों पर उछाल, स्विंग और निष्पक्षता को प्रभावित करते हैं"
+        },
+        "option_3": {
+          "en": "ICC regulates it mainly to reduce manufacturing costs",
+          "hi": "ICC मुख्य रूप से विनिर्माण लागत को कम करने के लिए इसे नियंत्रित करता है"
+        },
+        "option_4": {
+          "en": "Only red balls follow these standards; white balls have separate rules",
+          "hi": "केवल लाल गेंदें इन मानकों का पालन करती हैं; सफेद गेंदों के अलग नियम हैं"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Why are the weight and circumference of a cricket ball strictly standardized in official matches ?",
+          "hi": "आधिकारिक मैचों में क्रिकेट की गेंद का वजन और परिधि कड़ाई से मानकीकृत क्यों की जाती है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50031",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Sumit Antil",
+          "hi": "सुमित अंतिल"
+        },
+        "option_2": {
+          "en": "Ekta Bhyan",
+          "hi": "एकता भयान"
+        },
+        "option_3": {
+          "en": "Harvinder Singh",
+          "hi": "हरविंदर सिंह"
+        },
+        "option_4": {
+          "en": "Pramod Bhagat",
+          "hi": "प्रमोद भगत"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Who became the first Indian athlete to win a Paralympic gold medal in archery at the Paris 2024 Paralympics?",
+          "hi": "पेरिस 2024 पैरालिंपिक में तीरंदाजी में पैरालिंपिक स्वर्ण पदक जीतने वाले पहले भारतीय एथलीट कौन बने?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50032",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Pretoria, South Africa",
+          "hi": "प्रिटोरिया, दक्षिण अफ्रीका"
+        },
+        "option_2": {
+          "en": "Moscow, Russia",
+          "hi": "मॉस्को, रूस"
+        },
+        "option_3": {
+          "en": "Shanghai, China",
+          "hi": "शंघाई, चीन"
+        },
+        "option_4": {
+          "en": "Goa, India",
+          "hi": "गोवा, भारत"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". In which city was the Meeting of the BRICS Foreign Ministers held on 4 June 2018?",
+          "hi": "4 जून 2018 को ब्रिक्स (BRICS) विदेश मंत्रियों की बैठक किस शहर में आयोजित की गई थी?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50033",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "A collection of modern Indian plays on social issues",
+          "hi": "सामाजिक मुद्दों पर आधुनिक भारतीय नाटकों का एक संग्रह"
+        },
+        "option_2": {
+          "en": "A historical account of India's independence movement",
+          "hi": "भारत के स्वतंत्रता आंदोलन का एक ऐतिहासिक विवरण"
+        },
+        "option_3": {
+          "en": "A novel based on ancient Indian mythology",
+          "hi": "प्राचीन भारतीय पौराणिक कथाओं पर आधारित एक उपन्यास"
+        },
+        "option_4": {
+          "en": "A travelogue describing journeys in the Himalayas",
+          "hi": "हिमालय में यात्राओं का वर्णन करने वाला एक यात्रा वृत्तांत"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". What is the central theme of the book Hot Stage?",
+          "hi": "हॉट स्टेज (Hot Stage) पुस्तक का केंद्रीय विषय क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50034",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Wind",
+          "hi": "पवन"
+        },
+        "option_2": {
+          "en": "Temperature",
+          "hi": "तापमान"
+        },
+        "option_3": {
+          "en": "Soil pH",
+          "hi": "मृदा पीएच (Soil pH)"
+        },
+        "option_4": {
+          "en": "Humidity",
+          "hi": "आर्द्रता"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Which of the following is not generally regarded as an element of weather?",
+          "hi": "निम्नलिखित में से किसे आमतौर पर मौसम का तत्व नहीं माना जाता है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50035",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Only 1",
+          "hi": "केवल 1"
+        },
+        "option_2": {
+          "en": "Only 2",
+          "hi": "केवल 2"
+        },
+        "option_3": {
+          "en": "Both 1 and 2 are correct",
+          "hi": "1 और 2 दोनों सही हैं"
+        },
+        "option_4": {
+          "en": "Neither 1 nor 2 is correct",
+          "hi": "न तो 1 और न ही 2 सही है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Which of the following statements regarding the 61st National Chess Championship is/are correct?<br>1. Grandmaster Karthik Venkataraman clinched the title in Gurgaon and received a prize of ₹6 lakh.<br>2. International Master Neelash Saha secured the second position after losing a tiebreak game to Surya Shekhar Ganguly.",
+          "hi": "61वीं राष्ट्रीय शतरंज चैंपियनशिप के संबंध में निम्नलिखित में से कौन सा/से कथन सही है/हैं?<br>1. ग्रैंडमास्टर कार्तिक वेंकटरमन ने गुड़गांव में खिताब जीता और ₹6 लाख का पुरस्कार प्राप्त किया।<br>2. इंटरनेशनल मास्टर नीलाक्ष साहा ने सूर्य शेखर गांगुली से टाईब्रेक गेम हारने के बाद दूसरा स्थान हासिल किया।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50036",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Digital Grid Optimization Tool",
+          "hi": "डिजिटल ग्रिड अनुकूलन उपकरण"
+        },
+        "option_2": {
+          "en": "Smart Meter Adoption Program",
+          "hi": "स्मार्ट मीटर अपनाने का कार्यक्रम"
+        },
+        "option_3": {
+          "en": "Suraksha Shakti safety mascot",
+          "hi": "सुरक्षा शक्ति सुरक्षा शुभंकर"
+        },
+        "option_4": {
+          "en": "National Fire Safety Code",
+          "hi": "राष्ट्रीय अग्नि सुरक्षा कोड"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". On the occasion of Electrical Safety Day 2025, which initiative was unveiled by Shri Shripad Naik, Minister of State for Power and New &amp; Renewable Energy ?",
+          "hi": "विद्युत सुरक्षा दिवस 2025 के अवसर पर, विद्युत और नवीन एवं नवीकरणीय ऊर्जा राज्य मंत्री श्री श्रीपद नाइक द्वारा किस पहल का अनावरण किया गया?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50037",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "A is false, but R is true",
+          "hi": "A गलत है, लेकिन R सही है"
+        },
+        "option_2": {
+          "en": "Both A and R are true, and R is the correct explanation of A",
+          "hi": "A और R दोनों सही हैं, और R, A की सही व्याख्या है"
+        },
+        "option_3": {
+          "en": "A is true, but R is false",
+          "hi": "A सही है, लेकिन R गलत है"
+        },
+        "option_4": {
+          "en": "Both A and R are true, but R is not the correct explanation of A",
+          "hi": "A और R दोनों सही हैं, लेकिन R, A की सही व्याख्या नहीं है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Read the following statements carefully and select the correct option:<br>Assertion (A): The Chotanagpur Plateau is regarded as the eastern extension of the Central Highlands.<br>Reason (R): The Chotanagpur Plateau is mainly drained by the Chambal and Betwa Rivers.",
+          "hi": "निम्नलिखित कथनों को ध्यानपूर्वक पढ़ें और सही विकल्प का चयन करें:<br>अभिकथन (A): छोटानागपुर पठार को मध्य उच्च भूमि का पूर्वी विस्तार माना जाता है।<br>कारण (R): छोटानागपुर पठार मुख्य रूप से चंबल और बेतवा नदियों द्वारा प्रवाहित होता है।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50038",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "2045",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "2035",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "2028",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "2030",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". The first module of the Bharatiya Antariksh Station (BAS) is planned to be launched in which year ?",
+          "hi": "भारतीय अंतरिक्ष स्टेशन (BAS) के पहले मॉड्यूल को किस वर्ष लॉन्च करने की योजना है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50039",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "India possesses abundant reserves that are crucial for key industries.",
+          "hi": "भारत के पास प्रचुर मात्रा में भंडार है जो प्रमुख उद्योगों के लिए महत्वपूर्ण हैं।"
+        },
+        "option_2": {
+          "en": "These minerals are primarily used as gemstones with little industrial value.",
+          "hi": "इन खनिजों का उपयोग मुख्य रूप से रत्न के रूप में किया जाता है जिनका औद्योगिक मूल्य कम होता है।"
+        },
+        "option_3": {
+          "en": "Industrial growth in India depends only on metallic minerals.",
+          "hi": "भारत में औद्योगिक विकास केवल धात्विक खनिजों पर निर्भर करता है।"
+        },
+        "option_4": {
+          "en": "India does not have sufficient reserves of non-metallic minerals for large-scale use.",
+          "hi": "भारत के पास बड़े पैमाने पर उपयोग के लिए अधात्विक खनिजों का पर्याप्त भंडार नहीं है।"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Which of the following statements most accurately describes the importance of non-metallic minerals in India ?",
+          "hi": "निम्नलिखित में से कौन सा कथन भारत में अधात्विक खनिजों के महत्व का सबसे सटीक वर्णन करता है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50040",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "9 months",
+          "hi": "9 महीने"
+        },
+        "option_2": {
+          "en": "1 month",
+          "hi": "1 महीना"
+        },
+        "option_3": {
+          "en": "6 months",
+          "hi": "6 महीने"
+        },
+        "option_4": {
+          "en": "3 months",
+          "hi": "3 महीने"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Within how many months must each House of Parliament approve a Proclamation of National Emergency?",
+          "hi": "संसद के प्रत्येक सदन को कितने महीनों के भीतर राष्ट्रीय आपातकाल की उद्घोषणा को मंजूरी देनी होगी?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50041",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Both A and R are true, and R is the correct explanation of A",
+          "hi": "A और R दोनों सही हैं, और R, A की सही व्याख्या है"
+        },
+        "option_2": {
+          "en": "Both A and R are true, but R is not the correct explanation of A",
+          "hi": "A और R दोनों सही हैं, लेकिन R, A की सही व्याख्या नहीं है"
+        },
+        "option_3": {
+          "en": "A is true, but R is false",
+          "hi": "A सही है, लेकिन R गलत है"
+        },
+        "option_4": {
+          "en": "A is false, but R is true",
+          "hi": "A गलत है, लेकिन R सही है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Read the following statements carefully and select the correct option:<br>Assertion (A): The Polar Satellite Launch Vehicle (PSLV) is often referred to as the workhorse launch vehicle of ISRO.<br>Reason (R): The PSLV is a highly versatile rocket, capable of launching different types of payloads into multiple Earth orbits including Earth Observation, Navigation, and small Geosynchronous satellites and has achieved an exceptionally high success rate across its various versions.",
+          "hi": "निम्नलिखित कथनों को ध्यानपूर्वक पढ़ें और सही विकल्प का चयन करें:<br>अभिकथन (A): पोलर सैटेलाइट लॉन्च व्हीकल (PSLV) को अक्सर ISRO का वर्कहॉर्स लॉन्च व्हीकल कहा जाता है।<br>कारण (R): PSLV एक अत्यधिक बहुमुखी रॉकेट है, जो पृथ्वी अवलोकन, नेविगेशन और छोटे भू-तुल्यकालिक उपग्रहों सहित कई पृथ्वी कक्षाओं में विभिन्न प्रकार के पेलोड लॉन्च करने में सक्षम है और इसने अपने विभिन्न संस्करणों में असाधारण रूप से उच्च सफलता दर हासिल की है।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50042",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "The Governor still nominates one Anglo-Indian member to the Assembly.",
+          "hi": "राज्यपाल अभी भी विधानसभा में एक आंग्ल-भारतीय सदस्य को नामित करते हैं।"
+        },
+        "option_2": {
+          "en": "The provision was abolished by the 42nd Constitutional Amendment.",
+          "hi": "इस प्रावधान को 42वें संविधान संशोधन द्वारा समाप्त कर दिया गया था।"
+        },
+        "option_3": {
+          "en": "The provision was abolished by the 104th Constitutional Amendment.",
+          "hi": "इस प्रावधान को 104वें संविधान संशोधन द्वारा समाप्त कर दिया गया था।"
+        },
+        "option_4": {
+          "en": "Anglo-Indian members are elected through proportional representation.",
+          "hi": "आंग्ल-भारतीय सदस्य आनुपातिक प्रतिनिधित्व के माध्यम से चुने जाते हैं।"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Which of the following statements correctly describes the status of Anglo-Indian representation in State Legislative Assemblies?",
+          "hi": "निम्नलिखित में से कौन सा कथन राज्य विधानसभाओं में आंग्ल-भारतीय प्रतिनिधित्व की स्थिति का सही वर्णन करता है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50043",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Scrapping of all bail rights",
+          "hi": "सभी जमानत अधिकारों को समाप्त करना"
+        },
+        "option_2": {
+          "en": "Introduction of video-recorded confessions",
+          "hi": "वीडियो-रिकॉर्डेड इकबालिया बयान की शुरुआत"
+        },
+        "option_3": {
+          "en": "Replacement of all IPC sections",
+          "hi": "सभी IPC धाराओं का प्रतिस्थापन"
+        },
+        "option_4": {
+          "en": "Establishment of presumption of guilt",
+          "hi": "अपराध की धारणा की स्थापना"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Which major procedural reform has been introduced under the Bharatiya Nagarik Suraksha Samhita (BNSS), 2023?",
+          "hi": "भारतीय नागरिक सुरक्षा संहिता (BNSS), 2023 के तहत कौन सा प्रमुख प्रक्रियात्मक सुधार पेश किया गया है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50044",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "PRAGATI",
+          "hi": "प्रगति"
+        },
+        "option_2": {
+          "en": "PMJAY",
+          "hi": "पीएमजेएवाई (PMJAY)"
+        },
+        "option_3": {
+          "en": "NSAP",
+          "hi": "एनएसएपी (NSAP)"
+        },
+        "option_4": {
+          "en": "IPPB",
+          "hi": "आईपीपीबी (IPPB)"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Which of the following schemes enables the delivery of financial services through postmen?",
+          "hi": "निम्नलिखित में से कौन सी योजना डाकियों के माध्यम से वित्तीय सेवाओं की सुपुर्दगी को सक्षम बनाती है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50045",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Horses",
+          "hi": "घोड़े"
+        },
+        "option_2": {
+          "en": "Cows",
+          "hi": "गाय"
+        },
+        "option_3": {
+          "en": "Camels",
+          "hi": "ऊंट"
+        },
+        "option_4": {
+          "en": "Snakes",
+          "hi": "सांप"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Fill in the blank: The traditional Kalbelia dance of the Rajasthan artistically imitates movements of _.",
+          "hi": "रिक्त स्थान भरें: राजस्थान का पारंपरिक कालबेलिया नृत्य कलात्मक रूप से _ की गतिविधियों की नकल करता है।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50046",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Economic Performance",
+          "hi": "आर्थिक प्रदर्शन"
+        },
+        "option_2": {
+          "en": "Employment",
+          "hi": "रोजगार"
+        },
+        "option_3": {
+          "en": "Infrastructure",
+          "hi": "बुनियादी ढांचा"
+        },
+        "option_4": {
+          "en": "Business Efficiency",
+          "hi": "व्यावसायिक दक्षता"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". As per the IMD World Competitiveness Ranking 2025, in which dimension has Switzerland retained the 1st position for both 2024 and 2025?",
+          "hi": "IMD विश्व प्रतिस्पर्धात्मकता रैंकिंग 2025 के अनुसार, स्विट्जरलैंड ने 2024 और 2025 दोनों के लिए किस आयाम में पहला स्थान बरकरार रखा है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50047",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "West Bengal",
+          "hi": "पश्चिम बंगाल"
+        },
+        "option_2": {
+          "en": "Maharashtra",
+          "hi": "महाराष्ट्र"
+        },
+        "option_3": {
+          "en": "Bihar",
+          "hi": "बिहार"
+        },
+        "option_4": {
+          "en": "Andhra Pradesh",
+          "hi": "आंध्र प्रदेश"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". The 'Mangrove Cell' initiative, aimed at conserving coastal ecosystems, is primarily associated with which Indian state in 2025?",
+          "hi": "तटीय पारिस्थितिक तंत्र के संरक्षण के उद्देश्य से 'मैंग्रोव सेल' पहल मुख्य रूप से 2025 में किस भारतीय राज्य से जुड़ी है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50048",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Both A and R are true, and R is the correct explanation of A",
+          "hi": "A और R दोनों सही हैं, और R, A की सही व्याख्या है"
+        },
+        "option_2": {
+          "en": "Both A and R are true, but R is not the correct explanation of A",
+          "hi": "A और R दोनों सही हैं, लेकिन R, A की सही व्याख्या नहीं है"
+        },
+        "option_3": {
+          "en": "A is true, but R is false",
+          "hi": "A सही है, लेकिन R गलत है"
+        },
+        "option_4": {
+          "en": "A is false, but R is true",
+          "hi": "A गलत है, लेकिन R सही है"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Read the following statements carefully and select the correct option:<br>Assertion (A): The iron and steel industry is categorized as a heavy industry.<br>Reason (R): It uses lightweight raw materials such as cotton and rubber.",
+          "hi": "निम्नलिखित कथनों को ध्यानपूर्वक पढ़ें और सही विकल्प का चयन करें:<br>अभिकथन (A): लोहा और इस्पात उद्योग को भारी उद्योग के रूप में वर्गीकृत किया गया है।<br>कारण (R): यह कपास और रबर जैसे हल्के कच्चे माल का उपयोग करता है।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50049",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Only 1 and 2 are correct",
+          "hi": "केवल 1 और 2 सही हैं"
+        },
+        "option_2": {
+          "en": "Only 2 and 3 are correct",
+          "hi": "केवल 2 और 3 सही हैं"
+        },
+        "option_3": {
+          "en": "Only 1 and 3 are correct",
+          "hi": "केवल 1 और 3 सही हैं"
+        },
+        "option_4": {
+          "en": "All 1, 2 and 3 are correct",
+          "hi": "सभी 1, 2 और 3 सही हैं"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Consider the following statements regarding the MISHTI Scheme:<br>1. It aims to promote mangrove plantation through scientific methods.<br>2. It was announced in the Union Budget 2023-24.<br>3. It involves the commercial leasing of mangrove forests.",
+          "hi": "मिष्टी (MISHTI) योजना के संबंध में निम्नलिखित कथनों पर विचार करें:<br>1. इसका उद्देश्य वैज्ञानिक तरीकों से मैंग्रोव वृक्षारोपण को बढ़ावा देना है।<br>2. इसकी घोषणा केंद्रीय बजट 2023-24 में की गई थी।<br>3. इसमें मैंग्रोव वनों का व्यावसायिक पट्टा (Leasing) शामिल है।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50050",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Presidential Order under Article 370(3)",
+          "hi": "अनुच्छेद 370(3) के तहत राष्ट्रपति का आदेश"
+        },
+        "option_2": {
+          "en": "Amendment by Parliament under Article 368",
+          "hi": "अनुच्छेद 368 के तहत संसद द्वारा संशोधन"
+        },
+        "option_3": {
+          "en": "Ordinance issued by the President",
+          "hi": "राष्ट्रपति द्वारा जारी अध्यादेश"
+        },
+        "option_4": {
+          "en": "Order under Article 356",
+          "hi": "अनुच्छेद 356 के तहत आदेश"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": ". Through which constitutional mechanism was Article 370, granting special status to Jammu and Kashmir, abrogated?",
+          "hi": "किस संवैधानिक तंत्र के माध्यम से जम्मू और कश्मीर को विशेष दर्जा देने वाले अनुच्छेद 370 को निरस्त किया गया था?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      }
+    ],
+    "MATH": [
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50051",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "4:5:16",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "16:10:4",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "6:3:10",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "10:4:16",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "If 50% of A = 0.4 of B = 1/8 of C. find A: B: C",
+          "hi": "यदि A का 50% = B का 0.4 = C का 1/8 है, तो A: B: C ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50052",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "72.135 km",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "71.575 km",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "75.135 km",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "70.135 km",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A car travels 0.687 km in 1 minute. How far does it travel in 1 hour 45 minutes?",
+          "hi": "एक कार 1 मिनट में 0.687 किमी की यात्रा करती है। 1 घंटे 45 मिनट में यह कितनी दूर जाएगी?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50053",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "2",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "1",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "0",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "√3",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Simplify: (1/(5+√3)) + (1/(5-√3)) - (10/(87-65))",
+          "hi": "सरल कीजिए: (1/(5+√3)) + (1/(5-√3)) - (10/(87-65))"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50054",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "12.55% decrease",
+          "hi": "12.55% की कमी"
+        },
+        "option_2": {
+          "en": "13.53% increase",
+          "hi": "13.53% की वृद्धि"
+        },
+        "option_3": {
+          "en": "13.53% decrease",
+          "hi": "13.53% की कमी"
+        },
+        "option_4": {
+          "en": "12.55% increase",
+          "hi": "12.55% की वृद्धि"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A family's expenditures on food, medicine, and entertainment are in the ratio 4: 6: 7. In the coming year, the cost of food is expected to increase by 25%, the cost of medicine to increase by 33.33%, and the cost of entertainment to decrease by 10%. What is the percentage change (increase or decrease) in total household expenditure?",
+          "hi": "एक परिवार का भोजन, दवा और मनोरंजन पर खर्च 4: 6: 7 के अनुपात में है। आने वाले वर्ष में, भोजन की लागत में 25% की वृद्धि, दवा की लागत में 33.33% की वृद्धि और मनोरंजन की लागत में 10% की कमी होने की उम्मीद है। कुल घरेलू खर्च में प्रतिशत परिवर्तन (वृद्धि या कमी) क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50055",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "₹32,800",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "₹32,091",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "₹30,201",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "₹31,091",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A and B invested ₹1,40,000 and 1,80,000 respectively. A remained for 10 months and B for 7 months. What is the total profit if B's share is ₹15,201 ?",
+          "hi": "A और B ने क्रमशः ₹1,40,000 और 1,80,000 का निवेश किया। A 10 महीने तक और B 7 महीने तक रहा। यदि B का हिस्सा ₹15,201 है तो कुल लाभ क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50056",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "8/17",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "18/17",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "21/17",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "2/17",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Two friends, Sachin and Kuldeep, rent a stable. Sachin rents 21 horses for 6 months and 15 cows for 2 months. Kuldeep rents 15 cows for 6 months and 40 sheep for 7.5 months. If 3 horses eat as much food as 5 cows, and 6 cows eat as much as 10 sheep, what share of the rent should Sachin pay?",
+          "hi": "दो दोस्त, सचिन और कुलदीप, एक अस्तबल किराए पर लेते हैं। सचिन 6 महीने के लिए 21 घोड़े और 2 महीने के लिए 15 गायें किराए पर लेता है। कुलदीप 6 महीने के लिए 15 गायें और 7.5 महीने के लिए 40 भेड़ें किराए पर लेता है। यदि 3 घोड़े उतना ही खाना खाते हैं जितना 5 गायें, और 6 गायें उतना ही खाती हैं जितना 10 भेड़ें, तो सचिन को किराए का कितना हिस्सा देना चाहिए?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50057",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "94/189",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "94/199",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "94/197",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "98/199",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Two individuals, A and B, rent a pasture. A uses 18 cows for a period of 3 months and 20 sheep for 4 months, and B uses 35 sheep for 6 months. If 3 cows are equal to 6 sheep, determine A's share of the rent.",
+          "hi": "दो व्यक्ति, A और B, एक चरागाह किराए पर लेते हैं। A 3 महीने की अवधि के लिए 18 गायों और 4 महीने के लिए 20 भेड़ों का उपयोग करता है, और B 6 महीने के लिए 35 भेड़ों का उपयोग करता है। यदि 3 गायें 6 भेड़ों के बराबर हैं, तो किराए में A का हिस्सा निर्धारित करें।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50058",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "22.1",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "22.4",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "15.6",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "22.6",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The average ages of three groups of artisans are 18, 30, and 22. If the ratio of the number of artisans in the three groups is 3: 2: 5, what is the overall average age?",
+          "hi": "कारीगरों के तीन समूहों की औसत आयु 18, 30 और 22 है। यदि तीनों समूहों में कारीगरों की संख्या का अनुपात 3: 2: 5 है, तो कुल औसत आयु क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50059",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "72",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "74",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "69",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "76",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The average of 21 numbers is 69. If the average of the first ten is 66 and the average of the last ten is 72, find the 11th number.",
+          "hi": "21 संख्याओं का औसत 69 है। यदि पहली दस का औसत 66 है और अंतिम दस का औसत 72 है, तो 11वीं संख्या ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50060",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "277",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "263",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "287",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "273",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "What is the average of all integers between 200 and 350 that are exactly divisible by 13?",
+          "hi": "200 और 350 के बीच के उन सभी पूर्णांकों का औसत क्या है जो 13 से पूर्णतः विभाज्य हैं?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50061",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "240 km",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "230 km",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "320 km",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "450 km",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Evaluate: 12(1/2)% of 480 km + 66(2/3)% of 270 km",
+          "hi": "मूल्यांकन करें: 480 किमी का 12(1/2)% + 270 किमी का 66(2/3)%"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50062",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "₹6450",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "₹6440",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "₹6480",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "₹6200",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A salesman earns a 2% commission on a shirt sold for ₹600 and a 12% commission on a tie sold for ₹150. If he sells 3 shirts and 4 ties per day, what will be his total commission in 60 days?",
+          "hi": "एक सेल्समैन ₹600 में बेची गई शर्ट पर 2% कमीशन और ₹150 में बेची गई टाई पर 12% कमीशन कमाता है। यदि वह प्रतिदिन 3 शर्ट और 4 टाई बेचता है, तो 60 दिनों में उसका कुल कमीशन कितना होगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50063",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "16.626%",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "16.257%",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "20%",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "18.757%",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A fruit seller sells apples at a loss of 10% on the cost price but uses a weight that is 25% less than the actual weight. Find his total profit percentage.",
+          "hi": "एक फल विक्रेता सेब को क्रय मूल्य पर 10% की हानि पर बेचता है लेकिन ऐसे वजन का उपयोग करता है जो वास्तविक वजन से 25% कम है। उसका कुल लाभ प्रतिशत ज्ञात कीजिए।"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50064",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Profit of 7.25%",
+          "hi": "7.25% का लाभ"
+        },
+        "option_2": {
+          "en": "Loss of 5.5%",
+          "hi": "5.5% की हानि"
+        },
+        "option_3": {
+          "en": "Profit of 7.5%",
+          "hi": "7.5% का लाभ"
+        },
+        "option_4": {
+          "en": "Loss of 5.25%",
+          "hi": "5.25% की हानि"
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "The profit made on an item sold for 2200 is equal to the loss incurred when it is sold for 1800. What will be the profit or loss percentage if the item is sold for 2150?",
+          "hi": "2200 में बेची गई वस्तु पर हुआ लाभ, 1800 में बेची गई वस्तु पर हुई हानि के बराबर है। यदि वस्तु को 2150 में बेचा जाता है, तो लाभ या हानि प्रतिशत क्या होगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50065",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "70.5%",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "72.5%",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "75.5%",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "78.5%",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A mobile phone retailer sells a phone for P and makes a profit of 30%. For a special festive offer, he sells the same phone for ₹1.5P. He offers a 10% discount on the offer. What percentage profit will he make during the festive offer?",
+          "hi": "एक मोबाइल फोन रिटेलर P में एक फोन बेचता है और 30% का लाभ कमाता है। एक विशेष उत्सव प्रस्ताव के लिए, वह उसी फोन को ₹1.5P में बेचता है। वह प्रस्ताव पर 10% की छूट देता है। उत्सव प्रस्ताव के दौरान वह कितने प्रतिशत लाभ कमाएगा?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50066",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "10%",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "8%",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "15%",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "17.5%",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A shopkeeper marked an item 20% above its cost price. During a sale, he offered a discount of 10%. What was his profit percentage?",
+          "hi": "एक दुकानदार ने एक वस्तु पर उसके क्रय मूल्य से 20% अधिक मूल्य अंकित किया। बिक्री के दौरान, उसने 10% की छूट दी। उसका लाभ प्रतिशत क्या था?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50067",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "₹5500",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "₹5000",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "₹3000",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "₹3500",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A shopkeeper marks his goods at 50% above the cost price. He allows a discount of 20% on the marked price. If he also gives an additional cash discount of ₹300, and still makes a profit of 14% on the cost price, what is the cost price of the goods?",
+          "hi": "एक दुकानदार अपने माल पर क्रय मूल्य से 50% अधिक मूल्य अंकित करता है। वह अंकित मूल्य पर 20% की छूट देता है। यदि वह ₹300 की अतिरिक्त नकद छूट भी देता है, और फिर भी क्रय मूल्य पर 14% का लाभ कमाता है, तो माल का क्रय मूल्य क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50068",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "17.3 kg",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "22.4 kg",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "20.5 kg",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "15.2 kg",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Approximately how many kg of pulses costing 45 per kg should be mixed with 24 kg of pulses costing 32 per kg so as to make a profit of 15% by selling the mixture at 43.70 per kg?",
+          "hi": "43.70 प्रति किलोग्राम पर मिश्रण बेचकर 15% का लाभ प्राप्त करने के लिए 45 प्रति किलोग्राम की कितनी किलोग्राम दाल को 32 प्रति किलोग्राम की 24 किलोग्राम दाल के साथ मिलाया जाना चाहिए?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50069",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "25 cm",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "30 cm",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "35 cm",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "40 cm",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A right circular cone has a diameter of 14 cm and a height of 24 cm. What is the slant height ?",
+          "hi": "एक लंब वृत्तीय शंकु का व्यास 14 सेमी और ऊंचाई 24 सेमी है। तिर्यक ऊंचाई क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50070",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "17%",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "12%",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "15%",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "20%",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Sunil lent ₹5,000 to Sudhir for 2 years and ₹3,000 to Vinod for 4 years at the same simple interest rate. In total, he received ₹4,400 as interest from both borrowers. What is the rate of interest per annum?",
+          "hi": "सुनील ने सुधीर को 2 साल के लिए ₹5,000 और विनोद को 4 साल के लिए ₹3,000 समान साधारण ब्याज दर पर उधार दिए। कुल मिलाकर, उसे दोनों उधारकर्ताओं से ब्याज के रूप में ₹4,400 प्राप्त हुए। प्रति वर्ष ब्याज की दर क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50071",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "50 cm³",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "575 cm³",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "500 cm³",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "225 cm³",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A triangular prism has base area of 25 cm² If height is increased by 25%, what is the new volume (original height was 16 cm) ?",
+          "hi": "एक त्रिकोणीय प्रिज्म का आधार क्षेत्रफल 25 cm² है। यदि ऊंचाई 25% बढ़ा दी जाती है, तो नया आयतन क्या है (मूल ऊंचाई 16 सेमी थी)?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50072",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "20%",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "38%",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "36%",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "30%",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A circular disc's radius is decreased by 20% What is the percentage decrease in its area?",
+          "hi": "एक वृत्ताकार डिस्क की त्रिज्या में 20% की कमी की जाती है। इसके क्षेत्रफल में प्रतिशत कमी क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50073",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "1.3:1",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "1.27: 1",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "1.7:1",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "1.6:1",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A man has 160 m of fencing wire. He can use this wire to enclose a circular garden or a square garden. If he wants to maximize the enclosed area, what is the approximate ratio of the area of the largest possible circular garden to the area of the largest possible square garden, using the entire 160 m of wire ?",
+          "hi": "एक आदमी के पास बाड़ लगाने वाला 160 मीटर तार है। वह इस तार का उपयोग एक गोलाकार बगीचे या एक चौकोर बगीचे को घेरने के लिए कर सकता है। यदि वह घेरे गए क्षेत्र को अधिकतम करना चाहता है, तो पूरे 160 मीटर तार का उपयोग करके सबसे बड़े संभव गोलाकार बगीचे के क्षेत्रफल और सबसे बड़े संभव वर्गाकार बगीचे के क्षेत्रफल का अनुमानित अनुपात क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50074",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "6.29 cm.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "7.59 cm",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "8.79 cm",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "11.41 cm",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A vertical cylindrical container is filled with oil. A solid hemispherical stone of radius 6 cm is immersed completely, and the oil level rises by 2.5 cm. What is the radius of the cylinder?",
+          "hi": "एक ऊर्ध्वाधर बेलनाकार कंटेनर तेल से भरा है। 6 सेमी त्रिज्या का एक ठोस अर्धगोलाकार पत्थर पूरी तरह से डुबोया जाता है, और तेल का स्तर 2.5 सेमी बढ़ जाता है। बेलन की त्रिज्या क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50075",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "4:3",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "5:4",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "1:1",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "6:7",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A sector of a circle has a central angle of 135 and a radius of 9 cm. Another sector of the same circle has a central angle of 3π/4 radians. What is the ratio of the area of the first sector to the area of the second sector?",
+          "hi": "एक वृत्त के एक खंड का केंद्रीय कोण 135 और त्रिज्या 9 सेमी है। उसी वृत्त के दूसरे खंड का केंद्रीय कोण 3π/4 रेडियन है। पहले खंड के क्षेत्रफल का दूसरे खंड के क्षेत्रफल से अनुपात क्या है?"
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      }
+    ],
+    "ENGLISH": [
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50076",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Stable",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Precise",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Nebulous",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Obvious",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the most appropriate synonym of the given word:<br>Vague",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50077",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Intellectual",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Uninformed",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Educated",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Scholarly",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the most appropriate antonym of the word given in brackets to complete the sentence.<br>He had very little formal education and remained largely ____(erudite) despite years of experience.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50078",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "React with sudden and uncontrolled anger",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Leave the place without being noticed",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Disappear rapidly from a situation",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Deal with the problem in a clever way",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the most appropriate meaning of the highlighted idiom in the given sentence.<br>The manager *flew off the handle* when he discovered that the report had been submitted with serious errors.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50079",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Homage",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Encomium",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Praise",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Castigation",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the most appropriate antonym of the given word.<br>Panegyric",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50080",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Trinket",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Trissomy",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Trisomic",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Trifold",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Spot the incorrect spelling.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50081",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Highjack",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Oblivion",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Interregnum",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Desuetude",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the correct one-word substitute for: The state of being unaware or unconscious of what is happening around one.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50082",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "is",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "was",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "are",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "were",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the correct option:<br>So intricate ______ the machinery that even experts took hours to assemble it.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50083",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "less",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "more",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "other",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "rather",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the correct option:<br>His explanation was ______ than confusing; it was a tangled mess of ideas.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50084",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "quell",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "grow",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "repel",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "impulse",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the correct option:<br>The measures, though seemingly justified by fiscal constraints, were in reality a masked effort to ____opposition under the guise of austerity.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50085",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "(1)",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "(2)",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "(3)",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "(4)",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Find the part of the sentence that contains an error:<br>The committee's objectives included (1)/ increasing membership, improving communication channels, and (2)/ to foster a sense of community (3)/ among its diverse members. (4)",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50086",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "(1)",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "(2)",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "(3)",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "(4)",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Find the part of the sentence that contains an error:<br>The unique challenges of the project, including its remote location (1)/ and the unpredictable weather patterns, (2)/ makes its successful completion (3)/ a testament to the team's resilience. (4)",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50087",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Why were the proposed amendments rejected by the committee?",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Why have the proposed amendments been rejected by the committee?",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Why are the proposed amendments being rejected by the committee?",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Why did the proposed amendments be rejected by the committee?",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Change the following from active to passive:<br>Why did the committee reject the proposed amendments?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50088",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "The stone bailey stood firm against the attack.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Guards patrolled the perimeter of the outer bailey.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Horses rested quietly within the stone bailey.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "The knights gathered in the castle bailey.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Select the option that contains the homonym of the highlighted word.<br>A thick *bailey* shielded the villagers from harm.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "4",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50089",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "The monks hid the ancient scrolls in a secret chamber.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "The monks are believed to have hidden the ancient scrolls in a secret chamber.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "The ancient scrolls were hiding the monks in a secret chamber.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "In a secret chamber, the monks had hidden the ancient scrolls.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Convert the sentence provided below from its passive voice structure to an active voice structure:<br>It is believed that the ancient scrolls were hidden by the monks in a secret chamber.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50090",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Encouraging deforestation",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "To facilitate plant reproduction.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Promoting pollinator-friendly farming practices",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Reducing global trade",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read this passage for BELOW QUESTION<br>The symbiotic relationship between flowering plants and their pollinators is a cornerstone of global biodiversity and ecosystem stability. Pollinators, primarily insects like bees, butterflies, and moths, but also birds and bats, play a crucial role in the reproduction of over 80% of the world's flowering plants, including many food crops essential for human sustenance. As these animals visit flowers to feed on nectar or pollen, they inadvertently transfer pollen grains from one flower to another, enabling fertilization. This intricate dance has evolved over millions of years, leading to highly specialized adaptations in both plants and pollinators. For instance, some flowers have evolved specific shapes, colors, or scents to attract particular pollinators, while pollinators have developed specialized mouthparts or behaviors to access the rewards offered by these flowers. However, this vital relationship is under severe threat from various anthropogenic factors. Habitat loss due to urbanization and agriculture, pesticide use (especially neonicotinoids), climate change altering bloom times, and the spread of diseases and invasive species are collectively contributing to a dramatic decline in pollinator populations worldwide. The consequences of this decline are far-reaching. Beyond the ecological impact on wild plant reproduction, there are significant economic implications for agriculture. Many fruits, vegetables, and nuts rely heavily on animal pollination, and a reduction in pollinator services can lead to lower yields, reduced quality, and increased food costs. Scientists are actively researching solutions, from promoting pollinator-friendly farming practices and creating urban pollinator gardens to developing less harmful pest management strategies and conserving natural habitats. Understanding and protecting these unsung heroes of our ecosystems is paramount for food security and the health of our planet.<br><br><br>What is the central role of pollinators in ecosystems, as described in the passage?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50091",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Root structures",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Specific shapes, colors, or scents",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Photosynthetic efficiency",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Drought resistance",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read this passage for BELOW QUESTION<br>The symbiotic relationship between flowering plants and their pollinators is a cornerstone of global biodiversity and ecosystem stability. Pollinators, primarily insects like bees, butterflies, and moths, but also birds and bats, play a crucial role in the reproduction of over 80% of the world's flowering plants, including many food crops essential for human sustenance. As these animals visit flowers to feed on nectar or pollen, they inadvertently transfer pollen grains from one flower to another, enabling fertilization. This intricate dance has evolved over millions of years, leading to highly specialized adaptations in both plants and pollinators. For instance, some flowers have evolved specific shapes, colors, or scents to attract particular pollinators, while pollinators have developed specialized mouthparts or behaviors to access the rewards offered by these flowers. However, this vital relationship is under severe threat from various anthropogenic factors. Habitat loss due to urbanization and agriculture, pesticide use (especially neonicotinoids), climate change altering bloom times, and the spread of diseases and invasive species are collectively contributing to a dramatic decline in pollinator populations worldwide. The consequences of this decline are far-reaching. Beyond the ecological impact on wild plant reproduction, there are significant economic implications for agriculture. Many fruits, vegetables, and nuts rely heavily on animal pollination, and a reduction in pollinator services can lead to lower yields, reduced quality, and increased food costs. Scientists are actively researching solutions, from promoting pollinator-friendly farming practices and creating urban pollinator gardens to developing less harmful pest management strategies and conserving natural habitats. Understanding and protecting these unsung heroes of our ecosystems is paramount for food security and the health of our planet.<br><br><br>What type of adaptations have plants developed to attract pollinators?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50092",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Habitat loss",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Pesticide use",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Increased rainfall",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Climate change",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read this passage for BELOW QUESTION<br>The symbiotic relationship between flowering plants and their pollinators is a cornerstone of global biodiversity and ecosystem stability. Pollinators, primarily insects like bees, butterflies, and moths, but also birds and bats, play a crucial role in the reproduction of over 80% of the world's flowering plants, including many food crops essential for human sustenance. As these animals visit flowers to feed on nectar or pollen, they inadvertently transfer pollen grains from one flower to another, enabling fertilization. This intricate dance has evolved over millions of years, leading to highly specialized adaptations in both plants and pollinators. For instance, some flowers have evolved specific shapes, colors, or scents to attract particular pollinators, while pollinators have developed specialized mouthparts or behaviors to access the rewards offered by these flowers. However, this vital relationship is under severe threat from various anthropogenic factors. Habitat loss due to urbanization and agriculture, pesticide use (especially neonicotinoids), climate change altering bloom times, and the spread of diseases and invasive species are collectively contributing to a dramatic decline in pollinator populations worldwide. The consequences of this decline are far-reaching. Beyond the ecological impact on wild plant reproduction, there are significant economic implications for agriculture. Many fruits, vegetables, and nuts rely heavily on animal pollination, and a reduction in pollinator services can lead to lower yields, reduced quality, and increased food costs. Scientists are actively researching solutions, from promoting pollinator-friendly farming practices and creating urban pollinator gardens to developing less harmful pest management strategies and conserving natural habitats. Understanding and protecting these unsung heroes of our ecosystems is paramount for food security and the health of our planet.<br><br><br>Which of the following is NOT listed as a threat to pollinator populations?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "2",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50093",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "Increased timber production",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "Lower crop yields and higher food costs",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Decreased demand for agricultural labor",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "Greater reliance on fossil fuels",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read this passage for BELOW QUESTION<br>The symbiotic relationship between flowering plants and their pollinators is a cornerstone of global biodiversity and ecosystem stability. Pollinators, primarily insects like bees, butterflies, and moths, but also birds and bats, play a crucial role in the reproduction of over 80% of the world's flowering plants, including many food crops essential for human sustenance. As these animals visit flowers to feed on nectar or pollen, they inadvertently transfer pollen grains from one flower to another, enabling fertilization. This intricate dance has evolved over millions of years, leading to highly specialized adaptations in both plants and pollinators. For instance, some flowers have evolved specific shapes, colors, or scents to attract particular pollinators, while pollinators have developed specialized mouthparts or behaviors to access the rewards offered by these flowers. However, this vital relationship is under severe threat from various anthropogenic factors. Habitat loss due to urbanization and agriculture, pesticide use (especially neonicotinoids), climate change altering bloom times, and the spread of diseases and invasive species are collectively contributing to a dramatic decline in pollinator populations worldwide. The consequences of this decline are far-reaching. Beyond the ecological impact on wild plant reproduction, there are significant economic implications for agriculture. Many fruits, vegetables, and nuts rely heavily on animal pollination, and a reduction in pollinator services can lead to lower yields, reduced quality, and increased food costs. Scientists are actively researching solutions, from promoting pollinator-friendly farming practices and creating urban pollinator gardens to developing less harmful pest management strategies and conserving natural habitats. Understanding and protecting these unsung heroes of our ecosystems is paramount for food security and the health of our planet.<br><br><br>What are the economic implications of declining pollinator populations mentioned in the passage?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50094",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "To decompose organic matter.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "To regulate water cycles.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "Promoting pollinator-friendly farming practices",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "To control pest populations.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Read this passage for BELOW QUESTION<br>The symbiotic relationship between flowering plants and their pollinators is a cornerstone of global biodiversity and ecosystem stability. Pollinators, primarily insects like bees, butterflies, and moths, but also birds and bats, play a crucial role in the reproduction of over 80% of the world's flowering plants, including many food crops essential for human sustenance. As these animals visit flowers to feed on nectar or pollen, they inadvertently transfer pollen grains from one flower to another, enabling fertilization. This intricate dance has evolved over millions of years, leading to highly specialized adaptations in both plants and pollinators. For instance, some flowers have evolved specific shapes, colors, or scents to attract particular pollinators, while pollinators have developed specialized mouthparts or behaviors to access the rewards offered by these flowers. However, this vital relationship is under severe threat from various anthropogenic factors. Habitat loss due to urbanization and agriculture, pesticide use (especially neonicotinoids), climate change altering bloom times, and the spread of diseases and invasive species are collectively contributing to a dramatic decline in pollinator populations worldwide. The consequences of this decline are far-reaching. Beyond the ecological impact on wild plant reproduction, there are significant economic implications for agriculture. Many fruits, vegetables, and nuts rely heavily on animal pollination, and a reduction in pollinator services can lead to lower yields, reduced quality, and increased food costs. Scientists are actively researching solutions, from promoting pollinator-friendly farming practices and creating urban pollinator gardens to developing less harmful pest management strategies and conserving natural habitats. Understanding and protecting these unsung heroes of our ecosystems is paramount for food security and the health of our planet.<br><br><br>What is suggested as a solution to protect pollinators ?",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50095",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "that we consider a different approach",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "us considering a different approach",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "to consider a different approach by us",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "that we considered a different approach",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the most suitable option to replace the highlighted part of the sentence:<br>They proposed *us to consider a different approach*.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50096",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "what the reason is for her sudden departure",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "what the reason for her sudden departure is",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "what is the reason her sudden departure",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "the reason for her sudden departure is what",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Choose the most suitable option to replace the highlighted part of the sentence:<br>I wonder *what is the reason for her sudden departure*.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "3",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50097",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "The teacher said that the Earth revolved around the Sun.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "The teacher said that the Earth had revolved around the Sun.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "The teacher said that the Earth revolves around the Sun.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "The teacher said that the Earth is revolving around the Sun.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A sentence is provided in direct speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding indirect speech.<br>The teacher said, \"The Earth revolves around the Sun.\"",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50098",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "\"Can you help me with the project tomorrow?\" she asked him.",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "\"Could you help me with the project the next day?\" she asked him.",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "\"Will you help me with the project tomorrow?\" she asked him.",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "\"Help me with the project tomorrow,\" she asked him.",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "A sentence is provided in indirect speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding direct speech.<br>She asked him if he could help her with the project the next day.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50099",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "2-3-4-1",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "1-2-3-4",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "3-4-2-1",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "2-1-3-4",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Rearrange the following sentences in correct order to make a logical passage:<br>1. This new approach significantly boosted employee morale.<br>2. The company decided to implement a flexible work-from-home policy.<br>3. Initially, some managers expressed concerns about productivity.<br>4. However, careful monitoring showed no dip in output.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      },
+      {
+        "answer": "1",
+        "correct_score": "2",
+        "deleted": "0",
+        "difficulty_level": "0",
+        "id": "50100",
+        "negative_score": "0.5",
+        "option_1": {
+          "en": "2, 4, 1, 3",
+          "hi": ""
+        },
+        "option_2": {
+          "en": "1, 3, 2, 4",
+          "hi": ""
+        },
+        "option_3": {
+          "en": "3, 2, 4, 1",
+          "hi": ""
+        },
+        "option_4": {
+          "en": "2, 1, 4, 3",
+          "hi": ""
+        },
+        "option_5": "",
+        "option_image_1": "",
+        "option_image_2": "",
+        "option_image_3": "",
+        "option_image_4": "",
+        "option_image_5": "",
+        "question": {
+          "en": "Rearrange the following sentences to form a coherent paragraph:<br>1. This allows the bird to remain almost perfectly still relative to the flower.<br>2. The hummingbird's wings beat at an incredibly high frequency, often over 50 times per second.<br>3. This unique ability enables them to efficiently extract nectar while hovering in mid-air.<br>4. Such rapid wing movements create a stable platform, counteracting any air currents.",
+          "hi": ""
+        },
+        "question_image": "",
+        "quiz_id": "cgl-25-12-sep-s3-full",
+        "solution_heading": "",
+        "solution_image": "",
+        "solution_text": {
+          "en": "",
+          "hi": ""
+        },
+        "solution_video": "",
+        "sortingparam": "0.00"
+      }
+    ]
+  }
+}
