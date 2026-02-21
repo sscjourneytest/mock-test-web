@@ -2124,6 +2124,13 @@ async function refreshLatestRankOnDemand(btn) {
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
+ const urlParams = new URLSearchParams(window.location.search);
+  const quizIdParam = urlParams.get('id');
+
+  if (!quizIdParam) {
+    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.<br><small>Example: ?id=Rajuhari</small>";
+    return;
+  }
 
   try {
    // 1. Fetch JSON Data from Gatekeeper
@@ -2137,6 +2144,7 @@ async function refreshLatestRankOnDemand(btn) {
         // Note: No Authorization header needed yet for testing FREE folder files
       }
     });
+ 
     if (!response.ok) throw new Error("Failed to fetch latest quiz data");
     const freshData = await response.json();
     
