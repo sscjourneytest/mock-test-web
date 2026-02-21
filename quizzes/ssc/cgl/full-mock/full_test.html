@@ -2124,9 +2124,19 @@ async function refreshLatestRankOnDemand(btn) {
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
+
   try {
-    // 1. Fresh Fetch: Get latest version of JSON to bypass cache
-    const response = await fetch(`./data/${QUIZ_ID}.json?t=${Date.now()}`);
+   // 1. Fetch JSON Data from Gatekeeper
+    const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
+    const GITHUB_PATH = "ssc/cgl/full-mock"; // Must match your GitHub folder exactly
+
+    const response = await fetch(`${GATEKEEPER_URL}?id=${quizIdParam}&path=${GITHUB_PATH}`, {
+      method: 'GET',
+      headers: {
+        "Accept": "application/json"
+        // Note: No Authorization header needed yet for testing FREE folder files
+      }
+    });
     if (!response.ok) throw new Error("Failed to fetch latest quiz data");
     const freshData = await response.json();
     
