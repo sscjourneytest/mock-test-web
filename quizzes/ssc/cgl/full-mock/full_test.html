@@ -2117,21 +2117,32 @@ async function refreshLatestRankOnDemand(btn) {
     return;
   }
 
-  try {
-   // 1. Fetch JSON Data from Gatekeeper
+  
+    try {
+    // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
+    const { data: { session } } = await _supabase.auth.getSession();
+    const token = session ? session.access_token : null;
+
+    // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/cgl/full-mock"; // Must match your GitHub folder exactly
+    const GITHUB_PATH = "ssc/cgl/full-mock"; 
+
+    // --- 3. ADD AUTHORIZATION HEADER ---
+    const headers = { "Accept": "application/json" };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`; 
+    }
 
     const response = await fetch(`${GATEKEEPER_URL}?id=${quizIdParam}&path=${GITHUB_PATH}`, {
       method: 'GET',
-      headers: {
-        "Accept": "application/json"
-        // Note: No Authorization header needed yet for testing FREE folder files
-      }
+      headers: headers
     });
- 
-    if (!response.ok) throw new Error("Failed to fetch latest quiz data");
-    const freshData = await response.json();
+    
+    if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
+    
+    const data = await response.json();
+
+  
     
     // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
@@ -2756,6 +2767,13 @@ function updatePaletteLegend() {
 
 
   function init() {
+  
+  if (typeof getLocalProfile !== "function") {
+      console.error("Auth script not loaded yet!");
+      setTimeout(init, 500); // Retry in half a second
+      return;
+  }
+ 
   // 1. Get User Data from Auth Cache
   const profile = getLocalProfile(); // This is the function in your auth.js
   
