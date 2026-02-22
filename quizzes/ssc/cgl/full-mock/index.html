@@ -15,8 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/auth.js"></script>
 
-<style>
-/* ... (All your existing CSS remains the same) ... */
+
 <style>
 body{
   margin:0;
@@ -32,8 +31,8 @@ header{
   position:relative;
   text-align:center;
   color:#fff;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
 }
 
@@ -160,7 +159,20 @@ header{
   font-size:15px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   outline: none;
+/* ADD THIS LINE: It keeps padding INSIDE the width */
+  box-sizing: border-box; 
 }
+
+/* Update your Mobile Media Query at the bottom */
+@media (max-width: 600px) {
+    #searchBox {
+        width: 95%; /* Give a little breathing room on the sides */
+        margin-bottom: 20px;
+    }
+    .hero { padding-top: 80px; padding-bottom: 40px; }
+    .container { padding: 0 10px; } /* Reduce container padding for more space */
+}
+
 #searchBox:focus{
   border-color:#3b82f6;
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
@@ -246,8 +258,7 @@ footer {
   margin: 0 10px;
   font-size: 13px;
 }
-/* NEW PREMIUM STYLES */
-header { padding-top: 90px !important; } /* Spacing for fixed top bar */
+
 
 .quiz-badge {
     font-size: 10px;
