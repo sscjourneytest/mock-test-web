@@ -97,14 +97,15 @@ header {
   height: var(--header-height);
 }
 
+/* UPDATED: Title starts from exact left */
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 16px;
-  max-width: var(--max-width);
-  margin: auto;
+  padding: 0 16px 0 0; /* Remove left padding (Top Right Bottom Left) */
+  max-width: none;     /* Allow it to touch the edge on wide screens */
+  margin: 0;           /* Remove auto-centering margin */
 }
 
 h1 {
@@ -112,8 +113,16 @@ h1 {
   color: var(--accent);
   font-size: 18px;
   font-weight: 700;
+  padding-left: 10px; /* Small breathing room from the screen edge */
 }
 
+@media (min-width: 992px) {
+  /* Ensure the container doesn't force a center gap on very wide screens */
+  .header-inner {
+    max-width: none; 
+    width: 100%;
+  }
+}
 /* Timer Text */
 .timer-text {
   font-variant-numeric: tabular-nums;
@@ -130,32 +139,28 @@ h1 {
   display: none;
   gap: 8px;
 }
-
-/* Common Button Styles */
-.btn {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
+/* Updated to match image: Blue background, White text, Rounded corners */
+.btn, .btn-ghost {
+  background: #0b5ed7 !important; /* Solid Blue as per image */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important; /* Rounded corners */
+  padding: 10px 20px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700; /* Bold white text */
   cursor: pointer;
   transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
-.btn:hover { background: var(--accent-dark); }
 
-.btn-ghost {
-  background: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  padding: 7px 15px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
+.btn:hover, .btn-ghost:hover {
+  background: #094bc0 !important;
+  opacity: 0.9;
 }
-.btn-ghost:hover { background: #f0f6ff; }
+
 /* =========================================
    4. WELCOME SCREEN (Continuous Page Layout)
    ========================================= */
@@ -575,7 +580,6 @@ body.mode-solution .qbtn.current::before {
   color: #ffeb3b;
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
-
 /* =========================================
    7. BOTTOM NAVIGATION BAR (Mobile)
    ========================================= */
@@ -593,23 +597,22 @@ body.mode-solution .qbtn.current::before {
   z-index: 900;
 }
 
+/* Force all bottom buttons to look like the blue image */
 .fbar button {
   flex: 1;
-  padding: 10px 4px;
+  padding: 12px 4px;
   font-size: 13px;
-  border-radius: 4px;
+  border-radius: 8px; /* Matching image */
+  background: #0b5ed7;
+  color: #fff;
+  border: none;
+  font-weight: 700;
 }
 
-/* Specific Button Colors */
-#prevBtn { background: #fff; color: #333; border: 1px solid #ccc; }
-#clearBtn { background: #fff; color: #333; border: 1px solid #ccc; }
-#markBtn { background: var(--accent); color: #fff; }
-#nextBtn { background: var(--accent); color: #fff; }
-
-/* Active Mark Button (Green) */
-#markBtn.active-mark { background: var(--success) !important; }
-
-
+/* Specific logic for Mark button color toggle */
+#markBtn.active-mark { 
+  background: #198754 !important; /* Green when active */
+}
 
 
 @media (min-width: 992px) {
@@ -663,17 +666,19 @@ body.mode-solution .qbtn.current::before {
   /* ===============================
      SECTION BUTTON ALIGNMENT
      =============================== */
-
-  #sectionNav {
+#sectionNav {
     max-width: none;
-    margin-left: auto;
-    margin-right: 372px;  /* SAME alignment as quiz card */
+    margin-left: 0;        /* Changed from auto to 0 for better sticky alignment */
+    margin-right: 372px;   /* Keeps the gap for the desktop palette */
     padding-left: 16px;
     padding-right: 16px;
+     overflow-x: auto; 
+    /* 🔥 Sticky Logic 🔥 */
+    position: sticky;
+    top: var(--header-height); /* Sticks exactly below the 60px header */
+    z-index: 99;               /* Stays above content but below header */
+    background: #fff;          /* Ensures question text doesn't show through the bar */
   }
-
-
-
 
 
 
@@ -698,37 +703,33 @@ body.mode-solution .qbtn.current::before {
   /* 3. Hide Mobile Bottom Bar */
   .fbar { display: none !important; }
 
-  /* Update this specific block inside @media (min-width: 992px) */
-.top-actions { 
+
+  .top-actions { 
     display: flex !important; 
-    gap: 12px; /* Increased spacing between buttons */
+    gap: 10px;
     align-items: center;
-}
+  }
 
-.top-actions .btn,
-.top-actions .btn-ghost {
-    padding: 14px 20px;
-    font-size: 15px;      /* Professional readable size */
-    font-weight: 800;
-    border-radius: 4px;
-    line-height: 1.2;
-    min-width: 100px;    /* Ensures buttons aren't squashed */
-    text-align: center;
-    white-space: nowrap; /* Prevents text from wrapping */
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
+  .top-actions .btn,
+  .top-actions .btn-ghost {
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px; /* Matching image */
+    min-width: 120px;
+    background: #0b5ed7 !important;
+    color: #fff !important;
+  }
 
-/* Optional: Make the primary blue buttons stand out more */
-#markBtn, #nextBtn {
-    min-width: 140px;    /* Slightly wider for the main action buttons */
-}
-  
+  /* Keep the Mark button color changing on desktop too */
+  #markBtn.active-mark { 
+    background: #198754 !important; 
+  }
+
   /* 5. Hide Mobile "View" Toggle in Header */
   #paletteBtn { display: none !important; }
 }
-
+  }
 /* MOBILE LAYOUT */
 @media (max-width: 991px) {
   /* Palette is a popup overlay */
@@ -790,9 +791,18 @@ body.mode-solution .qbtn.current::before {
   }
 
   #sectionNav {
-    margin-top: 6px;
+    margin-top: 0;         /* Remove top margin so it touches the header */
     margin-bottom: 10px;
-    padding: 0 12px;
+    padding: 10px 12px;
+    width: 100%;           /* Full width on mobile */
+    margin-right: 0;       /* Remove the desktop palette gap */
+    
+    /* Ensure stickiness is active on mobile too */
+    position: sticky;
+    top: var(--header-height); 
+    z-index: 99;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
   }
 
 }
