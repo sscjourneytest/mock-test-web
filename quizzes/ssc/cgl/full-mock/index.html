@@ -335,24 +335,25 @@ footer {
 
 <div class="grid" id="quizGrid">
 
-    <div class="quiz" data-type="paid">
-        <div class="quiz-left">
-          <div class="quiz-title">CGL 18 SEPT 2025 SHIFT 3 (HARDEST SHIFT) <span class="quiz-badge badge-paid">PAID</span></div>
-          <div class="quiz-info">100 Questions • 60 Min</div>
-        </div>
-        <div class="action-area">
+   <div class="quiz" data-type="paid">
+            <div class="quiz-left">
+              <div class="quiz-title">PAID TEST EXAMPLE <span class="quiz-badge badge-paid">PAID</span></div>
+              <div class="quiz-info">100 Questions • 60 Min</div>
             </div>
-    </div>
+            <div class="action-area">
+                <a href="full_test.html?id=MY_MANUAL_ID_1" class="start-btn">START</a>
+            </div>
+        </div>
 
-    <div class="quiz" data-type="free">
-        <div class="quiz-left">
-          <div class="quiz-title">CGL 2024 PREVIOUS YEAR PAPER <span class="quiz-badge badge-free">FREE</span></div>
-          <div class="quiz-info">100 Questions • 60 Min</div>
+        <div class="quiz" data-type="free">
+            <div class="quiz-left">
+              <div class="quiz-title">FREE TEST EXAMPLE <span class="quiz-badge badge-free">FREE</span></div>
+              <div class="quiz-info">100 Questions • 60 Min</div>
+            </div>
+            <div class="action-area">
+                <a href="full_test.html?id=MY_MANUAL_ID_2" class="start-btn">START</a>
+            </div>
         </div>
-        <div class="action-area">
-            <a href="full_test.html?id=cgl_24_pyq" class="start-btn">START</a>
-        </div>
-    </div>
 
   </div>
 </div>
@@ -368,33 +369,25 @@ footer {
 </footer>
 
 <script>
-// Use your auth.js logic to check status
+// Logic to handle paid/free buttons WITHOUT changing your Quiz IDs
 function checkPremiumStatus() {
-    const profile = getLocalProfile(); // From your auth.js
-    const isPaid = profile ? profile.is_paid : false;
-    
+    const profile = getLocalProfile(); // From your auth.js cache
+    const isPaidUser = profile ? profile.is_paid : false;
     const quizzes = document.querySelectorAll(".quiz");
     
     quizzes.forEach(quiz => {
         const type = quiz.getAttribute("data-type");
         const actionArea = quiz.querySelector(".action-area");
-        const quizId = quiz.querySelector(".quiz-title").innerText.toLowerCase().replace(/ /g, "_").split("\n")[0];
-
-        if (type === "paid") {
-            if (isPaid) {
-                // If user is paid, show Start button
-                actionArea.innerHTML = `<a href="full_test.html?id=${quizId}" class="start-btn">START</a>`;
-            } else {
-                // If user is free, show Unlock button
-                actionArea.innerHTML = `<a href="/premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
-            }
-        } else {
-            // Free tests always show start
-            actionArea.innerHTML = `<a href="full_test.html?id=${quizId}" class="start-btn">START</a>`;
+        
+        if (type === "paid" && !isPaidUser) {
+            // User is NOT paid: Hide your Start button and show Unlock button
+            actionArea.innerHTML = `<a href="/premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
         }
+        // If test is Free OR User is Paid, we don't change anything. 
+        // Your manual Start button stays exactly as you wrote it in HTML.
     });
 }
-
+  
 // Keep your existing filters but call status check
 let selectedYear = "";
 
