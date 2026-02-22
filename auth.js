@@ -44,6 +44,7 @@ async function initAuth() {
         
         const username = profile ? profile.username : "User";
         const isPaid = profile ? profile.is_paid : false;
+        const isAdmin = profile ? profile.role === 'admin' : false; // Added Admin Role Check
         const expiryDate = profile && profile.expires_at ? new Date(profile.expires_at) : null;
         
         let daysLeft = 0;
@@ -53,9 +54,13 @@ async function initAuth() {
 
         const badge = isPaid ? `<span class="badge premium">PRO</span>` : `<span class="badge free">FREE</span>`;
         const buyBtn = !isPaid ? `<a href="/buy-premium.html" class="buy-btn">🚀 Buy Premium</a>` : '';
+        
+        // Added Admin Panel Button if user is Admin
+        const adminBtn = isAdmin ? `<a href="/admin-vault.html" class="admin-btn">🛠️ Admin</a>` : '';
 
         authStatus.innerHTML = `
             <div class="top-nav-items">
+                ${adminBtn}
                 ${buyBtn}
                 <div class="profile-container">
                     <button class="profile-trigger" onclick="toggleDropdown()">👤 ${username} ${badge}</button>
@@ -65,6 +70,7 @@ async function initAuth() {
                         <hr style="border:0; border-top:1px solid #ffffff22; margin:10px 0;">
                         <p>Status: <b>${isPaid ? 'Premium ✅' : 'Free ❌'}</b></p>
                         ${isPaid ? `<p>Access: <b>${daysLeft} Days Left</b></p>` : ''}
+                        ${isAdmin ? `<p style="color:#ffd700;">Role: <b>Admin 👑</b></p>` : ''}
                         <button onclick="handleChangePassword()" style="width:100%; background: #2563eb; color:white; border:none; padding:8px; border-radius:6px; cursor:pointer; margin-bottom:8px; font-weight:bold;">Change Password</button>
                         <button onclick="handleLogout()" class="logout-btn">Logout Manually</button>
                     </div>
@@ -207,6 +213,15 @@ function setupTopBarStyles() {
             box-shadow: 0 4px 10px rgba(34, 197, 94, 0.2);
         }
 
+        /* Added Admin Button Style */
+        .admin-btn {
+            background: #1e293b;
+            color: white !important; padding: 8px 14px; border-radius: 8px;
+            font-weight: 700; text-decoration: none; font-size: 12px;
+            white-space: nowrap;
+            border: 1px solid #475569;
+        }
+
         .profile-trigger { 
             background: white; border: 1px solid #cbd5e1; padding: 6px 12px; 
             border-radius: 10px; cursor: pointer; font-weight: 600;
@@ -216,12 +231,21 @@ function setupTopBarStyles() {
 
         .dropdown-content { 
             display: none; position: absolute; right: 5%; top: 65px; 
-            background: white; border: 1px solid #e2e8f0; padding: 15px; 
+            background: #1e3a8a; border: 1px solid #e2e8f0; padding: 15px; 
             border-radius: 12px; width: 240px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            z-index: 10000;
         }
 
+        .dropdown-content p { margin: 8px 0; font-size: 13px; color: #cbd5e1; word-break: break-all; }
+        .dropdown-content strong { color: white; display: block; font-size: 11px; text-transform: uppercase; opacity: 0.7; }
         .dropdown-content.show { display: block; }
+
+        .logout-btn { 
+            background: #ef4444; color: white; border: none; padding: 10px; 
+            border-radius: 8px; width: 100%; cursor: pointer; font-weight: 700; 
+            margin-top: 10px;
+        }
 
         .top-login-btn {
             background: #2563eb; color: white !important; padding: 8px 16px;
@@ -233,20 +257,14 @@ function setupTopBarStyles() {
         @media (max-width: 600px) {
             .fixed-top-bar { height: 60px; padding: 0 3%; }
             body { padding-top: 60px; }
-            
             .brand-logo-wrapper { width: 28px; height: 28px; }
-            
-            .brand-name { font-size: 15px; }
-            .brand-hub { font-size: 11px; padding: 1px 4px; }
-            
-            .top-nav-items { gap: 8px; }
-            
-            .buy-btn { padding: 6px 10px; font-size: 11px; }
-            
-            .profile-trigger { padding: 5px 8px; font-size: 11px; }
-            .profile-trigger span { display: none; } /* Hides "👤" icon on small mobile to save space */
-            
-            .top-login-btn { padding: 6px 12px; font-size: 11px; }
+            .brand-name { font-size: 14px; }
+            .brand-hub { font-size: 10px; padding: 1px 4px; }
+            .top-nav-items { gap: 6px; }
+            .buy-btn, .admin-btn { padding: 6px 8px; font-size: 10px; }
+            .profile-trigger { padding: 5px 6px; font-size: 10px; }
+            .profile-trigger span { display: none; }
+            .top-login-btn { padding: 6px 10px; font-size: 10px; }
         }
     `;
     document.head.appendChild(style);
