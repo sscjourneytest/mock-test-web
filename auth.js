@@ -28,7 +28,8 @@ async function initAuth() {
         if (isHomePage && (!profile || profile.is_paid === false)) {
             const { data: fresh } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
             if (fresh && fresh.is_paid === true) {
-                profile = fresh;
+                // Change 1: Merge email during auto-sync
+                profile = { ...fresh, email: user.email };
                 saveLocalProfile(profile);
             }
         }
@@ -37,7 +38,8 @@ async function initAuth() {
         if (!profile || isCacheExpired()) {
             const { data: dbProfile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
             if (dbProfile) {
-                profile = dbProfile;
+                // Change 2: Merge email during initial fetch
+                profile = { ...dbProfile, email: user.email };
                 saveLocalProfile(profile);
             }
         }
@@ -99,7 +101,14 @@ function getLocalProfile() {
     if (!raw) return null;
     try {
         const decrypted = atob(raw).replace(SECRET_SALT, '');
-        return JSON.parse(decrypted);
+        const data = JSON.parse(decrypted);
+        // Change 3: Return a safe object with default values if fields are missing
+        return {
+            username: "User",
+            email: "",
+            is_paid: false,
+            ...data
+        };
     } catch (e) { return null; }
 }
 
