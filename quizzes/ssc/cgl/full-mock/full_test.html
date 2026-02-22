@@ -1164,7 +1164,12 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
         <option value="hi">हिन्दी</option>
         <option value="bilingual">EN+HI</option>
       </select>
-      <div id="topActions" class="top-actions"></div>
+     <div id="topActions" class="top-actions">
+    <button class="btn-prev btn-ghost">Previous</button>
+    <button class="btn-clear btn-ghost">Clear</button>
+    <button class="btn-mark btn-ghost">Mark for Review</button>
+    <button class="btn-next btn">Save & Next</button>
+</div>
       <div class="timer-text" id="timer">00:00</div>
       <button id="submitBtn" class="btn">Submit</button>
       <button id="paletteBtn" class="btn-ghost">View</button>
@@ -2911,6 +2916,7 @@ if (stateSaved) {
   highlightPalette();
   attachListeners();
   renderMath();
+  attachListeners();
 }
 
 // 🚦 START BUTTON LISTENER
@@ -2968,6 +2974,14 @@ document.addEventListener("DOMContentLoaded", function () {
 // ===============================
 
 async function loadQuizData() {
+  // 1. Get profile IMMEDIATELY so USER_EMAIL_KEY is ready
+  const profile = getLocalProfile();
+  if (profile) {
+      USER_DISPLAY_NAME = profiles.username || profiles.name || "User";
+      USER_EMAIL_KEY = profile.email.replace(/\./g, ','); 
+  }
+
+
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
 
@@ -3009,10 +3023,7 @@ async function loadQuizData() {
     CORRECT_SCORE = data.meta.correct_score;
     NEGATIVE_SCORE = data.meta.negative_score;
     TOTAL_TIME_SECONDS = data.meta.timer_seconds;
-       // 3. Set Derived Keys
-   QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
-QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
-
+      
     // Set initial seconds
     seconds = data.meta.timer_seconds;
 
@@ -3021,6 +3032,11 @@ QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
     SECTION_NAMES = Object.keys(SECTIONS);
     // FIX: Initialize QUESTIONS immediately so renderQuestion doesn't crash on reload
     QUESTIONS = SECTIONS[SECTION_NAMES[0]]; 
+
+     // 3. Set Derived Keys
+QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+
 
  
     // 4. Build Section Buttons (Modified to show PART A, PART B...)
