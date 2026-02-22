@@ -2164,7 +2164,7 @@ async function refreshLatestRankOnDemand(btn) {
     
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     
-    const data = await response.json();
+   const freshData = await response.json();
 
   
     
@@ -2201,6 +2201,10 @@ async function refreshLatestRankOnDemand(btn) {
       newTotalMarks += sScore; newMaxTotalMarks += sMax;
     });
 
+    const firebaseUserKey = USER_EMAIL_KEY || getLocalProfile()?.username || "Guest_User";
+await db.ref("quiz_results/" + QUIZ_ID + "/" + firebaseUserKey).update(fbUpdate);
+await db.ref("attempt_history/" + QUIZ_ID + "/" + firebaseUserKey + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
+
     // 3. Firebase Sync: Update BOTH results and history so rank remains accurate
     const fbUpdate = {
       score: newTotalMarks,
@@ -2209,9 +2213,6 @@ async function refreshLatestRankOnDemand(btn) {
       sections: newSectionalData
     };
 
-    // Change these lines:
-await db.ref("quiz_results/" + QUIZ_ID + "/" + USER_EMAIL_KEY).update(fbUpdate);
-await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
 
     // Define payload with updated values for UI rendering
     const payload = {
@@ -2974,14 +2975,19 @@ document.addEventListener("DOMContentLoaded", function () {
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
 
-
 async function loadQuizData() {
   const profile = getLocalProfile();
-  if (profile) {
-      // Change 'profiles' to 'profile' and add fallbacks
-      USER_DISPLAY_NAME = profile.username || profile.name || "Guest";
-      USER_EMAIL_KEY = (profile.email || "guest").replace(/\./g, ','); 
+  
+  // Logic: Set the keys first. Security check happens during fetch below.
+  if (profile && profile.username) {
+      USER_DISPLAY_NAME = profile.username;
+      USER_EMAIL_KEY = profile.username; // Use Username as Firebase Folder Key
+  } else {
+      USER_DISPLAY_NAME = "Guest";
+      USER_EMAIL_KEY = "Guest_User"; 
   }
+  
+
   // ... rest of the code
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
