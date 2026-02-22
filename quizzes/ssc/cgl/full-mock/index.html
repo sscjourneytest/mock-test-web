@@ -12,6 +12,11 @@
   gtag('config', 'G-4B6V3MV51Q');
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/auth.js"></script>
+
+<style>
+/* ... (All your existing CSS remains the same) ... */
 <style>
 body{
   margin:0;
@@ -241,6 +246,45 @@ footer {
   margin: 0 10px;
   font-size: 13px;
 }
+/* NEW PREMIUM STYLES */
+header { padding-top: 90px !important; } /* Spacing for fixed top bar */
+
+.quiz-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-left: 8px;
+}
+.badge-free { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+.badge-paid { background: #ffd700; color: #000; box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3); }
+
+.unlock-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.unlock-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+}
+
+.start-btn { display: inline-block; } /* Overriding display for logic */
+
+@media (max-width: 600px) {
+    .quiz { flex-direction: column; align-items: flex-start; }
+    .start-btn, .unlock-btn { width: 100%; text-align: center; }
+}
 </style>
 </head>
 
@@ -251,16 +295,15 @@ footer {
   <h1>FULL MOCK TESTS</h1>
 
   <div class="join">
-  <a class="telegram" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">JOIN TELEGRAM</a>
-  <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
+    <a class="telegram" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">JOIN TELEGRAM</a>
+    <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   
-  <div class="support-container">
-    <a class="support-btn" href="https://t.me/MOCK_ISSUE_DOUBT_BOT">
-      <span class="icon">🤖</span> MESSAGE FOR MOCK RELATED ISSUE
-    </a>
+    <div class="support-container">
+      <a class="support-btn" href="https://t.me/MOCK_ISSUE_DOUBT_BOT">
+        <span class="icon">🤖</span> MESSAGE FOR MOCK RELATED ISSUE
+      </a>
+    </div>
   </div>
-  </div>
-  
 </header>
 
 <div class="container">
@@ -280,22 +323,25 @@ footer {
 </div>
 
 <div class="grid" id="quizGrid">
-<!--
-<div class="quiz">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 12 SEP SHIFT 3 ( HARDEST SHIFT)</div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
+
+    <div class="quiz" data-type="paid">
+        <div class="quiz-left">
+          <div class="quiz-title">CGL 18 SEPT 2025 SHIFT 3 (HARDEST SHIFT) <span class="quiz-badge badge-paid">PAID</span></div>
+          <div class="quiz-info">100 Questions • 60 Min</div>
+        </div>
+        <div class="action-area">
+            </div>
     </div>
-    <a href="full_test.html?id=cgl-25-12-sep-s3-full" class="start-btn">START</a>
-</div>
- -->
-<div class="quiz">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 18 SEPT 2025 SHIFT 3 (HARDEST SHIFT)</div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
+
+    <div class="quiz" data-type="free">
+        <div class="quiz-left">
+          <div class="quiz-title">CGL 2024 PREVIOUS YEAR PAPER <span class="quiz-badge badge-free">FREE</span></div>
+          <div class="quiz-info">100 Questions • 60 Min</div>
+        </div>
+        <div class="action-area">
+            <a href="full_test.html?id=cgl_24_pyq" class="start-btn">START</a>
+        </div>
     </div>
-    <a href="full_test.html?id=cgl_25_18_sept_s3" class="start-btn">START</a>
-</div>
 
   </div>
 </div>
@@ -311,12 +357,39 @@ footer {
 </footer>
 
 <script>
+// Use your auth.js logic to check status
+function checkPremiumStatus() {
+    const profile = getLocalProfile(); // From your auth.js
+    const isPaid = profile ? profile.is_paid : false;
+    
+    const quizzes = document.querySelectorAll(".quiz");
+    
+    quizzes.forEach(quiz => {
+        const type = quiz.getAttribute("data-type");
+        const actionArea = quiz.querySelector(".action-area");
+        const quizId = quiz.querySelector(".quiz-title").innerText.toLowerCase().replace(/ /g, "_").split("\n")[0];
+
+        if (type === "paid") {
+            if (isPaid) {
+                // If user is paid, show Start button
+                actionArea.innerHTML = `<a href="full_test.html?id=${quizId}" class="start-btn">START</a>`;
+            } else {
+                // If user is free, show Unlock button
+                actionArea.innerHTML = `<a href="/premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
+            }
+        } else {
+            // Free tests always show start
+            actionArea.innerHTML = `<a href="full_test.html?id=${quizId}" class="start-btn">START</a>`;
+        }
+    });
+}
+
+// Keep your existing filters but call status check
 let selectedYear = "";
 
 function clearAll(btn){
   selectedYear = "";
-  document.querySelectorAll(".filter-btn")
-    .forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
   btn.classList.add("active");
   applyFilters();
 }
@@ -327,8 +400,7 @@ function toggleYear(year, btn){
     btn.classList.remove("active");
   }else{
     selectedYear = year;
-    btn.parentElement.querySelectorAll(".filter-btn")
-      .forEach(b=>b.classList.remove("active"));
+    btn.parentElement.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
   }
   applyFilters();
@@ -352,7 +424,6 @@ function applyFilters(){
     }
   });
 
-  // Toggle Coming Soon logic based on content
   const msg = document.getElementById("comingSoonMsg");
   if(quizzes.length === 0 || found === 0) {
       msg.style.display = "block";
@@ -361,9 +432,13 @@ function applyFilters(){
   }
 }
 
-// Initial run to check for empty grid
-applyFilters();
+// IMPORTANT: Run status check on load
+document.addEventListener('DOMContentLoaded', () => {
+    checkPremiumStatus();
+    applyFilters();
+});
 </script>
 
 </body>
 </html>
+
