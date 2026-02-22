@@ -1573,16 +1573,7 @@ function updateNavButtons() {
 // 🚀 SUBMIT & ANALYSIS ENGINE
 // ===============================
 function submitQuiz(isAuto = false) {
-  const nameInput = document.getElementById("studentName");
-  const studentNameValue = nameInput ? nameInput.value.trim() : "";
-
-  if (!studentNameValue || studentNameValue.toLowerCase() === "student" || studentNameValue === "") {
-    alert("Please enter your full name to submit quiz");
-    el("nameContainer").style.display = "block";
-    nameInput?.focus();
-    return;
-  }
-
+  
   // 2. 🛑 Stop Timer & Hide Quiz UI
   if (timerInterval) clearInterval(timerInterval);
   const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
@@ -1646,14 +1637,14 @@ function submitQuiz(isAuto = false) {
 
   // 4. 📦 Prepare Data Payload
   const firebasePayload = {
-    name: studentNameValue,
+    name: USER_DISPLAY_NAME, // Unique username from Auth
     score: totalMarks,
     total: maxTotalMarks,
     correct: totalCorrect,
     wrong: totalWrong,
     timeTaken: timeTakenSeconds,
     quizId: QUIZ_ID,
-    deviceId: DEVICE_ID,
+    emailKey: USER_EMAIL_KEY, // Replaces deviceId
     submittedAt: Date.now(),
     sections: sectionalDataForFirebase 
   };
@@ -1875,17 +1866,7 @@ function autoSubmitQuiz() {
 
   clearInterval(timerInterval);
 
-  // 🔐 ENSURE NAME EXISTS
-  let name = document.getElementById("studentName")?.value?.trim();
-
-  if (!name) {
-    name = "Anonymous";
-    localStorage.setItem("ssc_quiz_name", name);
-
-    const nameInput = document.getElementById("studentName");
-    if (nameInput) nameInput.value = name;
-  }
-
+ 
   isQuiz = false;
 
   // Inform user (optional)
@@ -1898,21 +1879,21 @@ function autoSubmitQuiz() {
 // 📊 FIREBASE & DATA FUNCTIONS
 // ===============================
 
-// 1. Save Result (Admin - First Attempt Only)
+
+// 1. Save Result (uses email as unique folder)
 function saveResultFirebase(payload) {
-  const ref = db.ref("quiz_results/" + payload.quizId + "/" + payload.deviceId);
+  const ref = db.ref("quiz_results/" + payload.quizId + "/" + USER_EMAIL_KEY);
   return ref.once("value").then(snap => {
-    if (snap.exists()) return false; // Don't overwrite first attempt
+    if (snap.exists()) return false; 
     return ref.set(payload);
   });
 }
 
-// 2. Save History (All Attempts)
+// 2. Save History
 function saveAttemptHistory(payload) {
-  const ref = db.ref("attempt_history/" + payload.quizId + "/" + payload.deviceId + "/" + payload.submittedAt);
+  const ref = db.ref("attempt_history/" + payload.quizId + "/" + USER_EMAIL_KEY + "/" + payload.submittedAt);
   return ref.set(payload);
 }
-
 // 3. Calculate Rank & Percentile (Enhanced for Sectional Support)
 function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
   return db.ref("attempt_history/" + quizId).once("value").then(snapshot => {
