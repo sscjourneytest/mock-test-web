@@ -9,12 +9,12 @@ async function initAuth() {
     const { data: { user } } = await _supabase.auth.getUser();
     const path = window.location.pathname;
     
-    // Fix for Cloudflare "Pretty URLs"
+    // Fix for Cloudflare "Pretty URLs" (Preserved as requested)
     const isLoginPage = path.endsWith("login.html") || path.endsWith("/login");
     const isHomePage = path === "/" || path.endsWith("index.html") || path.endsWith("/index");
     const isPublicPage = isLoginPage || isHomePage;
 
-    // Inject the Fixed Top Bar Styles
+    // Inject Fixed Top Bar Styles
     setupTopBarStyles();
 
     const authStatus = document.getElementById('auth-status');
@@ -23,10 +23,18 @@ async function initAuth() {
     if (user) {
         // --- USER LOGGED IN ---
         let profile = getLocalProfile();
+
+        // THE AUTO-SYNC: If user is at Home and local cache says "Free", check if status updated to "Paid"
+        if (isHomePage && (!profile || profile.is_paid === false)) {
+            const { data: fresh } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+            if (fresh && fresh.is_paid === true) {
+                profile = fresh;
+                saveLocalProfile(profile);
+            }
+        }
         
-        // Check if cache is missing or older than 24 hours
+        // 24-HOUR CACHE LOGIC: Fetch if missing or older than 24h
         if (!profile || isCacheExpired()) {
-            // Fetch all profile fields (is_paid, expires_at, etc.)
             const { data: dbProfile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
             if (dbProfile) {
                 profile = dbProfile;
@@ -38,13 +46,11 @@ async function initAuth() {
         const isPaid = profile ? profile.is_paid : false;
         const expiryDate = profile && profile.expires_at ? new Date(profile.expires_at) : null;
         
-        // Days remaining logic
         let daysLeft = 0;
         if (expiryDate) {
             daysLeft = Math.ceil((expiryDate - new Date()) / (1000 * 60 * 60 * 24));
         }
 
-        // Badges and Buy Button
         const badge = isPaid ? `<span class="badge premium">PRO</span>` : `<span class="badge free">FREE</span>`;
         const buyBtn = !isPaid ? `<a href="/buy-premium.html" class="buy-btn">🚀 Buy Premium</a>` : '';
 
@@ -70,24 +76,18 @@ async function initAuth() {
     } else {
         // --- USER NOT LOGGED IN ---
         authStatus.innerHTML = `<a href="/login.html" class="top-login-btn">Login / Sign Up</a>`;
-        
-        if (!isPublicPage) {
-            window.location.href = "/login.html";
-        }
+        if (!isPublicPage) window.location.href = "/login.html";
     }
 }
 
 // 1. SAVE DATA (24hr Logic)
 function saveLocalProfile(data) {
-    const payload = { 
-        ...data, 
-        cache_expiry: Date.now() + (24 * 60 * 60 * 1000) 
-    };
+    const payload = { ...data, cache_expiry: Date.now() + (24 * 60 * 60 * 1000) };
     const encrypted = btoa(JSON.stringify(payload) + SECRET_SALT);
     localStorage.setItem('u_vault', encrypted);
 }
 
-// 2. GET DATA
+// 2. GET DATA (Decrypted)
 function getLocalProfile() {
     const raw = localStorage.getItem('u_vault');
     if (!raw) return null;
@@ -99,25 +99,64 @@ function getLocalProfile() {
 
 // 3. EXPIRE CHECK
 function isCacheExpired() {
-    const profile = getLocalProfile();
-    if (!profile || !profile.cache_expiry) return true;
-    return Date.now() > profile.cache_expiry;
+    const p = getLocalProfile();
+    return !p || !p.cache_expiry || Date.now() > p.cache_expiry;
 }
 
-// 4. STICKY TOP BAR STYLE
+// 4. TOP BAR STYLES & BRANDING
 function setupTopBarStyles() {
     if (document.getElementById('auth-styles')) return;
+
+    // Create Fixed Header HTML
+    const header = document.createElement('header');
+    header.className = 'fixed-top-bar';
+    header.innerHTML = `
+        <div class="brand-name">MOCK MATRIX HUB</div>
+        <div id="auth-status"></div>
+    `;
+    document.body.prepend(header);
+
     const style = document.createElement('style');
     style.id = 'auth-styles';
     style.innerHTML = `
-        header, .top-bar { position: fixed; top: 0; left: 0; right: 0; background: #fff; height: 60px; z-index: 2000; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #eee; }
-        body { padding-top: 60px; }
-        .top-nav-items { display: flex; align-items: center; gap: 10px; }
-        .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; }
-        .premium { background: #ffd700; color: #000; font-weight:bold; }
-        .free { background: #eee; color: #666; }
-        .buy-btn { background: #2563eb; color: white !important; padding: 6px 12px; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 13px; }
-        .logout-btn { background: #dc3545; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; }
+        .fixed-top-bar {
+            position: fixed; top: 0; left: 0; right: 0; height: 65px;
+            background: white; border-bottom: 2px solid #f1f5f9;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 9999; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        body { padding-top: 65px; }
+        .brand-name {
+            font-size: 20px; font-weight: 800; color: #1e293b;
+            letter-spacing: -0.5px; font-family: 'Inter', sans-serif;
+        }
+        .top-nav-items { display: flex; align-items: center; gap: 15px; }
+        .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 800; }
+        .premium { background: #ffd700; color: #000; }
+        .free { background: #f1f5f9; color: #64748b; }
+        .buy-btn { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important; padding: 8px 16px; border-radius: 8px;
+            font-weight: 700; text-decoration: none; font-size: 13px;
+        }
+        .profile-trigger { 
+            background: white; border: 1px solid #e2e8f0; padding: 6px 14px; 
+            border-radius: 20px; cursor: pointer; font-weight: 600;
+        }
+        .dropdown-content { 
+            display: none; position: absolute; right: 5%; top: 60px; 
+            background: white; border: 1px solid #e2e8f0; padding: 15px; 
+            border-radius: 12px; width: 240px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+        }
+        .dropdown-content.show { display: block; }
+        .logout-btn { 
+            background: #fee2e2; color: #dc2626; border: none; padding: 10px; 
+            border-radius: 8px; width: 100%; cursor: pointer; font-weight: 700; 
+        }
+        .top-login-btn {
+            background: #1e293b; color: white !important; padding: 8px 20px;
+            border-radius: 8px; text-decoration: none; font-weight: 600;
+        }
     `;
     document.head.appendChild(style);
 }
@@ -145,7 +184,7 @@ window.onclick = function(event) {
 }
 
 async function handleLogout() {
-    localStorage.removeItem('u_vault'); // Wipe all cached profile data
+    localStorage.removeItem('u_vault'); // Erase entire profile cache
     await _supabase.auth.signOut();
     window.location.href = "/index.html";
 }
