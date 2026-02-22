@@ -16,7 +16,8 @@
   gtag('config', 'G-4B6V3MV51Q');
 </script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/auth.js"></script>
 <style>
 
 /* =========================================
@@ -2933,29 +2934,40 @@ document.addEventListener("DOMContentLoaded", function () {
 // ===============================
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
+
 async function loadQuizData() {
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
 
   if (!quizIdParam) {
-    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.<br><small>Example: ?id=Rajuhari</small>";
+    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
     return;
   }
 
   try {
-   // 1. Fetch JSON Data from Gatekeeper
+    // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
+    const { data: { session } } = await _supabase.auth.getSession();
+    const token = session ? session.access_token : null;
+
+    // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/cgl/full-mock"; // Must match your GitHub folder exactly
+    const GITHUB_PATH = "ssc/cgl/full-mock"; 
+
+    // --- 3. ADD AUTHORIZATION HEADER ---
+    const headers = { "Accept": "application/json" };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`; 
+    }
 
     const response = await fetch(`${GATEKEEPER_URL}?id=${quizIdParam}&path=${GITHUB_PATH}`, {
       method: 'GET',
-      headers: {
-        "Accept": "application/json"
-        // Note: No Authorization header needed yet for testing FREE folder files
-      }
+      headers: headers
     });
     
-    if (!response.ok) throw new Error("Quiz file not found (404)");
+    // Handle specific error codes from your Worker
+    if (response.status === 402) throw new Error("Upgrade Required: You need a Premium Plan for this test.");
+    if (response.status === 401) throw new Error("Invalid Session: Please log in again.");
+    if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     
     const data = await response.json();
 
