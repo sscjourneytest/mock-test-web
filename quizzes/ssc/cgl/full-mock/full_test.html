@@ -729,7 +729,7 @@ body.mode-solution .qbtn.current::before {
   /* 5. Hide Mobile "View" Toggle in Header */
   #paletteBtn { display: none !important; }
 }
-  }
+
 /* MOBILE LAYOUT */
 @media (max-width: 991px) {
   /* Palette is a popup overlay */
@@ -1213,13 +1213,11 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
   <div id="attemptReplay" class="results" style="display:none"></div>
 
 </div>
-
 <div class="fbar" id="floatBar" style="display:none;">
-  <button id="prevBtn">← Prev</button>
-  <button id="clearBtn">Clear</button>
+  <button id="prevBtn">Previous</button> <button id="clearBtn">Clear</button>
   <button id="markBtn">Mark for Review</button>
-  <button id="nextBtn">Next →</button>
-</div>
+  <button id="nextBtn">Save & Next</button> </div>
+
 
 <div id="submitModal" class="modal">
   <div class="modal-content">
@@ -3011,7 +3009,10 @@ async function loadQuizData() {
     CORRECT_SCORE = data.meta.correct_score;
     NEGATIVE_SCORE = data.meta.negative_score;
     TOTAL_TIME_SECONDS = data.meta.timer_seconds;
-    
+       // 3. Set Derived Keys
+   QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+
     // Set initial seconds
     seconds = data.meta.timer_seconds;
 
@@ -3021,10 +3022,7 @@ async function loadQuizData() {
     // FIX: Initialize QUESTIONS immediately so renderQuestion doesn't crash on reload
     QUESTIONS = SECTIONS[SECTION_NAMES[0]]; 
 
-    // 3. Set Derived Keys
-   QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
-QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
-
+ 
     // 4. Build Section Buttons (Modified to show PART A, PART B...)
     const nav = document.getElementById("sectionNav");
     if(nav) {
