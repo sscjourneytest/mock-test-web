@@ -103,8 +103,7 @@ function isCacheExpired() {
     return !p || !p.cache_expiry || Date.now() > p.cache_expiry;
 }
 
-
-// 4. TOP BAR STYLES & BRANDING (Premium & Professional Version)
+// 4. TOP BAR STYLES & BRANDING (Premium & Mobile-Optimized Version)
 function setupTopBarStyles() {
     if (document.getElementById('auth-styles')) return;
 
@@ -112,8 +111,13 @@ function setupTopBarStyles() {
     const header = document.createElement('header');
     header.className = 'fixed-top-bar';
     header.innerHTML = `
-        <div class="brand-name">
-            <span class="brand-icon">⚡</span> MOCK MATRIX <span class="brand-hub">HUB</span>
+        <div class="brand-container">
+            <div class="brand-logo-wrapper">
+                <img src="/logo.png" alt="Logo" class="top-bar-logo">
+            </div>
+            <div class="brand-name">
+                MOCK MATRIX <span class="brand-hub">HUB</span>
+            </div>
         </div>
         <div id="auth-status"></div>
     `;
@@ -126,120 +130,128 @@ function setupTopBarStyles() {
 
         .fixed-top-bar {
             position: fixed; top: 0; left: 0; right: 0; height: 70px;
-            background: rgba(255, 255, 255, 0.95);
+            /* Professional Light Blue-Grey Background */
+            background: rgba(241, 245, 249, 0.98); 
             backdrop-filter: blur(10px);
-            border-bottom: 2px solid #f1f5f9;
+            border-bottom: 2px solid #e2e8f0;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 5%; z-index: 9999; 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
         
         body { padding-top: 70px; }
 
-        .brand-name {
-            font-family: 'Poppins', sans-serif;
-            font-size: 22px;
-            font-weight: 800;
+        .brand-container {
             display: flex;
             align-items: center;
-            gap: 8px;
-            /* Professional Gradient Text */
-            background: linear-gradient(135deg, #2563eb 0%, #764ba2 100%);
+            gap: 10px;
+        }
+
+        .brand-logo-wrapper {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #2563eb;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-bar-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
-            cursor: pointer;
+            white-space: nowrap;
         }
 
         .brand-hub {
             background: #1e293b;
             color: white;
-            padding: 2px 8px;
-            border-radius: 6px;
+            padding: 2px 6px;
+            border-radius: 5px;
             -webkit-text-fill-color: white;
-            font-size: 16px;
-            margin-left: 2px;
+            font-size: 14px;
         }
 
-        .brand-icon {
-            -webkit-text-fill-color: initial; /* Keeps emoji color */
-            font-size: 24px;
-        }
-
-        .top-nav-items { display: flex; align-items: center; gap: 15px; }
+        .top-nav-items { display: flex; align-items: center; gap: 12px; }
 
         .badge { 
-            font-size: 10px; padding: 3px 8px; border-radius: 50px; 
+            font-size: 9px; padding: 2px 6px; border-radius: 50px; 
             font-weight: 800; text-transform: uppercase; 
         }
         
         .premium { 
             background: linear-gradient(90deg, #f59e0b, #d97706); 
             color: white; 
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
         }
         
-        .free { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+        .free { background: #cbd5e1; color: #1e293b; }
 
         .buy-btn { 
             background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
-            color: white !important; padding: 10px 20px; border-radius: 12px;
-            font-weight: 700; text-decoration: none; font-size: 13px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
-            display: flex; align-items: center; gap: 5px;
-        }
-
-        .buy-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(34, 197, 94, 0.4);
+            color: white !important; padding: 8px 14px; border-radius: 8px;
+            font-weight: 700; text-decoration: none; font-size: 12px;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(34, 197, 94, 0.2);
         }
 
         .profile-trigger { 
-            background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 16px; 
-            border-radius: 12px; cursor: pointer; font-weight: 600;
-            color: #1e293b; transition: all 0.2s;
-            display: flex; align-items: center; gap: 8px;
+            background: white; border: 1px solid #cbd5e1; padding: 6px 12px; 
+            border-radius: 10px; cursor: pointer; font-weight: 600;
+            color: #1e293b; font-size: 13px;
+            display: flex; align-items: center; gap: 5px;
         }
-
-        .profile-trigger:hover { background: white; border-color: #2563eb; }
 
         .dropdown-content { 
-            display: none; position: absolute; right: 5%; top: 75px; 
-            background: white; border: 1px solid #e2e8f0; padding: 20px; 
-            border-radius: 16px; width: 260px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            display: none; position: absolute; right: 5%; top: 65px; 
+            background: white; border: 1px solid #e2e8f0; padding: 15px; 
+            border-radius: 12px; width: 240px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
         }
 
         .dropdown-content.show { display: block; }
 
-        .logout-btn { 
-            background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; 
-            padding: 10px; border-radius: 10px; width: 100%; cursor: pointer; 
-            font-weight: 700; margin-top: 15px; transition: 0.2s;
-        }
-
-        .logout-btn:hover { background: #ffe4e6; }
-
         .top-login-btn {
-            background: #2563eb; color: white !important; padding: 10px 24px;
-            border-radius: 12px; text-decoration: none; font-weight: 700;
-            transition: 0.3s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            background: #2563eb; color: white !important; padding: 8px 16px;
+            border-radius: 10px; text-decoration: none; font-weight: 700;
+            font-size: 13px;
         }
 
-        .top-login-btn:hover {
-            background: #1e40af;
-            transform: translateY(-1px);
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 600px) {
+            .fixed-top-bar { height: 60px; padding: 0 3%; }
+            body { padding-top: 60px; }
+            
+            .brand-logo-wrapper { width: 28px; height: 28px; }
+            
+            .brand-name { font-size: 15px; }
+            .brand-hub { font-size: 11px; padding: 1px 4px; }
+            
+            .top-nav-items { gap: 8px; }
+            
+            .buy-btn { padding: 6px 10px; font-size: 11px; }
+            
+            .profile-trigger { padding: 5px 8px; font-size: 11px; }
+            .profile-trigger span { display: none; } /* Hides "👤" icon on small mobile to save space */
+            
+            .top-login-btn { padding: 6px 12px; font-size: 11px; }
         }
     `;
     document.head.appendChild(style);
 }
+
 function toggleDropdown() {
     const dropdown = document.getElementById('profile-dropdown');
     if (dropdown) dropdown.classList.toggle('show');
