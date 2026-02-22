@@ -658,16 +658,7 @@ body.mode-solution .qbtn.current::before {
     border-radius: 8px;
   }
 
-  /* ===============================
-     NAME CONTAINER ALIGNMENT
-     =============================== */
-
-  #nameContainer {
-    max-width: none;
-    margin-left: auto;
-    margin-right: 372px;  /* SAME as quiz-main-area */
-    padding: 0 16px;
-  }
+ 
 
   /* ===============================
      SECTION BUTTON ALIGNMENT
@@ -1171,11 +1162,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
   </div>
 </header>
 
-<div id="nameContainer">
-  <input type="text" id="studentName" placeholder="Enter Your Name (Required)"
-    style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px;"
-    oninput="localStorage.setItem('ssc_quiz_name', this.value)">
-</div>
+
 
 <div id="sectionNav" class="section-nav" style="display:none;"></div>
 <div class="container">
@@ -1579,7 +1566,7 @@ function submitQuiz(isAuto = false) {
   const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
 
   document.getElementById("mainHeader").style.display = "none";
-  document.getElementById("nameContainer").style.display = "none";
+ 
   if (el("sectionNav")) el("sectionNav").style.display = "none";
   document.getElementById("floatBar").style.display = "none";
   const quizArea = document.getElementById("quizMainArea");
@@ -1767,8 +1754,8 @@ sectionalTableHtml += `</table></div></div>`;
            </div>
            <div class="action-grid">
               <button class="btn-dash btn-outline" onclick="restoreLatestResult()">⬅ Back to Latest Result</button>
-              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts('${QUIZ_ID}', '${DEVICE_ID}')">📁 Previous Results</button>
-           </div>
+              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts(QUIZ_ID)">📁 Previous Results</button>
+              </div>
         </div>
 
         <div class="card-dashboard score-summary">
@@ -2187,8 +2174,9 @@ async function refreshLatestRankOnDemand(btn) {
       sections: newSectionalData
     };
 
-    await db.ref("quiz_results/" + QUIZ_ID + "/" + DEVICE_ID).update(fbUpdate);
-    await db.ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
+    // Change these lines:
+await db.ref("quiz_results/" + QUIZ_ID + "/" + USER_EMAIL_KEY).update(fbUpdate);
+await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
 
     // Define payload with updated values for UI rendering
     const payload = {
@@ -2365,7 +2353,7 @@ function formatTimeValues(container) {
 // ===============================
 
 // Load list of past attempts
-function loadPreviousAttempts(quizId, deviceId) {
+function loadPreviousAttempts(quizId) {
   const box = document.getElementById("previousAttempts");
   box.innerHTML = '<div style="text-align:center; padding:20px;">Loading history...</div>';
   box.style.display = "block";
@@ -2374,7 +2362,8 @@ function loadPreviousAttempts(quizId, deviceId) {
   document.getElementById("results").style.display = "none";
   document.getElementById("attemptReplay").style.display = "none";
 
-  db.ref("attempt_history/" + quizId + "/" + deviceId)
+  // USE THE GLOBAL USER_EMAIL_KEY
+  db.ref("attempt_history/" + quizId + "/" + USER_EMAIL_KEY)
     .once("value")
     .then(snapshot => {
       const data = snapshot.val();
@@ -2436,8 +2425,8 @@ function showAttempt(attempt) {
 
         <div class="card-dashboard">
            <div class="action-grid">
-              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts('${QUIZ_ID}', '${DEVICE_ID}')">⬅ Back to History</button>
-              <button class="btn-dash btn-outline" onclick="restoreLatestResult()">🏠 Latest Result</button>
+              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts(QUIZ_ID)">⬅ Back to History</button>
+                <button class="btn-dash btn-outline" onclick="restoreLatestResult()">🏠 Latest Result</button>
            </div>
         </div>
 
@@ -2785,9 +2774,7 @@ function updatePaletteLegend() {
   const userBox = el("headerUsername");
   if(userBox) userBox.textContent = USER_DISPLAY_NAME;
 
-  // 4. Hide Name Container (It's no longer needed)
-  if(el("nameContainer")) el("nameContainer").style.display = "none";
-
+ 
   // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
   const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
   if (resultSaved) {
