@@ -11,7 +11,7 @@
     gtag('js', new Date());
     gtag('config', 'G-4B6V3MV51Q');
   </script>
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/auth.js"></script>
   
   <style>
@@ -31,11 +31,11 @@
       line-height: 1.6;
     }
 
-    /* HEADER - Increased padding to prevent overlap */
+    /* HEADER - Adjusted padding to match Home Page logic (90px top) */
     header {
       background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
       color: white;
-      padding: 60px 20px 100px; /* Bottom padding increased to 100px */
+      padding: 90px 20px 100px; 
       text-align: center;
       border-bottom-left-radius: 40px;
       border-bottom-right-radius: 40px;
@@ -96,7 +96,7 @@
     /* CONTAINER - Adjusted margin for better vertical spacing */
     .container {
       max-width: 1100px;
-      margin: -60px auto 50px; /* Pulls cards up slightly but keeps them below text */
+      margin: -60px auto 50px; 
       padding: 0 20px;
       position: relative;
       z-index: 5;
@@ -171,7 +171,7 @@
 
     @media (max-width: 600px) {
       .exams { grid-template-columns: 1fr; }
-      header { padding-bottom: 120px; } /* Extra space for mobile stacked buttons */
+      header { padding-top: 80px; padding-bottom: 120px; } 
       .container { margin-top: -80px; }
       header h1 { font-size: 26px; }
     }
