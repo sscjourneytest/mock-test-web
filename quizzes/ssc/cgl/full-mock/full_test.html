@@ -807,6 +807,17 @@ body.mode-solution .qbtn.current::before {
 
 }
 
+@media (min-width: 992px) {
+  /* ... existing code ... */
+
+  /* Make header buttons smaller */
+  .btn-sm {
+    padding: 6px 12px !important; /* Smaller padding */
+    font-size: 13px !important;    /* Smaller text */
+    min-width: auto !important;    /* Remove the 120px minimum width */
+  }
+}
+
 /* =========================================
    9. ANALYSIS DASHBOARD (From gem test.html)
    ========================================= */
@@ -1164,12 +1175,13 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
         <option value="hi">हिन्दी</option>
         <option value="bilingual">EN+HI</option>
       </select>
-     <div id="topActions" class="top-actions">
-    <button class="btn-prev btn-ghost">Previous</button>
-    <button class="btn-clear btn-ghost">Clear</button>
-    <button class="btn-mark btn-ghost">Mark for Review</button>
-    <button class="btn-next btn">Save & Next</button>
+    <div id="topActions" class="top-actions">
+    <button id="prevBtn" class="btn-prev btn-ghost btn-sm">Previous</button>
+    <button id="clearBtn" class="btn-clear btn-ghost btn-sm">Clear</button>
+    <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
+    <button id="nextBtn" class="btn-next btn btn-sm">Save & Next</button>
 </div>
+   
       <div class="timer-text" id="timer">00:00</div>
       <button id="submitBtn" class="btn">Submit</button>
       <button id="paletteBtn" class="btn-ghost">View</button>
@@ -2888,17 +2900,7 @@ if (stateSaved) {
     if (headerLangSelect) headerLangSelect.value = currentLang;
   }
 }
-// 3. SETUP UI
-  if (window.innerWidth >= 992) {
-    const topActions = document.getElementById("topActions");
-    // Only append if they aren't already there
-    if (topActions && topActions.children.length === 0) {
-        topActions.appendChild(el("prevBtn"));
-        topActions.appendChild(el("clearBtn"));
-        topActions.appendChild(el("markBtn"));
-        topActions.appendChild(el("nextBtn"));
-    }
-  }
+
 
   if (isQuiz && SECTION_NAMES.length > 0) {
       switchSection(currentSectionIdx);
