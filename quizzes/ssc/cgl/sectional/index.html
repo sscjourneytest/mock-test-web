@@ -323,6 +323,7 @@ footer {
 </footer>
 
 <script>
+
 // Logic to handle paid/free buttons WITHOUT changing your Quiz IDs
 function checkPremiumStatus() {
     const profile = getLocalProfile(); // From your auth.js cache
@@ -337,83 +338,98 @@ function checkPremiumStatus() {
             // User is NOT paid: Hide your Start button and show Unlock button
             actionArea.innerHTML = `<a href="/premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
         }
-        // If test is Free OR User is Paid, we don't change anything. 
-        // Your manual Start button stays exactly as you wrote it in HTML.
     });
 }
 
 let selectedYear = "";
 let selectedSubject = "";
 
-function clearAll(btn){
-  selectedYear = "";
-  selectedSubject = "";
-  document.querySelectorAll(".filter-btn")
-    .forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  applyFilters();
-}
-
-function toggleYear(year, btn){
-  if(selectedYear === year){
+function clearAll(btn) {
     selectedYear = "";
-    btn.classList.remove("active");
-  }else{
-    selectedYear = year;
-    clearRow(btn);
-    btn.classList.add("active");
-  }
-  applyFilters();
-}
-
-function toggleSubject(subject, btn){
-  if(selectedSubject === subject){
     selectedSubject = "";
-    btn.classList.remove("active");
-  }else{
-    selectedSubject = subject;
-    clearRow(btn);
+    // Remove "active" class from every single filter button in both rows
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    // Set the "ALL" button to active
     btn.classList.add("active");
-  }
-  applyFilters();
-}
-
-function clearRow(btn){
-  btn.parentElement.querySelectorAll(".filter-btn")
-    .forEach(b=>b.classList.remove("active"));
-}
-
-function applyFilters(){
-  const search = document.getElementById("searchBox").value.toLowerCase();
-  const quizzes = document.querySelectorAll(".quiz");
-  let found = 0;
-
-  quizzes.forEach(q=>{
-    const text = q.innerText.toLowerCase();
-    const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
-    const sOk = !selectedSubject || text.includes(selectedSubject.toLowerCase());
-    const searchOk = !search || text.includes(search);
-    
-    if(yOk && sOk && searchOk) {
-        q.style.display = "flex";
-        found++;
-    } else {
-        q.style.display = "none";
-    }
-  });
-
-  // Toggle Coming Soon message based on results
-  const msg = document.getElementById("comingSoonMsg");
-  if(quizzes.length === 0 || found === 0) {
-      msg.style.display = "block";
-  } else {
-      msg.style.display = "none";
-  }
-}
-document.addEventListener('DOMContentLoaded', () => {
-    checkPremiumStatus(); // Runs first to set buttons
     applyFilters();
+}
+
+function toggleYear(year, btn) {
+    // If clicking the already active year, turn it off
+    if (selectedYear === year) {
+        selectedYear = "";
+        btn.classList.remove("active");
+    } else {
+        selectedYear = year;
+        // Only clear the buttons in the Year row
+        btn.parentElement.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+    }
+    updateAllBtnState();
+    applyFilters();
+}
+
+function toggleSubject(subject, btn) {
+    // If clicking the already active subject, turn it off
+    if (selectedSubject === subject) {
+        selectedSubject = "";
+        btn.classList.remove("active");
+    } else {
+        selectedSubject = subject;
+        // Only clear the buttons in the Subject row
+        btn.parentElement.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+    }
+    updateAllBtnState();
+    applyFilters();
+}
+
+// Logic to handle the "ALL" button highlighting
+function updateAllBtnState() {
+    const allBtn = document.querySelector('button[onclick*="clearAll"]');
+    if (selectedYear === "" && selectedSubject === "") {
+        allBtn.classList.add("active");
+    } else {
+        allBtn.classList.remove("active");
+    }
+}
+
+function applyFilters() {
+    const search = document.getElementById("searchBox").value.toLowerCase();
+    const quizzes = document.querySelectorAll(".quiz");
+    let found = 0;
+
+    quizzes.forEach(q => {
+        // We look at the entire card text for matches
+        const text = q.innerText.toLowerCase();
+        
+        const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
+        const sOk = !selectedSubject || text.includes(selectedSubject.toLowerCase());
+        const searchOk = !search || text.includes(search);
+        
+        // Apply independent filters together
+        if (yOk && sOk && searchOk) {
+            q.style.display = "flex";
+            found++;
+        } else {
+            q.style.display = "none";
+        }
+    });
+
+    // Handle "Coming Soon" message visibility
+    const msg = document.getElementById("comingSoonMsg");
+    if (found === 0) {
+        msg.style.display = "block";
+    } else {
+        msg.style.display = "none";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    checkPremiumStatus(); // Sets buttons based on user status
+    applyFilters();       // Initial filter run
 });
 
+</script>
 </body>
 </html>
