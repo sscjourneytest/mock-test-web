@@ -11,7 +11,8 @@
   gtag('js', new Date());
   gtag('config', 'G-4B6V3MV51Q');
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/auth.js"></script>
 <style>
 body{
   margin:0;
@@ -27,8 +28,8 @@ header{
   position:relative;
   text-align:center;
   color:#fff;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
 }
 
@@ -64,51 +65,7 @@ header{
 .telegram{background:#0088cc;}
 .whatsapp{background:#25d366;}
 .join a:hover { transform: translateY(-2px); filter: brightness(1.1); }
-/* Support Button Styling */
-.support-container {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-}
 
-.support-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  padding: 12px 24px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.5px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  animation: pulse-border 3s infinite;
-}
-
-.support-btn:hover {
-  background: #ffffff;
-  color: #1e3a8a;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  border-color: #ffffff;
-}
-
-.support-btn .icon {
-  font-size: 16px;
-}
-
-/* Subtle attention-grabbing animation */
-@keyframes pulse-border {
-  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-}
-  
 /* FILTERS */
 .filters{
   margin-top:25px;
@@ -157,7 +114,20 @@ header{
   font-size:15px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   outline: none;
+  /* ADD THIS LINE: It keeps padding INSIDE the width */
+  box-sizing: border-box; 
 }
+
+/* Update your Mobile Media Query at the bottom */
+@media (max-width: 600px) {
+    #searchBox {
+        width: 95%; /* Give a little breathing room on the sides */
+        margin-bottom: 20px;
+    }
+    .hero { padding-top: 80px; padding-bottom: 40px; }
+    .container { padding: 0 10px; } /* Reduce container padding for more space */
+}
+
 #searchBox:focus{
   border-color:#3b82f6;
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
@@ -243,6 +213,43 @@ footer {
   margin: 0 10px;
   font-size: 13px;
 }
+
+  .quiz-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-left: 8px;
+}
+.badge-free { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+.badge-paid { background: #ffd700; color: #000; box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3); }
+
+.unlock-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.unlock-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+}
+
+.start-btn { display: inline-block; } /* Overriding display for logic */
+
+@media (max-width: 600px) {
+    .quiz { flex-direction: column; align-items: flex-start; }
+    .start-btn, .unlock-btn { width: 100%; text-align: center; }
+}
 </style>
 </head>
 
@@ -253,17 +260,9 @@ footer {
   <h1>SUBJECT WISE MOCK TESTS</h1>
 
   <div class="join">
-  <a class="telegram" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">JOIN TELEGRAM</a>
-  <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
-  
-  <div class="support-container">
-    <a class="support-btn" href="https://t.me/MOCK_ISSUE_DOUBT_BOT">
-      <span class="icon">🤖</span> MESSAGE FOR MOCK RELATED ISSUE
-    </a>
+    <a class="telegram" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">JOIN TELEGRAM</a>
+    <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   </div>
-  </div>
-  
-
 </header>
 
 <div class="container">
@@ -285,31 +284,14 @@ footer {
 </div>
 
 <div class="coming-soon" id="comingSoonMsg">
-  🚀 SUBJECT WISE MOCK TESTS COMING SOON
+  🚀 SECTIONAL MOCK TESTS COMING SOON
 </div>
+<div class="grid" id="quizGrid">
 
-  <div class="grid" id="quizGrid">
-
-    <div class="quiz">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 ENGLISH - SPOTTING ERROR PYQ</div>
-      <div class="quiz-info">82 Questions • 45 Min</div>
-    </div>
-    <a href="test.html?id=cgl-25-eng-spot-error-pyq" class="start-btn">START</a>
-</div>
-
-    <div class="quiz">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 ENGLISH - SENTENCE IMPROVEMENT</div>
-      <div class="quiz-info">84 Questions • 50 Min</div>
-    </div>
-    <a href="test.html?id=cgl-25-eng-sentence-improve" class="start-btn">START</a>
-</div>
-
-
-
+   
   </div>
 </div>
+
 
 <footer>
     <div class="footer-links">
@@ -322,78 +304,113 @@ footer {
 </footer>
 
 <script>
+
+// Logic to handle paid/free buttons WITHOUT changing your Quiz IDs
+function checkPremiumStatus() {
+    const profile = getLocalProfile(); // From your auth.js cache
+    const isPaidUser = profile ? profile.is_paid : false;
+    const quizzes = document.querySelectorAll(".quiz");
+    
+    quizzes.forEach(quiz => {
+        const type = quiz.getAttribute("data-type");
+        const actionArea = quiz.querySelector(".action-area");
+        
+        if (type === "paid" && !isPaidUser) {
+            // User is NOT paid: Hide your Start button and show Unlock button
+            actionArea.innerHTML = `<a href="/premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
+        }
+    });
+}
+
 let selectedYear = "";
 let selectedSubject = "";
 
-function clearAll(btn){
-  selectedYear = "";
-  selectedSubject = "";
-  document.querySelectorAll(".filter-btn")
-    .forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  applyFilters();
-}
-
-function toggleYear(year, btn){
-  if(selectedYear === year){
+function clearAll(btn) {
     selectedYear = "";
-    btn.classList.remove("active");
-  }else{
-    selectedYear = year;
-    clearRow(btn);
-    btn.classList.add("active");
-  }
-  applyFilters();
-}
-
-function toggleSubject(subject, btn){
-  if(selectedSubject === subject){
     selectedSubject = "";
-    btn.classList.remove("active");
-  }else{
-    selectedSubject = subject;
-    clearRow(btn);
+    // Remove "active" class from every single filter button in both rows
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    // Set the "ALL" button to active
     btn.classList.add("active");
-  }
-  applyFilters();
+    applyFilters();
 }
 
-function clearRow(btn){
-  btn.parentElement.querySelectorAll(".filter-btn")
-    .forEach(b=>b.classList.remove("active"));
-}
-
-function applyFilters(){
-  const search = document.getElementById("searchBox").value.toLowerCase();
-  const quizzes = document.querySelectorAll(".quiz");
-  let found = 0;
-
-  quizzes.forEach(q=>{
-    const text = q.innerText.toLowerCase();
-    const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
-    const sOk = !selectedSubject || text.includes(selectedSubject.toLowerCase());
-    const searchOk = !search || text.includes(search);
-    
-    if(yOk && sOk && searchOk) {
-        q.style.display = "flex";
-        found++;
+function toggleYear(year, btn) {
+    // If clicking the already active year, turn it off
+    if (selectedYear === year) {
+        selectedYear = "";
+        btn.classList.remove("active");
     } else {
-        q.style.display = "none";
+        selectedYear = year;
+        // Only clear the buttons in the Year row
+        btn.parentElement.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
     }
-  });
-
-  // Toggle Coming Soon message based on results
-  const msg = document.getElementById("comingSoonMsg");
-  if(quizzes.length === 0 || found === 0) {
-      msg.style.display = "block";
-  } else {
-      msg.style.display = "none";
-  }
+    updateAllBtnState();
+    applyFilters();
 }
 
-// Initial check
-applyFilters();
-</script>
+function toggleSubject(subject, btn) {
+    // If clicking the already active subject, turn it off
+    if (selectedSubject === subject) {
+        selectedSubject = "";
+        btn.classList.remove("active");
+    } else {
+        selectedSubject = subject;
+        // Only clear the buttons in the Subject row
+        btn.parentElement.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+    }
+    updateAllBtnState();
+    applyFilters();
+}
 
+// Logic to handle the "ALL" button highlighting
+function updateAllBtnState() {
+    const allBtn = document.querySelector('button[onclick*="clearAll"]');
+    if (selectedYear === "" && selectedSubject === "") {
+        allBtn.classList.add("active");
+    } else {
+        allBtn.classList.remove("active");
+    }
+}
+
+function applyFilters() {
+    const search = document.getElementById("searchBox").value.toLowerCase();
+    const quizzes = document.querySelectorAll(".quiz");
+    let found = 0;
+
+    quizzes.forEach(q => {
+        // We look at the entire card text for matches
+        const text = q.innerText.toLowerCase();
+        
+        const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
+        const sOk = !selectedSubject || text.includes(selectedSubject.toLowerCase());
+        const searchOk = !search || text.includes(search);
+        
+        // Apply independent filters together
+        if (yOk && sOk && searchOk) {
+            q.style.display = "flex";
+            found++;
+        } else {
+            q.style.display = "none";
+        }
+    });
+
+    // Handle "Coming Soon" message visibility
+    const msg = document.getElementById("comingSoonMsg");
+    if (found === 0) {
+        msg.style.display = "block";
+    } else {
+        msg.style.display = "none";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    checkPremiumStatus(); // Sets buttons based on user status
+    applyFilters();       // Initial filter run
+});
+
+</script>
 </body>
 </html>
