@@ -2821,8 +2821,7 @@ function updatePaletteLegend() {
       el("mainHeader").style.display = "none";
       el("quizMainArea").style.display = "none";
       el("floatBar").style.display = "none";
-      if(el("studentName")) el("studentName").style.display = "none";
-
+     
                // Show Result
       const res = document.getElementById("results");
       res.innerHTML = data.resultHTML;
@@ -2889,21 +2888,20 @@ if (stateSaved) {
     if (headerLangSelect) headerLangSelect.value = currentLang;
   }
 }
-
-  // 3. SETUP UI
+// 3. SETUP UI
   if (window.innerWidth >= 992) {
-    // Move buttons to header for desktop
     const topActions = document.getElementById("topActions");
-    topActions.appendChild(el("prevBtn"));
-    topActions.appendChild(el("clearBtn"));
-    topActions.appendChild(el("markBtn"));
-    topActions.appendChild(el("nextBtn"));
+    // Only append if they aren't already there
+    if (topActions && topActions.children.length === 0) {
+        topActions.appendChild(el("prevBtn"));
+        topActions.appendChild(el("clearBtn"));
+        topActions.appendChild(el("markBtn"));
+        topActions.appendChild(el("nextBtn"));
+    }
   }
 
-  // UPDATED: Use switchSection to ensure palette and navigation buttons are synced correctly
   if (isQuiz && SECTION_NAMES.length > 0) {
       switchSection(currentSectionIdx);
-      // We manually set 'current' again because switchSection resets it to 0
       if (stateSaved) {
           const state = JSON.parse(stateSaved);
           current = state.current ?? 0;
@@ -2914,10 +2912,12 @@ if (stateSaved) {
   buildPalette();
   updatePaletteLegend();
   highlightPalette();
-  attachListeners();
   renderMath();
-  attachListeners();
+  
+  // 🔥 FINAL STEP: Attach listeners only ONCE at the very end
+  attachListeners(); 
 }
+
 
 // 🚦 START BUTTON LISTENER
 document.getElementById("welcomeStartBtn").addEventListener("click", function() {
@@ -2973,15 +2973,15 @@ document.addEventListener("DOMContentLoaded", function () {
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
 
+
 async function loadQuizData() {
-  // 1. Get profile IMMEDIATELY so USER_EMAIL_KEY is ready
   const profile = getLocalProfile();
   if (profile) {
-      USER_DISPLAY_NAME = profiles.username || profiles.name || "User";
-      USER_EMAIL_KEY = profile.email.replace(/\./g, ','); 
+      // Change 'profiles' to 'profile' and add fallbacks
+      USER_DISPLAY_NAME = profile.username || profile.name || "Guest";
+      USER_EMAIL_KEY = (profile.email || "guest").replace(/\./g, ','); 
   }
-
-
+  // ... rest of the code
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
 
@@ -3020,6 +3020,11 @@ async function loadQuizData() {
     // 2. Assign Global Variables
     QUIZ_TITLE = data.meta.title;
     QUIZ_ID = data.meta.id;
+      
+QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+
+
     CORRECT_SCORE = data.meta.correct_score;
     NEGATIVE_SCORE = data.meta.negative_score;
     TOTAL_TIME_SECONDS = data.meta.timer_seconds;
@@ -3032,10 +3037,6 @@ async function loadQuizData() {
     SECTION_NAMES = Object.keys(SECTIONS);
     // FIX: Initialize QUESTIONS immediately so renderQuestion doesn't crash on reload
     QUESTIONS = SECTIONS[SECTION_NAMES[0]]; 
-
-     // 3. Set Derived Keys
-QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
-QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
 
 
  
