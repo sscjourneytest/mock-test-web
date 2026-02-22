@@ -53,6 +53,23 @@ body {
 /* Allow text selection in inputs */
 input, textarea { user-select: text !important; }
 
+  /* Hide auth.js top bar only on this page */
+.fixed-top-bar { display: none !important; }
+body { padding-top: 0 !important; }
+
+/* Beautiful Username Box */
+.header-username-box {
+  background: rgba(11, 94, 215, 0.1);
+  color: var(--accent);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid rgba(11, 94, 215, 0.2);
+  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+}
 /* =========================================
    2. LAYOUT CONTAINERS
    ========================================= */
@@ -1137,6 +1154,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
     <div style="display:flex; align-items:center; gap:10px;">
       <button id="backToAnalysisBtn" class="btn-ghost" style="display:none;">⬅ Analysis</button>
       <h1 id="headerTitle">Loading...</h1>
+<div id="headerUsername" class="header-username-box">User</div>
     </div>
     
     <div style="display:flex; align-items:center; gap:10px;">
@@ -1218,12 +1236,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
 </div>
 
 <script>
-// 🔐 SAFE Device ID
-let DEVICE_ID = localStorage.getItem("ssc_quiz_device_id");
-if (!DEVICE_ID) {
-  DEVICE_ID = "dev-" + Date.now() + "-" + Math.random().toString(36).substring(2, 12);
-  localStorage.setItem("ssc_quiz_device_id", DEVICE_ID);
-}
+
 // 🔧 DYNAMIC CONFIGURATION
 let QUIZ_TITLE = "";
 let QUIZ_ID = "";
@@ -1232,6 +1245,9 @@ let QUIZ_RESULT_KEY = "";
 let CORRECT_SCORE = 2; // Default, will update
 let NEGATIVE_SCORE = 0.5; // Default, will update
 let TOTAL_TIME_SECONDS = 0;
+
+let USER_EMAIL_KEY = "";    // Used for Firebase paths (dots replaced with commas)
+let USER_DISPLAY_NAME = ""; // Used for display and 'name' field in DB
 
 
 // ⏱ VARIABLES
@@ -2768,7 +2784,29 @@ function updatePaletteLegend() {
 // 🚀 INITIALIZATION
 // ===============================
 
-function init(){
+
+  function init() {
+  // 1. Get User Data from Auth Cache
+  const profile = getLocalProfile(); // This is the function in your auth.js
+  
+  if (!profile) {
+      // If no profile, they aren't logged in. Redirect to login.
+      window.location.href = "/login.html";
+      return;
+  }
+
+  // 2. Set the global identifiers
+  USER_DISPLAY_NAME = profile.username;
+  // Firebase keys cannot have dots, so we change test@gmail.com to test@gmail,com
+  USER_EMAIL_KEY = profile.email.replace(/\./g, ','); 
+
+  // 3. Update UI
+  const userBox = el("headerUsername");
+  if(userBox) userBox.textContent = USER_DISPLAY_NAME;
+
+  // 4. Hide Name Container (It's no longer needed)
+  if(el("nameContainer")) el("nameContainer").style.display = "none";
+
   // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
   const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
   if (resultSaved) {
@@ -2988,8 +3026,8 @@ async function loadQuizData() {
     QUESTIONS = SECTIONS[SECTION_NAMES[0]]; 
 
     // 3. Set Derived Keys
-    QUIZ_STATE_KEY = "ssc_quiz_state_" + QUIZ_ID;
-    QUIZ_RESULT_KEY = "ssc_quiz_result_" + QUIZ_ID;
+   QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
 
     // 4. Build Section Buttons (Modified to show PART A, PART B...)
     const nav = document.getElementById("sectionNav");
