@@ -34,109 +34,16 @@
       line-height: 1.6;
     }
 
-    /* AUTH STATUS - TOP RIGHT POSITIONING */
-    #auth-status {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-    }
-
-    /* LOGIN BUTTON UI */
-    .top-login-btn {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      padding: 10px 22px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(8px);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    .top-login-btn:hover {
-      background: white;
-      color: var(--primary);
-      transform: translateY(-2px);
-    }
-
-    /* PROFILE PILL & DROPDOWN UI */
-    .profile-container { position: relative; display: inline-block; }
-
-    .profile-trigger {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 8px 18px;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: 600;
-      backdrop-filter: blur(8px);
-      transition: 0.3s;
-    }
-
-    .profile-trigger:hover { background: rgba(255, 255, 255, 0.3); }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      background: #1e3a8a; /* Theme matching dark blue */
-      min-width: 220px;
-      box-shadow: 0px 10px 30px rgba(0,0,0,0.4);
-      border-radius: 15px;
-      padding: 18px;
-      margin-top: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: left;
-    }
-
-    .dropdown-content p { 
-        margin: 8px 0; 
-        font-size: 13px; 
-        color: #cbd5e1; 
-        word-break: break-all;
-    }
-
-    .dropdown-content strong { color: white; display: block; font-size: 11px; text-transform: uppercase; opacity: 0.7; }
-
-    .dropdown-content.show { display: block; animation: fadeIn 0.2s ease-out; }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .logout-btn {
-      width: 100%;
-      background: #ef4444;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 12px;
-      font-weight: 700;
-      transition: 0.2s;
-    }
-
-    .logout-btn:hover { background: #dc2626; }
-
     /* HERO SECTION */
     .hero {
       background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
       color: white;
-      padding: 50px 20px;
+      /* Increased top padding to accommodate the new 65px sticky top bar */
+      padding: 90px 20px 50px; 
       text-align: center;
       border-bottom-left-radius: 40px;
       border-bottom-right-radius: 40px;
       box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
-      position: relative; /* Essential for absolute positioning of auth-status */
     }
 
     .logo-circle {
@@ -327,10 +234,8 @@
 
     /* MOBILE OPTIMIZATION */
     @media (max-width: 600px) {
-      #auth-status { top: 10px; right: 10px; }
-      .top-login-btn { padding: 8px 15px; font-size: 12px; }
       .hero h1 { font-size: 26px; }
-      .hero { padding: 40px 15px; }
+      .hero { padding: 80px 15px 40px; }
       .card { padding: 25px 15px; }
     }
   </style>
@@ -339,8 +244,6 @@
 <body>
 
   <div class="hero">
-    <div id="auth-status"></div>
-
     <div class="logo-circle">
       <img src="/logo.png" alt="MOCK MATRIX HUB LOGO">
     </div>
