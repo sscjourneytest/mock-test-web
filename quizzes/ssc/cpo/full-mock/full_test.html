@@ -16,7 +16,8 @@
   gtag('config', 'G-4B6V3MV51Q');
 </script>
 
-  
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/auth.js"></script>
 <style>
 
 /* =========================================
@@ -52,6 +53,23 @@ body {
 /* Allow text selection in inputs */
 input, textarea { user-select: text !important; }
 
+  /* Hide auth.js top bar only on this page */
+.fixed-top-bar { display: none !important; }
+body { padding-top: 0 !important; }
+
+/* Beautiful Username Box */
+.header-username-box {
+  background: rgba(11, 94, 215, 0.1);
+  color: var(--accent);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid rgba(11, 94, 215, 0.2);
+  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+}
 /* =========================================
    2. LAYOUT CONTAINERS
    ========================================= */
@@ -79,14 +97,15 @@ header {
   height: var(--header-height);
 }
 
+/* UPDATED: Title starts from exact left */
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 16px;
-  max-width: var(--max-width);
-  margin: auto;
+  padding: 0 16px 0 0; /* Remove left padding (Top Right Bottom Left) */
+  max-width: none;     /* Allow it to touch the edge on wide screens */
+  margin: 0;           /* Remove auto-centering margin */
 }
 
 h1 {
@@ -94,8 +113,16 @@ h1 {
   color: var(--accent);
   font-size: 18px;
   font-weight: 700;
+  padding-left: 10px; /* Small breathing room from the screen edge */
 }
 
+@media (min-width: 992px) {
+  /* Ensure the container doesn't force a center gap on very wide screens */
+  .header-inner {
+    max-width: none; 
+    width: 100%;
+  }
+}
 /* Timer Text */
 .timer-text {
   font-variant-numeric: tabular-nums;
@@ -112,32 +139,28 @@ h1 {
   display: none;
   gap: 8px;
 }
-
-/* Common Button Styles */
-.btn {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
+/* Updated to match image: Blue background, White text, Rounded corners */
+.btn, .btn-ghost {
+  background: #0b5ed7 !important; /* Solid Blue as per image */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important; /* Rounded corners */
+  padding: 10px 20px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700; /* Bold white text */
   cursor: pointer;
   transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
-.btn:hover { background: var(--accent-dark); }
 
-.btn-ghost {
-  background: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  padding: 7px 15px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
+.btn:hover, .btn-ghost:hover {
+  background: #094bc0 !important;
+  opacity: 0.9;
 }
-.btn-ghost:hover { background: #f0f6ff; }
+
 /* =========================================
    4. WELCOME SCREEN (Continuous Page Layout)
    ========================================= */
@@ -261,10 +284,11 @@ h1 {
   border-radius: 4px;
   padding: 0;
   margin-bottom: 20px;
+  overflow-y: scroll;
 
   /* 👇 separate scrollbar ALWAYS */
   max-height: calc(100vh - 140px);
-  overflow-y: scroll;
+  
 }
 
 /* =========================
@@ -322,10 +346,10 @@ h1 {
 
 
 
-
 /* Selected radio */
 .opt.selected .custom-radio::before {
   border-color: var(--accent);
+  
 }
 
 
@@ -336,6 +360,8 @@ h1 {
   display: block;        /* ✅ REQUIRED */
   line-height: 1.6;
 }
+
+
 /* Radio container MUST be positioning context */
 .custom-radio {
   position: relative;   /* 🔥 MOST IMPORTANT LINE */
@@ -376,6 +402,8 @@ h1 {
   background: #eef5ff;
 }
 
+
+
 /* Solution Explanation Box */
 .explanation {
   background: #f0f7ff;
@@ -395,7 +423,6 @@ h1 {
 /* Correct answer */
 body.mode-solution .opt.correct {
   background: #dff5e7;            /* deeper green tint */
-  
 }
 
 body.mode-solution .opt.correct .custom-radio::before {
@@ -406,12 +433,12 @@ body.mode-solution .opt.correct .custom-radio::before {
 /* Wrong selected answer */
 body.mode-solution .opt.wrong {
   background: #fde2e2;            /* deeper red tint */
-  }
+}
 body.mode-solution .opt.wrong .custom-radio::before {
   border-color: #dc3545;
   background: #dc3545;
 }
-  /* ===============================
+/* ===============================
    DESKTOP: RADIO ONLY SELECTION
    =============================== */
 @media (hover: hover) and (pointer: fine) {
@@ -553,7 +580,6 @@ body.mode-solution .qbtn.current::before {
   color: #ffeb3b;
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
-
 /* =========================================
    7. BOTTOM NAVIGATION BAR (Mobile)
    ========================================= */
@@ -571,23 +597,22 @@ body.mode-solution .qbtn.current::before {
   z-index: 900;
 }
 
+/* Force all bottom buttons to look like the blue image */
 .fbar button {
   flex: 1;
-  padding: 10px 4px;
+  padding: 12px 4px;
   font-size: 13px;
-  border-radius: 4px;
+  border-radius: 8px; /* Matching image */
+  background: #0b5ed7;
+  color: #fff;
+  border: none;
+  font-weight: 700;
 }
 
-/* Specific Button Colors */
-#prevBtn { background: #fff; color: #333; border: 1px solid #ccc; }
-#clearBtn { background: #fff; color: #333; border: 1px solid #ccc; }
-#markBtn { background: var(--accent); color: #fff; }
-#nextBtn { background: var(--accent); color: #fff; }
-
-/* Active Mark Button (Green) */
-#markBtn.active-mark { background: var(--success) !important; }
-
-
+/* Specific logic for Mark button color toggle */
+#markBtn.active-mark { 
+  background: #198754 !important; /* Green when active */
+}
 
 
 @media (min-width: 992px) {
@@ -636,31 +661,24 @@ body.mode-solution .qbtn.current::before {
     border-radius: 8px;
   }
 
-  /* ===============================
-     NAME CONTAINER ALIGNMENT
-     =============================== */
-
-  #nameContainer {
-    max-width: none;
-    margin-left: auto;
-    margin-right: 372px;  /* SAME as quiz-main-area */
-    padding: 0 16px;
-  }
+ 
 
   /* ===============================
      SECTION BUTTON ALIGNMENT
      =============================== */
-
-  #sectionNav {
+#sectionNav {
     max-width: none;
-    margin-left: auto;
-    margin-right: 372px;  /* SAME alignment as quiz card */
+    margin-left: 0;        /* Changed from auto to 0 for better sticky alignment */
+    margin-right: 372px;   /* Keeps the gap for the desktop palette */
     padding-left: 16px;
     padding-right: 16px;
+     overflow-x: auto; 
+    /* 🔥 Sticky Logic 🔥 */
+    position: sticky;
+    top: var(--header-height); /* Sticks exactly below the 60px header */
+    z-index: 99;               /* Stays above content but below header */
+    background: #fff;          /* Ensures question text doesn't show through the bar */
   }
-
-
-
 
 
 
@@ -685,33 +703,29 @@ body.mode-solution .qbtn.current::before {
   /* 3. Hide Mobile Bottom Bar */
   .fbar { display: none !important; }
 
-  /* Update this specific block inside @media (min-width: 992px) */
-.top-actions { 
+
+  .top-actions { 
     display: flex !important; 
-    gap: 12px; /* Increased spacing between buttons */
+    gap: 10px;
     align-items: center;
-}
+  }
 
-.top-actions .btn,
-.top-actions .btn-ghost {
-    padding: 14px 20px;
-    font-size: 15px;      /* Professional readable size */
-    font-weight: 800;
-    border-radius: 4px;
-    line-height: 1.2;
-    min-width: 100px;    /* Ensures buttons aren't squashed */
-    text-align: center;
-    white-space: nowrap; /* Prevents text from wrapping */
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
+  .top-actions .btn,
+  .top-actions .btn-ghost {
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px; /* Matching image */
+    min-width: 120px;
+    background: #0b5ed7 !important;
+    color: #fff !important;
+  }
 
-/* Optional: Make the primary blue buttons stand out more */
-#markBtn, #nextBtn {
-    min-width: 140px;    /* Slightly wider for the main action buttons */
-}
-  
+  /* Keep the Mark button color changing on desktop too */
+  #markBtn.active-mark { 
+    background: #198754 !important; 
+  }
+
   /* 5. Hide Mobile "View" Toggle in Header */
   #paletteBtn { display: none !important; }
 }
@@ -737,33 +751,76 @@ body.mode-solution .qbtn.current::before {
      MOBILE HEADER FIX — QUIZ MODE ONLY
      ================================================== */
 
-  body.mode-quiz .header-inner {
-    flex-wrap: wrap;
+
+  /* Allow header to expand for two rows */
+  header {
+    height: auto !important; 
+    padding: 8px 0;
   }
 
-  /* Quiz title on its own line */
-  body.mode-quiz .header-inner > div:first-child {
-    width: 100%;
-    justify-content: flex-start;
-    
+  /* Stack Username and Title on the first row, Actions on the second */
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0 12px;
   }
 
-  body.mode-quiz #headerTitle {
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 16px;
-  }
-
-  /* Buttons row (View / Timer / Submit) */
-  body.mode-quiz .header-inner > div:last-child {
+  /* Row 1: Title and Username */
+  .header-inner > div:first-child {
     width: 100%;
     display: flex;
-    justify-content: flex-end;   /* push group to right */
-    gap: 8px;                    /* SAME spacing as now */
-    padding-left: 30%;           /*  starts from middle */
+    justify-content: space-between;
+    align-items: center;
   }
+
+  /* Row 2: Controls (Timer, Language, Submit, View) */
+  .header-inner > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+  }
+
+  /* Ensure the username box doesn't squash the title */
+  .header-username-box {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 2px 8px;
+  }
+  
+  /* Give breathing room to the Quiz Card so it doesn't touch the sticky header */
+  .quiz-main-area {
+    margin-top: 10px;
+  }
+  
+  /* Ensure Solution Mode Header uses the same row logic */
+body.mode-solution .header-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Row 1 in Solution Mode */
+body.mode-solution .header-inner > div:first-child {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+/* Ensure the Analysis button and Title share space well */
+body.mode-solution #backToAnalysisBtn {
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+
+/* Add extra padding to the bottom of the content so fbar doesn't hide text */
+body.mode-solution .container {
+  padding-bottom: 80px;
+}
 
 }
 
@@ -777,11 +834,31 @@ body.mode-solution .qbtn.current::before {
   }
 
   #sectionNav {
-    margin-top: 6px;
+    margin-top: 0;         /* Remove top margin so it touches the header */
     margin-bottom: 10px;
-    padding: 0 12px;
+    padding: 10px 12px;
+    width: 100%;           /* Full width on mobile */
+    margin-right: 0;       /* Remove the desktop palette gap */
+    
+    /* Ensure stickiness is active on mobile too */
+    position: sticky;
+    top: var(--header-height); 
+    z-index: 99;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
   }
 
+}
+
+@media (min-width: 992px) {
+  /* ... existing code ... */
+
+  /* Make header buttons smaller */
+  .btn-sm {
+    padding: 6px 12px !important; /* Smaller padding */
+    font-size: 13px !important;    /* Smaller text */
+    min-width: auto !important;    /* Remove the 120px minimum width */
+  }
 }
 
 /* =========================================
@@ -972,10 +1049,6 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
   font-weight: 600; 
 }
 
-/* Hide header submit button permanently */
-#mainHeader #submitBtn {
-  display: none !important;
-}
 </style>
 
 <script>
@@ -1137,6 +1210,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
     <div style="display:flex; align-items:center; gap:10px;">
       <button id="backToAnalysisBtn" class="btn-ghost" style="display:none;">⬅ Analysis</button>
       <h1 id="headerTitle">Loading...</h1>
+      <div id="headerUsername" class="header-username-box">User</div>
     </div>
     
     <div style="display:flex; align-items:center; gap:10px;">
@@ -1145,7 +1219,13 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
         <option value="hi">हिन्दी</option>
         <option value="bilingual">EN+HI</option>
       </select>
-      <div id="topActions" class="top-actions"></div>
+      <div id="topActions" class="top-actions">
+    <button id="prevBtn" class="btn-prev btn-ghost btn-sm">Previous</button>
+    <button id="clearBtn" class="btn-clear btn-ghost btn-sm">Clear</button>
+    <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
+    <button id="nextBtn" class="btn-next btn btn-sm">Save & Next</button>
+</div>
+  
       <div class="timer-text" id="timer">00:00</div>
       <button id="submitBtn" class="btn">Submit</button>
       <button id="paletteBtn" class="btn-ghost">View</button>
@@ -1198,13 +1278,10 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
   <div id="attemptReplay" class="results" style="display:none"></div>
 
 </div>
-
 <div class="fbar" id="floatBar" style="display:none;">
-  <button id="prevBtn">← Prev</button>
-  <button id="clearBtn">Clear</button>
+  <button id="prevBtn">Previous</button> <button id="clearBtn">Clear</button>
   <button id="markBtn">Mark for Review</button>
-  <button id="nextBtn">Next →</button>
-</div>
+  <button id="nextBtn">Save & Next</button> </div>
 
 <div id="submitModal" class="modal">
   <div class="modal-content">
@@ -1218,12 +1295,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
 </div>
 
 <script>
-// 🔐 SAFE Device ID
-let DEVICE_ID = localStorage.getItem("ssc_quiz_device_id");
-if (!DEVICE_ID) {
-  DEVICE_ID = "dev-" + Date.now() + "-" + Math.random().toString(36).substring(2, 12);
-  localStorage.setItem("ssc_quiz_device_id", DEVICE_ID);
-}
+
 // 🔧 DYNAMIC CONFIGURATION
 let QUIZ_TITLE = "";
 let QUIZ_ID = "";
@@ -1233,6 +1305,8 @@ let CORRECT_SCORE = 2; // Default, will update
 let NEGATIVE_SCORE = 0.5; // Default, will update
 let TOTAL_TIME_SECONDS = 0;
 
+let USER_EMAIL_KEY = "";    // Used for Firebase paths (dots replaced with commas)
+let USER_DISPLAY_NAME = ""; // Used for display and 'name' field in DB
 
 // ⏱ VARIABLES
 let current = 0;
@@ -1626,28 +1700,25 @@ function normalizeMathForQuiz(container) {
     .replace(/(\S)\s*\$\$(.+?)\$\*\s*(\S)/g, '$1 \\($2\\) $3')
     .replace(/\$\$(.+?)\$\$/g, '\\($1\\)');
 }
-
-// Update Prev/Next Button States
+// Update Prev/Next Button States for BOTH Desktop and Mobile
 function updateNavButtons() {
-  const prev = el("prevBtn");
-  const next = el("nextBtn");
+  const prevBtns = document.querySelectorAll("#prevBtn");
+  const nextBtns = document.querySelectorAll("#nextBtn");
 
-  if(prev) prev.disabled = current === 0;
-  if(next) next.disabled = current === QUESTIONS.length - 1;
+  prevBtns.forEach(btn => {
+    btn.disabled = (current === 0);
+  });
+  
+  nextBtns.forEach(btn => {
+    btn.disabled = (current === QUESTIONS.length - 1);
+  });
 }
+
 // ===============================
 // 🚀 SUBMIT & ANALYSIS ENGINE
 // ===============================
 function submitQuiz(isAuto = false) {
-  const nameInput = document.getElementById("studentName");
-  const studentNameValue = nameInput ? nameInput.value.trim() : "";
-
-  if (!studentNameValue || studentNameValue.toLowerCase() === "student" || studentNameValue === "") {
-    alert("Please enter your full name to submit quiz");
-    el("nameContainer").style.display = "block";
-    nameInput?.focus();
-    return;
-  }
+ 
 
   // 2. 🛑 Stop Timer & Hide Quiz UI
   if (timerInterval) clearInterval(timerInterval);
@@ -1712,17 +1783,17 @@ let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSecon
   const totalAllowedTime = Object.values(SECTION_TIMERS)
   .reduce((sum, t) => sum + t, 0);
 
-
+ 
   // 4. 📦 Prepare Data Payload
   const firebasePayload = {
-    name: studentNameValue,
+    name: USER_DISPLAY_NAME, // Unique username from Auth
     score: totalMarks,
     total: maxTotalMarks,
     correct: totalCorrect,
     wrong: totalWrong,
     timeTaken: timeTakenSeconds,
     quizId: QUIZ_ID,
-    deviceId: DEVICE_ID,
+     emailKey: USER_EMAIL_KEY, // Replaces deviceId
     submittedAt: Date.now(),
     sections: sectionalDataForFirebase 
   };
@@ -1844,8 +1915,8 @@ sectionalTableHtml += `</table></div></div>`;
            </div>
            <div class="action-grid">
               <button class="btn-dash btn-outline" onclick="restoreLatestResult()">⬅ Back to Latest Result</button>
-              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts('${QUIZ_ID}', '${DEVICE_ID}')">📁 Previous Results</button>
-           </div>
+              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts(QUIZ_ID)">📁 Previous Results</button>
+             </div>
         </div>
 
         <div class="card-dashboard score-summary">
@@ -1949,17 +2020,7 @@ function autoSubmitQuiz() {
 
   clearInterval(timerInterval);
 
-  // 🔐 ENSURE NAME EXISTS
-  let name = document.getElementById("studentName")?.value?.trim();
-
-  if (!name) {
-    name = "Anonymous";
-    localStorage.setItem("ssc_quiz_name", name);
-
-    const nameInput = document.getElementById("studentName");
-    if (nameInput) nameInput.value = name;
-  }
-
+ 
   isQuiz = false;
 
   // Inform user (optional)
@@ -1968,24 +2029,27 @@ function autoSubmitQuiz() {
   // Submit quiz silently
   submitQuiz(true); // true = auto submit
 }
+
 // ===============================
 // 📊 FIREBASE & DATA FUNCTIONS
 // ===============================
 
-// 1. Save Result (Admin - First Attempt Only)
+
+// 1. Save Result (uses email as unique folder)
 function saveResultFirebase(payload) {
-  const ref = db.ref("quiz_results/" + payload.quizId + "/" + payload.deviceId);
+  const ref = db.ref("quiz_results/" + payload.quizId + "/" + USER_EMAIL_KEY);
   return ref.once("value").then(snap => {
-    if (snap.exists()) return false; // Don't overwrite first attempt
+    if (snap.exists()) return false; 
     return ref.set(payload);
   });
 }
 
-// 2. Save History (All Attempts)
+// 2. Save History
 function saveAttemptHistory(payload) {
-  const ref = db.ref("attempt_history/" + payload.quizId + "/" + payload.deviceId + "/" + payload.submittedAt);
+  const ref = db.ref("attempt_history/" + payload.quizId + "/" + USER_EMAIL_KEY + "/" + payload.submittedAt);
   return ref.set(payload);
 }
+
 
 // 3. Calculate Rank & Percentile (Enhanced for Sectional Support)
 function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
@@ -2144,8 +2208,8 @@ function enterSolutionMode() {
   document.getElementById("timer").style.display = "none";
   document.getElementById("submitBtn").style.display = "none";
   document.getElementById("headerTitle").textContent = "Solution Mode";
-
-  // 5. Layout Restoration (Critical for the "nothing showing" issue)
+  
+ // 5. Layout Restoration (Critical for the "nothing showing" issue)
   if (window.innerWidth >= 992) {
       quizArea.style.display = "grid";
       // Re-organize desktop buttons
@@ -2161,9 +2225,10 @@ function enterSolutionMode() {
       palette.style.display = "none"; // Hide mobile palette until "View" clicked
   }
 
-  // 6. Fix Button Visibility
-  document.getElementById("clearBtn").style.display = "none";
-  document.getElementById("markBtn").style.display = "none";
+ // 6. Fix Button Visibility for BOTH Desktop and Mobile
+  document.querySelectorAll("#clearBtn").forEach(btn => btn.style.display = "none");
+  document.querySelectorAll("#markBtn").forEach(btn => btn.style.display = "none");
+  
   attachListeners();   // Re-links the clicks
 
   // 8. Refresh Math Rendering
@@ -2171,7 +2236,6 @@ function enterSolutionMode() {
     MathJax.typesetPromise();
   }
 }
-
 
 // Reattempt (Clear and Reload)
 function reattemptQuiz() {
@@ -2209,9 +2273,9 @@ if (liveBtn) {
     document.getElementById("floatBar").style.display = "none";
   }
 }
-// Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
-async function refreshLatestRankOnDemand(btn) {
 
+  // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
+async function refreshLatestRankOnDemand(btn) {
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
   if (!resultData || !resultData.firebasePayload || !resultData.answers) {
     alert("No submission data found to update.");
@@ -2221,12 +2285,39 @@ async function refreshLatestRankOnDemand(btn) {
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
-  try {
-    // 1. Fresh Fetch: Get latest version of JSON to bypass cache
-    const response = await fetch(`./data/${QUIZ_ID}.json?t=${Date.now()}`);
-    if (!response.ok) throw new Error("Failed to fetch latest quiz data");
-    const freshData = await response.json();
+ const urlParams = new URLSearchParams(window.location.search);
+  const quizIdParam = urlParams.get('id');
 
+  if (!quizIdParam) {
+    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.<br><small>Example: ?id=Rajuhari</small>";
+    return;
+  }
+
+  
+    try {
+    // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
+    const { data: { session } } = await _supabase.auth.getSession();
+    const token = session ? session.access_token : null;
+
+    // --- 2. CONFIGURE PATHS ---
+    const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
+    const GITHUB_PATH = "ssc/cgl/full-mock"; 
+
+    // --- 3. ADD AUTHORIZATION HEADER ---
+    const headers = { "Accept": "application/json" };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`; 
+    }
+
+    const response = await fetch(`${GATEKEEPER_URL}?id=${quizIdParam}&path=${GITHUB_PATH}`, {
+      method: 'GET',
+      headers: headers
+    });
+    
+    if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
+    const freshData = await response.json();
+  
+  
     // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
@@ -2271,8 +2362,9 @@ async function refreshLatestRankOnDemand(btn) {
       sections: newSectionalData
     };
 
-    await db.ref("quiz_results/" + QUIZ_ID + "/" + DEVICE_ID).update(fbUpdate);
-    await db.ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
+    // Change these lines:
+await db.ref("quiz_results/" + QUIZ_ID + "/" + USER_EMAIL_KEY).update(fbUpdate);
+await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
 
     // 4. Define payload with updated values
     const payload = {
@@ -2445,12 +2537,13 @@ function formatTimeValues(container) {
   });
 }
  
+
 // ===============================
 // ?? HISTORY & ATTEMPT REVIEW
 // ===============================
 
 // Load list of past attempts
-function loadPreviousAttempts(quizId, deviceId) {
+function loadPreviousAttempts(quizId) {
   const box = document.getElementById("previousAttempts");
   box.innerHTML = '<div style="text-align:center; padding:20px;">Loading history...</div>';
   box.style.display = "block";
@@ -2459,7 +2552,8 @@ function loadPreviousAttempts(quizId, deviceId) {
   document.getElementById("results").style.display = "none";
   document.getElementById("attemptReplay").style.display = "none";
 
-  db.ref("attempt_history/" + quizId + "/" + deviceId)
+  // USE THE GLOBAL USER_EMAIL_KEY
+  db.ref("attempt_history/" + quizId + "/" + USER_EMAIL_KEY)
     .once("value")
     .then(snapshot => {
       const data = snapshot.val();
@@ -2467,6 +2561,7 @@ function loadPreviousAttempts(quizId, deviceId) {
         box.innerHTML = '<div class="card"><p style="text-align:center">No previous attempts found.</p><button class="btn-dash btn-outline" style="width:100%" onclick="restoreLatestResult()">⬅ Back</button></div>';
         return;
       }
+
 
       // Sort by date (Newest first)
       const attempts = Object.values(data).sort((a, b) => b.submittedAt - a.submittedAt);
@@ -2521,8 +2616,9 @@ function showAttempt(attempt) {
 
         <div class="card-dashboard">
            <div class="action-grid">
-              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts('${QUIZ_ID}', '${DEVICE_ID}')">⬅ Back to History</button>
-              <button class="btn-dash btn-outline" onclick="restoreLatestResult()">🏠 Latest Result</button>
+            <button class="btn-dash btn-outline" onclick="loadPreviousAttempts(QUIZ_ID)">⬅ Back to History</button>
+                <button class="btn-dash btn-outline" onclick="restoreLatestResult()">🏠 Latest Result</button>
+             
            </div>
         </div>
 
@@ -2560,25 +2656,34 @@ function attachListeners(){
     });
   }
 
+// Navigation for BOTH Desktop and Mobile (fbar)
+  document.querySelectorAll("#nextBtn").forEach(btn => {
+    btn.onclick = () => { if(current < QUESTIONS.length - 1) renderQuestion(current + 1); };
+  });
 
+  document.querySelectorAll("#prevBtn").forEach(btn => {
+    btn.onclick = () => { if(current > 0) renderQuestion(current - 1); };
+  });
 
-  // Navigation
-  el("nextBtn").onclick = () => { if(current < QUESTIONS.length-1) renderQuestion(current+1); };
-  el("prevBtn").onclick = () => { if(current > 0) renderQuestion(current-1); };
-  el("clearBtn").onclick = () => {
-    if(!isQuiz) return;
-    delete answers[QUESTIONS[current].id ?? current];
-    renderQuestion(current);
-  };
+  document.querySelectorAll("#clearBtn").forEach(btn => {
+    btn.onclick = () => {
+      if(!isQuiz) return;
+      delete answers[QUESTIONS[current].id ?? current];
+      renderQuestion(current);
+    };
+  });
 
-  // Mark for Review
-  el("markBtn").onclick = () => {
-    const qid = QUESTIONS[current].id ?? current;
-    if(marked[qid]) delete marked[qid];
-    else marked[qid] = true;
-    highlightPalette(); // Update color
-    renderQuestion(current); // Update button state if needed
-  };
+  document.querySelectorAll("#markBtn").forEach(btn => {
+    btn.onclick = () => {
+      const qid = QUESTIONS[current].id ?? current;
+      if(marked[qid]) delete marked[qid];
+      else marked[qid] = true;
+      highlightPalette(); 
+      renderQuestion(current); 
+    };
+  });
+
+ 
 
   // Palette Toggle (Mobile)
   el("paletteBtn").onclick = (e) => {
@@ -2889,6 +2994,29 @@ if (!isQuiz) {
 // ===============================
 
 function init(){
+   if (typeof getLocalProfile !== "function") {
+      console.error("Auth script not loaded yet!");
+      setTimeout(init, 500); // Retry in half a second
+      return;
+  }
+ 
+  // 1. Get User Data from Auth Cache
+  const profile = getLocalProfile(); // This is the function in your auth.js
+  
+  if (!profile) {
+      // If no profile, they aren't logged in. Redirect to login.
+      window.location.href = "/login.html";
+      return;
+  }
+    USER_DISPLAY_NAME = profile.username || "Guest";
+    USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
+  
+
+  // 3. Update UI
+  const userBox = el("headerUsername");
+  if(userBox) userBox.textContent = USER_DISPLAY_NAME;
+
+ 
   // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
   const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
   if (resultSaved) {
@@ -2980,14 +3108,6 @@ QUESTIONS = SECTIONS[SECTION_NAMES[currentSectionIdx]];
     }
   }
 
-  // 3. SETUP UI
-  if (window.innerWidth >= 992) {
-    const topActions = document.getElementById("topActions");
-    topActions.appendChild(el("prevBtn"));
-    topActions.appendChild(el("clearBtn"));
-    topActions.appendChild(el("markBtn"));
-    topActions.appendChild(el("nextBtn"));
-  }
 
   // 4. LOAD CURRENT SECTION SAFELY
   if (isQuiz && SECTION_NAMES.length > 0) {
@@ -3002,8 +3122,9 @@ QUESTIONS = SECTIONS[SECTION_NAMES[currentSectionIdx]];
   buildPalette();
   updatePaletteLegend();
   highlightPalette();
-  attachListeners();
+  
   renderMath();
+  attachListeners();
 }
 // 🚦 START BUTTON LISTENER
 document.getElementById("welcomeStartBtn").addEventListener("click", function() {
@@ -3059,25 +3180,56 @@ document.addEventListener("DOMContentLoaded", function () {
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
 async function loadQuizData() {
+   const profile = getLocalProfile();
+  if (profile) {
+      USER_DISPLAY_NAME = profile.username || "Guest";
+      USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
+  }
+      
+  // ... rest of the code
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
 
   if (!quizIdParam) {
-    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.<br><small>Example: ?id=Rajuhari</small>";
+    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
     return;
   }
 
   try {
-    // 1. Fetch JSON Data
-    const response = await fetch(`./data/${quizIdParam}.json?t=${Date.now()}`);
+    // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
+    const { data: { session } } = await _supabase.auth.getSession();
+    const token = session ? session.access_token : null;
+
+    // --- 2. CONFIGURE PATHS ---
+    const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
+    const GITHUB_PATH = "ssc/cgl/full-mock"; 
+
+    // --- 3. ADD AUTHORIZATION HEADER ---
+    const headers = { "Accept": "application/json" };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`; 
+    }
+
+    const response = await fetch(`${GATEKEEPER_URL}?id=${quizIdParam}&path=${GITHUB_PATH}`, {
+      method: 'GET',
+      headers: headers
+    });
     
-    if (!response.ok) throw new Error("Quiz file not found (404)");
+    // Handle specific error codes from your Worker
+    if (response.status === 402) throw new Error("Upgrade Required: You need a Premium Plan for this test.");
+    if (response.status === 401) throw new Error("Invalid Session: Please log in again.");
+    if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     
     const data = await response.json();
 
     // 2. Assign Global Variables
     QUIZ_TITLE = data.meta.title;
     QUIZ_ID = data.meta.id;
+      
+QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+
+ 
     CORRECT_SCORE = data.meta.correct_score;
     NEGATIVE_SCORE = data.meta.negative_score;
 
