@@ -236,7 +236,7 @@ const profile = getLocalProfile(); // This gets the data from your auth.js vault
 const { error: dbError } = await _supabase.from('payment_requests').insert([{
     user_id: profile.id, // The UUID from your profiles table
     username: document.getElementById('userName').value,
-    email: document.getElementById('userEmail').value,
+   email: userEmail,
     phone: document.getElementById('userPhone').value,
     utr_number: document.getElementById('utrNumber').value,
     coupon_used: document.getElementById('couponCode').value,
