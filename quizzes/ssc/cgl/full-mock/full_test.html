@@ -2820,11 +2820,9 @@ function updatePaletteLegend() {
       window.location.href = "/login.html";
       return;
   }
-
-  // 2. Set the global identifiers
-  USER_DISPLAY_NAME = profile.username;
-  // Firebase keys cannot have dots, so we change test@gmail.com to test@gmail,com
-  USER_EMAIL_KEY = profile.email.replace(/\./g, ','); 
+    USER_DISPLAY_NAME = profile.username || "Guest";
+    USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
+  
 
   // 3. Update UI
   const userBox = el("headerUsername");
@@ -2992,10 +2990,10 @@ document.addEventListener("DOMContentLoaded", function () {
 async function loadQuizData() {
   const profile = getLocalProfile();
   if (profile) {
-      // Change 'profiles' to 'profile' and add fallbacks
-      USER_DISPLAY_NAME = profile.username || profile.name || "Guest";
-      USER_EMAIL_KEY = (profile.email || "guest").replace(/\./g, ','); 
+      USER_DISPLAY_NAME = profile.username || "Guest";
+      USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
   }
+      
   // ... rest of the code
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
