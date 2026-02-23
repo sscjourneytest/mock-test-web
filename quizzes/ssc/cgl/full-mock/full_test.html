@@ -1571,15 +1571,20 @@ function normalizeMathForQuiz(container) {
     .replace(/(\S)\s*\$\$(.+?)\$\*\s*(\S)/g, '$1 \\($2\\) $3')
     .replace(/\$\$(.+?)\$\$/g, '\\($1\\)');
 }
-
-// Update Prev/Next Button States
+// Update Prev/Next Button States for BOTH Desktop and Mobile
 function updateNavButtons() {
-  const prev = el("prevBtn");
-  const next = el("nextBtn");
+  const prevBtns = document.querySelectorAll("#prevBtn");
+  const nextBtns = document.querySelectorAll("#nextBtn");
 
-  if(prev) prev.disabled = current === 0;
-  if(next) next.disabled = current === QUESTIONS.length - 1;
+  prevBtns.forEach(btn => {
+    btn.disabled = (current === 0);
+  });
+  
+  nextBtns.forEach(btn => {
+    btn.disabled = (current === QUESTIONS.length - 1);
+  });
 }
+
 // ===============================
 // 🚀 SUBMIT & ANALYSIS ENGINE
 // ===============================
