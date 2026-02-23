@@ -14,6 +14,7 @@
         .header-section { text-align: center; margin-bottom: 30px; }
         .card { background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.3); }
         
+        /* Stats Styling */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
         .stat-card { background: white; padding: 25px; border-radius: 20px; text-align: center; transition: 0.3s; border-bottom: 5px solid var(--accent); }
         .stat-card:nth-child(2) { border-bottom-color: var(--success); }
@@ -23,22 +24,25 @@
         
         .coupon-badge { background: linear-gradient(135deg, var(--secondary), #0f172a); color: white; padding: 15px 35px; border-radius: 16px; font-size: 24px; font-weight: 800; letter-spacing: 3px; display: inline-block; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 2px dashed rgba(255,255,255,0.2); }
         
+        /* Sync & Action Buttons */
         .sync-container { text-align: right; margin-bottom: 15px; }
         .sync-btn { background: white; color: var(--primary); border: 2px solid var(--primary); padding: 8px 18px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.2s; }
         .sync-btn:hover { background: var(--primary); color: white; }
 
         .withdraw-btn { background: var(--success); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; transition: 0.3s; box-shadow: 0 4px 15px rgba(22, 163, 74, 0.2); }
-        .withdraw-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3); }
         .withdraw-btn:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
         
+        /* Table Styling */
         .history-table { width: 100%; border-collapse: collapse; }
-        .history-table th { padding: 15px; background: #f8fafc; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        .history-table td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 14px; color: var(--secondary); }
+        .history-table th { padding: 15px; background: #f8fafc; color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; text-align: left; }
+        .history-table td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: var(--secondary); }
         
-        .status-badge { padding: 6px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; }
+        .status-badge { padding: 6px 12px; border-radius: 50px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
         .pending { background: #fffbeb; color: #92400e; }
         .successful { background: #f0fdf4; color: #166534; }
         .rejected { background: #fef2f2; color: #991b1b; }
+
+        .telegram-btn { display: block; text-align: center; margin-top: 15px; padding: 12px; background: #0088cc; color: white; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 14px; transition: 0.3s; }
         
         @media (max-width: 768px) { .stats-grid { grid-template-columns: 1fr; } }
     </style>
@@ -54,7 +58,7 @@
         <div class="sync-container">
             <span id="lastSyncTime" style="font-size: 11px; color: #94a3b8; margin-right: 10px;"></span>
             <button class="sync-btn" id="syncBtn" onclick="manualRefresh()">
-                <i class="fas fa-sync-alt"></i> Refresh Stats
+                <i class="fas fa-sync-alt"></i> Check Latest Data
             </button>
         </div>
 
@@ -64,11 +68,11 @@
                 <h2 id="newSales">0</h2>
             </div>
             <div class="stat-card">
-                <p><i class="fas fa-wallet"></i> EARNINGS</p>
+                <p><i class="fas fa-wallet"></i> EARNINGS (75%)</p>
                 <h2 id="availableBalance">₹0</h2>
             </div>
             <div class="stat-card">
-                <p><i class="fas fa-check-double"></i> WITHDRAWN</p>
+                <p><i class="fas fa-check-double"></i> TOTAL WITHDRAWN</p>
                 <h2 id="totalWithdrawn">₹0</h2>
             </div>
         </div>
@@ -76,7 +80,7 @@
         <div class="card">
             <h3 style="margin-bottom: 10px;"><i class="fas fa-hand-holding-usd"></i> Request Payout</h3>
             <p style="color:#64748b; font-size: 13px; margin-bottom: 25px; line-height: 1.6;">
-                Payouts are processed weekly (Minimum: ₹100). When you submit, we lock your sales up to this exact second.
+                You can request a payout <b>once a week</b> (Minimum: ₹100). Earnings are calculated as 75% of the total discounts provided through your code.
             </p>
             <button class="withdraw-btn" id="withdrawBtn" onclick="requestPayout()">
                 Submit Withdrawal Request
@@ -85,7 +89,7 @@
         </div>
 
         <div class="card">
-            <h3 style="margin-bottom: 20px;"><i class="fas fa-history"></i> Payout History</h3>
+            <h3 style="margin-bottom: 20px;"><i class="fas fa-history"></i> Withdrawal History</h3>
             <div style="overflow-x: auto;">
                 <table class="history-table">
                     <thead>
@@ -96,7 +100,7 @@
                         </tr>
                     </thead>
                     <tbody id="historyBody">
-                        <tr><td colspan="3" style="text-align:center; color:#94a3b8;">Click Refresh Stats to load data...</td></tr>
+                        <tr><td colspan="3" style="text-align:center; color:#94a3b8;">Click "Check Latest Data" to load...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -110,14 +114,16 @@
                     <i class="fas fa-copy"></i> Copy
                 </button>
             </div>
+            <a href="https://t.me/MockMatrixAdmin" class="telegram-btn">
+                <i class="fab fa-telegram"></i> Contact Support for Issues
+            </a>
         </div>
     </div>
 
     <script>
-        let currentCommission = 50; 
-        let unpaidCount = 0;
+        let calculatedEarnings = 0;
+        let unpaidSalesCount = 0;
 
-        // Initialize from Cache
         document.addEventListener('DOMContentLoaded', () => {
             const profile = getLocalProfile();
             if (!profile || !profile.is_partner) {
@@ -127,10 +133,12 @@
             document.getElementById('myCode').innerText = profile.partner_coupon;
             document.getElementById('referralLink').value = `${window.location.origin}/buy-premium.html?c=${profile.partner_coupon}`;
 
+            // Load data from Local Storage cache initially
             const cachedData = localStorage.getItem('partner_stats_cache');
             if (cachedData) {
                 const data = JSON.parse(cachedData);
                 updateUI(data);
+                document.getElementById('lastSyncTime').innerText = `Last checked: ${data.syncTime}`;
             }
         });
 
@@ -139,63 +147,81 @@
             const profile = getLocalProfile();
             
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Syncing...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Fetching...';
 
             try {
-                // 1. Fetch Latest Commission
-                const { data: partnerData } = await _supabase.from('coupon_requests')
-                    .select('commission_per_sale').eq('requested_code', profile.partner_coupon).single();
-                if (partnerData) currentCommission = partnerData.commission_per_sale;
+                // 1. Get the last valid payout request timestamp
+                const { data: lastReq } = await _supabase.from('payout_requests')
+                    .select('payout_upto')
+                    .eq('user_id', profile.id)
+                    .neq('status', 'rejected')
+                    .order('payout_upto', { ascending: false })
+                    .limit(1);
 
-                // 2. Load Sales Data
-                await loadDashboardData(profile);
+                let lastDate = lastReq && lastReq[0] ? lastReq[0].payout_upto : '2000-01-01T00:00:00Z';
+
+                // 2. Fetch all successful sales using this coupon since last payout
+                const { data: sales, error: salesErr } = await _supabase.from('payment_requests')
+                    .select('discount_given')
+                    .eq('coupon_used', profile.partner_coupon)
+                    .eq('status', 'success')
+                    .gt('created_at', lastDate);
+
+                if (salesErr) throw salesErr;
+
+                // 3. Sum up all discounts given in this period
+                let totalDiscountSum = 0;
+                sales.forEach(s => totalDiscountSum += (s.discount_given || 0));
+
+                // 4. Calculate 75% share
+                calculatedEarnings = Math.floor(totalDiscountSum * 0.75);
+                unpaidSalesCount = sales.length;
+
+                // 5. Fetch Withdrawal History
+                const { data: history } = await _supabase.from('payout_requests')
+                    .select('*').eq('user_id', profile.id).order('requested_at', { ascending: false });
+
+                // 6. Save to Local Storage
+                const stats = {
+                    unpaidCount: unpaidSalesCount,
+                    earnings: calculatedEarnings,
+                    history: history || [],
+                    syncTime: new Date().toLocaleString()
+                };
+                localStorage.setItem('partner_stats_cache', JSON.stringify(stats));
                 
-                document.getElementById('lastSyncTime').innerText = `Last synced: ${new Date().toLocaleTimeString()}`;
+                updateUI(stats);
+                document.getElementById('lastSyncTime').innerText = `Last checked: ${stats.syncTime}`;
             } catch (err) {
-                alert("Sync failed. Check connection.");
+                console.error(err);
+                alert("Failed to update data. Please check your connection.");
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Stats';
+                btn.innerHTML = '<i class="fas fa-sync-alt"></i> Check Latest Data';
             }
         }
 
-        async function loadDashboardData(profile) {
-            const { data: lastReq } = await _supabase.from('payout_requests')
-                .select('requested_at').eq('user_id', profile.id)
-                .neq('status', 'rejected').order('requested_at', { ascending: false }).limit(1);
-
-            let lastDate = lastReq && lastReq[0] ? lastReq[0].requested_at : '2000-01-01';
-
-            const { count } = await _supabase.from('payment_requests')
-                .select('*', { count: 'exact', head: true })
-                .eq('coupon_used', profile.partner_coupon).eq('status', 'success').gt('created_at', lastDate);
-
-            const { data: history } = await _supabase.from('payout_requests')
-                .select('*').eq('user_id', profile.id).order('requested_at', { ascending: false });
-
-            const stats = { unpaidCount: count || 0, commission: currentCommission, history: history || [] };
-            localStorage.setItem('partner_stats_cache', JSON.stringify(stats));
-            updateUI(stats);
-        }
-
         function updateUI(stats) {
-            unpaidCount = stats.unpaidCount;
-            currentCommission = stats.commission;
-            document.getElementById('newSales').innerText = unpaidCount;
-            document.getElementById('availableBalance').innerText = "₹" + (unpaidCount * currentCommission);
+            calculatedEarnings = stats.earnings;
+            unpaidSalesCount = stats.unpaidCount;
 
-            let totalW = 0;
+            document.getElementById('newSales').innerText = unpaidSalesCount;
+            document.getElementById('availableBalance').innerText = "₹" + calculatedEarnings;
+
+            let totalWithdrawn = 0;
             let historyHtml = '';
+            
             stats.history.forEach(row => {
-                if(row.status === 'successful') totalW += row.amount;
+                if(row.status === 'successful') totalWithdrawn += row.amount;
                 historyHtml += `<tr>
                     <td>${new Date(row.requested_at).toLocaleDateString()}</td>
                     <td>₹${row.amount}</td>
-                    <td><span class="status-badge ${row.status}">${row.status.toUpperCase()}</span></td>
+                    <td><span class="status-badge ${row.status}">${row.status}</span></td>
                 </tr>`;
             });
-            document.getElementById('historyBody').innerHTML = historyHtml || '<tr><td colspan="3">No history found</td></tr>';
-            document.getElementById('totalWithdrawn').innerText = "₹" + totalW;
+            
+            document.getElementById('historyBody').innerHTML = historyHtml || '<tr><td colspan="3" style="text-align:center;">No history found</td></tr>';
+            document.getElementById('totalWithdrawn').innerText = "₹" + totalWithdrawn;
 
             checkWithdrawalLimit(stats.history);
         }
@@ -207,7 +233,7 @@
                 if (diff < 7) {
                     const btn = document.getElementById('withdrawBtn');
                     btn.disabled = true;
-                    btn.innerText = "Weekly Limit Active";
+                    btn.innerText = "Request Locked (Once per week)";
                     document.getElementById('limitMsg').style.display = 'block';
                     document.getElementById('limitMsg').innerText = `Next withdrawal available in ${Math.ceil(7 - diff)} days.`;
                 }
@@ -217,21 +243,27 @@
         async function requestPayout() {
             const profile = getLocalProfile();
             const now = new Date().toISOString();
-            const amount = unpaidCount * currentCommission;
 
-            if (amount < 100) return alert("Minimum ₹100 required.");
+            if (calculatedEarnings < 100) return alert("Minimum ₹100 required to withdraw.");
 
             const { error } = await _supabase.from('payout_requests').insert([{
-                user_id: profile.id, username: profile.username, email: profile.email,
-                coupon_code: profile.partner_coupon, amount: amount, status: 'pending', payout_upto: now 
+                user_id: profile.id,
+                username: profile.username,
+                email: profile.email,
+                coupon_code: profile.partner_coupon,
+                amount: calculatedEarnings,
+                status: 'pending',
+                payout_upto: now 
             }]);
 
             if (!error) {
                 const botToken = "8609211512:AAH9oHSAXAWuqkqqrPNtdZyuVHXCsT1f8ys";
                 const chatId = "-1003502354207";
-                const text = `💰 *NEW PAYOUT REQUEST*\nPartner: ${profile.username}\nAmount: ₹${amount}\nCoupon: ${profile.partner_coupon}`;
+                const text = `💰 *NEW PAYOUT REQUEST (75% Model)*\n\nPartner: ${profile.username}\nAmount: ₹${calculatedEarnings}\nCoupon: ${profile.partner_coupon}\nEmail: ${profile.email}\nNote: Sum of discounts calculated up to now.`;
+                
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}&parse_mode=Markdown`);
-                alert("Request submitted!");
+                
+                alert("Payout request submitted! Your sales count is now locked up to this moment.");
                 localStorage.removeItem('partner_stats_cache');
                 location.reload();
             } else {
