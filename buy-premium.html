@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (couponFromUrl) {
         // 2. Automatically put the code in the input box
-        const couponBox = document.getElementById('couponInput');
+        const couponBox = document.getElementById('couponCode');
         if (couponBox) {
             couponBox.value = couponFromUrl.toUpperCase();
             // 3. Trigger the discount calculation automatically
@@ -231,16 +231,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Save to Supabase
-        const { error: dbError } = await _supabase.from('payment_requests').insert([{
-            username: document.getElementById('userName').value,
-            email: email,
-            phone: document.getElementById('userPhone').value,
-            utr_number: document.getElementById('utrNumber').value,
-            coupon_used: document.getElementById('couponCode').value,
-            amount_paid: document.getElementById('finalPrice').innerText,
-            status: 'pending'
-        }]);
+const profile = getLocalProfile(); // This gets the data from your auth.js vault
+
+const { error: dbError } = await _supabase.from('payment_requests').insert([{
+    user_id: profile.id, // The UUID from your profiles table
+    username: document.getElementById('userName').value,
+    email: document.getElementById('userEmail').value,
+    phone: document.getElementById('userPhone').value,
+    utr_number: document.getElementById('utrNumber').value,
+    coupon_used: document.getElementById('couponCode').value,
+    amount_paid: document.getElementById('finalPrice').innerText,
+    status: 'pending'
+}]);
+
 
         if (!dbError) {
             // Send to Telegram with SS
