@@ -751,33 +751,76 @@ body.mode-solution .qbtn.current::before {
      MOBILE HEADER FIX — QUIZ MODE ONLY
      ================================================== */
 
-  body.mode-quiz .header-inner {
-    flex-wrap: wrap;
+
+  /* Allow header to expand for two rows */
+  header {
+    height: auto !important; 
+    padding: 8px 0;
   }
 
-  /* Quiz title on its own line */
-  body.mode-quiz .header-inner > div:first-child {
-    width: 100%;
-    justify-content: flex-start;
-    
+  /* Stack Username and Title on the first row, Actions on the second */
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0 12px;
   }
 
-  body.mode-quiz #headerTitle {
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 16px;
-  }
-
-  /* Buttons row (View / Timer / Submit) */
-  body.mode-quiz .header-inner > div:last-child {
+  /* Row 1: Title and Username */
+  .header-inner > div:first-child {
     width: 100%;
     display: flex;
-    justify-content: flex-end;   /* push group to right */
-    gap: 8px;                    /* SAME spacing as now */
-    padding-left: 30%;           /*  starts from middle */
+    justify-content: space-between;
+    align-items: center;
   }
+
+  /* Row 2: Controls (Timer, Language, Submit, View) */
+  .header-inner > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+  }
+
+  /* Ensure the username box doesn't squash the title */
+  .header-username-box {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 2px 8px;
+  }
+  
+  /* Give breathing room to the Quiz Card so it doesn't touch the sticky header */
+  .quiz-main-area {
+    margin-top: 10px;
+  }
+  
+  /* Ensure Solution Mode Header uses the same row logic */
+body.mode-solution .header-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Row 1 in Solution Mode */
+body.mode-solution .header-inner > div:first-child {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+/* Ensure the Analysis button and Title share space well */
+body.mode-solution #backToAnalysisBtn {
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+
+/* Add extra padding to the bottom of the content so fbar doesn't hide text */
+body.mode-solution .container {
+  padding-bottom: 80px;
+}
 
 }
 
