@@ -172,7 +172,7 @@
 const { error } = await _supabase.from('coupon_requests').insert([{
     user_id: profile.id, //
     username: document.getElementById('partnerName').value,
-    email: document.getElementById('partnerEmail').value,
+    email: userEmail,
     phone: document.getElementById('partnerPhone').value,
     upi_id: document.getElementById('partnerUpi').value,
     channel_links: document.getElementById('channelLinks').value,
