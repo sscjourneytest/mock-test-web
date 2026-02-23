@@ -163,7 +163,21 @@
     function updateDisplay() {
         document.getElementById('finalPrice').innerText = basePrice - currentDiscount;
     }
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Check if there is a 'c' parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const couponFromUrl = urlParams.get('c');
 
+    if (couponFromUrl) {
+        // 2. Automatically put the code in the input box
+        const couponBox = document.getElementById('couponInput');
+        if (couponBox) {
+            couponBox.value = couponFromUrl.toUpperCase();
+            // 3. Trigger the discount calculation automatically
+            applyCoupon(); 
+        }
+    }
+});
     // 2. RS Discount Coupon Logic
     async function handleCoupon() {
         const code = document.getElementById('couponCode').value.trim();
