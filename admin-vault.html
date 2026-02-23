@@ -11,28 +11,27 @@
         body { background: var(--bg); font-family: 'Poppins', sans-serif; padding-top: 80px; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         
-        /* Navigation Tabs */
+        /* Stats Styling */
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .stat-card h3 { font-size: 24px; color: var(--primary); margin: 5px 0; }
+
         .admin-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; overflow-x: auto; }
         .tab-btn { padding: 10px 20px; border: none; background: none; font-weight: 700; color: #64748b; cursor: pointer; border-radius: 8px; transition: 0.3s; white-space: nowrap; }
         .tab-btn.active { background: var(--primary); color: white; }
 
         .card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        h2 { margin-bottom: 20px; font-size: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 
-        /* Tables */
-        .table-wrapper { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
         th { text-align: left; padding: 12px; background: #f1f5f9; color: #64748b; font-size: 12px; text-transform: uppercase; }
-        td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 14px; vertical-align: middle; }
+        td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
         
-        /* Actions */
         .action-btns { display: flex; gap: 8px; }
-        .btn-sm { padding: 6px 12px; border-radius: 6px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-sm { padding: 8px 14px; border-radius: 6px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .approve { background: var(--success); color: white; }
         .reject { background: var(--danger); color: white; }
-        .email-link { color: var(--primary); text-decoration: none; font-weight: 700; }
-
-        .screenshot-link { color: var(--primary); font-size: 18px; cursor: pointer; }
+        .fetch-btn { background: var(--secondary); color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; border: none; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -41,28 +40,38 @@
     <header style="margin-bottom: 30px;">
         <img src="/logo.png" style="width: 50px;">
         <h1>Admin Control Vault</h1>
-        <p>Manage payments, partners, and site settings.</p>
+        <p>Mock Matrix Hub Command Center</p>
     </header>
 
+    <div class="stats-row">
+        <div class="stat-card">
+            <p>Total Registered Users</p>
+            <h3 id="totalUsers">--</h3>
+        </div>
+        <div class="stat-card">
+            <p>Total Paid (Premium) Users</p>
+            <h3 id="paidUsers">--</h3>
+        </div>
+        <div class="stat-card">
+            <button class="fetch-btn" onclick="fetchUserStats()">Refresh Stats</button>
+        </div>
+    </div>
+
     <div class="admin-tabs">
-        <button class="tab-btn active" onclick="switchTab('payment-section', this)">💰 Buy Mock Requests</button>
-        <button class="tab-btn" onclick="switchTab('partner-section', this)">🎁 Coupon Requests</button>
-        <button class="tab-btn" onclick="switchTab('payout-section', this)">💵 Payout Requests</button>
-        <button class="tab-btn" onclick="switchTab('settings-section', this)">⚙️ Site Settings</button>
+        <button class="tab-btn active" onclick="switchTab('payment-section', this)">💰 Buy Requests</button>
+        <button class="tab-btn" onclick="switchTab('partner-section', this)">🎁 Partner Requests</button>
+        <button class="tab-btn" onclick="switchTab('payout-section', this)">💵 Payouts</button>
     </div>
 
     <section id="payment-section" class="tab-content card">
-        <h2>Pending Premium Access</h2>
+        <div class="section-header">
+            <h2>Pending Premium Access</h2>
+            <button class="fetch-btn" onclick="fetchPayments()">Load Pending</button>
+        </div>
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr>
-                        <th>User Details</th>
-                        <th>UTR Number</th>
-                        <th>Amount</th>
-                        <th>Coupon</th>
-                        <th>Actions</th>
-                    </tr>
+                    <tr><th>User</th><th>UTR</th><th>Amount</th><th>Discount</th><th>Actions</th></tr>
                 </thead>
                 <tbody id="payment-table"></tbody>
             </table>
@@ -70,17 +79,14 @@
     </section>
 
     <section id="partner-section" class="tab-content card" style="display:none;">
-        <h2>Partner Applications</h2>
+        <div class="section-header">
+            <h2>Partner Applications</h2>
+            <button class="fetch-btn" onclick="fetchCoupons()">Load Pending</button>
+        </div>
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr>
-                        <th>Partner Info</th>
-                        <th>Requested Code</th>
-                        <th>Channels</th>
-                        <th>UPI ID</th>
-                        <th>Actions</th>
-                    </tr>
+                    <tr><th>User</th><th>Code</th><th>Links</th><th>UPI ID</th><th>Actions</th></tr>
                 </thead>
                 <tbody id="partner-table"></tbody>
             </table>
@@ -88,41 +94,28 @@
     </section>
 
     <section id="payout-section" class="tab-content card" style="display:none;">
-        <h2>Partner Payouts</h2>
+        <div class="section-header">
+            <h2>Partner Payouts (75% Model)</h2>
+            <button class="fetch-btn" onclick="fetchPayouts()">Load Pending</button>
+        </div>
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr>
-                        <th>Partner</th>
-                        <th>Amount</th>
-                        <th>Upto Date</th>
-                        <th>Actions</th>
-                    </tr>
+                    <tr><th>Partner</th><th>Requested Amount</th><th>Upto Date</th><th>Actions</th></tr>
                 </thead>
                 <tbody id="payout-table"></tbody>
             </table>
         </div>
     </section>
-
-    <section id="settings-section" class="tab-content card" style="display:none;">
-        <h2>Global Parameters</h2>
-        <div class="form-group" style="margin-bottom: 20px;">
-            <label>Current Base Price (₹)</label>
-            <input type="number" id="basePriceInput" style="padding:10px; border-radius:8px; border:1px solid #ddd; width: 100px;">
-            <button class="btn-sm approve" onclick="updateBasePrice()">Update Price</button>
-        </div>
-    </section>
 </div>
 
 <script>
-    // SECURITY: Immediate Redirection for non-admins
+    // SECURITY CHECK
     document.addEventListener('DOMContentLoaded', async () => {
         const profile = getLocalProfile();
         if (!profile || profile.role !== 'admin') {
             window.location.href = "/index.html";
-            return;
         }
-        loadAllData();
     });
 
     function switchTab(id, btn) {
@@ -132,130 +125,130 @@
         btn.classList.add('active');
     }
 
-    async function loadAllData() {
-        fetchPayments();
-        fetchCoupons();
-        fetchPayouts();
-        fetchSettings();
+    // --- LOGIC: STATS ---
+    async function fetchUserStats() {
+        const { count: total } = await _supabase.from('profiles').select('*', { count: 'exact', head: true });
+        const { count: paid } = await _supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('is_paid', true);
+        document.getElementById('totalUsers').innerText = total;
+        document.getElementById('paidUsers').innerText = paid;
     }
 
-    // --- LOGIC: BUY MOCK APPROVAL ---
+    // --- LOGIC: PAYMENTS ---
     async function fetchPayments() {
         const { data } = await _supabase.from('payment_requests').select('*').eq('status', 'pending');
         let html = '';
-        data.forEach(req => {
+        data?.forEach(req => {
             html += `<tr>
                 <td><b>${req.username}</b><br><small>${req.email}</small></td>
                 <td>${req.utr_number}</td>
                 <td>₹${req.amount_paid}</td>
-                <td>${req.coupon_used || 'None'}</td>
+                <td>₹${req.discount_given || 0}</td>
                 <td class="action-btns">
                     <button class="btn-sm approve" onclick="approveMock('${req.id}', '${req.user_id}', '${req.email}', '${req.username}')">Approve</button>
-                    <button class="btn-sm reject" onclick="rejectReq('payment_requests', '${req.id}')">X</button>
+                    <button class="btn-sm reject" onclick="rejectReq('payment_requests', '${req.id}')">Reject</button>
                 </td>
             </tr>`;
         });
-        document.getElementById('payment-table').innerHTML = html || '<tr><td colspan="5">No pending payments.</td></tr>';
+        document.getElementById('payment-table').innerHTML = html || '<tr><td colspan="5">No pending requests.</td></tr>';
     }
 
     async function approveMock(id, userId, email, name) {
-        if(!confirm("Grant Premium Access?")) return;
-        // 1. Update Request
+        if(!confirm("Approve Premium and update database?")) return;
         await _supabase.from('payment_requests').update({ status: 'success' }).eq('id', id);
-        // 2. Grant 1 Year Premium
         const expiry = new Date();
         expiry.setFullYear(expiry.getFullYear() + 1);
         await _supabase.from('profiles').update({ is_paid: true, expires_at: expiry.toISOString() }).eq('id', userId);
         
+        alert("Approved successfully! Now sending email.");
         sendEmail(email, name, 'premium');
-        alert("Approved! User notified.");
         fetchPayments();
     }
 
-    // --- LOGIC: PARTNER APPROVAL ---
+    // --- LOGIC: PARTNERS ---
     async function fetchCoupons() {
         const { data } = await _supabase.from('coupon_requests').select('*').eq('status', 'pending');
         let html = '';
-        data.forEach(req => {
+        data?.forEach(req => {
             html += `<tr>
                 <td><b>${req.username}</b><br><small>${req.email}</small></td>
-                <td><code style="background:#eee; padding:2px 5px;">${req.requested_code}</code></td>
-                <td><a href="${req.channel_links}" target="_blank">Link</a></td>
+                <td>${req.requested_code}</td>
+                <td><a href="${req.channel_links}" target="_blank">View Links</a></td>
                 <td>${req.upi_id}</td>
                 <td class="action-btns">
-                    <button class="btn-sm approve" onclick="approvePartner('${req.id}', '${req.user_id}', '${req.requested_code}', '${req.email}', '${req.username}')">Make Partner</button>
+                    <button class="btn-sm approve" onclick="approvePartner('${req.id}', '${req.user_id}', '${req.requested_code}', '${req.email}', '${req.username}')">Approve Partner</button>
                 </td>
             </tr>`;
         });
-        document.getElementById('partner-table').innerHTML = html || '<tr><td colspan="5">No pending applications.</td></tr>';
+        document.getElementById('partner-table').innerHTML = html || '<tr><td colspan="5">No applications.</td></tr>';
     }
 
     async function approvePartner(id, userId, code, email, name) {
-        // 1. Update request & profiles
+        if(!confirm("Grant Partner Status?")) return;
+        // Update request table
         await _supabase.from('coupon_requests').update({ status: 'approved' }).eq('id', id);
-        await _supabase.from('profiles').update({ is_partner: true, partner_coupon: code }).eq('id', userId);
-        // 2. Activate coupon in live list
-        await _supabase.from('coupons').insert([{ code: code, discount_rs: 50, is_active: true }]);
+        // Update profile table with NEW COLUMNS
+        await _supabase.from('profiles').update({ 
+            is_partner: true, 
+            partner_coupon: code,
+            is_coupon_active: true
+        }).eq('id', userId);
         
+        alert("Partner approved! Now sending email.");
         sendEmail(email, name, 'partner', code);
-        alert("Partner Active!");
         fetchCoupons();
     }
 
-    // --- LOGIC: PAYOUT APPROVAL ---
+    // --- LOGIC: PAYOUTS ---
     async function fetchPayouts() {
         const { data } = await _supabase.from('payout_requests').select('*').eq('status', 'pending');
         let html = '';
-        data.forEach(req => {
+        data?.forEach(req => {
             html += `<tr>
                 <td><b>${req.username}</b><br><small>${req.email}</small></td>
                 <td>₹${req.amount}</td>
-                <td>${new Date(req.payout_upto).toLocaleDateString()}</td>
+                <td>${new Date(req.payout_upto).toLocaleString()}</td>
                 <td class="action-btns">
-                    <button class="btn-sm approve" onclick="approvePayout('${req.id}', '${req.user_id}', '${req.amount}', '${req.email}', '${req.username}')">Paid</button>
+                    <button class="btn-sm approve" onclick="approvePayout('${req.id}', '${req.email}', '${req.username}', '${req.amount}')">Mark Paid</button>
                 </td>
             </tr>`;
         });
         document.getElementById('payout-table').innerHTML = html || '<tr><td colspan="4">No pending payouts.</td></tr>';
     }
 
-    async function approvePayout(id, userId, amount, email, name) {
-        // Mark as successful at the specific requested time to prevent double payment
-        await _supabase.from('payout_requests').update({ 
-            status: 'successful', 
-            completed_at: new Date().toISOString() 
-        }).eq('id', id);
-        
+    async function approvePayout(id, email, name, amount) {
+        if(!confirm("Confirm payout completion?")) return;
+        await _supabase.from('payout_requests').update({ status: 'successful' }).eq('id', id);
+        alert("Payout marked successful! Now sending email.");
         sendEmail(email, name, 'payout', amount);
-        alert("Payout finalized!");
         fetchPayouts();
     }
 
-    // EMAIL DISPATCHER
-    function sendEmail(email, name, type, extra = '') {
-        let subject = "", body = "";
-        if(type === 'premium') {
-            subject = "Premium Access Granted - Mock Matrix Hub";
-            body = `Hi ${name},\n\nYour payment has been verified. You now have full access to all premium mocks for 1 year!`;
-        } else if (type === 'partner') {
-            subject = "Partner Program Approved!";
-            body = `Congratulations ${name}!\n\nYou are now a partner. Your code [${extra}] is active. Use your dashboard to track earnings.`;
-        } else if (type === 'payout') {
-            subject = "Payment Processed";
-            body = `Hi ${name},\n\nYour payout request for ₹${extra} has been processed via UPI. Thank you for your partnership!`;
+    async function rejectReq(table, id) {
+        if(confirm("Reject this request?")) {
+            await _supabase.from(table).update({ status: 'rejected' }).eq('id', id);
+            alert("Rejected.");
+            location.reload();
         }
-        window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
     }
 
-    // DYNAMIC SETTINGS
-    async function fetchSettings() {
-        const { data } = await _supabase.from('site_settings').select('value').eq('key', 'base_price').single();
-        if(data) document.getElementById('basePriceInput').value = data.value;
-    }
-    async function updateBasePrice() {
-        const val = document.getElementById('basePriceInput').value;
-        await _supabase.from('site_settings').upsert({ key: 'base_price', value: val });
-        alert("Base price updated globally.");
+    // --- EMAIL HANDLER ---
+    function sendEmail(email, name, type, extra = '') {
+        let subject = "", body = "";
+        const fromEmail = "mockmatrixhub@gmail.com";
+
+        if(type === 'premium') {
+            subject = "Premium Access Granted - Mock Matrix Hub";
+            body = `Hi ${name},\n\nYour payment has been verified. You now have full access to all mocks for 1 year!\n\nEmail: ${fromEmail}`;
+        } else if (type === 'partner') {
+            subject = "Partner Program Approved!";
+            body = `Congratulations ${name}!\n\nYou are now a partner. Your code [${extra}] is active. This code provides 20% discount to students and earns you 75% of that discount value!\n\nEmail: ${fromEmail}`;
+        } else if (type === 'payout') {
+            subject = "Payout Processed - Mock Matrix Hub";
+            body = `Hi ${name},\n\nYour payout request for ₹${extra} has been processed via UPI.\n\nEmail: ${fromEmail}`;
+        }
+        
+        // Opens the user's email client (Gmail/Outlook)
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 </script>
 </body>
