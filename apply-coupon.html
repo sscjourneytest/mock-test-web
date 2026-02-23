@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Coupon Code - Mock Matrix Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/auth.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e293b;
+            --success: #16a34a;
+            --accent: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f1f5f9; font-family: 'Poppins', sans-serif; padding-top: 100px; color: #334155; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        
+        .brand-header { text-align: center; margin-bottom: 40px; }
+        .logo { width: 80px; height: 80px; border-radius: 15px; margin-bottom: 15px; border: 2px solid var(--primary); }
+        .brand-header h2 { font-size: 28px; color: var(--secondary); }
+        .brand-header span { color: var(--primary); }
+
+        .card { background: white; border-radius: 24px; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 35px; }
+        .info-item { background: #f8fafc; padding: 20px; border-radius: 16px; border-left: 4px solid var(--primary); }
+        .info-item h4 { color: var(--primary); margin-bottom: 5px; font-size: 15px; }
+        .info-item p { font-size: 13px; line-height: 1.5; color: #64748b; }
+
+        .form-group { margin-bottom: 22px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--secondary); font-size: 14px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; outline: none; transition: 0.3s; font-family: inherit; }
+        .form-group input:focus { border-color: var(--primary); }
+        .form-group input[readonly] { background: #f1f5f9; color: #94a3b8; cursor: not-allowed; }
+        .form-group small { display: block; margin-top: 6px; font-size: 12px; color: #64748b; }
+
+        .btn-container { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+        .submit-btn { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        .submit-btn:hover { background: #1e40af; transform: translateY(-2px); }
+        .submit-btn:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; }
+        
+        .status-btn { background: white; color: var(--primary); border: 2px solid #e2e8f0; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        .status-btn:hover { background: #f8fafc; border-color: var(--primary); }
+
+        .contact-footer { text-align: center; margin-top: 30px; }
+        .contact-link { color: var(--primary); text-decoration: none; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; }
+        
+        @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="brand-header">
+            <img src="/logo.png" alt="Mock Matrix Hub Logo" class="logo">
+            <h2>Mock Matrix <span>Hub</span> Partner</h2>
+            <p>Apply for a unique coupon and earn rewards</p>
+        </div>
+
+        <div class="card">
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>Earn Commission</h4>
+                    <p>Get ₹50 commission on every successful premium purchase used with your code.</p>
+                </div>
+                <div class="info-item">
+                    <h4>How it works</h4>
+                    <p>Submit your details. Once approved, your code becomes active and earns you revenue.</p>
+                </div>
+            </div>
+
+            <form id="applyForm">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="partnerName" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="partnerEmail" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number *</label>
+                    <input type="tel" id="partnerPhone" required placeholder="Enter 10-digit number" pattern="[0-9]{10}">
+                </div>
+                <div class="form-group">
+                    <label>UPI ID (For Payments) *</label>
+                    <input type="text" id="partnerUpi" required placeholder="yourname@upi">
+                </div>
+                <div class="form-group">
+                    <label>Channel Links *</label>
+                    <textarea id="channelLinks" required placeholder="YouTube, Telegram, or Web links (comma separated)" rows="3"></textarea>
+                    <small>Where will you promote Mock Matrix Hub?</small>
+                </div>
+                <div class="form-group">
+                    <label>Requested Coupon Code *</label>
+                    <input type="text" id="requestedCode" maxlength="8" required placeholder="Ex: HUB25" style="text-transform: uppercase;">
+                    <small>Max 8 letters & numbers only. Must be unique.</small>
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" class="submit-btn" id="subBtn">Submit Request</button>
+                    <button type="button" class="status-btn" onclick="checkRequestStatus()">Check Request Status</button>
+                </div>
+            </form>
+
+            <div class="contact-footer">
+                <a href="https://t.me/MockMatrixAdmin" class="contact-link">
+                    <i class="fab fa-telegram"></i> Contact Admin for Support
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Initial Setup & Vault Integration
+        document.addEventListener('DOMContentLoaded', () => {
+            const profile = getLocalProfile();
+            if (profile) {
+                document.getElementById('partnerName').value = profile.username || "";
+                document.getElementById('partnerEmail').value = profile.email || "";
+            }
+        });
+
+        // 2. Strict Input Formatting for Coupon Code
+        document.getElementById('requestedCode').addEventListener('input', (e) => {
+            e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        });
+
+        // 3. Submit Logic with 24-Hour Constraint
+        document.getElementById('applyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('subBtn');
+            const userEmail = document.getElementById('partnerEmail').value;
+
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+
+            // Check 24-Hour Constraint
+            const { data: recent } = await _supabase.from('coupon_requests')
+                .select('created_at')
+                .eq('email', userEmail)
+                .order('created_at', { ascending: false })
+                .limit(1);
+
+            if (recent.length > 0) {
+                const lastTime = new Date(recent[0].created_at);
+                const hoursPassed = (new Date() - lastTime) / (1000 * 60 * 60);
+                if (hoursPassed < 24) {
+                    alert("Error: You can only submit one request every 24 hours.");
+                    btn.disabled = false;
+                    btn.innerText = "Submit Request";
+                    return;
+                }
+            }
+
+            const code = document.getElementById('requestedCode').value;
+
+            // Check if Code is Unique in both tables
+            const { data: codeExists } = await _supabase.from('coupons').select('code').eq('code', code).single();
+            const { data: reqExists } = await _supabase.from('coupon_requests').select('requested_code').eq('requested_code', code).single();
+
+            if (codeExists || reqExists) {
+                alert("This coupon code is already taken or pending. Please try another.");
+                btn.disabled = false;
+                btn.innerText = "Submit Request";
+                return;
+            }
+
+            // Save to Supabase
+            const { error: dbError } = await _supabase.from('coupon_requests').insert([{
+                username: document.getElementById('partnerName').value,
+                email: userEmail,
+                phone: document.getElementById('partnerPhone').value,
+                upi_id: document.getElementById('partnerUpi').value,
+                channel_links: document.getElementById('channelLinks').value,
+                requested_code: code,
+                status: 'pending'
+            }]);
+
+            if (!dbError) {
+                await sendTelegramData(code);
+                alert("Partnership Request Submitted! We will review your channel shortly.");
+                window.location.reload();
+            } else {
+                alert("Error: " + dbError.message);
+                btn.disabled = false;
+            }
+        });
+
+        // 4. Telegram Notification
+        async function sendTelegramData(code) {
+            const botToken = "8718722838:AAEq4sWeL2N440uJTIi4Tg3-7yJPpB3DkWY";
+            const chatId = "-1003710079577";
+            const text = `🎁 *New Coupon Request*\n\n` +
+                         `👤 Name: ${document.getElementById('partnerName').value}\n` +
+                         `📧 Email: ${document.getElementById('partnerEmail').value}\n` +
+                         `🎟️ Code: ${code}\n` +
+                         `📞 Phone: ${document.getElementById('partnerPhone').value}\n` +
+                         `🔗 Links: ${document.getElementById('channelLinks').value}`;
+
+            await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: "Markdown" })
+            });
+        }
+
+        // 5. Check Status & Sync with Vault
+        async function checkRequestStatus() {
+            const profile = getLocalProfile();
+            if (!profile || !profile.email) return;
+
+            const { data, error } = await _supabase.from('coupon_requests')
+                .select('status, requested_code')
+                .eq('email', profile.email)
+                .order('created_at', { ascending: false })
+                .limit(1)
+                .single();
+
+            if (data) {
+                alert(`Your request for code [${data.requested_code}] is: ${data.status.toUpperCase()}`);
+                // If approved, trigger a reload to let auth.js update the vault and button
+                if (data.status === 'approved') window.location.reload();
+            } else {
+                alert("No active partnership requests found.");
+            }
+        }
+    </script>
+</body>
+</html>
