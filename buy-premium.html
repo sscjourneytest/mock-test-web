@@ -192,7 +192,7 @@
 </div>
 
 <script>
-    let basePrice = 121;
+    let basePrice = 121; // Manual static selling price (Saves Bandwidth)
     let currentDiscount = 0;
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -206,12 +206,19 @@
             }
         }
 
-       
-        // Persistent UI Pending State
+        // Persistent UI Pending State from LocalStorage
         if (localStorage.getItem('pending_premium_request') === 'true') {
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
             btn.innerText = "Verification Pending...";
+        }
+
+        // Auto-apply referral links (?c=CODE)
+        const urlParams = new URLSearchParams(window.location.search);
+        const couponFromUrl = urlParams.get('c');
+        if (couponFromUrl) {
+            document.getElementById('couponCode').value = couponFromUrl.toUpperCase();
+            handleCoupon(); 
         }
     });
 
@@ -224,10 +231,18 @@
     async function handleCoupon() {
         const code = document.getElementById('couponCode').value.trim();
         if (!code) return;
-        const { data } = await _supabase.from('coupons').select('*').eq('code', code).eq('is_active', true).single();
+
+        // Search in PROFILES table instead of a separate coupons table
+        const { data, error } = await _supabase.from('profiles')
+            .select('partner_coupon, is_coupon_active')
+            .eq('partner_coupon', code)
+            .eq('is_coupon_active', true)
+            .single();
+
         const msg = document.getElementById('couponMsg');
         if (data) {
-            currentDiscount = data.discount_rs || 0; 
+            // Fixed 20% calculation (Nearest integer)
+            currentDiscount = Math.round(basePrice * 0.20); 
             msg.innerText = `Success! ₹${currentDiscount} Discount Applied.`;
             msg.style.color = "var(--success)";
             document.getElementById('finalPrice').innerText = basePrice - currentDiscount;
@@ -248,6 +263,7 @@
         btn.disabled = true;
         btn.innerText = "Verifying...";
 
+        // Insert including the 'discount_given' column for the 75% earning logic
         const { error } = await _supabase.from('payment_requests').insert([{
             user_id: profile.id,
             username: document.getElementById('userName').value,
@@ -256,6 +272,7 @@
             utr_number: document.getElementById('utrNumber').value,
             coupon_used: document.getElementById('couponCode').value,
             amount_paid: document.getElementById('finalPrice').innerText,
+            discount_given: currentDiscount, // Saved at purchase time for partner tracking
             status: 'pending'
         }]);
 
@@ -274,14 +291,18 @@
         const botToken = "8718722838:AAEq4sWeL2N440uJTIi4Tg3-7yJPpB3DkWY";
         const chatId = "-1003710079577";
         const file = document.getElementById('paySS').files[0];
-         const caption = `🚀 *New Payment Request* 🚀\n\n` +
+        
+        // Maintained all caption fields including Mobile Number
+        const caption = `🚀 *New Payment Request* 🚀\n\n` +
                         `👤 Name: ${document.getElementById('userName').value}\n` +
                         `📧 Email: ${document.getElementById('userEmail').value}\n` +
                         `📞 Phone: ${document.getElementById('userPhone').value}\n` +
                         `🆔 UTR: ${document.getElementById('utrNumber').value}\n` +
                         `🎟️ Coupon: ${document.getElementById('couponCode').value || "None"}\n` +
+                        `🎁 Discount: ₹${currentDiscount}\n` +
                         `💰 Amount: ₹${document.getElementById('finalPrice').innerText}`;
-         const formData = new FormData();
+
+        const formData = new FormData();
         formData.append("chat_id", chatId);
         formData.append("photo", file);
         formData.append("caption", caption);
@@ -291,7 +312,13 @@
 
     async function checkRequestStatus() {
         const email = document.getElementById('userEmail').value;
-        const { data } = await _supabase.from('payment_requests').select('status').eq('email', email).order('created_at', { ascending: false }).limit(1).single();
+        const { data } = await _supabase.from('payment_requests')
+            .select('status')
+            .eq('email', email)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
+
         if (data) {
             if (data.status === 'pending') {
                 alert("⏳ Verification is currently in progress. Please check back soon.");
