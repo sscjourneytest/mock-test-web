@@ -40,10 +40,10 @@
         .btn-container { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
         .submit-btn { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; transition: 0.3s; }
         .submit-btn:hover { background: #1e40af; transform: translateY(-2px); }
-        .submit-btn:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; }
+        .submit-btn:disabled { background: #64748b; cursor: not-allowed; transform: none; }
         
-        .status-btn { background: white; color: var(--primary); border: 2px solid #e2e8f0; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; transition: 0.2s; }
-        .status-btn:hover { background: #f8fafc; border-color: var(--primary); }
+        .status-btn { background: #f8fafc; color: var(--primary); border: 2px solid var(--primary); padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        .status-btn:hover { background: var(--primary); color: white; }
 
         .contact-footer { text-align: center; margin-top: 30px; }
         .contact-link { color: var(--primary); text-decoration: none; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; }
@@ -120,6 +120,19 @@
             if (profile) {
                 document.getElementById('partnerName').value = profile.username || "";
                 document.getElementById('partnerEmail').value = profile.email || "";
+
+                if(profile.is_partner) {
+                    const sBtn = document.getElementById('subBtn');
+                    sBtn.disabled = true;
+                    sBtn.innerText = "Partner Account Active ✅";
+                }
+            }
+
+            // Check if a request is already pending locally
+            if (localStorage.getItem('pending_partner_request') === 'true') {
+                const sBtn = document.getElementById('subBtn');
+                sBtn.disabled = true;
+                sBtn.innerText = "Application Under Review...";
             }
         });
 
@@ -133,6 +146,7 @@
             e.preventDefault();
             const btn = document.getElementById('subBtn');
             const userEmail = document.getElementById('partnerEmail').value;
+            const profile = getLocalProfile();
 
             btn.disabled = true;
             btn.innerText = "Processing...";
@@ -167,27 +181,28 @@
                 btn.innerText = "Submit Request";
                 return;
             }
-            const profile = getLocalProfile(); //
 
-const { error } = await _supabase.from('coupon_requests').insert([{
-    user_id: profile.id, //
-    username: document.getElementById('partnerName').value,
-    email: userEmail,
-    phone: document.getElementById('partnerPhone').value,
-    upi_id: document.getElementById('partnerUpi').value,
-    channel_links: document.getElementById('channelLinks').value,
-    requested_code: document.getElementById('requestedCode').value,
-    status: 'pending'
-}]);
+            // Fixed Insert Logic with correct variable names
+            const { error: insertError } = await _supabase.from('coupon_requests').insert([{
+                user_id: profile.id,
+                username: document.getElementById('partnerName').value,
+                email: userEmail,
+                phone: document.getElementById('partnerPhone').value,
+                upi_id: document.getElementById('partnerUpi').value,
+                channel_links: document.getElementById('channelLinks').value,
+                requested_code: code,
+                status: 'pending'
+            }]);
 
-         
-            if (!dbError) {
+            if (!insertError) {
+                localStorage.setItem('pending_partner_request', 'true');
                 await sendTelegramData(code);
-                alert("Partnership Request Submitted! We will review your channel shortly.");
-                window.location.reload();
+                alert("Partnership Request Submitted! Verification takes 12-24 hours.");
+                location.reload();
             } else {
-                alert("Error: " + dbError.message);
+                alert("Error: " + insertError.message);
                 btn.disabled = false;
+                btn.innerText = "Submit Request";
             }
         });
 
@@ -209,22 +224,30 @@ const { error } = await _supabase.from('coupon_requests').insert([{
             });
         }
 
-        // 5. Check Status & Sync with Vault
+        // 5. Check Status & Sync with Vault (Unified with Premium logic)
         async function checkRequestStatus() {
             const profile = getLocalProfile();
             if (!profile || !profile.email) return;
 
             const { data, error } = await _supabase.from('coupon_requests')
                 .select('status, requested_code')
-                .eq('email', profile.email)
+                .eq('user_id', profile.id)
                 .order('created_at', { ascending: false })
                 .limit(1)
                 .single();
 
             if (data) {
-                alert(`Your request for code [${data.requested_code}] is: ${data.status.toUpperCase()}`);
-                // If approved, trigger a reload to let auth.js update the vault and button
-                if (data.status === 'approved') window.location.reload();
+                if (data.status === 'pending') {
+                    alert(`⏳ Under Review: Your request for code [${data.requested_code}] is being checked. Please wait.`);
+                } else if (data.status === 'approved') {
+                    localStorage.removeItem('pending_partner_request');
+                    alert("🎉 Congratulations! Your partner account is approved. Redirecting to dashboard...");
+                    window.location.href = "/partner-dashboard.html";
+                } else if (data.status === 'rejected') {
+                    localStorage.removeItem('pending_partner_request');
+                    alert("❌ Request Rejected: Your application did not meet our criteria. Contact support.");
+                    location.reload();
+                }
             } else {
                 alert("No active partnership requests found.");
             }
