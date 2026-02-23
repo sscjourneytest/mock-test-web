@@ -274,8 +274,14 @@
         const botToken = "8718722838:AAEq4sWeL2N440uJTIi4Tg3-7yJPpB3DkWY";
         const chatId = "-1003710079577";
         const file = document.getElementById('paySS').files[0];
-        const caption = `🚀 *New Premium Request*\n\n👤 Name: ${document.getElementById('userName').value}\n📧 Email: ${document.getElementById('userEmail').value}\n🆔 UTR: ${document.getElementById('utrNumber').value}\n💰 Amount: ₹${document.getElementById('finalPrice').innerText}`;
-        const formData = new FormData();
+         const caption = `🚀 *New Payment Request* 🚀\n\n` +
+                        `👤 Name: ${document.getElementById('userName').value}\n` +
+                        `📧 Email: ${document.getElementById('userEmail').value}\n` +
+                        `📞 Phone: ${document.getElementById('userPhone').value}\n` +
+                        `🆔 UTR: ${document.getElementById('utrNumber').value}\n` +
+                        `🎟️ Coupon: ${document.getElementById('couponCode').value || "None"}\n` +
+                        `💰 Amount: ₹${document.getElementById('finalPrice').innerText}`;
+         const formData = new FormData();
         formData.append("chat_id", chatId);
         formData.append("photo", file);
         formData.append("caption", caption);
