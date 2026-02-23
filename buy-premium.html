@@ -13,22 +13,26 @@
             --primary: #2563eb;
             --secondary: #1e293b;
             --success: #16a34a;
+            --bg-light: #f1f5f9;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-top: 90px; color: #334155; }
-        
+        body { background: var(--bg-light); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-top: 90px; color: #334155; }
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         
-        /* Header */
         .header { text-align: center; margin-bottom: 40px; }
         .logo { width: 70px; height: 70px; border-radius: 12px; margin-bottom: 10px; border: 2px solid var(--primary); }
         .header h1 { font-size: 28px; color: var(--secondary); }
         .header span { color: var(--primary); }
 
+        /* Steps Section */
+        .steps-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
+        .step-card { background: white; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); }
+        .step-card i { font-size: 20px; color: var(--primary); margin-bottom: 10px; }
+        .step-card h4 { font-size: 14px; color: var(--secondary); }
+
         .layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 25px; }
 
-        /* Left Side: Info & QR */
         .card { background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 20px; }
         .price-display { text-align: center; margin: 20px 0; }
         .real-price { font-size: 42px; font-weight: 800; color: var(--secondary); }
@@ -40,9 +44,11 @@
 
         .qr-area { text-align: center; border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 20px; }
         .qr-img { width: 180px; height: 180px; border: 1px solid #e2e8f0; padding: 5px; border-radius: 10px; }
-        .upi-id { background: #f1f5f9; padding: 10px; border-radius: 8px; font-weight: 700; margin-top: 10px; font-size: 14px; }
+        
+        .upi-copy-box { display: flex; align-items: center; background: #f1f5f9; padding: 10px; border-radius: 8px; margin-top: 10px; justify-content: space-between; }
+        .upi-id { font-weight: 700; font-size: 13px; }
+        .copy-btn { color: var(--primary); cursor: pointer; border: none; background: none; font-size: 16px; }
 
-        /* Right Side: Form */
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #64748b; }
         .form-group input { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; outline: none; transition: 0.3s; }
@@ -50,14 +56,20 @@
         .form-group input[readonly] { background: #f8fafc; color: #94a3b8; cursor: not-allowed; }
 
         .submit-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #2563eb, #1e40af); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3); }
-        .status-btn { width: 100%; padding: 12px; background: white; border: 1.5px solid #e2e8f0; border-radius: 10px; margin-top: 10px; cursor: pointer; font-weight: 600; color: #475569; }
+        .submit-btn:disabled { background: #64748b; cursor: not-allowed; }
+        .status-btn { width: 100%; padding: 12px; background: #0088cc; border: none; border-radius: 10px; margin-top: 10px; cursor: pointer; font-weight: 600; color: white; transition: 0.3s; }
+        
+        /* Premium Features Styling */
+        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .feature-item { display: flex; align-items: center; gap: 10px; font-size: 13px; background: #f8fafc; padding: 10px; border-radius: 8px; }
+        .feature-item i { color: var(--success); font-size: 16px; }
 
-        /* Premium List */
-        .premium-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; }
-        .premium-item i { color: var(--success); }
+        /* FAQ Section */
+        .faq-item { border-bottom: 1px solid #eee; padding: 12px 0; }
+        .faq-q { font-weight: 700; font-size: 14px; color: var(--secondary); margin-bottom: 5px; cursor: pointer; }
+        .faq-a { font-size: 13px; color: #64748b; }
 
-        @media (max-width: 850px) { .layout { grid-template-columns: 1fr; } }
+        @media (max-width: 850px) { .layout { grid-template-columns: 1fr; } .steps-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -66,7 +78,22 @@
     <div class="header">
         <img src="/logo.png" alt="Mock Matrix Logo" class="logo">
         <h1>Mock Matrix <span>Hub</span> Premium</h1>
-        <p>Your one-stop destination for all competitive exams</p>
+        <p>Unlock your potential for all competitive exams</p>
+    </div>
+
+    <div class="steps-container">
+        <div class="step-card">
+            <i class="fas fa-ticket-alt"></i>
+            <h4>1. Apply Coupon</h4>
+        </div>
+        <div class="step-card">
+            <i class="fas fa-qrcode"></i>
+            <h4>2. Scan & Pay</h4>
+        </div>
+        <div class="step-card">
+            <i class="fas fa-file-import"></i>
+            <h4>3. Submit Request</h4>
+        </div>
     </div>
 
     <div class="layout">
@@ -76,7 +103,7 @@
                 <div class="price-display">
                     <span class="strike">₹299</span>
                     <span class="real-price">₹<span id="finalPrice">121</span></span>
-                    <p style="font-size: 12px; color: #64748b; margin-top: 5px;">Validity: 1 Year after Approval</p>
+                    <p style="font-size: 12px; color: #64748b; margin-top: 5px;">One-time payment • 1 Year Validity</p>
                 </div>
 
                 <div class="coupon-box">
@@ -86,32 +113,54 @@
                 <p id="couponMsg" style="font-size: 12px; margin-top: 5px; font-weight: 600;"></p>
 
                 <div class="qr-area">
-                    <p style="margin-bottom: 10px; font-weight: 600;">Scan to Pay</p>
+                    <p style="margin-bottom: 10px; font-weight: 600;">Scan QR to Pay</p>
                     <img src="images/qr-code.jpg" class="qr-img" alt="UPI QR">
-                    <div class="upi-id">rajeshbhadu0406@okhdfcbank</div>
+                    <div class="upi-copy-box">
+                        <span class="upi-id" id="upiId">rajeshbhadu0406@okhdfcbank</span>
+                        <button class="copy-btn" onclick="copyUPI()"><i class="fas fa-copy"></i></button>
+                    </div>
                 </div>
             </div>
 
             <div class="card">
-                <h3 style="margin-bottom: 15px;">What's in Premium?</h3>
-                <div class="premium-item"><i class="fas fa-check-circle"></i> Full Access to All Paid Mocks</div>
-                <div class="premium-item"><i class="fas fa-check-circle"></i> SSC, Banking, Railways & State Exams</div>
-                <div class="premium-item"><i class="fas fa-check-circle"></i> Previous Year Questions (PYQs)</div>
-                <div class="premium-item"><i class="fas fa-check-circle"></i> Sectional & New Pattern Tests</div>
-                <div class="premium-item"><i class="fas fa-check-circle"></i> Detailed Analytics & All India Rank</div>
+                <h3>Premium Membership Perks</h3>
+                <div class="feature-grid">
+                    <div class="feature-item"><i class="fas fa-star"></i> All SSC & Bank Mocks</div>
+                    <div class="feature-item"><i class="fas fa-star"></i> Railway & State Exams</div>
+                    <div class="feature-item"><i class="fas fa-star"></i> Chapter-wise Tests</div>
+                    <div class="feature-item"><i class="fas fa-star"></i> 20,000+ PYQs</div>
+                    <div class="feature-item"><i class="fas fa-star"></i> Instant Analysis</div>
+                    <div class="feature-item"><i class="fas fa-star"></i> All India Ranking</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Frequently Asked Questions</h3>
+                <div class="faq-item">
+                    <p class="faq-q">How long does approval take?</p>
+                    <p class="faq-a">Verification typically takes 1-6 hours, with a maximum of 24 hours.</p>
+                </div>
+                <div class="faq-item">
+                    <p class="faq-q">What is the validity?</p>
+                    <p class="faq-a">Your premium access is valid for exactly one year from the moment of approval.</p>
+                </div>
+                <div class="faq-item">
+                    <p class="faq-q">Is it refundable?</p>
+                    <p class="faq-a">Once access is granted, we do not offer refunds.</p>
+                </div>
             </div>
         </div>
 
         <div class="right-col">
             <div class="card">
-                <h3 style="margin-bottom: 20px;">Payment Request</h3>
+                <h3 style="margin-bottom: 20px;">Verification Request</h3>
                 <form id="requestForm">
                     <div class="form-group">
                         <label>User Name</label>
                         <input type="text" id="userName" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Registered Email</label>
+                        <label>Email</label>
                         <input type="email" id="userEmail" readonly>
                     </div>
                     <div class="form-group">
@@ -129,176 +178,124 @@
 
                     <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
                 </form>
-                <button class="status-btn" onclick="checkRequestStatus()">Check Request Status</button>
+                <button id="statusCheckBtn" class="status-btn" onclick="checkRequestStatus()">Check Request Status</button>
             </div>
             
             <div class="card">
-                <h3>Need Help?</h3>
-                <p style="font-size: 14px; margin-top: 10px;">Approval typically takes 1-6 hours. If not approved within 24 hours, contact us via Telegram.</p>
+                <h3>Contact Admin</h3>
+                <a href="https://t.me/MockMatrixAdmin" style="display:block; text-align:center; margin-top:10px; padding:12px; background:#0088cc; color:white; text-decoration:none; border-radius:10px; font-weight:700;">
+                    <i class="fab fa-telegram"></i> Chat on Telegram
+                </a>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    let basePrice = 299; // Default price
+    let basePrice = 121;
     let currentDiscount = 0;
 
-    // 1. Initialize Page Data
     document.addEventListener('DOMContentLoaded', async () => {
-        const profile = getLocalProfile(); // From auth.js
+        const profile = getLocalProfile();
         if (profile) {
             document.getElementById('userName').value = profile.username || "User";
             document.getElementById('userEmail').value = profile.email || "";
+            if(profile.is_paid) {
+                document.getElementById('submitBtn').disabled = true;
+                document.getElementById('submitBtn').innerText = "Already Premium ✅";
+            }
         }
 
-        // Fetch Dynamic Base Price from Admin Panel Settings
-        const { data } = await _supabase.from('site_settings').select('value').eq('key', 'base_price').single();
-        if (data) {
-            basePrice = parseInt(data.value);
-            updateDisplay();
+       
+        // Persistent UI Pending State
+        if (localStorage.getItem('pending_premium_request') === 'true') {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "Verification Pending...";
         }
     });
 
-    function updateDisplay() {
-        document.getElementById('finalPrice').innerText = basePrice - currentDiscount;
+    function copyUPI() {
+        const upi = document.getElementById('upiId').innerText;
+        navigator.clipboard.writeText(upi);
+        alert("UPI ID copied to clipboard!");
     }
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Check if there is a 'c' parameter in the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const couponFromUrl = urlParams.get('c');
 
-    if (couponFromUrl) {
-        // 2. Automatically put the code in the input box
-        const couponBox = document.getElementById('couponCode');
-        if (couponBox) {
-            couponBox.value = couponFromUrl.toUpperCase();
-            // 3. Trigger the discount calculation automatically
-            applyCoupon(); 
-        }
-    }
-});
-    // 2. RS Discount Coupon Logic
     async function handleCoupon() {
         const code = document.getElementById('couponCode').value.trim();
         if (!code) return;
-
-        const { data, error } = await _supabase.from('coupons')
-            .select('*')
-            .eq('code', code)
-            .eq('is_active', true)
-            .single();
-
+        const { data } = await _supabase.from('coupons').select('*').eq('code', code).eq('is_active', true).single();
         const msg = document.getElementById('couponMsg');
         if (data) {
-            // Requirement: Coupon allows discount in RS (flat amount)
             currentDiscount = data.discount_rs || 0; 
             msg.innerText = `Success! ₹${currentDiscount} Discount Applied.`;
             msg.style.color = "var(--success)";
-            updateDisplay();
+            document.getElementById('finalPrice').innerText = basePrice - currentDiscount;
         } else {
             currentDiscount = 0;
-            msg.innerText = "Invalid or expired coupon code.";
+            msg.innerText = "Invalid or expired code.";
             msg.style.color = "red";
-            updateDisplay();
+            document.getElementById('finalPrice').innerText = basePrice;
         }
     }
 
-    // 3. Form Submission Logic
     document.getElementById('requestForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
-        const email = document.getElementById('userEmail').value;
+        const emailValue = document.getElementById('userEmail').value;
+        const profile = getLocalProfile();
 
         btn.disabled = true;
         btn.innerText = "Verifying...";
 
-        // Requirement: 24-Hour Constraint (1 request only)
-        const { data: recent } = await _supabase.from('payment_requests')
-            .select('created_at')
-            .eq('email', email)
-            .order('created_at', { ascending: false })
-            .limit(1);
+        const { error } = await _supabase.from('payment_requests').insert([{
+            user_id: profile.id,
+            username: document.getElementById('userName').value,
+            email: emailValue,
+            phone: document.getElementById('userPhone').value,
+            utr_number: document.getElementById('utrNumber').value,
+            coupon_used: document.getElementById('couponCode').value,
+            amount_paid: document.getElementById('finalPrice').innerText,
+            status: 'pending'
+        }]);
 
-        if (recent.length > 0) {
-            const lastTime = new Date(recent[0].created_at);
-            const hoursPassed = (new Date() - lastTime) / (1000 * 60 * 60);
-            if (hoursPassed < 24) {
-                alert("Error: You can only submit one request every 24 hours. Please check your status.");
-                btn.disabled = false;
-                btn.innerText = "Submit Request";
-                return;
-            }
-        }
-
-const profile = getLocalProfile(); // This gets the data from your auth.js vault
-
-const { error: dbError } = await _supabase.from('payment_requests').insert([{
-    user_id: profile.id, // The UUID from your profiles table
-    username: document.getElementById('userName').value,
-   email: userEmail,
-    phone: document.getElementById('userPhone').value,
-    utr_number: document.getElementById('utrNumber').value,
-    coupon_used: document.getElementById('couponCode').value,
-    amount_paid: document.getElementById('finalPrice').innerText,
-    status: 'pending'
-}]);
-
-
-        if (!dbError) {
-            // Send to Telegram with SS
+        if (!error) {
+            localStorage.setItem('pending_premium_request', 'true'); 
             await sendTelegramData();
-            alert("Request submitted successfully to Mock Matrix Hub!");
-            window.location.reload();
+            alert("Request submitted successfully!");
+            location.reload();
         } else {
-            alert("Database Error: " + dbError.message);
+            alert("Error: " + error.message);
             btn.disabled = false;
         }
     });
 
-    // 4. Telegram Bot Integration (Text + Photo)
     async function sendTelegramData() {
         const botToken = "8718722838:AAEq4sWeL2N440uJTIi4Tg3-7yJPpB3DkWY";
         const chatId = "-1003710079577";
         const file = document.getElementById('paySS').files[0];
-        
-        const caption = `🚀 *New Payment Request* 🚀\n\n` +
-                        `👤 Name: ${document.getElementById('userName').value}\n` +
-                        `📧 Email: ${document.getElementById('userEmail').value}\n` +
-                        `📞 Phone: ${document.getElementById('userPhone').value}\n` +
-                        `🆔 UTR: ${document.getElementById('utrNumber').value}\n` +
-                        `🎟️ Coupon: ${document.getElementById('couponCode').value || "None"}\n` +
-                        `💰 Amount: ₹${document.getElementById('finalPrice').innerText}`;
-
+        const caption = `🚀 *New Premium Request*\n\n👤 Name: ${document.getElementById('userName').value}\n📧 Email: ${document.getElementById('userEmail').value}\n🆔 UTR: ${document.getElementById('utrNumber').value}\n💰 Amount: ₹${document.getElementById('finalPrice').innerText}`;
         const formData = new FormData();
         formData.append("chat_id", chatId);
         formData.append("photo", file);
         formData.append("caption", caption);
         formData.append("parse_mode", "Markdown");
-
-        try {
-            await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: formData });
-        } catch (e) { console.error("Telegram send failed"); }
+        await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: formData });
     }
 
-    // 5. Status Check Logic
     async function checkRequestStatus() {
         const email = document.getElementById('userEmail').value;
-        const { data, error } = await _supabase.from('payment_requests')
-            .select('status')
-            .eq('email', email)
-            .order('created_at', { ascending: false })
-            .limit(1)
-            .single();
-
+        const { data } = await _supabase.from('payment_requests').select('status').eq('email', email).order('created_at', { ascending: false }).limit(1).single();
         if (data) {
-            alert(`Current Request Status: ${data.status.toUpperCase()}`);
-            if (data.status === 'success') {
-                // Trigger auth.js re-sync if approved
-                window.location.reload(); 
+            if (data.status === 'pending') {
+                alert("⏳ Verification is currently in progress. Please check back soon.");
+            } else if (data.status === 'success') {
+                localStorage.removeItem('pending_premium_request');
+                alert("🎉 Congratulations! Your premium access is approved. Redirecting...");
+                window.location.href = "/index.html"; 
             }
         } else {
-            alert("No pending requests found for this account.");
+            alert("No request history found.");
         }
     }
 </script>
