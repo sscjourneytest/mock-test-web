@@ -2079,9 +2079,10 @@ function enterSolutionMode() {
       palette.style.display = "none"; // Hide mobile palette until "View" clicked
   }
 
-  // 6. Fix Button Visibility
-  document.getElementById("clearBtn").style.display = "none";
-  document.getElementById("markBtn").style.display = "none";
+ // 6. Fix Button Visibility for BOTH Desktop and Mobile
+  document.querySelectorAll("#clearBtn").forEach(btn => btn.style.display = "none");
+  document.querySelectorAll("#markBtn").forEach(btn => btn.style.display = "none");
+  
   attachListeners();   // Re-links the clicks
 
   // 8. Refresh Math Rendering
@@ -2503,25 +2504,34 @@ function attachListeners(){
     });
   }
 
+// Navigation for BOTH Desktop and Mobile (fbar)
+  document.querySelectorAll("#nextBtn").forEach(btn => {
+    btn.onclick = () => { if(current < QUESTIONS.length - 1) renderQuestion(current + 1); };
+  });
+
+  document.querySelectorAll("#prevBtn").forEach(btn => {
+    btn.onclick = () => { if(current > 0) renderQuestion(current - 1); };
+  });
+
+  document.querySelectorAll("#clearBtn").forEach(btn => {
+    btn.onclick = () => {
+      if(!isQuiz) return;
+      delete answers[QUESTIONS[current].id ?? current];
+      renderQuestion(current);
+    };
+  });
+
+  document.querySelectorAll("#markBtn").forEach(btn => {
+    btn.onclick = () => {
+      const qid = QUESTIONS[current].id ?? current;
+      if(marked[qid]) delete marked[qid];
+      else marked[qid] = true;
+      highlightPalette(); 
+      renderQuestion(current); 
+    };
+  });
 
 
-  // Navigation
-  el("nextBtn").onclick = () => { if(current < QUESTIONS.length-1) renderQuestion(current+1); };
-  el("prevBtn").onclick = () => { if(current > 0) renderQuestion(current-1); };
-  el("clearBtn").onclick = () => {
-    if(!isQuiz) return;
-    delete answers[QUESTIONS[current].id ?? current];
-    renderQuestion(current);
-  };
-
-  // Mark for Review
-  el("markBtn").onclick = () => {
-    const qid = QUESTIONS[current].id ?? current;
-    if(marked[qid]) delete marked[qid];
-    else marked[qid] = true;
-    highlightPalette(); // Update color
-    renderQuestion(current); // Update button state if needed
-  };
 
   // Palette Toggle (Mobile)
   el("paletteBtn").onclick = (e) => {
