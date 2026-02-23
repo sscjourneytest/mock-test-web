@@ -24,11 +24,11 @@ async function initAuth() {
         // --- USER LOGGED IN ---
         let profile = getLocalProfile();
 
-        // THE AUTO-SYNC: If user is at Home and local cache says "Free", check if status updated to "Paid"
-        if (isHomePage && (!profile || profile.is_paid === false)) {
+        // THE AUTO-SYNC: If user is at Home and local cache says "Free" or partner status is unknown, check updates
+        if (isHomePage && (!profile || profile.is_paid === false || profile.is_partner === false)) {
             const { data: fresh } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
-            if (fresh && fresh.is_paid === true) {
-                // Change 1: Merge email during auto-sync
+            if (fresh) {
+                // Change 1: Merge email and partner status during auto-sync
                 profile = { ...fresh, email: user.email };
                 saveLocalProfile(profile);
             }
@@ -38,7 +38,7 @@ async function initAuth() {
         if (!profile || isCacheExpired()) {
             const { data: dbProfile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
             if (dbProfile) {
-                // Change 2: Merge email during initial fetch
+                // Change 2: Merge email and partner status during initial fetch
                 profile = { ...dbProfile, email: user.email };
                 saveLocalProfile(profile);
             }
@@ -47,6 +47,7 @@ async function initAuth() {
         const username = profile ? profile.username : "User";
         const isPaid = profile ? profile.is_paid : false;
         const isAdmin = profile ? profile.role === 'admin' : false; // Added Admin Role Check
+        const isPartner = profile ? profile.is_partner : false; // Added Partner Status Check
         const expiryDate = profile && profile.expires_at ? new Date(profile.expires_at) : null;
         
         let daysLeft = 0;
@@ -60,9 +61,15 @@ async function initAuth() {
         // Added Admin Panel Button if user is Admin
         const adminBtn = isAdmin ? `<a href="/admin-vault.html" class="admin-btn">🛠️ Admin</a>` : '';
 
+        // Added Partner/Earnings Button logic
+        const partnerBtn = isPartner 
+            ? `<a href="/partner-dashboard.html" class="admin-btn" style="background:#16a34a; border-color:#16a34a;">📊 Earnings</a>` 
+            : `<a href="/apply-coupon.html" class="buy-btn" style="background:#6366f1;">🎁 Partner</a>`;
+
         authStatus.innerHTML = `
             <div class="top-nav-items">
                 ${adminBtn}
+                ${partnerBtn}
                 ${buyBtn}
                 <div class="profile-container">
                     <button class="profile-trigger" onclick="toggleDropdown()">👤 ${username} ${badge}</button>
@@ -72,6 +79,7 @@ async function initAuth() {
                         <hr style="border:0; border-top:1px solid #ffffff22; margin:10px 0;">
                         <p>Status: <b>${isPaid ? 'Premium ✅' : 'Free ❌'}</b></p>
                         ${isPaid ? `<p>Access: <b>${daysLeft} Days Left</b></p>` : ''}
+                        ${isPartner ? `<p>Partner Code: <b style="color:#fbbf24;">${profile.partner_coupon}</b></p>` : ''}
                         ${isAdmin ? `<p style="color:#ffd700;">Role: <b>Admin 👑</b></p>` : ''}
                         <button onclick="handleChangePassword()" style="width:100%; background: #2563eb; color:white; border:none; padding:8px; border-radius:6px; cursor:pointer; margin-bottom:8px; font-weight:bold;">Change Password</button>
                         <button onclick="handleLogout()" class="logout-btn">Logout Manually</button>
@@ -107,6 +115,7 @@ function getLocalProfile() {
             username: "User",
             email: "",
             is_paid: false,
+            is_partner: false,
             ...data
         };
     } catch (e) { return null; }
@@ -126,7 +135,7 @@ function setupTopBarStyles() {
     const header = document.createElement('header');
     header.className = 'fixed-top-bar';
     header.innerHTML = `
-        <div class="brand-container">
+        <div class="brand-container" onclick="window.location.href='/'" style="cursor:pointer">
             <div class="brand-logo-wrapper">
                 <img src="/logo.png" alt="Logo" class="top-bar-logo">
             </div>
