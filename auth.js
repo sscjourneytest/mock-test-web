@@ -65,12 +65,16 @@ async function initAuth() {
         const partnerBtn = isPartner 
             ? `<a href="/partner-dashboard.html" class="admin-btn" style="background:#16a34a; border-color:#16a34a;">📊 Earnings</a>` 
             : `<a href="/apply-coupon.html" class="buy-btn" style="background:#6366f1;">🎁 Partner</a>`;
-
-        authStatus.innerHTML = `
+authStatus.innerHTML = `
             <div class="top-nav-items">
-                ${adminBtn}
-                ${partnerBtn}
-                ${buyBtn}
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+                
+                <div class="nav-actions" id="nav-actions">
+                    ${adminBtn}
+                    ${partnerBtn}
+                    ${buyBtn}
+                </div>
+
                 <div class="profile-container">
                     <button class="profile-trigger" onclick="toggleDropdown()">👤 ${username} ${badge}</button>
                     <div id="profile-dropdown" class="dropdown-content">
@@ -86,7 +90,7 @@ async function initAuth() {
                     </div>
                 </div>
             </div>`;
-        
+      
         if (isLoginPage) window.location.href = "/index.html";
 
     } else {
@@ -283,7 +287,50 @@ function setupTopBarStyles() {
             .profile-trigger { padding: 5px 6px; font-size: 10px; }
             .profile-trigger span { display: none; }
             .top-login-btn { padding: 6px 10px; font-size: 10px; }
+
+            .mobile-menu-btn {
+                display: block;
+                background: #1e293b;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 6px;
+                font-size: 18px;
+                cursor: pointer;
+            }
+
+            .nav-actions {
+                display: none; /* Hidden by default on mobile */
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 3%;
+                background: #f1f5f9;
+                border: 1px solid #e2e8f0;
+                padding: 10px;
+                border-radius: 10px;
+                gap: 8px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            }
+
+            .nav-actions.show {
+                display: flex; /* Show when toggled */
+            }
         }
+/* DESKTOP CONFIGURATION (Add this after your mobile block) */
+@media (min-width: 601px) {
+    .mobile-menu-btn { 
+        display: none !important; 
+    }
+    .nav-actions { 
+        display: flex !important; 
+        flex-direction: row; 
+        position: static; 
+        background: transparent; 
+        border: none; 
+        box-shadow: none; 
+    }
+}
     `;
     document.head.appendChild(style);
 }
@@ -292,7 +339,26 @@ function toggleDropdown() {
     const dropdown = document.getElementById('profile-dropdown');
     if (dropdown) dropdown.classList.toggle('show');
 }
+function toggleMobileMenu() {
+    const navActions = document.getElementById('nav-actions');
+    if (navActions) navActions.classList.toggle('show');
+}
 
+// Update your window.onclick to also close the mobile menu when clicking outside
+window.onclick = function(event) {
+    if (!event.target.matches('.profile-trigger') && !event.target.matches('.mobile-menu-btn')) {
+        // Close Profile Dropdown
+        const dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+            if (dropdowns[i].classList.contains('show')) dropdowns[i].classList.remove('show');
+        }
+        // Close Mobile Nav Menu
+        const navActions = document.getElementById('nav-actions');
+        if (navActions && navActions.classList.contains('show')) {
+            navActions.classList.remove('show');
+        }
+    }
+}
 async function handleChangePassword() {
     const { data: { user } } = await _supabase.auth.getUser();
     if (user) {
