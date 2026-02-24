@@ -24,25 +24,18 @@ async function initAuth() {
         // --- USER LOGGED IN ---
         let profile = getLocalProfile();
 
-        // --- BLOCK 1: Home Page Auto-Sync ---
-if (isHomePage && (!profile || profile.is_paid === false || profile.is_partner === false)) {
-    const { data: fresh } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
-    if (fresh) {
-        // ALWAYS merge email here
-        profile = { ...fresh, email: user.email }; 
-        saveLocalProfile(profile);
-    }
-}
+        // OPTIMIZATION: Check for Recovery/Login event or expired weekly cache
+        const urlParams = new URLSearchParams(window.location.search);
+        const forceFetch = urlParams.get('type') === 'recovery' || !profile;
 
-// --- BLOCK 2: Initial Fetch / 24-Hour Refresh ---
-if (!profile || isCacheExpired()) {
-    const { data: dbProfile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
-    if (dbProfile) {
-        // ALWAYS merge email here too
-        profile = { ...dbProfile, email: user.email };
-        saveLocalProfile(profile);
-    }
-}
+        if (forceFetch || isCacheExpired()) {
+            // Fetch everything on login or weekly refresh
+            const { data: dbProfile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+            if (dbProfile) {
+                profile = { ...dbProfile, email: user.email };
+                saveLocalProfile(profile);
+            }
+        }
 
         const username = profile ? profile.username : "User";
         const isPaid = profile ? profile.is_paid : false;
@@ -100,9 +93,9 @@ authStatus.innerHTML = `
     }
 }
 
-// 1. SAVE DATA (24hr Logic)
+// 1. SAVE DATA (7-Day Cache Logic)
 function saveLocalProfile(data) {
-    const payload = { ...data, cache_expiry: Date.now() + (24 * 60 * 60 * 1000) };
+    const payload = { ...data, cache_expiry: Date.now() + (7 * 24 * 60 * 60 * 1000) };
     const encrypted = btoa(JSON.stringify(payload) + SECRET_SALT);
     localStorage.setItem('u_vault', encrypted);
 }
@@ -125,7 +118,7 @@ function getLocalProfile() {
     } catch (e) { return null; }
 }
 
-// 3. EXPIRE CHECK
+// 3. EXPIRE CHECK (7-Day Check)
 function isCacheExpired() {
     const p = getLocalProfile();
     return !p || !p.cache_expiry || Date.now() > p.cache_expiry;
