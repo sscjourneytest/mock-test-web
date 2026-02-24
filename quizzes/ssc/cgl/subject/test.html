@@ -1681,8 +1681,8 @@ function submitQuiz(isAuto = false) {
               </div>
            <div class="action-grid">
               <button class="btn-dash btn-outline" onclick="restoreLatestResult()">⬅ Back to Latest Result</button>
-              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts('${QUIZ_ID}', '${DEVICE_ID}')">📁 Previous Results</button>
-           </div>
+              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts(QUIZ_ID)">📁 Previous Results</button>
+             </div>
         </div>
 
         <div class="card-dashboard score-summary">
@@ -2024,8 +2024,17 @@ async function refreshLatestRankOnDemand(btn) {
   btn.textContent = "Updating...";
 
   
+ const urlParams = new URLSearchParams(window.location.search);
+  const quizIdParam = urlParams.get('id');
 
-  try {
+  if (!quizIdParam) {
+    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.<br><small>Example: ?id=Rajuhari</small>";
+    return;
+  }
+
+  
+    try {
+
     // 2. Fetch LATEST attempt data from Firebase (Reliable Source)
     // We use the submittedAt timestamp from local storage to find the specific entry in history
     const firebaseSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + localData.submittedAt).get();
@@ -2035,10 +2044,28 @@ async function refreshLatestRankOnDemand(btn) {
       throw new Error("Could not find submission record in database.");
     }
 
-    // 3. Fresh JSON Fetch: Get latest version of answers to bypass cache
-    const response = await fetch(`./data/${QUIZ_ID}.json?t=${Date.now()}`);
-    if (!response.ok) throw new Error("Failed to fetch latest quiz data");
+    // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
+    const { data: { session } } = await _supabase.auth.getSession();
+    const token = session ? session.access_token : null;
+
+    // --- 2. CONFIGURE PATHS ---
+    const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
+    const GITHUB_PATH = "ssc/cgl/sectional"; 
+
+    // --- 3. ADD AUTHORIZATION HEADER ---
+    const headers = { "Accept": "application/json" };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`; 
+    }
+
+    const response = await fetch(`${GATEKEEPER_URL}?id=${quizIdParam}&path=${GITHUB_PATH}`, {
+      method: 'GET',
+      headers: headers
+    });
+    
+    if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
+   
     const freshQuestions = freshData.questions;
 
     // 4. Re-Calculation Loop: Re-evaluate original answers against new JSON keys
@@ -2076,9 +2103,10 @@ async function refreshLatestRankOnDemand(btn) {
       correct: newCorrect,
       wrong: newWrong
     };
+   // Change these lines:
+await db.ref("quiz_results/" + QUIZ_ID + "/" + USER_EMAIL_KEY).update(fbUpdate);
+await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
 
-    await db.ref("quiz_results/" + QUIZ_ID + "/" + DEVICE_ID).update(fbUpdate);
-    await db.ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID + "/" + localData.submittedAt).update(fbUpdate);
 
     // 6. Update Rank & Percentile based on NEW re-calculated score
     const rankData = await getRankAndPercentile(
@@ -2175,13 +2203,12 @@ async function refreshLatestRankOnDemand(btn) {
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
 }
-
 // ===============================
-// 📜 HISTORY & ATTEMPT REVIEW
+// ?? HISTORY & ATTEMPT REVIEW
 // ===============================
 
 // Load list of past attempts
-function loadPreviousAttempts(quizId, deviceId) {
+function loadPreviousAttempts(quizId) {
   const box = document.getElementById("previousAttempts");
   box.innerHTML = '<div style="text-align:center; padding:20px;">Loading history...</div>';
   box.style.display = "block";
@@ -2190,7 +2217,8 @@ function loadPreviousAttempts(quizId, deviceId) {
   document.getElementById("results").style.display = "none";
   document.getElementById("attemptReplay").style.display = "none";
 
-  db.ref("attempt_history/" + quizId + "/" + deviceId)
+  // USE THE GLOBAL USER_EMAIL_KEY
+  db.ref("attempt_history/" + quizId + "/" + USER_EMAIL_KEY)
     .once("value")
     .then(snapshot => {
       const data = snapshot.val();
@@ -2198,6 +2226,7 @@ function loadPreviousAttempts(quizId, deviceId) {
         box.innerHTML = '<div class="card"><p style="text-align:center">No previous attempts found.</p><button class="btn-dash btn-outline" style="width:100%" onclick="restoreLatestResult()">⬅ Back</button></div>';
         return;
       }
+
 
       // Sort by date (Newest first)
       const attempts = Object.values(data).sort((a, b) => b.submittedAt - a.submittedAt);
@@ -2252,8 +2281,8 @@ function showAttempt(attempt) {
 
         <div class="card-dashboard">
            <div class="action-grid">
-              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts('${QUIZ_ID}', '${DEVICE_ID}')">⬅ Back to History</button>
-              <button class="btn-dash btn-outline" onclick="restoreLatestResult()">🏠 Latest Result</button>
+           <button class="btn-dash btn-outline" onclick="loadPreviousAttempts(QUIZ_ID)">⬅ Back to History</button>
+                <button class="btn-dash btn-outline" onclick="restoreLatestResult()">🏠 Latest Result</button>
            </div>
         </div>
 
@@ -2290,27 +2319,35 @@ function attachListeners(){
     });
   }
 
+// Navigation for BOTH Desktop and Mobile (fbar)
+  document.querySelectorAll("#nextBtn").forEach(btn => {
+    btn.onclick = () => { if(current < QUESTIONS.length - 1) renderQuestion(current + 1); };
+  });
+
+  document.querySelectorAll("#prevBtn").forEach(btn => {
+    btn.onclick = () => { if(current > 0) renderQuestion(current - 1); };
+  });
+
+  document.querySelectorAll("#clearBtn").forEach(btn => {
+    btn.onclick = () => {
+      if(!isQuiz) return;
+      delete answers[QUESTIONS[current].id ?? current];
+      renderQuestion(current);
+    };
+  });
+
+  document.querySelectorAll("#markBtn").forEach(btn => {
+    btn.onclick = () => {
+      const qid = QUESTIONS[current].id ?? current;
+      if(marked[qid]) delete marked[qid];
+      else marked[qid] = true;
+      highlightPalette(); 
+      renderQuestion(current); 
+    };
+  });
 
 
-  // Navigation
-  el("nextBtn").onclick = () => { if(current < QUESTIONS.length-1) renderQuestion(current+1); };
-  el("prevBtn").onclick = () => { if(current > 0) renderQuestion(current-1); };
-  el("clearBtn").onclick = () => {
-    if(!isQuiz) return;
-    delete answers[QUESTIONS[current].id ?? current];
-    renderQuestion(current);
-  };
-
-  // Mark for Review
-  el("markBtn").onclick = () => {
-    const qid = QUESTIONS[current].id ?? current;
-    if(marked[qid]) delete marked[qid];
-    else marked[qid] = true;
-    highlightPalette(); // Update color
-    renderQuestion(current); // Update button state if needed
-  };
-
-  // Palette Toggle (Mobile)
+// Palette Toggle (Mobile)
   el("paletteBtn").onclick = (e) => {
     e.stopPropagation();
     const pal = el("palette");
@@ -2496,6 +2533,30 @@ function updatePaletteLegend() {
 // ===============================
 
 function init(){
+   
+  if (typeof getLocalProfile !== "function") {
+      console.error("Auth script not loaded yet!");
+      setTimeout(init, 500); // Retry in half a second
+      return;
+  }
+ 
+  // 1. Get User Data from Auth Cache
+  const profile = getLocalProfile(); // This is the function in your auth.js
+  
+  if (!profile) {
+      // If no profile, they aren't logged in. Redirect to login.
+      window.location.href = "/login.html";
+      return;
+  }
+    USER_DISPLAY_NAME = profile.username || "Guest";
+    USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
+  
+
+  // 3. Update UI
+  const userBox = el("headerUsername");
+  if(userBox) userBox.textContent = USER_DISPLAY_NAME;
+
+ 
   // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
   const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
   if (resultSaved) {
@@ -2587,8 +2648,8 @@ if (stateSaved) {
   buildPalette();
   updatePaletteLegend();
   highlightPalette();
-  attachListeners();
   renderMath();
+   attachListeners();
 }
 
 // 🚦 START BUTTON LISTENER
@@ -2638,27 +2699,58 @@ document.addEventListener("DOMContentLoaded", function () {
 // ===============================
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
+
 async function loadQuizData() {
+  const profile = getLocalProfile();
+  if (profile) {
+      USER_DISPLAY_NAME = profile.username || "Guest";
+      USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
+  }
+      
+  // ... rest of the code
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
 
   if (!quizIdParam) {
-    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.<br><small>Example: ?id=Rajuhari</small>";
+    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
     return;
   }
 
   try {
-    // 1. Fetch JSON Data
-    // Assumes your JSON files are in a 'data' folder
-    const response = await fetch(`./data/${quizIdParam}.json?t=${Date.now()}`);
+    // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
+    const { data: { session } } = await _supabase.auth.getSession();
+    const token = session ? session.access_token : null;
+
+    // --- 2. CONFIGURE PATHS ---
+    const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
+    const GITHUB_PATH = "ssc/cgl/sectional"; 
+
+    // --- 3. ADD AUTHORIZATION HEADER ---
+    const headers = { "Accept": "application/json" };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`; 
+    }
+
+    const response = await fetch(`${GATEKEEPER_URL}?id=${quizIdParam}&path=${GITHUB_PATH}`, {
+      method: 'GET',
+      headers: headers
+    });
     
-    if (!response.ok) throw new Error("Quiz file not found (404)");
+    // Handle specific error codes from your Worker
+    if (response.status === 402) throw new Error("Upgrade Required: You need a Premium Plan for this test.");
+    if (response.status === 401) throw new Error("Invalid Session: Please log in again.");
+    if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     
     const data = await response.json();
 
     // 2. Assign Global Variables
     QUIZ_TITLE = data.meta.title;
     QUIZ_ID = data.meta.id;
+      
+QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+
+
     CORRECT_SCORE = data.meta.correct_score;
     NEGATIVE_SCORE = data.meta.negative_score;
     TOTAL_TIME_SECONDS = data.meta.timer_seconds;
