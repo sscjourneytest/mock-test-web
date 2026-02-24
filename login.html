@@ -164,24 +164,37 @@
             <div class="logo-box">M</div>
             <div class="brand-name">MOCK MATRIX <span class="brand-hub">HUB</span></div>
         </div>
-
         <div id="login-section">
-            <h2>Welcome Back</h2>
-            <p class="mandatory-notice">Please enter your credentials <span>*</span></p>
-            
-            <label>Gmail or Username <span>*</span></label>
-            <input type="text" id="l-identity" class="input-box" placeholder="Enter Gmail or Username">
-            
-            <label>Password <span>*</span></label>
-            <div class="pass-container">
-                <input type="password" id="l-password" class="input-box" placeholder="••••••••">
-                <span class="toggle-eye" onclick="toggleEye('l-password')">👁️</span>
-            </div>
-            
-            <button class="btn btn-primary" onclick="login()">Sign In</button>
-            <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
-        </div>
+    <h2>Welcome Back</h2>
+    <p class="mandatory-notice">Please enter your credentials <span>*</span></p>
+    
+    <label>Gmail or Username <span>*</span></label>
+    <input type="text" id="l-identity" class="input-box" placeholder="Enter Gmail or Username">
+    
+    <label>Password <span>*</span></label>
+    <div class="pass-container">
+        <input type="password" id="l-password" class="input-box" placeholder="••••••••">
+        <span class="toggle-eye" onclick="toggleEye('l-password')">👁️</span>
+    </div>
+    
+    <a href="javascript:void(0)" onclick="toggleView('reset')" style="font-size: 12px; color: #2563eb; text-decoration: none; display: block; margin-bottom: 15px; text-align: right; font-weight: 600;">Forgot Password?</a>
+    
+    <button class="btn btn-primary" onclick="login()">Sign In</button>
+    <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
+</div>
 
+<div id="reset-section" class="hidden">
+    <h2>Reset Password</h2>
+    <p class="mandatory-notice">Enter your registered Gmail to receive a reset link.</p>
+    
+    <label>Gmail Address <span>*</span></label>
+    <input type="email" id="r-email" class="input-box" placeholder="example@gmail.com">
+    
+    <button class="btn btn-primary" onclick="forgotPassword()">Send Reset Link</button>
+    <button class="btn btn-link" onclick="toggleView('login')">Back to Login</button>
+</div>
+
+       
         <div id="signup-section" class="hidden">
             <h2>Create Account</h2>
             <div class="guide-box">
@@ -223,12 +236,31 @@
         }
 
         function toggleView(v) {
-            document.getElementById('login-section').classList.toggle('hidden', v==='signup');
-            document.getElementById('signup-section').classList.toggle('hidden', v==='login');
-            const msg = document.getElementById('msg');
-            msg.innerText = "";
-            msg.style.background = "transparent";
-        }
+    document.getElementById('login-section').classList.toggle('hidden', v !== 'login');
+    document.getElementById('signup-section').classList.toggle('hidden', v !== 'signup');
+    document.getElementById('reset-section').classList.toggle('hidden', v !== 'reset'); // Support reset view
+    const msg = document.getElementById('msg');
+    msg.innerText = "";
+    msg.style.background = "transparent";
+}
+
+async function forgotPassword() {
+    const email = document.getElementById('r-email').value.trim();
+    if (!email) return showMessage("Error: Please enter your Gmail address.", true);
+
+    showMessage("Sending reset link...", false);
+
+    const { error } = await _supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + '/login.html?type=recovery',
+    });
+
+    if (error) {
+        showMessage("Error: " + error.message, true);
+    } else {
+        showMessage("Success! Check your Gmail for the reset link.", false);
+    }
+}
+
 
         function showMessage(text, isError) {
             const msg = document.getElementById('msg');
