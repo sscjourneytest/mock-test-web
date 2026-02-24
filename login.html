@@ -104,9 +104,59 @@
         
         .hidden { display: none; }
         #msg { text-align: center; font-size: 13px; margin-top: 20px; font-weight: 600; min-height: 20px; padding: 10px; border-radius: 8px; }
+
+   
+    /* Support Button Container Styling */
+    .mmh-support-container {
+        width: 100%;
+        max-width: 400px; /* Matches your Auth Card width */
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .mmh-support-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px;
+        background: #0088cc; /* Telegram Blue */
+        color: #ffffff !important;
+        text-decoration: none;
+        border-radius: 10px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+        border: none;
+        cursor: pointer;
+    }
+
+    .mmh-support-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+        background: #0077b5;
+    }
+
+    .mmh-support-link:active {
+        transform: translateY(0);
+    }
+
+    /* Icon Styling */
+    .mmh-support-icon {
+        font-size: 18px;
+    }
+
+
     </style>
 </head>
 <body>
+    <div class="mmh-support-container">
+    <a href="https://t.me/MOCK_MATRIX__HUB_SUPPORT_BOT" target="_blank" class="mmh-support-link">
+        <span class="mmh-support-icon">✈️</span> Contact Support Bot
+    </a>
+</div>
     <div class="auth-card">
         <div class="brand-header">
             <div class="logo-box">M</div>
