@@ -376,10 +376,11 @@ window.onclick = function(event) {
     }
 }
 
-async function handleLogout() {
-    localStorage.removeItem('u_vault'); // Erase entire profile cache
-    await _supabase.auth.signOut();
-    window.location.href = "/index.html";
-}
 
+async function handleLogout() {
+    localStorage.removeItem('u_vault'); // Erase profile cache
+    localStorage.removeItem('mmh_guide_seen'); // RESET the guide for next login
+    await _supabase.auth.signOut(); // Sign out from Supabase
+    window.location.href = "/index.html"; // Redirect home
+}
 document.addEventListener('DOMContentLoaded', initAuth);
