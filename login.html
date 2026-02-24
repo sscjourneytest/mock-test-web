@@ -2,50 +2,123 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Join MockMatrixHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Mock Matrix Hub</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/auth.js"></script>
     <style>
-        /* Professional Light Theme */
-        body { margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: #f0f4f8; font-family: 'Segoe UI', sans-serif; }
-        .auth-card { background: white; border-radius: 12px; padding: 40px; width: 100%; max-width: 400px; color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
-        h2 { text-align: center; color: #1e3a8a; margin-bottom: 5px; }
-        .mandatory-notice { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 25px; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+        /* Professional Aesthetic */
+        body { 
+            margin: 0; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: #f1f5f9; 
+            font-family: 'Poppins', sans-serif; 
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .auth-card { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 40px; 
+            width: 100%; 
+            max-width: 420px; 
+            color: #1e293b; 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); 
+            border: 1px solid #e2e8f0; 
+        }
+
+        /* Mock Matrix Hub Logo Branding */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo-box {
+            width: 60px;
+            height: 60px;
+            background: #2563eb;
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            font-weight: 800;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
+        }
+        .brand-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e3a8a;
+            letter-spacing: -1px;
+        }
+        .brand-hub {
+            background: #1e293b;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        /* Signup Guide */
+        .guide-box {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #1e40af;
+        }
+
+        h2 { text-align: center; color: #1e293b; margin: 0 0 20px 0; font-size: 24px; }
+        .mandatory-notice { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 20px; }
         .mandatory-notice span { color: #ef4444; }
         
-        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #475569; }
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #475569; }
         label span { color: #ef4444; }
 
-        /* Added CSS for Eye Icon */
         .pass-container { position: relative; width: 100%; }
         .toggle-eye { position: absolute; right: 12px; top: 12px; cursor: pointer; color: #94a3b8; font-size: 18px; user-select: none; }
 
         .input-box { 
             width: 100%; padding: 12px; margin-bottom: 18px; 
             background: #f8fafc; border: 1px solid #cbd5e1; 
-            border-radius: 8px; color: #1e293b; box-sizing: border-box; 
-            outline: none; transition: 0.2s;
+            border-radius: 10px; color: #1e293b; box-sizing: border-box; 
+            outline: none; transition: 0.2s; font-family: inherit;
         }
-        .input-box:focus { border-color: #2563eb; background: white; }
-        .input-box::placeholder { color: #94a3b8; font-weight: 400; }
+        .input-box:focus { border-color: #2563eb; background: white; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
 
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 5px; }
-        .btn-primary { background: #2563eb; color: white; }
-        .btn-primary:hover { background: #1e40af; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 15px; margin-top: 5px; }
+        .btn-primary { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3); }
         
-        .btn-link { background: transparent; color: #2563eb; font-size: 13px; text-decoration: underline; margin-top: 15px; display: block; width: 100%; text-align: center; }
+        .btn-link { background: transparent; color: #2563eb; font-size: 14px; font-weight: 600; text-decoration: none; margin-top: 15px; display: block; width: 100%; text-align: center; }
+        .btn-link:hover { text-decoration: underline; }
+        
         .hidden { display: none; }
-        #msg { text-align: center; font-size: 13px; margin-top: 15px; font-weight: 500; min-height: 20px; }
+        #msg { text-align: center; font-size: 13px; margin-top: 20px; font-weight: 600; min-height: 20px; padding: 10px; border-radius: 8px; }
     </style>
 </head>
 <body>
     <div class="auth-card">
+        <div class="brand-header">
+            <div class="logo-box">M</div>
+            <div class="brand-name">MOCK MATRIX <span class="brand-hub">HUB</span></div>
+        </div>
+
         <div id="login-section">
             <h2>Welcome Back</h2>
-            <p class="mandatory-notice">All fields are mandatory <span>*</span></p>
+            <p class="mandatory-notice">Please enter your credentials <span>*</span></p>
             
             <label>Gmail or Username <span>*</span></label>
-            <input type="text" id="l-identity" class="input-box" placeholder="e.g. topper2025">
+            <input type="text" id="l-identity" class="input-box" placeholder="Enter Gmail or Username">
             
             <label>Password <span>*</span></label>
             <div class="pass-container">
@@ -59,13 +132,18 @@
 
         <div id="signup-section" class="hidden">
             <h2>Create Account</h2>
-            <p class="mandatory-notice">All fields are mandatory <span>*</span></p>
+            <div class="guide-box">
+                <strong>How to Sign Up:</strong><br>
+                • Use a valid Gmail address.<br>
+                • Username: A-Z and 0-9 only (No spaces/signs).<br>
+                • Password must be at least 6 characters.
+            </div>
             
             <label>Full Name <span>*</span></label>
-            <input type="text" id="s-name" class="input-box" placeholder="Enter your name">
+            <input type="text" id="s-name" class="input-box" placeholder="Real Name">
             
             <label>Unique Username <span>*</span></label>
-            <input type="text" id="s-username" class="input-box" placeholder="Don't use @ symbol">
+            <input type="text" id="s-username" class="input-box" placeholder="Letters and numbers only">
             
             <label>Gmail Address <span>*</span></label>
             <input type="email" id="s-email" class="input-box" placeholder="example@gmail.com">
@@ -83,7 +161,6 @@
     </div>
 
     <script>
-        // Added toggle function
         function toggleEye(id) {
             const input = document.getElementById(id);
             input.type = input.type === "password" ? "text" : "password";
@@ -92,94 +169,116 @@
         function toggleView(v) {
             document.getElementById('login-section').classList.toggle('hidden', v==='signup');
             document.getElementById('signup-section').classList.toggle('hidden', v==='login');
-            document.getElementById('msg').innerText = "";
+            const msg = document.getElementById('msg');
+            msg.innerText = "";
+            msg.style.background = "transparent";
+        }
+
+        function showMessage(text, isError) {
+            const msg = document.getElementById('msg');
+            msg.innerText = text;
+            msg.style.color = isError ? "#991b1b" : "#166534";
+            msg.style.background = isError ? "#fef2f2" : "#f0fdf4";
         }
 
         async function signup() {
-    const email = document.getElementById('s-email').value;
-    const pass = document.getElementById('s-password').value;
-    const name = document.getElementById('s-name').value;
-    const user = document.getElementById('s-username').value.trim(); // Removed .toLowerCase()
-    const msg = document.getElementById('msg');
+            const email = document.getElementById('s-email').value.trim();
+            const pass = document.getElementById('s-password').value;
+            const name = document.getElementById('s-name').value.trim();
+            const user = document.getElementById('s-username').value.trim();
+            
+            // Username Validation: Only A-Z, a-z, and 0-9
+            const userRegex = /^[A-Za-z0-9]+$/;
 
-    // Reset Message Style
-    msg.style.color = "#ef4444"; 
+            if(!email || !pass || !name || !user) {
+                return showMessage("Error: All fields are mandatory!", true);
+            }
 
-    // 1. All Fields Mandatory Check
-    if(!email || !pass || !name || !user) {
-        return msg.innerText = "Error: All fields are mandatory!";
-    }
+            if(!userRegex.test(user)) {
+                return showMessage("Error: Username must only contain letters and numbers (no signs/spaces).", true);
+            }
 
-    // 2. Block @ symbol in username
-    if(user.includes('@')) {
-        return msg.innerText = "Error: Don't use @ in username. Only English alphabets and numbers allowed.";
-    }
+            if(pass.length < 6) {
+                return showMessage("Error: Password should be at least 6 characters.", true);
+            }
 
-    // 3. Unique Username Check
-    const { data: existing } = await _supabase.from('profiles').select('username').eq('username', user).single();
-    if (existing) {
-        return msg.innerText = "Error: This username already exists. Enter another unique username.";
-    }
+            showMessage("Checking availability...", false);
 
-    // 4. Create Auth Account
-    const { data: authData, error: authError } = await _supabase.auth.signUp({
-        email, 
-        password: pass
-    });
-    
-    if (authError) {
-        msg.innerText = "Error: " + authError.message;
-    } else if (authData.user) {
-        // 5. Create Profile Entry using UUID
-        const { error: dbError } = await _supabase.from('profiles').insert([{ 
-            id: authData.user.id, 
-            username: user, 
-            full_name: name 
-        }]);
-        
-        if (dbError) {
-            msg.innerText = "Error: " + dbError.message;
-        } else {
-            // Success: Redirect to home for automatic login
-            window.location.href = "/index.html";
+            // 1. Unique Email Check
+            const { data: emailExist } = await _supabase.from('profiles').select('id').eq('email', email).maybeSingle();
+            if (emailExist) {
+                return showMessage("Error: This Email is already registered!", true);
+            }
+
+            // 2. Unique Username Check
+            const { data: userExist } = await _supabase.from('profiles').select('username').eq('username', user).maybeSingle();
+            if (userExist) {
+                return showMessage("Error: Username already taken. Try another.", true);
+            }
+
+            // 3. Register
+            const { data: authData, error: authError } = await _supabase.auth.signUp({
+                email, 
+                password: pass
+            });
+            
+            if (authError) {
+                showMessage("Error: " + authError.message, true);
+            } else if (authData.user) {
+                const { error: dbError } = await _supabase.from('profiles').insert([{ 
+                    id: authData.user.id, 
+                    username: user, 
+                    full_name: name,
+                    email: email
+                }]);
+                
+                if (dbError) {
+                    showMessage("Error: " + dbError.message, true);
+                } else {
+                    showMessage("Registration Successful! Redirecting...", false);
+                    setTimeout(() => window.location.href = "/index.html", 1500);
+                }
+            }
         }
-    }
-}
 
-async function login() {
-    const identity = document.getElementById('l-identity').value.trim();
-    const pass = document.getElementById('l-password').value;
-    const msg = document.getElementById('msg');
-    msg.style.color = "#ef4444";
+        async function login() {
+            const identity = document.getElementById('l-identity').value.trim();
+            const pass = document.getElementById('l-password').value;
 
-    if(!identity || !pass) {
-        return msg.innerText = "Error: All fields are mandatory!";
-    }
+            if(!identity || !pass) {
+                return showMessage("Error: All fields are mandatory!", true);
+            }
 
-    let loginEmail = identity;
+            showMessage("Authenticating...", false);
 
-    // Dual Login Support: Convert Username to Email
-    if (!identity.includes('@')) {
-        const { data, error } = await _supabase
-            .from('profiles')
-            .select('id')
-            .eq('username', identity) // Removed .toLowerCase()
-            .single();
-        
-        // If username found, loginEmail remains identity for the Auth call 
-        // Note: Full username login typically requires a custom Edge Function.
-    }
+            let loginEmail = identity;
 
-    const { error } = await _supabase.auth.signInWithPassword({ email: loginEmail, password: pass });
-    if (error) {
-        msg.innerText = "Error: Invalid details or unverified email.";
-    } else {
-        window.location.href = "/index.html";
-    }
-}
+            // Username Login Logic
+            if (!identity.includes('@')) {
+                const { data, error } = await _supabase
+                    .from('profiles')
+                    .select('email')
+                    .eq('username', identity)
+                    .maybeSingle();
+                
+                if (data) {
+                    loginEmail = data.email;
+                } else {
+                    return showMessage("Error: Username not found.", true);
+                }
+            }
 
-      
+            const { error } = await _supabase.auth.signInWithPassword({ 
+                email: loginEmail, 
+                password: pass 
+            });
+
+            if (error) {
+                showMessage("Error: " + error.message, true);
+            } else {
+                window.location.href = "/index.html";
+            }
+        }
     </script>
 </body>
 </html>
-
