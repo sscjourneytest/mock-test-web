@@ -15,8 +15,11 @@
   gtag('js', new Date());
   gtag('config', 'G-4B6V3MV51Q');
 </script>
-  
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/auth.js"></script>
 <style>
+
 /* =========================================
    1. GLOBAL VARIABLES & RESET
    ========================================= */
@@ -50,6 +53,23 @@ body {
 /* Allow text selection in inputs */
 input, textarea { user-select: text !important; }
 
+  /* Hide auth.js top bar only on this page */
+.fixed-top-bar { display: none !important; }
+body { padding-top: 0 !important; }
+
+/* Beautiful Username Box */
+.header-username-box {
+  background: rgba(11, 94, 215, 0.1);
+  color: var(--accent);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid rgba(11, 94, 215, 0.2);
+  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+}
 /* =========================================
    2. LAYOUT CONTAINERS
    ========================================= */
@@ -77,14 +97,15 @@ header {
   height: var(--header-height);
 }
 
+/* UPDATED: Title starts from exact left */
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 16px;
-  max-width: var(--max-width);
-  margin: auto;
+  padding: 0 16px 0 0; /* Remove left padding (Top Right Bottom Left) */
+  max-width: none;     /* Allow it to touch the edge on wide screens */
+  margin: 0;           /* Remove auto-centering margin */
 }
 
 h1 {
@@ -92,8 +113,16 @@ h1 {
   color: var(--accent);
   font-size: 18px;
   font-weight: 700;
+  padding-left: 10px; /* Small breathing room from the screen edge */
 }
 
+@media (min-width: 992px) {
+  /* Ensure the container doesn't force a center gap on very wide screens */
+  .header-inner {
+    max-width: none; 
+    width: 100%;
+  }
+}
 /* Timer Text */
 .timer-text {
   font-variant-numeric: tabular-nums;
@@ -110,32 +139,28 @@ h1 {
   display: none;
   gap: 8px;
 }
-
-/* Common Button Styles */
-.btn {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
+/* Updated to match image: Blue background, White text, Rounded corners */
+.btn, .btn-ghost {
+  background: #0b5ed7 !important; /* Solid Blue as per image */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important; /* Rounded corners */
+  padding: 10px 20px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700; /* Bold white text */
   cursor: pointer;
   transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
-.btn:hover { background: var(--accent-dark); }
 
-.btn-ghost {
-  background: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  padding: 7px 15px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
+.btn:hover, .btn-ghost:hover {
+  background: #094bc0 !important;
+  opacity: 0.9;
 }
-.btn-ghost:hover { background: #f0f6ff; }
+
 /* =========================================
    4. WELCOME SCREEN (Continuous Page Layout)
    ========================================= */
@@ -555,7 +580,6 @@ body.mode-solution .qbtn.current::before {
   color: #ffeb3b;
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
-
 /* =========================================
    7. BOTTOM NAVIGATION BAR (Mobile)
    ========================================= */
@@ -573,23 +597,22 @@ body.mode-solution .qbtn.current::before {
   z-index: 900;
 }
 
+/* Force all bottom buttons to look like the blue image */
 .fbar button {
   flex: 1;
-  padding: 10px 4px;
+  padding: 12px 4px;
   font-size: 13px;
-  border-radius: 4px;
+  border-radius: 8px; /* Matching image */
+  background: #0b5ed7;
+  color: #fff;
+  border: none;
+  font-weight: 700;
 }
 
-/* Specific Button Colors */
-#prevBtn { background: #fff; color: #333; border: 1px solid #ccc; }
-#clearBtn { background: #fff; color: #333; border: 1px solid #ccc; }
-#markBtn { background: var(--accent); color: #fff; }
-#nextBtn { background: var(--accent); color: #fff; }
-
-/* Active Mark Button (Green) */
-#markBtn.active-mark { background: var(--success) !important; }
-
-
+/* Specific logic for Mark button color toggle */
+#markBtn.active-mark { 
+  background: #198754 !important; /* Green when active */
+}
 
 
 @media (min-width: 992px) {
@@ -638,31 +661,24 @@ body.mode-solution .qbtn.current::before {
     border-radius: 8px;
   }
 
-  /* ===============================
-     NAME CONTAINER ALIGNMENT
-     =============================== */
-
-  #nameContainer {
-    max-width: none;
-    margin-left: auto;
-    margin-right: 372px;  /* SAME as quiz-main-area */
-    padding: 0 16px;
-  }
+ 
 
   /* ===============================
      SECTION BUTTON ALIGNMENT
      =============================== */
-
-  #sectionNav {
+#sectionNav {
     max-width: none;
-    margin-left: auto;
-    margin-right: 372px;  /* SAME alignment as quiz card */
+    margin-left: 0;        /* Changed from auto to 0 for better sticky alignment */
+    margin-right: 372px;   /* Keeps the gap for the desktop palette */
     padding-left: 16px;
     padding-right: 16px;
+     overflow-x: auto; 
+    /* 🔥 Sticky Logic 🔥 */
+    position: sticky;
+    top: var(--header-height); /* Sticks exactly below the 60px header */
+    z-index: 99;               /* Stays above content but below header */
+    background: #fff;          /* Ensures question text doesn't show through the bar */
   }
-
-
-
 
 
 
@@ -687,33 +703,29 @@ body.mode-solution .qbtn.current::before {
   /* 3. Hide Mobile Bottom Bar */
   .fbar { display: none !important; }
 
-  /* Update this specific block inside @media (min-width: 992px) */
-.top-actions { 
+
+  .top-actions { 
     display: flex !important; 
-    gap: 12px; /* Increased spacing between buttons */
+    gap: 10px;
     align-items: center;
-}
+  }
 
-.top-actions .btn,
-.top-actions .btn-ghost {
-    padding: 14px 20px;
-    font-size: 15px;      /* Professional readable size */
-    font-weight: 800;
-    border-radius: 4px;
-    line-height: 1.2;
-    min-width: 100px;    /* Ensures buttons aren't squashed */
-    text-align: center;
-    white-space: nowrap; /* Prevents text from wrapping */
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
+  .top-actions .btn,
+  .top-actions .btn-ghost {
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px; /* Matching image */
+    min-width: 120px;
+    background: #0b5ed7 !important;
+    color: #fff !important;
+  }
 
-/* Optional: Make the primary blue buttons stand out more */
-#markBtn, #nextBtn {
-    min-width: 140px;    /* Slightly wider for the main action buttons */
-}
-  
+  /* Keep the Mark button color changing on desktop too */
+  #markBtn.active-mark { 
+    background: #198754 !important; 
+  }
+
   /* 5. Hide Mobile "View" Toggle in Header */
   #paletteBtn { display: none !important; }
 }
@@ -739,33 +751,76 @@ body.mode-solution .qbtn.current::before {
      MOBILE HEADER FIX — QUIZ MODE ONLY
      ================================================== */
 
-  body.mode-quiz .header-inner {
-    flex-wrap: wrap;
+
+  /* Allow header to expand for two rows */
+  header {
+    height: auto !important; 
+    padding: 8px 0;
   }
 
-  /* Quiz title on its own line */
-  body.mode-quiz .header-inner > div:first-child {
-    width: 100%;
-    justify-content: flex-start;
-    
+  /* Stack Username and Title on the first row, Actions on the second */
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0 12px;
   }
 
-  body.mode-quiz #headerTitle {
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 16px;
-  }
-
-  /* Buttons row (View / Timer / Submit) */
-  body.mode-quiz .header-inner > div:last-child {
+  /* Row 1: Title and Username */
+  .header-inner > div:first-child {
     width: 100%;
     display: flex;
-    justify-content: flex-end;   /* push group to right */
-    gap: 8px;                    /* SAME spacing as now */
-    padding-left: 30%;           /*  starts from middle */
+    justify-content: space-between;
+    align-items: center;
   }
+
+  /* Row 2: Controls (Timer, Language, Submit, View) */
+  .header-inner > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+  }
+
+  /* Ensure the username box doesn't squash the title */
+  .header-username-box {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 2px 8px;
+  }
+  
+  /* Give breathing room to the Quiz Card so it doesn't touch the sticky header */
+  .quiz-main-area {
+    margin-top: 10px;
+  }
+  
+  /* Ensure Solution Mode Header uses the same row logic */
+body.mode-solution .header-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Row 1 in Solution Mode */
+body.mode-solution .header-inner > div:first-child {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+/* Ensure the Analysis button and Title share space well */
+body.mode-solution #backToAnalysisBtn {
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+
+/* Add extra padding to the bottom of the content so fbar doesn't hide text */
+body.mode-solution .container {
+  padding-bottom: 80px;
+}
 
 }
 
@@ -779,11 +834,31 @@ body.mode-solution .qbtn.current::before {
   }
 
   #sectionNav {
-    margin-top: 6px;
+    margin-top: 0;         /* Remove top margin so it touches the header */
     margin-bottom: 10px;
-    padding: 0 12px;
+    padding: 10px 12px;
+    width: 100%;           /* Full width on mobile */
+    margin-right: 0;       /* Remove the desktop palette gap */
+    
+    /* Ensure stickiness is active on mobile too */
+    position: sticky;
+    top: var(--header-height); 
+    z-index: 99;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
   }
 
+}
+
+@media (min-width: 992px) {
+  /* ... existing code ... */
+
+  /* Make header buttons smaller */
+  .btn-sm {
+    padding: 6px 12px !important; /* Smaller padding */
+    font-size: 13px !important;    /* Smaller text */
+    min-width: auto !important;    /* Remove the 120px minimum width */
+  }
 }
 
 /* =========================================
@@ -924,10 +999,58 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-  
+  /* =========================================
+   NEW: SECTION NAVIGATION & TABLE STYLES
+   ========================================= */
+.section-nav {
+  display: flex; 
+  gap: 8px; 
+  padding: 10px 16px; 
+  background: #fff;
+  border-bottom: 2px solid #eee; 
+  overflow-x: auto; 
+  white-space: nowrap;
+}
 
+/* Part Buttons (Reasoning, Math, etc.) */
+.sec-btn {
+  padding: 8px 18px; 
+  background: #0000ff; /* Blue for Inactive */
+  color: #fff; 
+  border: none;
+  border-radius: 4px; 
+  font-weight: 700; 
+  cursor: pointer; 
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+/* Active Section Button - Becomes Green */
+.sec-btn.active { 
+  background: #008000 !important; 
+}
+
+/* Sectional Analysis Table */
+.analysis-table {
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-bottom: 20px; 
+  font-size: 13px;
+}
+.analysis-table th { 
+  background: #f1f5f9; 
+  padding: 10px; 
+  border: 1px solid #ddd; 
+}
+.analysis-table td { 
+  padding: 10px; 
+  border: 1px solid #ddd; 
+  text-align: center; 
+  font-weight: 600; 
+}
 
 </style>
+
 
 <script>
   window.MathJax = {
@@ -1070,6 +1193,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
     <div style="display:flex; align-items:center; gap:10px;">
       <button id="backToAnalysisBtn" class="btn-ghost" style="display:none;">⬅ Analysis</button>
       <h1 id="headerTitle">Loading...</h1>
+      <div id="headerUsername" class="header-username-box">User</div>
     </div>
     
     <div style="display:flex; align-items:center; gap:10px;">
@@ -1078,18 +1202,19 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
         <option value="hi">हिन्दी</option>
         <option value="bilingual">EN+HI</option>
       </select>
-      <div id="topActions" class="top-actions"></div>
+       <div id="topActions" class="top-actions">
+    <button id="prevBtn" class="btn-prev btn-ghost btn-sm">Previous</button>
+    <button id="clearBtn" class="btn-clear btn-ghost btn-sm">Clear</button>
+    <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
+    <button id="nextBtn" class="btn-next btn btn-sm">Save & Next</button>
+</div>
       <div class="timer-text" id="timer">00:00</div>
       <button id="submitBtn" class="btn">Submit</button>
       <button id="paletteBtn" class="btn-ghost">View</button>
     </div>
   </div>
 </header>
-<div id="nameContainer">
-  <input type="text" id="studentName" placeholder="Enter Your Name (Required)"
-    style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px;"
-    oninput="localStorage.setItem('ssc_quiz_name', this.value)">
-</div>
+
 
 <div class="container">
 
@@ -1129,13 +1254,11 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
   <div id="attemptReplay" class="results" style="display:none"></div>
 
 </div>
-
 <div class="fbar" id="floatBar" style="display:none;">
-  <button id="prevBtn">← Prev</button>
-  <button id="clearBtn">Clear</button>
+  <button id="prevBtn">Previous</button> <button id="clearBtn">Clear</button>
   <button id="markBtn">Mark for Review</button>
-  <button id="nextBtn">Next →</button>
-</div>
+  <button id="nextBtn">Save & Next</button> </div>
+
 
 <div id="submitModal" class="modal">
   <div class="modal-content">
@@ -1149,12 +1272,6 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
 </div>
 
 <script>
-// 🔐 SAFE Device ID
-let DEVICE_ID = localStorage.getItem("ssc_quiz_device_id");
-if (!DEVICE_ID) {
-  DEVICE_ID = "dev-" + Date.now() + "-" + Math.random().toString(36).substring(2, 12);
-  localStorage.setItem("ssc_quiz_device_id", DEVICE_ID);
-}
 
 // 🔧 DYNAMIC CONFIGURATION
 let QUIZ_TITLE = "";
@@ -1164,6 +1281,9 @@ let QUIZ_RESULT_KEY = "";
 let CORRECT_SCORE = 2; // Default, will update
 let NEGATIVE_SCORE = 0.5; // Default, will update
 let TOTAL_TIME_SECONDS = 0;
+
+let USER_EMAIL_KEY = "";    // Used for Firebase paths (dots replaced with commas)
+let USER_DISPLAY_NAME = ""; // Used for display and 'name' field in DB
 
 
 // ⏱ VARIABLES
@@ -1465,17 +1585,7 @@ function updateNavButtons() {
 // 🚀 SUBMIT & ANALYSIS ENGINE
 // ===============================
 function submitQuiz(isAuto = false) {
-  const nameInput = document.getElementById("studentName");
-  const studentNameValue = nameInput ? nameInput.value.trim() : "";
-
-  // This check now correctly targets the single input field
-  if (!studentNameValue || studentNameValue.toLowerCase() === "student" || studentNameValue === "") {
-    alert("Please enter your full name to submit quiz");
-    el("nameContainer").style.display = "block";
-    nameInput?.focus();
-    return;
-  }
-
+ 
   // 2. 🛑 Stop Timer & Hide Quiz UI
   if (timerInterval) clearInterval(timerInterval);
   const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
@@ -1519,14 +1629,14 @@ function submitQuiz(isAuto = false) {
 
   // 4. 📦 Prepare Data Payload
   const firebasePayload = {
-    name: studentNameValue,
+    name: USER_DISPLAY_NAME, // Unique username from Auth
     score: totalMarks,
     total: maxTotalMarks,
     correct,
     wrong,
     timeTaken: timeTakenSeconds,
     quizId: QUIZ_ID,
-    deviceId: DEVICE_ID,
+    emailKey: USER_EMAIL_KEY, // Replaces deviceId
     submittedAt: Date.now()
   };
 
@@ -1681,17 +1791,6 @@ function autoSubmitQuiz() {
 
   clearInterval(timerInterval);
 
-  // 🔐 ENSURE NAME EXISTS
-  let name = document.getElementById("studentName")?.value?.trim();
-
-  if (!name) {
-    name = "Anonymous";
-    localStorage.setItem("ssc_quiz_name", name);
-
-    const nameInput = document.getElementById("studentName");
-    if (nameInput) nameInput.value = name;
-  }
-
   isQuiz = false;
 
   // Inform user (optional)
@@ -1700,24 +1799,27 @@ function autoSubmitQuiz() {
   // Submit quiz silently
   submitQuiz(true); // true = auto submit
 }
-// ===============================
+
+  // ===============================
 // 📊 FIREBASE & DATA FUNCTIONS
 // ===============================
 
-// 1. Save Result (Admin - First Attempt Only)
+
+// 1. Save Result (uses email as unique folder)
 function saveResultFirebase(payload) {
-  const ref = db.ref("quiz_results/" + payload.quizId + "/" + payload.deviceId);
+  const ref = db.ref("quiz_results/" + payload.quizId + "/" + USER_EMAIL_KEY);
   return ref.once("value").then(snap => {
-    if (snap.exists()) return false; // Don't overwrite first attempt
+    if (snap.exists()) return false; 
     return ref.set(payload);
   });
 }
 
-// 2. Save History (All Attempts)
+// 2. Save History
 function saveAttemptHistory(payload) {
-  const ref = db.ref("attempt_history/" + payload.quizId + "/" + payload.deviceId + "/" + payload.submittedAt);
+  const ref = db.ref("attempt_history/" + payload.quizId + "/" + USER_EMAIL_KEY + "/" + payload.submittedAt);
   return ref.set(payload);
 }
+
 
 // 3. Calculate Rank & Percentile
 function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
@@ -1847,7 +1949,7 @@ function enterSolutionMode() {
   document.getElementById("submitBtn").style.display = "none";
   document.getElementById("headerTitle").textContent = "Solution Mode";
 
-  // 5. Layout Restoration (Critical for the "nothing showing" issue)
+   // 5. Layout Restoration (Critical for the "nothing showing" issue)
   if (window.innerWidth >= 992) {
       quizArea.style.display = "grid";
       // Re-organize desktop buttons
@@ -1863,10 +1965,12 @@ function enterSolutionMode() {
       palette.style.display = "none"; // Hide mobile palette until "View" clicked
   }
 
-  // 6. Fix Button Visibility
-  document.getElementById("clearBtn").style.display = "none";
-  document.getElementById("markBtn").style.display = "none";
+ // 6. Fix Button Visibility for BOTH Desktop and Mobile
+  document.querySelectorAll("#clearBtn").forEach(btn => btn.style.display = "none");
+  document.querySelectorAll("#markBtn").forEach(btn => btn.style.display = "none");
+  
   attachListeners();   // Re-links the clicks
+
 
   // 8. Refresh Math Rendering
   if (window.MathJax) {
@@ -1919,10 +2023,12 @@ async function refreshLatestRankOnDemand(btn) {
   btn.disabled = true;
   btn.textContent = "Updating...";
 
+  
+
   try {
     // 2. Fetch LATEST attempt data from Firebase (Reliable Source)
     // We use the submittedAt timestamp from local storage to find the specific entry in history
-    const firebaseSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID + "/" + localData.submittedAt).get();
+    const firebaseSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + localData.submittedAt).get();
     const fbData = firebaseSnap.val();
 
     if (!fbData) {
