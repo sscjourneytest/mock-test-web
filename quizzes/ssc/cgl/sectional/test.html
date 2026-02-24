@@ -663,22 +663,6 @@ body.mode-solution .qbtn.current::before {
 
  
 
-  /* ===============================
-     SECTION BUTTON ALIGNMENT
-     =============================== */
-#sectionNav {
-    max-width: none;
-    margin-left: 0;        /* Changed from auto to 0 for better sticky alignment */
-    margin-right: 372px;   /* Keeps the gap for the desktop palette */
-    padding-left: 16px;
-    padding-right: 16px;
-     overflow-x: auto; 
-    /* 🔥 Sticky Logic 🔥 */
-    position: sticky;
-    top: var(--header-height); /* Sticks exactly below the 60px header */
-    z-index: 99;               /* Stays above content but below header */
-    background: #fff;          /* Ensures question text doesn't show through the bar */
-  }
 
 
 
@@ -824,31 +808,7 @@ body.mode-solution .container {
 
 }
 
-@media (max-width: 991px) {
 
-  /* Space below sticky header */
-  #nameContainer {
-    margin-top: 12px;
-    margin-bottom: 8px;
-    padding: 0 12px;
-  }
-
-  #sectionNav {
-    margin-top: 0;         /* Remove top margin so it touches the header */
-    margin-bottom: 10px;
-    padding: 10px 12px;
-    width: 100%;           /* Full width on mobile */
-    margin-right: 0;       /* Remove the desktop palette gap */
-    
-    /* Ensure stickiness is active on mobile too */
-    position: sticky;
-    top: var(--header-height); 
-    z-index: 99;
-    background: #fff;
-    border-bottom: 1px solid #ddd;
-  }
-
-}
 
 @media (min-width: 992px) {
   /* ... existing code ... */
@@ -999,56 +959,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-  /* =========================================
-   NEW: SECTION NAVIGATION & TABLE STYLES
-   ========================================= */
-.section-nav {
-  display: flex; 
-  gap: 8px; 
-  padding: 10px 16px; 
-  background: #fff;
-  border-bottom: 2px solid #eee; 
-  overflow-x: auto; 
-  white-space: nowrap;
-}
-
-/* Part Buttons (Reasoning, Math, etc.) */
-.sec-btn {
-  padding: 8px 18px; 
-  background: #0000ff; /* Blue for Inactive */
-  color: #fff; 
-  border: none;
-  border-radius: 4px; 
-  font-weight: 700; 
-  cursor: pointer; 
-  font-size: 13px;
-  text-transform: uppercase;
-}
-
-/* Active Section Button - Becomes Green */
-.sec-btn.active { 
-  background: #008000 !important; 
-}
-
-/* Sectional Analysis Table */
-.analysis-table {
-  width: 100%; 
-  border-collapse: collapse; 
-  margin-bottom: 20px; 
-  font-size: 13px;
-}
-.analysis-table th { 
-  background: #f1f5f9; 
-  padding: 10px; 
-  border: 1px solid #ddd; 
-}
-.analysis-table td { 
-  padding: 10px; 
-  border: 1px solid #ddd; 
-  text-align: center; 
-  font-weight: 600; 
-}
-
+ 
 </style>
 
 
