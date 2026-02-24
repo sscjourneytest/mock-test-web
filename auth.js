@@ -24,26 +24,26 @@ async function initAuth() {
         // --- USER LOGGED IN ---
         let profile = getLocalProfile();
 
-        // THE AUTO-SYNC: If user is at Home and local cache says "Free" or partner status is unknown, check updates
-        if (isHomePage && (!profile || profile.is_paid === false || profile.is_partner === false)) {
-            const { data: fresh } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
-            if (fresh) {
-                // Change 1: Merge email and partner status during auto-sync
-                profile = { ...fresh, email: user.email };
-                saveLocalProfile(profile);
-            }
-        }
-        
-        // 24-HOUR CACHE LOGIC: Fetch if missing or older than 24h
-        if (!profile || isCacheExpired()) {
-            const { data: dbProfile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
-            if (dbProfile) {
-                // Change 2: Merge email and partner status during initial fetch
-                profile = { ...dbProfile, email: user.email };
-                saveLocalProfile(profile);
-            }
-        }
-        
+        // --- BLOCK 1: Home Page Auto-Sync ---
+if (isHomePage && (!profile || profile.is_paid === false || profile.is_partner === false)) {
+    const { data: fresh } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+    if (fresh) {
+        // ALWAYS merge email here
+        profile = { ...fresh, email: user.email }; 
+        saveLocalProfile(profile);
+    }
+}
+
+// --- BLOCK 2: Initial Fetch / 24-Hour Refresh ---
+if (!profile || isCacheExpired()) {
+    const { data: dbProfile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+    if (dbProfile) {
+        // ALWAYS merge email here too
+        profile = { ...dbProfile, email: user.email };
+        saveLocalProfile(profile);
+    }
+}
+
         const username = profile ? profile.username : "User";
         const isPaid = profile ? profile.is_paid : false;
         const isAdmin = profile ? profile.role === 'admin' : false; // Added Admin Role Check
@@ -344,9 +344,13 @@ function toggleMobileMenu() {
     if (navActions) navActions.classList.toggle('show');
 }
 
-// Update your window.onclick to also close the mobile menu when clicking outside
 window.onclick = function(event) {
-    if (!event.target.matches('.profile-trigger') && !event.target.matches('.mobile-menu-btn')) {
+    // You MUST add these two lines
+    const isProfileTrigger = event.target.closest('.profile-trigger');
+    const isMenuBtn = event.target.closest('.mobile-menu-btn');
+
+    // Update the IF statement to use these variables
+    if (!isProfileTrigger && !isMenuBtn) {
         // Close Profile Dropdown
         const dropdowns = document.getElementsByClassName("dropdown-content");
         for (let i = 0; i < dropdowns.length; i++) {
@@ -359,20 +363,13 @@ window.onclick = function(event) {
         }
     }
 }
+
+
 async function handleChangePassword() {
     const { data: { user } } = await _supabase.auth.getUser();
     if (user) {
         const { error } = await _supabase.auth.resetPasswordForEmail(user.email);
         alert(error ? "Error: " + error.message : "A password reset link has been sent to your Gmail!");
-    }
-}
-
-window.onclick = function(event) {
-    if (!event.target.matches('.profile-trigger')) {
-        const dropdowns = document.getElementsByClassName("dropdown-content");
-        for (let i = 0; i < dropdowns.length; i++) {
-            if (dropdowns[i].classList.contains('show')) dropdowns[i].classList.remove('show');
-        }
     }
 }
 
