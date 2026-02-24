@@ -281,15 +281,16 @@
             if (authError) {
                 showMessage("Error: " + authError.message, true);
             } else if (authData.user) {
-                const { error: dbError } = await _supabase.from('profiles').insert([{ 
+                // FIXED: dbError check correctly matches variable name 'error' in your snippet
+                const { error } = await _supabase.from('profiles').insert([{ 
                     id: authData.user.id, 
                     username: user, 
                     full_name: name,
                     email: email
                 }]);
                 
-                if (dbError) {
-                    showMessage("Error: " + dbError.message, true);
+                if (error) {
+                    showMessage("Error: " + error.message, true);
                 } else {
                     showMessage("Registration Successful! Redirecting...", false);
                     setTimeout(() => window.location.href = "/index.html", 1500);
@@ -336,5 +337,7 @@
             }
         }
     </script>
+    
+ 
 </body>
 </html>
