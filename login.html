@@ -323,7 +323,6 @@ async function forgotPassword() {
             if (authError) {
                 showMessage("Error: " + authError.message, true);
             } else if (authData.user) {
-                // FIXED: dbError check correctly matches variable name 'error' in your snippet
                 const { error } = await client.from('profiles').insert([{ 
                     id: authData.user.id, 
                     username: user, 
