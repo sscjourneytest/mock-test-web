@@ -1,12 +1,34 @@
-const SUPABASE_URL = 'https://duqmejyypqgkrjlpplrz.supabase.co';
+const DIRECT_URL = 'https://duqmejyypqgkrjlpplrz.supabase.co';
+const PROXY_URL = 'https://black-frog-bc55.sscjourney2official.workers.dev';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cW1lanl5cHFna3JqbHBwbHJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDIyNTAsImV4cCI6MjA4NzE3ODI1MH0.aAIITdr-BS-D-TJHY1fEkqgN4CRVwsyz90d2I9IrhVc';
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let _supabase = null;
+
+async function getClient() {
+    if (_supabase) return _supabase;
+    let activeUrl = DIRECT_URL;
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1500);
+        const response = await fetch(`${DIRECT_URL}/auth/v1/health`, {
+            method: 'GET',
+            headers: { 'apikey': SUPABASE_KEY },
+            signal: controller.signal
+        });
+        if (!response.ok) throw new Error();
+    } catch (err) {
+        activeUrl = PROXY_URL;
+    }
+    _supabase = supabase.createClient(activeUrl, SUPABASE_KEY);
+    return _supabase;
+}
 
 // Security Salt for local storage encryption
 const SECRET_SALT = "mmh_vault_key_99";
 
 async function initAuth() {
-    const { data: { user } } = await _supabase.auth.getUser();
+    const client = await getClient();
+    const { data: { user } } = await client.auth.getUser();
     const path = window.location.pathname;
     
     // Fix for Cloudflare "Pretty URLs" (Preserved as requested)
@@ -30,7 +52,7 @@ async function initAuth() {
 
         if (forceFetch || isCacheExpired()) {
             // Fetch everything on login or weekly refresh
-            const { data: dbProfile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+            const { data: dbProfile } = await client.from('profiles').select('*').eq('id', user.id).single();
             if (dbProfile) {
                 profile = { ...dbProfile, email: user.email };
                 saveLocalProfile(profile);
@@ -359,18 +381,22 @@ window.onclick = function(event) {
 
 
 async function handleChangePassword() {
-    const { data: { user } } = await _supabase.auth.getUser();
+    const client = await getClient();
+    const { data: { user } } = await client.auth.getUser();
     if (user) {
-        const { error } = await _supabase.auth.resetPasswordForEmail(user.email);
+        const { error } = await client.auth.resetPasswordForEmail(user.email, {
+            redirectTo: window.location.origin + '/login.html?type=recovery',
+        });
         alert(error ? "Error: " + error.message : "A password reset link has been sent to your Gmail!");
     }
 }
 
 
 async function handleLogout() {
+    const client = await getClient();
     localStorage.removeItem('u_vault'); // Erase profile cache
     localStorage.removeItem('mmh_guide_seen'); // RESET the guide for next login
-    await _supabase.auth.signOut(); // Sign out from Supabase
+    await client.auth.signOut(); // Sign out from Supabase
     window.location.href = "/index.html"; // Redirect home
 }
 document.addEventListener('DOMContentLoaded', initAuth);
