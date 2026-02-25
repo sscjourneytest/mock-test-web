@@ -231,6 +231,13 @@
     Contact for Support
 </a>
     <script>
+        let _supabase_login_client = null;
+        async function getLoginClient() {
+            if (_supabase_login_client) return _supabase_login_client;
+            _supabase_login_client = await getClient();
+            return _supabase_login_client;
+        }
+
         function toggleEye(id) {
             const input = document.getElementById(id);
             input.type = input.type === "password" ? "text" : "password";
@@ -250,8 +257,9 @@ async function forgotPassword() {
     if (!email) return showMessage("Error: Please enter your Gmail address.", true);
 
     showMessage("Sending reset link...", false);
+    const client = await getLoginClient();
 
-    const { error } = await _supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await client.auth.resetPasswordForEmail(email, {
         redirectTo: window.location.origin + '/login.html?type=recovery',
     });
 
@@ -292,21 +300,22 @@ async function forgotPassword() {
             }
 
             showMessage("Checking availability...", false);
+            const client = await getLoginClient();
 
             // 1. Unique Email Check
-            const { data: emailExist } = await _supabase.from('profiles').select('id').eq('email', email).maybeSingle();
+            const { data: emailExist } = await client.from('profiles').select('id').eq('email', email).maybeSingle();
             if (emailExist) {
                 return showMessage("Error: This Email is already registered!", true);
             }
 
             // 2. Unique Username Check
-            const { data: userExist } = await _supabase.from('profiles').select('username').eq('username', user).maybeSingle();
+            const { data: userExist } = await client.from('profiles').select('username').eq('username', user).maybeSingle();
             if (userExist) {
                 return showMessage("Error: Username already taken. Try another.", true);
             }
 
             // 3. Register
-            const { data: authData, error: authError } = await _supabase.auth.signUp({
+            const { data: authData, error: authError } = await client.auth.signUp({
                 email, 
                 password: pass
             });
@@ -315,7 +324,7 @@ async function forgotPassword() {
                 showMessage("Error: " + authError.message, true);
             } else if (authData.user) {
                 // FIXED: dbError check correctly matches variable name 'error' in your snippet
-                const { error } = await _supabase.from('profiles').insert([{ 
+                const { error } = await client.from('profiles').insert([{ 
                     id: authData.user.id, 
                     username: user, 
                     full_name: name,
@@ -340,12 +349,13 @@ async function forgotPassword() {
             }
 
             showMessage("Authenticating...", false);
+            const client = await getLoginClient();
 
             let loginEmail = identity;
 
             // Username Login Logic
             if (!identity.includes('@')) {
-                const { data, error } = await _supabase
+                const { data, error } = await client
                     .from('profiles')
                     .select('email')
                     .eq('username', identity)
@@ -358,7 +368,7 @@ async function forgotPassword() {
                 }
             }
 
-            const { error } = await _supabase.auth.signInWithPassword({ 
+            const { error } = await client.auth.signInWithPassword({ 
                 email: loginEmail, 
                 password: pass 
             });
