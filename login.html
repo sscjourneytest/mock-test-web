@@ -198,10 +198,10 @@
 
         <div id="otp-reset-section" class="hidden">
             <h2>Verify OTP</h2>
-            <p class="mandatory-notice">Enter the 6-digit code sent to your Gmail.</p>
+            <p class="mandatory-notice">Enter the 8-digit code sent to your Gmail.</p>
             
             <label>OTP Code <span>*</span></label>
-            <input type="text" id="otp-code" class="input-box" placeholder="123456" maxlength="6">
+            <input type="text" id="otp-code" class="input-box" placeholder="12345678" maxlength="8">
             
             <label>New Password <span>*</span></label>
             <div class="pass-container">
@@ -282,7 +282,7 @@
                 } else {
                     window.tempEmail = email; // Save for OTP verification
                     toggleView('otp');
-                    showMessage("Check your Gmail for the 6-digit code.", false);
+                    showMessage("Check your Gmail for the 8-digit code.", false);
                 }
             } catch (err) {
                 showMessage("Error: " + err.message, true);
