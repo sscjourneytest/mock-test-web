@@ -232,12 +232,15 @@
 </a>
     <script>
         let _supabase_login_client = null;
-        async function getLoginClient() {
-            if (_supabase_login_client) return _supabase_login_client;
-            _supabase_login_client = await getClient();
-            return _supabase_login_client;
-        }
 
+        
+        
+        async function getLoginClient() {
+    // This will now correctly wait for the proxy-check in auth.js
+    return await getClient(); 
+        }
+        
+        
         function toggleEye(id) {
             const input = document.getElementById(id);
             input.type = input.type === "password" ? "text" : "password";
