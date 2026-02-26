@@ -158,7 +158,8 @@
 </style>
    
 </head>
-    <body>
+
+<body>
     <div class="auth-card">
         <div class="brand-header">
             <div class="logo-box">M</div>
@@ -186,26 +187,30 @@
 
         <div id="reset-section" class="hidden">
             <h2>Reset Password</h2>
-            <p class="mandatory-notice">Enter your registered Gmail to receive a reset link.</p>
+            <p class="mandatory-notice">Enter your registered Gmail to receive a reset code.</p>
             
             <label>Gmail Address <span>*</span></label>
             <input type="email" id="r-email" class="input-box" placeholder="example@gmail.com">
             
-            <button class="btn btn-primary" onclick="forgotPassword()">Send Reset Link</button>
+            <button class="btn btn-primary" onclick="forgotPassword()">Send Reset Code</button>
             <button class="btn btn-link" onclick="toggleView('login')">Back to Login</button>
         </div>
 
-        <div id="update-password-section" class="hidden">
-            <h2>Set New Password</h2>
-            <p class="mandatory-notice">Enter your new secure password <span>*</span></p>
+        <div id="otp-reset-section" class="hidden">
+            <h2>Verify OTP</h2>
+            <p class="mandatory-notice">Enter the 6-digit code sent to your Gmail.</p>
+            
+            <label>OTP Code <span>*</span></label>
+            <input type="text" id="otp-code" class="input-box" placeholder="123456" maxlength="6">
             
             <label>New Password <span>*</span></label>
             <div class="pass-container">
-                <input type="password" id="new-password" class="input-box" placeholder="Min 6 characters">
-                <span class="toggle-eye" onclick="toggleEye('new-password')">👁️</span>
+                <input type="password" id="otp-new-password" class="input-box" placeholder="Min 6 characters">
+                <span class="toggle-eye" onclick="toggleEye('otp-new-password')">👁️</span>
             </div>
             
-            <button class="btn btn-primary" onclick="updatePassword()">Update & Login</button>
+            <button class="btn btn-primary" onclick="verifyOtpAndChangePassword()">Update Password</button>
+            <button class="btn btn-link" onclick="toggleView('reset')">Resend Code</button>
         </div>
 
         <div id="signup-section" class="hidden">
@@ -257,55 +262,61 @@
             document.getElementById('login-section').classList.toggle('hidden', v !== 'login');
             document.getElementById('signup-section').classList.toggle('hidden', v !== 'signup');
             document.getElementById('reset-section').classList.toggle('hidden', v !== 'reset');
-            document.getElementById('update-password-section').classList.toggle('hidden', v !== 'update');
+            document.getElementById('otp-reset-section').classList.toggle('hidden', v !== 'otp');
             const msg = document.getElementById('msg');
             msg.innerText = "";
             msg.style.background = "transparent";
-        }
-
-        // Detect Recovery Link on load
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.location.hash && window.location.hash.includes('type=recovery')) {
-                toggleView('update');
-                showMessage("Recovery link verified. Please set your new password.", false);
-            }
-        });
-
-        async function updatePassword() {
-            const newPass = document.getElementById('new-password').value;
-            if (newPass.length < 6) return showMessage("Error: Password must be at least 6 characters.", true);
-
-            try {
-                showMessage("Updating password...", false);
-                const client = await getLoginClient();
-                const { error } = await client.auth.updateUser({ password: newPass });
-
-                if (error) throw error;
-
-                showMessage("Success! Password updated. Redirecting to login...", false);
-                setTimeout(() => {
-                    window.location.href = "/login.html";
-                }, 2000);
-            } catch (error) {
-                showMessage("Error: " + error.message, true);
-            }
         }
 
         async function forgotPassword() {
             const email = document.getElementById('r-email').value.trim();
             if (!email) return showMessage("Error: Please enter your Gmail address.", true);
 
-            showMessage("Sending reset link...", false);
-            const client = await getLoginClient();
+            showMessage("Sending code to your email...", false);
+            try {
+                const client = await getLoginClient();
+                const { error } = await client.auth.resetPasswordForEmail(email);
 
-            const { error } = await client.auth.resetPasswordForEmail(email, {
-                redirectTo: window.location.origin + '/login.html?type=recovery',
-            });
+                if (error) {
+                    showMessage("Error: " + error.message, true);
+                } else {
+                    window.tempEmail = email; // Save for OTP verification
+                    toggleView('otp');
+                    showMessage("Check your Gmail for the 6-digit code.", false);
+                }
+            } catch (err) {
+                showMessage("Error: " + err.message, true);
+            }
+        }
 
-            if (error) {
+        async function verifyOtpAndChangePassword() {
+            const code = document.getElementById('otp-code').value.trim();
+            const newPass = document.getElementById('otp-new-password').value;
+            const email = window.tempEmail;
+
+            if (!code || newPass.length < 6) {
+                return showMessage("Error: Enter code and valid password (min 6 chars).", true);
+            }
+
+            try {
+                showMessage("Verifying code...", false);
+                const client = await getLoginClient();
+
+                const { error: verifyError } = await client.auth.verifyOtp({
+                    email: email,
+                    token: code,
+                    type: 'recovery'
+                });
+
+                if (verifyError) throw verifyError;
+
+                const { error: updateError } = await client.auth.updateUser({ password: newPass });
+                if (updateError) throw updateError;
+
+                showMessage("Success! Password updated. Redirecting...", false);
+                setTimeout(() => { window.location.href = "/login.html"; }, 2000);
+            } catch (error) {
                 showMessage("Error: " + error.message, true);
-            } else {
-                showMessage("Success! Check your Gmail for the reset link.", false);
             }
         }
 
@@ -321,49 +332,26 @@
             const pass = document.getElementById('s-password').value;
             const name = document.getElementById('s-name').value.trim();
             const user = document.getElementById('s-username').value.trim();
-            
             const userRegex = /^[A-Za-z0-9]+$/;
 
-            if(!email || !pass || !name || !user) {
-                return showMessage("Error: All fields are mandatory!", true);
-            }
-
-            if(!userRegex.test(user)) {
-                return showMessage("Error: Username must only contain letters and numbers (no signs/spaces).", true);
-            }
-
-            if(pass.length < 6) {
-                return showMessage("Error: Password should be at least 6 characters.", true);
-            }
+            if(!email || !pass || !name || !user) return showMessage("Error: All fields are mandatory!", true);
+            if(!userRegex.test(user)) return showMessage("Error: Username must only contain letters and numbers.", true);
+            if(pass.length < 6) return showMessage("Error: Password should be at least 6 characters.", true);
 
             showMessage("Checking availability...", false);
             const client = await getLoginClient();
 
             const { data: emailExist } = await client.from('profiles').select('id').eq('email', email).maybeSingle();
-            if (emailExist) {
-                return showMessage("Error: This Email is already registered!", true);
-            }
+            if (emailExist) return showMessage("Error: This Email is already registered!", true);
 
             const { data: userExist } = await client.from('profiles').select('username').eq('username', user).maybeSingle();
-            if (userExist) {
-                return showMessage("Error: Username already taken. Try another.", true);
-            }
+            if (userExist) return showMessage("Error: Username already taken.", true);
 
-            const { data: authData, error: authError } = await client.auth.signUp({
-                email, 
-                password: pass
-            });
-            
+            const { data: authData, error: authError } = await client.auth.signUp({ email, password: pass });
             if (authError) {
                 showMessage("Error: " + authError.message, true);
             } else if (authData.user) {
-                const { error } = await client.from('profiles').insert([{ 
-                    id: authData.user.id, 
-                    username: user, 
-                    full_name: name,
-                    email: email
-                }]);
-                
+                const { error } = await client.from('profiles').insert([{ id: authData.user.id, username: user, full_name: name, email: email }]);
                 if (error) {
                     showMessage("Error: " + error.message, true);
                 } else {
@@ -376,41 +364,22 @@
         async function login() {
             const identity = document.getElementById('l-identity').value.trim();
             const pass = document.getElementById('l-password').value;
-
-            if(!identity || !pass) {
-                return showMessage("Error: All fields are mandatory!", true);
-            }
+            if(!identity || !pass) return showMessage("Error: All fields are mandatory!", true);
 
             showMessage("Authenticating...", false);
             const client = await getLoginClient();
-
             let loginEmail = identity;
 
             if (!identity.includes('@')) {
-                const { data, error } = await client
-                    .from('profiles')
-                    .select('email')
-                    .eq('username', identity)
-                    .maybeSingle();
-                
-                if (data) {
-                    loginEmail = data.email;
-                } else {
-                    return showMessage("Error: Username not found.", true);
-                }
+                const { data } = await client.from('profiles').select('email').eq('username', identity).maybeSingle();
+                if (data) loginEmail = data.email;
+                else return showMessage("Error: Username not found.", true);
             }
 
-            const { error } = await client.auth.signInWithPassword({ 
-                email: loginEmail, 
-                password: pass 
-            });
-
-            if (error) {
-                showMessage("Error: " + error.message, true);
-            } else {
-                window.location.href = "/index.html";
-            }
+            const { error } = await client.auth.signInWithPassword({ email: loginEmail, password: pass });
+            if (error) showMessage("Error: " + error.message, true);
+            else window.location.href = "/index.html";
         }
     </script>
-    </body>
+</body>
 </html>
