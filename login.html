@@ -226,6 +226,20 @@
         <p id="msg"></p>
     </div>
 
+    <div id="update-password-section" class="hidden">
+    <h2>Set New Password</h2>
+    <p class="mandatory-notice">Enter your new secure password <span>*</span></p>
+    
+    <label>New Password <span>*</span></label>
+    <div class="pass-container">
+        <input type="password" id="new-password" class="input-box" placeholder="Min 6 characters">
+        <span class="toggle-eye" onclick="toggleEye('new-password')">👁️</span>
+    </div>
+    
+    <button class="btn btn-primary" onclick="updatePassword()">Update & Login</button>
+    </div>
+    
+
   <a href="https://t.me/MOCK_MATRIX__HUB_SUPPORT_BOT" target="_blank" class="mmh-floating-support">
     <span class="mmh-support-icon-circle">✈</span>
     Contact for Support
@@ -244,17 +258,45 @@
             const input = document.getElementById(id);
             input.type = input.type === "password" ? "text" : "password";
         }
-
-        function toggleView(v) {
+function toggleView(v) {
     document.getElementById('login-section').classList.toggle('hidden', v !== 'login');
     document.getElementById('signup-section').classList.toggle('hidden', v !== 'signup');
-    document.getElementById('reset-section').classList.toggle('hidden', v !== 'reset'); // Support reset view
+    document.getElementById('reset-section').classList.toggle('hidden', v !== 'reset');
+    document.getElementById('update-password-section').classList.toggle('hidden', v !== 'update');
     const msg = document.getElementById('msg');
     msg.innerText = "";
     msg.style.background = "transparent";
 }
 
-async function forgotPassword() {
+// Add this to detect the recovery link automatically
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash && window.location.hash.includes('type=recovery')) {
+        toggleView('update');
+        showMessage("Recovery link verified. Please set your new password.", false);
+    }
+});
+
+async function updatePassword() {
+    const newPass = document.getElementById('new-password').value;
+    if (newPass.length < 6) return showMessage("Error: Password must be at least 6 characters.", true);
+
+    try {
+        showMessage("Updating password...", false);
+        const client = await getLoginClient();
+        const { error } = await client.auth.updateUser({ password: newPass });
+
+        if (error) throw error;
+
+        showMessage("Success! Password updated. Redirecting to login...", false);
+        setTimeout(() => {
+            window.location.href = "/login.html";
+        }, 2000);
+    } catch (error) {
+        showMessage("Error: " + error.message, true);
+    }
+}
+        
+        forgotPassword() {
     const email = document.getElementById('r-email').value.trim();
     if (!email) return showMessage("Error: Please enter your Gmail address.", true);
 
