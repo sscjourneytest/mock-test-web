@@ -364,28 +364,41 @@
         formData.append("parse_mode", "Markdown");
         await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: formData });
     }
+async function checkRequestStatus() {
+    const email = document.getElementById('userEmail').value;
+    const { data } = await _supabase.from('payment_requests')
+        .select('status')
+        .eq('email', email)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
 
-    async function checkRequestStatus() {
-        const email = document.getElementById('userEmail').value;
-        const { data } = await _supabase.from('payment_requests')
-            .select('status')
-            .eq('email', email)
-            .order('created_at', { ascending: false })
-            .limit(1)
-            .single();
-
-        if (data) {
-            if (data.status === 'pending') {
-                alert("⏳ Verification is currently in progress. Please check back soon.");
-            } else if (data.status === 'success') {
-                localStorage.removeItem('pending_premium_request');
-                alert("🎉 Congratulations! Your premium access is approved. Redirecting...");
-                window.location.href = "/index.html"; 
+    if (data) {
+        if (data.status === 'pending') {
+            alert("⏳ Verification is currently in progress. Please check back soon.");
+        } else if (data.status === 'success') {
+            // Update Local Storage status immediately
+            const profile = getLocalProfile();
+            if (profile) {
+                profile.is_paid = true;
+                
+                // Set expiration date to 1 year from now to match admin approval
+                const expiry = new Date();
+                expiry.setFullYear(expiry.getFullYear() + 1);
+                profile.expires_at = expiry.toISOString();
+                
+                saveLocalProfile(profile);
             }
-        } else {
-            alert("No request history found.");
+            
+            localStorage.removeItem('pending_premium_request');
+            alert("🎉 Congratulations! Your premium access is approved. Redirecting...");
+            window.location.href = "/index.html"; 
         }
+    } else {
+        alert("No request history found.");
     }
+}
+    
 </script>
 </body>
 </html>
