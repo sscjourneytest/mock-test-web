@@ -158,7 +158,7 @@
 </style>
    
 </head>
-<body>
+    <body>
     <div class="auth-card">
         <div class="brand-header">
             <div class="logo-box">M</div>
@@ -166,36 +166,48 @@
         </div>
         
         <div id="login-section">
-    <h2>Welcome Back</h2>
-    <p class="mandatory-notice">Please enter your credentials <span>*</span></p>
-    
-    <label>Gmail or Username <span>*</span></label>
-    <input type="text" id="l-identity" class="input-box" placeholder="Enter Gmail or Username">
-    
-    <label>Password <span>*</span></label>
-    <div class="pass-container">
-        <input type="password" id="l-password" class="input-box" placeholder="••••••••">
-        <span class="toggle-eye" onclick="toggleEye('l-password')">👁️</span>
-    </div>
-    
-    <a href="javascript:void(0)" onclick="toggleView('reset')" style="font-size: 12px; color: #2563eb; text-decoration: none; display: block; margin-bottom: 15px; text-align: right; font-weight: 600;">Forgot Password?</a>
-    
-    <button class="btn btn-primary" onclick="login()">Sign In</button>
-    <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
-</div>
+            <h2>Welcome Back</h2>
+            <p class="mandatory-notice">Please enter your credentials <span>*</span></p>
+            
+            <label>Gmail or Username <span>*</span></label>
+            <input type="text" id="l-identity" class="input-box" placeholder="Enter Gmail or Username">
+            
+            <label>Password <span>*</span></label>
+            <div class="pass-container">
+                <input type="password" id="l-password" class="input-box" placeholder="••••••••">
+                <span class="toggle-eye" onclick="toggleEye('l-password')">👁️</span>
+            </div>
+            
+            <a href="javascript:void(0)" onclick="toggleView('reset')" style="font-size: 12px; color: #2563eb; text-decoration: none; display: block; margin-bottom: 15px; text-align: right; font-weight: 600;">Forgot Password?</a>
+            
+            <button class="btn btn-primary" onclick="login()">Sign In</button>
+            <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
+        </div>
 
-<div id="reset-section" class="hidden">
-    <h2>Reset Password</h2>
-    <p class="mandatory-notice">Enter your registered Gmail to receive a reset link.</p>
-    
-    <label>Gmail Address <span>*</span></label>
-    <input type="email" id="r-email" class="input-box" placeholder="example@gmail.com">
-    
-    <button class="btn btn-primary" onclick="forgotPassword()">Send Reset Link</button>
-    <button class="btn btn-link" onclick="toggleView('login')">Back to Login</button>
-</div>
+        <div id="reset-section" class="hidden">
+            <h2>Reset Password</h2>
+            <p class="mandatory-notice">Enter your registered Gmail to receive a reset link.</p>
+            
+            <label>Gmail Address <span>*</span></label>
+            <input type="email" id="r-email" class="input-box" placeholder="example@gmail.com">
+            
+            <button class="btn btn-primary" onclick="forgotPassword()">Send Reset Link</button>
+            <button class="btn btn-link" onclick="toggleView('login')">Back to Login</button>
+        </div>
 
-       
+        <div id="update-password-section" class="hidden">
+            <h2>Set New Password</h2>
+            <p class="mandatory-notice">Enter your new secure password <span>*</span></p>
+            
+            <label>New Password <span>*</span></label>
+            <div class="pass-container">
+                <input type="password" id="new-password" class="input-box" placeholder="Min 6 characters">
+                <span class="toggle-eye" onclick="toggleEye('new-password')">👁️</span>
+            </div>
+            
+            <button class="btn btn-primary" onclick="updatePassword()">Update & Login</button>
+        </div>
+
         <div id="signup-section" class="hidden">
             <h2>Create Account</h2>
             <div class="guide-box">
@@ -226,94 +238,76 @@
         <p id="msg"></p>
     </div>
 
-    <div id="update-password-section" class="hidden">
-    <h2>Set New Password</h2>
-    <p class="mandatory-notice">Enter your new secure password <span>*</span></p>
-    
-    <label>New Password <span>*</span></label>
-    <div class="pass-container">
-        <input type="password" id="new-password" class="input-box" placeholder="Min 6 characters">
-        <span class="toggle-eye" onclick="toggleEye('new-password')">👁️</span>
-    </div>
-    
-    <button class="btn btn-primary" onclick="updatePassword()">Update & Login</button>
-    </div>
-    
+    <a href="https://t.me/MOCK_MATRIX__HUB_SUPPORT_BOT" target="_blank" class="mmh-floating-support">
+        <span class="mmh-support-icon-circle">✈</span>
+        Contact for Support
+    </a>
 
-  <a href="https://t.me/MOCK_MATRIX__HUB_SUPPORT_BOT" target="_blank" class="mmh-floating-support">
-    <span class="mmh-support-icon-circle">✈</span>
-    Contact for Support
-</a>
     <script>
-
-        
         async function getLoginClient() {
-    // This now waits for the proxy-only client from auth.js
-    return await getClient();
+            return await getClient();
         }
-        
 
-        
         function toggleEye(id) {
             const input = document.getElementById(id);
             input.type = input.type === "password" ? "text" : "password";
         }
-function toggleView(v) {
-    document.getElementById('login-section').classList.toggle('hidden', v !== 'login');
-    document.getElementById('signup-section').classList.toggle('hidden', v !== 'signup');
-    document.getElementById('reset-section').classList.toggle('hidden', v !== 'reset');
-    document.getElementById('update-password-section').classList.toggle('hidden', v !== 'update');
-    const msg = document.getElementById('msg');
-    msg.innerText = "";
-    msg.style.background = "transparent";
-}
 
-// Add this to detect the recovery link automatically
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.hash && window.location.hash.includes('type=recovery')) {
-        toggleView('update');
-        showMessage("Recovery link verified. Please set your new password.", false);
-    }
-});
+        function toggleView(v) {
+            document.getElementById('login-section').classList.toggle('hidden', v !== 'login');
+            document.getElementById('signup-section').classList.toggle('hidden', v !== 'signup');
+            document.getElementById('reset-section').classList.toggle('hidden', v !== 'reset');
+            document.getElementById('update-password-section').classList.toggle('hidden', v !== 'update');
+            const msg = document.getElementById('msg');
+            msg.innerText = "";
+            msg.style.background = "transparent";
+        }
 
-async function updatePassword() {
-    const newPass = document.getElementById('new-password').value;
-    if (newPass.length < 6) return showMessage("Error: Password must be at least 6 characters.", true);
+        // Detect Recovery Link on load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash && window.location.hash.includes('type=recovery')) {
+                toggleView('update');
+                showMessage("Recovery link verified. Please set your new password.", false);
+            }
+        });
 
-    try {
-        showMessage("Updating password...", false);
-        const client = await getLoginClient();
-        const { error } = await client.auth.updateUser({ password: newPass });
+        async function updatePassword() {
+            const newPass = document.getElementById('new-password').value;
+            if (newPass.length < 6) return showMessage("Error: Password must be at least 6 characters.", true);
 
-        if (error) throw error;
+            try {
+                showMessage("Updating password...", false);
+                const client = await getLoginClient();
+                const { error } = await client.auth.updateUser({ password: newPass });
 
-        showMessage("Success! Password updated. Redirecting to login...", false);
-        setTimeout(() => {
-            window.location.href = "/login.html";
-        }, 2000);
-    } catch (error) {
-        showMessage("Error: " + error.message, true);
-    }
-}
-        
-        forgotPassword() {
-    const email = document.getElementById('r-email').value.trim();
-    if (!email) return showMessage("Error: Please enter your Gmail address.", true);
+                if (error) throw error;
 
-    showMessage("Sending reset link...", false);
-    const client = await getLoginClient();
+                showMessage("Success! Password updated. Redirecting to login...", false);
+                setTimeout(() => {
+                    window.location.href = "/login.html";
+                }, 2000);
+            } catch (error) {
+                showMessage("Error: " + error.message, true);
+            }
+        }
 
-    const { error } = await client.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/login.html?type=recovery',
-    });
+        async function forgotPassword() {
+            const email = document.getElementById('r-email').value.trim();
+            if (!email) return showMessage("Error: Please enter your Gmail address.", true);
 
-    if (error) {
-        showMessage("Error: " + error.message, true);
-    } else {
-        showMessage("Success! Check your Gmail for the reset link.", false);
-    }
-}
+            showMessage("Sending reset link...", false);
+            const client = await getLoginClient();
 
+            const { error } = await client.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/login.html?type=recovery',
+            });
+
+            if (error) {
+                showMessage("Error: " + error.message, true);
+            } else {
+                showMessage("Success! Check your Gmail for the reset link.", false);
+            }
+        }
 
         function showMessage(text, isError) {
             const msg = document.getElementById('msg');
@@ -328,7 +322,6 @@ async function updatePassword() {
             const name = document.getElementById('s-name').value.trim();
             const user = document.getElementById('s-username').value.trim();
             
-            // Username Validation: Only A-Z, a-z, and 0-9
             const userRegex = /^[A-Za-z0-9]+$/;
 
             if(!email || !pass || !name || !user) {
@@ -346,19 +339,16 @@ async function updatePassword() {
             showMessage("Checking availability...", false);
             const client = await getLoginClient();
 
-            // 1. Unique Email Check
             const { data: emailExist } = await client.from('profiles').select('id').eq('email', email).maybeSingle();
             if (emailExist) {
                 return showMessage("Error: This Email is already registered!", true);
             }
 
-            // 2. Unique Username Check
             const { data: userExist } = await client.from('profiles').select('username').eq('username', user).maybeSingle();
             if (userExist) {
                 return showMessage("Error: Username already taken. Try another.", true);
             }
 
-            // 3. Register
             const { data: authData, error: authError } = await client.auth.signUp({
                 email, 
                 password: pass
@@ -396,7 +386,6 @@ async function updatePassword() {
 
             let loginEmail = identity;
 
-            // Username Login Logic
             if (!identity.includes('@')) {
                 const { data, error } = await client
                     .from('profiles')
@@ -423,7 +412,5 @@ async function updatePassword() {
             }
         }
     </script>
-    
- 
-</body>
+    </body>
 </html>
