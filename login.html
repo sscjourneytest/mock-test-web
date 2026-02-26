@@ -234,12 +234,12 @@
         let _supabase_login_client = null;
 
         
-        
         async function getLoginClient() {
-    // This will now correctly wait for the proxy-check in auth.js
-    return await getClient(); 
+    // This now waits for the proxy-only client from auth.js
+    return await getClient();
         }
         
+
         
         function toggleEye(id) {
             const input = document.getElementById(id);
