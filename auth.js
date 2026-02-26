@@ -1,44 +1,18 @@
 
-const DIRECT_URL = 'https://duqmejyypqgkrjlpplrz.supabase.co';
-const PROXY_URL = 'https://mmh-vault-1.mockmatrixhub.workers.dev/';
+
+const PROXY_URL = 'https://mmh-vault-2.mockmatrixhub.workers.dev';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cW1lanl5cHFna3JqbHBwbHJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDIyNTAsImV4cCI6MjA4NzE3ODI1MH0.aAIITdr-BS-D-TJHY1fEkqgN4CRVwsyz90d2I9IrhVc';
+
+
 let _supabase = null;
-let _initializationPromise = null; // New: tracks the setup process
 
 async function getClient() {
-    // If already initialized, return it
     if (_supabase) return _supabase;
-
-    // If currently initializing, wait for the existing process
-    if (_initializationPromise) return _initializationPromise;
-
-    // Start initialization
-    _initializationPromise = (async () => {
-        let activeUrl = DIRECT_URL;
-        
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 2000); // Slightly longer timeout
-            
-            const response = await fetch(`${DIRECT_URL}/auth/v1/health`, {
-                method: 'GET',
-                headers: { 'apikey': SUPABASE_KEY },
-                signal: controller.signal
-            });
-            
-            clearTimeout(timeoutId);
-            if (!response.ok) throw new Error("Direct URL blocked");
-        } catch (err) {
-            console.warn("Supabase Direct blocked. Switching to Proxy...");
-            activeUrl = PROXY_URL;
-        }
-
-        _supabase = supabase.createClient(activeUrl, SUPABASE_KEY);
-        return _supabase;
-    })();
-
-    return _initializationPromise;
+    // Force the proxy so the ISP block is bypassed immediately
+    _supabase = supabase.createClient(PROXY_URL, SUPABASE_KEY);
+    return _supabase;
 }
+
 
 
 // Security Salt for local storage encryption
