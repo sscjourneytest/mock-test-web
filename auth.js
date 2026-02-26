@@ -1,6 +1,6 @@
 
 const DIRECT_URL = 'https://duqmejyypqgkrjlpplrz.supabase.co';
-const PROXY_URL = 'https://black-frog-bc55.sscjourney2official.workers.dev';
+const PROXY_URL = 'https://mmh-vault-1.mockmatrixhub.workers.dev';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cW1lanl5cHFna3JqbHBwbHJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDIyNTAsImV4cCI6MjA4NzE3ODI1MH0.aAIITdr-BS-D-TJHY1fEkqgN4CRVwsyz90d2I9IrhVc';
 let _supabase = null;
 let _initializationPromise = null; // New: tracks the setup process
