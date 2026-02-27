@@ -332,7 +332,6 @@ async function fetchRevenueLedger() {
     });
     document.getElementById('revenue-ledger-table').innerHTML = html || '<tr><td colspan="4">No partners found.</td></tr>';
 }
-
 async function viewPartnerDetails(userId, name, code) {
     const detailSection = document.getElementById('partner-detail-view');
     detailSection.style.display = 'block';
@@ -346,7 +345,8 @@ async function viewPartnerDetails(userId, name, code) {
         .order('payout_upto', { ascending: false })
         .limit(1);
 
-    let lastDate = lastReq && lastReq[0] ? lastReq[0].payout_upto : '2000-01-01T00:00:00Z';
+    // UPDATED: Added check to handle empty payout history to prevent 400 error
+    let lastDate = lastReq && lastReq.length > 0 ? lastReq[0].payout_upto : '2000-01-01T00:00:00Z';
 
     // 2. Fetch successful sales since last payout
     const { data: sales } = await _supabase.from('payment_requests')
@@ -386,7 +386,7 @@ async function viewPartnerDetails(userId, name, code) {
     // Scroll to details
     detailSection.scrollIntoView({ behavior: 'smooth' });
 }
-    
+
 
     // --- LOGIC: PAYOUTS ---
     async function fetchPayouts() {
