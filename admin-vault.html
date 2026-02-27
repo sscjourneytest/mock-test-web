@@ -7,26 +7,36 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/auth.js"></script>
     <style>
-        :root { --primary: #2563eb; --secondary: #1e293b; --success: #16a34a; --danger: #ef4444; --bg: #f8fafc; }
+        :root { --primary: #2563eb; --secondary: #1e293b; --success: #16a34a; --danger: #ef4444; --warning: #f59e0b; --bg: #f8fafc; }
         body { background: var(--bg); font-family: 'Poppins', sans-serif; padding-top: 80px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
         
         /* Stats Styling */
-        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .stat-card h3 { font-size: 24px; color: var(--primary); margin: 5px 0; }
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); }
+        .stat-card.green { border-top-color: var(--success); }
+        .stat-card.red { border-top-color: var(--danger); }
+        .stat-card h3 { font-size: 22px; color: var(--secondary); margin: 5px 0; }
+        .stat-card p { font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600; }
 
         .admin-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; overflow-x: auto; }
         .tab-btn { padding: 10px 20px; border: none; background: none; font-weight: 700; color: #64748b; cursor: pointer; border-radius: 8px; transition: 0.3s; white-space: nowrap; }
         .tab-btn.active { background: var(--primary); color: white; }
 
         .card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-
-        table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        th { text-align: left; padding: 12px; background: #f1f5f9; color: #64748b; font-size: 12px; text-transform: uppercase; }
-        td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
         
+        .history-label { display: inline-block; margin-top: 30px; margin-bottom: 10px; font-weight: 700; color: #64748b; font-size: 14px; }
+
+        .table-wrapper { overflow-x: auto; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; min-width: 900px; }
+        th { text-align: left; padding: 12px; background: #f8fafc; color: #64748b; font-size: 11px; text-transform: uppercase; border-bottom: 2px solid #edf2f7; }
+        td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+        
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+        .badge.success { background: #dcfce7; color: #166534; }
+        .badge.danger { background: #fee2e2; color: #991b1b; }
+
         .action-btns { display: flex; gap: 8px; }
         .btn-sm { padding: 8px 14px; border-radius: 6px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .approve { background: var(--success); color: white; }
@@ -48,12 +58,16 @@
             <p>Total Registered Users</p>
             <h3 id="totalUsers">--</h3>
         </div>
+        <div class="stat-card green">
+            <p>Total Revenue (Success)</p>
+            <h3 id="totalRevenue">₹0</h3>
+        </div>
         <div class="stat-card">
             <p>Total Paid (Premium) Users</p>
             <h3 id="paidUsers">--</h3>
         </div>
         <div class="stat-card">
-            <button class="fetch-btn" onclick="fetchUserStats()">Refresh Stats</button>
+            <button class="fetch-btn" style="width:100%; height:100%;" onclick="fetchUserStats()">Refresh Stats</button>
         </div>
     </div>
 
@@ -61,34 +75,53 @@
         <button class="tab-btn active" onclick="switchTab('payment-section', this)">💰 Buy Requests</button>
         <button class="tab-btn" onclick="switchTab('partner-section', this)">🎁 Partner Requests</button>
         <button class="tab-btn" onclick="switchTab('payout-section', this)">💵 Payouts</button>
+        <button class="tab-btn" onclick="switchTab('ledger-section', this)">📊 Partner Revenue Ledger</button>
     </div>
 
     <section id="payment-section" class="tab-content card">
+        <div class="stats-row">
+            <div class="stat-card green"><p>Approved Payments</p><h3 id="count-pay-success">0</h3></div>
+            <div class="stat-card red"><p>Rejected Payments</p><h3 id="count-pay-rejected">0</h3></div>
+        </div>
         <div class="section-header">
             <h2>Pending Premium Access</h2>
             <button class="fetch-btn" onclick="fetchPayments()">Load Pending</button>
         </div>
         <div class="table-wrapper">
             <table>
-                <thead>
-                    <tr><th>User</th><th>UTR</th><th>Amount</th><th>Discount</th><th>Actions</th></tr>
-                </thead>
+                <thead><tr><th>User</th><th>UTR</th><th>Amount</th><th>Discount</th><th>Actions</th></tr></thead>
                 <tbody id="payment-table"></tbody>
+            </table>
+        </div>
+        <span class="history-label">Payment History (Last 20)</span>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>User</th><th>UTR</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                <tbody id="payment-history-table"></tbody>
             </table>
         </div>
     </section>
 
     <section id="partner-section" class="tab-content card" style="display:none;">
+        <div class="stats-row">
+            <div class="stat-card green"><p>Total Partners</p><h3 id="count-part-success">0</h3></div>
+            <div class="stat-card red"><p>Rejected Partners</p><h3 id="count-part-rejected">0</h3></div>
+        </div>
         <div class="section-header">
             <h2>Partner Applications</h2>
             <button class="fetch-btn" onclick="fetchCoupons()">Load Pending</button>
         </div>
         <div class="table-wrapper">
             <table>
-                <thead>
-                    <tr><th>User</th><th>Code</th><th>Links</th><th>UPI ID</th><th>Actions</th></tr>
-                </thead>
+                <thead><tr><th>User</th><th>Code</th><th>Links</th><th>UPI ID</th><th>Actions</th></tr></thead>
                 <tbody id="partner-table"></tbody>
+            </table>
+        </div>
+        <span class="history-label">Application History</span>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>User</th><th>Code</th><th>UPI ID</th><th>Status</th></tr></thead>
+                <tbody id="partner-history-table"></tbody>
             </table>
         </div>
     </section>
@@ -100,10 +133,30 @@
         </div>
         <div class="table-wrapper">
             <table>
-                <thead>
-                    <tr><th>Partner</th><th>Requested Amount</th><th>Upto Date</th><th>Actions</th></tr>
-                </thead>
+                <thead><tr><th>Partner</th><th>Requested Amount</th><th>Upto Date</th><th>Actions</th></tr></thead>
                 <tbody id="payout-table"></tbody>
+            </table>
+        </div>
+        <span class="history-label">Payout History</span>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Partner</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                <tbody id="payout-history-table"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="ledger-section" class="tab-content card" style="display:none;">
+        <div class="section-header">
+            <h2>Partner Revenue Ledger</h2>
+            <button class="fetch-btn" onclick="fetchRevenueLedger()">Fetch Ledger Data</button>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Partner Name</th><th>Coupon Code</th><th>Total Sales (Vol)</th><th>Disc. Generated</th><th>Partner Share (75%)</th></tr>
+                </thead>
+                <tbody id="revenue-ledger-table"></tbody>
             </table>
         </div>
     </section>
@@ -116,6 +169,7 @@
         if (!profile || profile.role !== 'admin') {
             window.location.href = "/index.html";
         }
+        fetchUserStats();
     });
 
     function switchTab(id, btn) {
@@ -129,16 +183,28 @@
     async function fetchUserStats() {
         const { count: total } = await _supabase.from('profiles').select('*', { count: 'exact', head: true });
         const { count: paid } = await _supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('is_paid', true);
+        const { data: revenueData } = await _supabase.from('payment_requests').select('amount_paid').eq('status', 'success');
+        
+        let revenue = revenueData ? revenueData.reduce((acc, curr) => acc + (Number(curr.amount_paid) || 0), 0) : 0;
+
         document.getElementById('totalUsers').innerText = total;
         document.getElementById('paidUsers').innerText = paid;
+        document.getElementById('totalRevenue').innerText = '₹' + revenue.toLocaleString();
     }
 
     // --- LOGIC: PAYMENTS ---
     async function fetchPayments() {
-        const { data } = await _supabase.from('payment_requests').select('*').eq('status', 'pending');
-        let html = '';
-        data?.forEach(req => {
-            html += `<tr>
+        const { data: pending } = await _supabase.from('payment_requests').select('*').eq('status', 'pending');
+        const { data: history } = await _supabase.from('payment_requests').select('*').neq('status', 'pending').order('created_at', {ascending: false}).limit(20);
+        
+        const { count: s } = await _supabase.from('payment_requests').select('*', {count:'exact', head:true}).eq('status', 'success');
+        const { count: r } = await _supabase.from('payment_requests').select('*', {count:'exact', head:true}).eq('status', 'rejected');
+        document.getElementById('count-pay-success').innerText = s;
+        document.getElementById('count-pay-rejected').innerText = r;
+
+        let p_html = '';
+        pending?.forEach(req => {
+            p_html += `<tr>
                 <td><b>${req.username}</b><br><small>${req.email}</small></td>
                 <td>${req.utr_number}</td>
                 <td>₹${req.amount_paid}</td>
@@ -149,7 +215,15 @@
                 </td>
             </tr>`;
         });
-        document.getElementById('payment-table').innerHTML = html || '<tr><td colspan="5">No pending requests.</td></tr>';
+        document.getElementById('payment-table').innerHTML = p_html || '<tr><td colspan="5">No pending requests.</td></tr>';
+
+        let h_html = '';
+        history?.forEach(req => {
+            h_html += `<tr><td>${req.username}</td><td>${req.utr_number}</td><td>₹${req.amount_paid}</td>
+                <td><span class="badge ${req.status === 'success' ? 'success' : 'danger'}">${req.status.toUpperCase()}</span></td>
+                <td>${new Date(req.created_at).toLocaleDateString()}</td></tr>`;
+        });
+        document.getElementById('payment-history-table').innerHTML = h_html;
     }
 
     async function approveMock(id, userId, email, name) {
@@ -166,27 +240,40 @@
 
     // --- LOGIC: PARTNERS ---
     async function fetchCoupons() {
-        const { data } = await _supabase.from('coupon_requests').select('*').eq('status', 'pending');
-        let html = '';
-        data?.forEach(req => {
-            html += `<tr>
+        const { data: pending } = await _supabase.from('coupon_requests').select('*').eq('status', 'pending');
+        const { data: history } = await _supabase.from('coupon_requests').select('*').neq('status', 'pending').limit(15);
+
+        const { count: s } = await _supabase.from('coupon_requests').select('*', {count:'exact', head:true}).eq('status', 'approved');
+        const { count: r } = await _supabase.from('coupon_requests').select('*', {count:'exact', head:true}).eq('status', 'rejected');
+        document.getElementById('count-part-success').innerText = s;
+        document.getElementById('count-part-rejected').innerText = r;
+
+        let p_html = '';
+        pending?.forEach(req => {
+            p_html += `<tr>
                 <td><b>${req.username}</b><br><small>${req.email}</small></td>
                 <td>${req.requested_code}</td>
                 <td><a href="${req.channel_links}" target="_blank">View Links</a></td>
                 <td>${req.upi_id}</td>
                 <td class="action-btns">
-                    <button class="btn-sm approve" onclick="approvePartner('${req.id}', '${req.user_id}', '${req.requested_code}', '${req.email}', '${req.username}')">Approve Partner</button>
+                    <button class="btn-sm approve" onclick="approvePartner('${req.id}', '${req.user_id}', '${req.requested_code}', '${req.email}', '${req.username}')">Approve</button>
+                    <button class="btn-sm reject" onclick="rejectReq('coupon_requests', '${req.id}')">Reject</button>
                 </td>
             </tr>`;
         });
-        document.getElementById('partner-table').innerHTML = html || '<tr><td colspan="5">No applications.</td></tr>';
+        document.getElementById('partner-table').innerHTML = p_html || '<tr><td colspan="5">No applications.</td></tr>';
+
+        let h_html = '';
+        history?.forEach(req => {
+            h_html += `<tr><td>${req.username}</td><td>${req.requested_code}</td><td>${req.upi_id}</td>
+                <td><span class="badge ${req.status === 'approved' ? 'success' : 'danger'}">${req.status.toUpperCase()}</span></td></tr>`;
+        });
+        document.getElementById('partner-history-table').innerHTML = h_html;
     }
 
     async function approvePartner(id, userId, code, email, name) {
         if(!confirm("Grant Partner Status?")) return;
-        // Update request table
         await _supabase.from('coupon_requests').update({ status: 'approved' }).eq('id', id);
-        // Update profile table with NEW COLUMNS
         await _supabase.from('profiles').update({ 
             is_partner: true, 
             partner_coupon: code,
@@ -198,12 +285,37 @@
         fetchCoupons();
     }
 
+    // --- REVENUE LEDGER ---
+    async function fetchRevenueLedger() {
+        const { data: partners } = await _supabase.from('profiles').select('username, partner_coupon').eq('is_partner', true);
+        const { data: sales } = await _supabase.from('payment_requests').select('applied_coupon, discount_given').eq('status', 'success');
+
+        let html = '';
+        partners?.forEach(p => {
+            const partnerSales = sales.filter(s => s.applied_coupon === p.partner_coupon);
+            const totalVolume = partnerSales.length;
+            const totalDisc = partnerSales.reduce((sum, s) => sum + (Number(s.discount_given) || 0), 0);
+            const partnerShare = totalDisc * 0.75;
+
+            html += `<tr>
+                <td><b>${p.username}</b></td>
+                <td><span style="color:var(--primary); font-weight:bold;">${p.partner_coupon}</span></td>
+                <td>${totalVolume} Sales</td>
+                <td>₹${totalDisc}</td>
+                <td style="color:var(--success); font-weight:bold;">₹${partnerShare.toFixed(2)}</td>
+            </tr>`;
+        });
+        document.getElementById('revenue-ledger-table').innerHTML = html || '<tr><td colspan="5">No active partners found.</td></tr>';
+    }
+
     // --- LOGIC: PAYOUTS ---
     async function fetchPayouts() {
-        const { data } = await _supabase.from('payout_requests').select('*').eq('status', 'pending');
-        let html = '';
-        data?.forEach(req => {
-            html += `<tr>
+        const { data: pending } = await _supabase.from('payout_requests').select('*').eq('status', 'pending');
+        const { data: history } = await _supabase.from('payout_requests').select('*').neq('status', 'pending').limit(15);
+
+        let p_html = '';
+        pending?.forEach(req => {
+            p_html += `<tr>
                 <td><b>${req.username}</b><br><small>${req.email}</small></td>
                 <td>₹${req.amount}</td>
                 <td>${new Date(req.payout_upto).toLocaleString()}</td>
@@ -212,7 +324,15 @@
                 </td>
             </tr>`;
         });
-        document.getElementById('payout-table').innerHTML = html || '<tr><td colspan="4">No pending payouts.</td></tr>';
+        document.getElementById('payout-table').innerHTML = p_html || '<tr><td colspan="4">No pending payouts.</td></tr>';
+
+        let h_html = '';
+        history?.forEach(req => {
+            h_html += `<tr><td>${req.username}</td><td>₹${req.amount}</td>
+                <td><span class="badge success">${req.status.toUpperCase()}</span></td>
+                <td>${new Date(req.created_at).toLocaleDateString()}</td></tr>`;
+        });
+        document.getElementById('payout-history-table').innerHTML = h_html;
     }
 
     async function approvePayout(id, email, name, amount) {
@@ -227,7 +347,9 @@
         if(confirm("Reject this request?")) {
             await _supabase.from(table).update({ status: 'rejected' }).eq('id', id);
             alert("Rejected.");
-            location.reload();
+            // Manual refresh instead of reload
+            if(table === 'payment_requests') fetchPayments();
+            else if(table === 'coupon_requests') fetchCoupons();
         }
     }
 
@@ -237,17 +359,16 @@
         const fromEmail = "mockmatrixhub@gmail.com";
 
         if(type === 'premium') {
-            subject = "Premium Access Granted - Mock Matrix Hub";
-            body = `Hi ${name},\n\nYour payment has been verified. You now have full access to all mocks for 1 year! Please Logout and login again to show updated or click on check status button on buy premium page\n\nEmail: ${fromEmail}`;
+            subject = "🌟 Premium Access Granted - Mock Matrix Hub";
+            body = `Hi ${name} 👋,\n\n✅ Your payment has been verified successfully! You now have full access to all mocks for 1 year! \n\n🔐 IMPORTANT: Please LOGOUT and LOGIN again to see your updated "PRO" status.\n\nHappy Learning! 🚀\n\nContact: ${fromEmail}`;
         } else if (type === 'partner') {
-            subject = "Partner Program Approved!";
-            body = `Congratulations ${name}!\n\nYou are now a partner. Your code [${extra}] is active. This code provides 20% discount to students and earns you 75% of that discount value! Please logout once and login again or click on check status button of partner page to show updated\n\nEmail: ${fromEmail}`;
+            subject = "🤝 Partner Program Approved - Mock Matrix Hub";
+            body = `Congratulations ${name}! 🎉\n\nYour application is approved. Your unique code [${extra}] is now active! \n\n💰 Benefit: Your code provides a 20% discount to students, and you earn 75% of that discount value as commission!\n\n🔑 Please LOGOUT and LOGIN again to access your Partner Dashboard.\n\nCheers! 🥂`;
         } else if (type === 'payout') {
-            subject = "Payout Processed - Mock Matrix Hub";
-            body = `Hi ${name},\n\nYour payout request for ₹${extra} has been processed via UPI.\n\nEmail: ${fromEmail}`;
+            subject = "💸 Payout Processed - Mock Matrix Hub";
+            body = `Hi ${name} 👋,\n\nGreat news! Your payout request for ₹${extra} has been processed successfully via UPI. 🏦\n\nThank you for being a valuable partner! ✨\n\nEmail: ${fromEmail}`;
         }
         
-        // Opens the user's email client (Gmail/Outlook)
         window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 </script>
