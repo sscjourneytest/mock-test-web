@@ -366,40 +366,49 @@
         formData.append("parse_mode", "Markdown");
         await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: formData });
     }
+
 async function checkRequestStatus() {
     const email = document.getElementById('userEmail').value;
+    const btn = document.getElementById('submitBtn'); 
+    
     const { data } = await _supabase.from('payment_requests')
         .select('status')
         .eq('email', email)
         .order('created_at', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle(); // Changed from .single() to .maybeSingle() to handle "no data" gracefully
 
     if (data) {
         if (data.status === 'pending') {
             alert("⏳ Verification is currently in progress. Please check back soon.");
         } else if (data.status === 'success') {
-            // Update Local Storage status immediately
             const profile = getLocalProfile();
             if (profile) {
                 profile.is_paid = true;
-                
-                // Set expiration date to 1 year from now to match admin approval
                 const expiry = new Date();
                 expiry.setFullYear(expiry.getFullYear() + 1);
                 profile.expires_at = expiry.toISOString();
-                
                 saveLocalProfile(profile);
             }
-            
             localStorage.removeItem('pending_premium_request');
             alert("🎉 Congratulations! Your premium access is approved. Redirecting...");
             window.location.href = "/index.html"; 
+        } else if (data.status === 'rejected') {
+            localStorage.removeItem('pending_premium_request'); 
+            btn.disabled = false; 
+            btn.innerText = "Submit Request"; 
+            alert("❌ Sorry, your request was rejected. We think you have submitted wrong details. You can submit your request again.");
         }
     } else {
-        alert("No request history found.");
+        // Fix for Local Storage error: Clean up if no history exists in Database
+        localStorage.removeItem('pending_premium_request');
+        btn.disabled = false;
+        btn.innerText = "Submit Request";
+        alert("No request history found. You can submit a new request.");
     }
 }
+    
+
     
 </script>
 </body>
