@@ -163,14 +163,15 @@
 </div>
 
 <script>
-    // SECURITY CHECK
+        // SECURITY CHECK
     document.addEventListener('DOMContentLoaded', async () => {
         const profile = getLocalProfile();
         if (!profile || profile.role !== 'admin') {
             window.location.href = "/index.html";
         }
-        fetchUserStats();
+        // fetchUserStats(); is removed to prevent automatic fetching
     });
+    
 
     function switchTab(id, btn) {
         document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
