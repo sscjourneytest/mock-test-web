@@ -238,10 +238,10 @@
 
         if(type === 'premium') {
             subject = "Premium Access Granted - Mock Matrix Hub";
-            body = `Hi ${name},\n\nYour payment has been verified. You now have full access to all mocks for 1 year!\n\nEmail: ${fromEmail}`;
+            body = `Hi ${name},\n\nYour payment has been verified. You now have full access to all mocks for 1 year! Please Logout and login again to show updated or click on check status button on buy premium page\n\nEmail: ${fromEmail}`;
         } else if (type === 'partner') {
             subject = "Partner Program Approved!";
-            body = `Congratulations ${name}!\n\nYou are now a partner. Your code [${extra}] is active. This code provides 20% discount to students and earns you 75% of that discount value!\n\nEmail: ${fromEmail}`;
+            body = `Congratulations ${name}!\n\nYou are now a partner. Your code [${extra}] is active. This code provides 20% discount to students and earns you 75% of that discount value! Please logout once and login again or click on check status button of partner page to show updated\n\nEmail: ${fromEmail}`;
         } else if (type === 'payout') {
             subject = "Payout Processed - Mock Matrix Hub";
             body = `Hi ${name},\n\nYour payout request for ₹${extra} has been processed via UPI.\n\nEmail: ${fromEmail}`;
