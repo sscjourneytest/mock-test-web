@@ -145,21 +145,45 @@
             </table>
         </div>
     </section>
+<section id="ledger-section" class="tab-content card" style="display:none;">
+    <div class="section-header">
+        <h2>Partner Revenue Ledger (75% Model)</h2>
+        <button class="fetch-btn" onclick="fetchRevenueLedger()">Fetch Ledger Data</button>
+    </div>
+    <div class="table-wrapper">
+        <table id="ledger-main-table">
+            <thead>
+                <tr>
+                    <th>Partner Name</th>
+                    <th>Coupon Code</th>
+                    <th>UPI ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="revenue-ledger-table"></tbody>
+        </table>
+    </div>
 
-    <section id="ledger-section" class="tab-content card" style="display:none;">
+    <div id="partner-detail-view" style="display:none; margin-top:30px; border-top: 2px solid #eee; padding-top:20px;">
         <div class="section-header">
-            <h2>Partner Revenue Ledger</h2>
-            <button class="fetch-btn" onclick="fetchRevenueLedger()">Fetch Ledger Data</button>
+            <h3 id="detail-title">Partner Details</h3>
+            <button class="btn-sm reject" onclick="document.getElementById('partner-detail-view').style.display='none'">Close Details</button>
         </div>
+        <div class="stats-row">
+            <div class="stat-card"><p>Available Earnings</p><h3 id="det-available">₹0</h3></div>
+            <div class="stat-card green"><p>Total Withdrawn</p><h3 id="det-withdrawn">₹0</h3></div>
+            <div class="stat-card"><p>Total Sales (Vol)</p><h3 id="det-vol">0</h3></div>
+        </div>
+        <span class="history-label">Withdrawal History (Successful)</span>
         <div class="table-wrapper">
             <table>
-                <thead>
-                    <tr><th>Partner Name</th><th>Coupon Code</th><th>Total Sales (Vol)</th><th>Disc. Generated</th><th>Partner Share (75%)</th></tr>
-                </thead>
-                <tbody id="revenue-ledger-table"></tbody>
+                <thead><tr><th>Requested Date</th><th>Amount</th><th>Status</th></tr></thead>
+                <tbody id="det-payout-history"></tbody>
             </table>
         </div>
-    </section>
+    </div>
+</section>
+    
 </div>
 
 <script>
@@ -285,29 +309,84 @@
         sendEmail(email, name, 'partner', code);
         fetchCoupons();
     }
+// --- REVENUE LEDGER LOGIC ---
+async function fetchRevenueLedger() {
+    const { data: partners, error: pErr } = await _supabase.from('profiles')
+        .select('id, username, email, partner_coupon, upi_id')
+        .eq('is_partner', true);
 
-    // --- REVENUE LEDGER ---
-    async function fetchRevenueLedger() {
-        const { data: partners } = await _supabase.from('profiles').select('username, partner_coupon').eq('is_partner', true);
-        const { data: sales } = await _supabase.from('payment_requests').select('applied_coupon, discount_given').eq('status', 'success');
+    if (pErr) return alert("Error fetching partners");
 
-        let html = '';
-        partners?.forEach(p => {
-            const partnerSales = sales.filter(s => s.applied_coupon === p.partner_coupon);
-            const totalVolume = partnerSales.length;
-            const totalDisc = partnerSales.reduce((sum, s) => sum + (Number(s.discount_given) || 0), 0);
-            const partnerShare = totalDisc * 0.75;
+    let html = '';
+    partners?.forEach(p => {
+        html += `<tr>
+            <td><b>${p.username}</b><br><small>${p.email}</small></td>
+            <td><span style="color:var(--primary); font-weight:bold;">${p.partner_coupon}</span></td>
+            <td>${p.upi_id || 'N/A'}</td>
+            <td>
+                <button class="btn-sm approve" onclick="viewPartnerDetails('${p.id}', '${p.username}', '${p.partner_coupon}')">
+                    <i class="fas fa-eye"></i> View Full Ledger
+                </button>
+            </td>
+        </tr>`;
+    });
+    document.getElementById('revenue-ledger-table').innerHTML = html || '<tr><td colspan="4">No partners found.</td></tr>';
+}
 
-            html += `<tr>
-                <td><b>${p.username}</b></td>
-                <td><span style="color:var(--primary); font-weight:bold;">${p.partner_coupon}</span></td>
-                <td>${totalVolume} Sales</td>
-                <td>₹${totalDisc}</td>
-                <td style="color:var(--success); font-weight:bold;">₹${partnerShare.toFixed(2)}</td>
-            </tr>`;
-        });
-        document.getElementById('revenue-ledger-table').innerHTML = html || '<tr><td colspan="5">No active partners found.</td></tr>';
-    }
+async function viewPartnerDetails(userId, name, code) {
+    const detailSection = document.getElementById('partner-detail-view');
+    detailSection.style.display = 'block';
+    document.getElementById('detail-title').innerText = `Ledger for: ${name} (${code})`;
+
+    // 1. Get last valid payout date (matching partner dashboard logic)
+    const { data: lastReq } = await _supabase.from('payout_requests')
+        .select('payout_upto')
+        .eq('user_id', userId)
+        .neq('status', 'rejected')
+        .order('payout_upto', { ascending: false })
+        .limit(1);
+
+    let lastDate = lastReq && lastReq[0] ? lastReq[0].payout_upto : '2000-01-01T00:00:00Z';
+
+    // 2. Fetch successful sales since last payout
+    const { data: sales } = await _supabase.from('payment_requests')
+        .select('discount_given')
+        .eq('coupon_used', code)
+        .eq('status', 'success')
+        .gt('created_at', lastDate);
+
+    // 3. Fetch full withdrawal history for this partner
+    const { data: history } = await _supabase.from('payout_requests')
+        .select('*')
+        .eq('user_id', userId)
+        .order('requested_at', { ascending: false });
+
+    // 4. Calculations
+    let totalDiscountSum = 0;
+    sales?.forEach(s => totalDiscountSum += (s.discount_given || 0));
+    let availableEarnings = Math.floor(totalDiscountSum * 0.75);
+
+    let totalWithdrawn = 0;
+    let historyHtml = '';
+    history?.forEach(row => {
+        if(row.status === 'successful') totalWithdrawn += row.amount;
+        historyHtml += `<tr>
+            <td>${new Date(row.requested_at).toLocaleString()}</td>
+            <td>₹${row.amount}</td>
+            <td><span class="badge ${row.status === 'successful' ? 'success' : (row.status === 'pending' ? 'warning' : 'danger')}">${row.status}</span></td>
+        </tr>`;
+    });
+
+    // 5. Update UI
+    document.getElementById('det-available').innerText = "₹" + availableEarnings;
+    document.getElementById('det-withdrawn').innerText = "₹" + totalWithdrawn;
+    document.getElementById('det-vol').innerText = sales?.length || 0;
+    document.getElementById('det-payout-history').innerHTML = historyHtml || '<tr><td colspan="3">No history</td></tr>';
+    
+    // Scroll to details
+    detailSection.scrollIntoView({ behavior: 'smooth' });
+}
+    
 
     // --- LOGIC: PAYOUTS ---
     async function fetchPayouts() {
