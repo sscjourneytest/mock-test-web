@@ -238,6 +238,48 @@
       .hero { padding: 80px 15px 40px; }
       .card { padding: 25px 15px; }
     }
+    /* Premium Telegram Button Styling */
+.premium-tg-btn {
+    position: fixed;
+    top: 75px; /* Adjust based on your top bar height */
+    right: 20px;
+    background: linear-gradient(135deg, #0088cc, #0077b5);
+    color: white !important;
+    padding: 10px 18px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    display: none; /* Hidden by default */
+    align-items: center;
+    gap: 8px;
+    z-index: 999;
+    box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    font-family: 'Poppins', sans-serif;
+}
+
+.premium-tg-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 136, 204, 0.5);
+    background: #0099ff;
+}
+
+.premium-tg-btn i {
+    font-size: 16px;
+}
+
+/* Mobile Adjustment */
+@media (max-width: 600px) {
+    .premium-tg-btn {
+        top: 70px;
+        right: 10px;
+        padding: 8px 14px;
+        font-size: 11px;
+    }
+}
+    
   </style>
 </head>
 
@@ -290,7 +332,11 @@
 
     </div>
   </div>
-
+  
+<a href="https://t.me/+O4W4bDNdITo1Mzdl" target="_blank" class="premium-tg-btn" id="paidTgLink">
+    <i class="fab fa-telegram-plane"></i> JOIN PAID TELEGRAM GROUP
+</a>
+  
   <footer>
     <div class="footer-content">
       <div style="font-weight: bold; color: white; margin-bottom: 10px;">MOCK MATRIX HUB</div>
@@ -405,6 +451,22 @@
         // Set flag so it doesn't show again until they logout and login
         localStorage.setItem('mmh_guide_seen', 'true');
     }
+  document.addEventListener('DOMContentLoaded', () => {
+    // Small delay to ensure auth.js has loaded the profile into localStorage
+    setTimeout(() => {
+        const profile = getLocalProfile(); // Function from your auth.js
+        const paidBtn = document.getElementById('paidTgLink');
+
+        if (profile && profile.is_paid === true) {
+            // Show the button only for paid users
+            paidBtn.style.display = 'flex';
+        } else {
+            // Ensure it is removed/hidden for free users
+            paidBtn.remove(); 
+        }
+    }, 500); 
+});
+  
 </script>
 
  <div id="premiumTelegramBanner" class="tg-popup-overlay" style="display: none;">
