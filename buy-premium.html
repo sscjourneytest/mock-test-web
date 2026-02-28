@@ -311,61 +311,139 @@
         }
     }
 
-    document.getElementById('requestForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        const emailValue = document.getElementById('userEmail').value;
-        const profile = getLocalProfile();
+    // 1. Check file size and format immediately upon selection
+document.getElementById('paySS').addEventListener('change', function() {
+    const file = this.files[0];
+    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
 
-        btn.disabled = true;
-        btn.innerText = "Verifying...";
+    if (!file) return;
 
-        // Insert including the 'discount_given' column for the 75% earning logic
-        const { error } = await _supabase.from('payment_requests').insert([{
-            user_id: profile.id,
-            username: document.getElementById('userName').value,
-            email: emailValue,
-            phone: document.getElementById('userPhone').value,
-            utr_number: document.getElementById('utrNumber').value,
-            coupon_used: document.getElementById('couponCode').value,
-            amount_paid: document.getElementById('finalPrice').innerText,
-            discount_given: currentDiscount, // Saved at purchase time for partner tracking
-            status: 'pending'
-        }]);
-
-        if (!error) {
-            localStorage.setItem('pending_premium_request', 'true'); 
-            await sendTelegramData();
-            alert("Request submitted successfully!");
-            location.reload();
-        } else {
-            alert("Error: " + error.message);
-            btn.disabled = false;
-        }
-    });
-
-    async function sendTelegramData() {
-        const botToken = "8718722838:AAEq4sWeL2N440uJTIi4Tg3-7yJPpB3DkWY";
-        const chatId = "-1003710079577";
-        const file = document.getElementById('paySS').files[0];
-        
-        // Maintained all caption fields including Mobile Number
-        const caption = `🚀 *New Payment Request* 🚀\n\n` +
-                        `👤 Name: ${document.getElementById('userName').value}\n` +
-                        `📧 Email: ${document.getElementById('userEmail').value}\n` +
-                        `📞 Phone: ${document.getElementById('userPhone').value}\n` +
-                        `🆔 UTR: ${document.getElementById('utrNumber').value}\n` +
-                        `🎟️ Coupon: ${document.getElementById('couponCode').value || "None"}\n` +
-                        `🎁 Discount: ₹${currentDiscount}\n` +
-                        `💰 Amount: ₹${document.getElementById('finalPrice').innerText}`;
-
-        const formData = new FormData();
-        formData.append("chat_id", chatId);
-        formData.append("photo", file);
-        formData.append("caption", caption);
-        formData.append("parse_mode", "Markdown");
-        await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: formData });
+    // Ensure it is an image (blocks PDF and other formats)
+    if (!file.type.startsWith('image/')) {
+        alert("⚠️ Please upload an image file (JPG/PNG). PDF and other formats are not supported.");
+        this.value = "";
+        return;
     }
+
+    if (file.size > maxSize) {
+        alert("⚠️ Image is larger than 1.5 MB. It will be automatically compressed before sending.");
+    }
+});
+
+// 2. Image Compression Function
+async function compressImage(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                // Max resolution 1200px to keep file size tiny
+                const MAX_SIZE = 1200;
+                if (width > height && width > MAX_SIZE) {
+                    height *= MAX_SIZE / width;
+                    width = MAX_SIZE;
+                } else if (height > MAX_SIZE) {
+                    width *= MAX_SIZE / height;
+                    height = MAX_SIZE;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Convert to compressed JPEG Blob
+                canvas.toBlob((blob) => {
+                    resolve(blob);
+                }, 'image/jpeg', 0.7); // 0.7 quality is perfect for screenshots
+            };
+        };
+    });
+}
+
+// 3. Updated Submit Handler
+document.getElementById('requestForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const emailValue = document.getElementById('userEmail').value;
+    const profile = getLocalProfile();
+
+    btn.disabled = true;
+    btn.innerText = "Verifying...";
+
+    // Insert into Supabase (No changes to your logic)
+    const { error } = await _supabase.from('payment_requests').insert([{
+        user_id: profile.id,
+        username: document.getElementById('userName').value,
+        email: emailValue,
+        phone: document.getElementById('userPhone').value,
+        utr_number: document.getElementById('utrNumber').value,
+        coupon_used: document.getElementById('couponCode').value,
+        amount_paid: document.getElementById('finalPrice').innerText,
+        discount_given: currentDiscount,
+        status: 'pending'
+    }]);
+
+    if (!error) {
+        localStorage.setItem('pending_premium_request', 'true'); 
+        
+        btn.innerText = "Sending to Admin..."; 
+        // Await Telegram specifically to prevent page reload from killing the process
+        await sendTelegramData();
+        
+        alert("Request submitted successfully!");
+        location.reload();
+    } else {
+        alert("Error: " + error.message);
+        btn.disabled = false;
+        btn.innerText = "Submit Request";
+    }
+});
+
+// 4. Updated Telegram Function with Compression
+async function sendTelegramData() {
+    const botToken = "8718722838:AAEq4sWeL2N440uJTIi4Tg3-7yJPpB3DkWY";
+    const chatId = "-1003710079577";
+    const originalFile = document.getElementById('paySS').files[0];
+    
+    if (!originalFile) return;
+
+    // Compress the image before sending
+    const compressedFile = await compressImage(originalFile);
+    
+    const caption = `🚀 *New Payment Request* 🚀\n\n` +
+                    `👤 Name: ${document.getElementById('userName').value}\n` +
+                    `📧 Email: ${document.getElementById('userEmail').value}\n` +
+                    `📞 Phone: ${document.getElementById('userPhone').value}\n` +
+                    `🆔 UTR: ${document.getElementById('utrNumber').value}\n` +
+                    `🎟️ Coupon: ${document.getElementById('couponCode').value || "None"}\n` +
+                    `🎁 Discount: ₹${currentDiscount}\n` +
+                    `💰 Amount: ₹${document.getElementById('finalPrice').innerText}`;
+
+    const formData = new FormData();
+    formData.append("chat_id", chatId);
+    formData.append("photo", compressedFile, "screenshot.jpg"); // Sent as JPG for compatibility
+    formData.append("caption", caption);
+    formData.append("parse_mode", "Markdown");
+
+    try {
+        await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { 
+            method: "POST", 
+            body: formData 
+        });
+    } catch (err) {
+        console.error("Telegram notification failed", err);
+    }
+}
+    
+
+    
 
 async function checkRequestStatus() {
     const email = document.getElementById('userEmail').value;
