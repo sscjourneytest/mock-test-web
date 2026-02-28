@@ -348,10 +348,10 @@ function switchSection(type) {
     currentTab = type;
     document.getElementById('liveSection').style.display = type === 'live' ? 'block' : 'none';
     document.getElementById('previousSection').style.display = type === 'previous' ? 'block' : 'none';
-    
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.innerText.toLowerCase().includes(type));
-    });
+    // --- ADD THESE LINES TO FIX THE BUTTON COLORS ---
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+   
     updateTimers();
 }
 
