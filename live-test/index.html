@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIVE MOCK TESTS | MOCK MATRIX HUB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4B6V3MV51Q');
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/auth.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background:#eff6ff; 
+  color:#334155;
+}
+
+header{
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  padding:40px 20px 45px;
+  position:relative;
+  text-align:center;
+  color:#fff;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+}
+
+.back{
+  position:absolute;
+  top:12px;
+  left:14px;
+  background: rgba(255, 255, 255, 0.2);
+  color:#ffffff;
+  padding:8px 16px;
+  border-radius:20px;
+  text-decoration:none;
+  font-weight:bold;
+  font-size:12px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.join a{
+  display:inline-block;
+  margin:6px;
+  padding:10px 20px;
+  border-radius:50px;
+  font-weight:bold;
+  font-size:13px;
+  text-decoration:none;
+  color:#fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: 0.3s;
+}
+.telegram{background:#0088cc;}
+.whatsapp{background:#25d366;}
+.join a:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+.support-container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.support-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  animation: pulse-border 3s infinite;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1e3a8a;
+    margin: 30px 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: #cbd5e1;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+
+.quiz{
+  background:#ffffff;
+  border-radius:16px;
+  padding:20px 25px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.04);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  border: 1px solid #f1f5f9;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.quiz-left{ flex:1; }
+.quiz-title{
+  font-size:16px;
+  font-weight:700;
+  color:#1e293b;
+  margin-bottom:6px;
+}
+.quiz-info{ font-size:13px; color:#64748b; }
+
+.live-footer {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #3b82f6;
+    display: flex;
+    justify-content: space-between;
+}
+
+.countdown-timer {
+    color: #ef4444;
+    font-weight: 800;
+}
+
+.start-btn{
+  background:#2563eb;
+  color:#fff;
+  padding:12px 25px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+  transition: 0.3s;
+}
+
+.coming-soon{
+  background:#ffffff;
+  border-radius:16px;
+  padding:30px;
+  text-align:center;
+  color:#94a3b8;
+  border: 2px dashed #e2e8f0;
+}
+
+footer {
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 40px 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+.footer-links a {
+  color: #f1f5f9;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 13px;
+}
+
+.quiz-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-left: 8px;
+}
+.badge-free { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+.badge-paid { background: #ffd700; color: #000; }
+
+.unlock-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-buttons-stack { display: flex; flex-direction: column; gap: 8px; }
+.analysis-btn { background: #0b5ed7 !important; }
+.reattempt-btn {
+    background: #f8fafc;
+    color: #1e40af;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1.5px solid #e2e8f0;
+}
+
+.score-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 320px;
+}
+.score-bar-bg { flex: 1; height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 10px; transition: width 1.2s; }
+.score-value { font-size: 13px; color: #475569; font-weight: 600; }
+.score-value b { color: #2563eb; }
+
+@media (max-width: 600px) {
+    .quiz { flex-direction: column; align-items: flex-start; }
+    .start-btn, .unlock-btn, .reattempt-btn { width: 100%; text-align: center; box-sizing: border-box; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <a class="back" href="../">← BACK</a>
+  <h1>LIVE MOCK TESTS</h1>
+
+  <div class="join">
+    <a class="telegram" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">JOIN TELEGRAM</a>
+    <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
+    <div class="support-container">
+      <a class="support-btn" href="https://t.me/MOCK_ISSUE_DOUBT_BOT">
+        <span class="icon">🤖</span> MESSAGE FOR MOCK RELATED ISSUE
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+    <div class="section-title">LIVE NOW</div>
+    <div class="grid" id="liveGrid">
+        </div>
+
+    <div class="section-title">PREVIOUS LIVE MOCKS</div>
+    <div class="grid" id="previousGrid">
+        <div class="quiz" data-type="paid" data-start="2025-05-01 10:00:00" data-end="2025-05-15 18:00:00">
+            <div class="quiz-left">
+              <div class="quiz-title">SSC CGL 2026 LIVE MOCK #01 <span class="quiz-badge badge-paid">PAID</span></div>
+              <div class="quiz-info">100 Questions • 60 Min</div>
+              <div class="live-footer">
+                  <span class="date-range">Live from: 01 May - 15 May</span>
+                  <span class="countdown-timer"></span>
+              </div>
+            </div>
+            <div class="action-area">
+                <a href="full_test.html?id=live_cgl_01" class="start-btn">START</a>
+            </div>
+        </div>
+        </div>
+
+    <div class="coming-soon" id="emptyMsg" style="display:none; margin-top:20px;">
+      🚀 NO LIVE MOCKS CURRENTLY ACTIVE
+    </div>
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p style="font-size: 11px; margin-top: 15px; opacity: 0.5;">© 2026 MOCK MATRIX HUB. Premium Preparation Platform.</p>
+</footer>
+
+<script>
+function updateTimers() {
+    const now = new Date().getTime();
+    const quizzes = document.querySelectorAll(".quiz");
+    const liveGrid = document.getElementById("liveGrid");
+    const previousGrid = document.getElementById("previousGrid");
+    let activeCount = 0;
+
+    quizzes.forEach(quiz => {
+        const startTime = new Date(quiz.getAttribute("data-start")).getTime();
+        const endTime = new Date(quiz.getAttribute("data-end")).getTime();
+        const timerSpan = quiz.querySelector(".countdown-timer");
+        const actionArea = quiz.querySelector(".action-area");
+
+        if (now < startTime) {
+            // Future mock
+            quiz.style.display = "none";
+        } else if (now >= startTime && now <= endTime) {
+            // Live mock
+            liveGrid.appendChild(quiz);
+            quiz.style.display = "flex";
+            activeCount++;
+            
+            const distance = endTime - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            timerSpan.innerHTML = `Ends in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        } else {
+            // Expired mock
+            previousGrid.appendChild(quiz);
+            quiz.style.display = "flex";
+            timerSpan.innerHTML = "ENDED";
+            timerSpan.style.color = "#64748b";
+        }
+    });
+
+    document.getElementById("emptyMsg").style.display = activeCount === 0 ? "block" : "none";
+}
+
+function checkPremiumStatus() {
+    const profile = getLocalProfile();
+    const isPaidUser = profile ? profile.is_paid : false;
+    const username = profile ? profile.username : "Guest";
+    const quizzes = document.querySelectorAll(".quiz");
+    
+    quizzes.forEach(quiz => {
+        const type = quiz.getAttribute("data-type");
+        const actionArea = quiz.querySelector(".action-area");
+        const quizLink = quiz.querySelector(".start-btn")?.getAttribute("href") || "";
+        const urlParams = new URLSearchParams(quizLink.split('?')[1]);
+        const quizId = urlParams.get('id');
+
+        const resultKey = `result_${username}_${quizId}`;
+        const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
+
+        if (savedResult && savedResult.submitted) {
+            const score = savedResult.totalMarks || 0;
+            const max = savedResult.firebasePayload?.total || 100;
+            const pct = Math.max(0, Math.min(100, (score / max) * 100));
+            let barColor = "#ef4444";
+            if(pct >= 75) barColor = "#22c55e";
+            else if(pct >= 50) barColor = "#f59e0b";
+
+            actionArea.innerHTML = `
+                <div class="action-buttons-stack">
+                    <a href="full_test.html?id=${quizId}" class="start-btn analysis-btn">ANALYSIS</a>
+                    <button onclick="triggerReattempt('${quizId}')" class="reattempt-btn">REATTEMPT</button>
+                </div>`;
+
+            const leftCol = quiz.querySelector(".quiz-left");
+            if (!leftCol.querySelector(".score-row")) {
+                leftCol.innerHTML += `
+                    <div class="score-row">
+                        <div class="score-bar-bg">
+                            <div class="score-bar-fill" style="width: ${pct}%; background: ${barColor}"></div>
+                        </div>
+                        <div class="score-value"><b>${score}</b>/${max}</div>
+                    </div>`;
+            }
+        } 
+        else if (type === "paid" && !isPaidUser) {
+            actionArea.innerHTML = `<a href="/buy-premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
+        }
+    });
+}
+
+function triggerReattempt(quizId) {
+    const profile = getLocalProfile();
+    const username = profile ? profile.username : "Guest";
+    if(confirm("This will permanently delete your result for this mock. Continue?")) {
+        localStorage.removeItem(`result_${username}_${quizId}`);
+        localStorage.removeItem(`state_${username}_${quizId}`);
+        window.location.href = `full_test.html?id=${quizId}`;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateTimers();
+    setInterval(updateTimers, 1000);
+    checkPremiumStatus();
+});
+</script>
+</body>
+</html>
