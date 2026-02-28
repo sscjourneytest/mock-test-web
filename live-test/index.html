@@ -92,27 +92,41 @@ header{
   100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
 }
 
+/* HORIZONTAL TABS STYLING */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 15px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tab-btn.active {
+    background: #1e3a8a;
+    color: white;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+}
+
 .container{
   max-width:1000px;
   margin:auto;
   padding:20px;
-}
-
-.section-title {
-    font-size: 18px;
-    font-weight: 800;
-    color: #1e3a8a;
-    margin: 30px 0 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.section-title::after {
-    content: "";
-    flex: 1;
-    height: 2px;
-    background: #cbd5e1;
 }
 
 .grid{
@@ -265,13 +279,39 @@ footer {
   </div>
 </header>
 
+<div class="tab-container">
+    <button class="tab-btn active" onclick="switchSection('live')">LIVE NOW</button>
+    <button class="tab-btn" onclick="switchSection('previous')">PREVIOUS LIVE</button>
+</div>
+
 <div class="container">
-    <div class="section-title">LIVE NOW</div>
-    <div class="grid" id="liveGrid">
+    <div id="liveSection">
+        <div class="grid" id="liveGrid">
+            </div>
+        
+        <div class="quiz" data-type="paid" data-start="2026-02-28 17:00:00" data-end="2026-03-01 17:00:00">
+            <div class="quiz-left">
+                <div class="quiz-title">SSC CGL 2026 LIVE MOCK #02 <span class="quiz-badge badge-paid">PAID</span></div>
+                <div class="quiz-info">100 Questions • 60 Min</div>
+                <div class="live-footer">
+                    <span class="date-range">Live from: 28 Feb - 01 Mar</span>
+                    <span class="countdown-timer"></span>
+                </div>
+            </div>
+            <div class="action-area">
+                <a href="full_test.html?id=live_cgl_02" class="start-btn">START</a>
+            </div>
         </div>
 
-    <div class="section-title">PREVIOUS LIVE MOCKS</div>
-    <div class="grid" id="previousGrid">
+        <div class="coming-soon" id="liveEmptyMsg" style="display:none; margin-top:20px;">
+          🚀 NO LIVE MOCK CURRENTLY
+        </div>
+    </div>
+
+    <div id="previousSection" style="display:none;">
+        <div class="grid" id="previousGrid">
+            </div>
+
         <div class="quiz" data-type="paid" data-start="2025-05-01 10:00:00" data-end="2025-05-15 18:00:00">
             <div class="quiz-left">
               <div class="quiz-title">SSC CGL 2026 LIVE MOCK #01 <span class="quiz-badge badge-paid">PAID</span></div>
@@ -285,13 +325,12 @@ footer {
                 <a href="full_test.html?id=live_cgl_01" class="start-btn">START</a>
             </div>
         </div>
-        </div>
 
-    <div class="coming-soon" id="emptyMsg" style="display:none; margin-top:20px;">
-      🚀 NO LIVE MOCKS CURRENTLY ACTIVE
+        <div class="coming-soon" id="prevEmptyMsg" style="display:none; margin-top:20px;">
+          🚀 NO LIVE MOCK CONDUCTED
+        </div>
     </div>
 </div>
-
 <footer>
     <div class="footer-links">
         <a href="/about.html">About Us</a>
@@ -303,45 +342,56 @@ footer {
 </footer>
 
 <script>
+let currentTab = 'live';
+
+function switchSection(type) {
+    currentTab = type;
+    document.getElementById('liveSection').style.display = type === 'live' ? 'block' : 'none';
+    document.getElementById('previousSection').style.display = type === 'previous' ? 'block' : 'none';
+    
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.toLowerCase().includes(type));
+    });
+    updateTimers();
+}
+
 function updateTimers() {
     const now = new Date().getTime();
     const quizzes = document.querySelectorAll(".quiz");
     const liveGrid = document.getElementById("liveGrid");
     const previousGrid = document.getElementById("previousGrid");
-    let activeCount = 0;
+    let liveCount = 0;
+    let prevCount = 0;
 
     quizzes.forEach(quiz => {
         const startTime = new Date(quiz.getAttribute("data-start")).getTime();
         const endTime = new Date(quiz.getAttribute("data-end")).getTime();
         const timerSpan = quiz.querySelector(".countdown-timer");
-        const actionArea = quiz.querySelector(".action-area");
 
         if (now < startTime) {
-            // Future mock
             quiz.style.display = "none";
         } else if (now >= startTime && now <= endTime) {
-            // Live mock
             liveGrid.appendChild(quiz);
             quiz.style.display = "flex";
-            activeCount++;
+            liveCount++;
             
             const distance = endTime - now;
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
             timerSpan.innerHTML = `Ends in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
         } else {
-            // Expired mock
             previousGrid.appendChild(quiz);
             quiz.style.display = "flex";
+            prevCount++;
             timerSpan.innerHTML = "ENDED";
             timerSpan.style.color = "#64748b";
         }
     });
 
-    document.getElementById("emptyMsg").style.display = activeCount === 0 ? "block" : "none";
+    document.getElementById("liveEmptyMsg").style.display = liveCount === 0 ? "block" : "none";
+    document.getElementById("prevEmptyMsg").style.display = prevCount === 0 ? "block" : "none";
 }
 
 function checkPremiumStatus() {
