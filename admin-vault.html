@@ -290,18 +290,7 @@ async function approveMock(id, userId, email, name) {
     }
 }
     
-    async function approveMock(id, userId, email, name) {
-        if(!confirm("Approve Premium and update database?")) return;
-        await _supabase.from('payment_requests').update({ status: 'success' }).eq('id', id);
-        const expiry = new Date();
-        expiry.setFullYear(expiry.getFullYear() + 1);
-        await _supabase.from('profiles').update({ is_paid: true, expires_at: expiry.toISOString() }).eq('id', userId);
-        
-        alert("Approved successfully! Now sending email.");
-        sendEmail(email, name, 'premium');
-        fetchPayments();
-    }
-
+  
     // --- LOGIC: PARTNERS ---
     async function fetchCoupons() {
         const { data: pending } = await _supabase.from('coupon_requests').select('*').eq('status', 'pending');
