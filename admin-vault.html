@@ -251,6 +251,45 @@
         document.getElementById('payment-history-table').innerHTML = h_html;
     }
 
+    // --- LOGIC: PAYMENTS (Updated with Error Handling) ---
+async function approveMock(id, userId, email, name) {
+    if(!confirm("Approve Premium and update database?")) return;
+
+    try {
+        // 1. Update the Payment Request table
+        const { error: payError } = await _supabase
+            .from('payment_requests')
+            .update({ status: 'success' })
+            .eq('id', id);
+
+        if (payError) throw new Error("Failed to update Payment table: " + payError.message);
+
+        // 2. Update the Profile table (Crucial Step)
+        const expiry = new Date();
+        expiry.setFullYear(expiry.getFullYear() + 1);
+        
+        const { error: profError } = await _supabase
+            .from('profiles')
+            .update({ 
+                is_paid: true, 
+                expires_at: expiry.toISOString() 
+            })
+            .eq('id', userId);
+
+        if (profError) throw new Error("Failed to update Profile table: " + profError.message);
+
+        // 3. If both succeeded
+        alert("✅ Database Updated Successfully! Now opening Gmail to notify user.");
+        sendEmail(email, name, 'premium');
+        fetchPayments();
+        fetchUserStats(); // Refresh stats to reflect new paid user
+
+    } catch (err) {
+        console.error(err);
+        alert("❌ CRITICAL ERROR: " + err.message);
+    }
+}
+    
     async function approveMock(id, userId, email, name) {
         if(!confirm("Approve Premium and update database?")) return;
         await _supabase.from('payment_requests').update({ status: 'success' }).eq('id', id);
@@ -296,19 +335,44 @@
         document.getElementById('partner-history-table').innerHTML = h_html;
     }
 
-    async function approvePartner(id, userId, code, email, name) {
-        if(!confirm("Grant Partner Status?")) return;
-        await _supabase.from('coupon_requests').update({ status: 'approved' }).eq('id', id);
-        await _supabase.from('profiles').update({ 
-            is_partner: true, 
-            partner_coupon: code,
-            is_coupon_active: true
-        }).eq('id', userId);
-        
-        alert("Partner approved! Now sending email.");
+
+// --- LOGIC: PARTNERS (Updated with Error Handling) ---
+async function approvePartner(id, userId, code, email, name) {
+    if(!confirm("Grant Partner Status?")) return;
+
+    try {
+        // 1. Update Coupon Request table
+        const { error: coupError } = await _supabase
+            .from('coupon_requests')
+            .update({ status: 'approved' })
+            .eq('id', id);
+
+        if (coupError) throw new Error("Failed to update Coupon Request: " + coupError.message);
+
+        // 2. Update Profile table
+        const { error: profError } = await _supabase
+            .from('profiles')
+            .update({ 
+                is_partner: true, 
+                partner_coupon: code,
+                is_coupon_active: true
+            })
+            .eq('id', userId);
+
+        if (profError) throw new Error("Failed to update Partner Profile: " + profError.message);
+
+        // 3. Success
+        alert("✅ Partner Status Granted! Opening Gmail...");
         sendEmail(email, name, 'partner', code);
         fetchCoupons();
+
+    } catch (err) {
+        console.error(err);
+        alert("❌ ERROR: " + err.message);
     }
+}
+
+
 // --- REVENUE LEDGER LOGIC ---
 async function fetchRevenueLedger() {
     const { data: partners, error: pErr } = await _supabase.from('profiles')
