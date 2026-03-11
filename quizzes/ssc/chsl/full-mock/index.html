@@ -387,10 +387,12 @@ footer {
 
 <div class="filters">
   <div class="filter-row">
-    <button class="filter-btn active" onclick="clearAll(this)">ALL</button>
-    <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
-    <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
-  </div>
+    <div class="filter-row">
+  <button class="filter-btn active" id="btn-all" onclick="clearAll(this)">ALL (0)</button>
+  <button class="filter-btn" id="btn-2025" onclick="toggleYear('2025',this)">2025 (0)</button>
+  <button class="filter-btn" id="btn-2026" onclick="toggleYear('2026',this)">2026 (0)</button>
+</div>
+   
 </div>
 
 <div class="coming-soon" id="comingSoonMsg">
@@ -468,6 +470,23 @@ footer {
 </footer>
 
 <script>
+  function updateFilterCounts() {
+  const quizzes = document.querySelectorAll(".quiz");
+  let countAll = quizzes.length;
+  let count2025 = 0;
+  let count2026 = 0;
+
+  quizzes.forEach(q => {
+    const text = q.innerText;
+    if (text.includes("2025")) count2025++;
+    if (text.includes("2026")) count2026++;
+  });
+
+  // Update button text
+  document.getElementById("btn-all").innerText = `ALL (${countAll})`;
+  document.getElementById("btn-2025").innerText = `2025 (${count2025})`;
+  document.getElementById("btn-2026").innerText = `2026 (${count2026})`;
+}
     // Logic to handle buttons and result tracking
   function checkPremiumStatus() {
     const profile = getLocalProfile(); // From auth.js cache
@@ -589,6 +608,7 @@ function applyFilters(){
 // IMPORTANT: Run status check on load
 document.addEventListener('DOMContentLoaded', () => {
     checkPremiumStatus();
+    updateFilterCounts();
     applyFilters();
 });
 </script>
