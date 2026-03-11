@@ -1991,7 +1991,6 @@ footer {
 
 <script>
 
-  // Logic to handle buttons and result tracking
 function checkPremiumStatus() {
     const profile = getLocalProfile(); // From auth.js cache
     const isPaidUser = profile ? profile.is_paid : false;
@@ -2007,46 +2006,48 @@ function checkPremiumStatus() {
         const urlParams = new URLSearchParams(quizLink.split('?')[1]);
         const quizId = urlParams.get('id');
 
-        // 1. Unique key check for submission
-        const resultKey = `result_${username}_${quizId}`;
-        const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
+        // --- THE CHANGE IS HERE ---
+        // We check premium status BEFORE checking local storage results
+        if (type === "paid" && !isPaidUser) {
+            actionArea.innerHTML = `<a href="/buy-premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
+        } 
+        else {
+            // Check for submission only if user is premium or test is free
+            const resultKey = `result_${username}_${quizId}`;
+            const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
 
-        if (savedResult && savedResult.submitted) {
-            const score = savedResult.totalMarks || 0;
-            const max = savedResult.firebasePayload?.total || 100;
-            const pct = Math.max(0, Math.min(100, (score / max) * 100));
-            
-            // 2. Dynamic Color Selection
-            let barColor = "#ef4444"; // Red (<50%)
-            if(pct >= 75) barColor = "#22c55e"; // Green
-            else if(pct >= 50) barColor = "#f59e0b"; // Yellow
+            if (savedResult && savedResult.submitted) {
+                const score = savedResult.totalMarks || 0;
+                const max = savedResult.firebasePayload?.total || 100;
+                const pct = Math.max(0, Math.min(100, (score / max) * 100));
+                
+                let barColor = "#ef4444"; 
+                if(pct >= 75) barColor = "#22c55e"; 
+                else if(pct >= 50) barColor = "#f59e0b"; 
 
-            // 3. UI Update: Stacking buttons for Mobile
-            actionArea.innerHTML = `
-                <div class="action-buttons-stack">
-                    <a href="full_test.html?id=${quizId}" class="start-btn analysis-btn">ANALYSIS</a>
-                    <button onclick="triggerReattempt('${quizId}')" class="reattempt-btn">REATTEMPT</button>
-                </div>
-            `;
-
-            // 4. Inject Dynamic Score Row with Text on far right
-            const leftCol = quiz.querySelector(".quiz-left");
-            if (!leftCol.querySelector(".score-row")) {
-                leftCol.innerHTML += `
-                    <div class="score-row">
-                        <div class="score-bar-bg">
-                            <div class="score-bar-fill" style="width: ${pct}%; background: ${barColor}"></div>
-                        </div>
-                        <div class="score-value"><b>${score}</b>/${max}</div>
+                actionArea.innerHTML = `
+                    <div class="action-buttons-stack">
+                        <a href="full_test.html?id=${quizId}" class="start-btn analysis-btn">ANALYSIS</a>
+                        <button onclick="triggerReattempt('${quizId}')" class="reattempt-btn">REATTEMPT</button>
                     </div>
                 `;
+
+                const leftCol = quiz.querySelector(".quiz-left");
+                if (!leftCol.querySelector(".score-row")) {
+                    leftCol.innerHTML += `
+                        <div class="score-row">
+                            <div class="score-bar-bg">
+                                <div class="score-bar-fill" style="width: ${pct}%; background: ${barColor}"></div>
+                            </div>
+                            <div class="score-value"><b>${score}</b>/${max}</div>
+                        </div>
+                    `;
+                }
             }
-        } 
-        else if (type === "paid" && !isPaidUser) {
-            actionArea.innerHTML = `<a href="/buy-premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
         }
     });
 }
+  
 
 // Clear storage to allow a fresh start
 function triggerReattempt(quizId) {
