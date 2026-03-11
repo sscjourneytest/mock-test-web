@@ -332,20 +332,21 @@ footer {
 <div class="container">
 
 <input type="text" id="searchBox" placeholder="Search mock test..." onkeyup="applyFilters()">
-
 <div class="filters">
   <div class="filter-row">
-    <button class="filter-btn active" onclick="clearAll(this)">ALL</button>
-    <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
-    <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
+    <button class="filter-btn active" id="btn-all" onclick="clearAll(this)">ALL (0)</button>
+    <button class="filter-btn" id="btn-2025" onclick="toggleYear('2025',this)">2025 (0)</button>
+    <button class="filter-btn" id="btn-2026" onclick="toggleYear('2026',this)">2026 (0)</button>
   </div>
   <div class="filter-row">
-    <button class="filter-btn" onclick="toggleSubject('MATHS',this)">MATHS</button>
-    <button class="filter-btn" onclick="toggleSubject('REASONING',this)">REASONING</button>
-    <button class="filter-btn" onclick="toggleSubject('ENGLISH',this)">ENGLISH</button>
-    <button class="filter-btn" onclick="toggleSubject('GK',this)">GK</button>
+    <button class="filter-btn" id="btn-maths" onclick="toggleSubject('MATHS',this)">MATHS (0)</button>
+    <button class="filter-btn" id="btn-reasoning" onclick="toggleSubject('REASONING',this)">REASONING (0)</button>
+    <button class="filter-btn" id="btn-english" onclick="toggleSubject('ENGLISH',this)">ENGLISH (0)</button>
+    <button class="filter-btn" id="btn-gk" onclick="toggleSubject('GK',this)">GK (0)</button>
   </div>
 </div>
+  
+
 
 <div class="coming-soon" id="comingSoonMsg">
   🚀 SECTIONAL MOCK TESTS COMING SOON
@@ -587,6 +588,45 @@ footer {
 </footer>
 
 <script>
+
+  function updateFilterCounts() {
+    const quizzes = document.querySelectorAll(".quiz");
+    
+    // Initialize counters
+    let counts = {
+        all: quizzes.length,
+        y2025: 0,
+        y2026: 0,
+        maths: 0,
+        reasoning: 0,
+        english: 0,
+        gk: 0
+    };
+
+    quizzes.forEach(q => {
+        const text = q.innerText.toUpperCase();
+        
+        // Count Years
+        if (text.includes("2025")) counts.y2025++;
+        if (text.includes("2026")) counts.y2026++;
+        
+        // Count Subjects
+        if (text.includes("MATHS")) counts.maths++;
+        if (text.includes("REASONING")) counts.reasoning++;
+        if (text.includes("ENGLISH")) counts.english++;
+        if (text.includes("GK")) counts.gk++;
+    });
+
+    // Update Button Texts
+    document.getElementById("btn-all").innerText = `ALL (${counts.all})`;
+    document.getElementById("btn-2025").innerText = `2025 (${counts.y2025})`;
+    document.getElementById("btn-2026").innerText = `2026 (${counts.y2026})`;
+    document.getElementById("btn-maths").innerText = `MATHS (${counts.maths})`;
+    document.getElementById("btn-reasoning").innerText = `REASONING (${counts.reasoning})`;
+    document.getElementById("btn-english").innerText = `ENGLISH (${counts.english})`;
+    document.getElementById("btn-gk").innerText = `GK (${counts.gk})`;
+  }
+  
 function checkPremiumStatus() {
     const profile = getLocalProfile(); // From auth.js cache
     const isPaidUser = profile ? profile.is_paid : false;
@@ -737,11 +777,12 @@ function applyFilters() {
         msg.style.display = "none";
     }
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     checkPremiumStatus(); // Sets buttons based on user status
+    updateFilterCounts(); // <--- ADD THIS LINE
     applyFilters();       // Initial filter run
 });
+  
 
 </script>
 </body>
