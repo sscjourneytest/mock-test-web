@@ -985,7 +985,11 @@ body.mode-solution .container {
 
 /* MathJax */
 mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: auto; }
-
+/* Force MathJax to use system fonts for non-Latin characters */
+mjx-utext {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-style: normal !important;
+}
 
 /* Loader Overlay */
 #loadingOverlay {
@@ -1052,16 +1056,24 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
 </style>
 
 <script>
+  <script>
   window.MathJax = {
     tex: {
-      /* ONLY these are allowed */
-      inlineMath: [['\\(', '\\)']],     // optional inline math
-      displayMath: [['$$', '$$'], ['\\[', '\\]']]  // block math ONLY
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      /* This allows MathJax to render characters it doesn't recognize using the browser's font */
+      fontHTMLLocal: 'serif' 
+    },
+    chtml: {
+      /* This ensures the Hindi text matches the surrounding font size */
+      mtextInheritFont: true 
     },
     options: {
       skipHtmlTags: ['script', 'style', 'textarea', 'pre']
     }
   };
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
