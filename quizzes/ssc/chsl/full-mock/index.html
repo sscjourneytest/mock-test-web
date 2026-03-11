@@ -296,6 +296,70 @@ footer {
     .quiz { flex-direction: column; align-items: flex-start; }
     .start-btn, .unlock-btn { width: 100%; text-align: center; }
 }
+ 
+
+/* Stacked buttons for mobile and analysis styling */
+.action-buttons-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.analysis-btn {
+    background: #0b5ed7 !important;
+}
+
+.reattempt-btn {
+    background: #f8fafc;
+    color: #1e40af;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1.5px solid #e2e8f0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.reattempt-btn:hover { background: #e2e8f0; }
+
+/* Score Bar with Right-side text layout */
+.score-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 320px;
+}
+
+.score-bar-bg {
+    flex: 1; /* Bar takes the left space */
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.score-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1.2s cubic-bezier(0.1, 0.7, 1.0, 0.1);
+}
+
+.score-value {
+    font-size: 13px;
+    color: #475569;
+    white-space: nowrap; /* Keeps score text in one line on the right */
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
+
+.score-value b { color: #2563eb; }
+
+@media (max-width: 600px) {
+    .score-row { max-width: 100%; }
+    .action-buttons-stack { width: 100%; }
+}
 </style>
 </head>
 
@@ -369,25 +433,74 @@ footer {
 </footer>
 
 <script>
-// Logic to handle paid/free buttons WITHOUT changing your Quiz IDs
+    // Logic to handle buttons and result tracking
 function checkPremiumStatus() {
-    const profile = getLocalProfile(); // From your auth.js cache
+    const profile = getLocalProfile(); // From auth.js cache
     const isPaidUser = profile ? profile.is_paid : false;
+    const username = profile ? profile.username : "Guest";
     const quizzes = document.querySelectorAll(".quiz");
     
     quizzes.forEach(quiz => {
         const type = quiz.getAttribute("data-type");
         const actionArea = quiz.querySelector(".action-area");
+        const quizLink = quiz.querySelector(".start-btn")?.getAttribute("href") || "";
         
-        if (type === "paid" && !isPaidUser) {
-            // User is NOT paid: Hide your Start button and show Unlock button
-            actionArea.innerHTML = `<a href="/premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
+        // Extract Quiz ID accurately from URL
+        const urlParams = new URLSearchParams(quizLink.split('?')[1]);
+        const quizId = urlParams.get('id');
+
+        // 1. Unique key check for submission
+        const resultKey = `result_${username}_${quizId}`;
+        const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
+
+        if (savedResult && savedResult.submitted) {
+            const score = savedResult.totalMarks || 0;
+            const max = savedResult.firebasePayload?.total || 100;
+            const pct = Math.max(0, Math.min(100, (score / max) * 100));
+            
+            // 2. Dynamic Color Selection
+            let barColor = "#ef4444"; // Red (<50%)
+            if(pct >= 75) barColor = "#22c55e"; // Green
+            else if(pct >= 50) barColor = "#f59e0b"; // Yellow
+
+            // 3. UI Update: Stacking buttons for Mobile
+            actionArea.innerHTML = `
+                <div class="action-buttons-stack">
+                    <a href="full_test.html?id=${quizId}" class="start-btn analysis-btn">ANALYSIS</a>
+                    <button onclick="triggerReattempt('${quizId}')" class="reattempt-btn">REATTEMPT</button>
+                </div>
+            `;
+
+            // 4. Inject Dynamic Score Row with Text on far right
+            const leftCol = quiz.querySelector(".quiz-left");
+            if (!leftCol.querySelector(".score-row")) {
+                leftCol.innerHTML += `
+                    <div class="score-row">
+                        <div class="score-bar-bg">
+                            <div class="score-bar-fill" style="width: ${pct}%; background: ${barColor}"></div>
+                        </div>
+                        <div class="score-value"><b>${score}</b>/${max}</div>
+                    </div>
+                `;
+            }
+        } 
+        else if (type === "paid" && !isPaidUser) {
+            actionArea.innerHTML = `<a href="/buy-premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
         }
-        // If test is Free OR User is Paid, we don't change anything. 
-        // Your manual Start button stays exactly as you wrote it in HTML.
     });
 }
-  
+
+// Clear storage to allow a fresh start
+function triggerReattempt(quizId) {
+    const profile = getLocalProfile();
+    const username = profile ? profile.username : "Guest";
+    if(confirm("This will permanently delete your result for this mock. Continue?")) {
+        localStorage.removeItem(`result_${username}_${quizId}`);
+        localStorage.removeItem(`state_${username}_${quizId}`);
+        window.location.href = `full_test.html?id=${quizId}`;
+    }
+}
+
 // Keep your existing filters but call status check
 let selectedYear = "";
 
