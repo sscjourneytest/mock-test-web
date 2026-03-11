@@ -412,7 +412,7 @@ h1 {
   margin-top: 20px;
   border-radius: 4px;
   display: none; /* Hidden by default */
-  font-size: 20px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -708,9 +708,6 @@ body.mode-solution .qbtn.current::before {
     display: flex !important; 
     gap: 10px;
     align-items: center;
-    flex: 1;                /* This makes the container grow to fill available space */
-    margin-left: 30px;      /* This creates the specific space after the Username Box */
-    justify-content: flex-start; /* Keeps buttons grouped to the left of the empty space */
   }
 
   .top-actions .btn,
@@ -928,9 +925,6 @@ body.mode-solution .container {
     margin: auto;
     padding: 20px 10px;
 }
- 
-
-
   /* Language Dropdown Styling */
 #langSelect {
   background-color: #fff;
@@ -1054,13 +1048,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
   text-align: center; 
   font-weight: 600; 
 }
-/* Hide only on mobile by default, but allow JS to show it on desktop */
-@media (min-width: 992px) {
-  .fbar { 
-    display: none; 
-    right: 360px; /* Keep gap for palette */
-  }
-}
+
 </style>
 
 <script>
@@ -1231,7 +1219,6 @@ const firebaseConfig = {
         <option value="bilingual">EN+HI</option>
       </select>
     <div id="topActions" class="top-actions">
-    <button id="switchPosBtn" class="btn-ghost btn-sm" onclick="toggleButtons()">↕ MOVE UP</button>
     <button id="prevBtn" class="btn-prev btn-ghost btn-sm">Previous</button>
     <button id="clearBtn" class="btn-clear btn-ghost btn-sm">Clear</button>
     <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
@@ -1343,37 +1330,7 @@ let sectionTime = {};        // <-- ADD THIS LINE
 
 // Short helper for getting elements
 const el = id => document.getElementById(id);
-  
-let isAtBottom = false;
 
-function toggleButtons() {
-  const topBar = document.getElementById("topActions");
-  const bottomBar = document.getElementById("floatBar");
-  const switchBtn = document.getElementById("switchPosBtn");
-  
-  // List of button IDs to move
-  const buttons = ["prevBtn", "clearBtn", "markBtn", "nextBtn"];
-
-  if (!isAtBottom) {
-    // Move to Bottom
-    bottomBar.style.display = "flex";
-    buttons.forEach(id => {
-      const btn = document.getElementById(id);
-      if(btn) bottomBar.appendChild(btn); 
-    });
-    switchBtn.textContent = "↕ Move to Top";
-    isAtBottom = true;
-  } else {
-    // Move back to Top
-    bottomBar.style.display = "none";
-    buttons.forEach(id => {
-      const btn = document.getElementById(id);
-      if(btn) topBar.appendChild(btn);
-    });
-    switchBtn.textContent = "↕ Move to Bottom";
-    isAtBottom = false;
-  }
-}
 // Format seconds into MM:SS
 function fmt(s){
   s = Math.max(0, s);
@@ -1453,10 +1410,7 @@ function switchSection(idx) {
   renderQuestion(0);
   saveQuizState(); // Persist the current section if user reloads
 }
-  /**
- * Converts **text** into extra-bold <strong> tags.
- * Only applies font-weight and color, no background or padding.
- */
+
 function applyBoldHighlight(html) {
   if (!html || typeof html !== "string") return html;
   
@@ -1570,6 +1524,7 @@ function renderQuestion(i) {
   <div class="opt-text">${applyBoldHighlight(getLangText(q[key]))}</div>
   ${optImgHtml}
 </div>
+      
     `;
 const radio = div.querySelector(".custom-radio");
 
@@ -1608,7 +1563,8 @@ if (isQuiz) {
     expBox.style.display = "block";
     expBox.innerHTML = `<div style="margin-bottom:8px; font-weight:700;">Status: ${statusText}</div>` +
       (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br>${applyBoldHighlight(getLangText(q.solution_text))}` : "") +
-            solImgHtml;
+    
+      solImgHtml;
     normalizeMathForQuiz(expBox);
   } else {
     expBox.style.display = "none";
@@ -2253,7 +2209,7 @@ async function refreshLatestRankOnDemand(btn) {
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/chsl/full-mock"; 
+    const GITHUB_PATH = "ssc/cgl/full-mock"; 
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
@@ -3108,7 +3064,7 @@ async function loadQuizData() {
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/chsl/full-mock"; 
+    const GITHUB_PATH = "ssc/cgl/full-mock"; 
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
