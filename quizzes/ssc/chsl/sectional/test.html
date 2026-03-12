@@ -2194,6 +2194,8 @@ if (liveBtn) {
     document.getElementById("floatBar").style.display = "none";
   }
 }
+
+ 
 // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
 async function refreshLatestRankOnDemand(btn) {
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
@@ -2205,7 +2207,7 @@ async function refreshLatestRankOnDemand(btn) {
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
- const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
 
   if (!quizIdParam) {
@@ -2237,12 +2239,25 @@ async function refreshLatestRankOnDemand(btn) {
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
   
-  
+    // --- SECTIONAL SLICING LOGIC ---
+    const specificSection = urlParams.get('section');
+    let freshSections = freshData.sections;
+
+    if (specificSection && freshData.sections[specificSection]) {
+        freshSections = {};
+        freshSections[specificSection] = freshData.sections[specificSection];
+        
+        const timeMap = { "REASONING": 20, "GENERAL AWARENESS": 10, "GK": 10, "MATH": 25, "MATHS": 25, "ENGLISH": 15 };
+        const mins = timeMap[specificSection] || 20;
+        freshData.meta.timer_minutes = mins;
+        freshData.meta.timer_seconds = mins * 60;
+        freshData.meta.total_questions = freshData.sections[specificSection].length;
+    }
+    // ------------------------------
     
     // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
-    const freshSections = freshData.sections;
     const freshNames = Object.keys(freshSections);
 
     freshNames.forEach(name => {
@@ -2436,8 +2451,7 @@ await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultD
     btn.disabled = false;
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
-}
- 
+} 
 // Helper to fix the time formatting in bars
 function formatTimeValues(container) {
   container.querySelectorAll(".bar-section").forEach(sec => {
