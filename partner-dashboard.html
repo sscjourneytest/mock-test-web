@@ -68,7 +68,7 @@
                 <h2 id="newSales">0</h2>
             </div>
             <div class="stat-card">
-                <p><i class="fas fa-wallet"></i> EARNINGS (75%)</p>
+                <p><i class="fas fa-wallet"></i> EARNINGS (80%)</p>
                 <h2 id="availableBalance">₹0</h2>
             </div>
             <div class="stat-card">
@@ -229,7 +229,7 @@
                 sales.forEach(s => totalDiscountSum += (s.discount_given || 0));
 
                 // 4. Calculate 75% share
-                calculatedEarnings = Math.floor(totalDiscountSum * 0.75);
+                calculatedEarnings = Math.floor(totalDiscountSum * 0.80);
                 unpaidSalesCount = sales.length;
 
                 // 5. Fetch Withdrawal History
