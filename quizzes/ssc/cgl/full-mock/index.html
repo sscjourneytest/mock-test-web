@@ -296,6 +296,7 @@ footer {
     .quiz { flex-direction: column; align-items: flex-start; }
     .start-btn, .unlock-btn { width: 100%; text-align: center; }
 }
+ 
 
 /* Stacked buttons for mobile and analysis styling */
 .action-buttons-stack {
@@ -363,8 +364,7 @@ footer {
 </head>
 
 <body>
-      <meta name="viewport" content="width=1100"> 
-
+    <meta name="viewport" content="width=1100"> 
 <header>
   <a class="back" href="../">← BACK</a>
   <h1>FULL MOCK TESTS</h1>
@@ -387,10 +387,12 @@ footer {
 
 <div class="filters">
   <div class="filter-row">
-    <button class="filter-btn active" onclick="clearAll(this)">ALL</button>
-    <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
-    <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
-  </div>
+    <div class="filter-row">
+  <button class="filter-btn active" id="btn-all" onclick="clearAll(this)">ALL (0)</button>
+  <button class="filter-btn" id="btn-2025" onclick="toggleYear('2025',this)">2025 (0)</button>
+  <button class="filter-btn" id="btn-2026" onclick="toggleYear('2026',this)">2026 (0)</button>
+</div>
+   
 </div>
 
 <div class="coming-soon" id="comingSoonMsg">
@@ -398,450 +400,71 @@ footer {
 </div>
 
 <div class="grid" id="quizGrid">
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 12-SEP-SHIFT-1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-12-SEP-SHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025-12-SEP SHIFT-2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-12-SEP-SHIFT-2" class="start-btn">START</a>
-    </div>
-</div>
-    <div class="quiz" data-type="free">
-            <div class="quiz-left">
-              <div class="quiz-title">SSC CGL 12 SEP 2025 SHIFT 3 (HARDEST SHIFT) <span class="quiz-badge badge-free">FREE</span></div>
-              <div class="quiz-info">100 Questions • 60 Min</div>
-            </div>
-            <div class="action-area">
-                <a href="full_test.html?id=cgl-25-12-sep-s3-full" class="start-btn">START</a>
-            </div>
-        </div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 13-SEP-SHIFT-1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-13-SEP-SHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 13-SEP-SHIFT-2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-13-SEP-SHIFT-2" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 13-SEP-SHIFT-3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-13-SEP-SHIFT-3" class="start-btn">START</a>
-    </div>
-</div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 14-SEP-SHIFT-1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-14-SEP-SHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 14-SEP-SHIFT-2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-14-SEP-SHIFT-2" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 14-SEP-SHIFT-3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-14-SEP-SHIFT-3" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 15-SEP-SHIFT-1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-15-SEP-SHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025-15-SEP SHIFT-2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-15-SEP-SHIFT-2" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025-15-SEP SHIFT-3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-15-SEP-SHIFT-3" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025-16-SEP SHIFT-1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-16-SEPSHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">SSC CGL 16 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-16-sep-s2" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 16-SEP-2025 shift-3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-16-SEP-2025-SHIFT-3" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 17 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-17-SEP-2025-SHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-    <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 17 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-17sep-s2" class="start-btn">START</a>
-    </div>
-</div>
+    
+    <div class="quiz" data-type="free" data-id="cgl-25-12-sep-s3-full" data-title="SSC CGL 12 SEP 2025 SHIFT 3 (HARDEST SHIFT)"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-12-SEP-SHIFT-1" data-title="CGL 2025 12-SEP-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-12-SEP-SHIFT-2" data-title="CGL 2025-12-SEP SHIFT-2"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 17 SEP 2025 SHIFT 3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-17sep-s3" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-13-SEP-SHIFT-1" data-title="CGL 2025 13-SEP-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-13-SEP-SHIFT-2" data-title="CGL 2025 13-SEP-SHIFT-2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-13-SEP-SHIFT-3" data-title="CGL 2025 13-SEP-SHIFT-3"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 18 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-18sep-s1" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-SEP-SHIFT-1" data-title="CGL 2025 14-SEP-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-SEP-SHIFT-2" data-title="CGL 2025 14-SEP-SHIFT-2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-SEP-SHIFT-3" data-title="CGL 2025 14-SEP-SHIFT-3"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 18 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-18sep-s2" class="start-btn">START</a>
-    </div>
-</div>
- <div class="quiz" data-type="paid">
-            <div class="quiz-left">
-              <div class="quiz-title">SSC CGL 18 SEP 2025 SHIFT 3 (HARDEST SHIFT) <span class="quiz-badge badge-paid">PAID</span></div>
-              <div class="quiz-info">100 Questions • 60 Min</div>
-            </div>
-            <div class="action-area">
-                <a href="full_test.html?id=cgl_25_18_sept_s3" class="start-btn">START</a>
-            </div>
-        </div>
-  
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 19 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-19sep-s1" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-15-SEP-SHIFT-1" data-title="CGL 2025 15-SEP-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-15-SEP-SHIFT-2" data-title="CGL 2025-15-SEP SHIFT-2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-15-SEP-SHIFT-3" data-title="CGL 2025-15-SEP SHIFT-3"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 19 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-19sep-s2" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-16-SEPSHIFT-1" data-title="CGL 2025-16-SEP SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-16-sep-s2" data-title="SSC CGL 16 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-16-SEP-2025-SHIFT-3" data-title="CGL 16-SEP-2025 shift-3"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 19 SEP 2025 SHIFT 3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-19sep-s3" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="CGL-17-SEP-2025-SHIFT-1" data-title="CGL 17 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-17sep-s2" data-title="CGL 17 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-17sep-s3" data-title="CGL 17 SEP 2025 SHIFT 3"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 20 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-20sep-s1" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-18sep-s1" data-title="CGL 18 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-18sep-s2" data-title="CGL 18 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl_25_18_sept_s3" data-title="SSC CGL 18 SEP 2025 SHIFT 3 (HARDEST SHIFT)"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 20 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-20sep-s2" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-19sep-s1" data-title="CGL 19 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-19sep-s2" data-title="CGL 19 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-19sep-s3" data-title="CGL 19 SEP 2025 SHIFT 3"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 20 SEP 2025 SHIFT 3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-20sep-s3" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-20sep-s1" data-title="CGL 20 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-20sep-s2" data-title="CGL 20 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-20sep-s3" data-title="CGL 20 SEP 2025 SHIFT 3"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 21 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-21sep-s1" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 21 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-21sep-s2" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-21sep-s1" data-title="CGL 21 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-21sep-s2" data-title="CGL 21 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-21sep-s3" data-title="CGL 21 SEP 2025 SHIFT 3"></div>
 
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 21 SEP 2025 SHIFT 3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=cgl-25-21sep-s3" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 22 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-22-SEP-2025-shift-1" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 22 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-22-SEP-2025-shift-2" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 22 SEP 2025 SHIFT 3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-22-SEP-2025-shift-3" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 23 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-23-SEP-2025-SHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 23 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-23-SEP-2025-shift-2" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 23 SEP 2025 SHIFT 3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-23-SEP-2025-shift-3" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 24 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-24-SEP-2025-shift-1" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 24 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-24-SEP-2025-SHIFT-2" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 24 SEP 2025 SHIFT 3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-24SEP-2025-SHIFT-3" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 25 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-25-SEP-2025-SHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 25 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-25-SEP-2025-SHIFT-2" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 25-SEP-SHIFT-3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-25-SEP-SHIFT-3" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 26 SEP 2025 SHIFT 1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-26-SEP-2025-SHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 26 SEP 2025 SHIFT 2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-26-SEP-2025-SHIFT-2" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 26 SEP 2025 SHIFT 3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-26-SEP-2025-SHIFT-3" class="start-btn">START</a>
-    </div>
-</div>
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 14-OCT-SHIFT-1 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-14-OCT-SHIFT-1" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 14-OCT-SHIFT-2 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-14-OCT-SHIFT-2" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CGL 2025 14-OCT-SHIFT-3 <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">100 Questions • 60 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CGL-2025-14-OCT-SHIFT-3" class="start-btn">START</a>
-    </div>
-</div>
+    <div class="quiz" data-type="paid" data-id="CGL-22-SEP-2025-shift-1" data-title="CGL 22 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-22-SEP-2025-shift-2" data-title="CGL 22 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-22-SEP-2025-shift-3" data-title="CGL 22 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-23-SEP-2025-SHIFT-1" data-title="CGL 23 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-23-SEP-2025-shift-2" data-title="CGL 23 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-23-SEP-2025-shift-3" data-title="CGL 23 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-24-SEP-2025-shift-1" data-title="CGL 24 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-24-SEP-2025-SHIFT-2" data-title="CGL 24 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-24SEP-2025-SHIFT-3" data-title="CGL 24 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-25-SEP-2025-SHIFT-1" data-title="CGL 25 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-25-SEP-2025-SHIFT-2" data-title="CGL 25 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-25-SEP-SHIFT-3" data-title="CGL 2025 25-SEP-SHIFT-3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-26-SEP-2025-SHIFT-1" data-title="CGL 26 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-26-SEP-2025-SHIFT-2" data-title="CGL 26 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-26-SEP-2025-SHIFT-3" data-title="CGL 26 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-OCT-SHIFT-1" data-title="CGL 2025 14-OCT-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-OCT-SHIFT-2" data-title="CGL 2025 14-OCT-SHIFT-2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-OCT-SHIFT-3" data-title="CGL 2025 14-OCT-SHIFT-3"></div>
 
   </div>
 </div>
@@ -857,9 +480,25 @@ footer {
 </footer>
 
 <script>
+  function updateFilterCounts() {
+  const quizzes = document.querySelectorAll(".quiz");
+  let countAll = quizzes.length;
+  let count2025 = 0;
+  let count2026 = 0;
 
-  // Logic to handle buttons and result tracking
-function checkPremiumStatus() {
+  quizzes.forEach(q => {
+    const text = q.innerText;
+    if (text.includes("2025")) count2025++;
+    if (text.includes("2026")) count2026++;
+  });
+
+  // Update button text
+  document.getElementById("btn-all").innerText = `ALL (${countAll})`;
+  document.getElementById("btn-2025").innerText = `2025 (${count2025})`;
+  document.getElementById("btn-2026").innerText = `2026 (${count2026})`;
+}
+    // Logic to handle buttons and result tracking
+  function checkPremiumStatus() {
     const profile = getLocalProfile(); // From auth.js cache
     const isPaidUser = profile ? profile.is_paid : false;
     const username = profile ? profile.username : "Guest";
@@ -867,53 +506,61 @@ function checkPremiumStatus() {
     
     quizzes.forEach(quiz => {
         const type = quiz.getAttribute("data-type");
+        const quizId = quiz.getAttribute("data-id");
+        const quizTitle = quiz.getAttribute("data-title");
+
+        // 1. DYNAMICALLY GENERATE INNER HTML
+        quiz.innerHTML = `
+            <div class="quiz-left">
+              <div class="quiz-title">${quizTitle} <span class="quiz-badge badge-paid">PAID</span></div>
+              <div class="quiz-info">100 Questions • 60 Min</div>
+            </div>
+            <div class="action-area">
+                <a href="full_test.html?id=${quizId}" class="start-btn">START</a>
+            </div>
+        `;
+
         const actionArea = quiz.querySelector(".action-area");
-        const quizLink = quiz.querySelector(".start-btn")?.getAttribute("href") || "";
-        
-        // Extract Quiz ID accurately from URL
-        const urlParams = new URLSearchParams(quizLink.split('?')[1]);
-        const quizId = urlParams.get('id');
 
-        // 1. Unique key check for submission
-        const resultKey = `result_${username}_${quizId}`;
-        const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
+        if (type === "paid" && !isPaidUser) {
+            actionArea.innerHTML = `<a href="/buy-premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
+        } 
+        else {
+            const resultKey = `result_${username}_${quizId}`;
+            const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
 
-        if (savedResult && savedResult.submitted) {
-            const score = savedResult.totalMarks || 0;
-            const max = savedResult.firebasePayload?.total || 100;
-            const pct = Math.max(0, Math.min(100, (score / max) * 100));
-            
-            // 2. Dynamic Color Selection
-            let barColor = "#ef4444"; // Red (<50%)
-            if(pct >= 75) barColor = "#22c55e"; // Green
-            else if(pct >= 50) barColor = "#f59e0b"; // Yellow
+            if (savedResult && savedResult.submitted) {
+                const score = savedResult.totalMarks || 0;
+                const max = savedResult.firebasePayload?.total || 100;
+                const pct = Math.max(0, Math.min(100, (score / max) * 100));
+                
+                let barColor = "#ef4444"; 
+                if(pct >= 75) barColor = "#22c55e"; 
+                else if(pct >= 50) barColor = "#f59e0b"; 
 
-            // 3. UI Update: Stacking buttons for Mobile
-            actionArea.innerHTML = `
-                <div class="action-buttons-stack">
-                    <a href="full_test.html?id=${quizId}" class="start-btn analysis-btn">ANALYSIS</a>
-                    <button onclick="triggerReattempt('${quizId}')" class="reattempt-btn">REATTEMPT</button>
-                </div>
-            `;
-
-            // 4. Inject Dynamic Score Row with Text on far right
-            const leftCol = quiz.querySelector(".quiz-left");
-            if (!leftCol.querySelector(".score-row")) {
-                leftCol.innerHTML += `
-                    <div class="score-row">
-                        <div class="score-bar-bg">
-                            <div class="score-bar-fill" style="width: ${pct}%; background: ${barColor}"></div>
-                        </div>
-                        <div class="score-value"><b>${score}</b>/${max}</div>
+                actionArea.innerHTML = `
+                    <div class="action-buttons-stack">
+                        <a href="full_test.html?id=${quizId}" class="start-btn analysis-btn">ANALYSIS</a>
+                        <button onclick="triggerReattempt('${quizId}')" class="reattempt-btn">REATTEMPT</button>
                     </div>
                 `;
+
+                const leftCol = quiz.querySelector(".quiz-left");
+                if (!leftCol.querySelector(".score-row")) {
+                    leftCol.innerHTML += `
+                        <div class="score-row">
+                            <div class="score-bar-bg">
+                                <div class="score-bar-fill" style="width: ${pct}%; background: ${barColor}"></div>
+                            </div>
+                            <div class="score-value"><b>${score}</b>/${max}</div>
+                        </div>
+                    `;
+                }
             }
-        } 
-        else if (type === "paid" && !isPaidUser) {
-            actionArea.innerHTML = `<a href="/buy-premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
         }
     });
 }
+
 
 // Clear storage to allow a fresh start
 function triggerReattempt(quizId) {
@@ -925,6 +572,7 @@ function triggerReattempt(quizId) {
         window.location.href = `full_test.html?id=${quizId}`;
     }
 }
+
 // Keep your existing filters but call status check
 let selectedYear = "";
 
@@ -976,10 +624,10 @@ function applyFilters(){
 // IMPORTANT: Run status check on load
 document.addEventListener('DOMContentLoaded', () => {
     checkPremiumStatus();
+    updateFilterCounts();
     applyFilters();
 });
 </script>
 
 </body>
 </html>
-
