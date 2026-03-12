@@ -406,13 +406,13 @@ footer {
     document.getElementById("btn-english").innerText = `ENGLISH (${counts.english})`;
     document.getElementById("btn-gk").innerText = `GK (${counts.gk})`;
   }
+  
 async function checkPremiumStatus() {
-    const profile = getLocalProfile();
+    const profile = getLocalProfile(); // From auth.js cache
     const isPaidUser = profile ? profile.is_paid : false;
     const username = profile ? profile.username : "Guest";
     const grid = document.getElementById("quizGrid");
 
-    // Relative path to reach the full-mock folder from the sectional folder
     const FULL_MOCK_URL = "../full-mock/index.html"; 
 
     const sections = [
@@ -423,15 +423,11 @@ async function checkPremiumStatus() {
     ];
 
     try {
-        // Now it fetches from the correct sibling folder
         const response = await fetch(FULL_MOCK_URL);
         if (!response.ok) throw new Error("Full Mock index not found");
         
         const htmlText = await response.text();
         const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
-        
-
         const doc = parser.parseFromString(htmlText, 'text/html');
         const fullMockElements = doc.querySelectorAll('.quiz[data-id]');
 
@@ -442,32 +438,28 @@ async function checkPremiumStatus() {
 
             sections.forEach(sec => {
                 const sectionName = sec.label || sec.name;
-                const fullSectionTitle = `${quizTitle} ${sectionName}`;
                 autoHtml += `
                 <div class="quiz auto-quiz" data-type="paid" data-id="${quizId}" data-title="${quizTitle}" data-section="${sec.name}">
                     <div class="quiz-left">
-                        <div class="quiz-title">${fullSectionTitle} <span class="quiz-badge badge-paid">PAID</span></div>
+                        <div class="quiz-title">${quizTitle} ${sectionName} <span class="quiz-badge badge-paid">PAID</span></div>
                         <div class="quiz-info">25 Questions • ${sec.time}</div>
                     </div>
                     <div class="action-area">
-                        <a href="full_test.html?id=${quizId}&section=${encodeURIComponent(sec.name)}" class="start-btn">START</a>
+                        <a href="test.html?id=${quizId}&section=${encodeURIComponent(sec.name)}" class="start-btn">START</a>
                     </div>
                 </div>`;
             });
         });
 
-        // Prepend auto-generated content before any manual snippets
         grid.insertAdjacentHTML('afterbegin', autoHtml);
 
     } catch (e) { console.error("Sync Failed:", e); }
 
-    // 2. PROCESS ALL QUIZZES (AUTO + MANUAL)
     const quizzes = document.querySelectorAll(".quiz");
     quizzes.forEach(quiz => {
         const type = quiz.getAttribute("data-type");
         const actionArea = quiz.querySelector(".action-area");
         
-        // Accurate ID extraction for both types
         let quizId = quiz.getAttribute("data-id");
         let sectionParam = quiz.getAttribute("data-section");
 
@@ -478,7 +470,6 @@ async function checkPremiumStatus() {
             sectionParam = urlParams.get('section');
         }
 
-        // Clean merged ID for Firebase/LocalStorage consistency
         const cleanSection = sectionParam ? sectionParam.replace(/\s+/g, '').toLowerCase() : "";
         const finalQuizId = sectionParam ? `${quizId}-${cleanSection}` : quizId;
 
@@ -522,7 +513,6 @@ async function checkPremiumStatus() {
         }
     });
     
-    // Final UI Refresh
     updateFilterCounts();
     applyFilters();
 }
