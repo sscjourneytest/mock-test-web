@@ -503,23 +503,27 @@ footer {
     const isPaidUser = profile ? profile.is_paid : false;
     const username = profile ? profile.username : "Guest";
     const quizzes = document.querySelectorAll(".quiz");
-    
+
+
     quizzes.forEach(quiz => {
-        const type = quiz.getAttribute("data-type");
-        const quizId = quiz.getAttribute("data-id");
-        const quizTitle = quiz.getAttribute("data-title");
+    const type = quiz.getAttribute("data-type") || "paid"; // Get free/paid
+    const quizId = quiz.getAttribute("data-id");
+    const quizTitle = quiz.getAttribute("data-title");
 
-        // 1. DYNAMICALLY GENERATE INNER HTML
-        quiz.innerHTML = `
-            <div class="quiz-left">
-              <div class="quiz-title">${quizTitle} <span class="quiz-badge badge-paid">PAID</span></div>
-              <div class="quiz-info">100 Questions • 60 Min</div>
-            </div>
-            <div class="action-area">
-                <a href="full_test.html?id=${quizId}" class="start-btn">START</a>
-            </div>
-        `;
+    // Dynamic Badge logic
+    const badgeClass = type === "free" ? "badge-free" : "badge-paid";
+    const badgeText = type.toUpperCase();
 
+    quiz.innerHTML = `
+        <div class="quiz-left">
+          <div class="quiz-title">${quizTitle} <span class="quiz-badge ${badgeClass}">${badgeText}</span></div>
+          <div class="quiz-info">100 Questions • 60 Min</div>
+        </div>
+        <div class="action-area">
+            <a href="full_test.html?id=${quizId}" class="start-btn">START</a>
+        </div>
+    `;
+   
         const actionArea = quiz.querySelector(".action-area");
 
         if (type === "paid" && !isPaidUser) {
