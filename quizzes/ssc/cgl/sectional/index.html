@@ -431,26 +431,32 @@ async function checkPremiumStatus() {
         const doc = parser.parseFromString(htmlText, 'text/html');
         const fullMockElements = doc.querySelectorAll('.quiz[data-id]');
 
-        let autoHtml = "";
-        fullMockElements.forEach(el => {
-            const quizId = el.getAttribute('data-id');
-            const quizTitle = el.getAttribute('data-title');
+   let autoHtml = "";
+      fullMockElements.forEach(el => {
+    const quizId = el.getAttribute('data-id');
+    const quizTitle = el.getAttribute('data-title');
+    const type = el.getAttribute('data-type') || "paid"; // Fetch type from Master
 
-            sections.forEach(sec => {
-                const sectionName = sec.label || sec.name;
-                autoHtml += `
-                <div class="quiz auto-quiz" data-type="paid" data-id="${quizId}" data-title="${quizTitle}" data-section="${sec.name}">
-                    <div class="quiz-left">
-                        <div class="quiz-title">${quizTitle} ${sectionName} <span class="quiz-badge badge-paid">PAID</span></div>
-                        <div class="quiz-info">25 Questions • ${sec.time}</div>
-                    </div>
-                    <div class="action-area">
-                        <a href="test.html?id=${quizId}&section=${encodeURIComponent(sec.name)}" class="start-btn">START</a>
-                    </div>
-                </div>`;
-            });
-        });
+    // Dynamic Badge logic
+    const badgeClass = type === "free" ? "badge-free" : "badge-paid";
+    const badgeText = type.toUpperCase();
 
+    sections.forEach(sec => {
+        const sectionName = sec.label || sec.name;
+        autoHtml += `
+        <div class="quiz auto-quiz" data-type="${type}" data-id="${quizId}" data-title="${quizTitle}" data-section="${sec.name}">
+            <div class="quiz-left">
+                <div class="quiz-title">${quizTitle} ${sectionName} <span class="quiz-badge ${badgeClass}">${badgeText}</span></div>
+                <div class="quiz-info">25 Questions • ${sec.time}</div>
+            </div>
+            <div class="action-area">
+                <a href="full_test.html?id=${quizId}&section=${encodeURIComponent(sec.name)}" class="start-btn">START</a>
+            </div>
+        </div>`;
+    });
+});
+       
+       
         grid.insertAdjacentHTML('afterbegin', autoHtml);
 
     } catch (e) { console.error("Sync Failed:", e); }
