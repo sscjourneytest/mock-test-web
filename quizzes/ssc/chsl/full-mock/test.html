@@ -1361,6 +1361,7 @@ let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
 let currentSectionIdx = 0;   // New: Active section tracking
 
 let sectionTime = {};        // <-- ADD THIS LINE
+  
 
 // ===============================
 // 🛠️ HELPER FUNCTIONS
@@ -1377,17 +1378,7 @@ function fmt(s){
   return `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
 }
   
-/* restore saved action bar position */
 
-(function restoreActionBarState(){
-
-  const saved = localStorage.getItem(ACTION_BAR_KEY);
-
-  if(saved === "bottom"){
-    document.body.classList.add("actions-bottom");
-  }
-
-})();
   
 // Save current progress to LocalStorage
 function saveQuizState(){
@@ -1469,20 +1460,10 @@ function applyBoldHighlight(html) {
   return html.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 800; color: #000;">$1</strong>');
 }
 
-/* =========================================
-   ACTION BAR TOGGLE SYSTEM
-   ========================================= */
 
-const ACTION_BAR_KEY = "quiz_action_bar_mode";
-
+  // Toggle top actions ↔ bottom bar
 function toggleActionBar(){
-
-  const isBottom = document.body.classList.toggle("actions-bottom");
-
-  localStorage.setItem(
-    ACTION_BAR_KEY,
-    isBottom ? "bottom" : "top"
-  );
+  document.body.classList.toggle("actions-bottom");
 }
 // ===============================
 // 📝 RENDER QUESTION ENGINE
