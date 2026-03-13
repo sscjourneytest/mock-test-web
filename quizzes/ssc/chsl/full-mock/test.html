@@ -1705,6 +1705,7 @@ function submitQuiz(isAuto = false) {
  
   if (el("sectionNav")) el("sectionNav").style.display = "none";
   document.getElementById("floatBar").style.display = "none";
+  document.body.classList.remove("actions-bottom");
   const quizArea = document.getElementById("quizMainArea");
   if(quizArea) quizArea.style.display = "none";
 
