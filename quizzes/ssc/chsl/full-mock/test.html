@@ -2219,6 +2219,7 @@ function restoreLatestResult() {
     
     document.getElementById("results").innerHTML = LAST_RESULT_HTML;
     document.getElementById("results").style.display = "block";
+    document.body.classList.remove("actions-bottom");
     // 🔓 Re-enable Live Rank button after restore (CRITICAL)
 const liveBtn = document.querySelector(
   "button[onclick*='refreshLatestRankOnDemand']"
