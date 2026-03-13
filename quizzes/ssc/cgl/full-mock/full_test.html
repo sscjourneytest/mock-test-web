@@ -412,7 +412,7 @@ h1 {
   margin-top: 20px;
   border-radius: 4px;
   display: none; /* Hidden by default */
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -614,7 +614,32 @@ body.mode-solution .qbtn.current::before {
   background: #198754 !important; /* Green when active */
 }
 
+/* =========================================
+   DESKTOP ACTION BAR TOGGLE
+   ========================================= */
 
+/* default state */
+#floatBar {
+  display: none;
+}
+
+/* when bottom mode enabled */
+body.actions-bottom #topActions {
+  display: none !important;
+}
+
+body.actions-bottom #floatBar {
+  display: flex !important;
+}
+
+/* ensure it works in solution mode also */
+body.mode-solution.actions-bottom #topActions {
+  display: none !important;
+}
+
+body.mode-solution.actions-bottom #floatBar {
+  display: flex !important;
+}
 @media (min-width: 992px) {
 
   /* ===============================
@@ -726,6 +751,12 @@ body.mode-solution .qbtn.current::before {
     background: #198754 !important; 
   }
 
+body.actions-bottom .fbar {
+  display: flex !important;
+  right: 372px;     /* same gap used for palette */
+  left: 0;
+  width: auto;
+}
   /* 5. Hide Mobile "View" Toggle in Header */
   #paletteBtn { display: none !important; }
 }
@@ -985,7 +1016,11 @@ body.mode-solution .container {
 
 /* MathJax */
 mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: auto; }
-
+/* Force MathJax to use system fonts for non-Latin characters */
+mjx-utext {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-style: normal !important;
+}
 
 /* Loader Overlay */
 #loadingOverlay {
@@ -1052,16 +1087,24 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
 </style>
 
 <script>
+ 
   window.MathJax = {
     tex: {
-      /* ONLY these are allowed */
-      inlineMath: [['\\(', '\\)']],     // optional inline math
-      displayMath: [['$$', '$$'], ['\\[', '\\]']]  // block math ONLY
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      /* This allows MathJax to render characters it doesn't recognize using the browser's font */
+      fontHTMLLocal: 'serif' 
+    },
+    chtml: {
+      /* This ensures the Hindi text matches the surrounding font size */
+      mtextInheritFont: true 
     },
     options: {
       skipHtmlTags: ['script', 'style', 'textarea', 'pre']
     }
   };
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
@@ -1228,6 +1271,7 @@ const firebaseConfig = {
       <div class="timer-text" id="timer">00:00</div>
       <button id="submitBtn" class="btn">Submit</button>
       <button id="paletteBtn" class="btn-ghost">View</button>
+      <button id="toggleActionBarBtn" class="btn-ghost btn-sm">⇅</button>
     </div>
   </div>
 </header>
@@ -1323,6 +1367,7 @@ let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
 let currentSectionIdx = 0;   // New: Active section tracking
 
 let sectionTime = {};        // <-- ADD THIS LINE
+  
 
 // ===============================
 // 🛠️ HELPER FUNCTIONS
@@ -1338,7 +1383,9 @@ function fmt(s){
   const sec = s%60;
   return `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
 }
+  
 
+  
 // Save current progress to LocalStorage
 function saveQuizState(){
   // Don't save state if we are just viewing solutions
@@ -1410,6 +1457,20 @@ function switchSection(idx) {
   renderQuestion(0);
   saveQuizState(); // Persist the current section if user reloads
 }
+
+function applyBoldHighlight(html) {
+  if (!html || typeof html !== "string") return html;
+  
+  // This regex finds text between ** and wraps it in a strong tag
+  // using font-weight: 800 to make it significantly bolder than normal text.
+  return html.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 800; color: #000;">$1</strong>');
+}
+
+
+  // Toggle top actions ↔ bottom bar
+function toggleActionBar(){
+  document.body.classList.toggle("actions-bottom");
+}
 // ===============================
 // 📝 RENDER QUESTION ENGINE
 // ===============================
@@ -1443,7 +1504,7 @@ function renderQuestion(i) {
 
   // 2. Render Question Text & Math
   const qTextEl = el("qtext");
-  qTextEl.innerHTML = getLangText(q.question);
+  qTextEl.innerHTML = applyBoldHighlight(getLangText(q.question));
   normalizeMathForQuiz(qTextEl);
 
   // 🖼️ QUESTION IMAGE RENDER (40% size)
@@ -1513,9 +1574,10 @@ function renderQuestion(i) {
     div.innerHTML = `
       <div class="custom-radio"></div>
       <div style="flex:1">
-        <div class="opt-text">${getLangText(q[key])}</div>
-        ${optImgHtml}
-      </div>
+  <div class="opt-text">${applyBoldHighlight(getLangText(q[key]))}</div>
+  ${optImgHtml}
+</div>
+      
     `;
 const radio = div.querySelector(".custom-radio");
 
@@ -1553,7 +1615,8 @@ if (isQuiz) {
 
     expBox.style.display = "block";
     expBox.innerHTML = `<div style="margin-bottom:8px; font-weight:700;">Status: ${statusText}</div>` +
-      (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br>${getLangText(q.solution_text)}` : "") +
+      (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br>${applyBoldHighlight(getLangText(q.solution_text))}` : "") +
+    
       solImgHtml;
     normalizeMathForQuiz(expBox);
   } else {
@@ -1642,6 +1705,7 @@ function submitQuiz(isAuto = false) {
  
   if (el("sectionNav")) el("sectionNav").style.display = "none";
   document.getElementById("floatBar").style.display = "none";
+  document.body.classList.remove("actions-bottom");
   const quizArea = document.getElementById("quizMainArea");
   if(quizArea) quizArea.style.display = "none";
 
@@ -2155,6 +2219,7 @@ function restoreLatestResult() {
     
     document.getElementById("results").innerHTML = LAST_RESULT_HTML;
     document.getElementById("results").style.display = "block";
+    document.body.classList.remove("actions-bottom");
     // 🔓 Re-enable Live Rank button after restore (CRITICAL)
 const liveBtn = document.querySelector(
   "button[onclick*='refreshLatestRankOnDemand']"
@@ -3206,6 +3271,10 @@ QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
     document.getElementById("loadingText").innerHTML = `Error loading quiz.<br><small>${error.message}</small>`;
   }
 }
+document
+  .getElementById("toggleActionBarBtn")
+  .addEventListener("click", toggleActionBar);
+  
 // 🛡️ PROTECTION SCRIPT
 (function () {
   // Disable right click
