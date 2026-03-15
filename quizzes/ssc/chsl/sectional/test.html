@@ -2970,16 +2970,18 @@ function updatePaletteLegend() {
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
-      // 🔓 CRITICAL FIX: Re-enable Live Rank button after reload restore
-setTimeout(() => {
+
+      setTimeout(() => {
   const liveBtn = document.querySelector(
     "button[onclick*='refreshLatestRankOnDemand']"
   );
   if (liveBtn) {
     liveBtn.disabled = false;
     liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
+    // ADD THIS LINE TO AUTO-TRIGGER THE REFRESH ON RELOAD
+    refreshLatestRankOnDemand(liveBtn); 
   }
-}, 0);
+}, 100); // Changed from 0 to 100ms
 
 
       // 🔧 FIX: Restore mm:ss format in bars after reload
