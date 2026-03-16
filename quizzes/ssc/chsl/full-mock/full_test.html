@@ -1232,13 +1232,13 @@ mjx-utext {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyCekzDObGN7Gc5ENfmMejddM8PKxOob_gE",
-  authDomain: "mmh-chsl-full-mock-data.firebaseapp.com",
-  databaseURL: "https://mmh-chsl-full-mock-data-default-rtdb.firebaseio.com",
-  projectId: "mmh-chsl-full-mock-data",
-  storageBucket: "mmh-chsl-full-mock-data.firebasestorage.app",
-  messagingSenderId: "672897736088",
-  appId: "1:672897736088:web:ddff435bec20076ffe1fed"
+  apiKey: "AIzaSyCekzDObGN7Gc5ENfmMejddM8PKxOob_gE",
+  authDomain: "mmh-chsl-full-mock-data.firebaseapp.com",
+  databaseURL: "https://mmh-chsl-full-mock-data-default-rtdb.firebaseio.com",
+  projectId: "mmh-chsl-full-mock-data",
+  storageBucket: "mmh-chsl-full-mock-data.firebasestorage.app",
+  messagingSenderId: "672897736088",
+  appId: "1:672897736088:web:ddff435bec20076ffe1fed"
 };
 
  firebase.initializeApp(firebaseConfig);
@@ -1289,8 +1289,8 @@ const firebaseConfig = {
    
         <div class="marking" id="marking"></div>
       </div>
-
-      <div class="qtext">
+      
+<div class="qtext">
     <div id="qtext"></div> <div id="questionImage" style="margin:12px 0;"></div> </div>
 <div class="options" id="options"></div>
 
@@ -1470,7 +1470,7 @@ function applyBoldHighlight(html) {
   // Toggle top actions ↔ bottom bar
 function toggleActionBar(){
   document.body.classList.toggle("actions-bottom");
-
+}
 
 // ===============================
 // 📝 RENDER QUESTION ENGINE
@@ -1518,7 +1518,7 @@ function renderQuestion(i) {
   const qidStr = String(q.id);
   const cleanIdx = parseInt(qidStr.slice(1));
  
-  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
+  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
 
   // Use innerHTML just like options and solutions for stability
   if (q.question_image && q.question_image.trim() !== "") {
@@ -1567,7 +1567,7 @@ function renderQuestion(i) {
 
     // 🖼️ OPTION IMAGE RENDER (40% size)
     const optImgKey = `option_image_${optionIndex}`;
-    const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
+    const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
     let optImgHtml = "";
     if (q[optImgKey] && q[optImgKey].trim() !== "") {
       // Manual images show normally
@@ -1615,7 +1615,7 @@ if (isQuiz) {
     }
 
     // Dynamic Logic for Solution Image (image6)
-    const dynamicSolImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image6.jpg`;
+    const dynamicSolImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image6.jpg`;
 
     let solImgHtml = "";
     if (q.solution_image && q.solution_image.trim() !== "") {
@@ -2276,7 +2276,7 @@ async function refreshLatestRankOnDemand(btn) {
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/chsl/full-mock"; 
+    const GITHUB_PATH = "ssc/cgl/full-mock"; 
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
@@ -3131,7 +3131,7 @@ async function loadQuizData() {
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/chsl/full-mock"; 
+    const GITHUB_PATH = "ssc/cgl/full-mock"; 
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
