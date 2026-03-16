@@ -3105,15 +3105,20 @@ QUESTIONS = SECTIONS[SECTION_NAMES[currentSectionIdx]];
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
 
-      setTimeout(() => {
-        const liveBtn = document.querySelector(
-          "button[onclick*='refreshLatestRankOnDemand']"
-        );
-        if (liveBtn) {
-          liveBtn.disabled = false;
-          liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
-        }
-      }, 0);
+         setTimeout(() => {
+  const liveBtn = document.querySelector(
+    "button[onclick*='refreshLatestRankOnDemand']"
+  );
+  if (liveBtn) {
+    liveBtn.disabled = false;
+    liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
+    // ADD THIS LINE TO AUTO-TRIGGER THE REFRESH ON RELOAD
+    refreshLatestRankOnDemand(liveBtn); 
+  }
+}, 100); // Changed from 0 to 100ms
+
+
+    
 
       // 🔴 CHANGED: Time Taken is now sectional-sum, still formatted
       res.querySelectorAll(".bar-section").forEach(sec => {
