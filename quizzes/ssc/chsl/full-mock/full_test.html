@@ -1470,7 +1470,8 @@ function applyBoldHighlight(html) {
   // Toggle top actions ↔ bottom bar
 function toggleActionBar(){
   document.body.classList.toggle("actions-bottom");
-}
+
+
 // ===============================
 // 📝 RENDER QUESTION ENGINE
 // ===============================
@@ -1508,28 +1509,28 @@ function renderQuestion(i) {
   normalizeMathForQuiz(qTextEl);
 
   // 🖼️ QUESTION IMAGE RENDER (40% size)
-  const imgBox = document.getElementById("questionImage");
-  imgBox.innerHTML = "";
+  const imgBox = document.getElementById("questionImage");
+  imgBox.innerHTML = "";
 
-  if (q.question_image && q.question_image.trim() !== "") {
-    const img = document.createElement("img");
-    img.src = q.question_image;
-    img.alt = "Question Image";
-    img.style.width = "32%"; 
-    img.style.height = "auto";
-    img.style.display = "block";
-    img.style.margin = "10px auto";
-    img.style.border = "1px solid #ddd";
-    img.style.borderRadius = "6px";
-    img.loading = "lazy";
+  // Dynamic Logic for Question Image (image1)
+  const urlParams = new URLSearchParams(window.location.search);
+  const baseQuizId = urlParams.get('id');
+  const qidStr = String(q.id);
+  const cleanIdx = parseInt(qidStr.slice(1));
+ 
+  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
 
-    img.onerror = () => {
-      imgBox.innerHTML = "<div style='color:red;font-size:13px'>⚠ Image failed to load</div>";
-    };
+  // Use innerHTML just like options and solutions for stability
+  if (q.question_image && q.question_image.trim() !== "") {
+    // Manual image logic
+    imgBox.innerHTML = `<img src="${q.question_image}" style="width:32%; height:auto; display:block; margin:10px auto; border:1px solid #ddd; border-radius:6px;" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'">`;
+  } else if (dynamicQImg) {
+    // Dynamic image logic: Start HIDDEN and show only ONLOAD
+    imgBox.innerHTML = `<img src="${dynamicQImg}" style="width:32%; height:auto; display:none; margin:10px auto; border:1px solid #ddd; border-radius:6px;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
+  }
 
-    imgBox.appendChild(img);
-  }
 
+  
   // 3. Update Marks
   el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0)}</span>`;
 
@@ -1566,18 +1567,23 @@ function renderQuestion(i) {
 
     // 🖼️ OPTION IMAGE RENDER (40% size)
     const optImgKey = `option_image_${optionIndex}`;
+    const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
     let optImgHtml = "";
     if (q[optImgKey] && q[optImgKey].trim() !== "") {
+      // Manual images show normally
       optImgHtml = `<div style="margin-top:8px;"><img src="${q[optImgKey]}" style="width:20%; height:auto; border-radius:4px; border:1px solid #eee;"></div>`;
+    } else {
+      // Dynamic images are hidden (display:none) and show only on successful load
+      optImgHtml = `<div style="margin-top:8px;"><img src="${dynamicOptImg}" style="width:20%; height:auto; border-radius:4px; border:1px solid #eee; display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
     }
-
+   
     div.innerHTML = `
       <div class="custom-radio"></div>
       <div style="flex:1">
   <div class="opt-text">${applyBoldHighlight(getLangText(q[key]))}</div>
   ${optImgHtml}
 </div>
-      
+
     `;
 const radio = div.querySelector(".custom-radio");
 
@@ -1608,9 +1614,16 @@ if (isQuiz) {
       statusText = `<span style="color:var(--danger)">Wrong (-${q.negative_score ?? 1})</span>`;
     }
 
+    // Dynamic Logic for Solution Image (image6)
+    const dynamicSolImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image6.jpg`;
+
     let solImgHtml = "";
     if (q.solution_image && q.solution_image.trim() !== "") {
+      // Manual images show normally
       solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${q.solution_image}" style="width:40%; height:auto; border-radius:6px; border:1px solid #ddd;"></div>`;
+    } else {
+      // Dynamic images are hidden (display:none) and show only on successful load
+      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${dynamicSolImg}" style="width:40%; height:auto; border-radius:6px; border:1px solid #ddd; display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
     }
 
     expBox.style.display = "block";
@@ -1640,7 +1653,6 @@ if (isQuiz) {
     };
   }
 }
-
 
 // ===============================
 // 🖱️ OPTION SELECTION
