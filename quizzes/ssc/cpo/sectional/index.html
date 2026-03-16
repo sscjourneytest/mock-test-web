@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SECTIONAL MOCK TESTS</title>
+<title>FULL MOCK TESTS | MOCK MATRIX HUB</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
 <script>
@@ -11,13 +11,16 @@
   gtag('js', new Date());
   gtag('config', 'G-4B6V3MV51Q');
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/auth.js"></script>
+
+
 <style>
 body{
   margin:0;
   font-family: 'Segoe UI', Arial, sans-serif;
-  background:#eff6ff; /* Premium light blue tint */
+  background:#eff6ff; /* Premium light blue background */
   color:#334155;
 }
 
@@ -33,7 +36,7 @@ header{
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
 }
 
-/* BACK BUTTON - Premium Glass look */
+/* BACK BUTTON - Glassmorphism style */
 .back{
   position:absolute;
   top:12px;
@@ -65,7 +68,50 @@ header{
 .telegram{background:#0088cc;}
 .whatsapp{background:#25d366;}
 .join a:hover { transform: translateY(-2px); filter: brightness(1.1); }
+/* Support Button Styling */
+.support-container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
 
+.support-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  animation: pulse-border 3s infinite;
+}
+
+.support-btn:hover {
+  background: #ffffff;
+  color: #1e3a8a;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: #ffffff;
+}
+
+.support-btn .icon {
+  font-size: 16px;
+}
+
+/* Subtle attention-grabbing animation */
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
 /* FILTERS */
 .filters{
   margin-top:25px;
@@ -75,7 +121,6 @@ header{
   justify-content:center;
   flex-wrap:wrap;
   gap:10px;
-  margin-bottom:12px;
 }
 .filter-btn{
   padding:9px 18px;
@@ -89,7 +134,7 @@ header{
   transition: 0.3s;
 }
 .filter-btn.active{
-  background:#22c55e; /* Active green */
+  background:#22c55e; /* Active success green */
   color:#fff;
   border-color: #22c55e;
   box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
@@ -102,19 +147,19 @@ header{
   padding:40px 20px;
 }
 
-/* SEARCH */
+/* SEARCH - Kept above filters as per original logic */
 #searchBox{
   width:100%;
   max-width:420px;
   padding:14px 20px;
-  margin:0 auto 30px;
+  margin:0 auto 25px;
   display:block;
   border-radius:30px;
   border:1px solid #cbd5e1;
   font-size:15px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   outline: none;
-  /* ADD THIS LINE: It keeps padding INSIDE the width */
+/* ADD THIS LINE: It keeps padding INSIDE the width */
   box-sizing: border-box; 
 }
 
@@ -140,7 +185,7 @@ header{
   gap:16px;
 }
 
-/* QUIZ CARD - Premium Modern */
+/* QUIZ CARD - List Style Modernized */
 .quiz{
   background:#ffffff;
   border-radius:16px;
@@ -187,7 +232,7 @@ header{
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
-/* COMING SOON - Premium design */
+/* COMING SOON - Premium styled */
 .coming-soon{
   background:#ffffff;
   border-radius:16px;
@@ -199,7 +244,7 @@ header{
   border: 2px dashed #e2e8f0;
 }
 
-/* FOOTER - Required for AdSense Approval */
+/* FOOTER - Necessary for Approval */
 footer {
   background: #0f172a;
   color: #94a3b8;
@@ -223,7 +268,8 @@ footer {
     text-transform: uppercase;
     margin-left: 8px;
 }
-.badge-free { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+.badge-free { background: #22c55e; color: #ffffff; border: 1px solid #16a34a; }
+
 .badge-paid { background: #ffd700; color: #000; box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3); }
 
 .unlock-btn {
@@ -251,6 +297,7 @@ footer {
     .quiz { flex-direction: column; align-items: flex-start; }
     .start-btn, .unlock-btn { width: 100%; text-align: center; }
 }
+ 
 
 /* Stacked buttons for mobile and analysis styling */
 .action-buttons-stack {
@@ -316,105 +363,113 @@ footer {
 }
 </style>
 </head>
-    
+
 <body>
     <meta name="viewport" content="width=1100"> 
 <header>
   <a class="back" href="../">← BACK</a>
-  <h1>SECTIONAL MOCK TESTS</h1>
+  <h1>FULL MOCK TESTS</h1>
 
   <div class="join">
     <a class="telegram" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">JOIN TELEGRAM</a>
     <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
+  
+    <div class="support-container">
+      <a class="support-btn" href="https://t.me/MOCK_ISSUE_DOUBT_BOT">
+        <span class="icon">🤖</span> MESSAGE FOR MOCK RELATED ISSUE
+      </a>
+    </div>
   </div>
 </header>
 
 <div class="container">
 
-<input type="text" id="searchBox" placeholder="Search mock test..." onkeyup="applyFilters()">
+<input type="text" id="searchBox" placeholder="Search full mock..." onkeyup="applyFilters()">
 
 <div class="filters">
   <div class="filter-row">
-    <button class="filter-btn active" onclick="clearAll(this)">ALL</button>
-    <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
-    <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
-  </div>
-  <div class="filter-row">
-    <button class="filter-btn" onclick="toggleSubject('MATHS',this)">MATHS</button>
-    <button class="filter-btn" onclick="toggleSubject('REASONING',this)">REASONING</button>
-    <button class="filter-btn" onclick="toggleSubject('ENGLISH',this)">ENGLISH</button>
-    <button class="filter-btn" onclick="toggleSubject('GK',this)">GK</button>
-  </div>
+    <div class="filter-row">
+  <button class="filter-btn active" id="btn-all" onclick="clearAll(this)">ALL (0)</button>
+  <button class="filter-btn" id="btn-2025" onclick="toggleYear('2025',this)">2025 (0)</button>
+  <button class="filter-btn" id="btn-2026" onclick="toggleYear('2026',this)">2026 (0)</button>
+</div>
+   
 </div>
 
 <div class="coming-soon" id="comingSoonMsg">
-  🚀 SECTIONAL MOCK TESTS COMING SOON
-</div>
-  
-  <div class="grid" id="quizGrid">
-
-<!-- PASTE ALL TEST SNIPPET BELOW THIS LINE ⬇️ -->
-        <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CPO 2025 9-DEC-SHIFT-1 GK <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">50 Questions • 30 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CPO-2025-9-DEC-SHIFT-1-GK" class="start-btn">START</a>
-    </div>
-</div>
-    <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CPO 2025 9-DEC-SHIFT-2 GK <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">50 Questions • 30 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CPO-2025-9-DEC-SHIFT-2-GK" class="start-btn">START</a>
-    </div>
-</div>
-    <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CPO 2025 10-DEC-SHIFT-1 GK <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">50 Questions • 30 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CPO-2025-10-DEC-SHIFT-1-GK" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CPO 2025 10-DEC-SHIFT-2 GK <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">50 Questions • 30 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CPO-2025-10-DEC-SHIFT-2-GK" class="start-btn">START</a>
-    </div>
-</div>
-<div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CPO 2025 11-DEC-SHIFT-1 GK <span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">50 Questions • 30 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CPO-202511-DEC-SHIFT-1-GK" class="start-btn">START</a>
-    </div>
+  🚀 FULL MOCK TESTS COMING SOON
 </div>
 
+<div class="grid" id="quizGrid">
 
-  <div class="quiz" data-type="paid">
-    <div class="quiz-left">
-      <div class="quiz-title">CPO 2025 11-DEC-SHIFT-1 MATHS<span class="quiz-badge badge-paid">PAID</span></div>
-      <div class="quiz-info">50 Questions • 30 Min</div>
-    </div>
-    <div class="action-area">
-        <a href="full_test.html?id=CPO-11-DEC-SHIFT-1-MATHS" class="start-btn">START</a>
-    </div>
-</div>
+    
+    <div class="quiz" data-type="free" data-id="cgl-25-12-sep-s3-full" data-title="SSC CGL 12 SEP 2025 SHIFT 3 (HARDEST SHIFT)"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-12-SEP-SHIFT-1" data-title="CGL 2025 12-SEP-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-12-SEP-SHIFT-2" data-title="CGL 2025-12-SEP SHIFT-2"></div>
 
-  
+    <div class="quiz" data-type="paid" data-id="CGL-2025-13-SEP-SHIFT-1" data-title="CGL 2025 13-SEP-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-13-SEP-SHIFT-2" data-title="CGL 2025 13-SEP-SHIFT-2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-13-SEP-SHIFT-3" data-title="CGL 2025 13-SEP-SHIFT-3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-SEP-SHIFT-1" data-title="CGL 2025 14-SEP-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-SEP-SHIFT-2" data-title="CGL 2025 14-SEP-SHIFT-2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-SEP-SHIFT-3" data-title="CGL 2025 14-SEP-SHIFT-3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-2025-15-SEP-SHIFT-1" data-title="CGL 2025 15-SEP-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-15-SEP-SHIFT-2" data-title="CGL 2025-15-SEP SHIFT-2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-15-SEP-SHIFT-3" data-title="CGL 2025-15-SEP SHIFT-3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-2025-16-SEPSHIFT-1" data-title="CGL 2025-16-SEP SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-16-sep-s2" data-title="SSC CGL 16 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-16-SEP-2025-SHIFT-3" data-title="CGL 16-SEP-2025 shift-3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-17-SEP-2025-SHIFT-1" data-title="CGL 17 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-17sep-s2" data-title="CGL 17 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-17sep-s3" data-title="CGL 17 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="cgl-25-18sep-s1" data-title="CGL 18 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-18sep-s2" data-title="CGL 18 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl_25_18_sept_s3" data-title="SSC CGL 18 SEP 2025 SHIFT 3 (HARDEST SHIFT)"></div>
+
+    <div class="quiz" data-type="paid" data-id="cgl-25-19sep-s1" data-title="CGL 19 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-19sep-s2" data-title="CGL 19 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-19sep-s3" data-title="CGL 19 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="cgl-25-20sep-s1" data-title="CGL 20 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-20sep-s2" data-title="CGL 20 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-20sep-s3" data-title="CGL 20 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="cgl-25-21sep-s1" data-title="CGL 21 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-21sep-s2" data-title="CGL 21 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="cgl-25-21sep-s3" data-title="CGL 21 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-22-SEP-2025-shift-1" data-title="CGL 22 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-22-SEP-2025-shift-2" data-title="CGL 22 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-22-SEP-2025-shift-3" data-title="CGL 22 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-23-SEP-2025-SHIFT-1" data-title="CGL 23 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-23-SEP-2025-shift-2" data-title="CGL 23 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-23-SEP-2025-shift-3" data-title="CGL 23 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-24-SEP-2025-shift-1" data-title="CGL 24 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-24-SEP-2025-SHIFT-2" data-title="CGL 24 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-24SEP-2025-SHIFT-3" data-title="CGL 24 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-25-SEP-2025-SHIFT-1" data-title="CGL 25 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-25-SEP-2025-SHIFT-2" data-title="CGL 25 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-25-SEP-SHIFT-3" data-title="CGL 2025 25-SEP-SHIFT-3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-26-SEP-2025-SHIFT-1" data-title="CGL 26 SEP 2025 SHIFT 1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-26-SEP-2025-SHIFT-2" data-title="CGL 26 SEP 2025 SHIFT 2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-26-SEP-2025-SHIFT-3" data-title="CGL 26 SEP 2025 SHIFT 3"></div>
+
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-OCT-SHIFT-1" data-title="CGL 2025 14-OCT-SHIFT-1"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-OCT-SHIFT-2" data-title="CGL 2025 14-OCT-SHIFT-2"></div>
+    <div class="quiz" data-type="paid" data-id="CGL-2025-14-OCT-SHIFT-3" data-title="CGL 2025 14-OCT-SHIFT-3"></div>
+    
+
   </div>
 </div>
-
 
 <footer>
     <div class="footer-links">
@@ -423,32 +478,60 @@ footer {
         <a href="/privacy-policy.html">Privacy Policy</a>
         <a href="/disclaimer.html">Disclaimer</a>
     </div>
-    <p style="font-size: 11px; margin-top: 15px; opacity: 0.5;">© 2026 MOCK MATRIX HUB. Best Mock Platform.</p>
+    <p style="font-size: 11px; margin-top: 15px; opacity: 0.5;">© 2026 MOCK MATRIX HUB. Premium Preparation Platform.</p>
 </footer>
 
 <script>
-function checkPremiumStatus() {
+  function updateFilterCounts() {
+  const quizzes = document.querySelectorAll(".quiz");
+  let countAll = quizzes.length;
+  let count2025 = 0;
+  let count2026 = 0;
+
+  quizzes.forEach(q => {
+    const text = q.innerText;
+    if (text.includes("2025")) count2025++;
+    if (text.includes("2026")) count2026++;
+  });
+
+  // Update button text
+  document.getElementById("btn-all").innerText = `ALL (${countAll})`;
+  document.getElementById("btn-2025").innerText = `2025 (${count2025})`;
+  document.getElementById("btn-2026").innerText = `2026 (${count2026})`;
+}
+    // Logic to handle buttons and result tracking
+  function checkPremiumStatus() {
     const profile = getLocalProfile(); // From auth.js cache
     const isPaidUser = profile ? profile.is_paid : false;
     const username = profile ? profile.username : "Guest";
     const quizzes = document.querySelectorAll(".quiz");
-    
-    quizzes.forEach(quiz => {
-        const type = quiz.getAttribute("data-type");
-        const actionArea = quiz.querySelector(".action-area");
-        const quizLink = quiz.querySelector(".start-btn")?.getAttribute("href") || "";
-        
-        // Extract Quiz ID accurately from URL
-        const urlParams = new URLSearchParams(quizLink.split('?')[1]);
-        const quizId = urlParams.get('id');
 
-        // --- THE CHANGE IS HERE ---
-        // We check premium status BEFORE checking local storage results
+
+    quizzes.forEach(quiz => {
+    const type = quiz.getAttribute("data-type") || "paid"; // Get free/paid
+    const quizId = quiz.getAttribute("data-id");
+    const quizTitle = quiz.getAttribute("data-title");
+
+    // Dynamic Badge logic
+    const badgeClass = type === "free" ? "badge-free" : "badge-paid";
+    const badgeText = type.toUpperCase();
+
+    quiz.innerHTML = `
+        <div class="quiz-left">
+          <div class="quiz-title">${quizTitle} <span class="quiz-badge ${badgeClass}">${badgeText}</span></div>
+          <div class="quiz-info">100 Questions • 60 Min</div>
+        </div>
+        <div class="action-area">
+            <a href="full_test.html?id=${quizId}" class="start-btn">START</a>
+        </div>
+    `;
+   
+        const actionArea = quiz.querySelector(".action-area");
+
         if (type === "paid" && !isPaidUser) {
             actionArea.innerHTML = `<a href="/buy-premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
         } 
         else {
-            // Check for submission only if user is premium or test is free
             const resultKey = `result_${username}_${quizId}`;
             const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
 
@@ -484,6 +567,7 @@ function checkPremiumStatus() {
     });
 }
 
+
 // Clear storage to allow a fresh start
 function triggerReattempt(quizId) {
     const profile = getLocalProfile();
@@ -494,97 +578,62 @@ function triggerReattempt(quizId) {
         window.location.href = `full_test.html?id=${quizId}`;
     }
 }
+
+// Keep your existing filters but call status check
 let selectedYear = "";
-let selectedSubject = "";
 
-function clearAll(btn) {
+function clearAll(btn){
+  selectedYear = "";
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  applyFilters();
+}
+
+function toggleYear(year, btn){
+  if(selectedYear === year){
     selectedYear = "";
-    selectedSubject = "";
-    // Remove "active" class from every single filter button in both rows
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    // Set the "ALL" button to active
+    btn.classList.remove("active");
+  }else{
+    selectedYear = year;
+    btn.parentElement.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
-    applyFilters();
+  }
+  applyFilters();
 }
 
-function toggleYear(year, btn) {
-    // If clicking the already active year, turn it off
-    if (selectedYear === year) {
-        selectedYear = "";
-        btn.classList.remove("active");
+function applyFilters(){
+  const search = document.getElementById("searchBox").value.toLowerCase();
+  const quizzes = document.querySelectorAll(".quiz");
+  let found = 0;
+
+  quizzes.forEach(q=>{
+    const text = q.innerText.toLowerCase();
+    const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
+    const searchOk = !search || text.includes(search);
+    
+    if(yOk && searchOk) {
+        q.style.display = "flex";
+        found++;
     } else {
-        selectedYear = year;
-        // Only clear the buttons in the Year row
-        btn.parentElement.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
+        q.style.display = "none";
     }
-    updateAllBtnState();
-    applyFilters();
+  });
+
+  const msg = document.getElementById("comingSoonMsg");
+  if(quizzes.length === 0 || found === 0) {
+      msg.style.display = "block";
+  } else {
+      msg.style.display = "none";
+  }
 }
 
-function toggleSubject(subject, btn) {
-    // If clicking the already active subject, turn it off
-    if (selectedSubject === subject) {
-        selectedSubject = "";
-        btn.classList.remove("active");
-    } else {
-        selectedSubject = subject;
-        // Only clear the buttons in the Subject row
-        btn.parentElement.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-    }
-    updateAllBtnState();
-    applyFilters();
-}
-
-// Logic to handle the "ALL" button highlighting
-function updateAllBtnState() {
-    const allBtn = document.querySelector('button[onclick*="clearAll"]');
-    if (selectedYear === "" && selectedSubject === "") {
-        allBtn.classList.add("active");
-    } else {
-        allBtn.classList.remove("active");
-    }
-}
-
-function applyFilters() {
-    const search = document.getElementById("searchBox").value.toLowerCase();
-    const quizzes = document.querySelectorAll(".quiz");
-    let found = 0;
-
-    quizzes.forEach(q => {
-        // We look at the entire card text for matches
-        const text = q.innerText.toLowerCase();
-        
-        const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
-        const sOk = !selectedSubject || text.includes(selectedSubject.toLowerCase());
-        const searchOk = !search || text.includes(search);
-        
-        // Apply independent filters together
-        if (yOk && sOk && searchOk) {
-            q.style.display = "flex";
-            found++;
-        } else {
-            q.style.display = "none";
-        }
-    });
-
-    // Handle "Coming Soon" message visibility
-    const msg = document.getElementById("comingSoonMsg");
-    if (found === 0) {
-        msg.style.display = "block";
-    } else {
-        msg.style.display = "none";
-    }
-}
-
+// IMPORTANT: Run status check on load
 document.addEventListener('DOMContentLoaded', () => {
-    checkPremiumStatus(); // Sets buttons based on user status
-    applyFilters();       // Initial filter run
+    checkPremiumStatus();
+    updateFilterCounts();
+    applyFilters();
 });
-
 </script>
+
 </body>
 </html>
-
-
