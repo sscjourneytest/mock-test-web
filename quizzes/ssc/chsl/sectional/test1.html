@@ -1521,6 +1521,7 @@ function renderQuestion(i) {
     const img = document.createElement("img");
     
     // 1. Set styles first
+    img.src = (q.question_image && q.question_image.trim() !== "") ? q.question_image : dynamicQImg;
     img.alt = "Question Image";
     img.style.width = "32%"; 
     img.style.height = "auto";
@@ -1542,9 +1543,6 @@ function renderQuestion(i) {
         this.style.display = "none";
       }
     };
-
-    // 3. Finally set the src to trigger the load
-    img.src = (q.question_image && q.question_image.trim() !== "") ? q.question_image : dynamicQImg;
 
     imgBox.appendChild(img);
   }
