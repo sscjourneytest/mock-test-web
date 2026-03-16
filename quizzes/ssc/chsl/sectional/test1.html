@@ -1519,7 +1519,8 @@ function renderQuestion(i) {
 
   if ((q.question_image && q.question_image.trim() !== "") || dynamicQImg) {
     const img = document.createElement("img");
-    img.src = (q.question_image && q.question_image.trim() !== "") ? q.question_image : dynamicQImg;
+    
+    // 1. Set styles first
     img.alt = "Question Image";
     img.style.width = "32%"; 
     img.style.height = "auto";
@@ -1527,25 +1528,28 @@ function renderQuestion(i) {
     img.style.border = "1px solid #ddd";
     img.style.borderRadius = "6px";
     img.loading = "lazy";
+    img.style.display = "none"; // Keep it hidden initially
 
-    // Set to hidden initially to prevent layout jumping
-    img.style.display = "none"; 
+    // 2. Set the handlers BEFORE setting the src
+    img.onload = function() { 
+      this.style.display = "block"; 
+    };
 
-    // Only show the image if it successfully loads
-    img.onload = () => { img.style.display = "block"; };
-
-    img.onerror = () => {
+    img.onerror = function() {
       if (q.question_image && q.question_image.trim() !== "") {
         imgBox.innerHTML = "<div style='color:red;font-size:13px'>⚠ Image failed to load</div>";
       } else {
-        img.style.display = "none";
+        this.style.display = "none";
       }
     };
+
+    // 3. Finally set the src to trigger the load
+    img.src = (q.question_image && q.question_image.trim() !== "") ? q.question_image : dynamicQImg;
 
     imgBox.appendChild(img);
   }
 
-
+  
   // 3. Update Marks
   el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0)}</span>`;
 
