@@ -2292,31 +2292,39 @@ async function refreshLatestRankOnDemand(btn) {
     });
     
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
+   
+    // --- SECTIONAL SLICING LOGIC (SUPPORT FOR HELLOMISTER) ---
     const freshData = await response.json();
-  
-    // --- SECTIONAL SLICING LOGIC ---
     const specificSection = urlParams.get('section');
-    let freshSections = freshData.sections;
+    
+    // Standardize HELLOMISTER structure: Extract .questions into plain arrays
+    let standardizedFreshSections = {};
+    Object.keys(freshData.sections).forEach(key => {
+        standardizedFreshSections[key] = freshData.sections[key].questions || freshData.sections[key];
+    });
 
-    if (specificSection && freshData.sections[specificSection]) {
+    let freshSections = standardizedFreshSections;
+
+    if (specificSection && standardizedFreshSections[specificSection]) {
         freshSections = {};
-        freshSections[specificSection] = freshData.sections[specificSection];
+        freshSections[specificSection] = standardizedFreshSections[specificSection];
         
-        const timeMap = { "REASONING": 20, "GENERAL AWARENESS": 10, "GK": 10, "MATH": 25, "MATHS": 25, "ENGLISH": 15 };
+        const timeMap = { "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30, "MATH": 30, "MATHS": 30, "ENGLISH": 30 };
         const mins = timeMap[specificSection] || 20;
         freshData.meta.timer_minutes = mins;
         freshData.meta.timer_seconds = mins * 60;
-        freshData.meta.total_questions = freshData.sections[specificSection].length;
+        freshData.meta.total_questions = standardizedFreshSections[specificSection].length;
     }
     // ------------------------------
     
-    // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
+    // 2. Re-Calculation Loop: Re-evaluate answers against standardized arrays
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
     const freshNames = Object.keys(freshSections);
 
     freshNames.forEach(name => {
       let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
+      // freshSections[name] is now guaranteed to be the array of questions
       freshSections[name].forEach(q => {
         const qCorScore = Number(q.correct_score ?? freshData.meta.correct_score ?? 2);
         const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
@@ -2334,13 +2342,18 @@ async function refreshLatestRankOnDemand(btn) {
       
       const oldTime = resultData.firebasePayload.sections?.[name]?.timeTaken || 0;
       newSectionalData[name] = {
-        score: sScore, total: sMax, correct: sCor, wrong: sWr,
+        score: sScore, 
+        total: sMax, 
+        correct: sCor, 
+        wrong: sWr,
         unattempted: freshSections[name].length - (sCor + sWr),
         timeTaken: oldTime
       };
       newTotalCorrect += sCor; newTotalWrong += sWr;
       newTotalMarks += sScore; newMaxTotalMarks += sMax;
     });
+  
+  
 
     // 3. Firebase Sync: Update BOTH results and history so rank remains accurate
     const fbUpdate = {
