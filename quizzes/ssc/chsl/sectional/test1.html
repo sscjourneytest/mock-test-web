@@ -1505,52 +1505,27 @@ function renderQuestion(i) {
   normalizeMathForQuiz(qTextEl);
 
   // 🖼️ QUESTION IMAGE RENDER (40% size)
-  const imgBox = document.getElementById("questionImage");
-  imgBox.innerHTML = "";
+  const imgBox = document.getElementById("questionImage");
+  imgBox.innerHTML = "";
 
-  // Dynamic Logic for Question Image (image1)
-  const urlParams = new URLSearchParams(window.location.search);
-  const baseQuizId = urlParams.get('id');
-  const qidStr = String(q.id);
-  // Removes the first digit (the category prefix) and keeps all remaining digits
-  const cleanIdx = parseInt(qidStr.slice(1));
- 
-  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
+  // Dynamic Logic for Question Image (image1)
+  const urlParams = new URLSearchParams(window.location.search);
+  const baseQuizId = urlParams.get('id');
+  const qidStr = String(q.id);
+  const cleanIdx = parseInt(qidStr.slice(1));
+ 
+  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
 
-  if ((q.question_image && q.question_image.trim() !== "") || dynamicQImg) {
-    const img = document.createElement("img");
-    
-    // 1. Set attributes and styles
-    img.alt = "Question Image";
-    img.style.width = "32%"; 
-    img.style.height = "auto";
-    img.style.margin = "10px auto";
-    img.style.border = "1px solid #ddd";
-    img.style.borderRadius = "6px";
-    img.loading = "lazy";
-    img.style.display = "none"; // Zero height initially
+  // Use innerHTML just like options and solutions for stability
+  if (q.question_image && q.question_image.trim() !== "") {
+    // Manual image logic
+    imgBox.innerHTML = `<img src="${q.question_image}" style="width:32%; height:auto; display:block; margin:10px auto; border:1px solid #ddd; border-radius:6px;" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'">`;
+  } else if (dynamicQImg) {
+    // Dynamic image logic: Start HIDDEN and show only ONLOAD
+    imgBox.innerHTML = `<img src="${dynamicQImg}" style="width:32%; height:auto; display:none; margin:10px auto; border:1px solid #ddd; border-radius:6px;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
+  }
 
-    // 2. Set handlers
-    img.onload = function() { 
-      this.style.display = "block"; 
-    };
 
-    img.onerror = function() {
-      if (q.question_image && q.question_image.trim() !== "") {
-        imgBox.innerHTML = "<div style='color:red;font-size:13px'>⚠ Image failed to load</div>";
-      } else {
-        this.style.display = "none";
-      }
-    };
-
-    // 3. CRITICAL: Append to the DOM FIRST
-    imgBox.appendChild(img);
-
-    // 4. NOW set the src to trigger the download
-    img.src = (q.question_image && q.question_image.trim() !== "") ? q.question_image : dynamicQImg;
-  }
-
-  
   
   // 3. Update Marks
   el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0)}</span>`;
