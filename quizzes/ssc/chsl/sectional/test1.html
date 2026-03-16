@@ -1520,8 +1520,7 @@ function renderQuestion(i) {
   if ((q.question_image && q.question_image.trim() !== "") || dynamicQImg) {
     const img = document.createElement("img");
     
-    // 1. Set styles first
-    img.src = (q.question_image && q.question_image.trim() !== "") ? q.question_image : dynamicQImg;
+    // 1. Set attributes and styles
     img.alt = "Question Image";
     img.style.width = "32%"; 
     img.style.height = "auto";
@@ -1529,9 +1528,9 @@ function renderQuestion(i) {
     img.style.border = "1px solid #ddd";
     img.style.borderRadius = "6px";
     img.loading = "lazy";
-    img.style.display = "none"; // Keep it hidden initially
+    img.style.display = "none"; // Zero height initially
 
-    // 2. Set the handlers BEFORE setting the src
+    // 2. Set handlers
     img.onload = function() { 
       this.style.display = "block"; 
     };
@@ -1544,9 +1543,14 @@ function renderQuestion(i) {
       }
     };
 
+    // 3. CRITICAL: Append to the DOM FIRST
     imgBox.appendChild(img);
+
+    // 4. NOW set the src to trigger the download
+    img.src = (q.question_image && q.question_image.trim() !== "") ? q.question_image : dynamicQImg;
   }
 
+  
   
   // 3. Update Marks
   el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0)}</span>`;
