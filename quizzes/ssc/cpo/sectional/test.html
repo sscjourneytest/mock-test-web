@@ -3170,22 +3170,24 @@ async function loadQuizData() {
     const data = await response.json();
 
     // --- DYNAMIC SECTIONAL LOGIC ---
-    if (specificSection && data.sections[specificSection]) {
+    // Standardize HELLOMISTER structure: Convert objects with .questions into plain arrays
+    let standardizedSections = {};
+    Object.keys(data.sections).forEach(key => {
+        standardizedSections[key] = data.sections[key].questions || data.sections[key];
+    });
+
+    if (specificSection && standardizedSections[specificSection]) {
         const cleanSectionName = specificSection.replace(/\s+/g, '').toLowerCase();
         QUIZ_ID = data.meta.id + "-" + cleanSectionName;
         QUIZ_TITLE = data.meta.title + " - " + specificSection;
         
         SECTIONS = {};
-        SECTIONS[specificSection] = data.sections[specificSection];
+        SECTIONS[specificSection] = standardizedSections[specificSection];
         SECTION_NAMES = [specificSection];
 
         const timeMap = {
-            "REASONING": 30,
-            "GENERAL AWARENESS": 30,
-            "GK": 30,
-            "MATH": 30,
-            "MATHS": 30,
-            "ENGLISH": 30
+            "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30,
+            "MATH": 30, "MATHS": 30, "ENGLISH": 30
         };
         const mins = timeMap[specificSection] || 20;
         data.meta.timer_minutes = mins;
@@ -3193,7 +3195,7 @@ async function loadQuizData() {
     } else {
         QUIZ_TITLE = data.meta.title;
         QUIZ_ID = data.meta.id;
-        SECTIONS = data.sections;
+        SECTIONS = standardizedSections; // Use the standardized arrays
         SECTION_NAMES = Object.keys(SECTIONS);
     }
 
@@ -3203,12 +3205,11 @@ async function loadQuizData() {
     CORRECT_SCORE = data.meta.correct_score;
     NEGATIVE_SCORE = data.meta.negative_score;
     TOTAL_TIME_SECONDS = data.meta.timer_seconds;
-      
     seconds = data.meta.timer_seconds;
 
-    // FIX: Initialize QUESTIONS immediately so renderQuestion doesn't crash on reload
-    QUESTIONS = SECTIONS[SECTION_NAMES[0]]; 
+    QUESTIONS = SECTIONS[SECTION_NAMES[0]];
 
+    
     // 4. Build Section Buttons
     const nav = document.getElementById("sectionNav");
     if(nav) {
@@ -3223,12 +3224,13 @@ async function loadQuizData() {
       });
     }
 
-    // --- Updated Logic for Sectional Summary ---
+    
+      // --- Updated Logic for Sectional Summary ---
     let welcomeTableHtml = "";
     let totalQuestionsCount = 0;
 
     SECTION_NAMES.forEach(name => {
-      const sectionArray = SECTIONS[name];
+      const sectionArray = SECTIONS[name]; // This is now a flat array
       const sectionCount = sectionArray.length;
       totalQuestionsCount += sectionCount;
       
@@ -3240,6 +3242,7 @@ async function loadQuizData() {
           <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: var(--danger);">${NEGATIVE_SCORE}</td>
         </tr>`;
     });
+     
 
     const tableBody = document.getElementById("welcomeSectionTableBody");
     if (tableBody) tableBody.innerHTML = welcomeTableHtml;
