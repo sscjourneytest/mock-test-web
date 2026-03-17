@@ -1518,7 +1518,7 @@ function renderQuestion(i) {
   const qidStr = String(q.id);
   const cleanIdx = parseInt(qidStr.slice(1));
  
-  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
+  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
 
   // Use innerHTML just like options and solutions for stability
   if (q.question_image && q.question_image.trim() !== "") {
@@ -1567,7 +1567,7 @@ function renderQuestion(i) {
 
     // 🖼️ OPTION IMAGE RENDER (40% size)
     const optImgKey = `option_image_${optionIndex}`;
-    const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
+    const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
     let optImgHtml = "";
     if (q[optImgKey] && q[optImgKey].trim() !== "") {
       // Manual images show normally
@@ -1615,7 +1615,7 @@ if (isQuiz) {
     }
 
     // Dynamic Logic for Solution Image (image6)
-    const dynamicSolImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image6.jpg`;
+    const dynamicSolImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image6.jpg`;
 
     let solImgHtml = "";
     if (q.solution_image && q.solution_image.trim() !== "") {
