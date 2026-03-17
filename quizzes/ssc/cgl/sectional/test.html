@@ -1653,21 +1653,28 @@ if (isQuiz) {
 // ===============================
 // 🖱️ OPTION SELECTION
 // ===============================
-function selectOption(q, val, divEl){
-  // Prevent changing answers in Solution Mode
-  if(!isQuiz) return;
+
+function selectOption(q, val, divEl) {
+  if (!isQuiz) return;
 
   const qid = q.id ?? current;
-
-  // Toggle Logic: If clicking same option, unselect it?
-  // Testbook usually allows changing, not unselecting easily,
-  // but let's stick to: Click new -> Select new.
-
   answers[qid] = String(val);
   saveQuizState();
 
-  // Re-render to update visuals
-  renderQuestion(current);
+  // Instead of re-rendering the whole question (which reloads images),
+  // just update the 'selected' class on the option rows.
+  const allOpts = document.querySelectorAll("#options .opt");
+  allOpts.forEach((opt, idx) => {
+    if (idx + 1 === val) {
+      opt.classList.add("selected");
+    } else {
+      opt.classList.remove("selected");
+    }
+  });
+
+  // Refresh only the side palette to show the new 'Answered' status
+  if (typeof highlightPalette === "function") highlightPalette();
+  updateNavButtons();
 }
 
 // ===============================
