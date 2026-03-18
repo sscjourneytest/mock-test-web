@@ -1520,10 +1520,10 @@ function renderQuestion(i) {
   // Use innerHTML just like options and solutions for stability
   if (q.question_image && q.question_image.trim() !== "") {
     // Manual image logic
-    imgBox.innerHTML = `<img src="${q.question_image}" style="width:32%; height:auto; display:block; margin:10px auto; border:1px solid #ddd; border-radius:6px;" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'">`;
+    imgBox.innerHTML = `<img src="${q.question_image}" style="width:45%; height:auto; display:block; margin:10px auto; border:1px solid #ddd; border-radius:6px;" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'">`;
   } else if (dynamicQImg) {
     // Dynamic image logic: Start HIDDEN and show only ONLOAD
-    imgBox.innerHTML = `<img src="${dynamicQImg}" style="width:32%; height:auto; display:none; margin:10px auto; border:1px solid #ddd; border-radius:6px;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
+    imgBox.innerHTML = `<img src="${dynamicQImg}" style="width:45%; height:auto; display:none; margin:10px auto; border:1px solid #ddd; border-radius:6px;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
   }
 
 
