@@ -51,7 +51,7 @@
 
         label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
 
-        input[type="text"], select, textarea {
+        input[type="text"], input[type="number"], select, textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid var(--border);
@@ -111,7 +111,6 @@
 
         #print-area { display: none; background: white; }
         
-        /* Preserve colors for mobile/PDF */
         @media print {
             .no-print { display: none !important; }
             #print-area { display: block !important; }
@@ -159,8 +158,7 @@
         
         <div id="loader">Fetching Sections... Please wait...</div>
 
-        <div id="dynamicParts" class="part-list">
-            </div>
+        <div id="dynamicParts" class="part-list"></div>
 
         <button class="btn" style="background:var(--accent); margin-top:30px;" onclick="generateMergedPreview()">STEP 2: GENERATE MERGED PREVIEW</button>
         <button class="btn btn-zip" onclick="generateZip()">STEP 3: DOWNLOAD ALL AS ZIP (MERGED + SEPARATE)</button>
@@ -168,14 +166,16 @@
 </div>
 
 <div id="print-area">
-    <div class="no-print" style="text-align:center; padding: 20px; background: #eee;">
-        <button class="btn" style="width:200px; background:var(--accent);" onclick="window.print()">PRINT / SAVE PDF</button>
+    <div class="no-print" style="text-align:center; padding: 20px; background: #eee; position: sticky; top: 0; z-index: 100;">
+        <p style="margin-bottom:10px; font-weight:bold;">Wait for images to load, then save:</p>
+        <button class="btn" style="width:200px; background:var(--accent);" onclick="window.print()">SAVE AS PDF</button>
         <button class="btn" style="width:200px; background:#666;" onclick="location.reload()">BACK</button>
     </div>
     <div id="merged-content"></div>
 </div>
 
 <script>
+    // Replace with your real Railway URL
     const BACKEND_URL = "https://ssc-proxy-backend-production.up.railway.app/get-source";
     const BASE_IMG_URL = "https://sscexams.cbexams.com/chsl2025finalkeybdsghdnov12/";
 
@@ -194,7 +194,7 @@
     renderTextAreas();
 
     async function autoFetch() {
-        const link = document.getElementById('mainLink').value;
+        const link = document.getElementById('mainLink').value.trim();
         const count = parseInt(document.getElementById('partCount').value);
         const loader = document.getElementById('loader');
 
@@ -203,15 +203,20 @@
 
         try {
             for (let i = 1; i <= count; i++) {
-                let targetUrl = i === 1 ? link : link.replace("ViewCandResponse.aspx", `ViewCandResponse${i}.aspx`);
+                // SCRIPT: Fixed URL logic to prevent http// error
+                let targetUrl = link;
+                if (i > 1) {
+                    targetUrl = link.replace(/ViewCandResponse\.aspx/i, `ViewCandResponse${i}.aspx`);
+                }
+
                 const response = await fetch(`${BACKEND_URL}?url=${encodeURIComponent(targetUrl)}`);
-                if (!response.ok) throw new Error(`Failed to fetch Part ${i}`);
+                if (!response.ok) throw new Error(`Failed to fetch Part ${i}. Ensure total sections is correct.`);
                 const data = await response.json();
                 if (data.source) document.getElementById(`srcPart${i}`).value = data.source;
             }
             alert("All sections fetched successfully!");
         } catch (err) {
-            alert("Error: " + err.message + ". Check Backend or Section Count.");
+            alert("Error: " + err.message);
         } finally {
             loader.style.display = 'none';
         }
@@ -222,17 +227,18 @@
         let doc = parser.parseFromString(rawHTML, 'text/html');
         const hideInfo = document.getElementById('hidePrivacy').checked;
 
-        // Strip Watermarks
+        // 1. Remove Watermarks
         doc.querySelectorAll('.watermark-container, .watermark-text, #lblWatermark, .watermark1, .watermark2, .watermark3, script, .aspNetHidden').forEach(el => el.remove());
 
-        // Privacy
+        // 2. Privacy Check
         if (hideInfo) {
             doc.querySelectorAll('tr').forEach(row => {
-                if (row.innerText.includes("Roll No") || row.innerText.includes("Candidate Name")) row.remove();
+                const text = row.innerText;
+                if (text.includes("Roll No") || text.includes("Candidate Name")) row.remove();
             });
         }
 
-        // Images
+        // 3. Fix Images
         doc.querySelectorAll('img').forEach(img => {
             let src = img.getAttribute('src');
             if (src && !src.startsWith('http')) img.src = BASE_IMG_URL + src;
@@ -250,6 +256,7 @@
             if (val.trim()) finalHTML += processHTML(val, `PART ${i}`);
         }
         if (!finalHTML) return alert("Please fetch or paste code first.");
+        
         document.querySelector('.container').style.display = 'none';
         document.getElementById('print-area').style.display = 'block';
         document.getElementById('merged-content').innerHTML = finalHTML;
@@ -262,11 +269,12 @@
         let mergedContent = "";
 
         const styleHeader = `<html><head><style>
-            body { font-family: sans-serif; }
+            body { font-family: sans-serif; padding: 20px; }
             .section-break { page-break-before: always; border-top: 1px solid #000; padding: 20px 0; }
-            table { width: 100%; border-collapse: collapse; }
-            h2 { background: #226785; color: white; padding: 10px; }
-            img { max-width: 100%; height: auto; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+            h2 { background: #226785; color: white; padding: 10px; border-radius: 5px; }
+            img { max-width: 100%; height: auto; display: block; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         </style></head><body>`;
 
         for (let i = 1; i <= count; i++) {
@@ -274,13 +282,12 @@
             if (val.trim()) {
                 let cleaned = processHTML(val, `PART ${i}`);
                 mergedContent += cleaned;
-                // Add individual part file
                 zip.file(`${commonName}-part${i}.html`, styleHeader + cleaned + "</body></html>");
             }
         }
 
-        if (!mergedContent) return alert("No content found to ZIP.");
-        zip.file(`${commonName}-full.html`, styleHeader + mergedContent + "</body></html>");
+        if (!mergedContent) return alert("Fetch data first!");
+        zip.file(`${commonName}-full-merged.html`, styleHeader + mergedContent + "</body></html>");
 
         const content = await zip.generateAsync({type: "blob"});
         const link = document.createElement("a");
