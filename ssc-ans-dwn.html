@@ -10,18 +10,45 @@
         .box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); max-width: 1000px; margin: 0 auto; }
         h1 { text-align: center; color: var(--p); font-size: 24px; }
         .input-group { margin-bottom: 20px; background: #fff9e6; padding: 15px; border-radius: 8px; border: 1px solid #ffeeba; }
-        input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-bottom: 10px; }
-        .part-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; }
-        .part-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #fafafa; border-top: 5px solid var(--p); }
-        .part-card a { display: block; margin: 10px 0; color: var(--p); font-weight: bold; text-decoration: none; font-size: 14px; }
-        .part-card a:hover { text-decoration: underline; }
-        .status-text { font-size: 12px; color: #666; font-style: italic; }
-        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
-        button { border: none; padding: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; color: white; transition: 0.2s; }
-        .btn-gen { background: var(--s); }
-        .btn-zip { background: #f59e0b; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px; }
         
-        /* Cleanup Styles */
+        .input-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
+        .input-grid > div { display: flex; flex-direction: column; }
+        
+        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 6px; }
+        .checkbox-group input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+        
+        .sections-container { margin-top: 20px; max-height: 300px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 8px; }
+        .section-card { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid #eee; background: #fafafa; }
+        .section-card:last-child { border-bottom: none; }
+        .section-card.loaded { background: #f0fff0; border-left: 4px solid var(--s); }
+        .section-card.error { background: #fff0f0; border-left: 4px solid #dc3545; }
+        .section-card.loading { background: #fffbeb; border-left: 4px solid #f59e0b; }
+        .section-card.pending { border-left: 4px solid #ccc; }
+        .section-info { flex: 1; }
+        .section-info strong { color: var(--p); }
+        .section-info a { display: block; font-size: 10px; color: #666; word-break: break-all; margin-top: 3px; text-decoration: none; }
+        .section-info a:hover { color: var(--p); text-decoration: underline; }
+        .section-status { font-size: 11px; padding: 4px 10px; border-radius: 4px; font-weight: bold; white-space: nowrap; }
+        .status-pending { background: #e0e0e0; color: #666; }
+        .status-loading { background: #fef3c7; color: #92400e; }
+        .status-success { background: #d1fae5; color: #065f46; }
+        .status-error { background: #fee2e2; color: #991b1b; }
+        
+        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .btn-full { margin-top: 20px; }
+        button { border: none; padding: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; color: white; transition: 0.3s; width: 100%; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .btn-fetch { background: linear-gradient(135deg, var(--p), #1a5570); }
+        .btn-gen { background: linear-gradient(135deg, var(--s), #1e7e34); }
+        .btn-zip { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+        
+        .progress-container { margin-top: 15px; display: none; }
+        .progress-bar { height: 10px; background: #e0e0e0; border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--s), #20c997); width: 0%; transition: width 0.3s; }
+        .progress-text { font-size: 13px; color: #666; margin-top: 8px; text-align: center; font-weight: 500; }
+        
         .watermark-container, .watermark-text, #lblWatermark, .watermark1, .watermark2, .watermark3, script, .aspNetHidden, .challenge-btn, input[type="submit"] { 
             display: none !important; opacity: 0 !important; visibility: hidden !important; height: 0 !important;
         }
@@ -34,120 +61,282 @@
             .section-break { page-break-before: always; border-top: 2px solid #226785; padding-top: 20px; margin-top: 20px; }
             img { max-width: 100%; height: auto; display: block; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 25px !important; }
+            td { padding: 3px 5px !important; font-size: 13px !important; line-height: 1.2 !important; }
         }
         .section-break h2 { background: var(--p); color: white; padding: 10px; border-radius: 4px; }
-        
+
         table { 
             width: 100% !important; 
             border-collapse: collapse !important; 
-            margin-bottom: 20px !important; 
+            margin-bottom: 20px !important;
             table-layout: auto !important;
         }
 
         td { 
             padding: 2px 5px !important; 
             font-size: 13px !important;   
-            line-height: 1.1 !important; 
+            line-height: 1.1 !important;
         }
 
         img { 
-            max-width: 90% !important; 
-            height: auto !important; 
-            display: inline-block !important; 
+            max-width: 100% !important;
+            height: auto !important;
+            display: inline-block !important;
             margin: 2px 0 !important;
         }
+
+        @media print {
+            body { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            #print-area { width: 100% !important; }
+        }
+        
+        .header-icon { font-size: 28px; margin-right: 10px; }
+        .info-box { background: #e3f2fd; border: 1px solid #90caf9; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; color: #1565c0; }
+        .info-box strong { color: #0d47a1; }
     </style>
 </head>
 <body>
 
 <div class="box no-print">
-    <h1>SSC Response Master Pro</h1>
+    <h1><span class="header-icon">🎯</span>SSC Response Master Pro</h1>
+    
+    <div class="info-box">
+        <strong>📌 How to use:</strong> Paste your Part 1 link → Set total sections → Click Auto Fetch → Preview & Save!
+    </div>
     
     <div class="input-group">
-        <label><strong>1. Paste Link & Common Name:</strong></label>
-        <input type="text" id="mainLink" placeholder="Paste Section 1 URL here..." oninput="generateLinks()">
-        <input type="text" id="commonName" placeholder="Enter Common Name (e.g. MyExam_2025)">
-        <input type="text" id="totalParts" placeholder="Total Sections (e.g. 4)" value="4">
-    </div>
-
-    <div class="part-grid" id="partDisplay">
+        <label><strong>1. Paste Your Part 1 Link:</strong></label>
+        <input type="text" id="mainLink" placeholder="https://sscexams.cbexams.com/.../ViewCandResponse.aspx?EncKey=XXXXX">
+        
+        <div class="input-grid">
+            <div>
+                <label><strong>Total Sections:</strong></label>
+                <input type="number" id="totalSections" value="4" min="1" max="10">
+            </div>
+            <div>
+                <label><strong>Common Name:</strong></label>
+                <input type="text" id="commonName" value="SSC_Response" placeholder="File name">
+            </div>
+            <div>
+                <label><strong>Delay (seconds):</strong></label>
+                <input type="number" id="fetchDelay" value="3" min="1" max="10">
+            </div>
         </div>
+        
+        <div class="checkbox-group">
+            <input type="checkbox" id="hidePrivacy" checked>
+            <label for="hidePrivacy"><strong>🔒 Hide Privacy (Roll No, Candidate Name)</strong></label>
+        </div>
+    </div>
+    
+    <div class="btn-full">
+        <button class="btn-fetch" onclick="autoFetchAll()" id="fetchBtn">
+            🚀 AUTO FETCH ALL SECTIONS
+        </button>
+    </div>
+    
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">Initializing...</div>
+    </div>
+    
+    <div class="sections-container" id="sectionsContainer"></div>
 
     <div class="btn-row">
-        <button class="btn-gen" style="background: #007BFF;" onclick="autoFetchAll()">STEP 2: AUTO-FETCH & PREVIEW</button>
-        <button class="btn-zip" onclick="downloadZip()">STEP 3: DOWNLOAD HTML ZIP</button>
+        <button class="btn-gen" onclick="showPreview()" id="previewBtn" disabled>
+            📄 SAVE MERGED PDF ONLY
+        </button>
+        <button class="btn-zip" onclick="downloadZip()" id="zipBtn" disabled>
+            📦 SAVE ZIP (Merged + All Sections)
+        </button>
     </div>
 </div>
 
 <div id="print-area">
-    <div class="no-print" style="text-align:center; position: sticky; top: 0; background: #eee; padding: 15px; z-index: 100;">
-        <button id="savePdfBtn" onclick="window.print()" style="background: var(--s); width: 250px;">SAVE MERGED PDF</button>
-        <button onclick="location.reload()" style="background: #666; width: 150px; margin-left: 10px;">BACK</button>
+    <div class="no-print" style="text-align:center; position: sticky; top: 0; background: linear-gradient(135deg, #f5f5f5, #e0e0e0); padding: 15px; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <button onclick="saveMergedPDF()" style="background: linear-gradient(135deg, var(--s), #1e7e34); width: 220px;">💾 SAVE AS PDF</button>
+        <button onclick="location.reload()" style="background: linear-gradient(135deg, #666, #444); width: 220px; margin-left: 10px;">← BACK TO TOOL</button>
     </div>
     <div id="merged-content"></div>
 </div>
 
 <script>
-    const apiKey = "79640730-ec5e-4ded-97c4-5071004a04dc";
+    const API_KEY = "79640730-ec5e-4ded-97c4-5071004a04dc";
+    const API_URL = "https://api.webscraping.ai/html";
+    
     let currentBaseUrl = "";
     let fetchedSources = {};
+    let hidePrivacyEnabled = true;
+    let commonFileName = "SSC_Response";
 
-    function generateLinks() {
-        const link = document.getElementById('mainLink').value.trim();
-        const parts = parseInt(document.getElementById('totalParts').value) || 4;
-        if(!link) return;
-        
-        currentBaseUrl = link.substring(0, link.lastIndexOf("/") + 1);
-        let html = "";
-
-        for(let i=1; i<=parts; i++) {
-            let url = i === 1 ? link : link.replace("ViewCandResponse.aspx", `ViewCandResponse${i}.aspx`);
-            html += `<div class="part-card"><strong>SECTION ${i}</strong><a href="${url}" target="_blank">Open Link ↗</a><div id="status${i}" class="status-text">Ready to fetch</div></div>`;
+    function generateSectionUrls(masterLink, totalSections) {
+        const urls = [];
+        for (let i = 1; i <= totalSections; i++) {
+            let url;
+            if (i === 1) {
+                url = masterLink;
+            } else {
+                url = masterLink.replace("ViewCandResponse.aspx", `ViewCandResponse${i}.aspx`);
+            }
+            urls.push({ part: i, url: url });
         }
-        document.getElementById('partDisplay').innerHTML = html;
+        return urls;
+    }
+
+    function renderSectionCards(sections) {
+        const container = document.getElementById('sectionsContainer');
+        container.innerHTML = '';
+        
+        sections.forEach(section => {
+            const card = document.createElement('div');
+            card.className = 'section-card pending';
+            card.id = `section-card-${section.part}`;
+            card.innerHTML = `
+                <div class="section-info">
+                    <strong>📑 SECTION ${section.part}</strong>
+                    <a href="${section.url}" target="_blank">${section.url}</a>
+                </div>
+                <span class="section-status status-pending" id="status-${section.part}">⏳ Pending</span>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function updateSectionStatus(part, status, message) {
+        const card = document.getElementById(`section-card-${part}`);
+        const statusEl = document.getElementById(`status-${part}`);
+        
+        if (card && statusEl) {
+            card.className = `section-card ${status}`;
+            statusEl.className = `section-status status-${status}`;
+            statusEl.innerText = message;
+        }
+    }
+
+    async function fetchPage(url, part) {
+        updateSectionStatus(part, 'loading', '⏳ Fetching...');
+        
+        try {
+            const apiUrl = `${API_URL}?api_key=${API_KEY}&url=${encodeURIComponent(url)}&js=true&proxy=datacenter&timeout=45000`;
+            
+            const response = await fetch(apiUrl);
+            
+            if (response.status === 500) {
+                throw new Error('Server Error 500 - Retrying may help');
+            }
+            
+            if (response.status === 429) {
+                throw new Error('Rate Limited - Increase delay');
+            }
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            const html = await response.text();
+            
+            if (html && html.length > 500) {
+                fetchedSources[part] = html;
+                updateSectionStatus(part, 'loaded', '✅ Loaded');
+                return true;
+            } else {
+                throw new Error('Empty response');
+            }
+        } catch (error) {
+            console.error(`Error fetching part ${part}:`, error);
+            updateSectionStatus(part, 'error', `❌ ${error.message}`);
+            return false;
+        }
     }
 
     async function autoFetchAll() {
-        const link = document.getElementById('mainLink').value.trim();
-        const parts = parseInt(document.getElementById('totalParts').value) || 4;
-        if(!link) return alert("Please paste the link first!");
-
-        for(let i=1; i<=parts; i++) {
-            let url = i === 1 ? link : link.replace("ViewCandResponse.aspx", `ViewCandResponse${i}.aspx`);
-            document.getElementById(`status${i}`).innerText = "Fetching...";
+        const masterLink = document.getElementById('mainLink').value.trim();
+        const totalSections = parseInt(document.getElementById('totalSections').value) || 4;
+        const fetchDelay = (parseInt(document.getElementById('fetchDelay').value) || 3) * 1000;
+        hidePrivacyEnabled = document.getElementById('hidePrivacy').checked;
+        commonFileName = document.getElementById('commonName').value.trim() || 'SSC_Response';
+        
+        if (!masterLink) {
+            alert('⚠️ Please paste your Part 1 link first!');
+            return;
+        }
+        
+        if (!masterLink.includes('ViewCandResponse.aspx')) {
+            alert('⚠️ Invalid link format!\n\nLink should contain: ViewCandResponse.aspx');
+            return;
+        }
+        
+        currentBaseUrl = masterLink.substring(0, masterLink.lastIndexOf("/") + 1);
+        console.log("Detected Base URL:", currentBaseUrl);
+        
+        const sections = generateSectionUrls(masterLink, totalSections);
+        renderSectionCards(sections);
+        
+        fetchedSources = {};
+        
+        document.getElementById('fetchBtn').disabled = true;
+        document.getElementById('fetchBtn').innerText = '⏳ FETCHING IN PROGRESS...';
+        document.getElementById('previewBtn').disabled = true;
+        document.getElementById('zipBtn').disabled = true;
+        
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        progressContainer.style.display = 'block';
+        progressFill.style.width = '0%';
+        
+        let successCount = 0;
+        
+        for (let i = 0; i < sections.length; i++) {
+            const section = sections[i];
+            progressText.innerText = `🔄 Fetching Section ${section.part} of ${totalSections}...`;
+            progressFill.style.width = `${((i) / totalSections) * 100}%`;
             
-            try {
-                const response = await fetch(`https://api.webscraping.ai/html?api_key=${apiKey}&url=${encodeURIComponent(url)}&render=true`);
-                const data = await response.text();
-                fetchedSources[i] = data;
-                document.getElementById(`status${i}`).innerText = "Successfully Fetched ✅";
-            } catch (err) {
-                document.getElementById(`status${i}`).innerText = "Error Fetching ❌";
+            const success = await fetchPage(section.url, section.part);
+            if (success) successCount++;
+            
+            if (i < sections.length - 1) {
+                progressText.innerText = `⏱️ Waiting ${fetchDelay/1000}s before next request...`;
+                await new Promise(resolve => setTimeout(resolve, fetchDelay));
             }
         }
-        showPreview();
+        
+        progressFill.style.width = '100%';
+        
+        if (successCount === totalSections) {
+            progressText.innerText = `🎉 All ${totalSections} sections loaded successfully!`;
+        } else {
+            progressText.innerText = `⚠️ Completed: ${successCount}/${totalSections} sections loaded`;
+        }
+        
+        document.getElementById('fetchBtn').disabled = false;
+        document.getElementById('fetchBtn').innerText = '🔄 RE-FETCH ALL SECTIONS';
+        
+        if (successCount > 0) {
+            document.getElementById('previewBtn').disabled = false;
+            document.getElementById('zipBtn').disabled = false;
+        }
     }
 
     function processContent(raw, title) {
         let parser = new DOMParser();
         let doc = parser.parseFromString(raw, 'text/html');
 
-        // Remove redundant breaks but keep one for spacing
         doc.querySelectorAll('br + br').forEach(br => br.remove());
 
-        // Privacy Hiding
-        doc.querySelectorAll('td.bld').forEach(td => {
-            let txt = td.innerText;
-            if(txt.includes('Roll No') || txt.includes('Candidate Name')) {
-                td.classList.add('privacy-hidden');
-                if(td.nextElementSibling) td.nextElementSibling.classList.add('privacy-hidden');
-            }
-        });
+        if (hidePrivacyEnabled) {
+            doc.querySelectorAll('td.bld').forEach(td => {
+                let txt = td.innerText;
+                if(txt.includes('Roll No') || txt.includes('Candidate Name')) {
+                    td.classList.add('privacy-hidden');
+                    if(td.nextElementSibling) td.nextElementSibling.classList.add('privacy-hidden');
+                }
+            });
+        }
 
-        // Cleanup System
         doc.querySelectorAll('.watermark-container, .watermark-text, #lblWatermark, .watermark1, .watermark2, .watermark3, script, .aspNetHidden, .challenge-btn, input[type="submit"]').forEach(el => el.remove());
 
-        // Dynamic Image Loader
         doc.querySelectorAll('img').forEach(img => {
             let src = img.getAttribute('src');
             if (src && !src.startsWith('http')) {
@@ -161,44 +350,55 @@
 
     function showPreview() {
         let finalHTML = "";
-        const parts = parseInt(document.getElementById('totalParts').value) || 4;
-        const name = document.getElementById('commonName').value || "merged";
         
-        for(let i=1; i<=parts; i++) {
-            if(fetchedSources[i]) finalHTML += processContent(fetchedSources[i], `PART ${i}`);
+        const parts = Object.keys(fetchedSources).sort((a, b) => parseInt(a) - parseInt(b));
+        
+        for (const part of parts) {
+            let val = fetchedSources[part];
+            if (val) finalHTML += processContent(val, `PART ${part}`);
         }
         
-        if(!finalHTML) return alert("No content fetched!");
-        document.title = name + "_full";
+        if (!finalHTML) return alert("⚠️ No data found! Please fetch sections first.");
+        
         document.querySelector('.box').style.display = 'none';
         document.getElementById('print-area').style.display = 'block';
         document.getElementById('merged-content').innerHTML = finalHTML;
     }
 
+    function saveMergedPDF() {
+        window.print();
+    }
+
     async function downloadZip() {
         const zip = new JSZip();
         let fullContent = "";
-        const name = document.getElementById('commonName').value || "SSC_Exam";
-        const parts = parseInt(document.getElementById('totalParts').value) || 4;
-        const head = `<html><head><style>body{padding:20px;font-family:sans-serif;} .section-break{page-break-before:always;} h2{background:#226785;color:white;padding:10px;} table{width:100%;border-collapse:collapse;margin-bottom:20px;} img{max-width:100%;} .privacy-hidden{opacity:0!important;} *{-webkit-print-color-adjust:exact!important;}</style></head><body>`;
+        const head = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${commonFileName}</title><style>body{padding:20px;font-family:sans-serif;} .section-break{page-break-before:always;} h2{background:#226785;color:white;padding:10px;border-radius:4px;} table{width:100%;border-collapse:collapse;margin-bottom:25px;} img{max-width:100%;} .privacy-hidden{opacity:0!important;visibility:hidden!important;} *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}</style></head><body>`;
+        const tail = `<script>window.onload=function(){setTimeout(function(){window.print();},500);}<\/script></body></html>`;
 
-        for(let i=1; i<=parts; i++) {
-            if(fetchedSources[i]) {
-                let cleaned = processContent(fetchedSources[i], `PART ${i}`);
+        const parts = Object.keys(fetchedSources).sort((a, b) => parseInt(a) - parseInt(b));
+        
+        for (const part of parts) {
+            let val = fetchedSources[part];
+            if (val) {
+                let cleaned = processContent(val, `PART ${part}`);
                 fullContent += cleaned;
-                zip.file(`Section_${i}.html`, head + cleaned + "</body></html>");
+                zip.file(`${commonFileName}_Section_${part}.html`, head + cleaned + tail);
             }
         }
 
-        if(!fullContent) return alert("Fetch data first!");
-        zip.file(`${name}_merged.html`, head + fullContent + "</body></html>");
+        if (!fullContent) return alert("⚠️ No data found!");
+        
+        zip.file(`${commonFileName}_full.html`, head + fullContent + tail);
 
         const blob = await zip.generateAsync({type: "blob"});
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = name + "_Package.zip";
+        a.download = `${commonFileName}_Complete.zip`;
         a.click();
+        
+        alert(`✅ ZIP Downloaded!\n\n📁 Contains:\n• ${commonFileName}_full.html (Merged)\n• ${parts.length} separate section files\n\n💡 Tip: Open any HTML file and it will auto-prompt to save as PDF!`);
     }
 </script>
+
 </body>
 </html>
