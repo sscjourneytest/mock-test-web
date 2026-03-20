@@ -194,33 +194,43 @@
     renderTextAreas();
 
     async function autoFetch() {
-        const link = document.getElementById('mainLink').value.trim();
-        const count = parseInt(document.getElementById('partCount').value);
-        const loader = document.getElementById('loader');
+    const link = document.getElementById('mainLink').value.trim();
+    const count = parseInt(document.getElementById('partCount').value);
+    const loader = document.getElementById('loader');
 
-        if (!link) return alert("Paste the Part 1 link first!");
-        loader.style.display = 'block';
+    if (!link) return alert("Please paste the link first!");
+    loader.style.display = 'block';
 
-        try {
-            for (let i = 1; i <= count; i++) {
-                // SCRIPT: Fixed URL logic to prevent http// error
-                let targetUrl = link;
-                if (i > 1) {
-                    targetUrl = link.replace(/ViewCandResponse\.aspx/i, `ViewCandResponse${i}.aspx`);
-                }
-
-                const response = await fetch(`${BACKEND_URL}?url=${encodeURIComponent(targetUrl)}`);
-                if (!response.ok) throw new Error(`Failed to fetch Part ${i}. Ensure total sections is correct.`);
-                const data = await response.json();
-                if (data.source) document.getElementById(`srcPart${i}`).value = data.source;
+    try {
+        for (let i = 1; i <= count; i++) {
+            // Logic to build the URL cleanly
+            let targetUrl = link;
+            if (i > 1) {
+                targetUrl = link.replace(/ViewCandResponse\.aspx/i, `ViewCandResponse${i}.aspx`);
             }
-            alert("All sections fetched successfully!");
-        } catch (err) {
-            alert("Error: " + err.message);
-        } finally {
-            loader.style.display = 'none';
+
+            // Standard Fetch call to your Railway Backend
+            const response = await fetch(`${BACKEND_URL}?url=${encodeURIComponent(targetUrl)}`);
+            const data = await response.json();
+            
+            if (response.status !== 200) {
+                throw new Error(data.error || `Failed to fetch Part ${i}`);
+            }
+
+            if (data.source) {
+                document.getElementById(`srcPart${i}`).value = data.source;
+            }
         }
+        alert("All parts fetched successfully!");
+    } catch (err) {
+        console.error(err);
+        alert("Error: " + err.message);
+    } finally {
+        loader.style.display = 'none';
     }
+}
+
+ 
 
     function processHTML(rawHTML, partTitle) {
         let parser = new DOMParser();
