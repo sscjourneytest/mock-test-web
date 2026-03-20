@@ -162,9 +162,9 @@
 </div>
 
 <script>
-    const API_KEY = "79640730-ec5e-4ded-97c4-5071004a04dc";
-    const API_URL = "https://api.webscraping.ai/html";
-    
+        // Replace the API configuration (line ~172-174)
+const API_KEY = "3f4b1ebdaecf347f136f97fd401725c0"; // Get free key from scraperapi.com
+const API_URL = "http://api.scraperapi.com";
     let currentBaseUrl = "";
     let fetchedSources = {};
     let hidePrivacyEnabled = true;
@@ -214,41 +214,38 @@
         }
     }
 
-    async function fetchPage(url, part) {
-        updateSectionStatus(part, 'loading', '⏳ Fetching...');
+
+
+async function fetchPage(url, part) {
+    updateSectionStatus(part, 'loading', '⏳ Fetching...');
+    
+    try {
+        // ScraperAPI format (better for browser use)
+        const apiUrl = `${API_URL}?api_key=${API_KEY}&url=${encodeURIComponent(url)}&render=true`;
         
-        try {
-            const apiUrl = `${API_URL}?api_key=${API_KEY}&url=${encodeURIComponent(url)}&js=true&proxy=datacenter&timeout=45000`;
-            
-            const response = await fetch(apiUrl);
-            
-            if (response.status === 500) {
-                throw new Error('Server Error 500 - Retrying may help');
-            }
-            
-            if (response.status === 429) {
-                throw new Error('Rate Limited - Increase delay');
-            }
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-            
-            const html = await response.text();
-            
-            if (html && html.length > 500) {
-                fetchedSources[part] = html;
-                updateSectionStatus(part, 'loaded', '✅ Loaded');
-                return true;
-            } else {
-                throw new Error('Empty response');
-            }
-        } catch (error) {
-            console.error(`Error fetching part ${part}:`, error);
-            updateSectionStatus(part, 'error', `❌ ${error.message}`);
-            return false;
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
         }
+        
+        const html = await response.text();
+        
+        if (html && html.length > 500) {
+            fetchedSources[part] = html;
+            updateSectionStatus(part, 'loaded', '✅ Loaded');
+            return true;
+        } else {
+            throw new Error('Empty response');
+        }
+    } catch (error) {
+        console.error(`Error fetching part ${part}:`, error);
+        updateSectionStatus(part, 'error', `❌ ${error.message}`);
+        return false;
     }
+}
+
+    
 
     async function autoFetchAll() {
         const masterLink = document.getElementById('mainLink').value.trim();
