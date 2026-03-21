@@ -15,7 +15,28 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/auth.js"></script>
+ 
   
+  <!-- Add these lines -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon-192.png">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/icon-512.png">
+  
+  <!-- Register Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('Service Worker registered'))
+          .catch(err => console.log('Service Worker registration failed'));
+      });
+    }
+  </script>
+
   <style>
     :root {
       --primary: #2563eb;
