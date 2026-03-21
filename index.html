@@ -16,26 +16,16 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/auth.js"></script>
  
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('App ready to be installed!'))
+        .catch(err => console.log('Service Worker failed', err));
+    });
+  }
+</script>
   
-  <!-- Add these lines -->
-  <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/icon-192.png">
-  <meta name="theme-color" content="#6366f1">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="/icon-512.png">
-  
-  <!-- Register Service Worker -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(reg => console.log('Service Worker registered'))
-          .catch(err => console.log('Service Worker registration failed'));
-      });
-    }
-  </script>
 
   <style>
     :root {
@@ -312,7 +302,54 @@
       <img src="/logo.png" alt="MOCK MATRIX HUB LOGO">
     </div>
 
+<div id="pwa-install-container" style="display: none; padding: 20px; text-align: left;">
+  <button id="pwa-btn" class="apk-download-btn">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 10px;">
+        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+    </svg>
+    Install App for Free
+  </button>
+  <p style="color: #fff; margin-top: 8px; font-size: 13px; opacity: 0.9;">
+    ✨ Get the full experience on your home screen
+  </p>
+</div>
 
+<script>
+  let installPrompt;
+  const installContainer = document.getElementById('pwa-install-container');
+  const installBtn = document.getElementById('pwa-btn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Save the event so it can be triggered later.
+    installPrompt = e;
+    // Show our custom install button
+    installContainer.style.display = 'block';
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if (!installPrompt) return;
+    
+    // Show the native install prompt
+    installPrompt.prompt();
+    
+    // Wait for the user to respond to the prompt
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('User installed the app');
+      installContainer.style.display = 'none';
+    }
+    installPrompt = null;
+  });
+
+  // Hide button if already installed
+  window.addEventListener('appinstalled', () => {
+    installContainer.style.display = 'none';
+    console.log('PWA installed successfully');
+  });
+</script>
+    
 
     <div class="welcome-badge">👋 Practice to Perfection ✨</div>
     <h1>MOCK MATRIX HUB</h1>
