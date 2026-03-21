@@ -312,44 +312,64 @@
       <img src="/logo.png" alt="MOCK MATRIX HUB LOGO">
     </div>
 
-    <!-- APK Download Section -->
-<div style="text-align: center; margin: 50px auto; max-width: 600px;">
-  <a href="https://github.com/sscjourneytest/sscjourneytest/raw/main/MockMatrixHub.apk" download class="apk-download-btn">
+ <div class="apk-section-container">
+  <a href="https://github.com/sscjourneytest/sscjourneytest/raw/main/MockMatrixHub.apk" download="MockMatrixHub.apk" class="apk-download-btn">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 10px;">
       <path d="M17.6 10.5L16.2 9.1l-3.7 3.7V3h-2v9.8l-3.7-3.7-1.4 1.4 6.1 6.1 6.1-6.1zM19 16v4H5v-4H3v6h18v-6h-2z"/>
     </svg>
     Download Android App (Free)
   </a>
-  <p style="color: #666; margin-top: 15px; font-size: 14px;">
+  <p class="apk-subtext">
     📱 Install our app and access all features instantly!
   </p>
 </div>
 
 <style>
+/* 1. Positioning the container at the left, below header */
+.apk-section-container {
+  text-align: left;           /* Aligns button to the left */
+  padding: 20px;              /* Space from the edges */
+  margin-top: 10px;           /* Adjust this to fit right under your header */
+  max-width: 100%;
+}
+
+/* 2. High-visibility button (Gold/Orange gradient) to pop on Blue */
 .apk-download-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* High contrast against blue backgrounds */
+  background: linear-gradient(135deg, #ff9a44 0%, #fc6076 100%); 
   color: white;
-  padding: 16px 32px;
+  padding: 14px 28px;
   border-radius: 12px;
   text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(252, 96, 118, 0.4);
   transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.2); /* Soft border to help it stand out */
 }
 
 .apk-download-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(252, 96, 118, 0.5);
+  filter: brightness(1.1);
+}
+
+.apk-subtext {
+  color: #ffffff;             /* Set to white so it's visible on your blue site */
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: 0.9;
+  padding-left: 5px;
 }
 
 @media (max-width: 768px) {
   .apk-download-btn {
-    font-size: 16px;
-    padding: 14px 24px;
+    font-size: 14px;
+    padding: 12px 20px;
+    width: 90%;               /* Almost full width on mobile for easier clicking */
   }
 }
 </style>
