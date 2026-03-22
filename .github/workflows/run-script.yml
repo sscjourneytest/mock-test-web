@@ -1,0 +1,22 @@
+name: Run Viewport Fix
+on: 
+  workflow_dispatch: # This allows you to start it manually with a button
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Run Script
+        run: python fix_viewport.py
+      - name: Commit changes
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add .
+          git commit -m "Automated viewport update" || exit 0
+          git push
