@@ -369,6 +369,19 @@ footer {
 
 <script>
 
+  // Helper to fetch latest attempt from Firebase for Paid Users
+async function fetchFirebaseStatus(username, quizId) {
+    try {
+        // Points to the specific quiz and the unique user's folder
+        const snapshot = await db.ref("quiz_results/" + quizId + "/" + username).once("value");
+        return snapshot.exists() ? snapshot.val() : null;
+    } catch (e) {
+        console.error("Firebase fetch failed:", e);
+        return null;
+    }
+}
+  
+
   function updateFilterCounts() {
     const quizzes = document.querySelectorAll(".quiz");
     
@@ -406,8 +419,11 @@ footer {
     document.getElementById("btn-english").innerText = `ENGLISH (${counts.english})`;
     document.getElementById("btn-gk").innerText = `GK (${counts.gk})`;
   }
+
   
 async function checkPremiumStatus() {
+
+  
     const profile = getLocalProfile(); // From auth.js cache
     const isPaidUser = profile ? profile.is_paid : false;
     const username = profile ? profile.username : "Guest";
