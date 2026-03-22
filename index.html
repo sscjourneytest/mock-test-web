@@ -16,7 +16,32 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/auth.js"></script>
  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<style>
+  @media only screen and (max-width: 600px) {
+    body {
+      /* This creates the 'In-Between' feel */
+      min-width: 380px; 
+      zoom: 0.95; 
+      -moz-transform: scale(0.95);
+      -moz-transform-origin: 0 0;
+    }
+  }
+</style>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js');
+    });
+  }
+</script>
 
 
   <style>
@@ -287,8 +312,7 @@
 </head>
 
 <body>
-      <meta name="viewport" content="width=1100"> 
-
+     
   <div class="hero">
     <div class="logo-circle">
       <img src="/logo.png" alt="MOCK MATRIX HUB LOGO">
