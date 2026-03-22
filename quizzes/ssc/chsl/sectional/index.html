@@ -420,10 +420,7 @@ async function fetchFirebaseStatus(username, quizId) {
     document.getElementById("btn-gk").innerText = `GK (${counts.gk})`;
   }
 
-  
 async function checkPremiumStatus() {
-
-  
     const profile = getLocalProfile(); // From auth.js cache
     const isPaidUser = profile ? profile.is_paid : false;
     const username = profile ? profile.username : "Guest";
@@ -447,38 +444,38 @@ async function checkPremiumStatus() {
         const doc = parser.parseFromString(htmlText, 'text/html');
         const fullMockElements = doc.querySelectorAll('.quiz[data-id]');
 
-   let autoHtml = "";
-      fullMockElements.forEach(el => {
-    const quizId = el.getAttribute('data-id');
-    const quizTitle = el.getAttribute('data-title');
-    const type = el.getAttribute('data-type') || "paid"; // Fetch type from Master
+        let autoHtml = "";
+        fullMockElements.forEach(el => {
+            const quizId = el.getAttribute('data-id');
+            const quizTitle = el.getAttribute('data-title');
+            const type = el.getAttribute('data-type') || "paid"; 
 
-    // Dynamic Badge logic
-    const badgeClass = type === "free" ? "badge-free" : "badge-paid";
-    const badgeText = type.toUpperCase();
+            const badgeClass = type === "free" ? "badge-free" : "badge-paid";
+            const badgeText = type.toUpperCase();
 
-    sections.forEach(sec => {
-        const sectionName = sec.label || sec.name;
-        autoHtml += `
-        <div class="quiz auto-quiz" data-type="${type}" data-id="${quizId}" data-title="${quizTitle}" data-section="${sec.name}">
-            <div class="quiz-left">
-                <div class="quiz-title">${quizTitle} ${sectionName} <span class="quiz-badge ${badgeClass}">${badgeText}</span></div>
-                <div class="quiz-info">25 Questions • ${sec.time}</div>
-            </div>
-            <div class="action-area">
-                <a href="test.html?id=${quizId}&section=${encodeURIComponent(sec.name)}" class="start-btn">START</a>
-            </div>
-        </div>`;
-    });
-});
-       
+            sections.forEach(sec => {
+                const sectionName = sec.label || sec.name;
+                autoHtml += `
+                <div class="quiz auto-quiz" data-type="${type}" data-id="${quizId}" data-title="${quizTitle}" data-section="${sec.name}">
+                    <div class="quiz-left">
+                        <div class="quiz-title">${quizTitle} ${sectionName} <span class="quiz-badge ${badgeClass}">${badgeText}</span></div>
+                        <div class="quiz-info">25 Questions • ${sec.time}</div>
+                    </div>
+                    <div class="action-area">
+                        <a href="test.html?id=${quizId}&section=${encodeURIComponent(sec.name)}" class="start-btn">START</a>
+                    </div>
+                </div>`;
+            });
+        });
        
         grid.insertAdjacentHTML('afterbegin', autoHtml);
 
     } catch (e) { console.error("Sync Failed:", e); }
 
     const quizzes = document.querySelectorAll(".quiz");
-    quizzes.forEach(quiz => {
+
+    // We use a for...of loop to allow 'await' inside for Firebase calls
+    for (const quiz of quizzes) {
         const type = quiz.getAttribute("data-type");
         const actionArea = quiz.querySelector(".action-area");
         
@@ -495,16 +492,35 @@ async function checkPremiumStatus() {
         const cleanSection = sectionParam ? sectionParam.replace(/\s+/g, '').toLowerCase() : "";
         const finalQuizId = sectionParam ? `${quizId}-${cleanSection}` : quizId;
 
+        // REQUIREMENT: Check Paid Status first for Paid Tests
         if (type === "paid" && !isPaidUser) {
             actionArea.innerHTML = `<a href="/buy-premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
         } 
         else {
-            const resultKey = `result_${username}_${finalQuizId}`;
-            const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
+            let testData = null;
 
-            if (savedResult && savedResult.submitted) {
-                const score = savedResult.totalMarks || 0;
-                const max = savedResult.firebasePayload?.total || 50;
+            // REQUIREMENT: For Paid users, try Firebase first to enable cross-device sync
+            if (isPaidUser) {
+                try {
+                    const snapshot = await db.ref(`quiz_results/${finalQuizId}/${username}`).once("value");
+                    if (snapshot.exists()) {
+                        testData = snapshot.val();
+                    }
+                } catch (err) { console.error("Firebase fetch error", err); }
+            }
+
+            // Fallback for Free users or if Firebase is empty
+            if (!testData) {
+                const resultKey = `result_${username}_${finalQuizId}`;
+                const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
+                if (savedResult && savedResult.submitted) {
+                    testData = savedResult.firebasePayload || savedResult;
+                }
+            }
+
+            if (testData) {
+                const score = testData.score !== undefined ? testData.score : (testData.totalMarks || 0);
+                const max = testData.total || 50;
                 const pct = Math.max(0, Math.min(100, (score / max) * 100));
                 
                 let barColor = "#ef4444"; 
@@ -533,11 +549,13 @@ async function checkPremiumStatus() {
                 }
             }
         }
-    });
+    }
     
     updateFilterCounts();
     applyFilters();
 }
+  
+  
 
 function triggerReattempt(quizId, section) {
     const profile = getLocalProfile();
