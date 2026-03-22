@@ -19,6 +19,7 @@ async function getClient() {
 const SECRET_SALT = "mmh_vault_key_99";
 
 async function initAuth() {
+    setupTopBarStyles();
     const client = await getClient();
     const { data: { user } } = await client.auth.getUser();
     const path = window.location.pathname;
