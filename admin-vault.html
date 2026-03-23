@@ -313,7 +313,8 @@ fetchUserStats();
                 <td><a href="${req.channel_links}" target="_blank">View Links</a></td>
                 <td>${req.upi_id}</td>
                 <td class="action-btns">
-                    <but-sm apprton class="btnove" onclick="approvePartner('${req.id}', '${req.user_id}', '${req.requested_code}', '${}req.email', '${req.username}')">Approve</button>
+                    <button class="btn-sm approve" onclick="approvePartner('${req.id}', '${req.user_id}', '${req.requested_code}', '${req.email}', '${req.username}')">Approve</button>
+    
                     <button class="btn-sm reject" onclick="rejectReq('coupon_requests', '${req.id}')">Reject</button>
                 </td>
             </tr>`;
