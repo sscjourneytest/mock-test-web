@@ -80,7 +80,7 @@
         <div class="card">
             <h3 style="margin-bottom: 10px;"><i class="fas fa-hand-holding-usd"></i> Request Payout</h3>
             <p style="color:#64748b; font-size: 13px; margin-bottom: 25px; line-height: 1.6;">
-                You can request a payout <b>once a week</b> (Minimum: ₹100). Earnings are calculated as 75% of the total discounts provided through your code.
+                You can request a payout <b>once a week</b> (Minimum: ₹100). Earnings are calculated as 80% of the total discounts provided through your code.
             </p>
             <button class="withdraw-btn" id="withdrawBtn" onclick="requestPayout()">
                 Submit Withdrawal Request
@@ -228,7 +228,7 @@
                 let totalDiscountSum = 0;
                 sales.forEach(s => totalDiscountSum += (s.discount_given || 0));
 
-                // 4. Calculate 75% share
+                // 4. Calculate 80% share
                 calculatedEarnings = Math.floor(totalDiscountSum * 0.80);
                 unpaidSalesCount = sales.length;
 
@@ -314,7 +314,7 @@
             if (!error) {
                 const botToken = "8609211512:AAH9oHSAXAWuqkqqrPNtdZyuVHXCsT1f8ys";
                 const chatId = "-1003502354207";
-                const text = `💰 *NEW PAYOUT REQUEST (75% Model)*\n\nPartner: ${profile.username}\nAmount: ₹${calculatedEarnings}\nCoupon: ${profile.partner_coupon}\nEmail: ${profile.email}\nNote: Sum of discounts calculated up to now.`;
+                const text = `💰 *NEW PAYOUT REQUEST (80% Model)*\n\nPartner: ${profile.username}\nAmount: ₹${calculatedEarnings}\nCoupon: ${profile.partner_coupon}\nEmail: ${profile.email}\nNote: Sum of discounts calculated up to now.`;
                 
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}&parse_mode=Markdown`);
                 
