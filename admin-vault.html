@@ -278,11 +278,15 @@ async function approveMock(id, userId, email, name) {
 
         if (profError) throw new Error("Failed to update Profile table: " + profError.message);
 
-        // 3. If both succeeded
-        alert("✅ Database Updated Successfully! Now opening Gmail to notify user.");
-        sendEmail(email, name, 'premium');
-        fetchPayments();
-        fetchUserStats(); // Refresh stats to reflect new paid user
+        // Replace the end of your existing approveMock function
+alert("✅ Database Updated Successfully!");
+
+if(confirm("Do you want to open the Gmail app to send a manual notification as well?")) {
+    sendEmail(email, name, 'premium');
+}
+
+fetchPayments();
+fetchUserStats();
 
     } catch (err) {
         console.error(err);
@@ -309,7 +313,7 @@ async function approveMock(id, userId, email, name) {
                 <td><a href="${req.channel_links}" target="_blank">View Links</a></td>
                 <td>${req.upi_id}</td>
                 <td class="action-btns">
-                    <button class="btn-sm approve" onclick="approvePartner('${req.id}', '${req.user_id}', '${req.requested_code}', '${req.email}', '${req.username}')">Approve</button>
+                    <but-sm apprton class="btnove" onclick="approvePartner('${req.id}', '${req.user_id}', '${req.requested_code}', '${}req.email', '${req.username}')">Approve</button>
                     <button class="btn-sm reject" onclick="rejectReq('coupon_requests', '${req.id}')">Reject</button>
                 </td>
             </tr>`;
@@ -350,10 +354,14 @@ async function approvePartner(id, userId, code, email, name) {
 
         if (profError) throw new Error("Failed to update Partner Profile: " + profError.message);
 
-        // 3. Success
-        alert("✅ Partner Status Granted! Opening Gmail...");
-        sendEmail(email, name, 'partner', code);
-        fetchCoupons();
+        // Replace the end of your existing approvePartner function
+alert("✅ Partner Status Granted!");
+
+if(confirm("Do you want to open the Gmail app to send a manual notification as well?")) {
+    sendEmail(email, name, 'partner', code);
+}
+
+fetchCoupons();
 
     } catch (err) {
         console.error(err);
@@ -453,8 +461,9 @@ async function viewPartnerDetails(userId, name, code) {
                 <td>₹${req.amount}</td>
                 <td>${new Date(req.payout_upto).toLocaleString()}</td>
                 <td class="action-btns">
-                    <button class="btn-sm approve" onclick="approvePayout('${req.id}', '${req.email}', '${req.username}', '${req.amount}')">Mark Paid</button>
-                </td>
+    <button class="btn-sm approve" onclick="approvePayout('${req.id}', '${req.email}', '${req.username}', '${req.amount}')">Mark Paid</button>
+    <button class="btn-sm reject" onclick="rejectReq('payout_requests', '${req.id}')">Reject</button>
+</td>
             </tr>`;
         });
         document.getElementById('payout-table').innerHTML = p_html || '<tr><td colspan="4">No pending payouts.</td></tr>';
@@ -467,25 +476,54 @@ async function viewPartnerDetails(userId, name, code) {
         });
         document.getElementById('payout-history-table').innerHTML = h_html;
     }
-
-    async function approvePayout(id, email, name, amount) {
-        if(!confirm("Confirm payout completion?")) return;
-        await _supabase.from('payout_requests').update({ status: 'successful' }).eq('id', id);
-        alert("Payout marked successful! Now sending email.");
-        sendEmail(email, name, 'payout', amount);
+// Replace your existing approvePayout function
+async function approvePayout(id, email, name, amount) {
+    if(!confirm("Confirm payout completion?")) return;
+    
+    const { error } = await _supabase.from('payout_requests').update({ status: 'successful' }).eq('id', id);
+    
+    if(!error) {
+        alert("Payout marked successful!");
+        if(confirm("Do you want to open the Gmail app to send a manual notification as well?")) {
+            sendEmail(email, name, 'payout', amount);
+        }
         fetchPayouts();
     }
-
+}
+  
     async function rejectReq(table, id) {
-        if(confirm("Reject this request?")) {
-            await _supabase.from(table).update({ status: 'rejected' }).eq('id', id);
-            alert("Rejected.");
-            // Manual refresh instead of reload
-            if(table === 'payment_requests') fetchPayments();
-            else if(table === 'coupon_requests') fetchCoupons();
-        }
+    // 1. Ask for reason
+    const reason = prompt("Enter the reason for rejection (e.g., 'Invalid UTR', 'Incorrect UPI ID'):");
+    
+    // 2. Validate
+    if (reason === null || reason.trim() === "") {
+        alert("Rejection cancelled. A reason is required.");
+        return;
     }
 
+    if(confirm(`Reject this request with reason: "${reason}"?`)) {
+        // 3. Update status AND the reason column
+        const { error } = await _supabase
+            .from(table)
+            .update({ 
+                status: 'rejected',
+                rejection_reason: reason 
+            })
+            .eq('id', id);
+
+        if (error) {
+            alert("Error: " + error.message);
+        } else {
+            alert("Rejected. Automated email with reason is being sent.");
+            // Refresh current view
+            if(table === 'payment_requests') fetchPayments();
+            else if(table === 'coupon_requests') fetchCoupons();
+            else if(table === 'payout_requests') fetchPayouts();
+        }
+    }
+}
+
+   
     // --- EMAIL HANDLER ---
     function sendEmail(email, name, type, extra = '') {
         let subject = "", body = "";
