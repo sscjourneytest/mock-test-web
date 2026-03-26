@@ -1579,7 +1579,8 @@ function renderQuestion(i) {
   qTextEl.innerHTML = applyBoldHighlight(getLangText(q.question));
   normalizeMathForQuiz(qTextEl);
 
-    // 🖼️ QUESTION IMAGE RENDER
+  
+  // 🖼️ QUESTION IMAGE RENDER
   const imgBox = document.getElementById("questionImage");
   imgBox.innerHTML = "";
 
@@ -1598,7 +1599,10 @@ function renderQuestion(i) {
   } else if (dynamicQImg) {
     // Dynamic image logic: Start HIDDEN (display:none) to prevent card jumping
     imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
-  }
+    }
+  
+
+
 
  
   // 3. Update Marks
@@ -1635,6 +1639,7 @@ function renderQuestion(i) {
       }
     }
 
+    
     // 🖼️ OPTION IMAGE RENDER
     const optImgKey = `option_image_${optionIndex}`;
     const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
@@ -1650,6 +1655,7 @@ function renderQuestion(i) {
       // Dynamic images: hidden until loaded to keep the option box stable
       optImgHtml = `<div style="margin-top:8px;"><img src="${dynamicOptImg}" style="${optStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
     }
+
 
     div.innerHTML = `
       <div class="custom-radio"></div>
