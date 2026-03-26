@@ -1505,7 +1505,8 @@ function renderQuestion(i) {
   qTextEl.innerHTML = applyBoldHighlight(getLangText(q.question));
   normalizeMathForQuiz(qTextEl);
 
-    // 🖼️ QUESTION IMAGE RENDER
+  
+  // 🖼️ QUESTION IMAGE RENDER
   const imgBox = document.getElementById("questionImage");
   imgBox.innerHTML = "";
 
@@ -1525,8 +1526,8 @@ function renderQuestion(i) {
     // Dynamic image logic: Start HIDDEN (display:none) to prevent card jumping
     imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
   }
+  
 
- 
   // 3. Update Marks
   el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0)}</span>`;
 
@@ -1576,8 +1577,7 @@ function renderQuestion(i) {
       // Dynamic images: hidden until loaded to keep the option box stable
       optImgHtml = `<div style="margin-top:8px;"><img src="${dynamicOptImg}" style="${optStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
     }
-
-   
+    
     div.innerHTML = `
       <div class="custom-radio"></div>
       <div style="flex:1">
