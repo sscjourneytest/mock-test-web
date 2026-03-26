@@ -1514,7 +1514,7 @@ function renderQuestion(i) {
   const baseQuizId = urlParams.get('id');
   const qidStr = String(q.id);
   const cleanIdx = parseInt(qidStr.slice(1));
-  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
+  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cpo/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
 
   // Define a stable style: natural width, but capped at 90% wide and 350px tall
   const qImgStyle = "max-width:90%; max-height:250px; width:auto; height:auto; display:block; margin:10px auto; border:1px solid #ddd; border-radius:6px; object-fit:contain;";
@@ -1564,7 +1564,7 @@ function renderQuestion(i) {
 
     // 🖼️ OPTION IMAGE RENDER
     const optImgKey = `option_image_${optionIndex}`;
-    const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/chsl/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
+    const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cpo/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
     
     let optImgHtml = "";
     // Testbook-style: options stay small (max 180px wide) and don't stretch
