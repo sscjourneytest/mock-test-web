@@ -1,0 +1,20 @@
+name: Manual Delete Quizzes
+on: workflow_dispatch
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Delete
+        run: |
+          cd "paid/ssc/cgl/full-mock"
+          rm -f cgl-25-12-sep-s3-full.json CGL-2025-12-SEP-SHIFT-1.json CGL-2025-12-SEP-SHIFT-2.json CGL-2025-13-SEP-SHIFT-1.json CGL-2025-13-SEP-SHIFT-2.json CGL-2025-13-SEP-SHIFT-3.json CGL-2025-14-SEP-SHIFT-1.json CGL-2025-14-SEP-SHIFT-2.json CGL-2025-14-SEP-SHIFT-3.json CGL-2025-15-SEP-SHIFT-1.json CGL-2025-15-SEP-SHIFT-2.json CGL-2025-15-SEP-SHIFT-3.json
+          
+      - name: Push Changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "Deleted 12 quiz files"
+          git push
