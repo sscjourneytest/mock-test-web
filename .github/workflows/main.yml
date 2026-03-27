@@ -1,0 +1,36 @@
+name: Delete Quiz Files from Subfolder
+on: 
+  workflow_dispatch: # Allows you to click "Run workflow" manually
+
+jobs:
+  delete-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Delete files from specific folder
+        run: |
+          # The path to your files
+          DIR="paid/ssc/cgl/full-mock"
+
+          rm -f "$DIR/cgl-25-12-sep-s3-full.json"
+          rm -f "$DIR/CGL-2025-12-SEP-SHIFT-1.json"
+          rm -f "$DIR/CGL-2025-12-SEP-SHIFT-2.json"
+          rm -f "$DIR/CGL-2025-13-SEP-SHIFT-1.json"
+          rm -f "$DIR/CGL-2025-13-SEP-SHIFT-2.json"
+          rm -f "$DIR/CGL-2025-13-SEP-SHIFT-3.json"
+          rm -f "$DIR/CGL-2025-14-SEP-SHIFT-1.json"
+          rm -f "$DIR/CGL-2025-14-SEP-SHIFT-2.json"
+          rm -f "$DIR/CGL-2025-14-SEP-SHIFT-3.json"
+          rm -f "$DIR/CGL-2025-15-SEP-SHIFT-1.json"
+          rm -f "$DIR/CGL-2025-15-SEP-SHIFT-2.json"
+          rm -f "$DIR/CGL-2025-15-SEP-SHIFT-3.json"
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Cleanup: Deleted 12 JSON files from $DIR"
+          git push
