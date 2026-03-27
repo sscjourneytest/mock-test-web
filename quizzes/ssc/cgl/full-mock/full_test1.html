@@ -1488,20 +1488,32 @@ function renderQuestion(i) {
   // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
   el("qindex").textContent = i + 1;
   el("qtotal").textContent = QUESTIONS.length;
-
-  // --- LANGUAGE HELPER FUNCTION ---
-  const getLangText = (obj) => {
+// --- UPDATED LANGUAGE & DECODING HELPER ---
+const getLangText = (obj) => {
     if (!obj) return "";
-    if (typeof obj === "string") return obj; 
+    
+    // Helper to decode HTML entities like &lt; and &amp;
+    const decodeHTML = (html) => {
+        const txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    };
 
-    if (currentLang === "bilingual") {
-      const enText = obj.en || "";
-      const hiText = obj.hi || "";
-      return enText + (enText && hiText ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hiText;
+    let rawText = "";
+    if (typeof obj === "string") {
+        rawText = obj;
+    } else if (currentLang === "bilingual") {
+        const enText = obj.en || "";
+        const hiText = obj.hi || "";
+        rawText = enText + (enText && hiText ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hiText;
+    } else {
+        rawText = obj[currentLang] || obj["en"] || "";
     }
-    return obj[currentLang] || obj["en"] || "";
-  };
 
+    // Decode the entities so <p> becomes actual HTML
+    return decodeHTML(rawText);
+};
+ 
   // 2. Render Question Text & Math
   const qTextEl = el("qtext");
   // innerHTML ensures images and tags inside the question string render correctly
