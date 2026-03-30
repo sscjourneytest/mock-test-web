@@ -284,11 +284,7 @@ h1 {
   border-radius: 4px;
   padding: 0;
   margin-bottom: 20px;
-  
 
-  /* 👇 separate scrollbar ALWAYS */
-  max-height: calc(100vh - 140px);
-  
 }
 
 /* =========================
@@ -646,12 +642,15 @@ body.mode-solution.actions-bottom #floatBar {
      GLOBAL DESKTOP WIDTH RESET
      =============================== */
 
-  .container {
-    max-width: none;
-    width: 100%;
-    padding-right: 0;
-  }
-
+.container {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 12px 16px;
+  
+  /* ADD THIS LINE: */
+  /* 100px is enough to clear the 60-70px height of the fbar buttons */
+  padding-bottom: 100px !important; 
+}
   /* ===============================
      PALETTE (RIGHT FIXED)
      =============================== */
