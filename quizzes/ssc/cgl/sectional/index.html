@@ -406,6 +406,7 @@ footer {
     document.getElementById("btn-english").innerText = `ENGLISH (${counts.english})`;
     document.getElementById("btn-gk").innerText = `GK (${counts.gk})`;
   }
+
   
 async function checkPremiumStatus() {
     const profile = getLocalProfile(); // From auth.js cache
@@ -516,6 +517,20 @@ async function checkPremiumStatus() {
                     `;
                 }
             }
+          else {
+                // --- ADDED RESUME LOGIC HERE ---
+                const stateKey = `state_${username}_${finalQuizId}`;
+                const savedState = JSON.parse(localStorage.getItem(stateKey) || "{}");
+
+                const linkId = sectionParam ? `${quizId}&section=${encodeURIComponent(sectionParam)}` : quizId;
+
+                if (savedState && savedState.isPaused) {
+                    actionArea.innerHTML = `<a href="test.html?id=${linkId}" class="start-btn" style="background: #198754;">▶️ RESUME TEST</a>`;
+                } else {
+                    actionArea.innerHTML = `<a href="test.html?id=${linkId}" class="start-btn">START TEST</a>`;
+                }
+                // --- END OF ADDED LOGIC ---
+          }
         }
     });
     
