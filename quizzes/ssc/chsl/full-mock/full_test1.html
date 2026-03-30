@@ -1134,6 +1134,16 @@ body.mode-solution #pauseBtn {
 @media (max-width: 991px) {
   #desktopActionRow { display: none !important; }
 }
+
+/* When 'Actions at Bottom' is active, hide the entire 2nd row in the header */
+body.actions-bottom #desktopActionRow {
+  display: none !important;
+}
+
+/* Ensure that when we are in Solution Mode, the Row 2 logic still behaves */
+body.mode-solution #desktopActionRow {
+  display: flex; /* Keeps navigation visible in solution mode unless toggled */
+}
 </style>
 
 <script>
@@ -1320,16 +1330,16 @@ const firebaseConfig = {
         <button id="toggleActionBarBtn" class="btn-ghost btn-sm">⇅</button>
       </div>
     </div>
-    
-    <div id="desktopActionRow" style="display:flex; justify-content:flex-end; width:100%; margin-top:10px; padding-top:8px; border-top:1px solid #eee;">
-        <div id="topActions" class="top-actions" style="display:flex !important; margin-right: 372px; gap: 10px;">
+    <div id="desktopActionRow" style="display:flex; align-items:center; width:100%; margin-top:10px; padding-top:8px; border-top:1px solid #eee;">
+    <div style="flex: 1; display: flex; justify-content: flex-end; padding-right: 372px;">
+        <div id="topActions" class="top-actions" style="display:flex !important; gap: 10px;">
           <button id="prevBtn" class="btn-prev btn-ghost btn-sm">Previous</button>
           <button id="clearBtn" class="btn-clear btn-ghost btn-sm">Clear</button>
           <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
           <button id="nextBtn" class="btn-next btn btn-sm">Save & Next</button>
         </div>
     </div>
-  </div>
+</div>
 </header>
 
 
