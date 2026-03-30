@@ -73,10 +73,17 @@ body { padding-top: 0 !important; }
 /* =========================================
    2. LAYOUT CONTAINERS
    ========================================= */
-.container {
-  max-width: var(--max-width);
-  margin: auto;
-  padding: 12px 16px;
+
+ .container {
+    margin: auto;
+    padding: 12px 16px;
+    max-width: none;
+    width: 100%;
+    padding-right: 0;
+ 
+  /* ADD THIS LINE: */
+  /* 100px is enough to clear the 60-70px height of the fbar buttons */
+  padding-bottom: 100px !important; 
 }
 
 /* Wrapper for Quiz vs Palette Layout */
@@ -280,15 +287,11 @@ h1 {
 /* Quiz card with its OWN scrollbar */
 .card {
   background: #ffffff;
-  border: 1px solid #d6d6d6;
-  border-radius: 4px;
+  border: 1.25px solid #333333;
+  border-radius: 0;
   padding: 0;
   margin-bottom: 20px;
-  overflow-y: scroll;
 
-  /* 👇 separate scrollbar ALWAYS */
-  max-height: calc(100vh - 140px);
-  
 }
 
 /* =========================
@@ -300,7 +303,8 @@ h1 {
   align-items: center;
 
   padding: 10px 14px;
-  border-bottom: 1px solid #d6d6d6;
+  
+  border-bottom: 1.25px solid #333333;
   background: #fff;
 }
 
@@ -322,11 +326,11 @@ h1 {
 .qtext {
   padding: 12px 14px;
   font-size: 17px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #222;
-  font-weight: 500;
+  font-weight: 525;
 
-  border-bottom: 1px solid #d6d6d6;
+  border-bottom: 1.25px solid #333333;
   background: #fff;
 }
 
@@ -339,7 +343,7 @@ h1 {
   display: grid;
   grid-template-columns: 48px 1fr;
 
-  border-bottom: 1px solid #d6d6d6;
+  border-bottom: 1.25px solid #333333;
   background: #fff;
   margin: 0;
 }
@@ -358,7 +362,7 @@ h1 {
   font-size: 15px;
   color: #222;
   display: block;        /* ✅ REQUIRED */
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 
@@ -369,7 +373,7 @@ h1 {
   align-items: center;
   justify-content: center;
 
-  border-right: 1px solid #d6d6d6;
+  border-right: 1.25px solid #333333;
   cursor: pointer;
 
   width: 100%;
@@ -407,7 +411,7 @@ h1 {
 /* Solution Explanation Box */
 .explanation {
   background: #f0f7ff;
-  border-left: 4px solid var(--accent);
+  border-left: 1.25px solid #333333;
   padding: 15px;
   margin-top: 20px;
   border-radius: 4px;
@@ -650,8 +654,11 @@ body.mode-solution.actions-bottom #floatBar {
     max-width: none;
     width: 100%;
     padding-right: 0;
-  }
-
+ 
+  /* ADD THIS LINE: */
+  /* 100px is enough to clear the 60-70px height of the fbar buttons */
+  padding-bottom: 100px !important; 
+}
   /* ===============================
      PALETTE (RIGHT FIXED)
      =============================== */
@@ -683,7 +690,7 @@ body.mode-solution.actions-bottom #floatBar {
   #quizCard {
     max-width: none;
     margin-right: 12px;   /* 👈 visual gap from palette */
-    border-radius: 8px;
+    border-radius: 0 !important;
   }
 
  
@@ -1083,7 +1090,128 @@ mjx-utext {
   text-align: center; 
   font-weight: 600; 
 }
+/* Pause Button - Matching Uploaded Image */
+.pause-btn-img-style {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #ababab;
+  border-radius: 6px;
+  padding: 5px 15px;
+  color: #333;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+}
+.pause-bars {
+  display: inline-block;
+  width: 10px;
+  height: 14px;
+  border-left: 2px solid #555;
+  border-right: 2px solid #555;
+  margin-right: 8px;
+}
 
+/* Fix Vertical Overlap & Palette Spacing */
+@media (min-width: 992px) {
+  /* Increase header height variable to account for 2nd row */
+  :root { --header-height: 110px; } 
+
+  header { height: var(--header-height) !important; }
+
+  /* Ensure Section Nav sticks BELOW the new taller header */
+  #sectionNav {
+    top: var(--header-height) !important;
+  }
+}
+
+/* Hide Pause Button in Solution Mode */
+body.mode-solution #pauseBtn {
+  display: none !important;
+}
+
+@media (max-width: 991px) {
+  /* 1. Reset the Header Container */
+  header { height: auto !important; padding: 5px 0 !important; }
+  
+  .header-inner { 
+    display: flex !important;
+    flex-direction: column !important; 
+    gap: 5px !important; 
+    padding: 0 10px !important; 
+  }
+
+  /* 2. Force the first container to handle Row 1 & Row 2 elements */
+  .header-inner > div:first-child {
+    display: flex !important;
+    flex-wrap: wrap !important; 
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
+  /* --- ROW 1 LOGIC --- */
+  #headerTitle { 
+    max-width: 100px; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    font-size: 15px;
+    order: 1; 
+  }
+  
+  #headerUsername { order: 2; margin-left: auto; }
+
+  /* --- ROW 2 LOGIC --- */
+  /* Language Select - Increased font size */
+  #langSelect { 
+    order: 3; 
+    margin-top: 10px; 
+    flex-basis: 22%; 
+    font-size: 13px !important; /* Made bigger */
+    padding: 4px !important;
+  }
+
+  /* View (Palette) Button - Increased padding/font */
+  #paletteBtn { 
+    order: 4; 
+    display: inline-flex !important; 
+    margin-top: 10px; 
+    padding: 8px 12px !important; /* Made bigger */
+    font-size: 14px !important; /* Made bigger */
+  }
+
+  /* Timer Text - Increased padding/font */
+  #timer { 
+    order: 5; 
+    margin-top: 10px; 
+    font-size: 15px !important; /* Made bigger */
+    padding: 4px 8px !important; /* Made bigger */
+  }
+
+  /* Pause Button - Increased padding/font */
+  #pauseBtn { 
+    order: 6; 
+    margin-top: 10px; 
+    display: inline-flex !important; 
+    font-size: 14px !important; /* Made bigger */
+    padding: 6px 12px !important; /* Made bigger */
+    white-space: nowrap;
+  }
+
+  /* 3. Hide Unwanted Elements on Mobile */
+  #submitBtn, 
+  #toggleActionBarBtn, 
+  #desktopActionRow,
+  .pause-bars { 
+    display: none !important; 
+  }
+
+  /* 4. Restore Quiz Card Breathing Room & SOLVE OVERLAP */
+  .container { 
+    padding: 10px 15px 100px !important; /* Added 120px bottom padding to clear fbar */
+  }
+  #quizCard { width: 100% !important; margin: 0 !important; }
+}
 </style>
 
 <script>
