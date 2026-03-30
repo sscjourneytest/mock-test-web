@@ -416,10 +416,10 @@ async function checkPremiumStatus() {
     const FULL_MOCK_URL = "../full-mock/index.html"; 
 
     const sections = [
-        { name: "REASONING", time: "30 Min" },
-        { name: "GENERAL AWARENESS", time: "30 Min", label: "GK" },
-        { name: "MATH", time: "30 Min", label: "MATHS" },
-        { name: "ENGLISH", time: "30 Min" }
+        { name: "REASONING", time: "20 Min" },
+        { name: "GENERAL AWARENESS", time: "10 Min", label: "GK" },
+        { name: "MATH", time: "25 Min", label: "MATHS" },
+        { name: "ENGLISH", time: "15 Min" }
     ];
 
     try {
@@ -447,7 +447,7 @@ async function checkPremiumStatus() {
         <div class="quiz auto-quiz" data-type="${type}" data-id="${quizId}" data-title="${quizTitle}" data-section="${sec.name}">
             <div class="quiz-left">
                 <div class="quiz-title">${quizTitle} ${sectionName} <span class="quiz-badge ${badgeClass}">${badgeText}</span></div>
-                <div class="quiz-info">50 Questions • ${sec.time}</div>
+                <div class="quiz-info">25 Questions • ${sec.time}</div>
             </div>
             <div class="action-area">
                 <a href="test.html?id=${quizId}&section=${encodeURIComponent(sec.name)}" class="start-btn">START</a>
@@ -516,12 +516,27 @@ async function checkPremiumStatus() {
                     `;
                 }
             }
+          else {
+                // --- ADDED RESUME LOGIC HERE ---
+                const stateKey = `state_${username}_${finalQuizId}`;
+                const savedState = JSON.parse(localStorage.getItem(stateKey) || "{}");
+
+                const linkId = sectionParam ? `${quizId}&section=${encodeURIComponent(sectionParam)}` : quizId;
+
+                if (savedState && savedState.isPaused) {
+                    actionArea.innerHTML = `<a href="test.html?id=${linkId}" class="start-btn" style="background: #198754;">▶️ RESUME TEST</a>`;
+                } else {
+                    actionArea.innerHTML = `<a href="test.html?id=${linkId}" class="start-btn">START TEST</a>`;
+                }
+                // --- END OF ADDED LOGIC ---
+          }
         }
     });
     
     updateFilterCounts();
     applyFilters();
 }
+
 
 function triggerReattempt(quizId, section) {
     const profile = getLocalProfile();
