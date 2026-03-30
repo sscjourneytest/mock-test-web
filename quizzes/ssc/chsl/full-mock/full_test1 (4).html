@@ -1523,9 +1523,23 @@ function applyBoldHighlight(html) {
 
 
   // Toggle top actions ↔ bottom bar
-function toggleActionBar(){
-  document.body.classList.toggle("actions-bottom");
+function toggleActionBar() {
+  const body = document.body;
+  const row2 = el("desktopActionRow");
+  
+  body.classList.toggle("actions-bottom");
+
+  if (body.classList.contains("actions-bottom")) {
+    // Hide row and move content up
+    row2.style.display = "none";
+    document.documentElement.style.setProperty('--header-height', '65px');
+  } else {
+    // Show row and move content down
+    row2.style.display = "flex";
+    document.documentElement.style.setProperty('--header-height', '115px');
+  }
 }
+
 // ===============================
 // 📝 RENDER QUESTION ENGINE
 // ===============================
