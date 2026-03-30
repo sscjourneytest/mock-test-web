@@ -1655,8 +1655,6 @@ function setupPauseFeature() {
     }
   };
 }
-
-
 // ===============================
 // 📝 RENDER QUESTION ENGINE
 // ===============================
@@ -1674,26 +1672,39 @@ function renderQuestion(i) {
   // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
   el("qindex").textContent = i + 1;
   el("qtotal").textContent = QUESTIONS.length;
-
-  // --- LANGUAGE HELPER FUNCTION ---
-  const getLangText = (obj) => {
+// --- UPDATED LANGUAGE & DECODING HELPER ---
+const getLangText = (obj) => {
     if (!obj) return "";
-    if (typeof obj === "string") return obj; 
+    
+    // Helper to decode HTML entities like &lt; and &amp;
+    const decodeHTML = (html) => {
+        const txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    };
 
-    if (currentLang === "bilingual") {
-      const enText = obj.en || "";
-      const hiText = obj.hi || "";
-      return enText + (enText && hiText ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hiText;
+    let rawText = "";
+    if (typeof obj === "string") {
+        rawText = obj;
+    } else if (currentLang === "bilingual") {
+        const enText = obj.en || "";
+        const hiText = obj.hi || "";
+        rawText = enText + (enText && hiText ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hiText;
+    } else {
+        rawText = obj[currentLang] || obj["en"] || "";
     }
-    return obj[currentLang] || obj["en"] || "";
-  };
 
+    // Decode the entities so <p> becomes actual HTML
+    return decodeHTML(rawText);
+};
+ 
   // 2. Render Question Text & Math
   const qTextEl = el("qtext");
+  // innerHTML ensures images and tags inside the question string render correctly
   qTextEl.innerHTML = applyBoldHighlight(getLangText(q.question));
   normalizeMathForQuiz(qTextEl);
 
-    // 🖼️ QUESTION IMAGE RENDER
+  // 🖼️ QUESTION IMAGE RENDER
   const imgBox = document.getElementById("questionImage");
   imgBox.innerHTML = "";
 
@@ -1703,7 +1714,7 @@ function renderQuestion(i) {
   const cleanIdx = parseInt(qidStr.slice(1));
   const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
 
-  // Define a stable style: natural width, but capped at 90% wide and 350px tall
+  // Define a stable style: natural width, but capped at 90% wide and 250px tall
   const qImgStyle = "max-width:90%; max-height:250px; width:auto; height:auto; display:block; margin:10px auto; border:1px solid #ddd; border-radius:6px; object-fit:contain;";
 
   if (q.question_image && q.question_image.trim() !== "") {
@@ -1714,9 +1725,8 @@ function renderQuestion(i) {
     imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
   }
 
- 
   // 3. Update Marks
-  el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0)}</span>`;
+  el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0.5)}</span>`;
 
   // 4. Render Options (Updated to include Option Images)
   const optsContainer = el("options");
@@ -1736,16 +1746,13 @@ function renderQuestion(i) {
 
     if (isQuiz) {
       if (isSelected) div.classList.add("selected");
-     
     } else {
       div.style.cursor = "default";
       if (isCorrectAns) {
         div.classList.add("correct");
-        
       }
       if (isSelected && !isCorrectAns) {
         div.classList.add("wrong");
-        
       }
     }
 
@@ -1768,19 +1775,18 @@ function renderQuestion(i) {
     div.innerHTML = `
       <div class="custom-radio"></div>
       <div style="flex:1">
-  <div class="opt-text">${applyBoldHighlight(getLangText(q[key]))}</div>
-  ${optImgHtml}
-</div>
-
+        <div class="opt-text">${applyBoldHighlight(getLangText(q[key]))}</div>
+        ${optImgHtml}
+      </div>
     `;
-const radio = div.querySelector(".custom-radio");
+    const radio = div.querySelector(".custom-radio");
 
-if (isQuiz) {
-  radio.addEventListener("click", (e) => {
-    e.stopPropagation();   // 🔥 CRITICAL
-    selectOption(q, optionIndex, div);
-  });
-}
+    if (isQuiz) {
+      radio.addEventListener("click", (e) => {
+        e.stopPropagation();   // 🔥 CRITICAL
+        selectOption(q, optionIndex, div);
+      });
+    }
 
     optsContainer.appendChild(div);
     normalizeMathForQuiz(div.querySelector(".opt-text"));
@@ -1807,17 +1813,16 @@ if (isQuiz) {
 
     let solImgHtml = "";
     if (q.solution_image && q.solution_image.trim() !== "") {
-      // Manual images show normally
-      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${q.solution_image}" style="width:40%; height:auto; border-radius:6px; border:1px solid #ddd;"></div>`;
+      // Manual images show using qImgStyle (max-height: 250px) instead of 40%
+      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${q.solution_image}" style="${qImgStyle}" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'"></div>`;
     } else {
-      // Dynamic images are hidden (display:none) and show only on successful load
-      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${dynamicSolImg}" style="width:40%; height:auto; border-radius:6px; border:1px solid #ddd; display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
+      // Dynamic images show using qImgStyle
+      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${dynamicSolImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
     }
 
     expBox.style.display = "block";
     expBox.innerHTML = `<div style="margin-bottom:8px; font-weight:700;">Status: ${statusText}</div>` +
-      (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br>${applyBoldHighlight(getLangText(q.solution_text))}` : "") +
-    
+      (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br><div>${applyBoldHighlight(getLangText(q.solution_text))}</div>` : "") +
       solImgHtml;
     normalizeMathForQuiz(expBox);
   } else {
@@ -1841,6 +1846,8 @@ if (isQuiz) {
     };
   }
 }
+
+
 
 // ===============================
 // 🖱️ OPTION SELECTION
