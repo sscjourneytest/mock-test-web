@@ -1090,7 +1090,31 @@ mjx-utext {
   text-align: center; 
   font-weight: 600; 
 }
+/* Desktop: Second Row Buttons & Palette Gap */
+@media (min-width: 992px) {
+  .top-actions {
+    display: flex !important; /* Forces visibility in Row 2 */
+    margin-right: 12px;      /* 12px gap from palette */
+  }
+}
 
+/* Mobile: Fit to Screen */
+@media (max-width: 991px) {
+  .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  #quizCard {
+    border-left: none !important;
+    border-right: none !important;
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+  .qbar, .qtext, .opt {
+    padding-left: 12px !important; /* Internal padding for readability */
+    padding-right: 12px !important;
+  }
+}
 </style>
 
 <script>
@@ -1252,38 +1276,40 @@ const firebaseConfig = {
   const db = firebase.database();
 </script>
 
-
 <header id="mainHeader" style="display:none;">
-  <div class="header-inner">
-
-    <div style="display:flex; align-items:center; gap:10px;">
-      <button id="backToAnalysisBtn" class="btn-ghost" style="display:none;">⬅ Analysis</button>
-      <h1 id="headerTitle">Loading...</h1>
-<div id="headerUsername" class="header-username-box">User</div>
+  <div class="header-inner" style="flex-direction: column; height: auto; padding: 8px 16px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button id="backToAnalysisBtn" class="btn-ghost" style="display:none;">⬅ Analysis</button>
+        <h1 id="headerTitle" style="padding-left:0;">Loading...</h1>
+        <button id="pauseBtn" style="background:none; border:none; font-size:20px; cursor:pointer; padding:0 10px;">⏸️</button>
+      </div>
+      <div id="headerUsername" class="header-username-box">User</div>
     </div>
     
-    <div style="display:flex; align-items:center; gap:10px;">
-      <select id="langSelect" class="btn-ghost" style="padding: 4px; font-size: 13px;">
-        <option value="en">English</option>
-        <option value="hi">हिन्दी</option>
-        <option value="bilingual">EN+HI</option>
-      </select>
-    <div id="topActions" class="top-actions">
-    <button id="prevBtn" class="btn-prev btn-ghost btn-sm">Previous</button>
-    <button id="clearBtn" class="btn-clear btn-ghost btn-sm">Clear</button>
-    <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
-    <button id="nextBtn" class="btn-next btn btn-sm">Save & Next</button>
-</div>
-   
-      <div class="timer-text" id="timer">00:00</div>
-      <button id="submitBtn" class="btn">Submit</button>
-      <button id="paletteBtn" class="btn-ghost">View</button>
-      <button id="toggleActionBarBtn" class="btn-ghost btn-sm">⇅</button>
+    <div style="display:flex; align-items:center; justify-content:space-between; width:100%; margin-top:8px; border-top:1px solid #eee; padding-top:8px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <select id="langSelect" class="btn-ghost" style="padding: 4px; font-size: 13px;">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="bilingual">EN+HI</option>
+        </select>
+        <div id="topActions" class="top-actions">
+          <button id="prevBtn" class="btn-prev btn-ghost btn-sm">Previous</button>
+          <button id="clearBtn" class="btn-clear btn-ghost btn-sm">Clear</button>
+          <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
+          <button id="nextBtn" class="btn-next btn btn-sm">Save & Next</button>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div class="timer-text" id="timer">00:00</div>
+        <button id="submitBtn" class="btn">Submit</button>
+        <button id="paletteBtn" class="btn-ghost">View</button>
+        <button id="toggleActionBarBtn" class="btn-ghost btn-sm">⇅</button>
+      </div>
     </div>
   </div>
 </header>
-
-
 
 <div id="sectionNav" class="section-nav" style="display:none;"></div>
 <div class="container">
