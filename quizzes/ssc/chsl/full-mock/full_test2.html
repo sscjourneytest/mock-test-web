@@ -1539,7 +1539,41 @@ function toggleActionBar() {
     document.documentElement.style.setProperty('--header-height', '115px');
   }
 }
+function setupPauseFeature() {
+  const pBtn = el("pauseBtn");
+  if (!pBtn) return;
 
+  // 1. Hide the pause button if in solution mode
+  if (!isQuiz) {
+    pBtn.style.display = "none";
+    return;
+  }
+
+  pBtn.onclick = () => {
+    // 2. Simple but effective confirmation popup
+    if (confirm("⏸️ Pause Quiz?\n\nYour progress and time will be saved. You can resume from the home page later.")) {
+      
+      // 3. Force save the current state (Answers, Time, Current Question)
+      saveQuizState();
+      
+      // 4. Update the saved state to include the 'isPaused' flag for the index page to detect
+      const savedState = localStorage.getItem(QUIZ_STATE_KEY);
+      if (savedState) {
+        const stateData = JSON.parse(savedState);
+        stateData.isPaused = true;
+        localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(stateData));
+      }
+
+      // 5. Stop the timer immediately
+      if (timerInterval) clearInterval(timerInterval);
+
+      // 6. Redirect back to the parent folder (e.g., from full_test1 to the index list)
+      const currentUrl = window.location.pathname;
+      const parentFolder = currentUrl.substring(0, currentUrl.lastIndexOf('/')) + '/';
+      window.location.href = parentFolder;
+    }
+  };
+}
 // ===============================
 // 📝 RENDER QUESTION ENGINE
 // ===============================
@@ -3135,7 +3169,8 @@ if (stateSaved) {
   renderMath();
   
   // 🔥 FINAL STEP: Attach listeners only ONCE at the very end
-  attachListeners(); 
+  attachListeners();
+  setupPauseFeature();
 }
 
 
