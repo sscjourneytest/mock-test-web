@@ -1130,9 +1130,77 @@ body.mode-solution #pauseBtn {
   display: none !important;
 }
 
-/* Mobile Adjustments */
+
 @media (max-width: 991px) {
-  #desktopActionRow { display: none !important; }
+  /* 1. Reset Header Layout */
+  .header-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    padding: 8px 12px !important;
+  }
+
+  /* 2. Create Row 1 (Quiz ID & Username) */
+  .header-inner > div:first-child {
+    display: flex !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    order: 1; /* Force to top */
+  }
+
+  /* Hide the desktop Pause button from the first container if it exists there */
+  .header-inner > div:first-child #pauseBtn {
+    display: none !important;
+  }
+
+  /* 3. Create Row 2 (Lang, View, Timer, Pause) */
+  .header-inner > div:last-child {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+    border-top: 1px solid #eee !important;
+    order: 2; /* Force to second row */
+  }
+
+  /* 4. Item Specific Visibility/Ordering for Row 2 */
+  #langSelect { order: 1; }
+  #paletteBtn { order: 2; display: inline-flex !important; } /* View Button */
+  #timer      { order: 3; font-size: 15px !important; padding: 2px 8px !important; }
+  
+  /* Create a mobile-only Pause Button style in Row 2 */
+  #mainHeader #pauseBtn {
+    display: inline-flex !important;
+    order: 4;
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+  }
+
+  /* 5. Remove unwanted mobile buttons */
+  #submitBtn, #toggleActionBarBtn, #desktopActionRow {
+    display: none !important;
+  }
+
+  /* 6. Fix "Fit to Screen" - No Zooming Needed */
+  .container {
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+  
+  #quizCard {
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .qbar, .qtext, .opt {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
 }
 </style>
 
