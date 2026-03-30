@@ -1131,50 +1131,84 @@ body.mode-solution #pauseBtn {
 }
 
 @media (max-width: 991px) {
-  /* 1. Force Header into two rows */
-  header { height: auto !important; padding: 5px 0; }
-  .header-inner { flex-direction: column !important; gap: 8px !important; padding: 0 10px !important; }
-
-  /* 2. Row 1: Quiz ID (Truncated) and Username */
-  .header-inner > div:first-child { width: 100% !important; justify-content: space-between !important; }
+  /* 1. Reset the Header Container */
+  header { height: auto !important; padding: 5px 0 !important; }
   
-  /* Truncate Quiz ID after 6 letters */
+  .header-inner { 
+    display: flex !important;
+    flex-direction: column !important; 
+    gap: 5px !important; 
+    padding: 0 10px !important; 
+  }
+
+  /* 2. Force the first container to handle Row 1 & Row 2 elements */
+  .header-inner > div:first-child {
+    display: flex !important;
+    flex-wrap: wrap !important; /* Allows items to jump to next line */
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
+  /* --- ROW 1 LOGIC --- */
+  /* Truncate Quiz Title/ID */
   #headerTitle { 
-    max-width: 80px; 
+    max-width: 100px; 
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
     font-size: 15px;
+    order: 1; 
+  }
+  
+  /* Username Box */
+  #headerUsername { order: 2; margin-left: auto; }
+
+  /* --- ROW 2 LOGIC (Moving items from Row 1 to a new line) --- */
+  /* Language Select */
+  #langSelect { 
+    order: 3; 
+    margin-top: 10px; 
+    flex-basis: 22%; /* Ensures 4 items fit on one line */
+    font-size: 11px !important;
   }
 
-  /* 3. Row 2: Lang, View, Timer, Pause */
-  .header-inner > div:last-child {
-    width: 100% !important;
-    justify-content: space-between !important;
-    border-top: 1px solid #eee;
-    padding-top: 8px;
-  }
-
-  /* 4. Visibility and Sizing (No Zoom Needed) */
-  #submitBtn, #toggleActionBarBtn, #desktopActionRow { display: none !important; }
-  
-  #langSelect { padding: 2px !important; font-size: 11px !important; max-width: 70px; }
-  #paletteBtn { display: inline-flex !important; padding: 4px 8px !important; font-size: 12px !important; }
-  .timer-text { font-size: 13px !important; padding: 2px 6px !important; }
-  
-  /* Pause Button in Row 2 matching your icon style */
-  #pauseBtn { 
-    display: inline-flex !important; 
+  /* View (Palette) Button */
+  #paletteBtn { 
     order: 4; 
-    padding: 3px 8px !important; 
-    font-size: 12px !important; 
-    background: #fff;
-    border: 1px solid #ababab;
-    color: #333;
+    display: inline-flex !important; 
+    margin-top: 10px; 
+    padding: 4px 8px !important;
+    font-size: 12px !important;
   }
 
-  /* 5. Natural Breathing Room for Quiz Card */
-  .container { padding: 10px 12px !important; }
+  /* Timer Text */
+  #timer { 
+    order: 5; 
+    margin-top: 10px; 
+    font-size: 13px !important; 
+    padding: 2px 6px !important; 
+  }
+
+  /* Pause Button (Styled) */
+  #pauseBtn { 
+    order: 6; 
+    margin-top: 10px; 
+    display: inline-flex !important; 
+    font-size: 12px !important; 
+    padding: 3px 8px !important;
+    white-space: nowrap;
+  }
+
+  /* 3. Hide Unwanted Elements on Mobile */
+  #submitBtn, 
+  #toggleActionBarBtn, 
+  #desktopActionRow,
+  .pause-bars { 
+    display: none !important; 
+  }
+
+  /* 4. Restore Quiz Card Breathing Room */
+  .container { padding: 10px 15px !important; }
   #quizCard { width: 100% !important; margin: 0 !important; }
 }
 </style>
