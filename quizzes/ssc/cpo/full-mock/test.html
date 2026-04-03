@@ -1516,7 +1516,12 @@ let questionTime = {}; // Stores { questionId: totalSeconds }
 
 // Short helper for getting elements
 const el = id => document.getElementById(id);
-
+// Helper to format seconds into 00:00
+function fmtMSS(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+}
 // Format seconds into MM:SS
 function fmt(s){
   s = Math.max(0, s);
