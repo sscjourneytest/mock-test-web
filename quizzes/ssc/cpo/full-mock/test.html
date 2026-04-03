@@ -1768,7 +1768,7 @@ function renderQuestion(i) {
 
 // Show time spent on this specific question
 // --- UPDATED: STYLED TIME TAKEN BOX ---
-  let timeDisplay = document.getElementById("qTimeTaken");
+  const timeDisplay = document.getElementById("qTimeTaken");
   if (!timeDisplay) {
     const metaBox = document.querySelector(".qmeta");
     timeDisplay = document.createElement("span");
