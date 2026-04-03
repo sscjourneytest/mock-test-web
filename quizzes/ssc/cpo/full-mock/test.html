@@ -1586,15 +1586,14 @@ function startSectionTimer() {
       
       questionTime[currentQ.id]++;
     }
-
-    saveQuizState();
+saveQuizState();
     // Inside the setInterval of startSectionTimer
-const qTimeDisplay = document.getElementById("qTimeTaken");
-if (qTimeDisplay && isQuiz) {
-   const spent = questionTime[currentQ.id] || 0;
-   qTimeDisplay.innerHTML = `Time: ${fmtMSS(spent)}`;
-}
-
+    const qTimeDisplay = document.getElementById("qTimeTaken");
+    if (qTimeDisplay && isQuiz) {
+       const spent = questionTime[currentQ.id] || 0;
+       qTimeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`; // Update this to match
+    }
+   
   }, 1000);
 }
 
@@ -1767,6 +1766,7 @@ function renderQuestion(i) {
   el("qtotal").textContent = QUESTIONS.length;
 
 // Show time spent on this specific question
+  // --- UPDATED: STYLED TIME TAKEN BOX ---
   let timeDisplay = document.getElementById("qTimeTaken");
   if (!timeDisplay) {
     const metaBox = document.querySelector(".qmeta");
@@ -1776,9 +1776,9 @@ function renderQuestion(i) {
     // Styling for the elliptical box
     timeDisplay.style.marginLeft = "12px";
     timeDisplay.style.padding = "2px 10px";
-    timeDisplay.style.backgroundColor = "#f0f2f5"; // Light gray background
-    timeDisplay.style.color = "#0b5ed7";           // Accent blue text
-    timeDisplay.style.borderRadius = "12px";       // Elliptical shape
+    timeDisplay.style.backgroundColor = "#f0f2f5"; 
+    timeDisplay.style.color = "#0b5ed7";           
+    timeDisplay.style.borderRadius = "12px";       
     timeDisplay.style.fontSize = "12px";
     timeDisplay.style.fontWeight = "700";
     timeDisplay.style.border = "1px solid #e0e0e0";
@@ -1788,8 +1788,10 @@ function renderQuestion(i) {
     metaBox.appendChild(timeDisplay);
   }
   
-  const spent = (window.questionTime && questionTime[q.id]) ? questionTime[q.id] : 0;
-  timeDisplay.innerHTML = `Time: ${fmtMSS(spent)}`;
+  // FIX: Ensure spent time is pulled from the questionTime object
+  const spent = (questionTime && questionTime[q.id]) ? questionTime[q.id] : 0;
+  timeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`; // Changed 'Time:' to 'Time Taken:'
+ 
 
   // --- LANGUAGE HELPER FUNCTION ---
   const getLangText = (obj) => {
