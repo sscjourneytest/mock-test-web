@@ -1592,7 +1592,7 @@ function startSectionTimer() {
 const qTimeDisplay = document.getElementById("qTimeTaken");
 if (qTimeDisplay && isQuiz) {
    const spent = questionTime[currentQ.id] || 0;
-   qTimeDisplay.innerHTML = `Time: ${fmtMSS(spent)}`;
+   qTimeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`;
 }
 
   }, 1000);
@@ -1790,7 +1790,7 @@ function renderQuestion(i) {
   }
   
   const spent = (window.questionTime && questionTime[q.id]) ? questionTime[q.id] : 0;
-  timeDisplay.innerHTML = `Time: ${fmtMSS(spent)}`;
+  timeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`;
 
   // --- LANGUAGE HELPER FUNCTION ---
   const getLangText = (obj) => {
