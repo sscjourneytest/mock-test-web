@@ -1205,12 +1205,13 @@ body.mode-solution #pauseBtn {
   border-right: 2px solid #555;
   margin-right: 8px;
 }
-  /* 3. Hide Unwanted Elements on Mobile */ 
+  /* 3. Hide Unwanted Elements on Mobile */
+  #submitBtn, 
   #toggleActionBarBtn, 
   #desktopActionRow { 
     display: none !important; 
   }
-
+ 
   /* 4. Restore Quiz Card Breathing Room & SOLVE OVERLAP */
   .container { 
     padding: 10px 15px 100px !important; /* Added 120px bottom padding to clear fbar */
@@ -1985,7 +1986,6 @@ function submitQuiz(isAuto = false) {
 let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSeconds += t);
 
   document.getElementById("mainHeader").style.display = "none";
-  document.getElementById("nameContainer").style.display = "none";
   if (el("sectionNav")) el("sectionNav").style.display = "none";
   document.getElementById("floatBar").style.display = "none";
   document.body.classList.remove("actions-bottom");
