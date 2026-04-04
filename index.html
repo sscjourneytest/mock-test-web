@@ -6,193 +6,125 @@
     <title>MOCK MATRIX HUB</title>
     <meta name="description" content="Free SSC Mock Tests based on 2025 Ediquity pattern. Practice PYQ, Sectional, Subject-wise, and Full Mocks.">
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4B6V3MV51Q');</script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/auth.js"></script>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#2563eb">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            const SECRET_SALT = "mmh_vault_key_99";
+            const raw = localStorage.getItem('u_vault');
+            if (raw) {
+                try {
+                    const decrypted = atob(raw).replace(SECRET_SALT, '');
+                    const profile = JSON.parse(decrypted);
+                    // If cache is valid, hide the login button immediately via class
+                    if (profile && profile.cache_expiry > Date.now()) {
+                        document.documentElement.classList.add('user-is-logged-in');
+                    }
+                } catch (e) {}
+            }
+        })();
+    </script>
 
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-light: #eff6ff;
-            --secondary: #1e40af;
-            --accent: #f59e0b;
-            --text-dark: #0f172a;
-            --text-grey: #64748b;
-            --bg-light: #f8fafc;
-            --white: #ffffff;
-            --border: #e2e8f0;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --primary: #2563eb; --primary-light: #eff6ff; --secondary: #1e40af;
+            --accent: #f59e0b; --text-dark: #0f172a; --text-grey: #64748b;
+            --bg-light: #f8fafc; --white: #ffffff; --border: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06); --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
         }
 
+        /* 2. ANTI-BLINK CSS */
+        .user-is-logged-in #authHeaderArea { visibility: hidden; opacity: 0; }
+
         body.dark-mode {
-            --text-dark: #f1f5f9;
-            --text-grey: #94a3b8;
-            --bg-light: #0f172a;
-            --white: #1e293b;
-            --border: #334155;
-            background-color: #020617 !important;
-            color: var(--text-dark);
+            --text-dark: #f1f5f9; --text-grey: #94a3b8; --bg-light: #0f172a;
+            --white: #1e293b; --border: #334155;
+            background-color: #020617 !important; color: var(--text-dark);
         }
 
         body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-light);
-            color: var(--text-dark);
-            transition: background 0.3s ease;
+            margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-light);
+            color: var(--text-dark); transition: background 0.3s ease;
             -webkit-tap-highlight-color: transparent;
         }
 
         /* --- APP TOP BAR --- */
         .app-header {
-            background: var(--white);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow-sm);
-            border-bottom: 1px solid var(--border);
+            background: var(--white); padding: 12px 20px; display: flex;
+            justify-content: space-between; align-items: center; position: sticky;
+            top: 0; z-index: 1000; box-shadow: var(--shadow-sm); border-bottom: 1px solid var(--border);
         }
 
         .brand-logo {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.1rem;
+            color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 10px;
         }
         .brand-logo img { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--primary); }
 
         /* --- SIDEBAR --- */
         .sidebar-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 1040; display: none;
-            backdrop-filter: blur(3px);
+            background: rgba(0,0,0,0.5); z-index: 1040; display: none; backdrop-filter: blur(3px);
         }
         .sidebar {
             position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
-            background: var(--white); z-index: 1050;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            display: flex; flex-direction: column;
-            border-right: 1px solid var(--border);
+            background: var(--white); z-index: 1050; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            display: flex; flex-direction: column; border-right: 1px solid var(--border);
         }
         .sidebar.show { left: 0; }
-        .sidebar-header {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-            padding: 35px 20px; color: white;
-        }
+        .sidebar-header { background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%); padding: 35px 20px; color: white; }
         .user-avatar-circle {
             width: 55px; height: 55px; background: white; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             color: var(--primary); font-size: 1.5rem; border: 3px solid rgba(255,255,255,0.3);
         }
-        .menu-item {
-            display: flex; align-items: center; padding: 14px 25px;
-            color: var(--text-dark); text-decoration: none; font-weight: 500;
-            transition: 0.2s;
-        }
+        .menu-item { display: flex; align-items: center; padding: 14px 25px; color: var(--text-dark); text-decoration: none; font-weight: 500; transition: 0.2s; }
         .menu-item i { width: 35px; font-size: 1.1rem; color: var(--text-grey); }
         .menu-item:hover { background: var(--primary-light); color: var(--primary); }
         .menu-item.pro-btn { background: #fff7ed; color: #9a3412; font-weight: 700; }
         .menu-item.admin-btn { background: #f0fdf4; color: #166534; font-weight: 700; }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO & GRIDS --- */
         .hero-banner {
             background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
             color: white; padding: 45px 20px; text-align: center;
             border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
             margin-bottom: 25px; box-shadow: var(--shadow-lg);
         }
-        .welcome-tag {
-            background: rgba(255,255,255,0.15); padding: 5px 15px; border-radius: 50px;
-            font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.2);
-            display: inline-block; margin-bottom: 15px;
-        }
+        .welcome-tag { background: rgba(255,255,255,0.15); padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); display: inline-block; margin-bottom: 15px; }
 
-        /* --- STATS STRIP --- */
-        .stats-scroll {
-            display: flex; overflow-x: auto; gap: 15px; padding: 5px 20px 20px;
-            scrollbar-width: none;
-        }
+        .stats-scroll { display: flex; overflow-x: auto; gap: 15px; padding: 5px 20px 20px; scrollbar-width: none; }
         .stats-scroll::-webkit-scrollbar { display: none; }
-        .stat-card {
-            background: var(--white); min-width: 135px; padding: 18px;
-            border-radius: 20px; text-align: center; border: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
-        }
+        .stat-card { background: var(--white); min-width: 135px; padding: 18px; border-radius: 20px; text-align: center; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
         .stat-val { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
         .stat-label { font-size: 0.7rem; color: var(--text-grey); font-weight: 600; letter-spacing: 0.5px; }
 
-        /* --- MAIN ACTION GRID --- */
         .main-action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 20px; }
-        .action-box {
-            background: var(--white); padding: 35px 20px; border-radius: 28px;
-            text-align: center; border: 1px solid var(--border);
-            text-decoration: none; color: inherit; transition: 0.3s;
-            box-shadow: var(--shadow-sm); position: relative;
-        }
+        .action-box { background: var(--white); padding: 35px 20px; border-radius: 28px; text-align: center; border: 1px solid var(--border); text-decoration: none; color: inherit; transition: 0.3s; box-shadow: var(--shadow-sm); position: relative; }
         .action-box:active { transform: scale(0.94); }
-        .box-icon {
-            width: 60px; height: 60px; background: var(--primary-light);
-            color: var(--primary); border-radius: 20px; display: flex;
-            align-items: center; justify-content: center; font-size: 1.8rem;
-            margin: 0 auto 15px;
-        }
+        .box-icon { width: 60px; height: 60px; background: var(--primary-light); color: var(--primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 15px; }
         .action-box.live .box-icon { background: #fff7ed; color: #f59e0b; }
         .action-box h3 { font-size: 1.1rem; font-weight: 800; margin: 0; }
         .action-box p { font-size: 0.75rem; color: var(--text-grey); margin-top: 5px; line-height: 1.3; }
 
-        /* --- FLOATING BUTTONS --- */
         .fab-container { position: fixed; bottom: 85px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 999; }
-        .fab {
-            width: 55px; height: 55px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; color: white;
-            font-size: 1.6rem; box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            text-decoration: none; transition: transform 0.2s;
-        }
+        .fab { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.6rem; box-shadow: 0 6px 20px rgba(0,0,0,0.15); text-decoration: none; transition: transform 0.2s; }
         .fab-tg { background: #0088cc; animation: pulse-tg 2s infinite; }
         .fab-wa { background: #25d366; }
-        @keyframes pulse-tg {
-            0% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.6); }
-            70% { box-shadow: 0 0 0 15px rgba(0, 136, 204, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0); }
-        }
+        @keyframes pulse-tg { 0% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(0, 136, 204, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0); } }
 
-        /* --- BOTTOM NAV --- */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: var(--white); display: flex; justify-content: space-around;
-            padding: 12px 0; border-top: 1px solid var(--border); z-index: 1000;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.03);
-        }
-        .nav-item {
-            text-align: center; color: var(--text-grey); text-decoration: none;
-            font-size: 0.7rem; font-weight: 700; flex: 1; transition: 0.2s;
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--white); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--border); z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.03); }
+        .nav-item { text-align: center; color: var(--text-grey); text-decoration: none; font-size: 0.7rem; font-weight: 700; flex: 1; transition: 0.2s; }
         .nav-item i { display: block; font-size: 1.3rem; margin-bottom: 4px; }
         .nav-item.active { color: var(--primary); }
 
-        /* --- BADGES --- */
         .badge-pro { background: #f59e0b; color: white; font-size: 10px; padding: 2px 8px; border-radius: 50px; }
         .hidden { display: none !important; }
-
-        /* Install Banner */
         #install-banner { position: fixed; top: 0; width: 100%; z-index: 10000; background: #1e293b; color: white; padding: 15px; text-align: center; font-size: 14px; border-bottom: 3px solid var(--primary); }
     </style>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4B6V3MV51Q');</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/auth.js"></script>
 </head>
 <body>
 
@@ -251,7 +183,7 @@
             <a href="/saved" class="menu-item"><i class="fas fa-bookmark"></i> Saved Questions</a>
             <div class="menu-item d-flex justify-content-between" onclick="toggleTheme()" style="cursor: pointer;">
                 <span><i class="fas fa-moon"></i> Dark Mode</span>
-                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="themeSwitch" disabled></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="themeSwitch"></div>
             </div>
             <a href="/privacy-policy.html" class="menu-item"><i class="fas fa-shield-halved"></i> Privacy Policy</a>
             
@@ -269,44 +201,21 @@
     </section>
 
     <div class="stats-scroll">
-        <div class="stat-card">
-            <div class="stat-val">500+</div>
-            <div class="stat-label">PYQ MOCKS</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-val">2025</div>
-            <div class="stat-label">NEW PATTERN</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-val">75%</div>
-            <div class="stat-label">PARTNER COMM.</div>
-        </div>
+        <div class="stat-card"><div class="stat-val">500+</div><div class="stat-label">PYQ MOCKS</div></div>
+        <div class="stat-card"><div class="stat-val">NEW MOCKS</div><div class="stat-label">NEW PATTERN</div></div>
+        <div class="stat-card"><div class="stat-val">80%</div><div class="stat-label">PARTNER COMM.</div></div>
     </div>
 
-    <div class="px-4 mb-3">
-        <h5 class="fw-bold m-0"><i class="fas fa-layer-group me-2 text-primary"></i>Practice Hub</h5>
-    </div>
+    <div class="px-4 mb-3"><h5 class="fw-bold m-0"><i class="fas fa-layer-group me-2 text-primary"></i>Practice Hub</h5></div>
 
     <div class="main-action-grid">
-        <a href="/exams/" class="action-box">
-            <div class="box-icon"><i class="fas fa-graduation-cap"></i></div>
-            <h3>EXAMS</h3>
-            <p>SSC, Railway & State PYQs</p>
-        </a>
-        <a href="/live-test" class="action-box live">
-            <div class="box-icon"><i class="fas fa-tower-broadcast"></i></div>
-            <h3>LIVE TESTS</h3>
-            <p>Real-time All India Ranking</p>
-        </a>
+        <a href="/exams/" class="action-box"><div class="box-icon"><i class="fas fa-graduation-cap"></i></div><h3>EXAMS</h3><p>SSC, Railway & State PYQs</p></a>
+        <a href="/live-test" class="action-box live"><div class="box-icon"><i class="fas fa-tower-broadcast"></i></div><h3>LIVE TESTS</h3><p>Real-time All India Ranking</p></a>
     </div>
 
     <div class="fab-container">
-        <a href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank" class="fab fab-wa shadow-lg">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="https://t.me/SSC_COMPILATIONS_2025" target="_blank" class="fab fab-tg shadow-lg">
-            <i class="fab fa-telegram-plane"></i>
-        </a>
+        <a href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank" class="fab fab-wa shadow-lg"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://t.me/SSC_COMPILATIONS_2025" target="_blank" class="fab fab-tg shadow-lg"><i class="fab fa-telegram-plane"></i></a>
     </div>
 
     <nav class="bottom-nav">
@@ -331,42 +240,59 @@
             localStorage.setItem('mmh_theme', isDark ? 'dark' : 'light');
         }
 
-        // Auth & Profile UI Logic
+        // 3. ENHANCED UI UPDATE HANDLER
+        function updateUIWithProfile(profile) {
+            if (!profile) return;
+
+            // Remove the anti-blink visibility filter
+            document.documentElement.classList.remove('user-is-logged-in');
+            document.getElementById('authHeaderArea').style.visibility = "visible";
+            document.getElementById('authHeaderArea').style.opacity = "1";
+
+            // Update Sidebar
+            document.getElementById('sidebarUserName').innerText = profile.username || 'Aspirant';
+            document.getElementById('logoutArea').classList.remove('hidden');
+            document.getElementById('menuBtn').classList.remove('hidden');
+            
+            // Handle Pro/Free Badging
+            if(profile.is_paid) {
+                document.getElementById('sidebarPlanBadge').innerHTML = '<span class="badge-pro"><i class="fas fa-crown me-1"></i>PRO USER</span>';
+                document.getElementById('buyPremiumArea').classList.add('hidden');
+            } else {
+                document.getElementById('sidebarPlanBadge').innerHTML = '<span class="badge bg-secondary" style="font-size:10px">FREE PLAN</span>';
+                document.getElementById('buyPremiumArea').classList.remove('hidden');
+            }
+
+            // Handle Conditional Admin/Partner Views
+            if(profile.role === 'admin') document.getElementById('adminLinkArea').classList.remove('hidden');
+            if(profile.is_partner) {
+                document.getElementById('partnerLinkArea').classList.remove('hidden');
+                document.getElementById('partnerApplyArea').classList.add('hidden');
+            }
+
+            // Update Header Icon
+            document.getElementById('authHeaderArea').innerHTML = `
+                <div onclick="toggleSidebar()" style="width:38px; height:38px; background:var(--primary-light); color:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:800; border:2px solid var(--primary); font-size:14px;">
+                    ${(profile.username || 'U').charAt(0).toUpperCase()}
+                </div>
+            `;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('mmh_theme') === 'dark') document.body.classList.add('dark-mode');
 
-            setTimeout(() => {
+            // Wait briefly for auth.js to finish its logic, then update UI
+            // Using a loop or interval to catch the profile as soon as it's ready
+            const checkProfile = setInterval(() => {
                 const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
                 if (profile) {
-                    // Update Sidebar Basic Info
-                    document.getElementById('sidebarUserName').innerText = profile.username || 'Aspirant';
-                    document.getElementById('logoutArea').classList.remove('hidden');
-                    
-                    // Show Pro Badge if Paid
-                    if(profile.is_paid) {
-                        document.getElementById('sidebarPlanBadge').innerHTML = '<span class="badge-pro"><i class="fas fa-crown me-1"></i>PRO USER</span>';
-                        document.getElementById('buyPremiumArea').classList.add('hidden');
-                    } else {
-                        document.getElementById('sidebarPlanBadge').innerHTML = '<span class="badge bg-secondary" style="font-size:10px">FREE PLAN</span>';
-                    }
-
-                    // Show Admin Panel if Admin
-                    if(profile.role === 'admin') document.getElementById('adminLinkArea').classList.remove('hidden');
-                    
-                    // Show Earnings if Partner
-                    if(profile.is_partner) {
-                        document.getElementById('partnerLinkArea').classList.remove('hidden');
-                        document.getElementById('partnerApplyArea').classList.add('hidden');
-                    }
-
-                    // Update Top Right Header Icon
-                    document.getElementById('authHeaderArea').innerHTML = `
-                        <div onclick="toggleSidebar()" style="width:38px; height:38px; background:var(--primary-light); color:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:800; border:2px solid var(--primary); font-size:14px;">
-                            ${(profile.username || 'U').charAt(0).toUpperCase()}
-                        </div>
-                    `;
+                    updateUIWithProfile(profile);
+                    clearInterval(checkProfile);
                 }
-            }, 800);
+            }, 100);
+
+            // Timeout to show Login if no profile is found within 2 seconds
+            setTimeout(() => clearInterval(checkProfile), 2000);
         });
 
         // PWA Install Logic
