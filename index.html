@@ -139,13 +139,14 @@
             -webkit-text-fill-color: transparent;
         }
 
-                /* --- IMAGE-BASED BANNER (NO CROP) --- */
+
+/* --- IMAGE-BASED BANNER (EXACTLY TWO IMAGES) --- */
         .banner-container {
             width: 100%;
             padding: 0 45px;
             margin-bottom: 25px;
             position: relative;
-            height: 360px; /* Box height as requested */
+            height: 400px; /* Increased height */
         }
         .banner-wrapper {
             position: relative;
@@ -154,7 +155,7 @@
             border-radius: 24px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            background: #000; /* Fill empty space with black or match your theme */
+            background: #000;
         }
         .banner-slide {
             position: absolute;
@@ -171,10 +172,10 @@
             justify-content: flex-end;
             align-items: center;
             padding-bottom: 20px;
-            /* CRITICAL CHANGE BELOW */
-            background-size: contain; /* Shows full image, no cropping */
+            /* Exactly two images logic */
+            background-size: 50% 100%; 
             background-position: center;
-            background-repeat: no-repeat;
+            background-repeat: repeat-x;
         }
         .banner-slide.active {
             opacity: 1;
@@ -200,7 +201,6 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* Hide button until image is loaded */
         .banner-slide .banner-btn { display: none; }
         .banner-slide.loaded .banner-btn { display: block; }
         .banner-slide.loaded .banner-loader { display: none; }
@@ -217,9 +217,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.3);
         }
-        
 
-        /* Arrows outside content */
         .banner-nav {
             position: absolute;
             top: 50%;
@@ -256,53 +254,62 @@
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; transition: 0.3s; }
         .dot.active { width: 20px; background: var(--primary); border-radius: 10px; }
 
-        /* --- ACTION BOXES GRADIENTS --- */
-        .action-container { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
-        .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        /* --- ACTION BOXES (FULL WIDTH ROWS) --- */
+        .action-container { padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
+        .action-row { display: flex; flex-direction: column; gap: 15px; }
+        
         .box-style {
             border-radius: 20px;
-            padding: 18px;
+            padding: 22px 25px; /* Increased height via padding */
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between; /* Right-side arrow logic */
             text-decoration: none;
             color: inherit;
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
+            min-height: 100px;
         }
+        .box-content { display: flex; align-items: center; gap: 15px; }
+
         .box-1 { background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); }
         .box-2 { background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%); }
         .box-3 { background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%); }
 
-        .box-style i { font-size: 1.3rem; color: var(--primary); }
+        .box-style i { font-size: 1.6rem; color: var(--primary); }
         .box-2 i { color: var(--accent); }
         .box-3 i { color: #16a34a; }
-        .box-style h4 { font-size: 0.85rem; font-weight: 800; margin: 0; }
-        .box-style.wide { grid-column: span 2; }
+        .box-style h4 { font-size: 0.95rem; font-weight: 800; margin: 0; }
+        .box-arrow { font-size: 1.2rem; color: var(--text-grey); opacity: 0.5; }
         .free-badge-green { background: #22c55e; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; margin-left: 5px; font-weight: 800; }
 
-        /* --- RECOMMENDATIONS --- */
+        /* --- RECOMMENDATIONS (FULL WIDTH ROWS + GRADIENT) --- */
         .rec-section { padding: 25px 20px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .section-header h3 { font-size: 1rem; font-weight: 800; margin: 0; }
         .view-all-btn { font-size: 0.75rem; font-weight: 700; color: var(--primary); text-decoration: none; }
         
-        .rec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .rec-grid { display: flex; flex-direction: column; gap: 12px; }
         .rec-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); /* Matched gradient */
             border-radius: 18px;
-            padding: 15px;
-            text-align: center;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             border: 1px solid var(--border);
             text-decoration: none;
             color: inherit;
+            box-shadow: var(--shadow-sm);
         }
-        .rec-card img { width: 50px; height: 50px; border-radius: 10px; margin-bottom: 10px; }
-        .rec-card h4 { font-size: 0.85rem; font-weight: 800; margin: 0; }
-        .rec-card p { font-size: 0.7rem; color: var(--text-grey); margin: 3px 0 0; }
+        .rec-left { display: flex; align-items: center; gap: 15px; }
+        .rec-card img { width: 55px; height: 55px; border-radius: 12px; }
+        .rec-card h4 { font-size: 0.9rem; font-weight: 800; margin: 0; }
+        .rec-card p { font-size: 0.75rem; color: var(--text-grey); margin: 3px 0 0; }
 
         .tagline { text-align: center; padding: 20px; font-weight: 700; color: var(--text-grey); font-size: 0.8rem; letter-spacing: 1px; }
 
+       
         /* --- FLOATING ICONS (ORIGINAL) --- */
         .fab-container { position: fixed; bottom: 85px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 999; }
         .fab {
@@ -336,63 +343,7 @@
         .badge-pro { background: #f59e0b; color: white; font-size: 10px; padding: 2px 8px; border-radius: 50px; }
         .hidden { display: none !important; }
         #install-banner { position: fixed; top: 0; width: 100%; z-index: 10000; background: #1e293b; color: white; padding: 15px; text-align: center; font-size: 14px; border-bottom: 3px solid var(--primary); }
-        /* --- MOBILE ADJUSTMENTS --- */
-@media (max-width: 767px) {
-    /* Increasing size of Action Boxes (Explore, Live, PDF) */
-    .box-style {
-        padding: 22px 18px; /* Increased vertical padding for more height */
-        min-height: 100px;  /* Ensures a more substantial feel */
-    }
-    .box-style i {
-        font-size: 1.6rem; /* Slightly larger icons */
-    }
-    .box-style h4 {
-        font-size: 0.95rem; /* Slightly larger text */
-    }
-}
-
-/* --- DESKTOP ADAPTATIONS (Min-width 992px) --- */
-@media (min-width: 992px) {
-    /* 1. Banner Height and Double Image Effect */
-    .banner-container {
-        height: 400px !important;
-    }
-
-    .banner-slide {
-        background-size: contain !important;
-        background-repeat: repeat-x !important; /* This shows the image twice/multiple times */
-        background-position: center !important;
-    }
-
-    /* 2. Horizontal Action Cards (3 in a row) */
-    .action-row {
-        grid-template-columns: repeat(3, 1fr) !important; /* Forces 3 columns */
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-
-    /* Removing the "wide" stretch for the 3rd button on desktop */
-    .box-style.wide {
-        grid-column: span 1 !important; 
-    }
-
-    .box-style {
-        height: 120px; /* Fixed height for desktop horizontal look */
-        justify-content: center;
-    }
-
-    /* 3. Horizontal Recommendation Cards */
-    .rec-grid {
-        grid-template-columns: repeat(4, 1fr) !important; /* Shows more cards horizontally */
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-    
-    .rec-section {
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-}
+  
         
     </style>
 </head>
