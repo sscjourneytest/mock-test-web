@@ -1,0 +1,108 @@
+name: Generate Exam Folders
+on:
+  workflow_dispatch: # Allows you to run this manually from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Folders and Files
+        run: |
+          # Define exams with Tier 2
+          EXAMS_WITH_T2=("chsl" "cpo")
+          # Define exams without Tier 2
+          EXAMS_SINGLE_TIER=("mts" "phase" "steno" "delhi-police")
+
+          # Function to generate HTML content
+          generate_html() {
+            local name=$1
+            local title=$2
+            local has_t2=$3
+            
+            local tier_html=""
+            if [ "$has_t2" = "true" ]; then
+              tier_html='<div class="filter-scroll-wrapper" id="tier-wrap">
+                    <div class="pill-filter active" onclick="setTier('\''tier1'\'', this)">Tier I</div>
+                    <div class="pill-filter" onclick="setTier('\''tier2'\'', this)">Tier II</div>
+                </div>'
+            else
+              tier_html='<div class="filter-scroll-wrapper hidden" id="tier-wrap">
+                    <div class="pill-filter active" onclick="setTier('\''tier1'\'', this)">Tier I</div>
+                </div>'
+            fi
+
+            cat <<EOF > "exams/$name/index.html"
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+              <title>$title Mock Portal | MMH</title>
+              <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+              <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+              <link rel="stylesheet" href="../exam-style.css">
+          </head>
+          <body>
+          <div class="exam-page-container">
+              <div class="sticky-header-section">
+                  <div class="p-3 d-flex align-items-center border-bottom">
+                      <a href="../" class="text-dark me-3"><i class="fas fa-arrow-left fs-5"></i></a>
+                      <h5 class="m-0 fw-bold">$title Preparation</h5>
+                  </div>
+                  <div class="search-input-wrap mt-2">
+                      <input type="text" id="mockSearch" placeholder="Search by mock name..." onkeyup="renderMocks()">
+                  </div>
+                  $tier_html
+                  <div class="filter-scroll-wrapper" id="year-scroll"></div>
+                  <div class="filter-scroll-wrapper" id="type-filters">
+                      <div class="pill-filter active" onclick="filterType('full_mocks', this)">Full Mocks</div>
+                      <div class="pill-filter" onclick="filterType('sectional', this)">Sectionals</div>
+                      <div class="pill-filter" onclick="filterType('subject_wise', this)">Subject Wise</div>
+                  </div>
+                  <div class="filter-scroll-wrapper hidden" id="section-wrap">
+                      <div id="section-scroll" class="d-flex gap-2"></div>
+                  </div>
+              </div>
+              <div class="scrollable-grid-area">
+                  <div id="grid-sync" class="text-center small text-primary mb-3"></div>
+                  <div id="quizGrid"></div>
+              </div>
+          </div>
+          <script src="/auth.js"></script>
+          <script src="../exam-engine.js"></script>
+          <script>
+              document.addEventListener('DOMContentLoaded', initExamEngine);
+          </script>
+          </body>
+          </html>
+          EOF
+          }
+
+          # Process Multi-Tier Exams
+          for exam in "${EXAMS_WITH_T2[@]}"; do
+            mkdir -p "exams/$exam"
+            UPPER_NAME=$(echo $exam | tr '[:lower:]' '[:upper:]')
+            generate_html "$exam" "SSC $UPPER_NAME" "true"
+          done
+
+          # Process Single-Tier Exams
+          for exam in "${EXAMS_SINGLE_TIER[@]}"; do
+            mkdir -p "exams/$exam"
+            if [ "$exam" = "delhi-police" ]; then
+              generate_html "$exam" "Delhi Police" "false"
+            else
+              UPPER_NAME=$(echo $exam | tr '[:lower:]' '[:upper:]')
+              generate_html "$exam" "SSC $UPPER_NAME" "false"
+            fi
+          done
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add exams/
+          git commit -m "Auto-generate exam folders and index files" || echo "No changes to commit"
+          git push
