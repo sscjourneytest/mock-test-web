@@ -328,7 +328,32 @@
         height: 400px !important;
     }
 }
-       
+ /* --- Desktop Image Switch Logic --- */
+@media (min-width: 992px) {
+    /* 1. Set Desktop Height */
+    .banner-container {
+        height: 00px !important; 
+    }
+
+    /* 2. Swap to Horizontal Images */
+    #slide0 { 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Desktop.jpg') !important; 
+    }
+    #slide1 { 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Desktop.jpg') !important; 
+    }
+}
+
+/* --- Mobile Image Switch Logic --- */
+@media (max-width: 991px) {
+    /* Ensure Mobile uses the Square images */
+    #slide0 { 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Banner.jpg') !important; 
+    }
+    #slide1 { 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Banner.jpg') !important; 
+    }
+}      
         /* --- FLOATING ICONS (ORIGINAL) --- */
         .fab-container { position: fixed; bottom: 85px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 999; }
         .fab {
@@ -438,30 +463,50 @@
         <div class="small text-muted fw-bold">ON MOCK MATRIX HUB</div>
     </div>
     <div class="banner-container">
-        <div class="banner-wrapper">
-            <div class="banner-slide active" id="slide0" style="background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Banner.jpg');">
-                <div class="banner-loader"></div>
-                <img src="https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Banner.jpg" style="display:none;" onload="this.parentElement.classList.add('loaded')">
-                <a href="/buy-premium.html" class="banner-btn">GET PASS</a>
-            </div>
-            
-            <div class="banner-slide" id="slide1" style="background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Banner.jpg');">
-                <div class="banner-loader"></div>
-                <img src="https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Banner.jpg" style="display:none;" onload="this.parentElement.classList.add('loaded')">
-                <a href="/apply-coupon.html" class="banner-btn">BECOME PARTNER</a>
-            </div>
+    <div class="banner-wrapper">
+        <div class="banner-slide active" id="slide0">
+            <div class="banner-loader"></div>
+            <img src="" style="display:none;" id="imgDetector0" onload="this.parentElement.classList.add('loaded')">
+            <a href="/buy-premium.html" class="banner-btn">GET PASS</a>
         </div>
-
-        <div class="banner-nav">
-            <div class="nav-arrow" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></div>
-            <div class="nav-arrow" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></div>
-        </div>
-
-        <div class="banner-dots">
-            <div class="dot active" id="dot0"></div>
-            <div class="dot" id="dot1"></div>
+        
+        <div class="banner-slide" id="slide1">
+            <div class="banner-loader"></div>
+            <img src="" style="display:none;" id="imgDetector1" onload="this.parentElement.classList.add('loaded')">
+            <a href="/apply-coupon.html" class="banner-btn">BECOME PARTNER</a>
         </div>
     </div>
+
+    <div class="banner-nav">
+        <div class="nav-arrow" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></div>
+        <div class="nav-arrow" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></div>
+    </div>
+
+    <div class="banner-dots">
+        <div class="dot active" id="dot0"></div>
+        <div class="dot" id="dot1"></div>
+    </div>
+</div>
+
+<script>
+    /* This script updates the hidden detector images so the scroller works on all devices */
+    function updateDetectors() {
+        const isDesktop = window.innerWidth >= 992;
+        const img0 = document.getElementById('imgDetector0');
+        const img1 = document.getElementById('imgDetector1');
+
+        if (isDesktop) {
+            img0.src = "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Desktop.jpg";
+            img1.src = "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Desktop.jpg";
+        } else {
+            img0.src = "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Banner.jpg";
+            img1.src = "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Banner.jpg";
+        }
+    }
+    // Run on load
+    updateDetectors();
+</script>
+   
 <div class="action-container">
         <div class="action-row">
             <a href="/exams/" class="box-style box-1">
