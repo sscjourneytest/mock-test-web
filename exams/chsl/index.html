@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SSC CHSL Mock Portal | MMH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../exam-style.css">
+</head>
+<body>
+<div class="exam-page-container">
+    <div class="sticky-header-section">
+        <div class="p-3 d-flex align-items-center border-bottom">
+            <a href="../" class="text-dark me-3"><i class="fas fa-arrow-left fs-5"></i></a>
+            <h5 class="m-0 fw-bold">SSC CHSL Preparation</h5>
+        </div>
+        <div class="search-input-wrap mt-2">
+            <input type="text" id="mockSearch" placeholder="Search by mock name..." onkeyup="renderMocks()">
+        </div>
+        <div class="filter-scroll-wrapper" id="tier-wrap">
+          <div class="pill-filter active" onclick="setTier('tier1', this)">Tier I</div>
+          <div class="pill-filter" onclick="setTier('tier2', this)">Tier II</div>
+      </div>
+        <div class="filter-scroll-wrapper" id="year-scroll"></div>
+        <div class="filter-scroll-wrapper" id="type-filters">
+            <div class="pill-filter active" onclick="filterType('full_mocks', this)">Full Mocks</div>
+            <div class="pill-filter" onclick="filterType('sectional', this)">Sectionals</div>
+            <div class="pill-filter" onclick="filterType('subject_wise', this)">Subject Wise</div>
+        </div>
+        <div class="filter-scroll-wrapper hidden" id="section-wrap">
+            <div id="section-scroll" class="d-flex gap-2"></div>
+        </div>
+    </div>
+    <div class="scrollable-grid-area">
+        <div id="grid-sync" class="text-center small text-primary mb-3"></div>
+        <div id="quizGrid"></div>
+    </div>
+</div>
+<script src="/auth.js"></script>
+<script src="../exam-engine.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', initExamEngine);
+</script>
+</body>
+</html>
