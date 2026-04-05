@@ -15,9 +15,13 @@
   gtag('js', new Date());
   gtag('config', 'G-4B6V3MV51Q');
 </script>
-<script src="/firebase-config.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/auth.js"></script>
+<script src="/firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <style>
 
 /* =========================================
@@ -1360,24 +1364,38 @@ body.mode-solution #pauseBtn {
   <div class="ssc-wm" style="top:90%; left:10%;">@SSC_COMPILATIONS_2025</div>
 </div>
 
+/* UPDATE 2: Dynamic Firebase & Path Picker */
+const urlParams = new URLSearchParams(window.location.search);
+const quizIdParam = urlParams.get('id') || ""; // KEEP EXACT CASE for file fetching
+const quizIdLower = quizIdParam.toLowerCase(); // Use lowercase ONLY for checking types
+
+let selectedConfig = null;
+let GITHUB_PATH = "";
+
+// Decision logic based on ID content
+if (quizIdLower.includes("cgl")) {
+    selectedConfig = FIREBASE_PROJECTS.cgl;
+    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cgl/subject" : "ssc/cgl/full-mock";
+} 
+else if (quizIdLower.includes("chsl")) {
+    selectedConfig = FIREBASE_PROJECTS.chsl;
+    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/chsl/subject" : "ssc/chsl/full-mock";
+}
+else if (quizIdLower.includes("mts")) {
+    selectedConfig = FIREBASE_PROJECTS.mts;
+    GITHUB_PATH = "ssc/mts/full-mock";
+}
+// Add other exams (cpo, steno, etc.) here following the same pattern
+
+// Initialize with selected project
+if (selectedConfig) {
+    firebase.initializeApp(selectedConfig);
+} else {
+    console.error("No Firebase config mapped for ID:", quizIdParam);
+}
+const db = firebase.database();
 
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBlYDQQ-tqx57iILNP70p08dsKd03aXoO4",
-  authDomain: "mmh-cgl-full-mock-data-1.firebaseapp.com",
-  databaseURL: "https://mmh-cgl-full-mock-data-1-default-rtdb.firebaseio.com",
-  projectId: "mmh-cgl-full-mock-data-1",
-  storageBucket: "mmh-cgl-full-mock-data-1.firebasestorage.app",
-  messagingSenderId: "155878036031",
-  appId: "1:155878036031:web:a061644eea5c97dfaa5e8a"
-};
-
- firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-</script>
 <header id="mainHeader" style="display:none;">
   <div class="header-inner" style="flex-direction: column; height: auto; padding: 10px 16px;">
     <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
@@ -2523,15 +2541,14 @@ async function refreshLatestRankOnDemand(btn) {
     return;
   }
 
-  
-    try {
+  try {
     // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
     const { data: { session } } = await _supabase.auth.getSession();
     const token = session ? session.access_token : null;
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/cgl/full-mock"; 
+    // GITHUB_PATH is now set globally by the URL ID logic we added previously
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
@@ -3381,15 +3398,14 @@ async function loadQuizData() {
     document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
     return;
   }
-
-  try {
+try {
     // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
     const { data: { session } } = await _supabase.auth.getSession();
     const token = session ? session.access_token : null;
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/cgl/full-mock"; 
+    // GITHUB_PATH is now set globally by the URL ID logic we added previously
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
@@ -3408,6 +3424,7 @@ async function loadQuizData() {
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     
     const data = await response.json();
+   
 
     // 2. Assign Global Variables
     QUIZ_TITLE = data.meta.title;
