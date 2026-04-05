@@ -3404,6 +3404,7 @@ async function loadQuizData() {
   // ... rest of the code
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
+   const specificSection = urlParams.get('section'); // Get section from URL
 
   if (!quizIdParam) {
     document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
