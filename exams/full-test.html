@@ -1363,16 +1363,16 @@ body.mode-solution #pauseBtn {
   <div class="ssc-wm" style="top:75%; left:65%;">@SSC_COMPILATIONS_2025</div>
   <div class="ssc-wm" style="top:90%; left:10%;">@SSC_COMPILATIONS_2025</div>
 </div>
-
-/* UPDATE 2: Dynamic Firebase & Path Picker */
+/* --- GLOBAL CONFIGURATION (Add at the very top of your first script) --- */
 const urlParams = new URLSearchParams(window.location.search);
 const quizIdParam = urlParams.get('id') || ""; // KEEP EXACT CASE for file fetching
-const quizIdLower = quizIdParam.toLowerCase(); // Use lowercase ONLY for checking types
+const quizIdLower = quizIdParam.toLowerCase();
 
-let selectedConfig = null;
-let GITHUB_PATH = "";
+// Define these globally using 'var' or 'let' outside any function
+var GITHUB_PATH = ""; 
+var selectedConfig = null;
 
-// Decision logic based on ID content
+// Logic to decide Path and Firebase Project
 if (quizIdLower.includes("cgl")) {
     selectedConfig = FIREBASE_PROJECTS.cgl;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cgl/subject" : "ssc/cgl/full-mock";
@@ -1385,7 +1385,6 @@ else if (quizIdLower.includes("mts")) {
     selectedConfig = FIREBASE_PROJECTS.mts;
     GITHUB_PATH = "ssc/mts/full-mock";
 }
-// Add other exams (cpo, steno, etc.) here following the same pattern
 
 // Initialize with selected project
 if (selectedConfig) {
