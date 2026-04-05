@@ -336,6 +336,64 @@
         .badge-pro { background: #f59e0b; color: white; font-size: 10px; padding: 2px 8px; border-radius: 50px; }
         .hidden { display: none !important; }
         #install-banner { position: fixed; top: 0; width: 100%; z-index: 10000; background: #1e293b; color: white; padding: 15px; text-align: center; font-size: 14px; border-bottom: 3px solid var(--primary); }
+        /* --- MOBILE ADJUSTMENTS --- */
+@media (max-width: 767px) {
+    /* Increasing size of Action Boxes (Explore, Live, PDF) */
+    .box-style {
+        padding: 22px 18px; /* Increased vertical padding for more height */
+        min-height: 100px;  /* Ensures a more substantial feel */
+    }
+    .box-style i {
+        font-size: 1.6rem; /* Slightly larger icons */
+    }
+    .box-style h4 {
+        font-size: 0.95rem; /* Slightly larger text */
+    }
+}
+
+/* --- DESKTOP SPECIFIC STYLES --- */
+@media (min-width: 992px) {
+    /* 1. Prevent Banner from stretching too wide */
+    .banner-container {
+        max-width: 400px; 
+        margin-left: auto;
+        margin-right: auto;
+        height: 400px; /* Slightly taller for desktop balance */
+    }
+
+    /* 2. Keep Action Cards (Explore/Live) as Squares */
+    .action-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .action-row {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        justify-content: center;
+    }
+    .box-style {
+        aspect-ratio: 1 / 1; /* Forces Perfect Square */
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* 3. Keep Recommended Cards as Squares */
+    .rec-section {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .rec-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    .rec-card {
+        aspect-ratio: 1 / 1; /* Forces Perfect Square */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+        
     </style>
 </head>
 <body>
