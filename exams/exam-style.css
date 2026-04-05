@@ -145,7 +145,7 @@ body.dark-mode {
     align-items: center; 
     gap: 8px; 
 }
-.score-bar-bg { width: 60px; height: 4px; background: var(--bg-light); border-radius: 10px; overflow: hidden; }
+.score-bar-bg { width: auto; height: 4px; background: var(--bg-light); border-radius: 0; overflow: hidden; }
 .score-bar-fill { height: 100%; }
 .score-text { font-size: 11px; font-weight: 800; color: var(--text-dark); }
 
