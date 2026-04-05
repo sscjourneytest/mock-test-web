@@ -89,6 +89,7 @@ body.dark-mode {
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     display: flex;
     flex-direction: row; /* Horizontal layout */
+    flex-wrap: wrap;
     align-items: center; 
     justify-content: space-between;
     gap: 10px;
