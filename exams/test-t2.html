@@ -1572,7 +1572,6 @@ function saveQuizState(){
 }
 
 
-
 function startSectionTimer() {
   if (timerInterval) clearInterval(timerInterval);
 
@@ -1586,7 +1585,6 @@ function startSectionTimer() {
   el("timer").textContent = fmt(sectionSecondsLeft);
 
   timerInterval = setInterval(() => {
-
     if (sectionSecondsLeft <= 0) {
       clearInterval(timerInterval);
       autoSubmitSection();
@@ -1596,14 +1594,30 @@ function startSectionTimer() {
     sectionSecondsLeft--;
     el("timer").textContent = fmt(sectionSecondsLeft);
 
-    // Track section-wise time (used in analysis)
+    // 1. Track section-wise time
     if (!sectionTime[secName]) sectionTime[secName] = 0;
     sectionTime[secName]++;
 
-    saveQuizState();
-
+    // 2. Track specific Question Time
+    // Uses the global 'current' index to find the active question object
+    const currentQ = QUESTIONS[current];
+    if (currentQ && currentQ.id) {
+      if (!questionTime) questionTime = {}; // Safety check for object initialization
+      if (!questionTime[currentQ.id]) questionTime[currentQ.id] = 0;
+      
+      questionTime[currentQ.id]++;
+    }
+saveQuizState();
+    // Inside the setInterval of startSectionTimer
+    const qTimeDisplay = document.getElementById("qTimeTaken");
+    if (qTimeDisplay && isQuiz) {
+       const spent = questionTime[currentQ.id] || 0;
+       qTimeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`; // Update this to match
+    }
+   
   }, 1000);
 }
+
 
 function autoSubmitSection() {
   lockCurrentSection();
