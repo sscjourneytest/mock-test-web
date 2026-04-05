@@ -122,22 +122,20 @@ function renderMocks() {
                 actionHtml = `<a href="${getLink(config)}?${item.linkParam}" class="action-btn start-btn">START TEST</a>`;
             }
         }
-     
- html += `
-            <div class="mock-card">
-                <div class="card-top">
-                    <div class="card-info">
-                        <div class="card-title">${item.title} <span class="badge-type ${item.type === 'free' ? 'free-badge' : 'paid-badge'}">${item.type.toUpperCase()}</span></div>
-                        <div class="card-meta">${item.qs || 100} Questions • ${item.time || '60 Min'}</div>
-                    </div>
-                </div>
-                ${scoreHtml}
-                <div class="btn-grid">${actionHtml}</div>
-            </div>
-        `;
-    });
 
-
+        html += `
+            <div class="mock-card">
+                <div class="card-top">
+                    <div class="card-info">
+                        <div class="card-title">${item.title} <span class="badge-type ${item.type === 'free' ? 'free-badge' : 'paid-badge'}">${item.type.toUpperCase()}</span></div>
+                        <div class="card-meta">${item.qs || 100} Questions • ${item.time || '60 Min'}</div>
+                    </div>
+                </div>
+                ${scoreHtml}
+                <div class="btn-grid">${actionHtml}</div>
+            </div>
+        `;
+    });
 
     grid.innerHTML = html || `<div class="text-center p-5 text-muted">🚀 Tests Coming Soon...</div>`;
     document.getElementById('grid-sync').innerText = "";
