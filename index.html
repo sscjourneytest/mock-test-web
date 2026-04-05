@@ -351,48 +351,6 @@
     }
 }
 
-/* --- DESKTOP SPECIFIC STYLES --- */
-@media (min-width: 992px) {
-    /* 1. Prevent Banner from stretching too wide */
-    .banner-container {
-        max-width: 400px; 
-        margin-left: auto;
-        margin-right: auto;
-        height: 400px; /* Slightly taller for desktop balance */
-    }
-
-    /* 2. Keep Action Cards (Explore/Live) as Squares */
-    .action-container {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    .action-row {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        justify-content: center;
-    }
-    .box-style {
-        aspect-ratio: 1 / 1; /* Forces Perfect Square */
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-    }
-
-    /* 3. Keep Recommended Cards as Squares */
-    .rec-section {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    .rec-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    }
-    .rec-card {
-        aspect-ratio: 1 / 1; /* Forces Perfect Square */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-}
         
     </style>
 </head>
