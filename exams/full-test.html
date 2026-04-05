@@ -1571,16 +1571,33 @@ function startTimer() {
     seconds--;
     el("timer").textContent = fmt(seconds);
 
-    // NEW: Track time for the active section
+    // 1. Track time for the active section
     const activeSectionName = SECTION_NAMES[currentSectionIdx];
     if (!sectionTime[activeSectionName]) sectionTime[activeSectionName] = 0;
     sectionTime[activeSectionName]++; 
 
-    // Save state safely
-    if (seconds % 5 === 0) saveQuizState();
+    // 2. NEW: Track specific Question Time
+    const currentQ = QUESTIONS[current];
+    if (currentQ && currentQ.id) {
+      if (!questionTime) questionTime = {}; // Safety check
+      if (!questionTime[currentQ.id]) questionTime[currentQ.id] = 0;
+      
+      questionTime[currentQ.id]++;
+    }
+
+    // 3. NEW: Update the Question UI in real-time
+    const qTimeDisplay = document.getElementById("qTimeTaken");
+    if (qTimeDisplay && isQuiz && currentQ) {
+       const spent = questionTime[currentQ.id] || 0;
+       qTimeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`;
+    }
+
+    // Save state safely (Updated to save every second for accuracy, or keep your % 5)
+   saveQuizState();
 
   }, 1000);
 }
+
 // NEW: Logic to switch between PART-1, PART-2 etc.
 function switchSection(idx) {
   currentSectionIdx = idx;
