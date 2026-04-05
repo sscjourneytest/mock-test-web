@@ -128,53 +128,156 @@
         .menu-item.pro-btn { background: #fff7ed; color: #9a3412; font-weight: 700; }
         .menu-item.admin-btn { background: #f0fdf4; color: #166534; font-weight: 700; }
 
-        /* --- HERO SECTION --- */
-        .hero-banner {
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-            color: white; padding: 45px 20px; text-align: center;
-            border-bottom-left-radius: 35px; border-bottom-right-radius: 35px;
-            margin-bottom: 25px; box-shadow: var(--shadow-lg);
-        }
-        .welcome-tag {
-            background: rgba(255,255,255,0.15); padding: 5px 15px; border-radius: 50px;
-            font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.2);
-            display: inline-block; margin-bottom: 15px;
+        /* --- GREETING --- */
+        .greeting-section { padding: 20px 20px 10px; }
+        .greeting-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* --- STATS STRIP --- */
-        .stats-scroll {
-            display: flex; overflow-x: auto; gap: 15px; padding: 5px 20px 20px;
-            scrollbar-width: none;
+        /* --- PREMIUM SEPARATED BANNER --- */
+        .banner-container {
+            width: 100%;
+            padding: 0 20px;
+            margin-bottom: 25px;
+            position: relative;
+            height: 200px;
         }
-        .stats-scroll::-webkit-scrollbar { display: none; }
-        .stat-card {
-            background: var(--white); min-width: 135px; padding: 18px;
-            border-radius: 20px; text-align: center; border: 1px solid var(--border);
+        .banner-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .banner-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 22px;
+            border-radius: 24px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 1;
+        }
+        .banner-slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
+        .banner-1 { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+        .banner-2 { background: linear-gradient(135deg, #065f46 0%, #10b981 100%); }
+        
+        .banner-slide h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+        .banner-slide p { font-size: 0.85rem; margin-bottom: 12px; font-weight: 600; background: rgba(255,255,255,0.2); display: inline-block; padding: 2px 10px; border-radius: 50px; width: fit-content; }
+        .banner-slide ul { font-size: 0.75rem; list-style: none; padding: 0; margin-bottom: 18px; columns: 2; column-gap: 10px; }
+        .banner-slide ul li { margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+        .banner-slide ul li i { font-size: 9px; background: white; color: var(--primary); border-radius: 50%; padding: 2px; }
+        
+        .banner-btn {
+            align-self: flex-start;
+            background: white;
+            color: #1e3a8a;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Arrows */
+        .banner-nav {
+            position: absolute;
+            top: 50%;
+            width: calc(100% - 40px);
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+            pointer-events: none;
+        }
+        .nav-arrow {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            pointer-events: auto;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .banner-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; transition: 0.3s; }
+        .dot.active { width: 20px; background: var(--primary); border-radius: 10px; }
+
+        /* --- ACTION BOXES GRADIENTS --- */
+        .action-container { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
+        .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .box-style {
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
         }
-        .stat-val { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
-        .stat-label { font-size: 0.7rem; color: var(--text-grey); font-weight: 600; letter-spacing: 0.5px; }
+        .box-1 { background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); }
+        .box-2 { background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%); }
+        .box-3 { background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%); }
 
-        /* --- MAIN ACTION GRID --- */
-        .main-action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 20px; }
-        .action-box {
-            background: var(--white); padding: 35px 20px; border-radius: 28px;
-            text-align: center; border: 1px solid var(--border);
-            text-decoration: none; color: inherit; transition: 0.3s;
-            box-shadow: var(--shadow-sm); position: relative;
-        }
-        .action-box:active { transform: scale(0.94); }
-        .box-icon {
-            width: 60px; height: 60px; background: var(--primary-light);
-            color: var(--primary); border-radius: 20px; display: flex;
-            align-items: center; justify-content: center; font-size: 1.8rem;
-            margin: 0 auto 15px;
-        }
-        .action-box.live .box-icon { background: #fff7ed; color: #f59e0b; }
-        .action-box h3 { font-size: 1.1rem; font-weight: 800; margin: 0; }
-        .action-box p { font-size: 0.75rem; color: var(--text-grey); margin-top: 5px; line-height: 1.3; }
+        .box-style i { font-size: 1.3rem; color: var(--primary); }
+        .box-2 i { color: var(--accent); }
+        .box-3 i { color: #16a34a; }
+        .box-style h4 { font-size: 0.85rem; font-weight: 800; margin: 0; }
+        .box-style.wide { grid-column: span 2; }
+        .free-badge-green { background: #22c55e; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; margin-left: 5px; font-weight: 800; }
 
-        /* --- FLOATING BUTTONS --- */
+        /* --- RECOMMENDATIONS --- */
+        .rec-section { padding: 25px 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .section-header h3 { font-size: 1rem; font-weight: 800; margin: 0; }
+        .view-all-btn { font-size: 0.75rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        
+        .rec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .rec-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 18px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: inherit;
+        }
+        .rec-card img { width: 50px; height: 50px; border-radius: 10px; margin-bottom: 10px; }
+        .rec-card h4 { font-size: 0.85rem; font-weight: 800; margin: 0; }
+        .rec-card p { font-size: 0.7rem; color: var(--text-grey); margin: 3px 0 0; }
+
+        .tagline { text-align: center; padding: 20px; font-weight: 700; color: var(--text-grey); font-size: 0.8rem; letter-spacing: 1px; }
+
+        /* --- FLOATING ICONS (ORIGINAL) --- */
         .fab-container { position: fixed; bottom: 85px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 999; }
         .fab {
             width: 55px; height: 55px; border-radius: 50%; display: flex;
@@ -204,11 +307,8 @@
         .nav-item i { display: block; font-size: 1.3rem; margin-bottom: 4px; }
         .nav-item.active { color: var(--primary); }
 
-        /* --- BADGES --- */
         .badge-pro { background: #f59e0b; color: white; font-size: 10px; padding: 2px 8px; border-radius: 50px; }
         .hidden { display: none !important; }
-
-        /* Install Banner */
         #install-banner { position: fixed; top: 0; width: 100%; z-index: 10000; background: #1e293b; color: white; padding: 15px; text-align: center; font-size: 14px; border-bottom: 3px solid var(--primary); }
     </style>
 </head>
@@ -269,7 +369,7 @@
             <a href="/saved" class="menu-item"><i class="fas fa-bookmark"></i> Saved Questions</a>
             <div class="menu-item d-flex justify-content-between" onclick="toggleTheme()" style="cursor: pointer;">
                 <span><i class="fas fa-moon"></i> Dark Mode</span>
-                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="themeSwitch" disabled></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="themeSwitch"></div>
             </div>
             <a href="/privacy-policy.html" class="menu-item"><i class="fas fa-shield-halved"></i> Privacy Policy</a>
             
@@ -279,44 +379,83 @@
         </div>
     </nav>
 
-    <section class="hero-banner">
-        <div class="welcome-tag">👋 Welcome to MMH Premium</div>
-        <h1 class="fw-bolder fs-2">Master the Your Preparation</h1>
-        <p class="small opacity-75 px-4">Your one-stop destination for PYQs, Sectionals, and Premium Full Mocks.</p>
-        <a href="/exams/" class="btn btn-light rounded-pill px-4 py-2 fw-bold text-primary shadow-sm mt-3">Start Practicing</a>
-    </section>
+    <div class="greeting-section">
+        <div class="greeting-text">Welcome, <span id="userGreetName">Aspirant</span></div>
+        <div class="small text-muted fw-bold">ON MOCK MATRIX HUB</div>
+    </div>
 
-    <div class="stats-scroll">
-        <div class="stat-card">
-            <div class="stat-val">500+</div>
-            <div class="stat-label">PYQ MOCKS</div>
+    <div class="banner-container">
+        <div class="banner-wrapper">
+            <div class="banner-slide banner-1 active" id="slide0">
+                <h2>BUY PASS AT JUST ₹99</h2>
+                <p>Use Code: <b>MMH20</b></p>
+                <ul>
+                    <li><i class="fas fa-check"></i> 1000+ Latest PYQ Mocks</li>
+                    <li><i class="fas fa-check"></i> Latest Pattern Papers</li>
+                    <li><i class="fas fa-check"></i> 1 Year Validity</li>
+                    <li><i class="fas fa-check"></i> Paid Telegram Group</li>
+                </ul>
+                <a href="/buy-premium.html" class="banner-btn">GET PASS</a>
+            </div>
+            <div class="banner-slide banner-2" id="slide1">
+                <h2>BECOME A PARTNER</h2>
+                <p>Earn <b>80% Commission</b></p>
+                <ul>
+                    <li><i class="fas fa-check"></i> Get Coupon Code</li>
+                    <li><i class="fas fa-check"></i> Share to Students</li>
+                    <li><i class="fas fa-check"></i> Instant Tracking</li>
+                    <li><i class="fas fa-check"></i> Direct Commission</li>
+                </ul>
+                <a href="/apply-coupon.html" class="banner-btn">BECOME PARTNER</a>
+            </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-val">LATEST</div>
-            <div class="stat-label">MOCKS</div>
+        <div class="banner-nav">
+            <div class="nav-arrow" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></div>
+            <div class="nav-arrow" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></div>
         </div>
-        <div class="stat-card">
-            <div class="stat-val">80%</div>
-            <div class="stat-label">PARTNER COMM.</div>
+        <div class="banner-dots">
+            <div class="dot active" id="dot0"></div>
+            <div class="dot" id="dot1"></div>
         </div>
     </div>
 
-    <div class="px-4 mb-3">
-        <h5 class="fw-bold m-0"><i class="fas fa-layer-group me-2 text-primary"></i>Practice Hub</h5>
+    <div class="action-container">
+        <div class="action-row">
+            <a href="/exams/" class="box-style box-1">
+                <i class="fas fa-graduation-cap"></i>
+                <h4>EXPLORE EXAMS</h4>
+            </a>
+            <a href="/live-test" class="box-style box-2">
+                <i class="fas fa-tower-broadcast"></i>
+                <h4>LIVE TESTS <span class="free-badge-green">FREE</span></h4>
+            </a>
+            <a href="#" class="box-style box-3 wide" onclick="alert('Important PDFs and Notes are coming soon!')">
+                <i class="fas fa-file-pdf"></i>
+                <h4>IMPORTANT PDFs & NOTES <span class="small text-muted ms-2">(COMING SOON)</span></h4>
+            </a>
+        </div>
     </div>
 
-    <div class="main-action-grid">
-        <a href="/exams/" class="action-box">
-            <div class="box-icon"><i class="fas fa-graduation-cap"></i></div>
-            <h3>EXAMS</h3>
-            <p>SSC, Railway & State PYQs</p>
-        </a>
-        <a href="/live-test" class="action-box live">
-            <div class="box-icon"><i class="fas fa-tower-broadcast"></i></div>
-            <h3>LIVE TESTS</h3>
-            <p>Real-time All India Ranking</p>
-        </a>
+    <div class="rec-section">
+        <div class="section-header">
+            <h3>RECOMMENDED SERIES</h3>
+            <a href="/exams/" class="view-all-btn">VIEW ALL</a>
+        </div>
+        <div class="rec-grid">
+            <a href="/exams/cgl/" class="rec-card">
+                <img src="/ssc-logo.jpg" alt="SSC CGL">
+                <h4>SSC CGL</h4>
+                <p>Mocks</p>
+            </a>
+            <a href="/exams/chsl/" class="rec-card">
+                <img src="/ssc-logo.jpg" alt="SSC CHSL">
+                <h4>SSC CHSL</h4>
+                <p>Mocks</p>
+            </a>
+        </div>
     </div>
+
+    <div class="tagline">PRACTICE TO PERFECTION</div>
 
     <div class="fab-container">
         <a href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank" class="fab fab-wa shadow-lg">
@@ -354,8 +493,12 @@
             document.documentElement.classList.remove('user-is-logged-in');
             document.getElementById('authHeaderArea').style.visibility = "visible";
             document.getElementById('authHeaderArea').style.opacity = "1";
-            document.getElementById('sidebarUserName').innerText = profile.username || 'Aspirant';
+            
+            const username = profile.username || 'Aspirant';
+            document.getElementById('sidebarUserName').innerText = username;
+            document.getElementById('userGreetName').innerText = username;
             document.getElementById('logoutArea').classList.remove('hidden');
+            
             if(profile.is_paid) {
                 document.getElementById('sidebarPlanBadge').innerHTML = '<span class="badge-pro"><i class="fas fa-crown me-1"></i>PRO USER</span>';
                 document.getElementById('buyPremiumArea').classList.add('hidden');
@@ -368,8 +511,35 @@
                 document.getElementById('partnerLinkArea').classList.remove('hidden');
                 document.getElementById('partnerApplyArea').classList.add('hidden');
             }
-            document.getElementById('authHeaderArea').innerHTML = `<div onclick="toggleSidebar()" style="width:38px; height:38px; background:var(--primary-light); color:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:800; border:2px solid var(--primary); font-size:14px;">${(profile.username || 'U').charAt(0).toUpperCase()}</div>`;
+            document.getElementById('authHeaderArea').innerHTML = `<div onclick="toggleSidebar()" style="width:38px; height:38px; background:var(--primary-light); color:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:800; border:2px solid var(--primary); font-size:14px;">${username.charAt(0).toUpperCase()}</div>`;
         }
+
+        // --- BANNER SLIDER LOGIC ---
+        let currentSlide = 0;
+        const totalSlides = 2;
+        let slideTimer;
+
+        function showSlide(index) {
+            currentSlide = (index + totalSlides) % totalSlides;
+            document.querySelectorAll('.banner-slide').forEach((s, i) => {
+                s.classList.toggle('active', i === currentSlide);
+            });
+            document.querySelectorAll('.dot').forEach((d, i) => {
+                d.classList.toggle('active', i === currentSlide);
+            });
+            resetTimer();
+        }
+
+        function moveSlide(step) {
+            showSlide(currentSlide + step);
+        }
+
+        function resetTimer() {
+            clearInterval(slideTimer);
+            slideTimer = setInterval(() => moveSlide(1), 4000);
+        }
+
+        resetTimer();
 
         document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('mmh_theme') === 'dark') document.body.classList.add('dark-mode');
@@ -393,3 +563,4 @@
     </script>
 </body>
 </html>
+
