@@ -137,17 +137,35 @@ body.dark-mode {
 .analysis-btn { background: #4f46e5; color: white; }
 .reattempt-btn { background: transparent; color: var(--primary); border: 1px solid var(--primary); padding: 6px 11px; }
 .unlock-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
-
-/* Score Bar below text */
+/* Score Bar - Rectangular and Full Width at Bottom */
 .score-row { 
-    margin-top: 8px;
+    margin-top: 12px;
+    width: 100%; /* Spans across the card */
     display: flex; 
-    align-items: center; 
-    gap: 8px; 
+    flex-direction: column; /* Text above bar */
+    gap: 4px; 
+    order: 10; /* Ensures it stays at the very bottom */
 }
-.score-bar-bg { width: 60px; height: 4px; background: var(--bg-light); border-radius: 10px; overflow: hidden; }
-.score-bar-fill { height: 100%; }
-.score-text { font-size: 11px; font-weight: 800; color: var(--text-dark); }
+
+.score-bar-bg { 
+    width: 100%; 
+    height: 6px; 
+    background: var(--bg-light); 
+    border-radius: 2px; /* Rectangular look */
+    overflow: hidden; 
+}
+
+.score-bar-fill { 
+    height: 100%; 
+    border-radius: 0; /* Pure rectangle */
+}
+
+.score-text { 
+    font-size: 10px; 
+    font-weight: 800; 
+    color: var(--text-grey); 
+    text-transform: uppercase;
+}
 
 /* Badges */
 .badge-type { font-size: 8px; padding: 2px 5px; border-radius: 3px; font-weight: 900; vertical-align: middle; }
@@ -155,3 +173,42 @@ body.dark-mode {
 .paid-badge { background: #fef3c7; color: #92400e; }
 
 .hidden { display: none !important; }
+@media (max-width: 600px) {
+    /* 1. Force buttons to a new row and center them */
+    .mock-card { 
+        flex-wrap: wrap; 
+        justify-content: center; 
+        text-align: center;
+        padding-bottom: 15px; /* Extra room for the score bar */
+    }
+
+    /* 2. Make info section take full width to push buttons down */
+    .card-info { 
+        flex-basis: 100%; 
+        margin-bottom: 10px;
+    }
+
+    /* 3. Center the button grid and fix the width */
+    .btn-grid { 
+        flex-basis: 100%; 
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        margin-top: 5px;
+    }
+
+    /* 4. Fix: Prevent button from stretching too wide */
+    .action-btn { 
+        width: auto;             /* Don't force 100% */
+        min-width: 140px;        /* Consistent size for small text */
+        max-width: 200px;        /* Fix: Prevents stretching on larger mobile screens */
+        padding: 10px 20px;      /* Slightly larger for better tap target */
+    }
+
+    /* 5. Score bar remains long and rectangular at the bottom */
+    .score-row {
+        flex-basis: 100%;
+        margin-top: 15px;
+        order: 10;               /* Keeps it at absolute bottom */
+    }
+}
