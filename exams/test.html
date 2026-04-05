@@ -18,6 +18,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/auth.js"></script>
+<script src="/firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <style>
 
 /* =========================================
@@ -1238,7 +1242,36 @@ body.mode-solution #pauseBtn {
       skipHtmlTags: ['script', 'style', 'textarea', 'pre']
     }
   };
+/* --- GLOBAL CONFIGURATION (Add at the very top of your first script) --- */
+const urlParams = new URLSearchParams(window.location.search);
+const quizIdParam = urlParams.get('id') || ""; // KEEP EXACT CASE for file fetching
+const quizIdLower = quizIdParam.toLowerCase();
 
+// Define these globally using 'var' or 'let' outside any function
+var GITHUB_PATH = ""; 
+var selectedConfig = null;
+
+// Logic to decide Path and Firebase Project
+if (quizIdLower.includes("cgl")) {
+    selectedConfig = FIREBASE_PROJECTS.cgl;
+    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cgl/subject" : "ssc/cgl/full-mock";
+} 
+else if (quizIdLower.includes("chsl")) {
+    selectedConfig = FIREBASE_PROJECTS.chsl;
+    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/chsl/subject" : "ssc/chsl/full-mock";
+}
+else if (quizIdLower.includes("mts")) {
+    selectedConfig = FIREBASE_PROJECTS.mts;
+    GITHUB_PATH = "ssc/mts/full-mock";
+}
+
+// Initialize with selected project
+if (selectedConfig) {
+    firebase.initializeApp(selectedConfig);
+} else {
+    console.error("No Firebase config mapped for ID:", quizIdParam);
+}
+const db = firebase.database();
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
@@ -1362,23 +1395,7 @@ body.mode-solution #pauseBtn {
 
 
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCekzDObGN7Gc5ENfmMejddM8PKxOob_gE",
-  authDomain: "mmh-chsl-full-mock-data.firebaseapp.com",
-  databaseURL: "https://mmh-chsl-full-mock-data-default-rtdb.firebaseio.com",
-  projectId: "mmh-chsl-full-mock-data",
-  storageBucket: "mmh-chsl-full-mock-data.firebasestorage.app",
-  messagingSenderId: "672897736088",
-  appId: "1:672897736088:web:ddff435bec20076ffe1fed"
-};
 
-
- firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-</script>
 <header id="mainHeader" style="display:none;">
   <div class="header-inner" style="flex-direction: column; height: auto; padding: 10px 16px;">
     <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
@@ -1505,14 +1522,18 @@ let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
 let currentSectionIdx = 0;   // New: Active section tracking
 
 let sectionTime = {};        // <-- ADD THIS LINE
-
+let questionTime = {};
 // ===============================
 // 🛠️ HELPER FUNCTIONS
 // ===============================
 
 // Short helper for getting elements
 const el = id => document.getElementById(id);
-
+function fmtMSS(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+}
 // Format seconds into MM:SS
 function fmt(s){
   s = Math.max(0, s);
@@ -1532,7 +1553,8 @@ function saveQuizState(){
     marked,
     currentLang,
     seconds,
-    currentSectionIdx // NEW: Save the active section index (PART-1, PART-2, etc.)
+    currentSectionIdx,
+    questionTime
   };
   localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
 }
@@ -1563,16 +1585,33 @@ function startTimer() {
     seconds--;
     el("timer").textContent = fmt(seconds);
 
-    // NEW: Track time for the active section
+    // 1. Track time for the active section
     const activeSectionName = SECTION_NAMES[currentSectionIdx];
     if (!sectionTime[activeSectionName]) sectionTime[activeSectionName] = 0;
     sectionTime[activeSectionName]++; 
 
-    // Save state safely
-    if (seconds % 5 === 0) saveQuizState();
+    // 2. NEW: Track specific Question Time
+    const currentQ = QUESTIONS[current];
+    if (currentQ && currentQ.id) {
+      if (!questionTime) questionTime = {}; // Safety check
+      if (!questionTime[currentQ.id]) questionTime[currentQ.id] = 0;
+      
+      questionTime[currentQ.id]++;
+    }
+
+    // 3. NEW: Update the Question UI in real-time
+    const qTimeDisplay = document.getElementById("qTimeTaken");
+    if (qTimeDisplay && isQuiz && currentQ) {
+       const spent = questionTime[currentQ.id] || 0;
+       qTimeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`;
+    }
+
+    // Save state safely (Updated to save every second for accuracy, or keep your % 5)
+   saveQuizState();
 
   }, 1000);
 }
+
 // NEW: Logic to switch between PART-1, PART-2 etc.
 function switchSection(idx) {
   currentSectionIdx = idx;
@@ -1671,6 +1710,33 @@ function renderQuestion(i) {
   // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
   el("qindex").textContent = i + 1;
   el("qtotal").textContent = QUESTIONS.length;
+   // Show time spent on this specific question
+  // --- UPDATED: STYLED TIME TAKEN BOX ---
+  let timeDisplay = document.getElementById("qTimeTaken");
+  if (!timeDisplay) {
+    const metaBox = document.querySelector(".qmeta");
+    timeDisplay = document.createElement("span");
+    timeDisplay.id = "qTimeTaken";
+    
+    // Styling for the elliptical box
+    timeDisplay.style.marginLeft = "12px";
+    timeDisplay.style.padding = "2px 10px";
+    timeDisplay.style.backgroundColor = "#f0f2f5"; 
+    timeDisplay.style.color = "#0b5ed7";           
+    timeDisplay.style.borderRadius = "12px";       
+    timeDisplay.style.fontSize = "12px";
+    timeDisplay.style.fontWeight = "700";
+    timeDisplay.style.border = "1px solid #e0e0e0";
+    timeDisplay.style.display = "inline-flex";
+    timeDisplay.style.alignItems = "center";
+    
+    metaBox.appendChild(timeDisplay);
+  }
+  
+  // FIX: Ensure spent time is pulled from the questionTime object
+  const spent = (questionTime && questionTime[q.id]) ? questionTime[q.id] : 0;
+  timeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`; // Changed 'Time:' to 'Time Taken:'
+ 
 // --- UPDATED LANGUAGE & DECODING HELPER ---
 const getLangText = (obj) => {
     if (!obj) return "";
@@ -2184,6 +2250,7 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
         answers,
         marked,
         current: 0,
+        questionTime,
         sectionalData: sectionalDataForFirebase,
         totalMarks,
         timeTakenSeconds,
@@ -2468,16 +2535,14 @@ async function refreshLatestRankOnDemand(btn) {
     document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.<br><small>Example: ?id=Rajuhari</small>";
     return;
   }
-
-  
-    try {
+ try {
     // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
     const { data: { session } } = await _supabase.auth.getSession();
     const token = session ? session.access_token : null;
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/chsl/full-mock"; 
+    // GITHUB_PATH is now set globally by the URL ID logic we added previously
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
@@ -2492,6 +2557,7 @@ async function refreshLatestRankOnDemand(btn) {
     
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
+ 
   
     // --- SECTIONAL SLICING LOGIC ---
     const specificSection = urlParams.get('section');
@@ -3174,6 +3240,7 @@ function updatePaletteLegend() {
       answers = data.answers || {};
       marked  = data.marked  || {};
       current = data.current || 0;
+      questionTime = data.questionTime || {};
       el("welcomeScreen").style.display = "none";
       el("mainHeader").style.display = "none";
       el("quizMainArea").style.display = "none";
@@ -3234,6 +3301,7 @@ if (stateSaved) {
   current = state.current ?? 0;
   answers = state.answers ?? {};
   marked = state.marked ?? {};
+  questionTime = state.questionTime ?? {};
   seconds = state.seconds ?? seconds;
   
   // RESTORE SECTION PERSISTENCE
@@ -3326,7 +3394,6 @@ document.addEventListener("DOMContentLoaded", function () {
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
 
-
 async function loadQuizData() {
   const profile = getLocalProfile();
   if (profile) {
@@ -3334,23 +3401,22 @@ async function loadQuizData() {
       USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
   }
       
+  // ... rest of the code
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
-  const specificSection = urlParams.get('section'); // Get section from URL
 
   if (!quizIdParam) {
     document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
     return;
   }
-
-  try {
+try {
     // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
     const { data: { session } } = await _supabase.auth.getSession();
     const token = session ? session.access_token : null;
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    const GITHUB_PATH = "ssc/chsl/full-mock"; 
+    // GITHUB_PATH is now set globally by the URL ID logic we added previously
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
