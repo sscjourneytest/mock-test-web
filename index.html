@@ -139,18 +139,22 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* --- PREMIUM SEPARATED BANNER --- */
+                /* --- IMAGE-BASED BANNER (NO CROP) --- */
         .banner-container {
             width: 100%;
-            padding: 0 20px;
+            padding: 0 45px;
             margin-bottom: 25px;
             position: relative;
-            height: 200px;
+            height: 360px; /* Box height as requested */
         }
         .banner-wrapper {
             position: relative;
             width: 100%;
             height: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: #000; /* Fill empty space with black or match your theme */
         }
         .banner-slide {
             position: absolute;
@@ -158,67 +162,89 @@
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 22px;
-            border-radius: 24px;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.6s ease-in-out;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 20px;
+            /* CRITICAL CHANGE BELOW */
+            background-size: contain; /* Shows full image, no cropping */
+            background-position: center;
+            background-repeat: no-repeat;
         }
         .banner-slide.active {
             opacity: 1;
             visibility: visible;
             z-index: 2;
         }
-        .banner-1 { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
-        .banner-2 { background: linear-gradient(135deg, #065f46 0%, #10b981 100%); }
-        
-        .banner-slide h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
-        .banner-slide p { font-size: 0.85rem; margin-bottom: 12px; font-weight: 600; background: rgba(255,255,255,0.2); display: inline-block; padding: 2px 10px; border-radius: 50px; width: fit-content; }
-        .banner-slide ul { font-size: 0.75rem; list-style: none; padding: 0; margin-bottom: 18px; columns: 2; column-gap: 10px; }
-        .banner-slide ul li { margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
-        .banner-slide ul li i { font-size: 9px; background: white; color: var(--primary); border-radius: 50%; padding: 2px; }
-        
-        .banner-btn {
-            align-self: flex-start;
-            background: white;
-            color: #1e3a8a;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 0.8rem;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+        /* Loading Spinner */
+        .banner-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+            z-index: 5;
+        }
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* Arrows */
+        /* Hide button until image is loaded */
+        .banner-slide .banner-btn { display: none; }
+        .banner-slide.loaded .banner-btn { display: block; }
+        .banner-slide.loaded .banner-loader { display: none; }
+
+        .banner-btn {
+            position: relative;
+            z-index: 3;
+            background: #991b1b;
+            color: white !important;
+            padding: 10px 30px;
+            border-radius: 10px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+
+        /* Arrows outside content */
         .banner-nav {
             position: absolute;
             top: 50%;
-            width: calc(100% - 40px);
+            left: 0;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             transform: translateY(-50%);
             z-index: 10;
             pointer-events: none;
+            padding: 0 10px;
         }
         .nav-arrow {
             width: 32px;
             height: 32px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--primary);
             cursor: pointer;
             pointer-events: auto;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid var(--border);
         }
 
         .banner-dots {
@@ -383,36 +409,26 @@
         <div class="greeting-text">Welcome, <span id="userGreetName">Aspirant</span></div>
         <div class="small text-muted fw-bold">ON MOCK MATRIX HUB</div>
     </div>
-
     <div class="banner-container">
         <div class="banner-wrapper">
-            <div class="banner-slide banner-1 active" id="slide0">
-                <h2>BUY PASS AT JUST ₹99</h2>
-                <p>Use Code: <b>MMH20</b></p>
-                <ul>
-                    <li><i class="fas fa-check"></i> 1000+ Latest PYQ Mocks</li>
-                    <li><i class="fas fa-check"></i> Latest Pattern Papers</li>
-                    <li><i class="fas fa-check"></i> 1 Year Validity</li>
-                    <li><i class="fas fa-check"></i> Paid Telegram Group</li>
-                </ul>
+            <div class="banner-slide active" id="slide0" style="background-image: url('YOUR_IMAGE_URL_1');">
+                <div class="banner-loader"></div>
+                <img src="YOUR_IMAGE_URL_1" style="display:none;" onload="this.parentElement.classList.add('loaded')">
                 <a href="/buy-premium.html" class="banner-btn">GET PASS</a>
             </div>
-            <div class="banner-slide banner-2" id="slide1">
-                <h2>BECOME A PARTNER</h2>
-                <p>Earn <b>80% Commission</b></p>
-                <ul>
-                    <li><i class="fas fa-check"></i> Get Coupon Code</li>
-                    <li><i class="fas fa-check"></i> Share to Students</li>
-                    <li><i class="fas fa-check"></i> Instant Tracking</li>
-                    <li><i class="fas fa-check"></i> Direct Commission</li>
-                </ul>
+            
+            <div class="banner-slide" id="slide1" style="background-image: url('YOUR_IMAGE_URL_2');">
+                <div class="banner-loader"></div>
+                <img src="YOUR_IMAGE_URL_2" style="display:none;" onload="this.parentElement.classList.add('loaded')">
                 <a href="/apply-coupon.html" class="banner-btn">BECOME PARTNER</a>
             </div>
         </div>
+
         <div class="banner-nav">
             <div class="nav-arrow" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></div>
             <div class="nav-arrow" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></div>
         </div>
+
         <div class="banner-dots">
             <div class="dot active" id="dot0"></div>
             <div class="dot" id="dot1"></div>
