@@ -1504,7 +1504,7 @@ let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
 let currentSectionIdx = 0;   // New: Active section tracking
 
 let sectionTime = {};        // <-- ADD THIS LINE
-  
+let questionTime = {};  
 
 // ===============================
 // 🛠️ HELPER FUNCTIONS
@@ -1512,7 +1512,12 @@ let sectionTime = {};        // <-- ADD THIS LINE
 
 // Short helper for getting elements
 const el = id => document.getElementById(id);
-
+// Helper to format seconds into 00:00
+function fmtMSS(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+}
 // Format seconds into MM:SS
 function fmt(s){
   s = Math.max(0, s);
@@ -1534,7 +1539,8 @@ function saveQuizState(){
     marked,
     currentLang,
     seconds,
-    currentSectionIdx // NEW: Save the active section index (PART-1, PART-2, etc.)
+    currentSectionIdx,
+    questionTime
   };
   localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
 }
@@ -2188,6 +2194,7 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
         answers,
         marked,
         current: 0,
+        questionTime,
         sectionalData: sectionalDataForFirebase,
         totalMarks,
         timeTakenSeconds,
@@ -3164,6 +3171,7 @@ function updatePaletteLegend() {
       answers = data.answers || {};
       marked  = data.marked  || {};
       current = data.current || 0;
+      questionTime = data.questionTime || {};
       el("welcomeScreen").style.display = "none";
       el("mainHeader").style.display = "none";
       el("quizMainArea").style.display = "none";
@@ -3221,6 +3229,7 @@ if (stateSaved) {
   current = state.current ?? 0;
   answers = state.answers ?? {};
   marked = state.marked ?? {};
+  questionTime = state.questionTime ?? {};
   seconds = state.seconds ?? seconds;
   
   // RESTORE SECTION PERSISTENCE
