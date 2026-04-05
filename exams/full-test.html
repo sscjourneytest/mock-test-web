@@ -3380,8 +3380,6 @@ document.addEventListener("DOMContentLoaded", function () {
 // ===============================
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
-
-
 async function loadQuizData() {
   const profile = getLocalProfile();
   if (profile) {
@@ -3389,7 +3387,6 @@ async function loadQuizData() {
       USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
   }
       
-  // ... rest of the code
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
 
@@ -3397,14 +3394,29 @@ async function loadQuizData() {
     document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
     return;
   }
-try {
+
+  // --- ADDED PATH DECIDER LOGIC ---
+  const quizIdLower = quizIdParam.toLowerCase();
+  let GITHUB_PATH = "";
+  
+  if (quizIdLower.includes("cgl")) {
+      GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cgl/subject" : "ssc/cgl/full-mock";
+  } 
+  else if (quizIdLower.includes("chsl")) {
+      GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/chsl/subject" : "ssc/chsl/full-mock";
+  }
+  else if (quizIdLower.includes("mts")) {
+      GITHUB_PATH = "ssc/mts/full-mock";
+  }
+  // --------------------------------
+
+  try {
     // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
     const { data: { session } } = await _supabase.auth.getSession();
     const token = session ? session.access_token : null;
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    // GITHUB_PATH is now set globally by the URL ID logic we added previously
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
@@ -3423,6 +3435,8 @@ try {
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     
     const data = await response.json();
+
+
    
 
     // 2. Assign Global Variables
