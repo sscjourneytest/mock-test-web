@@ -17,5 +17,14 @@ const FIREBASE_PROJECTS = {
   storageBucket: "mmh-chsl-full-mock-data.firebasestorage.app",
   messagingSenderId: "672897736088",
   appId: "1:672897736088:web:ddff435bec20076ffe1fed"
+},
+    cpo:  {
+  apiKey: "AIzaSyBvDo7SiNZZNp7GYww2kYL6G6K0rHumJjU",
+  authDomain: "mmh-cpo-mock-data.firebaseapp.com",
+  databaseURL: "https://mmh-cpo-mock-data-default-rtdb.firebaseio.com",
+  projectId: "mmh-cpo-mock-data",
+  storageBucket: "mmh-cpo-mock-data.firebasestorage.app",
+  messagingSenderId: "628480016731",
+  appId: "1:628480016731:web:8f9255dd6181f04d15da7e"
 }
 };
