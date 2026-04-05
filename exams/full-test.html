@@ -1242,7 +1242,36 @@ body.mode-solution #pauseBtn {
       skipHtmlTags: ['script', 'style', 'textarea', 'pre']
     }
   };
+/* --- GLOBAL CONFIGURATION (Add at the very top of your first script) --- */
+const urlParams = new URLSearchParams(window.location.search);
+const quizIdParam = urlParams.get('id') || ""; // KEEP EXACT CASE for file fetching
+const quizIdLower = quizIdParam.toLowerCase();
 
+// Define these globally using 'var' or 'let' outside any function
+var GITHUB_PATH = ""; 
+var selectedConfig = null;
+
+// Logic to decide Path and Firebase Project
+if (quizIdLower.includes("cgl")) {
+    selectedConfig = FIREBASE_PROJECTS.cgl;
+    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cgl/subject" : "ssc/cgl/full-mock";
+} 
+else if (quizIdLower.includes("chsl")) {
+    selectedConfig = FIREBASE_PROJECTS.chsl;
+    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/chsl/subject" : "ssc/chsl/full-mock";
+}
+else if (quizIdLower.includes("mts")) {
+    selectedConfig = FIREBASE_PROJECTS.mts;
+    GITHUB_PATH = "ssc/mts/full-mock";
+}
+
+// Initialize with selected project
+if (selectedConfig) {
+    firebase.initializeApp(selectedConfig);
+} else {
+    console.error("No Firebase config mapped for ID:", quizIdParam);
+}
+const db = firebase.database();
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
@@ -1363,36 +1392,7 @@ body.mode-solution #pauseBtn {
   <div class="ssc-wm" style="top:75%; left:65%;">@SSC_COMPILATIONS_2025</div>
   <div class="ssc-wm" style="top:90%; left:10%;">@SSC_COMPILATIONS_2025</div>
 </div>
-/* --- GLOBAL CONFIGURATION (Add at the very top of your first script) --- */
-const urlParams = new URLSearchParams(window.location.search);
-const quizIdParam = urlParams.get('id') || ""; // KEEP EXACT CASE for file fetching
-const quizIdLower = quizIdParam.toLowerCase();
 
-// Define these globally using 'var' or 'let' outside any function
-var GITHUB_PATH = ""; 
-var selectedConfig = null;
-
-// Logic to decide Path and Firebase Project
-if (quizIdLower.includes("cgl")) {
-    selectedConfig = FIREBASE_PROJECTS.cgl;
-    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cgl/subject" : "ssc/cgl/full-mock";
-} 
-else if (quizIdLower.includes("chsl")) {
-    selectedConfig = FIREBASE_PROJECTS.chsl;
-    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/chsl/subject" : "ssc/chsl/full-mock";
-}
-else if (quizIdLower.includes("mts")) {
-    selectedConfig = FIREBASE_PROJECTS.mts;
-    GITHUB_PATH = "ssc/mts/full-mock";
-}
-
-// Initialize with selected project
-if (selectedConfig) {
-    firebase.initializeApp(selectedConfig);
-} else {
-    console.error("No Firebase config mapped for ID:", quizIdParam);
-}
-const db = firebase.database();
 
 
 <header id="mainHeader" style="display:none;">
@@ -3380,6 +3380,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // ===============================
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
+
 async function loadQuizData() {
   const profile = getLocalProfile();
   if (profile) {
@@ -3387,6 +3388,7 @@ async function loadQuizData() {
       USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
   }
       
+  // ... rest of the code
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
 
@@ -3394,29 +3396,14 @@ async function loadQuizData() {
     document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
     return;
   }
-
-  // --- ADDED PATH DECIDER LOGIC ---
-  const quizIdLower = quizIdParam.toLowerCase();
-  let GITHUB_PATH = "";
-  
-  if (quizIdLower.includes("cgl")) {
-      GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cgl/subject" : "ssc/cgl/full-mock";
-  } 
-  else if (quizIdLower.includes("chsl")) {
-      GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/chsl/subject" : "ssc/chsl/full-mock";
-  }
-  else if (quizIdLower.includes("mts")) {
-      GITHUB_PATH = "ssc/mts/full-mock";
-  }
-  // --------------------------------
-
-  try {
+try {
     // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
     const { data: { session } } = await _supabase.auth.getSession();
     const token = session ? session.access_token : null;
 
     // --- 2. CONFIGURE PATHS ---
     const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
+    // GITHUB_PATH is now set globally by the URL ID logic we added previously
 
     // --- 3. ADD AUTHORIZATION HEADER ---
     const headers = { "Accept": "application/json" };
@@ -3436,8 +3423,6 @@ async function loadQuizData() {
     
     const data = await response.json();
 
-
-   
 
     // 2. Assign Global Variables
     QUIZ_TITLE = data.meta.title;
