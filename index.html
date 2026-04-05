@@ -138,15 +138,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-
-/* --- IMAGE-BASED BANNER (EXACTLY TWO IMAGES) --- */
+/* --- IMAGE-BASED BANNER (ONE IMAGE ONLY) --- */
         .banner-container {
             width: 100%;
             padding: 0 45px;
             margin-bottom: 25px;
             position: relative;
-            height: 400px; /* Increased height */
+            height: 360px;
         }
         .banner-wrapper {
             position: relative;
@@ -172,10 +170,10 @@
             justify-content: flex-end;
             align-items: center;
             padding-bottom: 20px;
-            /* Exactly two images logic */
-            background-size: 50% 100%; 
+            /* Force exactly one image, centered */
+            background-size: contain; 
             background-position: center;
-            background-repeat: repeat-x;
+            background-repeat: no-repeat;
         }
         .banner-slide.active {
             opacity: 1;
@@ -254,16 +252,16 @@
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; transition: 0.3s; }
         .dot.active { width: 20px; background: var(--primary); border-radius: 10px; }
 
-        /* --- ACTION BOXES (FULL WIDTH ROWS) --- */
+        /* --- ACTION BOXES (Full Width Rows with Right Arrows) --- */
         .action-container { padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
         .action-row { display: flex; flex-direction: column; gap: 15px; }
         
         .box-style {
             border-radius: 20px;
-            padding: 22px 25px; /* Increased height via padding */
+            padding: 22px 25px;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Right-side arrow logic */
+            justify-content: space-between; /* Arrow to right, text to left */
             text-decoration: none;
             color: inherit;
             border: 1px solid var(--border);
@@ -283,7 +281,7 @@
         .box-arrow { font-size: 1.2rem; color: var(--text-grey); opacity: 0.5; }
         .free-badge-green { background: #22c55e; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; margin-left: 5px; font-weight: 800; }
 
-        /* --- RECOMMENDATIONS (FULL WIDTH ROWS + GRADIENT) --- */
+        /* --- RECOMMENDATIONS (Full Width Rows with Right Arrows) --- */
         .rec-section { padding: 25px 20px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .section-header h3 { font-size: 1rem; font-weight: 800; margin: 0; }
@@ -291,7 +289,7 @@
         
         .rec-grid { display: flex; flex-direction: column; gap: 12px; }
         .rec-card {
-            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); /* Matched gradient */
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
             border-radius: 18px;
             padding: 15px 25px;
             display: flex;
@@ -307,8 +305,29 @@
         .rec-card h4 { font-size: 0.9rem; font-weight: 800; margin: 0; }
         .rec-card p { font-size: 0.75rem; color: var(--text-grey); margin: 3px 0 0; }
 
-        .tagline { text-align: center; padding: 20px; font-weight: 700; color: var(--text-grey); font-size: 0.8rem; letter-spacing: 1px; }
+        /* --- BEAUTIFUL ANIMATED TAGLINE --- */
+        .tagline {
+            text-align: center;
+            padding: 30px 20px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #64748b 20%, #1e293b 40%, #1e293b 60%, #64748b 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            opacity: 0.8;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
 
+       /* --- DESKTOP SPECIFIC HEIGHT --- */
+@media (min-width: 992px) {
+    .banner-container {
+        height: 400px !important;
+    }
+}
        
         /* --- FLOATING ICONS (ORIGINAL) --- */
         .fab-container { position: fixed; bottom: 85px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 999; }
@@ -443,20 +462,30 @@
             <div class="dot" id="dot1"></div>
         </div>
     </div>
-
-    <div class="action-container">
+<div class="action-container">
         <div class="action-row">
             <a href="/exams/" class="box-style box-1">
-                <i class="fas fa-graduation-cap"></i>
-                <h4>EXPLORE EXAMS</h4>
+                <div class="box-content">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>EXPLORE EXAMS</h4>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
             </a>
+
             <a href="/live-test" class="box-style box-2">
-                <i class="fas fa-tower-broadcast"></i>
-                <h4>LIVE TESTS <span class="free-badge-green">FREE</span></h4>
+                <div class="box-content">
+                    <i class="fas fa-tower-broadcast"></i>
+                    <h4>LIVE TESTS <span class="free-badge-green">FREE</span></h4>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
             </a>
-            <a href="#" class="box-style box-3 wide" onclick="alert('Important PDFs and Notes are coming soon!')">
-                <i class="fas fa-file-pdf"></i>
-                <h4>IMPORTANT PDFs & NOTES <span class="small text-muted ms-2">(COMING SOON)</span></h4>
+
+            <a href="#" class="box-style box-3" onclick="alert('Important PDFs and Notes are coming soon!')">
+                <div class="box-content">
+                    <i class="fas fa-file-pdf"></i>
+                    <h4>IMPORTANT PDFs & NOTES</h4>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
             </a>
         </div>
     </div>
@@ -468,18 +497,29 @@
         </div>
         <div class="rec-grid">
             <a href="/exams/cgl/" class="rec-card">
-                <img src="/ssc-logo.jpg" alt="SSC CGL">
-                <h4>SSC CGL</h4>
-                <p>Mocks</p>
+                <div class="rec-left">
+                    <img src="/ssc-logo.jpg" alt="SSC CGL">
+                    <div class="text-start">
+                        <h4>SSC CGL</h4>
+                        <p>Mocks</p>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
             </a>
+
             <a href="/exams/chsl/" class="rec-card">
-                <img src="/ssc-logo.jpg" alt="SSC CHSL">
-                <h4>SSC CHSL</h4>
-                <p>Mocks</p>
+                <div class="rec-left">
+                    <img src="/ssc-logo.jpg" alt="SSC CHSL">
+                    <div class="text-start">
+                        <h4>SSC CHSL</h4>
+                        <p>Mocks</p>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
             </a>
         </div>
     </div>
-
+   
     <div class="tagline">PRACTICE TO PERFECTION</div>
 
     <div class="fab-container">
