@@ -3295,11 +3295,20 @@ async function init() {
           resultHTML: "" 
         };
 
+
+// CRITICAL: Also update the global variable used by submitQuiz logic
+sectionTime = {}; 
+if (latest.sections) {
+  Object.keys(latest.sections).forEach(sName => {
+    // Extract only the timeTaken number so it doesn't override the object later
+    sectionTime[sName] = latest.sections[sName].timeTaken || 0;
+  });
+}
+
         // NEW: Map recovered data to global variables before calling silent submit
         answers = recAns;
         marked = recMarked;
         questionTime = recTime;
-        sectionTime = latest.sections || {}; // THIS FIXES SECTIONAL TIME
         seconds = TOTAL_TIME_SECONDS - latest.timeTaken; // THIS FIXES TOTAL TIME
         
         // Add this so submitQuiz knows the original time
