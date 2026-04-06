@@ -2509,16 +2509,25 @@ function enterSolutionMode() {
   }
 }
 
-
-// Reattempt (Clear and Reload)
+// Reattempt (Clear and Reload with Mode)
 function reattemptQuiz() {
   if(confirm("Are you sure you want to reattempt? Your current progress in this session will be reset.")) {
     localStorage.removeItem(QUIZ_RESULT_KEY);
     localStorage.removeItem(QUIZ_STATE_KEY);
-    localStorage.removeItem('ssc_quiz_name'); // ✅ Add this to clear the name for the new attempt
-    window.location.reload();
+    localStorage.removeItem('ssc_quiz_name'); 
+    
+    // Get the current URL
+    const url = new URL(window.location.href);
+    
+    // Set the mode parameter to 'reattempt'
+    url.searchParams.set('mode', 'reattempt');
+    
+    // Reload the page with the new URL
+    window.location.href = url.toString();
   }
-}
+  }
+  
+
 
 // Restore Dashboard (From History/Solution Mode)
 function restoreLatestResult() {
