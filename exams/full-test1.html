@@ -3236,90 +3236,13 @@ async function init() {
   USER_DISPLAY_NAME = profile.username || "Guest";
   USER_EMAIL_KEY = profile.username || "Guest";
 
-  // --- REATTEMPT URL TRIGGER ---
-  // CHANGE: Detects 'mode=reattempt' early to clear previous local data before sync starts.
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('mode') === 'reattempt') {
-    localStorage.removeItem(QUIZ_RESULT_KEY);
-    localStorage.removeItem(QUIZ_STATE_KEY);
-  }
+
 
   // 3. Update UI
   const userBox = el("headerUsername");
   if (userBox) userBox.textContent = USER_DISPLAY_NAME;
 
-  // 1. HYBRID SYNC: CHECK LOCAL FIRST, THEN CLOUD
-  let resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
 
-  if (!resultSaved && !urlParams.get('mode')) {
-    const cloudSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY)
-      .orderByChild("submittedAt")
-      .limitToLast(1)
-      .once("value");
-
-    if (cloudSnap.exists()) {
-      const history = cloudSnap.val();
-      const latest = Object.values(history)[0];
-
-      if (latest.responseStream) {
-        const recAns = {}, recTime = {}, recMarked = {};
-        const stream = latest.responseStream.split('|');
-        let gIdx = 0;
-
-        SECTION_NAMES.forEach(sName => {
-          SECTIONS[sName].forEach(q => {
-            if (stream[gIdx]) {
-              const parts = stream[gIdx].split(':');
-              const ans = parts[0];
-              const time = parts[1];
-              const isMarked = parts[2] === 'Y';
-
-              if (ans !== "0") recAns[q.id] = ans;
-              recTime[q.id] = parseInt(time) || 0;
-              if (isMarked) recMarked[q.id] = true;
-            }
-            gIdx++;
-          });
-        });
-
-        // ... (existing recovery code) ...
-        const syncData = {
-          submitted: true,
-          answers: recAns,
-          marked: recMarked,
-          questionTime: recTime,
-          sectionalData: latest.sections || {}, 
-          totalMarks: latest.score,
-          timeTakenSeconds: latest.timeTaken,
-          firebasePayload: latest,
-          resultHTML: "" 
-        };
-
-
-// CRITICAL: Also update the global variable used by submitQuiz logic
-sectionTime = {}; 
-if (latest.sections) {
-  Object.keys(latest.sections).forEach(sName => {
-    // Extract only the timeTaken number so it doesn't override the object later
-    sectionTime[sName] = latest.sections[sName].timeTaken || 0;
-  });
-}
-
-        // NEW: Map recovered data to global variables before calling silent submit
-        answers = recAns;
-        marked = recMarked;
-        questionTime = recTime;
-        seconds = TOTAL_TIME_SECONDS - latest.timeTaken; // THIS FIXES TOTAL TIME
-        
-        // Add this so submitQuiz knows the original time
-        answers.originalTimestamp = latest.submittedAt;
-
-        localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
-        resultSaved = JSON.stringify(syncData);
-
-      }
-    }
-  }
 
   // 2. RENDER DASHBOARD OR RESULT
   if (resultSaved) {
@@ -3469,7 +3392,77 @@ document.addEventListener("DOMContentLoaded", function () {
   SECURITY.init();
 });
 
+async function checkPreviousSubmission() {
+    let resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
+    const urlParams = new URLSearchParams(window.location.search);
+  
 
+    if (!resultSaved && !urlParams.get('mode')) {
+        const cloudSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY)
+            .orderByChild("submittedAt")
+            .limitToLast(1)
+            .once("value");
+
+        if (cloudSnap.exists()) {
+            const history = cloudSnap.val();
+            const latest = Object.values(history)[0];
+
+            if (latest.responseStream) {
+                const recAns = {}, recTime = {}, recMarked = {};
+                const stream = latest.responseStream.split('|');
+                let gIdx = 0;
+
+                SECTION_NAMES.forEach(sName => {
+                    SECTIONS[sName].forEach(q => {
+                        if (stream[gIdx]) {
+                            const parts = stream[gIdx].split(':');
+                            const ans = parts[0];
+                            const time = parts[1];
+                            const isMarked = parts[2] === 'Y';
+
+                            if (ans !== "0") recAns[q.id] = ans;
+                            recTime[q.id] = parseInt(time) || 0;
+                            if (isMarked) recMarked[q.id] = true;
+                        }
+                        gIdx++;
+                    });
+                });
+
+                // FIX: Extract numbers for sectionTime to prevent the object-override bug
+                sectionTime = {}; 
+                if (latest.sections) {
+                    Object.keys(latest.sections).forEach(sName => {
+                        sectionTime[sName] = latest.sections[sName].timeTaken || 0;
+                    });
+                }
+
+                // Global Assignments
+                answers = recAns;
+                marked = recMarked;
+                questionTime = recTime;
+                seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
+                answers.originalTimestamp = latest.submittedAt;
+
+                const syncData = {
+                    submitted: true,
+                    answers: recAns,
+                    marked: recMarked,
+                    questionTime: recTime,
+                    sectionalData: latest.sections || {}, 
+                    totalMarks: latest.score,
+                    timeTakenSeconds: latest.timeTaken,
+                    firebasePayload: latest,
+                    resultHTML: "" 
+                };
+
+                localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
+                return true; // Cloud result found and saved
+            }
+        }
+    }
+    return !!resultSaved; // Return true if local result exists, false otherwise
+                                            }
+  
 // ===============================
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
@@ -3488,6 +3481,12 @@ async function loadQuizData() {
   if (!quizIdParam) {
     document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
     return;
+  }
+    // --- REATTEMPT URL TRIGGER ---
+  
+  if (urlParams.get('mode') === 'reattempt') {
+    localStorage.removeItem(QUIZ_RESULT_KEY);
+    localStorage.removeItem(QUIZ_STATE_KEY);
   }
 try {
     // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
