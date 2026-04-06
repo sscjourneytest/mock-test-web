@@ -1983,8 +1983,7 @@ function submitQuiz(isAuto = false) {
   // 2. 🛑 Stop Timer & Hide Quiz UI
   if (timerInterval) clearInterval(timerInterval);
   const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
-
-    // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
+// --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
   let responseArray = [];
   SECTION_NAMES.forEach(sName => {
     SECTIONS[sName].forEach(q => {
@@ -1992,13 +1991,12 @@ function submitQuiz(isAuto = false) {
       const time = questionTime[q.id] || 0;
       // If the question ID exists in the marked object, add :Y
       const isMarked = marked[q.id] ? ":Y" : ""; 
-      
       responseArray.push(`${ans}:${time}${isMarked}`);
     });
   });
   const responseStream = responseArray.join('|');
-  
 
+  
   document.getElementById("mainHeader").style.display = "none";
  
   if (el("sectionNav")) el("sectionNav").style.display = "none";
@@ -2070,20 +2068,12 @@ function submitQuiz(isAuto = false) {
     sections: sectionalDataForFirebase,
     responseStream: responseStream // Added for Cloud Sync
   };
-  
 
   
-  // 5. ☁️ Firebase Operations
-  saveResultFirebase(firebasePayload).finally(() => {
-    saveAttemptHistory(firebasePayload);
-
-    Promise.all([
-      getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
-      getToppersList(QUIZ_ID)
-    ]).then(([rankData, toppersList]) => {
-
+// Only save to Firebase if NOT in silent sync mode
+  const runUIGeneration = ([rankData, toppersList]) => {
       const topperStats = getTopperStatsForComparison(toppersList, attempted);
-
+      
       // 6. 📊 Generate Sectional Summary Table
       let sectionalTableHtml = `
       <div class="card-dashboard">
@@ -2263,8 +2253,7 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
   }
 });
 
-      
-      
+
 
       LAST_RESULT_HTML = dashboardHTML;
       localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
@@ -2282,9 +2271,27 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
 
       normalizeMathForQuiz(resBox);
       renderMath();
+  }; // <--- This closes runUIGeneration
+
+  // --- HYBRID SYNC GUARD: SELECTIVE FIREBASE WRITE ---
+  if (isAuto === "silent") {
+    // Sync mode: Just get Ranks and build UI locally
+    Promise.all([
+      getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
+      getToppersList(QUIZ_ID)
+    ]).then(runUIGeneration);
+  } else {
+    // Normal Live mode: Save to Cloud then build UI
+    saveResultFirebase(firebasePayload).finally(() => {
+      saveAttemptHistory(firebasePayload);
+      Promise.all([
+        getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
+        getToppersList(QUIZ_ID)
+      ]).then(runUIGeneration);
     });
-  });
-}
+  }
+} // <--- This is the final brace that closes function submitQuiz()
+
 function autoSubmitQuiz() {
   // Prevent double submit
   if (!isQuiz) return;
