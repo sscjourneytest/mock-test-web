@@ -1983,7 +1983,18 @@ function submitQuiz(isAuto = false) {
   // 2. 🛑 Stop Timer & Hide Quiz UI
   if (timerInterval) clearInterval(timerInterval);
   const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
-
+// --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
+  let responseArray = [];
+  SECTION_NAMES.forEach(sName => {
+    SECTIONS[sName].forEach(q => {
+      const ans = answers[q.id] || "0";
+      const time = questionTime[q.id] || 0;
+      // If the question ID exists in the marked object, add :Y
+      const isMarked = marked[q.id] ? ":Y" : ""; 
+      responseArray.push(`${ans}:${time}${isMarked}`);
+    });
+  });
+  const responseStream = responseArray.join('|');
   document.getElementById("mainHeader").style.display = "none";
  
   if (el("sectionNav")) el("sectionNav").style.display = "none";
@@ -2057,15 +2068,18 @@ function submitQuiz(isAuto = false) {
   };
 
   // 5. ☁️ Firebase Operations
-  saveResultFirebase(firebasePayload).finally(() => {
-    saveAttemptHistory(firebasePayload);
+saveResultFirebase(firebasePayload).finally(() => {
+  saveAttemptHistory(firebasePayload);
 
-    Promise.all([
-      getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
-      getToppersList(QUIZ_ID)
-    ]).then(([rankData, toppersList]) => {
-
-      const topperStats = getTopperStatsForComparison(toppersList, attempted);
+  Promise.all([
+    getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
+    getToppersList(QUIZ_ID)
+  ]).then(([rankData, toppersList]) => {
+    
+    // --- WRAP START: Define the UI builder ---
+    // Moving this inside .then() ensures it has access to rankData and toppersList
+    window.buildResultUI = (rData, tList, payload) => {
+      const topperStats = getTopperStatsForComparison(tList, attempted);
 
       // 6. 📊 Generate Sectional Summary Table
       let sectionalTableHtml = `
@@ -2246,8 +2260,10 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
   }
 });
 
-      
-      
+         
+     
+
+     
 
       LAST_RESULT_HTML = dashboardHTML;
       localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
@@ -2260,13 +2276,20 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
         sectionalData: sectionalDataForFirebase,
         totalMarks,
         timeTakenSeconds,
-        firebasePayload 
+        firebasePayload: payload // Use the passed payload
       }));
 
       normalizeMathForQuiz(resBox);
       renderMath();
-    });
-  });
+    }; 
+    // --- WRAP END ---
+
+    // Execute it for the live submission
+    buildResultUI(rankData, toppersList, firebasePayload);
+    
+  }); // End of .then()
+}); // End of .finally()
+      
 }
 function autoSubmitQuiz() {
   // Prevent double submit
@@ -3196,8 +3219,8 @@ function updatePaletteLegend() {
 // ===============================
 
 
-  function init() {
-  
+ 
+ async function init() { 
   if (typeof getLocalProfile !== "function") {
       console.error("Auth script not loaded yet!");
       setTimeout(init, 500); // Retry in half a second
@@ -3215,24 +3238,71 @@ function updatePaletteLegend() {
     USER_DISPLAY_NAME = profile.username || "Guest";
     USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
   
-
+// --- REATTEMPT DECIDER ---
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('mode') === 'reattempt') {
+      localStorage.removeItem(QUIZ_RESULT_KEY);
+      localStorage.removeItem(QUIZ_STATE_KEY);
+      // Data is cleared, init will proceed to show the Welcome screen
+  }
   // 3. Update UI
   const userBox = el("headerUsername");
   if(userBox) userBox.textContent = USER_DISPLAY_NAME;
 
- 
-  // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
-  const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
+ // --- 2. HYBRID CLOUD SYNC (For Cross-Device) ---
+  let resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
+  
+  if (!resultSaved && urlParams.get('mode') !== 'reattempt') {
+    const cloudSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY)
+                            .orderByChild("submittedAt").limitToLast(1).once("value");
+                            
+    if (cloudSnap.exists()) {
+      isQuiz = false; 
+      if (el("welcomeScreen")) el("welcomeScreen").style.display = "none"; 
+
+      const latest = Object.values(cloudSnap.val())[0];
+      
+      // Restore answers, time, and marked status from Cloud Stream
+      const stream = latest.responseStream ? latest.responseStream.split('|') : [];
+      let gIdx = 0;
+      SECTION_NAMES.forEach(sName => {
+        SECTIONS[sName].forEach(q => {
+          if (stream[gIdx]) {
+            const parts = stream[gIdx].split(':');
+            if (parts[0] !== "0") answers[q.id] = parts[0];
+            questionTime[q.id] = parseInt(parts[1]) || 0;
+            if (parts[2] === 'Y') marked[q.id] = true;
+          }
+          gIdx++;
+        });
+      });
+
+      // Restore Sectional Time directly from Firebase payload
+      sectionTime = latest.sections || {}; 
+
+      // Build the UI using the wrapped generator in submitQuiz
+      Promise.all([
+        getRankAndPercentile(QUIZ_ID, latest.score, latest.timeTaken, latest.submittedAt),
+        getToppersList(QUIZ_ID)
+      ]).then(([rankData, toppersList]) => {
+          // Rebuilds page using Cloud Data (Score/Time) so everything is persistent
+          buildResultUI(rankData, toppersList, latest);
+      });
+      return; 
+    }
+  }
+
+  // --- 3. LOCAL RESTORE (Original Device) ---
   if (resultSaved) {
     const data = JSON.parse(resultSaved);
     if (data.submitted && data.resultHTML) {
-      isQuiz = false; // <--- ✅ ADD THIS LINE HERE
+      isQuiz = false;
       updatePaletteLegend();
-      // Hide Welcome & Quiz
       answers = data.answers || {};
       marked  = data.marked  || {};
-      current = data.current || 0;
       questionTime = data.questionTime || {};
+      sectionTime = data.sectionalData || {}; // Restore sectional time
+ 
       el("welcomeScreen").style.display = "none";
       el("mainHeader").style.display = "none";
       el("quizMainArea").style.display = "none";
