@@ -3609,15 +3609,25 @@ QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
     document.getElementById("disp_negative").textContent = "-" + NEGATIVE_SCORE;
     document.getElementById("disp_time").textContent = data.meta.timer_minutes;
 
-    // 6. Hide Loader
+   
+    
+   
+// 6. 🔥 UPDATED: Conditional Hide Loader
+const savedState = localStorage.getItem(QUIZ_STATE_KEY);
+const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
+const isReattemptTrigger = new URLSearchParams(window.location.search).get('mode') === 'reattempt';
+
+if (alreadySubmitted && !isReattemptTrigger) {
+    // Keep Welcome hidden and Loader visible while init() syncs
+    document.getElementById("welcomeScreen").style.display = "none";
+} else {
+    // No previous result, show the Welcome/Instructions screen
     document.getElementById("loadingOverlay").style.display = "none";
+}
 
-    // 7. Run Initialization
-    init();
-// 8. 🔥 FIXED AUTO-RESUME LOGIC 🔥
-    const savedState = localStorage.getItem(QUIZ_STATE_KEY);
-    const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
-
+// 7. Run Initialization
+await init();
+  
     // CRITICAL: Added 'isQuiz === true' check. 
     // If init() found a cloud result, isQuiz will be false, and this block won't run.
     if (savedState && !alreadySubmitted && isQuiz === true) {
