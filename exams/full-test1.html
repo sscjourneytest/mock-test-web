@@ -3410,11 +3410,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function checkPreviousSubmission() {
-  // 1. HYBRID SYNC: CHECK LOCAL FIRST, THEN CLOUD
   let resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
   const urlParams = new URLSearchParams(window.location.search);
 
-  // If no local result and NOT in reattempt mode, try Cloud Recovery
+  // 1. If no local result, try Cloud Recovery
   if (!resultSaved && !urlParams.get('mode')) {
     const cloudSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY)
       .orderByChild("submittedAt")
@@ -3425,13 +3424,11 @@ async function checkPreviousSubmission() {
       const history = cloudSnap.val();
       const latest = Object.values(history)[0];
 
-      // Only proceed if nodes are found and contain a responseStream
       if (latest && latest.responseStream) {
         const recAns = {}, recTime = {}, recMarked = {};
         const stream = latest.responseStream.split('|');
         let gIdx = 0;
 
-        // Map Response Stream to Answer Objects
         SECTION_NAMES.forEach(sName => {
           SECTIONS[sName].forEach(q => {
             if (stream[gIdx]) {
@@ -3447,23 +3444,21 @@ async function checkPreviousSubmission() {
             gIdx++;
           });
         });
-        // FIX: Extract numbers for sectionTime to prevent the object-override bug
-                sectionTime = {}; 
-                if (latest.sections) {
-                    Object.keys(latest.sections).forEach(sName => {
-                        sectionTime[sName] = latest.sections[sName].timeTaken || 0;
-                    });
-                }
 
+        // FIX: Extract only the numbers for sectionTime to avoid the object-string bug
+        sectionTime = {}; 
+        if (latest.sections) {
+          Object.keys(latest.sections).forEach(sName => {
+            const sec = latest.sections[sName];
+            sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
+          });
+        }
 
-
-        // Map recovered data to global variables
+        // Assign to Global Variables
         answers = recAns;
         marked = recMarked;
         questionTime = recTime;
         seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
-        
-        // Add original timestamp so submitQuiz doesn't create a new entry
         answers.originalTimestamp = latest.submittedAt;
 
         const syncData = {
@@ -3480,41 +3475,47 @@ async function checkPreviousSubmission() {
 
         localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
         resultSaved = JSON.stringify(syncData);
-      } else {
-        // If the node exists but is invalid/empty, exit
-        return false;
       }
-    } else {
-      // If no node found in attempt history, exit
-      return false;
     }
   }
 
-  // 2. RENDER DASHBOARD OR RESULT (Only if resultSaved exists now)
+  // 2. UI Transformation: If a result exists (Local or just Synced), render it
   if (resultSaved) {
     const data = JSON.parse(resultSaved);
     if (data.submitted) {
-      isQuiz = false;
+      isQuiz = false; // Stop the quiz engine
 
-      // Immediately hide Welcome Screen to stop flickering
-      if (el("welcomeScreen")) el("welcomeScreen").style.display = "none";
+      // Hide all Quiz-related UI
+      document.getElementById("welcomeScreen").style.display = "none";
+      document.getElementById("mainHeader").style.display = "none";
+      document.getElementById("quizMainArea").style.display = "none";
+      document.getElementById("floatBar").style.display = "none";
 
       if (!data.resultHTML) {
-        // Re-assign globals from the saved/synced data
+        // Trigger the UI generation without touching init
         answers = data.answers || {};
         marked = data.marked || {};
         questionTime = data.questionTime || {};
-        
-        // Call silent submit to build UI from the restored Firebase data
         submitQuiz("silent"); 
+      } else {
+        // Just show the already generated HTML
+        const res = document.getElementById("results");
+        res.innerHTML = data.resultHTML;
+        res.style.display = "block";
+        LAST_RESULT_HTML = data.resultHTML;
+        formatTimeValues(res); // Ensure times are formatted correctly
       }
-      return true; // Submission found and processed
+      
+      // Hide the loader as the very last step
+      document.getElementById("loadingOverlay").style.display = "none";
+      return true; 
     }
   }
 
-  return false; // No submission found
+  return false; 
 }
   
+
 
 
   
