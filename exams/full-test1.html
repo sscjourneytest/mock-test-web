@@ -2054,8 +2054,8 @@ function submitQuiz(isAuto = false) {
   const attempted = totalCorrect + totalWrong;
   const accuracy = attempted ? ((totalCorrect / attempted) * 100).toFixed(2) : "0.00";
   const timeFormatted = fmt(timeTakenSeconds);
-
-    const firebasePayload = {
+  
+const firebasePayload = {
     name: USER_DISPLAY_NAME,
     score: totalMarks,
     total: maxTotalMarks,
@@ -2064,9 +2064,10 @@ function submitQuiz(isAuto = false) {
     timeTaken: timeTakenSeconds,
     quizId: QUIZ_ID,
     emailKey: USER_EMAIL_KEY,
-    submittedAt: Date.now(),
+    // CHANGE: Use existing timestamp if available, otherwise create new one
+    submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now(),
     sections: sectionalDataForFirebase,
-    responseStream: responseStream // Added for Cloud Sync
+    responseStream: responseStream 
   };
 
   
@@ -3280,21 +3281,32 @@ async function init() {
           });
         });
 
-        // CHANGE: Directly restore timing and scores from the Firebase payload 
-        // to prevent recalculation and maintain persistence.
+        // ... (existing recovery code) ...
         const syncData = {
           submitted: true,
           answers: recAns,
           marked: recMarked,
           questionTime: recTime,
-          sectionalData: latest.sections || {}, // Restoration of Sectional Time/Scores
-          totalMarks: latest.score,             // Restoration of Total Score
-          timeTakenSeconds: latest.timeTaken,   // Restoration of Total Time
+          sectionalData: latest.sections || {}, 
+          totalMarks: latest.score,
+          timeTakenSeconds: latest.timeTaken,
           firebasePayload: latest,
-          resultHTML: ""
+          resultHTML: "" 
         };
+
+        // NEW: Map recovered data to global variables before calling silent submit
+        answers = recAns;
+        marked = recMarked;
+        questionTime = recTime;
+        sectionTime = latest.sections || {}; // THIS FIXES SECTIONAL TIME
+        seconds = TOTAL_TIME_SECONDS - latest.timeTaken; // THIS FIXES TOTAL TIME
+        
+        // Add this so submitQuiz knows the original time
+        answers.originalTimestamp = latest.submittedAt;
+
         localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
         resultSaved = JSON.stringify(syncData);
+
       }
     }
   }
@@ -3592,15 +3604,16 @@ QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
 
     // 7. Run Initialization
     init();
-
-    // 8. 🔥 FIXED AUTO-RESUME LOGIC 🔥
+// 8. 🔥 FIXED AUTO-RESUME LOGIC 🔥
     const savedState = localStorage.getItem(QUIZ_STATE_KEY);
     const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
 
-    if (savedState && !alreadySubmitted) {
-      const state = JSON.parse(savedState);
-      // ONLY resume if the timer has actually started (seconds < total time)
-      if (state.seconds < TOTAL_TIME_SECONDS) {
+    // CRITICAL: Added 'isQuiz === true' check. 
+    // If init() found a cloud result, isQuiz will be false, and this block won't run.
+    if (savedState && !alreadySubmitted && isQuiz === true) {
+        const state = JSON.parse(savedState);
+        if (state.seconds < TOTAL_TIME_SECONDS) {
+   
         console.log("Resuming active session...");
         currentSectionIdx = state.currentSectionIdx || 0;
 
