@@ -3617,7 +3617,10 @@ const savedState = localStorage.getItem(QUIZ_STATE_KEY);
 const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
 const isReattemptTrigger = new URLSearchParams(window.location.search).get('mode') === 'reattempt';
 
-if (alreadySubmitted && !isReattemptTrigger) {
+// 7. Run Initialization
+await init();
+  
+if (alreadySubmitted) {
     // Keep Welcome hidden and Loader visible while init() syncs
     document.getElementById("welcomeScreen").style.display = "none";
 } else {
@@ -3625,9 +3628,6 @@ if (alreadySubmitted && !isReattemptTrigger) {
     document.getElementById("loadingOverlay").style.display = "none";
 }
 
-// 7. Run Initialization
-await init();
-  
     // CRITICAL: Added 'isQuiz === true' check. 
     // If init() found a cloud result, isQuiz will be false, and this block won't run.
     if (savedState && !alreadySubmitted && isQuiz === true) {
