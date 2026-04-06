@@ -2064,10 +2064,11 @@ const firebasePayload = {
     timeTaken: timeTakenSeconds,
     quizId: QUIZ_ID,
     emailKey: USER_EMAIL_KEY,
-    // CHANGE: Use existing timestamp if available, otherwise create new one
-    submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now(),
     sections: sectionalDataForFirebase,
-    responseStream: responseStream 
+    responseStream: responseStream,
+    // CHANGE: Use existing timestamp if available, otherwise create new one
+    submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now()
+    
   };
 
   
