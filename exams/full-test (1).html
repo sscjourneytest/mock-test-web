@@ -1984,6 +1984,21 @@ function submitQuiz(isAuto = false) {
   if (timerInterval) clearInterval(timerInterval);
   const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
 
+    // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
+  let responseArray = [];
+  SECTION_NAMES.forEach(sName => {
+    SECTIONS[sName].forEach(q => {
+      const ans = answers[q.id] || "0";
+      const time = questionTime[q.id] || 0;
+      // If the question ID exists in the marked object, add :Y
+      const isMarked = marked[q.id] ? ":Y" : ""; 
+      
+      responseArray.push(`${ans}:${time}${isMarked}`);
+    });
+  });
+  const responseStream = responseArray.join('|');
+  
+
   document.getElementById("mainHeader").style.display = "none";
  
   if (el("sectionNav")) el("sectionNav").style.display = "none";
@@ -2042,20 +2057,22 @@ function submitQuiz(isAuto = false) {
   const accuracy = attempted ? ((totalCorrect / attempted) * 100).toFixed(2) : "0.00";
   const timeFormatted = fmt(timeTakenSeconds);
 
-  // 4. 📦 Prepare Data Payload
-  const firebasePayload = {
-    name: USER_DISPLAY_NAME, // Unique username from Auth
+    const firebasePayload = {
+    name: USER_DISPLAY_NAME,
     score: totalMarks,
     total: maxTotalMarks,
     correct: totalCorrect,
     wrong: totalWrong,
     timeTaken: timeTakenSeconds,
     quizId: QUIZ_ID,
-    emailKey: USER_EMAIL_KEY, // Replaces deviceId
+    emailKey: USER_EMAIL_KEY,
     submittedAt: Date.now(),
-    sections: sectionalDataForFirebase 
+    sections: sectionalDataForFirebase,
+    responseStream: responseStream // Added for Cloud Sync
   };
+  
 
+  
   // 5. ☁️ Firebase Operations
   saveResultFirebase(firebasePayload).finally(() => {
     saveAttemptHistory(firebasePayload);
@@ -3214,62 +3231,117 @@ function updatePaletteLegend() {
   }
     USER_DISPLAY_NAME = profile.username || "Guest";
     USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
+      // --- REATTEMPT URL TRIGGER ---
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('mode') === 'reattempt') {
+      localStorage.removeItem(QUIZ_RESULT_KEY);
+      localStorage.removeItem(QUIZ_STATE_KEY);
+      // Logic continues normally as a fresh test
+  }
+    
+    
   
 
   // 3. Update UI
   const userBox = el("headerUsername");
   if(userBox) userBox.textContent = USER_DISPLAY_NAME;
 
- 
-  // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
-  const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
+   // 1. HYBRID SYNC: CHECK LOCAL FIRST, THEN CLOUD
+  let resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
+  
+  if (!resultSaved && !urlParams.get('mode')) {
+    const cloudSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY)
+                            .orderByChild("submittedAt")
+                            .limitToLast(1)
+                            .once("value");
+                            
+    if (cloudSnap.exists()) {
+      const history = cloudSnap.val();
+      const latest = Object.values(history)[0];
+      
+      if (latest.responseStream) {
+        const recAns = {}, recTime = {}, recMarked = {};
+        const stream = latest.responseStream.split('|');
+        let gIdx = 0;
+        
+        SECTION_NAMES.forEach(sName => {
+          SECTIONS[sName].forEach(q => {
+            if (stream[gIdx]) {
+              // Split by colon: [Answer, Time, MarkedStatus]
+              const parts = stream[gIdx].split(':');
+              const ans = parts[0];
+              const time = parts[1];
+              const isMarked = parts[2] === 'Y';
+
+              if (ans !== "0") recAns[q.id] = ans;
+              recTime[q.id] = parseInt(time) || 0;
+              if (isMarked) recMarked[q.id] = true;
+            }
+            gIdx++;
+          });
+        });
+
+        const syncData = {
+          submitted: true,
+          answers: recAns,
+          marked: recMarked, // Restored star status
+          questionTime: recTime,
+          firebasePayload: latest,
+          resultHTML: "" 
+        };
+        localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
+        resultSaved = JSON.stringify(syncData);
+      }
+    }
+  }
+
+  // 2. RENDER DASHBOARD OR RESULT
   if (resultSaved) {
     const data = JSON.parse(resultSaved);
-    if (data.submitted && data.resultHTML) {
-      isQuiz = false; // <--- ✅ ADD THIS LINE HERE
+    if (data.submitted) {
+      isQuiz = false;
+      
+      if (!data.resultHTML) {
+          answers = data.answers || {};
+          marked = data.marked || {}; // Set global marked object
+          questionTime = data.questionTime || {};
+          submitQuiz(true); 
+          return; 
+      }
+
       updatePaletteLegend();
-      // Hide Welcome & Quiz
       answers = data.answers || {};
       marked  = data.marked  || {};
-      current = data.current || 0;
       questionTime = data.questionTime || {};
       el("welcomeScreen").style.display = "none";
       el("mainHeader").style.display = "none";
       el("quizMainArea").style.display = "none";
       el("floatBar").style.display = "none";
      
-               // Show Result
       const res = document.getElementById("results");
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
-      // 🔓 CRITICAL FIX: Re-enable Live Rank button after reload restore
-setTimeout(() => {
-  const liveBtn = document.querySelector(
-    "button[onclick*='refreshLatestRankOnDemand']"
-  );
-  if (liveBtn) {
-    liveBtn.disabled = false;
-    liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
-  }
-}, 0);
+      
+      setTimeout(() => {
+        const liveBtn = document.querySelector("button[onclick*='refreshLatestRankOnDemand']");
+        if (liveBtn) { liveBtn.disabled = false; liveBtn.textContent = "🔄 GET LIVE UPDATED RANK"; }
+      }, 0);
 
-
-      // 🔧 FIX: Restore mm:ss format in bars after reload
       res.querySelectorAll(".bar-section").forEach(sec => {
         const label = sec.querySelector(".bar-label span")?.textContent;
         if (label === "Time Taken") {
           const values = sec.querySelectorAll("span[style*='text-align:right']");
           values.forEach(val => {
             const rawText = val.textContent.replace('%', '').trim();
-            if(!isNaN(rawText) && rawText !== "") {
-              val.textContent = fmt(parseInt(rawText));
-            }
+            if(!isNaN(rawText) && rawText !== "") val.textContent = fmt(parseInt(rawText));
           });
         }
       });
-     }
+      return; 
     }
+  }
+
 
   // 2. RESTORE PROGRESS (Resume Quiz)
   const savedName = localStorage.getItem("ssc_quiz_name");
