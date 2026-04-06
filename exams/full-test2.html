@@ -3286,7 +3286,11 @@ function updatePaletteLegend() {
         getToppersList(QUIZ_ID)
       ]).then(([rankData, toppersList]) => {
           // Rebuilds page using Cloud Data (Score/Time) so everything is persistent
-          buildResultUI(rankData, toppersList, latest);
+         if (typeof window.buildResultUI === "function") {
+    window.buildResultUI(rankData, toppersList, latest);
+} else {
+    console.error("UI Builder not ready yet");
+}
       });
       return; 
     }
