@@ -1,466 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>LIVE MOCK TESTS | MOCK MATRIX HUB</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-4B6V3MV51Q');
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Test Center | SSC Journey</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg-light: #f1f5f9;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-grey: #64748b;
+            --live-red: #ef4444;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/auth.js"></script>
+        body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: var(--bg-light); color: var(--text-dark); }
+        .page-container { display: flex; flex-direction: column; height: 100vh; }
 
-<style>
-body{
-  margin:0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background:#eff6ff; 
-  color:#334155;
-}
+        /* Header & Tabs */
+        header { flex-shrink: 0; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 100; }
+        .tabs { display: flex; justify-content: center; border-bottom: 1px solid var(--border); }
+        .tab { 
+            padding: 15px 30px; border: none; background: none; font-size: 14px; 
+            font-weight: 700; color: var(--text-grey); cursor: pointer; border-bottom: 3px solid transparent; 
+        }
+        .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
 
-header{
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-  padding:40px 20px 45px;
-  position:relative;
-  text-align:center;
-  color:#fff;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
-}
+        /* Centered Grid */
+        .content-area { flex-grow: 1; overflow-y: auto; padding: 25px; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, 300px); 
+            justify-content: center; 
+            gap: 25px; 
+        }
 
-.back{
-  position:absolute;
-  top:12px;
-  left:14px;
-  background: rgba(255, 255, 255, 0.2);
-  color:#ffffff;
-  padding:8px 16px;
-  border-radius:20px;
-  text-decoration:none;
-  font-weight:bold;
-  font-size:12px;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255,255,255,0.3);
-}
+        /* Square Card UI */
+        .card {
+            background: var(--white);
+            background-color: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 300px;
+            height: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 25px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
 
-.join a{
-  display:inline-block;
-  margin:6px;
-  padding:10px 20px;
-  border-radius:50px;
-  font-weight:bold;
-  font-size:13px;
-  text-decoration:none;
-  color:#fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transition: 0.3s;
-}
-.telegram{background:#0088cc;}
-.whatsapp{background:#25d366;}
-.join a:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .status-badge {
+            position: absolute; top: 20px; font-size: 10px; font-weight: 900; 
+            padding: 4px 12px; border-radius: 20px; text-transform: uppercase;
+        }
+        .badge-live { background: #fee2e2; color: var(--live-red); border: 1px solid var(--live-red); }
+        .badge-upcoming { background: #fef3c7; color: #d97706; }
+        .badge-ended { background: #f1f5f9; color: var(--text-grey); }
 
-.support-container {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-}
+        .title { font-size: 17px; font-weight: 800; margin-top: 20px; margin-bottom: 8px; }
+        .meta { font-size: 12px; color: var(--text-grey); font-weight: 600; margin-bottom: 20px; }
 
-.support-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  padding: 12px 24px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 13px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-  animation: pulse-border 3s infinite;
-}
+        /* Buttons */
+        .btn-box { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+        .btn {
+            padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 800;
+            text-decoration: none; text-align: center; border: none; cursor: pointer;
+        }
+        .btn-start { background: var(--primary); color: white; }
+        .btn-view { background: #4f46e5; color: white; }
+        .btn-wait { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
 
-@keyframes pulse-border {
-  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-}
-
-/* HORIZONTAL TABS STYLING */
-.tab-container {
-    display: flex;
-    justify-content: center;
-    background: white;
-    padding: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    gap: 15px;
-}
-
-.tab-btn {
-    padding: 10px 20px;
-    border: none;
-    background: #f1f5f9;
-    color: #64748b;
-    border-radius: 30px;
-    font-weight: 800;
-    font-size: 13px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.tab-btn.active {
-    background: #1e3a8a;
-    color: white;
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
-}
-
-.container{
-  max-width:1000px;
-  margin:auto;
-  padding:20px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:16px;
-}
-
-.quiz{
-  background:#ffffff;
-  border-radius:16px;
-  padding:20px 25px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.04);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  border: 1px solid #f1f5f9;
-  transition: 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-
-.quiz-left{ flex:1; }
-.quiz-title{
-  font-size:16px;
-  font-weight:700;
-  color:#1e293b;
-  margin-bottom:6px;
-}
-.quiz-info{ font-size:13px; color:#64748b; }
-
-.live-footer {
-    margin-top: 10px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #3b82f6;
-    display: flex;
-    justify-content: space-between;
-}
-
-.countdown-timer {
-    color: #ef4444;
-    font-weight: 800;
-}
-
-.start-btn{
-  background:#2563eb;
-  color:#fff;
-  padding:12px 25px;
-  border-radius:12px;
-  font-size:14px;
-  font-weight:bold;
-  text-decoration:none;
-  transition: 0.3s;
-}
-
-.coming-soon{
-  background:#ffffff;
-  border-radius:16px;
-  padding:30px;
-  text-align:center;
-  color:#94a3b8;
-  border: 2px dashed #e2e8f0;
-}
-
-footer {
-  background: #0f172a;
-  color: #94a3b8;
-  padding: 40px 20px;
-  text-align: center;
-  margin-top: 40px;
-}
-.footer-links a {
-  color: #f1f5f9;
-  text-decoration: none;
-  margin: 0 10px;
-  font-size: 13px;
-}
-
-.quiz-badge {
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-left: 8px;
-}
-.badge-free { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
-.badge-paid { background: #ffd700; color: #000; }
-
-.unlock-btn {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: #fff;
-    padding: 12px 25px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: bold;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.action-buttons-stack { display: flex; flex-direction: column; gap: 8px; }
-.analysis-btn { background: #0b5ed7 !important; }
-.reattempt-btn {
-    background: #f8fafc;
-    color: #1e40af;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: bold;
-    border: 1.5px solid #e2e8f0;
-}
-
-.score-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 15px;
-    width: 100%;
-    max-width: 320px;
-}
-.score-bar-bg { flex: 1; height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
-.score-bar-fill { height: 100%; border-radius: 10px; transition: width 1.2s; }
-.score-value { font-size: 13px; color: #475569; font-weight: 600; }
-.score-value b { color: #2563eb; }
-
-@media (max-width: 600px) {
-    .quiz { flex-direction: column; align-items: flex-start; }
-    .start-btn, .unlock-btn, .reattempt-btn { width: 100%; text-align: center; box-sizing: border-box; }
-}
-</style>
+        /* Bottom Score Bar */
+        .score-box { width: 100%; margin-top: auto; padding-top: 15px; border-top: 1px solid #f1f5f9; }
+        .bar-bg { width: 100%; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; margin-top: 5px; }
+        .bar-fill { height: 100%; }
+        .score-txt { font-size: 11px; font-weight: 800; text-align: left; display: block; }
+    </style>
 </head>
-
 <body>
-        <meta name="viewport" content="width=800"> 
-  
-<header>
-  
-  <a class="back" href="../">← BACK</a>
-  <h1>LIVE MOCK TESTS</h1>
 
-  <div class="join">
-    <a class="telegram" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">JOIN TELEGRAM</a>
-    <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
-    <div class="support-container">
-      <a class="support-btn" href="https://t.me/MOCK_ISSUE_DOUBT_BOT">
-        <span class="icon">🤖</span> MESSAGE FOR MOCK RELATED ISSUE
-      </a>
-    </div>
-  </div>
-</header>
+<div class="page-container">
+    <header>
+        <div class="tabs">
+            <button class="tab active" id="tab-live" onclick="setTab('live')">🔴 LIVE NOW</button>
+            <button class="tab" id="tab-prev" onclick="setTab('previous')">📂 PREVIOUS LIVE</button>
+        </div>
+    </header>
 
-<div class="tab-container">
-    <button class="tab-btn active" onclick="switchSection('live')">LIVE NOW</button>
-    <button class="tab-btn" onclick="switchSection('previous')">PREVIOUS LIVE</button>
+    <main class="content-area">
+        <div id="quizGrid" class="grid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px;">Syncing Live Database...</div>
+        </div>
+    </main>
 </div>
-
-<div class="container">
-    <div id="liveSection">
-        <div class="grid" id="liveGrid">
-            </div>
-        
-        <div class="quiz" data-type="free" data-start="2026-02-28 18:00:00" data-end="2026-03-02 10:00:00">
-            <div class="quiz-left">
-                <div class="quiz-title">CGL LIVE MOCK 01(20 SEPT 2025 SHIFT 1 PYP) <span class="quiz-badge badge-paid">FREE</span></div>
-                <div class="quiz-info">100 Questions • 60 Min</div>
-                <div class="live-footer">
-                    <span class="date-range">Live from:  28 Feb - 02 Mar</span>
-                    <span class="countdown-timer"></span>
-                </div>
-            </div>
-            <div class="action-area">
-                <a href="full_test.html?id=live-cgl-25-20sep-s1" class="start-btn">START</a>
-            </div>
-        </div>
-
-       <div class="quiz" data-type="free" data-start="2026-03-07 20:00:00" data-end="2026-03-09 23:59:00">
-            <div class="quiz-left">
-                <div class="quiz-title">CGL LIVE MOCK 02(16 SEPT 2025 SHIFT 2 PYP) <span class="quiz-badge badge-paid">FREE</span></div>
-                <div class="quiz-info">100 Questions • 60 Min</div>
-                <div class="live-footer">
-                    <span class="date-range">Live from:  07 Mar - 09 Mar</span>
-                    <span class="countdown-timer"></span>
-                </div>
-            </div>
-            <div class="action-area">
-                <a href="full_test.html?id=live-cgl-25-16-sep-s2" class="start-btn">START</a>
-            </div>
-        </div>
-
-        <div class="coming-soon" id="liveEmptyMsg" style="display:none; margin-top:20px;">
-          🚀 NO LIVE MOCK CURRENTLY
-        </div>
-    </div>
-
-    <div id="previousSection" style="display:none;">
-        <div class="grid" id="previousGrid">
-            </div>
-
-        
-
-        <div class="coming-soon" id="prevEmptyMsg" style="display:none; margin-top:20px;">
-          🚀 NO LIVE MOCK CONDUCTED
-        </div>
-    </div>
-</div>
-<footer>
-    <div class="footer-links">
-        <a href="/about.html">About Us</a>
-        <a href="/contact.html">Contact Us</a>
-        <a href="/privacy-policy.html">Privacy Policy</a>
-        <a href="/disclaimer.html">Disclaimer</a>
-    </div>
-    <p style="font-size: 11px; margin-top: 15px; opacity: 0.5;">© 2026 MOCK MATRIX HUB. Premium Preparation Platform.</p>
-</footer>
 
 <script>
-let currentTab = 'live';
+    let TESTS = [];
+    let activeTab = 'live';
 
-function switchSection(type) {
-    currentTab = type;
-    document.getElementById('liveSection').style.display = type === 'live' ? 'block' : 'none';
-    document.getElementById('previousSection').style.display = type === 'previous' ? 'block' : 'none';
-    // --- ADD THESE LINES TO FIX THE BUTTON COLORS ---
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    event.currentTarget.classList.add('active');
-   
-    updateTimers();
-}
-
-function updateTimers() {
-    const now = new Date().getTime();
-    const quizzes = document.querySelectorAll(".quiz");
-    const liveGrid = document.getElementById("liveGrid");
-    const previousGrid = document.getElementById("previousGrid");
-    let liveCount = 0;
-    let prevCount = 0;
-
-    quizzes.forEach(quiz => {
-        const startTime = new Date(quiz.getAttribute("data-start")).getTime();
-        const endTime = new Date(quiz.getAttribute("data-end")).getTime();
-        const timerSpan = quiz.querySelector(".countdown-timer");
-
-        if (now < startTime) {
-            quiz.style.display = "none";
-        } else if (now >= startTime && now <= endTime) {
-            liveGrid.appendChild(quiz);
-            quiz.style.display = "flex";
-            liveCount++;
-            
-            const distance = endTime - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            timerSpan.innerHTML = `Ends in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-        } else {
-            previousGrid.appendChild(quiz);
-            quiz.style.display = "flex";
-            prevCount++;
-            timerSpan.innerHTML = "ENDED";
-            timerSpan.style.color = "#64748b";
+    async function init() {
+        try {
+            // Fetch the backend JSON
+            const res = await fetch('https://sscjourneytest.github.io/sscjourneytest/data/live-data.json');
+            const json = await res.json();
+            TESTS = json.tests || [];
+            render();
+            // Refresh statuses every minute
+            setInterval(render, 60000);
+        } catch (e) {
+            document.getElementById('quizGrid').innerHTML = "Failed to load live data.";
         }
-    });
-
-    document.getElementById("liveEmptyMsg").style.display = liveCount === 0 ? "block" : "none";
-    document.getElementById("prevEmptyMsg").style.display = prevCount === 0 ? "block" : "none";
-}
-
-function checkPremiumStatus() {
-    const profile = getLocalProfile();
-    const isPaidUser = profile ? profile.is_paid : false;
-    const username = profile ? profile.username : "Guest";
-    const quizzes = document.querySelectorAll(".quiz");
-    
-    quizzes.forEach(quiz => {
-        const type = quiz.getAttribute("data-type");
-        const actionArea = quiz.querySelector(".action-area");
-        const quizLink = quiz.querySelector(".start-btn")?.getAttribute("href") || "";
-        const urlParams = new URLSearchParams(quizLink.split('?')[1]);
-        const quizId = urlParams.get('id');
-
-        const resultKey = `result_${username}_${quizId}`;
-        const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
-
-        if (savedResult && savedResult.submitted) {
-            const score = savedResult.totalMarks || 0;
-            const max = savedResult.firebasePayload?.total || 100;
-            const pct = Math.max(0, Math.min(100, (score / max) * 100));
-            let barColor = "#ef4444";
-            if(pct >= 75) barColor = "#22c55e";
-            else if(pct >= 50) barColor = "#f59e0b";
-
-            actionArea.innerHTML = `
-                <div class="action-buttons-stack">
-                    <a href="full_test.html?id=${quizId}" class="start-btn analysis-btn">ANALYSIS</a>
-                    <button onclick="triggerReattempt('${quizId}')" class="reattempt-btn">REATTEMPT</button>
-                </div>`;
-
-            const leftCol = quiz.querySelector(".quiz-left");
-            if (!leftCol.querySelector(".score-row")) {
-                leftCol.innerHTML += `
-                    <div class="score-row">
-                        <div class="score-bar-bg">
-                            <div class="score-bar-fill" style="width: ${pct}%; background: ${barColor}"></div>
-                        </div>
-                        <div class="score-value"><b>${score}</b>/${max}</div>
-                    </div>`;
-            }
-        } 
-        else if (type === "paid" && !isPaidUser) {
-            actionArea.innerHTML = `<a href="/buy-premium.html" class="unlock-btn">🔒 UNLOCK TEST</a>`;
-        }
-    });
-}
-
-function triggerReattempt(quizId) {
-    const profile = getLocalProfile();
-    const username = profile ? profile.username : "Guest";
-    if(confirm("This will permanently delete your result for this mock. Continue?")) {
-        localStorage.removeItem(`result_${username}_${quizId}`);
-        localStorage.removeItem(`state_${username}_${quizId}`);
-        window.location.href = `full_test.html?id=${quizId}`;
     }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    updateTimers();
-    setInterval(updateTimers, 1000);
-    checkPremiumStatus();
-});
+    function render() {
+        const grid = document.getElementById('quizGrid');
+        const now = new Date().getTime();
+        const profile = (typeof getLocalProfile === 'function') ? getLocalProfile() : {username: "Guest"};
+        
+        let html = '';
+
+        TESTS.forEach(item => {
+            const start = new Date(item.startTime).getTime();
+            const end = new Date(item.endTime).getTime();
+            
+            const isUpcoming = now < start;
+            const isLive = now >= start && now <= end;
+            const isEnded = now > end;
+
+            // Filter logic for tabs
+            if (activeTab === 'live' && isEnded) return;
+            if (activeTab === 'previous' && !isEnded) return;
+
+            // LocalStorage Check
+            const resKey = `result_${profile.username}_${item.id}`;
+            const savedRes = JSON.parse(localStorage.getItem(resKey) || "{}");
+
+            // 1. Status & Timer UI
+            let badge = '';
+            let action = '';
+            // Determine template path (relative to parallel folder)
+            const templatePath = `../exams/${item.template || 'full-test.html'}`;
+
+            if (isUpcoming) {
+                badge = `<div class="status-badge badge-upcoming">UPCOMING</div>`;
+                action = `<div class="btn btn-wait">STARTS: ${new Date(item.startTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>`;
+            } else if (isLive) {
+                badge = `<div class="status-badge badge-live">● LIVE</div>`;
+                if (savedRes.submitted) {
+                    action = `<a href="${templatePath}?id=${item.id}" class="btn btn-view">VIEW ANALYSIS</a>`;
+                } else {
+                    action = `<a href="${templatePath}?id=${item.id}" class="btn btn-start">START TEST</a>`;
+                }
+            } else {
+                badge = `<div class="status-badge badge-ended">ENDED</div>`;
+                action = `<a href="${templatePath}?id=${item.id}" class="btn btn-view">VIEW ANALYSIS</a>`;
+            }
+
+            // 2. Score Bar UI
+            let score = '';
+            if (savedRes.submitted) {
+                const pct = Math.min(100, (savedRes.totalMarks / (item.marks || 100)) * 100);
+                const color = pct >= 75 ? '#22c55e' : (pct >= 50 ? '#f59e0b' : '#ef4444');
+                score = `
+                    <div class="score-box">
+                        <span class="score-txt">SCORE: ${savedRes.totalMarks}/${item.marks}</span>
+                        <div class="bar-bg"><div class="bar-fill" style="width:${pct}%; background:${color}"></div></div>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="card">
+                    ${badge}
+                    <div class="title">${item.title}</div>
+                    <div class="meta">${item.qs} Questions • ${item.time}</div>
+                    <div class="btn-box">${action}</div>
+                    ${score}
+                </div>
+            `;
+        });
+
+        grid.innerHTML = html || `<div style="grid-column: 1/-1; text-align:center; padding:50px; color:gray;">No tests available in this section.</div>`;
+    }
+
+    function setTab(t) {
+        activeTab = t;
+        document.getElementById('tab-live').classList.toggle('active', t === 'live');
+        document.getElementById('tab-prev').classList.toggle('active', t === 'previous');
+        render();
+    }
+
+    // Mock getLocalProfile if not available
+    if (typeof getLocalProfile !== 'function') {
+        window.getLocalProfile = () => JSON.parse(localStorage.getItem('user_profile') || '{"username":"Guest"}');
+    }
+
+    init();
 </script>
 </body>
 </html>
