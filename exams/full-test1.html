@@ -3212,9 +3212,7 @@ function updatePaletteLegend() {
 // 🚀 INITIALIZATION
 // ===============================
 
-
-  function init() {
-  
+  async function init() {
   if (typeof getLocalProfile !== "function") {
       console.error("Auth script not loaded yet!");
       setTimeout(init, 500); // Retry in half a second
