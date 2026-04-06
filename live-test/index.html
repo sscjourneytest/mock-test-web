@@ -17,15 +17,49 @@
 
         body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: var(--bg-light); color: var(--text-dark); }
         .page-container { display: flex; flex-direction: column; height: 100vh; }
+/* New Header Layout */
+.header-content {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 15px;
+    background: var(--white);
+}
 
-        /* Header & Tabs */
-        header { flex-shrink: 0; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 100; }
-        .tabs { display: flex; justify-content: center; border-bottom: 1px solid var(--border); }
-        .tab { 
-            padding: 15px 30px; border: none; background: none; font-size: 14px; 
-            font-weight: 700; color: var(--text-grey); cursor: pointer; border-bottom: 3px solid transparent; 
-        }
-        .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.back-btn {
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.back-btn:hover { opacity: 0.7; }
+
+.header-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -0.5px;
+}
+
+/* Tabs now sit below the main title */
+.filter-scroll-wrapper {
+    display: flex;
+    justify-content: flex-start; /* Aligns tabs to the left/start */
+    padding: 0 10px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+}
+
+.pill-filter {
+    padding: 12px 20px;
+    font-size: 13px;
+    border-bottom: 3px solid transparent;
+}
+        
 
         /* Centered Grid */
         .content-area { flex-grow: 1; overflow-y: auto; padding: 25px; }
@@ -86,12 +120,21 @@
 <body>
 
 <div class="page-container">
-    <header>
-        <div class="tabs">
-            <button class="tab active" id="tab-live" onclick="setTab('live')">🔴 LIVE NOW</button>
-            <button class="tab" id="tab-prev" onclick="setTab('previous')">📂 PREVIOUS LIVE</button>
-        </div>
+    <header class="sticky-header-section">
+    <div class="header-content">
+        <a href="../" class="back-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </a>
+        <h1 class="header-title">LIVE TESTS</h1>
+    </div>
+
+    <div class="filter-scroll-wrapper">
+        <button class="pill-filter active" id="tab-live" onclick="setTab('live')">🔴 LIVE NOW</button>
+        <button class="pill-filter" id="tab-prev" onclick="setTab('previous')">📂 PREVIOUS LIVE</button>
+    </div>
     </header>
+    
+
 
     <main class="content-area">
         <div id="quizGrid" class="grid">
