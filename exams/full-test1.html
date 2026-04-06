@@ -3242,96 +3242,99 @@ async function init() {
   const userBox = el("headerUsername");
   if (userBox) userBox.textContent = USER_DISPLAY_NAME;
 
-
-
-  // 2. RENDER DASHBOARD OR RESULT
+ 
+  // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
+  const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
   if (resultSaved) {
     const data = JSON.parse(resultSaved);
-    if (data.submitted) {
-      isQuiz = false;
-
-      // CHANGE: Immediately hide Welcome Screen to stop flickering during sync.
-      if (el("welcomeScreen")) el("welcomeScreen").style.display = "none";
-
-      if (!data.resultHTML) {
-        answers = data.answers || {};
-        marked = data.marked || {};
-        questionTime = data.questionTime || {};
-        // CHANGE: Call silent submit to build UI from the restored Firebase data.
-        submitQuiz("silent"); 
-        return;
-      }
-
+    if (data.submitted && data.resultHTML) {
+      isQuiz = false; // <--- ✅ ADD THIS LINE HERE
       updatePaletteLegend();
+      // Hide Welcome & Quiz
       answers = data.answers || {};
-      marked = data.marked || {};
+      marked  = data.marked  || {};
+      current = data.current || 0;
       questionTime = data.questionTime || {};
-      // CHANGE: Restore sectionalData so Sectional Summary table displays correctly.
-      sectionTime = data.sectionalData || {}; 
-
+      el("welcomeScreen").style.display = "none";
       el("mainHeader").style.display = "none";
       el("quizMainArea").style.display = "none";
       el("floatBar").style.display = "none";
-
+     
+               // Show Result
       const res = document.getElementById("results");
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
+      // 🔓 CRITICAL FIX: Re-enable Live Rank button after reload restore
+setTimeout(() => {
+  const liveBtn = document.querySelector(
+    "button[onclick*='refreshLatestRankOnDemand']"
+  );
+  if (liveBtn) {
+    liveBtn.disabled = false;
+    liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
+  }
+}, 0);
 
-      setTimeout(() => {
-        const liveBtn = document.querySelector("button[onclick*='refreshLatestRankOnDemand']");
-        if (liveBtn) { liveBtn.disabled = false; liveBtn.textContent = "🔄 GET LIVE UPDATED RANK"; }
-      }, 0);
 
+      // 🔧 FIX: Restore mm:ss format in bars after reload
       res.querySelectorAll(".bar-section").forEach(sec => {
         const label = sec.querySelector(".bar-label span")?.textContent;
         if (label === "Time Taken") {
           const values = sec.querySelectorAll("span[style*='text-align:right']");
           values.forEach(val => {
             const rawText = val.textContent.replace('%', '').trim();
-            if (!isNaN(rawText) && rawText !== "") val.textContent = fmt(parseInt(rawText));
+            if(!isNaN(rawText) && rawText !== "") {
+              val.textContent = fmt(parseInt(rawText));
+            }
           });
         }
       });
-      return;
+     }
     }
-  }
 
   // 2. RESTORE PROGRESS (Resume Quiz)
   const savedName = localStorage.getItem("ssc_quiz_name");
   const nameInput = document.getElementById("studentName");
+
   if (nameInput) {
+    // Only restore if it's a real name and NOT the default "Student"
     if (savedName && savedName !== "Student") {
       nameInput.value = savedName;
     } else {
-      nameInput.value = "";
+      nameInput.value = ""; // ✅ Clear it so validation triggers
     }
   }
+    // --- UPDATE STEP 2 INSIDE init() ---
+const stateSaved = localStorage.getItem(QUIZ_STATE_KEY);
+if (stateSaved) {
+  const state = JSON.parse(stateSaved);
+  current = state.current ?? 0;
+  answers = state.answers ?? {};
+  marked = state.marked ?? {};
+  questionTime = state.questionTime ?? {};
+  seconds = state.seconds ?? seconds;
+  
+  // RESTORE SECTION PERSISTENCE
+  if (state.currentSectionIdx !== undefined) {
+    currentSectionIdx = state.currentSectionIdx;
+  }
+  
+  // RESTORE LANGUAGE PERSISTENCE HERE
+  if (state.currentLang) {
+    currentLang = state.currentLang;
+    const headerLangSelect = el("langSelect");
+    if (headerLangSelect) headerLangSelect.value = currentLang;
+  }
+}
 
-  const stateSaved = localStorage.getItem(QUIZ_STATE_KEY);
-  if (stateSaved) {
-    const state = JSON.parse(stateSaved);
-    current = state.current ?? 0;
-    answers = state.answers ?? {};
-    marked = state.marked ?? {};
-    questionTime = state.questionTime ?? {};
-    seconds = state.seconds ?? seconds;
-    if (state.currentSectionIdx !== undefined) {
-      currentSectionIdx = state.currentSectionIdx;
-    }
-    if (state.currentLang) {
-      currentLang = state.currentLang;
-      const headerLangSelect = el("langSelect");
-      if (headerLangSelect) headerLangSelect.value = currentLang;
-    }
-  }
 
   if (isQuiz && SECTION_NAMES.length > 0) {
-    switchSection(currentSectionIdx);
-    if (stateSaved) {
-      const state = JSON.parse(stateSaved);
-      current = state.current ?? 0;
-    }
+      switchSection(currentSectionIdx);
+      if (stateSaved) {
+          const state = JSON.parse(stateSaved);
+          current = state.current ?? 0;
+      }
   }
 
   renderQuestion(current);
@@ -3339,9 +3342,14 @@ async function init() {
   updatePaletteLegend();
   highlightPalette();
   renderMath();
-  attachListeners();
+  
+  // 🔥 FINAL STEP: Attach listeners only ONCE at the very end
+  attachListeners(); 
   setupPauseFeature();
 }
+  
+
+
 
 // 🚦 START BUTTON LISTENER
 document.getElementById("welcomeStartBtn").addEventListener("click", function() {
