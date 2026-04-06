@@ -3490,12 +3490,7 @@ async function loadQuizData() {
     document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.";
     return;
   }
-    // --- REATTEMPT URL TRIGGER ---
-  
-  if (urlParams.get('mode') === 'reattempt') {
-    localStorage.removeItem(QUIZ_RESULT_KEY);
-    localStorage.removeItem(QUIZ_STATE_KEY);
-  }
+
 try {
     // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
     const { data: { session } } = await _supabase.auth.getSession();
@@ -3618,22 +3613,27 @@ QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
 
    
     
-   
+   // --- Inside loadQuizData(), at the very end ---
+
+// 1. Perform the Sync check first
+const hasSubmitted = await checkPreviousSubmission();
+  
 // 6. 🔥 UPDATED: Conditional Hide Loader
 const savedState = localStorage.getItem(QUIZ_STATE_KEY);
 const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
-const isReattemptTrigger = new URLSearchParams(window.location.search).get('mode') === 'reattempt';
 
-// 7. Run Initialization
-await init();
-  
-if (alreadySubmitted) {
-    // Keep Welcome hidden and Loader visible while init() syncs
+if (hasSubmitted) {
+    // Keep Welcome hidden; User stays on Loader until init() renders the Dashboard
     document.getElementById("welcomeScreen").style.display = "none";
 } else {
-    // No previous result, show the Welcome/Instructions screen
+    // No submission; hide loader so user can see Welcome Screen
     document.getElementById("loadingOverlay").style.display = "none";
 }
+
+// 2. Now run the full init (Palette building, math rendering, etc.)
+ init();
+
+
 
     // CRITICAL: Added 'isQuiz === true' check. 
     // If init() found a cloud result, isQuiz will be false, and this block won't run.
