@@ -3473,6 +3473,7 @@ async function checkPreviousSubmission() {
                 };
 
                 localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
+                    submitQuiz("silent"); 
                 return true; // Cloud result found and saved
             }
         }
