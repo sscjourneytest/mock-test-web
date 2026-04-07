@@ -1,51 +1,13 @@
 let EXAM_JSON = null;
 let currentFilters = { tier: 'tier1', year: '', type: 'full_mocks', section: '' };
-let db = null; 
-// Helper to ensure Firebase scripts are loaded before init
-async function loadFirebaseScripts() {
-    if (window.firebase) return; // Already loaded
-    
-    const scripts = [
-        "https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js",
-        "https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"
-    ];
-
-    for (const src of scripts) {
-        await new Promise((resolve) => {
-            const script = document.createElement("script");
-            script.src = src;
-            script.onload = resolve;
-            document.head.appendChild(script);
-        });
-    }
-}
+let CLOUD_CHECKLIST = {};
+const SYNC_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 Hours 
 async function initExamEngine() {
     const pathParts = window.location.pathname.split('/');
     const examName = pathParts[pathParts.length - 2];
     
-    document.getElementById('grid-sync').innerText = "🔄 Syncing Premium Database...";
-    
     try {
-        // 1. Ensure Firebase scripts are present
-        await loadFirebaseScripts();
-
-        // 2. Load Config and Init Firebase
-        try {
-            await import('/firebase-config.js');
-            if (typeof FIREBASE_PROJECTS !== 'undefined' && FIREBASE_PROJECTS[examName]) {
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(FIREBASE_PROJECTS[examName]);
-                }
-                db = firebase.database();
-            }
-        } catch (e) {
-            if (window.FIREBASE_PROJECTS && window.FIREBASE_PROJECTS[examName]) {
-                if (!firebase.apps.length) firebase.initializeApp(window.FIREBASE_PROJECTS[examName]);
-                db = firebase.database();
-            }
-        }
-
-        // 3. Fetch Mock Data
+        // 1. Fetch Mock Data immediately (Normal Way - Fast)
         const response = await fetch(`https://sscjourneytest.github.io/sscjourneytest/data/${examName}-data.json`);
         EXAM_JSON = await response.json();
         
@@ -53,54 +15,61 @@ async function initExamEngine() {
         currentFilters.year = years.sort().reverse()[0];
         
         setupFilters(years);
-        renderMocks();
-        syncStatusFromFirebase(); 
+        renderMocks(); // First render: Shows cards immediately
+
+        // 2. Start Cloud Sync in the background (Does not block the cards)
+        syncWithCloud(examName);
+        
     } catch (e) {
-        document.getElementById('grid-sync').innerHTML = "⚠️ Failed to sync. Check connection.";
+        console.error("Engine initialization failed", e);
     }
 }
 
-async function syncStatusFromFirebase() {
+async function syncWithCloud(examName) {
     const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
-    if (!profile || !db) return;
-    const username = profile.username;
+    if (!profile || profile.username === "Guest") return;
 
-    try {
-        const snapshot = await db.ref(`quiz_results`).once('value');
-        const allResults = snapshot.val() || {};
+    const cacheKey = `CLOUD_SYNC_${profile.username}_${examName}`;
+    const lastSync = localStorage.getItem(`${cacheKey}_TIME`);
+    const cachedData = localStorage.getItem(cacheKey);
 
-        let cloudStatus = JSON.parse(localStorage.getItem('CLOUD_SYNC_STATUS') || "{}");
-        let needsReRender = false;
+    // Load from local cache immediately if it exists so buttons flip quickly
+    if (cachedData) {
+        CLOUD_CHECKLIST = JSON.parse(cachedData);
+        renderMocks(); 
+    }
 
-        const source = EXAM_JSON.data[currentFilters.tier][currentFilters.year];
-        const config = EXAM_JSON.config[currentFilters.tier];
+    // Check if 24 hours expired to fetch fresh data from GitHub via Worker
+    if (!lastSync || (Date.now() - parseInt(lastSync) > SYNC_EXPIRY_MS)) {
+        try {
+            const workerURL = "https://mmh-userdata.maniyamaniya789.workers.dev/";
+            const res = await fetch(`${workerURL}?user=${profile.username}&exam=${examName}`);
+            
+            if (res.ok) {
+                const freshData = await res.json();
+                
+                // --- CLEANUP LOGIC ---
+                // If local results exist but are NOT in GitHub, delete them (Remote delete sync)
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith(`result_${profile.username}_`)) {
+                        const id = key.replace(`result_${profile.username}_`, "");
+                        // Only sync-delete for the current exam's IDs
+                        if (!freshData[id] && id.includes(examName.toUpperCase())) {
+                            localStorage.removeItem(key);
+                            localStorage.removeItem(`state_${profile.username}_${id}`);
+                        }
+                    }
+                });
 
-        const checkId = (id) => {
-            const cloudExists = allResults[id] && allResults[id][username];
-            if (cloudExists && !cloudStatus[id]) {
-                cloudStatus[id] = true;
-                needsReRender = true;
+                CLOUD_CHECKLIST = freshData;
+                localStorage.setItem(cacheKey, JSON.stringify(freshData));
+                localStorage.setItem(`${cacheKey}_TIME`, Date.now().toString());
+                
+                renderMocks(); // Final render: Buttons flip to Analysis if cloud data found
             }
-        };
-
-        // 1. Check Full Mocks
-        (source.full_mocks || []).forEach(m => checkId(m.id));
-
-        // 2. Check Sectionals (Using backendName cleaning to match Template/Firebase)
-        (source.full_mocks || []).forEach(m => {
-            (config.sections || []).forEach(sec => {
-                const cleanSec = sec.backendName.replace(/\s+/g, '').toLowerCase();
-                checkId(`${m.id}-${cleanSec}`);
-            });
-        });
-
-        // 3. Check Subject Wise
-        (source.subject_wise || []).forEach(m => checkId(m.id));
-
-        localStorage.setItem('CLOUD_SYNC_STATUS', JSON.stringify(cloudStatus));
-        if (needsReRender) renderMocks();
-    } catch (err) {
-        console.error("Firebase Sync Failed:", err);
+        } catch (e) {
+            console.error("Background sync failed", e);
+        }
     }
 }
 
@@ -137,8 +106,7 @@ function renderMocks() {
     const isPaidUser = profile ? profile.is_paid : false;
     const username = profile ? profile.username : "Guest";
 
-    const cloudStatus = JSON.parse(localStorage.getItem('CLOUD_SYNC_STATUS') || "{}");
-
+  
     let html = '';
     let rawList = source[currentFilters.type] || [];
     let itemsToDisplay = [];
@@ -226,7 +194,6 @@ function setYear(y, el) {
     currentFilters.year = y;
     setupFilters(Object.keys(EXAM_JSON.data[currentFilters.tier])); 
     renderMocks();
-    syncStatusFromFirebase(); 
 }
 
 function filterType(type, el) {
@@ -271,18 +238,25 @@ function setTier(t, el) {
     currentFilters.tier = t;
     setupFilters(Object.keys(EXAM_JSON.data[currentFilters.tier])); 
     renderMocks();
-    syncStatusFromFirebase(); 
 }
-
 function reattempt(id, url) {
     const profile = getLocalProfile();
     const username = profile ? profile.username : "Guest";
-    if(confirm("Confirm Reattempt? Previous result will be deleted.")) {
+    const examName = window.location.pathname.split('/').slice(-2, -1)[0];
+
+    if(confirm("Confirm Reattempt? Are you sure to reattempt.")) {
+        // 1. Clear actual local results
         localStorage.removeItem(`result_${username}_${id}`);
         localStorage.removeItem(`state_${username}_${id}`);
-        let cloudStatus = JSON.parse(localStorage.getItem('CLOUD_SYNC_STATUS') || "{}");
-        delete cloudStatus[id];
-        localStorage.setItem('CLOUD_SYNC_STATUS', JSON.stringify(cloudStatus));
+
+        // 2. Remove from Cloud Cache and RAM so button flips back to "START"
+        if (CLOUD_CHECKLIST[id]) {
+            delete CLOUD_CHECKLIST[id];
+            const cacheKey = `CLOUD_SYNC_${username}_${examName}`;
+            localStorage.setItem(cacheKey, JSON.stringify(CLOUD_CHECKLIST));
+        }
+
         window.location.href = url + "&mode=reattempt";
     }
 }
+
