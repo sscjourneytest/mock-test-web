@@ -3668,7 +3668,7 @@ QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
    // --- Inside loadQuizData(), at the very end ---
 
 // 1. Perform the Sync check first
-const hasSubmitted = await checkPreviousSubmission();
+const hasSubmitted = checkPreviousSubmission();
   
 // 6. 🔥 UPDATED: Conditional Hide Loader
 const savedState = localStorage.getItem(QUIZ_STATE_KEY);
