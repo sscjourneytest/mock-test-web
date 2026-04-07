@@ -2608,9 +2608,9 @@ async function refreshLatestRankOnDemand(btn) {
     
     const specificSection = urlParams.get('section');
 
-         // --- UPDATED DYNAMIC SECTIONAL LOGIC ---
+        // --- UPDATED DYNAMIC SECTIONAL LOGIC (RANK ON DEMAND) ---
     
-    // 1. Keep the full object so we don't lose 'time_seconds'
+    // 1. Keep the full object to preserve metadata like 'time_seconds'
     let standardizedFreshSections = {};
     Object.keys(freshData.sections).forEach(key => {
         standardizedFreshSections[key] = freshData.sections[key];
@@ -2621,24 +2621,35 @@ async function refreshLatestRankOnDemand(btn) {
     if (specificSection && standardizedFreshSections[specificSection]) {
         const sectionData = standardizedFreshSections[specificSection];
         
-        // 2. Extract questions for the quiz array
-        freshSections[specificSection] = sectionData.questions || sectionData;
+        // 2. Extract questions correctly
+        const sectionQuestions = sectionData.questions || sectionData;
+        freshSections[specificSection] = sectionQuestions;
         
         const timeMap = { "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30, "MATH": 30, "MATHS": 30, "ENGLISH": 30 };
         
-        // 3. Prioritize JSON time_seconds, then timeMap, then default 20
+        // 3. Prioritize JSON timer, then map, then default 20
         const mins = sectionData.time_seconds ? (parseInt(sectionData.time_seconds) / 60) : (timeMap[specificSection] || 20);
         
         freshData.meta.timer_minutes = mins;
         freshData.meta.timer_seconds = mins * 60;
-        freshData.meta.total_questions = freshSections[specificSection].length;
+
+        // CRITICAL FIX: Explicitly set the meta total to the section length
+        // This prevents the "6/5" error by ensuring the denominator matches the filtered questions
+        freshData.meta.total_questions = Array.isArray(sectionQuestions) ? sectionQuestions.length : 0;
+
     } else {
-        // Fallback for full quiz: map all sections to their question arrays
+        // Full quiz: map all sections to their question arrays
+        let totalCount = 0;
         Object.keys(standardizedFreshSections).forEach(key => {
-            freshSections[key] = standardizedFreshSections[key].questions || standardizedFreshSections[key];
+            const qArray = standardizedFreshSections[key].questions || standardizedFreshSections[key];
+            freshSections[key] = qArray;
+            if (Array.isArray(qArray)) totalCount += qArray.length;
         });
+        // Ensure meta reflects the actual sum of questions
+        freshData.meta.total_questions = totalCount;
     }
-     
+
+
     
     // ------------------------------
     
