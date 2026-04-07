@@ -126,8 +126,13 @@ async function handleLogout() {
     const client = await getClient();
     localStorage.removeItem('u_vault');
     localStorage.removeItem('mmh_guide_seen');
-    await client.auth.signOut();
-    window.location.href = "/index.html";
+    / Clear all exam caches to keep data private
+        Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('CLOUD_SYNC_')) localStorage.removeItem(key);
+        });
+        await client.auth.signOut();
+        window.location.href = "/index.html?v=" + Date.now(); // Force fresh load
+   
 }
 
 document.addEventListener('DOMContentLoaded', initAuth);
