@@ -269,3 +269,15 @@ function reattempt(id, url) {
         window.location.href = url + "&mode=reattempt";
     }
 }
+// This listener runs every time the page becomes visible
+window.addEventListener('pageshow', function(event) {
+    // 1. Check if the page is being loaded from the browser cache (Back button)
+    if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+        console.log("Back button detected: Refreshing mock states...");
+        
+        // 2. Re-run renderMocks to pick up any new results saved in localStorage
+        if (typeof renderMocks === 'function' && EXAM_JSON) {
+            renderMocks(); 
+        }
+    }
+});
