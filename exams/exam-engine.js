@@ -1,34 +1,54 @@
 let EXAM_JSON = null;
 let currentFilters = { tier: 'tier1', year: '', type: 'full_mocks', section: '' };
 let db = null; 
+// Helper to ensure Firebase scripts are loaded before init
+async function loadFirebaseScripts() {
+    if (window.firebase) return; // Already loaded
+    
+    const scripts = [
+        "https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js",
+        "https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"
+    ];
 
+    for (const src of scripts) {
+        await new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = resolve;
+            document.head.appendChild(script);
+        });
+    }
+}
 async function initExamEngine() {
     const pathParts = window.location.pathname.split('/');
     const examName = pathParts[pathParts.length - 2];
     
-    // --- DYNAMIC CONFIG LOADING & FIREBASE INIT ---
-    try {
-        await import('/firebase-config.js');
-        if (typeof FIREBASE_PROJECTS !== 'undefined' && FIREBASE_PROJECTS[examName]) {
-            if (!firebase.apps.length) {
-                firebase.initializeApp(FIREBASE_PROJECTS[examName]);
-            }
-            db = firebase.database();
-        }
-    } catch (e) {
-        if (window.FIREBASE_PROJECTS && window.FIREBASE_PROJECTS[examName]) {
-            if (!firebase.apps.length) firebase.initializeApp(window.FIREBASE_PROJECTS[examName]);
-            db = firebase.database();
-        }
-    }
-
     document.getElementById('grid-sync').innerText = "🔄 Syncing Premium Database...";
     
     try {
+        // 1. Ensure Firebase scripts are present
+        await loadFirebaseScripts();
+
+        // 2. Load Config and Init Firebase
+        try {
+            await import('/firebase-config.js');
+            if (typeof FIREBASE_PROJECTS !== 'undefined' && FIREBASE_PROJECTS[examName]) {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(FIREBASE_PROJECTS[examName]);
+                }
+                db = firebase.database();
+            }
+        } catch (e) {
+            if (window.FIREBASE_PROJECTS && window.FIREBASE_PROJECTS[examName]) {
+                if (!firebase.apps.length) firebase.initializeApp(window.FIREBASE_PROJECTS[examName]);
+                db = firebase.database();
+            }
+        }
+
+        // 3. Fetch Mock Data
         const response = await fetch(`https://sscjourneytest.github.io/sscjourneytest/data/${examName}-data.json`);
         EXAM_JSON = await response.json();
         
-        // Auto-detect first year available
         const years = Object.keys(EXAM_JSON.data[currentFilters.tier]);
         currentFilters.year = years.sort().reverse()[0];
         
