@@ -3604,45 +3604,37 @@ try {
     
     const data = await response.json();
 
-     // --- DYNAMIC SECTIONAL LOGIC ---
-    // 1. CHANGE: Keep the full object (including time_seconds) instead of just the questions
+  // --- DYNAMIC SECTIONAL LOGIC ---
+    // Standardize HELLOMISTER structure: Convert objects with .questions into plain arrays
     let standardizedSections = {};
     Object.keys(data.sections).forEach(key => {
-        standardizedSections[key] = data.sections[key]; 
+        standardizedSections[key] = data.sections[key].questions || data.sections[key];
     });
 
     if (specificSection && standardizedSections[specificSection]) {
-        const sectionData = standardizedSections[specificSection]; // Helper for readability
         const cleanSectionName = specificSection.replace(/\s+/g, '').toLowerCase();
         QUIZ_ID = data.meta.id + "-" + cleanSectionName;
         QUIZ_TITLE = data.meta.title + " - " + specificSection;
         
         SECTIONS = {};
-        // 2. CHANGE: Map the questions correctly since we stored the whole object above
-        SECTIONS[specificSection] = sectionData.questions || sectionData;
+        SECTIONS[specificSection] = standardizedSections[specificSection];
         SECTION_NAMES = [specificSection];
 
         const timeMap = {
             "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30,
-            "MATH": 30, "MATHS": 30, "ENGLISH": 30
+            "MATH": 30, "MATHS": 30, "ENGLISH": 30, "SECTION 1": 60, "SECTION 2": 60, "SECTION 3": 15
         };
-
-        // 3. CHANGE: Use JSON time_seconds first, then fallback to timeMap, then default to 20
-        const mins = sectionData.time_seconds ? (sectionData.time_seconds / 60) : (timeMap[specificSection] || 20);
-        
+        const mins = timeMap[specificSection] || 20;
         data.meta.timer_minutes = mins;
         data.meta.timer_seconds = mins * 60;
     } else {
         QUIZ_TITLE = data.meta.title;
         QUIZ_ID = data.meta.id;
-        // Standardize full quiz structure: Map sections to their question arrays
-        SECTIONS = Object.fromEntries(
-            Object.entries(standardizedSections).map(([k, v]) => [k, v.questions || v])
-        );
+        SECTIONS = standardizedSections; // Use the standardized arrays
         SECTION_NAMES = Object.keys(SECTIONS);
     }
   
-    
+
 
     QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
     QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
