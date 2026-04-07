@@ -24,22 +24,24 @@ async function initExamEngine() {
         console.error("Engine initialization failed", e);
     }
 }
-
 async function syncWithCloud(examName) {
     const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
     if (!profile || profile.username === "Guest") return;
 
-    const cacheKey = `CLOUD_SYNC_${profile.username}_${examName}`;
-    const lastSync = localStorage.getItem(`${cacheKey}_TIME`);
+    // 1. IMPROVED: Unique cache keys per exam type to prevent overwriting
+    const cacheKey = `CLOUD_SYNC_${profile.username}_${examName.toLowerCase()}`;
+    const timeKey = `${cacheKey}_TIME`;
+
+    const lastSync = localStorage.getItem(timeKey);
     const cachedData = localStorage.getItem(cacheKey);
 
-    // Load from local cache immediately if it exists so buttons flip quickly
+    // 2. Load from local cache immediately if it exists for THIS specific exam
     if (cachedData) {
         CLOUD_CHECKLIST = JSON.parse(cachedData);
         renderMocks(); 
     }
 
-    // Check if 24 hours expired to fetch fresh data from GitHub via Worker
+    // 3. Check if 24 hours expired for THIS specific exam
     if (!lastSync || (Date.now() - parseInt(lastSync) > SYNC_EXPIRY_MS)) {
         try {
             const workerURL = "https://mmh-userdata.maniyamaniya789.workers.dev/";
@@ -49,21 +51,21 @@ async function syncWithCloud(examName) {
                 const freshData = await res.json();
                 
                 // --- CLEANUP LOGIC ---
-                // If local results exist but are NOT in GitHub, delete them (Remote delete sync)
                 Object.keys(localStorage).forEach(key => {
                     if (key.startsWith(`result_${profile.username}_`)) {
                         const id = key.replace(`result_${profile.username}_`, "");
                         // Only sync-delete for the current exam's IDs
-                        if (!freshData[id] && id.includes(examName.toUpperCase())) {
+                        if (!freshData[id] && id.toLowerCase().includes(examName.toLowerCase())) {
                             localStorage.removeItem(key);
                             localStorage.removeItem(`state_${profile.username}_${id}`);
                         }
                     }
                 });
 
+                // 4. Update memory and local storage with fresh data
                 CLOUD_CHECKLIST = freshData;
                 localStorage.setItem(cacheKey, JSON.stringify(freshData));
-                localStorage.setItem(`${cacheKey}_TIME`, Date.now().toString());
+                localStorage.setItem(timeKey, Date.now().toString());
                 
                 renderMocks(); // Final render: Buttons flip to Analysis if cloud data found
             }
@@ -240,23 +242,30 @@ function setTier(t, el) {
     renderMocks();
 }
 function reattempt(id, url) {
-    const profile = getLocalProfile();
+    const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
     const username = profile ? profile.username : "Guest";
-    const examName = window.location.pathname.split('/').slice(-2, -1)[0];
+    
+    // 1. Get the current exam name accurately from the URL path
+    const pathParts = window.location.pathname.split('/');
+    const examName = pathParts[pathParts.length - 2];
 
     if(confirm("Confirm Reattempt? Are you sure to reattempt.")) {
-        // 1. Clear actual local results
+        // 2. Clear specific local result and state for this test
         localStorage.removeItem(`result_${username}_${id}`);
         localStorage.removeItem(`state_${username}_${id}`);
 
-        // 2. Remove from Cloud Cache and RAM so button flips back to "START"
+        // 3. Update the specific Cloud Cache for THIS exam type
+        const cacheKey = `CLOUD_SYNC_${username}_${examName.toLowerCase()}`;
+        
         if (CLOUD_CHECKLIST[id]) {
+            // Remove ONLY the specific quiz ID from the RAM object
             delete CLOUD_CHECKLIST[id];
-            const cacheKey = `CLOUD_SYNC_${username}_${examName}`;
+            
+            // Save the updated checklist back to the specific exam's storage slot
             localStorage.setItem(cacheKey, JSON.stringify(CLOUD_CHECKLIST));
         }
 
+        // 4. Redirect to the test template with reattempt mode enabled
         window.location.href = url + "&mode=reattempt";
     }
 }
-
