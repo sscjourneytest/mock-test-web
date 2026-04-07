@@ -5,7 +5,7 @@ const SYNC_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 Hours
 async function initExamEngine() {
     const pathParts = window.location.pathname.split('/');
     const examName = pathParts[pathParts.length - 2];
-    
+    document.getElementById('grid-sync').innerText = "🔄 Syncing Database...";
     try {
         // 1. Fetch Mock Data immediately (Normal Way - Fast)
         const response = await fetch(`https://sscjourneytest.github.io/sscjourneytest/data/${examName}-data.json`);
