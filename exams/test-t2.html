@@ -1612,7 +1612,7 @@ saveQuizState();
     const qTimeDisplay = document.getElementById("qTimeTaken");
     if (qTimeDisplay && isQuiz) {
        const spent = questionTime[currentQ.id] || 0;
-       qTimeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`; // Update this to match
+       qTimeDisplay.innerHTML = `⏱️: ${fmtMSS(spent)}`; // Update this to match
     }
    
   }, 1000);
@@ -1810,7 +1810,7 @@ function renderQuestion(i) {
   
   // FIX: Ensure spent time is pulled from the questionTime object
   const spent = (questionTime && questionTime[q.id]) ? questionTime[q.id] : 0;
-  timeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`; // Changed 'Time:' to 'Time Taken:'
+  timeDisplay.innerHTML = `⏱️: ${fmtMSS(spent)}`; // Changed 'Time:' to 'Time Taken:'
  
   // --- LANGUAGE HELPER FUNCTION ---
   const getLangText = (obj) => {
@@ -2058,6 +2058,20 @@ function submitQuiz(isAuto = false) {
   if (timerInterval) clearInterval(timerInterval);
 let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSeconds += t);
 
+  // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
+  let responseArray = [];
+  SECTION_NAMES.forEach(sName => {
+    SECTIONS[sName].forEach(q => {
+      const ans = answers[q.id] || "0";
+      const time = questionTime[q.id] || 0;
+      // If the question ID exists in the marked object, add :Y
+      const isMarked = marked[q.id] ? ":Y" : ""; 
+      responseArray.push(`${ans}:${time}${isMarked}`);
+    });
+  });
+  const responseStream = responseArray.join('|');
+
+
   document.getElementById("mainHeader").style.display = "none";
   if (el("sectionNav")) el("sectionNav").style.display = "none";
   document.getElementById("floatBar").style.display = "none";
@@ -2117,30 +2131,25 @@ let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSecon
   const totalAllowedTime = Object.values(SECTION_TIMERS)
   .reduce((sum, t) => sum + t, 0);
 
- 
-  // 4. 📦 Prepare Data Payload
-  const firebasePayload = {
-    name: USER_DISPLAY_NAME, // Unique username from Auth
+ const firebasePayload = {
+    name: USER_DISPLAY_NAME,
     score: totalMarks,
     total: maxTotalMarks,
     correct: totalCorrect,
     wrong: totalWrong,
     timeTaken: timeTakenSeconds,
     quizId: QUIZ_ID,
-     emailKey: USER_EMAIL_KEY, // Replaces deviceId
-    submittedAt: Date.now(),
-    sections: sectionalDataForFirebase 
+    emailKey: USER_EMAIL_KEY,
+    sections: sectionalDataForFirebase,
+    responseStream: responseStream,
+    // CHANGE: Use existing timestamp if available, otherwise create new one
+    submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now()
+    
   };
 
-  // 5. ☁️ Firebase Operations
-  saveResultFirebase(firebasePayload).finally(() => {
-    saveAttemptHistory(firebasePayload);
 
-    Promise.all([
-      getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
-      getToppersList(QUIZ_ID)
-    ]).then(([rankData, toppersList]) => {
-
+// Only save to Firebase if NOT in silent sync mode
+  const runUIGeneration = ([rankData, toppersList]) => {
       const topperStats = getTopperStatsForComparison(toppersList, attempted);
 
       // 6. 📊 Generate Sectional Summary Table
@@ -2327,9 +2336,7 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
 });
 
       
-      
-
-      LAST_RESULT_HTML = dashboardHTML;
+ LAST_RESULT_HTML = dashboardHTML;
       localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
         submitted: true,
         resultHTML: dashboardHTML,
@@ -2346,9 +2353,29 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
 
       normalizeMathForQuiz(resBox);
       renderMath();
+  }; // <--- This closes runUIGeneration
+
+  // --- HYBRID SYNC GUARD: SELECTIVE FIREBASE WRITE ---
+  if (isAuto === "silent") {
+    // Sync mode: Just get Ranks and build UI locally
+    Promise.all([
+      getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
+      getToppersList(QUIZ_ID)
+    ]).then(runUIGeneration);
+  } else {
+    // Normal Live mode: Save to Cloud then build UI
+    saveResultFirebase(firebasePayload).finally(() => {
+      saveAttemptHistory(firebasePayload);
+      Promise.all([
+        getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
+        getToppersList(QUIZ_ID)
+      ]).then(runUIGeneration);
     });
-  });
-}
+  }
+} // <--- This is the final brace that closes function submitQuiz()
+     
+
+      
 function autoSubmitQuiz() {
   // Prevent double submit
   if (!isQuiz) return;
@@ -2572,15 +2599,23 @@ function enterSolutionMode() {
   }
 }
 
-// Reattempt (Clear and Reload)
+// Reattempt (Clear and Reload with Mode)
 function reattemptQuiz() {
   if(confirm("Are you sure you want to reattempt? Your current progress in this session will be reset.")) {
     localStorage.removeItem(QUIZ_RESULT_KEY);
     localStorage.removeItem(QUIZ_STATE_KEY);
-    localStorage.removeItem('ssc_quiz_name'); // ✅ Add this to clear the name for the new attempt
-    window.location.reload();
+    localStorage.removeItem('ssc_quiz_name'); 
+    
+    // Get the current URL
+    const url = new URL(window.location.href);
+    
+    // Set the mode parameter to 'reattempt'
+    url.searchParams.set('mode', 'reattempt');
+    
+    // Reload the page with the new URL
+    window.location.href = url.toString();
   }
-}
+  }
 
 // Restore Dashboard (From History/Solution Mode)
 function restoreLatestResult() {
@@ -3518,6 +3553,116 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+async function checkPreviousSubmission() {
+  let resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
+  const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get('mode') === 'reattempt') {
+    localStorage.removeItem(QUIZ_RESULT_KEY);
+    localStorage.removeItem(QUIZ_STATE_KEY);
+    }
+  // 1. If no local result, try Cloud Recovery
+  if (!resultSaved && !urlParams.get('mode')) {
+    const cloudSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY)
+      .orderByChild("submittedAt")
+      .limitToLast(1)
+      .once("value");
+
+    if (cloudSnap.exists()) {
+      const history = cloudSnap.val();
+      const latest = Object.values(history)[0];
+
+      if (latest && latest.responseStream) {
+        const recAns = {}, recTime = {}, recMarked = {};
+        const stream = latest.responseStream.split('|');
+        let gIdx = 0;
+
+        SECTION_NAMES.forEach(sName => {
+          SECTIONS[sName].forEach(q => {
+            if (stream[gIdx]) {
+              const parts = stream[gIdx].split(':');
+              const ans = parts[0];
+              const time = parts[1];
+              const isMarked = parts[2] === 'Y';
+
+              if (ans !== "0") recAns[q.id] = ans;
+              recTime[q.id] = parseInt(time) || 0;
+              if (isMarked) recMarked[q.id] = true;
+            }
+            gIdx++;
+          });
+        });
+
+        // FIX: Extract only the numbers for sectionTime to avoid the object-string bug
+        sectionTime = {}; 
+        if (latest.sections) {
+          Object.keys(latest.sections).forEach(sName => {
+            const sec = latest.sections[sName];
+            sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
+          });
+        }
+
+        // Assign to Global Variables
+        answers = recAns;
+        marked = recMarked;
+        questionTime = recTime;
+        seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
+        answers.originalTimestamp = latest.submittedAt;
+
+        const syncData = {
+          submitted: true,
+          answers: recAns,
+          marked: recMarked,
+          questionTime: recTime,
+          sectionalData: latest.sections || {}, 
+          totalMarks: latest.score,
+          timeTakenSeconds: latest.timeTaken,
+          firebasePayload: latest,
+          resultHTML: "" 
+        };
+
+        localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
+        resultSaved = JSON.stringify(syncData);
+      }
+    }
+  }
+
+  // 2. UI Transformation: If a result exists (Local or just Synced), render it
+  if (resultSaved) {
+    const data = JSON.parse(resultSaved);
+    if (data.submitted) {
+      isQuiz = false; // Stop the quiz engine
+
+      // Hide all Quiz-related UI
+      document.getElementById("welcomeScreen").style.display = "none";
+      document.getElementById("mainHeader").style.display = "none";
+      document.getElementById("quizMainArea").style.display = "none";
+      document.getElementById("floatBar").style.display = "none";
+
+      if (!data.resultHTML) {
+        // Trigger the UI generation without touching init
+        answers = data.answers || {};
+        marked = data.marked || {};
+        questionTime = data.questionTime || {};
+        submitQuiz("silent"); 
+      } else {
+        // Just show the already generated HTML
+        const res = document.getElementById("results");
+        res.innerHTML = data.resultHTML;
+        res.style.display = "block";
+        LAST_RESULT_HTML = data.resultHTML;
+        formatTimeValues(res); // Ensure times are formatted correctly
+      }
+      
+      // Hide the loader as the very last step
+      document.getElementById("loadingOverlay").style.display = "none";
+      return true; 
+    }
+  }
+
+  return false; 
+}
+  
 
 
   // ===============================
@@ -3670,15 +3815,25 @@ QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
     document.getElementById("disp_negative").textContent = "-" + NEGATIVE_SCORE;
     document.getElementById("disp_time").textContent = Math.floor(totalTestTime / 60); // 🔴 CHANGED
 
-    // 6. Hide Loader
+  // 1. Perform the Sync check first
+const hasSubmitted = await checkPreviousSubmission();
+  
+// 6. 🔥 UPDATED: Conditional Hide Loader
+const savedState = localStorage.getItem(QUIZ_STATE_KEY);
+const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
+
+if (hasSubmitted) {
+    // Keep Welcome hidden; User stays on Loader until init() renders the Dashboard
+    document.getElementById("welcomeScreen").style.display = "none";
+} else {
+    // No submission; hide loader so user can see Welcome Screen
     document.getElementById("loadingOverlay").style.display = "none";
+}
 
-    // 7. Run Initialization
-    init();
+// 2. Now run the full init (Palette building, math rendering, etc.)
+ init();
 
-    // 8. 🔥 FIXED AUTO-RESUME LOGIC (SECTION TIMER) 🔥
-    const savedState = localStorage.getItem(QUIZ_STATE_KEY);
-    const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
+
 
     if (savedState && !alreadySubmitted) {
       const state = JSON.parse(savedState);
