@@ -3792,10 +3792,8 @@ QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
     // FIX: Initialize QUESTIONS immediately so renderQuestion doesn't crash on reload
     QUESTIONS = SECTIONS[SECTION_NAMES[0]];
 
-    // 3. Set Derived Keys
-    QUIZ_STATE_KEY = "ssc_quiz_state_" + QUIZ_ID;
-    QUIZ_RESULT_KEY = "ssc_quiz_result_" + QUIZ_ID;
-
+    
+   
     // 4. Build Section Buttons (Modified to show PART A, PART B...)
     const nav = document.getElementById("sectionNav");
     if(nav) {
