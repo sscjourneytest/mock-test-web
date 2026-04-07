@@ -1606,7 +1606,7 @@ function startTimer() {
     const qTimeDisplay = document.getElementById("qTimeTaken");
     if (qTimeDisplay && isQuiz && currentQ) {
        const spent = questionTime[currentQ.id] || 0;
-       qTimeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`;
+       qTimeDisplay.innerHTML = `⏱️: ${fmtMSS(spent)}`;
     }
 
     // Save state safely (Updated to save every second for accuracy, or keep your % 5)
@@ -1737,7 +1737,7 @@ function renderQuestion(i) {
   
   // FIX: Ensure spent time is pulled from the questionTime object
   const spent = (questionTime && questionTime[q.id]) ? questionTime[q.id] : 0;
-  timeDisplay.innerHTML = `Time Taken: ${fmtMSS(spent)}`; // Changed 'Time:' to 'Time Taken:'
+  timeDisplay.innerHTML = `⏱️: ${fmtMSS(spent)}`; // Changed 'Time:' to 'Time Taken:'
  
 
 // --- UPDATED LANGUAGE & DECODING HELPER ---
