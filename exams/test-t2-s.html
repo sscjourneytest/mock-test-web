@@ -1979,7 +1979,43 @@ function updateNavButtons() {
     btn.disabled = (current === QUESTIONS.length - 1);
   });
 }
+/**
+ * Detects the exam category (cgl, chsl, etc.) from the QUIZ_ID 
+ * to ensure data is saved in the correct username-exam.json file.
+ */
+function getExamNameFromId() {
+    const idToCheck = (typeof QUIZ_ID !== 'undefined' ? QUIZ_ID : "").toLowerCase();
+    const keywords = ["cgl", "chsl", "cpo", "steno", "phase", "sscje", "mts", "alp", "ntpc-g", "ntpc-ug", "groupd", "rpf"];
+    
+    // Finds the first matching keyword in the ID
+    const detected = keywords.find(k => idToCheck.includes(k));
+    return detected || "misc";
+}
 
+/**
+ * Sends the completion status to your Cloudflare Worker.
+ * Uses the global QUIZ_ID to handle Full and Sectional mocks correctly.
+ */
+async function saveStatusToCloud() {
+    const workerURL = "https://mmh-userdata.maniyamaniya789.workers.dev/";
+    const finalQuizId = typeof QUIZ_ID !== 'undefined' ? QUIZ_ID : null;
+    const examName = getExamNameFromId();
+    const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+
+    // Only sync if user is logged in and test ID exists
+    if (!profile || !finalQuizId || profile.username === "Guest") return;
+
+    try {
+        await fetch(`${workerURL}?user=${profile.username}&exam=${examName}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ quizId: finalQuizId })
+        });
+        console.log("Cloud Sync: Progress saved to GitHub.");
+    } catch (e) {
+        console.error("Cloud Sync Error: Could not reach worker.");
+    }
+}
 // ===============================
 // 🚀 SUBMIT & ANALYSIS ENGINE
 // ===============================
