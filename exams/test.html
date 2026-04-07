@@ -3678,16 +3678,24 @@ try {
     document.getElementById("disp_correct").textContent = "+" + CORRECT_SCORE;
     document.getElementById("disp_negative").textContent = "-" + NEGATIVE_SCORE;
     document.getElementById("disp_time").textContent = data.meta.timer_minutes;
+// 1. Perform the Sync check first
+const hasSubmitted = await checkPreviousSubmission();
+  
+// 6. 🔥 UPDATED: Conditional Hide Loader
+const savedState = localStorage.getItem(QUIZ_STATE_KEY);
+const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
 
-    // 6. Hide Loader
+if (hasSubmitted) {
+    // Keep Welcome hidden; User stays on Loader until init() renders the Dashboard
+    document.getElementById("welcomeScreen").style.display = "none";
+} else {
+    // No submission; hide loader so user can see Welcome Screen
     document.getElementById("loadingOverlay").style.display = "none";
+}
 
-    // 7. Run Initialization
-    init();
-
-    // 8. 🔥 FIXED AUTO-RESUME LOGIC 🔥
-    const savedState = localStorage.getItem(QUIZ_STATE_KEY);
-    const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
+// 2. Now run the full init (Palette building, math rendering, etc.)
+ init();
+    
 
     if (savedState && !alreadySubmitted) {
       const state = JSON.parse(savedState);
