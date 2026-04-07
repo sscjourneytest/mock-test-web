@@ -224,9 +224,9 @@
             
             <label>Full Name <span>*</span></label>
             <input type="text" id="s-name" class="input-box" placeholder="Real Name">
-            
             <label>Unique Username <span>*</span></label>
-            <input type="text" id="s-username" class="input-box" placeholder="Letters and numbers only">
+<input type="text" id="s-username" class="input-box" placeholder="Letters and numbers only (No dots or signs)">
+          
             
             <label>Gmail Address <span>*</span></label>
             <input type="email" id="s-email" class="input-box" placeholder="example@gmail.com">
@@ -333,6 +333,7 @@
             const name = document.getElementById('s-name').value.trim();
             const user = document.getElementById('s-username').value.trim();
             const userRegex = /^[A-Za-z0-9]+$/;
+           
 
             if(!email || !pass || !name || !user) return showMessage("Error: All fields are mandatory!", true);
             if(!userRegex.test(user)) return showMessage("Error: Username must only contain letters and numbers.", true);
