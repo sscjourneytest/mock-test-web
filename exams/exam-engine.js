@@ -1,10 +1,27 @@
 let EXAM_JSON = null;
 let currentFilters = { tier: 'tier1', year: '', type: 'full_mocks', section: '' };
+let db = null; 
 
 async function initExamEngine() {
     const pathParts = window.location.pathname.split('/');
     const examName = pathParts[pathParts.length - 2];
     
+    // --- DYNAMIC CONFIG LOADING & FIREBASE INIT ---
+    try {
+        await import('/firebase-config.js');
+        if (typeof FIREBASE_PROJECTS !== 'undefined' && FIREBASE_PROJECTS[examName]) {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(FIREBASE_PROJECTS[examName]);
+            }
+            db = firebase.database();
+        }
+    } catch (e) {
+        if (window.FIREBASE_PROJECTS && window.FIREBASE_PROJECTS[examName]) {
+            if (!firebase.apps.length) firebase.initializeApp(window.FIREBASE_PROJECTS[examName]);
+            db = firebase.database();
+        }
+    }
+
     document.getElementById('grid-sync').innerText = "🔄 Syncing Premium Database...";
     
     try {
@@ -17,8 +34,53 @@ async function initExamEngine() {
         
         setupFilters(years);
         renderMocks();
+        syncStatusFromFirebase(); 
     } catch (e) {
         document.getElementById('grid-sync').innerHTML = "⚠️ Failed to sync. Check connection.";
+    }
+}
+
+async function syncStatusFromFirebase() {
+    const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+    if (!profile || !db) return;
+    const username = profile.username;
+
+    try {
+        const snapshot = await db.ref(`quiz_results`).once('value');
+        const allResults = snapshot.val() || {};
+
+        let cloudStatus = JSON.parse(localStorage.getItem('CLOUD_SYNC_STATUS') || "{}");
+        let needsReRender = false;
+
+        const source = EXAM_JSON.data[currentFilters.tier][currentFilters.year];
+        const config = EXAM_JSON.config[currentFilters.tier];
+
+        const checkId = (id) => {
+            const cloudExists = allResults[id] && allResults[id][username];
+            if (cloudExists && !cloudStatus[id]) {
+                cloudStatus[id] = true;
+                needsReRender = true;
+            }
+        };
+
+        // 1. Check Full Mocks
+        (source.full_mocks || []).forEach(m => checkId(m.id));
+
+        // 2. Check Sectionals (Using backendName cleaning to match Template/Firebase)
+        (source.full_mocks || []).forEach(m => {
+            (config.sections || []).forEach(sec => {
+                const cleanSec = sec.backendName.replace(/\s+/g, '').toLowerCase();
+                checkId(`${m.id}-${cleanSec}`);
+            });
+        });
+
+        // 3. Check Subject Wise
+        (source.subject_wise || []).forEach(m => checkId(m.id));
+
+        localStorage.setItem('CLOUD_SYNC_STATUS', JSON.stringify(cloudStatus));
+        if (needsReRender) renderMocks();
+    } catch (err) {
+        console.error("Firebase Sync Failed:", err);
     }
 }
 
@@ -55,6 +117,8 @@ function renderMocks() {
     const isPaidUser = profile ? profile.is_paid : false;
     const username = profile ? profile.username : "Guest";
 
+    const cloudStatus = JSON.parse(localStorage.getItem('CLOUD_SYNC_STATUS') || "{}");
+
     let html = '';
     let rawList = source[currentFilters.type] || [];
     let itemsToDisplay = [];
@@ -64,7 +128,8 @@ function renderMocks() {
         const sectionDef = config.sections.find(s => s.id === currentFilters.section);
         
         fullMocksForSection.forEach(mock => {
-            const cleanSec = sectionDef.name.replace(/\s+/g, '').toLowerCase();
+            // FIXED: Now using backendName for ID generation to match Firebase/Test Template
+            const cleanSec = sectionDef.backendName.replace(/\s+/g, '').toLowerCase();
             itemsToDisplay.push({
                 ...mock,
                 id: `${mock.id}-${cleanSec}`,
@@ -73,7 +138,6 @@ function renderMocks() {
                 qs: sectionDef.qs,
                 time: sectionDef.time,
                 marks: sectionDef.marks,
-                // CHANGED: Using sectionDef.backendName to match your private question JSON exactly
                 linkParam: `id=${mock.id}&section=${encodeURIComponent(sectionDef.backendName)}`
             });
         });
@@ -87,33 +151,23 @@ function renderMocks() {
         const isLockedDate = item.releaseDate && new Date(item.releaseDate) > new Date();
         const accessDenied = item.type === 'paid' && !isPaidUser;
         
-        const resultKey = `result_${username}_${item.id}`;
-        const stateKey = `state_${username}_${item.id}`;
-        const savedResult = JSON.parse(localStorage.getItem(resultKey) || "{}");
-        const savedState = JSON.parse(localStorage.getItem(stateKey) || "{}");
+        const localResult = localStorage.getItem(`result_${username}_${item.id}`);
+        const savedState = JSON.parse(localStorage.getItem(`state_${username}_${item.id}`) || "{}");
+        
+        const isSubmitted = localResult !== null || cloudStatus[item.id];
 
         let actionHtml = '';
-        let scoreHtml = '';
 
         if (isLockedDate) {
             actionHtml = `<div class="action-btn unlock-btn" style="opacity:0.6; cursor:default;">Available ${item.releaseDate}</div>`;
         } else if (accessDenied) {
             actionHtml = `<a href="/buy-premium.html" class="action-btn unlock-btn">🔒 UNLOCK TEST</a>`;
         } else {
-            if (savedResult.submitted) {
-                const pct = Math.min(100, (savedResult.totalMarks / (item.marks || 100)) * 100);
-                const barColor = pct >= 75 ? '#22c55e' : (pct >= 50 ? '#f59e0b' : '#ef4444');
-                
+            if (isSubmitted) {
                 actionHtml = `
                     <div class="btn-grid btn-dual">
                         <a href="${getLink(config)}?${item.linkParam}" class="action-btn analysis-btn">ANALYSIS</a>
                         <button onclick="reattempt('${item.id}', '${getLink(config)}?${item.linkParam}')" class="action-btn reattempt-btn">REATTEMPT</button>
-                    </div>
-                `;
-                scoreHtml = `
-                    <div class="score-row">
-                        <div class="score-bar-bg"><div class="score-bar-fill" style="width:${pct}%; background:${barColor}"></div></div>
-                        <div class="score-text">${savedResult.totalMarks}/${item.marks || 100}</div>
                     </div>
                 `;
             } else if (savedState.isPaused) {
@@ -131,7 +185,6 @@ function renderMocks() {
                         <div class="card-meta">${item.qs || 100} Questions • ${item.time || '60 Min'}</div>
                     </div>
                 </div>
-                ${scoreHtml}
                 <div class="btn-grid">${actionHtml}</div>
             </div>
         `;
@@ -142,7 +195,6 @@ function renderMocks() {
 }
 
 function getLink(config) {
-    // CHANGED: Added ../ to paths to access templates located in the parent /exams/ folder
     if (currentFilters.type === 'full_mocks') return "../" + config.full_link;
     if (currentFilters.type === 'sectional') return "../" + config.sectional_link;
     return "../" + config.subject_link;
@@ -152,8 +204,9 @@ function setYear(y, el) {
     document.querySelectorAll('#year-scroll .pill-filter').forEach(p => p.classList.remove('active'));
     el.classList.add('active');
     currentFilters.year = y;
-    setupFilters(Object.keys(EXAM_JSON.data[currentFilters.tier])); // Update counts for new year
+    setupFilters(Object.keys(EXAM_JSON.data[currentFilters.tier])); 
     renderMocks();
+    syncStatusFromFirebase(); 
 }
 
 function filterType(type, el) {
@@ -179,7 +232,6 @@ function renderSectionPills() {
     currentFilters.section = sections[0].id;
     let html = '';
     sections.forEach(s => {
-        // CHANGED: Added count to sectional pills (Matches number of full mocks)
         html += `<div class="pill-filter ${s.id === currentFilters.section ? 'active' : ''}" onclick="setSection('${s.id}', this)">${s.name} (${fullMockCount})</div>`;
     });
     document.getElementById('section-scroll').innerHTML = html;
@@ -197,8 +249,9 @@ function setTier(t, el) {
     document.querySelectorAll('#tier-wrap .pill-filter').forEach(p => p.classList.remove('active'));
     el.classList.add('active');
     currentFilters.tier = t;
-    setupFilters(Object.keys(EXAM_JSON.data[currentFilters.tier])); // Update counts for new tier
+    setupFilters(Object.keys(EXAM_JSON.data[currentFilters.tier])); 
     renderMocks();
+    syncStatusFromFirebase(); 
 }
 
 function reattempt(id, url) {
@@ -207,6 +260,9 @@ function reattempt(id, url) {
     if(confirm("Confirm Reattempt? Previous result will be deleted.")) {
         localStorage.removeItem(`result_${username}_${id}`);
         localStorage.removeItem(`state_${username}_${id}`);
-        window.location.href = url;
+        let cloudStatus = JSON.parse(localStorage.getItem('CLOUD_SYNC_STATUS') || "{}");
+        delete cloudStatus[id];
+        localStorage.setItem('CLOUD_SYNC_STATUS', JSON.stringify(cloudStatus));
+        window.location.href = url + "&mode=reattempt";
     }
 }
