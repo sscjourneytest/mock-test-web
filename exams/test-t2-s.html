@@ -2619,7 +2619,7 @@ async function refreshLatestRankOnDemand(btn) {
         freshSections = {};
         freshSections[specificSection] = standardizedFreshSections[specificSection];
         
-        const timeMap = { "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30, "MATH": 30, "MATHS": 30, "ENGLISH": 30, "SECTION 1": 60, "SECTION 2": 60, "SECTION 3": 15};
+        const timeMap = { "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30, "MATH": 30, "MATHS": 30, "ENGLISH": 30, "SECTION 1": 60, "SECTION 2": 60, "SECTION 3": 15 };
         const mins = timeMap[specificSection] || 20;
         freshData.meta.timer_minutes = mins;
         freshData.meta.timer_seconds = mins * 60;
