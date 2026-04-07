@@ -3560,8 +3560,6 @@ async function checkPreviousSubmission() {
 // ===============================
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
-
-
 async function loadQuizData() {
   const profile = getLocalProfile();
   if (profile) {
@@ -3604,7 +3602,9 @@ try {
     
     const data = await response.json();
 
-  // --- DYNAMIC SECTIONAL LOGIC ---
+ 
+
+    // --- DYNAMIC SECTIONAL LOGIC ---
     // Standardize HELLOMISTER structure: Convert objects with .questions into plain arrays
     let standardizedSections = {};
     Object.keys(data.sections).forEach(key => {
@@ -3622,7 +3622,7 @@ try {
 
         const timeMap = {
             "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30,
-            "MATH": 30, "MATHS": 30, "ENGLISH": 30, "SECTION 1": 60, "SECTION 2": 60, "SECTION 3": 15
+            "MATH": 30, "MATHS": 30, "ENGLISH": 30
         };
         const mins = timeMap[specificSection] || 20;
         data.meta.timer_minutes = mins;
@@ -3632,9 +3632,7 @@ try {
         QUIZ_ID = data.meta.id;
         SECTIONS = standardizedSections; // Use the standardized arrays
         SECTION_NAMES = Object.keys(SECTIONS);
-    }
-  
-
+}
 
     QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
     QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
