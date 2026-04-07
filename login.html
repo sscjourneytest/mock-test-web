@@ -357,7 +357,9 @@
                     showMessage("Error: " + error.message, true);
                 } else {
                     showMessage("Registration Successful! Redirecting...", false);
-                    setTimeout(() => window.location.href = "/index.html", 1500);
+                    setTimeout(() => { 
+                        window.location.href = "/index.html?v=" + Date.now(); 
+                    }, 1500);
                 }
             }
         }
@@ -379,7 +381,8 @@
 
             const { error } = await client.auth.signInWithPassword({ email: loginEmail, password: pass });
             if (error) showMessage("Error: " + error.message, true);
-            else window.location.href = "/index.html";
+            // The Date.now() ensures the URL is unique every time, forcing a fresh load
+            else window.location.href = "/index.html?v=" + Date.now();
         }
     </script>
 </body>
