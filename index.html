@@ -387,7 +387,42 @@
         .badge-pro { background: #f59e0b; color: white; font-size: 10px; padding: 2px 8px; border-radius: 50px; }
         .hidden { display: none !important; }
         #install-banner { position: fixed; top: 0; width: 100%; z-index: 10000; background: #1e293b; color: white; padding: 15px; text-align: center; font-size: 14px; border-bottom: 3px solid var(--primary); }
-  
+  /* --- DARK MODE ADJUSTMENTS FOR ACTION & REC CARDS --- */
+body.dark-mode .box-style, 
+body.dark-mode .rec-card {
+    background: #1e293b !important; /* Solid dark blue-grey */
+    border-color: #334155 !important; /* Subtle border */
+    color: #f1f5f9 !important; /* Off-white text */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Fix specific Action Box Icon & Arrow colors for visibility */
+body.dark-mode .box-style h4,
+body.dark-mode .rec-card h4 {
+    color: #f8fafc;
+}
+
+body.dark-mode .box-arrow {
+    color: #94a3b8;
+    opacity: 0.8;
+}
+
+/* Ensure the text descriptions in Rec Cards are readable */
+body.dark-mode .rec-card p {
+    color: #94a3b8 !important;
+}
+
+/* Hover states for Dark Mode */
+body.dark-mode .box-style:hover,
+body.dark-mode .rec-card:hover {
+    background: #2d3748 !important; /* Slightly lighter on hover */
+    border-color: var(--primary) !important;
+}
+
+/* Maintain Icon Colors in Dark Mode */
+body.dark-mode .box-1 i { color: #60a5fa; } /* Brighter Blue */
+body.dark-mode .box-2 i { color: #fbbf24; } /* Brighter Gold/Orange */
+body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
         
     </style>
 </head>
