@@ -126,7 +126,7 @@ async function handleLogout() {
     const client = await getClient();
     localStorage.removeItem('u_vault');
     localStorage.removeItem('mmh_guide_seen');
-    / Clear all exam caches to keep data private
+    // Clear all exam caches to keep data private
         Object.keys(localStorage).forEach(key => {
             if (key.startsWith('CLOUD_SYNC_')) localStorage.removeItem(key);
         });
