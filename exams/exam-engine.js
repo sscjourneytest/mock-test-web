@@ -141,9 +141,9 @@ function renderMocks() {
         
         const localResult = localStorage.getItem(`result_${username}_${item.id}`);
         const savedState = JSON.parse(localStorage.getItem(`state_${username}_${item.id}`) || "{}");
-        
-        const isSubmitted = localResult !== null || cloudStatus[item.id];
 
+        const isSubmitted = localResult !== null || CLOUD_CHECKLIST[item.id];
+        
         let actionHtml = '';
 
         if (isLockedDate) {
