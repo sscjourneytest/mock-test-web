@@ -2604,27 +2604,42 @@ async function refreshLatestRankOnDemand(btn) {
     
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
+     
     
     const specificSection = urlParams.get('section');
+
+         // --- UPDATED DYNAMIC SECTIONAL LOGIC ---
     
-    // Standardize HELLOMISTER structure: Extract .questions into plain arrays
+    // 1. Keep the full object so we don't lose 'time_seconds'
     let standardizedFreshSections = {};
     Object.keys(freshData.sections).forEach(key => {
-        standardizedFreshSections[key] = freshData.sections[key].questions || freshData.sections[key];
+        standardizedFreshSections[key] = freshData.sections[key];
     });
 
-    let freshSections = standardizedFreshSections;
+    let freshSections = {};
 
     if (specificSection && standardizedFreshSections[specificSection]) {
-        freshSections = {};
-        freshSections[specificSection] = standardizedFreshSections[specificSection];
+        const sectionData = standardizedFreshSections[specificSection];
+        
+        // 2. Extract questions for the quiz array
+        freshSections[specificSection] = sectionData.questions || sectionData;
         
         const timeMap = { "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30, "MATH": 30, "MATHS": 30, "ENGLISH": 30 };
-        const mins = timeMap[specificSection] || 20;
+        
+        // 3. Prioritize JSON time_seconds, then timeMap, then default 20
+        const mins = sectionData.time_seconds ? (parseInt(sectionData.time_seconds) / 60) : (timeMap[specificSection] || 20);
+        
         freshData.meta.timer_minutes = mins;
         freshData.meta.timer_seconds = mins * 60;
-        freshData.meta.total_questions = standardizedFreshSections[specificSection].length;
+        freshData.meta.total_questions = freshSections[specificSection].length;
+    } else {
+        // Fallback for full quiz: map all sections to their question arrays
+        Object.keys(standardizedFreshSections).forEach(key => {
+            freshSections[key] = standardizedFreshSections[key].questions || standardizedFreshSections[key];
+        });
     }
+     
+    
     // ------------------------------
     
     // 2. Re-Calculation Loop: Re-evaluate answers against standardized arrays
@@ -3604,37 +3619,44 @@ try {
     
     const data = await response.json();
 
- 
-
-    // --- DYNAMIC SECTIONAL LOGIC ---
-    // Standardize HELLOMISTER structure: Convert objects with .questions into plain arrays
+     // --- DYNAMIC SECTIONAL LOGIC ---
+    // 1. CHANGE: Keep the full object (including time_seconds) instead of just the questions
     let standardizedSections = {};
     Object.keys(data.sections).forEach(key => {
-        standardizedSections[key] = data.sections[key].questions || data.sections[key];
+        standardizedSections[key] = data.sections[key]; 
     });
 
     if (specificSection && standardizedSections[specificSection]) {
+        const sectionData = standardizedSections[specificSection]; // Helper for readability
         const cleanSectionName = specificSection.replace(/\s+/g, '').toLowerCase();
         QUIZ_ID = data.meta.id + "-" + cleanSectionName;
         QUIZ_TITLE = data.meta.title + " - " + specificSection;
         
         SECTIONS = {};
-        SECTIONS[specificSection] = standardizedSections[specificSection];
+        // 2. CHANGE: Map the questions correctly since we stored the whole object above
+        SECTIONS[specificSection] = sectionData.questions || sectionData;
         SECTION_NAMES = [specificSection];
 
         const timeMap = {
             "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30,
             "MATH": 30, "MATHS": 30, "ENGLISH": 30
         };
-        const mins = timeMap[specificSection] || 20;
+
+        // 3. CHANGE: Use JSON time_seconds first, then fallback to timeMap, then default to 20
+        const mins = sectionData.time_seconds ? (sectionData.time_seconds / 60) : (timeMap[specificSection] || 20);
+        
         data.meta.timer_minutes = mins;
         data.meta.timer_seconds = mins * 60;
     } else {
         QUIZ_TITLE = data.meta.title;
         QUIZ_ID = data.meta.id;
-        SECTIONS = standardizedSections; // Use the standardized arrays
+        // Standardize full quiz structure: Map sections to their question arrays
+        SECTIONS = Object.fromEntries(
+            Object.entries(standardizedSections).map(([k, v]) => [k, v.questions || v])
+        );
         SECTION_NAMES = Object.keys(SECTIONS);
     }
+  
 
     QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
     QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
