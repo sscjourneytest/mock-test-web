@@ -3187,22 +3187,25 @@ el("submitBtn").onclick = () => {
     el("submitMsg").innerHTML = `<div style="text-align:center; font-weight:700; margin-bottom:10px;">Exam Summary</div>` + modalTableHtml;
     el("submitModal").style.display = "flex";
 };
-  // Close modal on cancel
-  el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
+  // Close modal on cancel (Normal function is fine here)
+el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
 
-  // Handle sync and submission on confirm
-  el("confirmSubmit").onclick = async () => { 
+// Handle sync and submission (Must be ASYNC to use AWAIT)
+el("confirmSubmit").onclick = async function() { 
     // 1. Hide the modal immediately
     el("submitModal").style.display = "none"; 
 
-    // 2. Wait for the Cloud Sync to finish
-    await saveStatusToCloud(); 
+    try {
+        // 2. Wait for the Cloud Sync to finish
+        // This will only work because we added 'async' above
+        await saveStatusToCloud(); 
+    } catch (err) {
+        console.error("Cloud sync failed, proceeding with local submit", err);
+    }
 
-    // 3. Proceed with the actual quiz submission
+    // 3. Proceed with the actual quiz submission logic
     submitQuiz(); 
-  };
-}
-
+};
 }
 
 // Build Palette Buttons
