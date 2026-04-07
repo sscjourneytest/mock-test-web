@@ -3413,6 +3413,10 @@ async function checkPreviousSubmission() {
   let resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
   const urlParams = new URLSearchParams(window.location.search);
 
+    if (urlParams.get('mode') === 'reattempt') {
+    localStorage.removeItem(QUIZ_RESULT_KEY);
+    localStorage.removeItem(QUIZ_STATE_KEY);
+    }
   // 1. If no local result, try Cloud Recovery
   if (!resultSaved && !urlParams.get('mode')) {
     const cloudSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY)
