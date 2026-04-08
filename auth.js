@@ -134,19 +134,7 @@ async function handleLogout() {
         window.location.href = "/index.html?v=" + Date.now(); // Force fresh load
    
 }
-// This ensures auth runs on fresh load AND back/forward navigation
-window.addEventListener('pageshow', function(event) {
-    // Re-initialize authentication and UI
-    initAuth();
-    
-    // If you are on the homepage, trigger the UI update specifically
-    if (typeof updateUI === 'function') {
-        const profile = getLocalProfile();
-        if (profile) {
-            updateUI(profile);
-        }
-    }
-});
+
 
 // Keep this for the very first initial load
 document.addEventListener('DOMContentLoaded', initAuth);
