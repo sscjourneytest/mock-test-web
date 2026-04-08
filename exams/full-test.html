@@ -3096,23 +3096,60 @@ el("submitBtn").onclick = () => {
 };
   // Close modal on cancel (Normal function is fine here)
 el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
+  
+  // Variable to track retry attempt globally or within the scope
+let hasRetriedSync = false;
 
-// Handle sync and submission (Must be ASYNC to use AWAIT)
 el("confirmSubmit").onclick = async function() { 
-    // 1. Hide the modal immediately
-    el("submitModal").style.display = "none"; 
-
-    try {
-        // 2. Wait for the Cloud Sync to finish
-        // This will only work because we added 'async' above
-        await saveStatusToCloud(); 
-    } catch (err) {
-        console.error("Cloud sync failed, proceeding with local submit", err);
+    const btn = el("confirmSubmit");
+    const cancelBtn = el("cancelSubmit");
+    
+    // 1. Prepare/Get the Message Element
+    let waitMsg = document.getElementById("submitWaitMsg");
+    if (!waitMsg) {
+        waitMsg = document.createElement("p");
+        waitMsg.id = "submitWaitMsg";
+        waitMsg.style = "font-size: 13px; margin-top: 10px; font-weight: 600; text-align: center;";
+        btn.parentNode.parentNode.appendChild(waitMsg);
     }
 
-    // 3. Proceed with the actual quiz submission logic
-    submitQuiz(); 
+    // 2. Initial Loading State
+    btn.disabled = true;
+    btn.innerText = "Submitting...";
+    btn.style.opacity = "0.7";
+    cancelBtn.style.display = "none"; 
+    waitMsg.style.color = "#666";
+    waitMsg.innerText = "Please wait until test successfully submitted...";
+
+    try {
+        // 3. Attempt Cloud Sync
+        await saveStatusToCloud(); 
+        
+        // Success: Proceed to finish
+        el("submitModal").style.display = "none"; 
+        submitQuiz(); 
+
+    } catch (err) {
+        console.error("Cloud sync failed:", err);
+
+        if (!hasRetriedSync) {
+            // --- FIRST FAILURE: Show Error and Ask for Retry ---
+            hasRetriedSync = true;
+            btn.disabled = false;
+            btn.innerText = "Retry Submission";
+            btn.style.opacity = "1";
+            cancelBtn.style.display = "inline-block";
+            waitMsg.style.color = "#dc3545"; // Red color
+            waitMsg.innerText = "⚠️ Submission Failed. Check your connection and click Retry.";
+        } else {
+            // --- SECOND FAILURE: Proceed anyway to save local progress ---
+            console.warn("Second failure, submitting locally to prevent data loss.");
+            el("submitModal").style.display = "none"; 
+            submitQuiz(); 
+        }
+    }
 };
+  
           }
 // Build Palette Buttons
 function buildPalette() {
