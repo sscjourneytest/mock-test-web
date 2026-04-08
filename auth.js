@@ -88,7 +88,11 @@ function saveLocalProfile(data) {
     const payload = { ...data, cache_expiry: Date.now() + (7 * 24 * 60 * 60 * 1000) };
     const encrypted = btoa(JSON.stringify(payload) + SECRET_SALT);
     localStorage.setItem('u_vault', encrypted);
+    
+    // ADD THIS LINE: It tells index.html to update RIGHT NOW
+    window.dispatchEvent(new Event('profileUpdated'));
 }
+
 
 function getLocalProfile() {
     const raw = localStorage.getItem('u_vault');
