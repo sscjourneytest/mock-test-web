@@ -2332,24 +2332,51 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
   }
 } // <--- This is the final brace that closes function submitQuiz()
 
-      
+    async function autoSubmitQuiz() {
+    // 1. Prevent double submission and stop the timer
+    if (!isQuiz) return;
+    clearInterval(timerInterval);
+    isQuiz = false;
+
+    // 2. Show a non-blocking overlay to inform the user
+    document.getElementById("loadingOverlay").style.display = "flex";
+    document.getElementById("loadingText").innerText = "TIME IS UP! SUBMITTING TEST...";
+
+    // 3. Automatic Silent Retry Logic (Attempts twice internally)
+    let syncSuccess = false;
+    let attempts = 0;
+    const maxAttempts = 2;
+
+    while (attempts < maxAttempts && !syncSuccess) {
+        attempts++;
+        try {
+            console.log(`Auto-submit: Cloud sync attempt ${attempts}...`);
+            
+            // We use a 3-second timeout per attempt to prevent hanging
+            await Promise.race([
+                saveStatusToCloud(),
+                new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 3000))
+            ]);
+            
+            syncSuccess = true;
+            console.log("Auto-submit: Cloud sync successful.");
+        } catch (e) {
+            console.warn(`Auto-submit: Attempt ${attempts} failed.`, e);
+            // Small 500ms delay before retrying
+            if (attempts < maxAttempts) await new Promise(r => setTimeout(r, 500));
+        }
+    }
+
+    // 4. Final step: Hide overlay and trigger local submission
+    document.getElementById("loadingOverlay").style.display = "none";
+    
+    // The 'true' flag ensures it handles the UI correctly for auto-submit
+    submitQuiz(true); 
+    }
+  
 
      
-function autoSubmitQuiz() {
-  // Prevent double submit
-  if (!isQuiz) return;
 
-  clearInterval(timerInterval);
-
- 
-  isQuiz = false;
-
-  // Inform user (optional)
-  alert("Time is up! Your test has been submitted automatically.");
-
-  // Submit quiz silently
-  submitQuiz(true); // true = auto submit
-}
 // ===============================
 // 📊 FIREBASE & DATA FUNCTIONS
 // ===============================
@@ -3125,22 +3152,59 @@ el("submitBtn").onclick = () => {
  // Close modal on cancel (Normal function is fine here)
 el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
 
-// Handle sync and submission (Must be ASYNC to use AWAIT)
-el("confirmSubmit").onclick = async function() { 
-    // 1. Hide the modal immediately
-    el("submitModal").style.display = "none"; 
+  // Variable to track retry attempt globally or within the scope
+let hasRetriedSync = false;
 
-    try {
-        // 2. Wait for the Cloud Sync to finish
-        // This will only work because we added 'async' above
-        await saveStatusToCloud(); 
-    } catch (err) {
-        console.error("Cloud sync failed, proceeding with local submit", err);
+el("confirmSubmit").onclick = async function() { 
+    const btn = el("confirmSubmit");
+    const cancelBtn = el("cancelSubmit");
+    
+    // 1. Prepare/Get the Message Element
+    let waitMsg = document.getElementById("submitWaitMsg");
+    if (!waitMsg) {
+        waitMsg = document.createElement("p");
+        waitMsg.id = "submitWaitMsg";
+        waitMsg.style = "font-size: 13px; margin-top: 10px; font-weight: 600; text-align: center;";
+        btn.parentNode.parentNode.appendChild(waitMsg);
     }
 
-    // 3. Proceed with the actual quiz submission logic
-    submitQuiz(); 
-}; 
+    // 2. Initial Loading State
+    btn.disabled = true;
+    btn.innerText = "Submitting...";
+    btn.style.opacity = "0.7";
+    cancelBtn.style.display = "none"; 
+    waitMsg.style.color = "#666";
+    waitMsg.innerText = "Please wait until test successfully submitted...";
+
+    try {
+        // 3. Attempt Cloud Sync
+        await saveStatusToCloud(); 
+        
+        // Success: Proceed to finish
+        el("submitModal").style.display = "none"; 
+        submitQuiz(); 
+
+    } catch (err) {
+        console.error("Cloud sync failed:", err);
+
+        if (!hasRetriedSync) {
+            // --- FIRST FAILURE: Show Error and Ask for Retry ---
+            hasRetriedSync = true;
+            btn.disabled = false;
+            btn.innerText = "Retry Submission";
+            btn.style.opacity = "1";
+            cancelBtn.style.display = "inline-block";
+            waitMsg.style.color = "#dc3545"; // Red color
+            waitMsg.innerText = "⚠️ Sync Failed. Check your connection and click Retry.";
+        } else {
+            // --- SECOND FAILURE: Proceed anyway to save local progress ---
+            console.warn("Second failure, submitting locally to prevent data loss.");
+            el("submitModal").style.display = "none"; 
+            submitQuiz(); 
+        }
+    }
+};
+
 }
 // Build Palette Buttons
 function buildPalette() {
