@@ -701,17 +701,38 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
 
         resetTimer();
 
+// 1. Function to handle the UI refresh logic
+function refreshAppUI() {
+    const p = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+    if (p) {
+        updateUI(p);
+        document.documentElement.classList.add('user-is-logged-in');
+    } else {
+        document.documentElement.classList.remove('user-is-logged-in');
+    }
+}
 
+// 2. Run on initial page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle theme
+    if (localStorage.getItem('mmh_theme') === 'dark') document.body.classList.add('dark-mode');
+    
+    // Check if profile already exists in localStorage
+    refreshAppUI();
+});
 
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('mmh_theme') === 'dark') document.body.classList.add('dark-mode');
-            const check = setInterval(() => {
-                const p = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
-                if (p) { updateUI(p); clearInterval(check); }
-            }, 100);
-            setTimeout(() => clearInterval(check), 2000);
-        });
+// 3. Listen for the "Handshake" from auth.js (Instant Login Update)
+window.addEventListener('profileUpdated', () => {
+    refreshAppUI();
+});
 
+// 4. Handle Back/Forward browser navigation
+window.addEventListener('pageshow', (event) => {
+    refreshAppUI();
+});
+        
+
+        
         let defP;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); defP = e;
