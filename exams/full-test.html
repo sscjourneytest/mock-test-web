@@ -2333,21 +2333,49 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
   }
 } // <--- This is the final brace that closes function submitQuiz()
 
-function autoSubmitQuiz() {
-  // Prevent double submit
-  if (!isQuiz) return;
+  async function autoSubmitQuiz() {
+    // 1. Prevent double submission and stop the timer
+    if (!isQuiz) return;
+    clearInterval(timerInterval);
+    isQuiz = false;
 
-  clearInterval(timerInterval);
+    // 2. Show a non-blocking overlay to inform the user
+    document.getElementById("loadingOverlay").style.display = "flex";
+    document.getElementById("loadingText").innerText = "TIME IS UP! SUBMITTING TEST...";
 
- 
-  isQuiz = false;
+    // 3. Automatic Silent Retry Logic (Attempts twice internally)
+    let syncSuccess = false;
+    let attempts = 0;
+    const maxAttempts = 2;
 
-  // Inform user (optional)
-  alert("Time is up! Your test has been submitted automatically.");
+    while (attempts < maxAttempts && !syncSuccess) {
+        attempts++;
+        try {
+            console.log(`Auto-submit: Cloud sync attempt ${attempts}...`);
+            
+            // We use a 3-second timeout per attempt to prevent hanging
+            await Promise.race([
+                saveStatusToCloud(),
+                new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 3000))
+            ]);
+            
+            syncSuccess = true;
+            console.log("Auto-submit: Cloud sync successful.");
+        } catch (e) {
+            console.warn(`Auto-submit: Attempt ${attempts} failed.`, e);
+            // Small 500ms delay before retrying
+            if (attempts < maxAttempts) await new Promise(r => setTimeout(r, 500));
+        }
+    }
 
-  // Submit quiz silently
-  submitQuiz(true); // true = auto submit
-}
+    // 4. Final step: Hide overlay and trigger local submission
+    document.getElementById("loadingOverlay").style.display = "none";
+    
+    // The 'true' flag ensures it handles the UI correctly for auto-submit
+    submitQuiz(true); 
+  }
+  
+
 // ===============================
 // 📊 FIREBASE & DATA FUNCTIONS
 // ===============================
