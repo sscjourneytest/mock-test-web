@@ -701,17 +701,7 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
 
         resetTimer();
 
-        window.addEventListener('pageshow', (event) => {
-    const p = getLocalProfile();
-    if (p) {
-        updateUI(p);
-    } else {
-        // If profile was deleted (logout), reset UI
-        document.documentElement.classList.remove('user-is-logged-in');
-        location.reload(); // Force refresh to show login buttons
-    }
-});
-        
+
 
         document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('mmh_theme') === 'dark') document.body.classList.add('dark-mode');
