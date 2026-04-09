@@ -3644,28 +3644,34 @@ async function checkPreviousSubmission() {
     if (cloudSnap.exists()) {
       const history = cloudSnap.val();
       const latest = Object.values(history)[0];
+      
+if (latest && latest.responseStream) {
+    localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, latest.responseStream);
+    
+    // Assign directly to the global variables
+    answers = {}; 
+    questionTime = {}; 
+    marked = {};
 
-      if (latest && latest.responseStream) {
-        localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, latest.responseStream);
-        const recAns = {}, recTime = {}, recMarked = {};
-        const stream = latest.responseStream.split('|');
-        let gIdx = 0;
+    const stream = latest.responseStream.split('|');
+    let gIdx = 0;
 
-        SECTION_NAMES.forEach(sName => {
-          SECTIONS[sName].forEach(q => {
+    SECTION_NAMES.forEach(sName => {
+        SECTIONS[sName].forEach(q => {
             if (stream[gIdx]) {
-              const parts = stream[gIdx].split(':');
-              const ans = parts[0];
-              const time = parts[1];
-              const isMarked = parts[2] === 'Y';
+                const parts = stream[gIdx].split(':');
+                const ans = parts[0];
+                const time = parts[1];
+                const isMarked = parts[2] === 'Y';
 
-              if (ans !== "0") recAns[q.id] = ans;
-              recTime[q.id] = parseInt(time) || 0;
-              if (isMarked) recMarked[q.id] = true;
+                if (ans !== "0") answers[q.id] = ans; // Global update
+                questionTime[q.id] = parseInt(time) || 0; // Global update
+                if (isMarked) marked[q.id] = true; // Global update
             }
             gIdx++;
-          });
         });
+    });
+  
 
         // FIX: Extract only the numbers for sectionTime to avoid the object-string bug
         sectionTime = {}; 
