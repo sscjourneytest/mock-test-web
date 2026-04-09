@@ -2094,6 +2094,10 @@ function submitQuiz(isAuto = false) {
   if (timerInterval) clearInterval(timerInterval);
 let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSeconds += t);
 
+  // --- IDENTIFY QUALIFYING SECTIONS ---
+  const qualStr = (typeof quizMeta !== 'undefined' && quizMeta.qualifying_sections) ? quizMeta.qualifying_sections : "";
+  const qualifyingList = qualStr.split(',').map(s => s.trim());
+  let totalTimeFiltered = 0; // New variable for required section time
   // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
   let responseArray = [];
   SECTION_NAMES.forEach(sName => {
@@ -2154,16 +2158,20 @@ let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSecon
       unattempted: SECTIONS[sName].length - (sCor + sWr),
       timeTaken: sectionTime[sName] || 0 
     };
-
-    totalCorrect += sCor;
-    totalWrong += sWr;
-    totalMarks += sScore;
-    maxTotalMarks += sMax;
+// Only add to TOTAL if NOT a qualifying section
+    if (!qualifyingList.includes(sName)) {
+      totalCorrect += sCor;
+      totalWrong += sWr;
+      totalMarks += sScore;
+      maxTotalMarks += sMax;
+      totalTimeFiltered += (sectionTime[sName] || 0);
+    }
   });
+   
 
   const attempted = totalCorrect + totalWrong;
   const accuracy = attempted ? ((totalCorrect / attempted) * 100).toFixed(2) : "0.00";
-  const timeFormatted = fmt(timeTakenSeconds);
+  const timeFormatted = fmt(totalTimeFiltered); // Use filtered time for the Total Time box
   const totalAllowedTime = Object.values(SECTION_TIMERS)
   .reduce((sum, t) => sum + t, 0);
 
@@ -2173,7 +2181,7 @@ let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSecon
     total: maxTotalMarks,
     correct: totalCorrect,
     wrong: totalWrong,
-    timeTaken: timeTakenSeconds,
+    timeTaken: totalTimeFiltered,
     quizId: QUIZ_ID,
     emailKey: USER_EMAIL_KEY,
     sections: sectionalDataForFirebase,
@@ -2326,7 +2334,7 @@ sectionalTableHtml += `</table></div></div>`;
           ${renderComparisonBar("Wrong", totalWrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
           ${renderComparisonBar(
   "Time Taken",
-  timeTakenSeconds,
+  totalTimeFiltered,,
   totalAllowedTime,
   topperStats.time,
   totalAllowedTime
@@ -2751,7 +2759,11 @@ async function refreshLatestRankOnDemand(btn) {
     const freshData = await response.json();
     
   
-  
+  // --- IDENTIFY QUALIFYING SECTIONS ---
+    const qualStr = (freshData.meta && freshData.meta.qualifying_sections) ? freshData.meta.qualifying_sections : "";
+    const qualifyingList = qualStr.split(',').map(s => s.trim());
+    let newTotalTimeFiltered = 0; // To track time for required sections only
+    
     // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
@@ -2784,13 +2796,20 @@ async function refreshLatestRankOnDemand(btn) {
         unattempted: questionsArray.length - (sCor + sWr),
         timeTaken: oldTime
       };
-      newTotalCorrect += sCor; newTotalWrong += sWr;
-      newTotalMarks += sScore; newMaxTotalMarks += sMax;
+      // Only add to TOTALS if NOT a qualifying section
+      if (!qualifyingList.includes(name)) {
+        newTotalCorrect += sCor; 
+        newTotalWrong += sWr;
+        newTotalMarks += sScore; 
+        newMaxTotalMarks += sMax;
+        newTotalTimeFiltered += oldTime;
+      }
     });
-
+     
     // 3. Firebase Sync: Update BOTH nodes so Rank is calculated on NEW scores
     const fbUpdate = {
       score: newTotalMarks,
+      timeTaken: newTotalTimeFiltered, // Changed: excludes qualifying time
       correct: newTotalCorrect,
       wrong: newTotalWrong,
       sections: newSectionalData
@@ -2804,6 +2823,7 @@ await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultD
     const payload = {
       ...resultData.firebasePayload,
       score: newTotalMarks,
+      timeTaken: newTotalTimeFiltered, // Changed: excludes qualifying time
       total: newMaxTotalMarks,
       correct: newTotalCorrect,
       wrong: newTotalWrong,
