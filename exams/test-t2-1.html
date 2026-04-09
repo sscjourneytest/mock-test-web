@@ -2806,8 +2806,7 @@ async function refreshLatestRankOnDemand(btn) {
           }
         }
       });
-
-      const oldTime = resultData.firebasePayload.sections?.[name]?.timeTaken || 0;
+      const oldTime = resultData.sectionTime?.[name] || 0;
       newSectionalData[name] = {
         score: sScore, total: sMax, correct: sCor, wrong: sWr,
         unattempted: questionsArray.length - (sCor + sWr),
@@ -2983,10 +2982,13 @@ SECTION_NAMES.forEach(name => {
     LAST_RESULT_HTML = resultsContainer.innerHTML;
     localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
       ...resultData,
-      firebasePayload: payload,
-      resultHTML: LAST_RESULT_HTML
-    }));
-
+  firebasePayload: payload,
+  resultHTML: LAST_RESULT_HTML,
+  answers: answers,
+  questionTime: questionTime,
+  sectionTime: resultData.sectionTime || sectionTime
+}));
+    
     alert("All Ranks and Comparison Bars updated to the latest data!");
 
   } catch (err) {
@@ -3776,7 +3778,7 @@ async function checkPreviousSubmission() {
           submitted: true,
           answers: recAns,
           marked: recMarked,
-          questionTime: recTime,
+          sectionTime: sectionTime,
           sectionalData: latest.sections || {}, 
           totalMarks: latest.score,
           timeTakenSeconds: latest.timeTaken,
