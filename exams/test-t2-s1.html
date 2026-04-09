@@ -3682,18 +3682,15 @@ if (latest && latest.responseStream) {
           });
         }
 
-        // Assign to Global Variables
-        answers = recAns;
-        marked = recMarked;
-        questionTime = recTime;
+     
         seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
         answers.originalTimestamp = latest.submittedAt;
 
         const syncData = {
           submitted: true,
-          answers: recAns,
-          marked: recMarked,
-          questionTime: recTime,
+          answers,
+          marked,
+          questionTime,
           sectionalData: latest.sections || {}, 
           totalMarks: latest.score,
           timeTakenSeconds: latest.timeTaken,
