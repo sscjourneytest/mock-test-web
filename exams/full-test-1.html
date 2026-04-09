@@ -2673,7 +2673,7 @@ async function refreshLatestRankOnDemand(btn) {
     // FORCE global sync before calculation
     window.answers = resultData.answers || {};
     window.questionTime = resultData.questionTime || {};
-    window.marked = recMarked;
+   
 
     freshNames.forEach(name => {
       let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
