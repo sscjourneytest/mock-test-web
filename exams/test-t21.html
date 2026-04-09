@@ -2087,32 +2087,31 @@ async function saveStatusToCloud() {
 // ===============================
 // 🚀 SUBMIT & ANALYSIS ENGINE
 // ===============================
-function submitQuiz(isAuto = false) {
- 
 
-  // 2. 🛑 Stop Timer & Hide Quiz UI
+
+  function submitQuiz(isAuto = false) {
   if (timerInterval) clearInterval(timerInterval);
-let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSeconds += t);
 
   // --- IDENTIFY QUALIFYING SECTIONS ---
-  const qualStr = (typeof quizMeta !== 'undefined' && quizMeta.qualifying_sections) ? quizMeta.qualifying_sections : "";
+  // Ensure we check the correct global object for metadata
+  const metaObj = (typeof quizMeta !== 'undefined') ? quizMeta : (typeof freshData !== 'undefined' ? freshData.meta : {});
+  const qualStr = metaObj.qualifying_sections || "";
   const qualifyingList = qualStr.split(',').map(s => s.trim());
-  let totalTimeFiltered = 0; // New variable for required section time
-  // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
+  let totalTimeFiltered = 0; 
+
   let responseArray = [];
   SECTION_NAMES.forEach(sName => {
     SECTIONS[sName].forEach(q => {
       const ans = answers[q.id] || "0";
       const time = questionTime[q.id] || 0;
-      // If the question ID exists in the marked object, add :Y
       const isMarked = marked[q.id] ? ":Y" : ""; 
       responseArray.push(`${ans}:${time}${isMarked}`);
     });
   });
   const responseStream = responseArray.join('|');
 
-
-  document.getElementById("mainHeader").style.display = "none";
+  // ... (keep UI hiding logic same) ...
+      document.getElementById("mainHeader").style.display = "none";
   if (el("sectionNav")) el("sectionNav").style.display = "none";
   document.getElementById("floatBar").style.display = "none";
   document.body.classList.remove("actions-bottom");
@@ -2126,30 +2125,28 @@ let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSecon
                         <p>Please wait while we calculate your sectional ranks and toppers list.</p>
                       </div>`;
 
-
-  // 3. 🧮 Calculate Global & Sectional Scores
   let totalCorrect = 0, totalWrong = 0, totalMarks = 0, maxTotalMarks = 0;
-  let totalQuestionsCount = 0; // Added for precise math
+  let totalQuestionsCount = 0; 
   const sectionalDataForFirebase = {};
   let sectionalBarsHTML = "";
 
   SECTION_NAMES.forEach(sName => {
     let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
-    totalQuestionsCount += SECTIONS[sName].length;
     
     SECTIONS[sName].forEach(q => {
-      sMax += Number(q.correct_score ?? 2);
+      const qCorScore = Number(q.correct_score ?? metaObj.correct_score ?? 2);
+      const qNegScore = Number(q.negative_score ?? metaObj.negative_score ?? 0.5);
+      sMax += qCorScore;
       const ans = answers[q.id];
       if (ans == q.answer) {
         sCor++;
-        sScore += Number(q.correct_score ?? 2);
-      } else if (ans) {
+        sScore += qCorScore;
+      } else if (ans && ans !== "0") {
         sWr++;
-        sScore -= Number(q.negative_score ?? 0.5);
+        sScore -= qNegScore;
       }
     });
 
-    // Store per section - UPDATED: sectionTime[sName] tracks the real time spent
     sectionalDataForFirebase[sName] = {
       score: sScore,
       total: sMax,
@@ -2158,20 +2155,23 @@ let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSecon
       unattempted: SECTIONS[sName].length - (sCor + sWr),
       timeTaken: sectionTime[sName] || 0 
     };
-// Only add to TOTAL if NOT a qualifying section
+
+    // --- APPLY FILTERING FOR TOTAL TEST SUMMARY ---
     if (!qualifyingList.includes(sName)) {
       totalCorrect += sCor;
       totalWrong += sWr;
       totalMarks += sScore;
       maxTotalMarks += sMax;
+      totalQuestionsCount += SECTIONS[sName].length;
       totalTimeFiltered += (sectionTime[sName] || 0);
     }
   });
-   
 
   const attempted = totalCorrect + totalWrong;
   const accuracy = attempted ? ((totalCorrect / attempted) * 100).toFixed(2) : "0.00";
-  const timeFormatted = fmt(totalTimeFiltered); // Use filtered time for the Total Time box
+  const timeFormatted = fmt(totalTimeFiltered);
+
+
   const totalAllowedTime = Object.values(SECTION_TIMERS)
   .reduce((sum, t) => sum + t, 0);
 
