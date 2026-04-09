@@ -3706,60 +3706,78 @@ async function checkPreviousSubmission() {
     if (cloudSnap.exists()) {
       const history = cloudSnap.val();
       const latest = Object.values(history)[0];
+if (latest && latest.responseStream) {
+  const recAns = {}, recTime = {}, recMarked = {};
+  const stream = latest.responseStream.split('|');
+  let gIdx = 0;
 
-      if (latest && latest.responseStream) {
-        const recAns = {}, recTime = {}, recMarked = {};
-        const stream = latest.responseStream.split('|');
-        
-        let gIdx = 0;
+  // --- NEW: IDENTIFY QUALIFYING SECTIONS FOR FILTERED TIME RECOVERY ---
+  let totalTimeFilteredRec = 0; 
+  const metaObj = (typeof quizMeta !== 'undefined') ? quizMeta : (latest.meta || {});
+  const qualStr = metaObj.qualifying_sections || "";
+  const qualList = qualStr.split(',').map(s => s.trim());
 
-        SECTION_NAMES.forEach(sName => {
-          SECTIONS[sName].forEach(q => {
-            if (stream[gIdx]) {
-              const parts = stream[gIdx].split(':');
-              const ans = parts[0];
-              const time = parts[1];
-              const isMarked = parts[2] === 'Y';
+  SECTION_NAMES.forEach(sName => {
+    // Determine section-wise time from the recovered data
+    let sTime = 0;
+    if (latest.sections && latest.sections[sName]) {
+      sTime = (typeof latest.sections[sName] === 'object') ? (latest.sections[sName].timeTaken || 0) : (latest.sections[sName] || 0);
+    }
 
-              if (ans !== "0") recAns[q.id] = ans;
-              recTime[q.id] = parseInt(time) || 0;
-              if (isMarked) recMarked[q.id] = true;
-            }
-            gIdx++;
-          });
-        });
+    // Accumulate time ONLY if the section is NOT qualifying
+    if (!qualList.includes(sName)) {
+      totalTimeFilteredRec += sTime;
+    }
 
-        // FIX: Extract only the numbers for sectionTime to avoid the object-string bug
-        sectionTime = {}; 
-        if (latest.sections) {
-          Object.keys(latest.sections).forEach(sName => {
-            const sec = latest.sections[sName];
-            sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
-          });
-        }
+    SECTIONS[sName].forEach(q => {
+      if (stream[gIdx]) {
+        const parts = stream[gIdx].split(':');
+        const ans = parts[0];
+        const time = parts[1];
+        const isMarked = parts[2] === 'Y';
 
-        // Assign to Global Variables
-        answers = recAns;
-        marked = recMarked;
-        questionTime = recTime;
-        seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
-        answers.originalTimestamp = latest.submittedAt;
-
-        const syncData = {
-          submitted: true,
-          answers: recAns,
-          marked: recMarked,
-          questionTime: recTime,
-          sectionalData: latest.sections || {}, 
-          totalMarks: latest.score,
-          timeTakenSeconds: latest.timeTaken,
-          firebasePayload: latest,
-          resultHTML: "" 
-        };
-
-        localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
-        resultSaved = JSON.stringify(syncData);
+        if (ans !== "0") recAns[q.id] = ans;
+        recTime[q.id] = parseInt(time) || 0;
+        if (isMarked) recMarked[q.id] = true;
       }
+      gIdx++;
+    });
+  });
+
+  // FIX: Extract numbers for sectionTime to avoid object-string bugs
+  sectionTime = {}; 
+  if (latest.sections) {
+    Object.keys(latest.sections).forEach(sName => {
+      const sec = latest.sections[sName];
+      sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
+    });
+  }
+
+  // Assign to Global Variables
+  answers = recAns;
+  marked = recMarked;
+  questionTime = recTime;
+  // Use recovered filtered time to calculate remaining seconds if needed
+  seconds = TOTAL_TIME_SECONDS - totalTimeFilteredRec;
+  answers.originalTimestamp = latest.submittedAt;
+
+  const syncData = {
+    submitted: true,
+    answers: recAns,
+    marked: recMarked,
+    questionTime: recTime,
+    sectionalData: latest.sections || {}, 
+    totalMarks: latest.score,
+    // CRITICAL: timeTakenSeconds now uses the FILTERED time excluding qualifying sections
+    timeTakenSeconds: totalTimeFilteredRec, 
+    firebasePayload: latest,
+    resultHTML: "" 
+  };
+
+  localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
+  resultSaved = JSON.stringify(syncData);
+}
+    
     }
   }
 
