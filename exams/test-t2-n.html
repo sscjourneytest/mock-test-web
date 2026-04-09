@@ -2750,34 +2750,38 @@ async function refreshLatestRankOnDemand(btn) {
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
     
-  
-  // Inside refreshLatestRankOnDemand, after const freshData = await response.json();
-
-    // --- CRITICAL SYNC STEP ---
-    // Force global variables to match what is in localStorage resultData
-    // This prevents 'undefined' errors on cross-device loads
-    window.answers = resultData.answers || {};
-    window.questionTime = resultData.questionTime || {};
-    window.marked = resultData.marked || {};
-    
-    // Sync local pointers as well
-    answers = window.answers;
-    questionTime = window.questionTime;
-    marked = window.marked;
-
+  // 2. Re-Calculation Loop
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
     const freshSections = freshData.sections;
     const freshNames = Object.keys(freshSections);
 
+    // CRITICAL: Sync global variables from resultData so they aren't 'undefined'
+    window.answers = resultData.answers || {};
+    window.questionTime = resultData.questionTime || {};
+    window.marked = resultData.marked || {};
+
+      // Sync local pointers as well
+    answers = window.answers;
+    questionTime = window.questionTime;
+    marked = window.marked;
+
+
     freshNames.forEach(name => {
       let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
+      
+      // FIX: Add this check to prevent the "forEach is not a function" error
+      if (!Array.isArray(freshSections[name])) {
+          console.warn(`Skipping section ${name} because it is not an array.`);
+          return; 
+      }
+
       freshSections[name].forEach(q => {
         const qCorScore = Number(q.correct_score ?? freshData.meta.correct_score ?? 2);
         const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
         sMax += qCorScore;
         
-        // Use q.id to look up the answer in our freshly synced global object
+        // Use the global window scope we just synced
         const userAns = window.answers[q.id];
         if (userAns && userAns !== "0") {
           if (String(userAns) === String(q.answer)) {
@@ -2801,9 +2805,10 @@ async function refreshLatestRankOnDemand(btn) {
       newTotalCorrect += sCor; newTotalWrong += sWr;
       newTotalMarks += sScore; newMaxTotalMarks += sMax;
     });
-   
-   
 
+    
+  
+   
     // 3. Firebase Sync: Update BOTH nodes so Rank is calculated on NEW scores
     const fbUpdate = {
       score: newTotalMarks,
