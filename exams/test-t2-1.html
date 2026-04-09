@@ -3809,11 +3809,26 @@ if (!data.resultHTML || QUALIFYING_SECTIONS.length > 0) {
   submitQuiz("silent");
 
 } else {
-  // Just show the already generated HTML
+
+  // RESTORE GLOBAL STATE FOR REFRESH-RANK / SOLUTION MODE
+  answers = data.answers || {};
+  marked = data.marked || {};
+  questionTime = data.questionTime || {};
+  sectionTime = {};
+
+  if (data.sectionalData) {
+    Object.keys(data.sectionalData).forEach(secName => {
+      sectionTime[secName] = data.sectionalData[secName].timeTaken || 0;
+    });
+  }
+
+  // Show cached HTML
   const res = document.getElementById("results");
   res.innerHTML = data.resultHTML;
   res.style.display = "block";
+
   LAST_RESULT_HTML = data.resultHTML;
+
   formatTimeValues(res);
 }
     
