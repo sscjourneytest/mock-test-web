@@ -2664,17 +2664,16 @@ async function refreshLatestRankOnDemand(btn) {
     
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
-
-    // --- CRITICAL FIX 1: RESTORE GLOBAL STATE ---
-    // This ensures answers and time are available to all functions
-    window.answers = resultData.answers || {}; 
-    window.questionTime = resultData.questionTime || {};
-    window.marked = resultData.marked || {};
-
+// Replace your Re-Calculation Loop block with this:
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
-    const freshSections = freshData.sections;
+      const freshSections = freshData.sections;
     const freshNames = Object.keys(freshSections);
+
+    // FORCE global sync before calculation
+    window.answers = resultData.answers || {};
+    window.questionTime = resultData.questionTime || {};
+    window.marked = recMarked;
 
     freshNames.forEach(name => {
       let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
@@ -2683,6 +2682,7 @@ async function refreshLatestRankOnDemand(btn) {
         const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
         sMax += qCorScore;
         
+        // Use q.id strictly as per your JSON structure
         const userAns = window.answers[q.id];
         if (userAns && userAns !== "0") {
           if (String(userAns) === String(q.answer)) {
@@ -2693,24 +2693,19 @@ async function refreshLatestRankOnDemand(btn) {
         }
       });
       
-      // --- CRITICAL FIX 2: PRESERVE SECTION TIME ---
-      const oldSection = resultData.firebasePayload.sections?.[name];
-      const timeTaken = (typeof oldSection === 'object') ? (oldSection.timeTaken || 0) : (oldSection || 0);
+      // Preserve timeSpent by checking payload sections
+      const oldSec = resultData.firebasePayload.sections?.[name];
+      const timeSpent = (typeof oldSec === 'object') ? (oldSec.timeTaken || 0) : (oldSec || 0);
 
       newSectionalData[name] = {
-        score: sScore, 
-        total: sMax, 
-        correct: sCor, 
-        wrong: sWr,
+        score: sScore, total: sMax, correct: sCor, wrong: sWr,
         unattempted: freshSections[name].length - (sCor + sWr),
-        timeTaken: timeTaken 
+        timeTaken: timeSpent
       };
-
-      newTotalCorrect += sCor; 
-      newTotalWrong += sWr;
-      newTotalMarks += sScore; 
-      newMaxTotalMarks += sMax;
+      newTotalCorrect += sCor; newTotalWrong += sWr;
+      newTotalMarks += sScore; newMaxTotalMarks += sMax;
     });
+    
  
     // 3. Firebase Sync: Update BOTH results and history so rank remains accurate
     const fbUpdate = {
@@ -3589,13 +3584,21 @@ if (latest && latest.responseStream) {
       sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
     });
   }
-
-  // Assign to Global Variables to ensure renderQuestion() and refreshrankondemand() see them
+// Inside checkPreviousSubmission, replace the global assignment block:
+  
+  // Assign to Global Variables explicitly
+  window.answers = recAns;
+  window.marked = recMarked;
+  window.questionTime = recTime; // This fixes the ⏱️ missing on load
+  
+  // Update the local variables too
   answers = recAns;
   marked = recMarked;
-  questionTime = recTime; // Fixes the ⏱️ icon showing 00:00
+  questionTime = recTime;
+  
   seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
   answers.originalTimestamp = latest.submittedAt;
+ 
 
   const syncData = {
     submitted: true,
