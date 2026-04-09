@@ -1535,6 +1535,12 @@ let questionTime = {};
 // 🛠️ HELPER FUNCTIONS
 // ===============================
 
+let QUALIFYING_SECTIONS = [];
+
+function isQualifyingSection(sectionName){
+   return QUALIFYING_SECTIONS.includes(sectionName);
+}
+
 // Short helper for getting elements
 const el = id => document.getElementById(id);
 function fmtMSS(s) {
@@ -2092,7 +2098,14 @@ function submitQuiz(isAuto = false) {
 
   // 2. 🛑 Stop Timer & Hide Quiz UI
   if (timerInterval) clearInterval(timerInterval);
-let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSeconds += t);
+
+  let timeTakenSeconds = 0;
+
+SECTION_NAMES.forEach(name => {
+  if (!isQualifyingSection(name)) {
+    timeTakenSeconds += (sectionTime[name] || 0);
+  }
+});
 
   // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
   let responseArray = [];
@@ -2131,41 +2144,54 @@ let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSecon
 
   SECTION_NAMES.forEach(sName => {
     let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
-    totalQuestionsCount += SECTIONS[sName].length;
     
     SECTIONS[sName].forEach(q => {
       sMax += Number(q.correct_score ?? 2);
+
       const ans = answers[q.id];
+
       if (ans == q.answer) {
         sCor++;
         sScore += Number(q.correct_score ?? 2);
+
       } else if (ans) {
         sWr++;
         sScore -= Number(q.negative_score ?? 0.5);
       }
     });
 
-    // Store per section - UPDATED: sectionTime[sName] tracks the real time spent
+    // KEEP SECTIONAL DATA FOR TABLE/BARS
     sectionalDataForFirebase[sName] = {
       score: sScore,
       total: sMax,
       correct: sCor,
       wrong: sWr,
       unattempted: SECTIONS[sName].length - (sCor + sWr),
-      timeTaken: sectionTime[sName] || 0 
+      timeTaken: sectionTime[sName] || 0
     };
 
-    totalCorrect += sCor;
-    totalWrong += sWr;
-    totalMarks += sScore;
-    maxTotalMarks += sMax;
-  });
+    // ONLY NON-QUALIFYING INTO FULL TEST
+    if (!isQualifyingSection(sName)) {
+      totalQuestionsCount += SECTIONS[sName].length;
+
+      totalCorrect += sCor;
+      totalWrong += sWr;
+      totalMarks += sScore;
+      maxTotalMarks += sMax;
+    }
+});
+ 
 
   const attempted = totalCorrect + totalWrong;
   const accuracy = attempted ? ((totalCorrect / attempted) * 100).toFixed(2) : "0.00";
   const timeFormatted = fmt(timeTakenSeconds);
-  const totalAllowedTime = Object.values(SECTION_TIMERS)
-  .reduce((sum, t) => sum + t, 0);
+  const totalAllowedTime = SECTION_NAMES.reduce((sum, name) => {
+  if (!isQualifyingSection(name)) {
+    sum += (SECTION_TIMERS[name] || 0);
+  }
+  return sum;
+}, 0);
+  
 
  const firebasePayload = {
     name: USER_DISPLAY_NAME,
@@ -2750,7 +2776,7 @@ async function refreshLatestRankOnDemand(btn) {
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
     
-  
+  QUALIFYING_SECTIONS = freshData.meta.qualifying_sections || [];
   
     // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
@@ -2784,8 +2810,12 @@ async function refreshLatestRankOnDemand(btn) {
         unattempted: questionsArray.length - (sCor + sWr),
         timeTaken: oldTime
       };
-      newTotalCorrect += sCor; newTotalWrong += sWr;
-      newTotalMarks += sScore; newMaxTotalMarks += sMax;
+      if (!isQualifyingSection(name)) {
+  newTotalCorrect += sCor;
+  newTotalWrong += sWr;
+  newTotalMarks += sScore;
+  newMaxTotalMarks += sMax;
+}
     });
 
     // 3. Firebase Sync: Update BOTH nodes so Rank is calculated on NEW scores
@@ -2809,11 +2839,23 @@ await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultD
       wrong: newTotalWrong,
       sections: newSectionalData
     };
-
-    const totalAllowedTime = Object.values(SECTION_TIMERS).reduce((sum, t) => sum + t, 0);
+const totalAllowedTime = SECTION_NAMES.reduce((sum, name) => {
+  if (!isQualifyingSection(name)) {
+    sum += (SECTION_TIMERS[name] || 0);
+  }
+  return sum;
+}, 0);
+    
     const resultsContainer = document.getElementById("results");
     const scorePerQ = Number(freshData.meta.correct_score) || 2;
-    const totalQuestionsCount = payload.total / scorePerQ;
+    let totalQuestionsCount = 0;
+
+SECTION_NAMES.forEach(name => {
+  if (!isQualifyingSection(name)) {
+    totalQuestionsCount += freshSections[name].questions.length;
+  }
+});
+  
 
     // 1. Update Latest Global Total Rank
     const totalRank = await getRankAndPercentile(
@@ -2835,7 +2877,7 @@ await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultD
     if (attBoxes.length >= 4) {
       attBoxes[0].textContent = payload.correct;
       attBoxes[1].textContent = payload.wrong;
-      attBoxes[2].textContent = (freshData.meta.total_questions || totalQuestionsCount) - (payload.correct + payload.wrong);
+      attBoxes[2].textContent = totalQuestionsCount - (payload.correct + payload.wrong);
       attBoxes[3].textContent = payload.correct + payload.wrong;
     }
 
@@ -3670,6 +3712,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 async function checkPreviousSubmission() {
+
+  QUALIFYING_SECTIONS = QUALIFYING_SECTIONS || [];
   let resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
   const urlParams = new URLSearchParams(window.location.search);
 
@@ -3754,22 +3798,25 @@ async function checkPreviousSubmission() {
       document.getElementById("mainHeader").style.display = "none";
       document.getElementById("quizMainArea").style.display = "none";
       document.getElementById("floatBar").style.display = "none";
+if (!data.resultHTML || QUALIFYING_SECTIONS.length > 0) {
+  // Trigger fresh UI generation so qualifying logic always applies
+  answers = data.answers || {};
+  marked = data.marked || {};
+  questionTime = data.questionTime || {};
 
-      if (!data.resultHTML) {
-        // Trigger the UI generation without touching init
-        answers = data.answers || {};
-        marked = data.marked || {};
-        questionTime = data.questionTime || {};
-        submitQuiz("silent"); 
-      } else {
-        // Just show the already generated HTML
-        const res = document.getElementById("results");
-        res.innerHTML = data.resultHTML;
-        res.style.display = "block";
-        LAST_RESULT_HTML = data.resultHTML;
-        formatTimeValues(res); // Ensure times are formatted correctly
-      }
-      
+  data.resultHTML = "";
+
+  submitQuiz("silent");
+
+} else {
+  // Just show the already generated HTML
+  const res = document.getElementById("results");
+  res.innerHTML = data.resultHTML;
+  res.style.display = "block";
+  LAST_RESULT_HTML = data.resultHTML;
+  formatTimeValues(res);
+}
+    
       // Hide the loader as the very last step
       document.getElementById("loadingOverlay").style.display = "none";
       return true; 
@@ -3826,7 +3873,7 @@ try {
     
     const data = await response.json();
 
-
+QUALIFYING_SECTIONS = data.meta.qualifying_sections || [];
     // 2. Assign Global Variables
     QUIZ_TITLE = data.meta.title;
     QUIZ_ID = data.meta.id;
