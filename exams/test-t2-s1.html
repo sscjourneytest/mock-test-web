@@ -3648,12 +3648,25 @@ async function checkPreviousSubmission() {
 if (latest && latest.responseStream) {
     localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, latest.responseStream);
    
-    // Assign directly to the global variables
-    answers =  rebuiltAnswers, 
-    questionTime = rebuiltQuestionTime, 
-    marked = rebuiltMarked,
+        const recAns = {}, recTime = {}, recMarked = {};
+        const stream = latest.responseStream.split('|');
+        let gIdx = 0;
 
-  
+        SECTION_NAMES.forEach(sName => {
+          SECTIONS[sName].forEach(q => {
+            if (stream[gIdx]) {
+              const parts = stream[gIdx].split(':');
+              const ans = parts[0];
+              const time = parts[1];
+              const isMarked = parts[2] === 'Y';
+
+              if (ans !== "0") recAns[q.id] = ans;
+              recTime[q.id] = parseInt(time) || 0;
+              if (isMarked) recMarked[q.id] = true;
+            }
+            gIdx++;
+          });
+        });
 
         // FIX: Extract only the numbers for sectionTime to avoid the object-string bug
         sectionTime = {}; 
@@ -3664,15 +3677,18 @@ if (latest && latest.responseStream) {
           });
         }
 
-     
+        // Assign to Global Variables
+        answers = recAns;
+        marked = recMarked;
+        questionTime = recTime;
         seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
         answers.originalTimestamp = latest.submittedAt;
 
         const syncData = {
           submitted: true,
-          answers,
-          marked,
-          questionTime,
+          answers: recAns,
+          marked: recMarked,
+          questionTime: recTime,
           sectionalData: latest.sections || {}, 
           totalMarks: latest.score,
           timeTakenSeconds: latest.timeTaken,
@@ -3685,6 +3701,8 @@ if (latest && latest.responseStream) {
       }
     }
   }
+
+   
  // 2. UI Transformation: If a result exists (Local or just Synced), render it
   if (resultSaved) {
     const data = JSON.parse(resultSaved);
