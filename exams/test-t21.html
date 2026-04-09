@@ -2391,7 +2391,7 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
         currentSectionIdx: 0,
         sectionalData: sectionalDataForFirebase,
         totalMarks,
-        timeTakenSeconds,
+        timeTakenSeconds: totalTimeFiltered,
         firebasePayload 
       }));
 
@@ -2403,7 +2403,7 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
   if (isAuto === "silent") {
     // Sync mode: Just get Ranks and build UI locally
     Promise.all([
-      getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
+      getRankAndPercentile(QUIZ_ID, totalMarks, totalTimeFiltered, firebasePayload.submittedAt),
       getToppersList(QUIZ_ID)
     ]).then(runUIGeneration);
   } else {
@@ -2411,7 +2411,7 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
     saveResultFirebase(firebasePayload).finally(() => {
       saveAttemptHistory(firebasePayload);
       Promise.all([
-        getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
+      getRankAndPercentile(QUIZ_ID, totalMarks, totalTimeFiltered, firebasePayload.submittedAt),
         getToppersList(QUIZ_ID)
       ]).then(runUIGeneration);
     });
