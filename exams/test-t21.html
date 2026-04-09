@@ -2757,14 +2757,13 @@ async function refreshLatestRankOnDemand(btn) {
     
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
-    
   
-  // --- IDENTIFY QUALIFYING SECTIONS ---
+    
+    // --- IDENTIFY QUALIFYING SECTIONS ---
     const qualStr = (freshData.meta && freshData.meta.qualifying_sections) ? freshData.meta.qualifying_sections : "";
     const qualifyingList = qualStr.split(',').map(s => s.trim());
-    let newTotalTimeFiltered = 0; // To track time for required sections only
+    let newTotalTimeFiltered = 0; 
     
-    // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
     const freshSections = freshData.sections;
@@ -2772,7 +2771,6 @@ async function refreshLatestRankOnDemand(btn) {
 
     freshNames.forEach(name => {
       let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
-      // Note: freshSections[name].questions for this specific template structure
       const questionsArray = freshSections[name].questions || freshSections[name];
       
       questionsArray.forEach(q => {
@@ -2781,7 +2779,7 @@ async function refreshLatestRankOnDemand(btn) {
         sMax += qCorScore;
 
         const userAns = resultData.answers[q.id];
-        if (userAns) {
+        if (userAns && userAns !== "0") {
           if (String(userAns) === String(q.answer)) {
             sCor++; sScore += qCorScore;
           } else {
@@ -2790,13 +2788,14 @@ async function refreshLatestRankOnDemand(btn) {
         }
       });
 
-      const oldTime = resultData.firebasePayload.sections?.[name]?.timeTaken || 0;
+      const oldTime = resultData.firebasePayload.sections?.[name]?.timeTaken || (typeof resultData.firebasePayload.sections?.[name] === 'number' ? resultData.firebasePayload.sections?.[name] : 0);
       newSectionalData[name] = {
         score: sScore, total: sMax, correct: sCor, wrong: sWr,
         unattempted: questionsArray.length - (sCor + sWr),
         timeTaken: oldTime
       };
-      // Only add to TOTALS if NOT a qualifying section
+
+      // --- APPLY FILTERING ---
       if (!qualifyingList.includes(name)) {
         newTotalCorrect += sCor; 
         newTotalWrong += sWr;
@@ -2805,16 +2804,16 @@ async function refreshLatestRankOnDemand(btn) {
         newTotalTimeFiltered += oldTime;
       }
     });
-     
-    // 3. Firebase Sync: Update BOTH nodes so Rank is calculated on NEW scores
+
     const fbUpdate = {
       score: newTotalMarks,
-      timeTaken: newTotalTimeFiltered, // Changed: excludes qualifying time
+      timeTaken: newTotalTimeFiltered,
       correct: newTotalCorrect,
       wrong: newTotalWrong,
       sections: newSectionalData
-    };
-
+    }; 
+  
+ 
     // Change these lines:
 await db.ref("quiz_results/" + QUIZ_ID + "/" + USER_EMAIL_KEY).update(fbUpdate);
 await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
@@ -3711,6 +3710,7 @@ async function checkPreviousSubmission() {
       if (latest && latest.responseStream) {
         const recAns = {}, recTime = {}, recMarked = {};
         const stream = latest.responseStream.split('|');
+        
         let gIdx = 0;
 
         SECTION_NAMES.forEach(sName => {
