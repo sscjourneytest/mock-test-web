@@ -2084,10 +2084,7 @@ function submitQuiz(isAuto = false) {
     }
   }
 
-  if (!QUESTIONS || QUESTIONS.length === 0 || !QUESTIONS[i]) {
-    console.warn("renderQuestion skipped: Data not ready yet.");
-    return; 
-  }
+ 
   // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
   let responseArray = [];
   SECTION_NAMES.forEach(sName => {
