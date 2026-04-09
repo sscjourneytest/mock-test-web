@@ -2665,13 +2665,16 @@ async function refreshLatestRankOnDemand(btn) {
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
   
-  
-    
-    // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
+  // 2. Re-Calculation Loop: Re-evaluate answers against new JSON keys
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
     const freshSections = freshData.sections;
     const freshNames = Object.keys(freshSections);
+
+    // CRITICAL FIX: Restore global state for this calculation session
+    answers = resultData.answers || {}; 
+    questionTime = resultData.questionTime || {};
+    marked = resultData.marked || {};
 
     freshNames.forEach(name => {
       let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
@@ -2680,8 +2683,9 @@ async function refreshLatestRankOnDemand(btn) {
         const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
         sMax += qCorScore;
         
-        const userAns = resultData.answers[q.id];
-        if (userAns) {
+        // Use the restored global answers object
+        const userAns = answers[q.id];
+        if (userAns && userAns !== "0") {
           if (String(userAns) === String(q.answer)) {
             sCor++; sScore += qCorScore;
           } else {
@@ -2699,7 +2703,8 @@ async function refreshLatestRankOnDemand(btn) {
       newTotalCorrect += sCor; newTotalWrong += sWr;
       newTotalMarks += sScore; newMaxTotalMarks += sMax;
     });
-
+    
+   
     // 3. Firebase Sync: Update BOTH results and history so rank remains accurate
     const fbUpdate = {
       score: newTotalMarks,
@@ -3547,59 +3552,59 @@ async function checkPreviousSubmission() {
     if (cloudSnap.exists()) {
       const history = cloudSnap.val();
       const latest = Object.values(history)[0];
+if (latest && latest.responseStream) {
+  const recAns = {}, recTime = {}, recMarked = {};
+  const stream = latest.responseStream.split('|');
+  let gIdx = 0;
 
-      if (latest && latest.responseStream) {
-        const recAns = {}, recTime = {}, recMarked = {};
-        const stream = latest.responseStream.split('|');
-        let gIdx = 0;
+  SECTION_NAMES.forEach(sName => {
+    SECTIONS[sName].forEach(q => {
+      if (stream[gIdx]) {
+        const parts = stream[gIdx].split(':');
+        const ans = parts[0];
+        const timeValue = parts[1];
+        const isMarked = parts[2] === 'Y';
 
-        SECTION_NAMES.forEach(sName => {
-          SECTIONS[sName].forEach(q => {
-            if (stream[gIdx]) {
-              const parts = stream[gIdx].split(':');
-              const ans = parts[0];
-              const time = parts[1];
-              const isMarked = parts[2] === 'Y';
-
-              if (ans !== "0") recAns[q.id] = ans;
-              recTime[q.id] = parseInt(time) || 0;
-              if (isMarked) recMarked[q.id] = true;
-            }
-            gIdx++;
-          });
-        });
-
-        // FIX: Extract only the numbers for sectionTime to avoid the object-string bug
-        sectionTime = {}; 
-        if (latest.sections) {
-          Object.keys(latest.sections).forEach(sName => {
-            const sec = latest.sections[sName];
-            sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
-          });
-        }
-
-        // Assign to Global Variables
-        answers = recAns;
-        marked = recMarked;
-        questionTime = recTime;
-        seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
-        answers.originalTimestamp = latest.submittedAt;
-
-        const syncData = {
-          submitted: true,
-          answers: recAns,
-          marked: recMarked,
-          questionTime: recTime,
-          sectionalData: latest.sections || {}, 
-          totalMarks: latest.score,
-          timeTakenSeconds: latest.timeTaken,
-          firebasePayload: latest,
-          resultHTML: "" 
-        };
-
-        localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
-        resultSaved = JSON.stringify(syncData);
+        // Map answers and question-specific time using the unique question ID
+        if (ans !== "0") recAns[q.id] = ans;
+        recTime[q.id] = parseInt(timeValue) || 0;
+        if (isMarked) recMarked[q.id] = true;
       }
+      gIdx++;
+    });
+  });
+
+  // Extract section-level time and fix the object-string bug
+  sectionTime = {}; 
+  if (latest.sections) {
+    Object.keys(latest.sections).forEach(sName => {
+      const sec = latest.sections[sName];
+      sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
+    });
+  }
+
+  // Assign to Global Variables to ensure renderQuestion() and refreshrankondemand() see them
+  answers = recAns;
+  marked = recMarked;
+  questionTime = recTime; // Fixes the ⏱️ icon showing 00:00
+  seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
+  answers.originalTimestamp = latest.submittedAt;
+
+  const syncData = {
+    submitted: true,
+    answers: recAns,
+    marked: recMarked,
+    questionTime: recTime,
+    sectionalData: latest.sections || {}, 
+    totalMarks: latest.score,
+    timeTakenSeconds: latest.timeTaken,
+    firebasePayload: latest,
+    resultHTML: "" 
+  };
+
+  localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
+  resultSaved = JSON.stringify(syncData);
+}
     }
   }
 
