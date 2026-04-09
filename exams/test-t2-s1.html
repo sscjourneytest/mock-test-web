@@ -2079,7 +2079,9 @@ async function saveStatusToCloud() {
 // ===============================
 function submitQuiz(isAuto = false) {
   
- 
+  // 2. 🛑 Stop Timer & Hide Quiz UI
+  if (timerInterval) clearInterval(timerInterval);
+  const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
   // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
   let responseArray = [];
   SECTION_NAMES.forEach(sName => {
