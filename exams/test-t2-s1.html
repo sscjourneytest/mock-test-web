@@ -2103,7 +2103,14 @@ localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
                         <h2 style="color:var(--accent);">Generating analysis...</h2>
                         <p>Please wait while we calculate your sectional ranks and toppers list.</p>
                       </div>`;
+  
+const rebuilt = rebuildFromSavedStream();
 
+  if (rebuilt) {
+    answers = rebuilt.answers;
+    marked = rebuilt.marked;
+    questionTime = rebuilt.questionTime;
+  }
 
   // 3. 🧮 Calculate Global & Sectional Scores
   let totalCorrect = 0, totalWrong = 0, totalMarks = 0, maxTotalMarks = 0;
