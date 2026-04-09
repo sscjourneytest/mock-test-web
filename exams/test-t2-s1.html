@@ -2075,6 +2075,19 @@ function submitQuiz(isAuto = false) {
   // 2. 🛑 Stop Timer & Hide Quiz UI
   if (timerInterval) clearInterval(timerInterval);
   const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
+  if (Object.keys(answers).length === 0) {
+    const rebuilt = rebuildFromSavedStream();
+    if (rebuilt) {
+      answers = rebuilt.answers;
+      marked = rebuilt.marked;
+      questionTime = rebuilt.questionTime;
+    }
+  }
+
+  if (!QUESTIONS || QUESTIONS.length === 0 || !QUESTIONS[i]) {
+    console.warn("renderQuestion skipped: Data not ready yet.");
+    return; 
+  }
   // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
   let responseArray = [];
   SECTION_NAMES.forEach(sName => {
