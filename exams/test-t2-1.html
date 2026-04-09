@@ -2737,6 +2737,9 @@ if (liveBtn) {
   // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
 async function refreshLatestRankOnDemand(btn) {
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
+  if (!answers || Object.keys(answers).length === 0) {
+  answers = resultData.answers || {};
+}
   if (!resultData || !resultData.firebasePayload || !resultData.answers) {
     alert("No submission data found to update.");
     return;
@@ -2793,8 +2796,8 @@ async function refreshLatestRankOnDemand(btn) {
         const qCorScore = Number(q.correct_score ?? freshData.meta.correct_score ?? 2);
         const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
         sMax += qCorScore;
+        const userAns = answers[q.id];
 
-        const userAns = resultData.answers[q.id];
         if (userAns) {
           if (String(userAns) === String(q.answer)) {
             sCor++; sScore += qCorScore;
