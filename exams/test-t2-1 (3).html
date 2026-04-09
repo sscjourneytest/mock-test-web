@@ -3798,24 +3798,22 @@ async function checkPreviousSubmission() {
       document.getElementById("mainHeader").style.display = "none";
       document.getElementById("quizMainArea").style.display = "none";
       document.getElementById("floatBar").style.display = "none";
-if (!data.resultHTML || QUALIFYING_SECTIONS.length > 0) {
-  // Trigger fresh UI generation so qualifying logic always applies
-  answers = data.answers || {};
-  marked = data.marked || {};
-  questionTime = data.questionTime || {};
 
-  data.resultHTML = "";
+      answers = data.answers || {};
+marked = data.marked || {};
+questionTime = data.questionTime || {};
 
-  submitQuiz("silent");
-
-} else {
-  // Just show the already generated HTML
-  const res = document.getElementById("results");
-  res.innerHTML = data.resultHTML;
-  res.style.display = "block";
-  LAST_RESULT_HTML = data.resultHTML;
-  formatTimeValues(res);
+// Restore section-wise time
+sectionTime = {};
+if (data.sectionalData) {
+  Object.keys(data.sectionalData).forEach(secName => {
+    sectionTime[secName] = data.sectionalData[secName].timeTaken || 0;
+  });
 }
+
+// Always rebuild fresh UI
+submitQuiz("silent");
+
     
       // Hide the loader as the very last step
       document.getElementById("loadingOverlay").style.display = "none";
