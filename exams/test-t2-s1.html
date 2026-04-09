@@ -2689,7 +2689,29 @@ async function refreshLatestRankOnDemand(btn) {
         freshData.meta.total_questions = standardizedFreshSections[specificSection].length;
     }
     // ------------------------------
-    
+
+     let rebuiltAnswers = {};
+
+if (resultData.firebasePayload?.responseStream) {
+    const stream = resultData.firebasePayload.responseStream.split('|');
+
+    let idx = 0;
+
+    Object.keys(freshSections).forEach(sec => {
+        freshSections[sec].forEach(q => {
+
+            if (stream[idx]) {
+                const parts = stream[idx].split(':');
+
+                if (parts[0] !== "0") {
+                    rebuiltAnswers[q.id] = parts[0];
+                }
+            }
+
+            idx++;
+        });
+    });
+}
     // 2. Re-Calculation Loop: Re-evaluate answers against standardized arrays
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
@@ -2703,7 +2725,7 @@ async function refreshLatestRankOnDemand(btn) {
         const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
         sMax += qCorScore;
         
-        const userAns = resultData.answers[q.id];
+       const userAns = rebuiltAnswers[q.id];
         if (userAns) {
           if (String(userAns) === String(q.answer)) {
             sCor++; sScore += qCorScore;
