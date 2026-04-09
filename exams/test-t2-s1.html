@@ -3713,20 +3713,35 @@ async function checkPreviousSubmission() {
       document.getElementById("quizMainArea").style.display = "none";
       document.getElementById("floatBar").style.display = "none";
 
-      if (!data.resultHTML) {
-        // Trigger the UI generation without touching init
-        answers = data.answers || {};
-        marked = data.marked || {};
-        questionTime = data.questionTime || {};
-        submitQuiz("silent"); 
-      } else {
-        // Just show the already generated HTML
-        const res = document.getElementById("results");
-        res.innerHTML = data.resultHTML;
-        res.style.display = "block";
-        LAST_RESULT_HTML = data.resultHTML;
-        formatTimeValues(res); // Ensure times are formatted correctly
-      }
+      
+if (!data.resultHTML) {
+
+  // Trigger UI generation using rebuilt response stream first
+  const rebuilt = rebuildFromSavedStream();
+
+  if (rebuilt) {
+    answers = rebuilt.answers;
+    marked = rebuilt.marked;
+    questionTime = rebuilt.questionTime;
+  } else {
+    answers = data.answers || {};
+    marked = data.marked || {};
+    questionTime = data.questionTime || {};
+  }
+
+  submitQuiz("silent");
+
+} else {
+
+  // Just show the already generated HTML
+  const res = document.getElementById("results");
+  res.innerHTML = data.resultHTML;
+  res.style.display = "block";
+  LAST_RESULT_HTML = data.resultHTML;
+
+  formatTimeValues(res); // Ensure times are formatted correctly
+}
+     
       
       // Hide the loader as the very last step
       document.getElementById("loadingOverlay").style.display = "none";
