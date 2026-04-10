@@ -1716,6 +1716,15 @@ function setupPauseFeature() {
     return;
   }
 
+  function setupPauseFeature() {
+  const pBtn = el("pauseBtn");
+  if (!pBtn) return;
+
+  if (!isQuiz) {
+    pBtn.style.display = "none";
+    return;
+  }
+
   // MAIN PAUSE FUNCTION
   function pauseQuizHandler() {
 
@@ -1762,9 +1771,7 @@ function setupPauseFeature() {
 
   });
 
-}
-
-}
+  }
 
 
 // ===============================
