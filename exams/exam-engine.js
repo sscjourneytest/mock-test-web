@@ -160,7 +160,7 @@ function renderMocks() {
                         <button onclick="reattempt('${item.id}', '${getLink(config)}?${item.linkParam}')" class="action-btn reattempt-btn">REATTEMPT</button>
                     </div>
                 `;
-            } else if (savedState.isPaused) {
+            } else if (savedState.isPaused && savedState) {
                 actionHtml = `<a href="${getLink(config)}?${item.linkParam}" class="action-btn resume-btn">▶️ RESUME TEST</a>`;
             } else {
                 actionHtml = `<a href="${getLink(config)}?${item.linkParam}" class="action-btn start-btn">START TEST</a>`;
