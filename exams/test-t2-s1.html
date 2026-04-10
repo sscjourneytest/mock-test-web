@@ -1762,14 +1762,7 @@ function renderQuestion(i) {
     console.warn("renderQuestion skipped: Data not ready yet.");
     return; 
   }
-if (Object.keys(answers).length === 0) {
-    const rebuilt = rebuildFromSavedStream();
-    if (rebuilt) {
-      answers = rebuilt.answers;
-      marked = rebuilt.marked;
-      questionTime = rebuilt.questionTime;
-    }
-  }
+
   current = i;
   const q = QUESTIONS[i];
 
