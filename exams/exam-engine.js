@@ -154,7 +154,8 @@ if (item.releaseDate && item.releaseDate.trim() !== "") {
 }
         
 
-
+const accessDenied = item.type === 'paid' && !isPaidUser;
+        
         
         const localResult = localStorage.getItem(`result_${username}_${item.id}`);
         const savedState = JSON.parse(localStorage.getItem(`state_${username}_${item.id}`) || "{}");
