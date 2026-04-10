@@ -138,14 +138,23 @@ function renderMocks() {
     itemsToDisplay.forEach(item => {
         if (searchVal && !item.title.toLowerCase().includes(searchVal)) return;
 
-// REPLACE WITH THIS ROBUST PARSER:
+        // Locate the isLockedDate logic in renderMocks and replace it with this:
+
 let isLockedDate = false;
-if (item.releaseDate) {
+if (item.releaseDate && item.releaseDate.trim() !== "") {
     const [day, month, year] = item.releaseDate.split('-').map(Number);
-    const releaseDateObj = new Date(year, month - 1, day); // month is 0-indexed
-    isLockedDate = releaseDateObj > new Date();
+    const releaseDateObj = new Date(year, month - 1, day); 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to start of day for fair comparison
+    
+    isLockedDate = releaseDateObj > today;
+} else {
+    // If releaseDate is empty or null, the mock is always available
+    isLockedDate = false;
 }
         
+
+
         
         const localResult = localStorage.getItem(`result_${username}_${item.id}`);
         const savedState = JSON.parse(localStorage.getItem(`state_${username}_${item.id}`) || "{}");
