@@ -2097,6 +2097,8 @@ function submitQuiz(isAuto = false) {
   const responseStream = responseArray.join('|');
 
 localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
+
+  localStorage.removeItem(QUIZ_STATE_KEY);
   
   document.getElementById("mainHeader").style.display = "none";
  
