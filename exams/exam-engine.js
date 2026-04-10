@@ -253,6 +253,7 @@ function reattempt(id, url) {
         // 2. Clear specific local result and state for this test
         localStorage.removeItem(`result_${username}_${id}`);
         localStorage.removeItem(`state_${username}_${id}`);
+        localStorage.removeItem(`stream_${username}_${id}`);
 
         // 3. Update the specific Cloud Cache for THIS exam type
         const cacheKey = `CLOUD_SYNC_${username}_${examName.toLowerCase()}`;
