@@ -138,8 +138,14 @@ function renderMocks() {
     itemsToDisplay.forEach(item => {
         if (searchVal && !item.title.toLowerCase().includes(searchVal)) return;
 
-        const isLockedDate = item.releaseDate && new Date(item.releaseDate) > new Date();
-        const accessDenied = item.type === 'paid' && !isPaidUser;
+// REPLACE WITH THIS ROBUST PARSER:
+let isLockedDate = false;
+if (item.releaseDate) {
+    const [day, month, year] = item.releaseDate.split('-').map(Number);
+    const releaseDateObj = new Date(year, month - 1, day); // month is 0-indexed
+    isLockedDate = releaseDateObj > new Date();
+}
+        
         
         const localResult = localStorage.getItem(`result_${username}_${item.id}`);
         const savedState = JSON.parse(localStorage.getItem(`state_${username}_${item.id}`) || "{}");
