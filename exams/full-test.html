@@ -1495,6 +1495,7 @@ let QUIZ_TITLE = "";
 let QUIZ_ID = "";
 let QUIZ_STATE_KEY = "";
 let QUIZ_RESULT_KEY = "";
+  let QUIZ_RESPONSE_STREAM_KEY = "";
 let CORRECT_SCORE = 2; // Default, will update
 let NEGATIVE_SCORE = 0.5; // Default, will update
 let TOTAL_TIME_SECONDS = 0;
@@ -1562,6 +1563,56 @@ function saveQuizState(){
     questionTime
   };
   localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
+}
+
+  function rebuildFromSavedStream() {
+
+  const savedStream = localStorage.getItem(QUIZ_RESPONSE_STREAM_KEY);
+
+  if (!savedStream) return null;
+
+  const rebuiltAnswers = {};
+  const rebuiltMarked = {};
+  const rebuiltQuestionTime = {};
+
+  const stream = savedStream.split("|");
+
+  let gIdx = 0;
+
+  SECTION_NAMES.forEach(sName => {
+
+    SECTIONS[sName].forEach(q => {
+
+      if (stream[gIdx]) {
+
+        const parts = stream[gIdx].split(":");
+
+        const ans = parts[0];
+        const time = parts[1];
+        const markedFlag = parts[2];
+
+        if (ans !== "0") {
+          rebuiltAnswers[q.id] = ans;
+        }
+
+        rebuiltQuestionTime[q.id] = parseInt(time) || 0;
+
+        if (markedFlag === "Y") {
+          rebuiltMarked[q.id] = true;
+        }
+      }
+
+      gIdx++;
+
+    });
+
+  });
+
+  return {
+    answers: rebuiltAnswers,
+    marked: rebuiltMarked,
+    questionTime: rebuiltQuestionTime
+  };
 }
 // ===============================
 // ⏱️ TIMER LOGIC
@@ -1708,6 +1759,15 @@ function renderQuestion(i) {
     return; 
   }
 
+  
+if (Object.keys(answers).length === 0) {
+    const rebuilt = rebuildFromSavedStream();
+    if (rebuilt) {
+      answers = rebuilt.answers;
+      marked = rebuilt.marked;
+      questionTime = rebuilt.questionTime;
+    }
+  }
   current = i;
   const q = QUESTIONS[i];
 
@@ -2034,6 +2094,7 @@ function submitQuiz(isAuto = false) {
     });
   });
   const responseStream = responseArray.join('|');
+  localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
 
   
   document.getElementById("mainHeader").style.display = "none";
@@ -2582,6 +2643,7 @@ function reattemptQuiz() {
     localStorage.removeItem(QUIZ_RESULT_KEY);
     localStorage.removeItem(QUIZ_STATE_KEY);
     localStorage.removeItem('ssc_quiz_name'); 
+    localStorage.removeItem(QUIZ_RESPONSE_STREAM_KEY);
     
     // Get the current URL
     const url = new URL(window.location.href);
@@ -2625,11 +2687,22 @@ if (liveBtn) {
 }
 // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
 async function refreshLatestRankOnDemand(btn) {
+
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
-  if (!resultData || !resultData.firebasePayload || !resultData.answers) {
+
+  const rebuilt = rebuildFromSavedStream();
+
+  if (rebuilt) {
+    answers = rebuilt.answers;
+    marked = rebuilt.marked;
+    questionTime = rebuilt.questionTime;
+  }
+
+  if (!resultData || !resultData.firebasePayload) {
     alert("No submission data found to update.");
     return;
   }
+
 
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
@@ -2679,8 +2752,8 @@ async function refreshLatestRankOnDemand(btn) {
         const qCorScore = Number(q.correct_score ?? freshData.meta.correct_score ?? 2);
         const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
         sMax += qCorScore;
+        const userAns = answers[q.id];
         
-        const userAns = resultData.answers[q.id];
         if (userAns) {
           if (String(userAns) === String(q.answer)) {
             sCor++; sScore += qCorScore;
@@ -3536,6 +3609,7 @@ async function checkPreviousSubmission() {
     if (urlParams.get('mode') === 'reattempt') {
     localStorage.removeItem(QUIZ_RESULT_KEY);
     localStorage.removeItem(QUIZ_STATE_KEY);
+          localStorage.removeItem(QUIZ_RESPONSE_STREAM_KEY);
     }
   // 1. If no local result, try Cloud Recovery
   if (!resultSaved && !urlParams.get('mode')) {
@@ -3549,6 +3623,8 @@ async function checkPreviousSubmission() {
       const latest = Object.values(history)[0];
 
       if (latest && latest.responseStream) {
+        localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, latest.responseStream);
+   
         const recAns = {}, recTime = {}, recMarked = {};
         const stream = latest.responseStream.split('|');
         let gIdx = 0;
@@ -3697,6 +3773,7 @@ try {
       
 QUIZ_STATE_KEY = "state_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
 QUIZ_RESULT_KEY = "result_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+  QUIZ_RESPONSE_STREAM_KEY = "stream_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
 
 
     CORRECT_SCORE = data.meta.correct_score;
