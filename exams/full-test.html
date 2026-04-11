@@ -1748,6 +1748,21 @@ function setupPauseFeature() {
     }
   };
 }
+  function getPreciseScore(correctMarks, negativeConfig, isCorrect) {
+    if (isCorrect) return Number(correctMarks);
+    
+    const neg = Number(negativeConfig);
+    // If the negative marking is 0.33, treat it as 1/3 of the positive marks
+    if (neg === 0.33 || neg === 0.333) {
+        return -(Number(correctMarks) / 3);
+    }
+    // If the negative marking is 0.66, treat it as 2/3 of the positive marks
+    if (neg === 0.66 || neg === 0.666) {
+        return -(Number(correctMarks) * (1/3));
+    }
+    // Default to the decimal provided in JSON if it's not a special fraction
+    return -neg;
+}
 // ===============================
 // 📝 RENDER QUESTION ENGINE
 // ===============================
@@ -2124,16 +2139,31 @@ function submitQuiz(isAuto = false) {
     totalQuestionsCount += SECTIONS[sName].length;
     
     SECTIONS[sName].forEach(q => {
-      sMax += Number(q.correct_score ?? 2);
-      const ans = answers[q.id];
-      if (ans == q.answer) {
-        sCor++;
-        sScore += Number(q.correct_score ?? 2);
-      } else if (ans) {
-        sWr++;
-        sScore -= Number(q.negative_score ?? 0.5);
-      }
-    });
+  const qCorScore = Number(q.correct_score ?? 2);
+  const qNegConfig = Number(q.negative_score ?? 0.5);
+  sMax += qCorScore;
+
+  const ans = answers[q.id];
+  if (ans == q.answer) {
+    sCor++;
+    sScore += qCorScore;
+  } else if (ans) {
+    sWr++;
+    // Logic to treat 0.33 as 1/3 and 0.66 as 2/3 of positive marks
+    if (qNegConfig === 0.33 || qNegConfig === 0.333) {
+      sScore -= (qCorScore / 3);
+    } else if (qNegConfig === 0.66 || qNegConfig === 0.666) {
+      sScore -= (qCorScore * (1 / 3));
+    } else {
+      // Otherwise, use the decimal value provided in the JSON
+      sScore -= qNegConfig;
+    }
+  }
+});
+
+// Final step: Round the section score to 2 decimal places to clean up floating point math
+sScore = Math.round(sScore * 100) / 100;
+   
 
     // Store per section - UPDATED: sectionTime[sName] tracks the real time spent
     sectionalDataForFirebase[sName] = {
@@ -2747,22 +2777,40 @@ async function refreshLatestRankOnDemand(btn) {
     const freshNames = Object.keys(freshSections);
 
     freshNames.forEach(name => {
-      let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
-      freshSections[name].forEach(q => {
-        const qCorScore = Number(q.correct_score ?? freshData.meta.correct_score ?? 2);
-        const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
-        sMax += qCorScore;
-        const userAns = answers[q.id];
-        
-        if (userAns) {
-          if (String(userAns) === String(q.answer)) {
-            sCor++; sScore += qCorScore;
-          } else {
-            sWr++; sScore -= qNegScore;
-          }
+  let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
+  freshSections[name].forEach(q => {
+    // 1. Get scores from question or fallback to global meta
+    const qCorScore = Number(q.correct_score ?? freshData.meta.correct_score ?? 2);
+    const qNegConfig = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
+    
+    sMax += qCorScore;
+    const userAns = answers[q.id];
+    
+    if (userAns) {
+      if (String(userAns) === String(q.answer)) {
+        sCor++; 
+        sScore += qCorScore;
+      } else {
+        sWr++; 
+        // 2. Precise Fractional Deduction Logic
+        if (qNegConfig === 0.33 || qNegConfig === 0.333) {
+          // Treat as 1/3 of the positive marks
+          sScore -= (qCorScore / 3);
+        } else if (qNegConfig === 0.66 || qNegConfig === 0.666) {
+          // Treat as 2/3 of the positive marks
+          sScore -= (qCorScore * (2 / 3));
+        } else {
+          // Use standard decimal deduction if no special fraction matches
+          sScore -= qNegConfig;
         }
-      });
-      
+      }
+    }
+  });
+
+  // 3. Round the final section score to 2 decimal places for accuracy
+  sScore = Math.round(sScore * 100) / 100;
+
+  
       const oldTime = resultData.firebasePayload.sections?.[name]?.timeTaken || 0;
       newSectionalData[name] = {
         score: sScore, total: sMax, correct: sCor, wrong: sWr,
