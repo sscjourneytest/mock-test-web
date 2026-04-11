@@ -76,27 +76,48 @@ async function syncWithCloud(examName) {
 }
 
 function setupFilters(years) {
-    // Tier Toggle
-    if (!EXAM_JSON.data.tier2) document.getElementById('tier-wrap').classList.add('hidden');
+    // 1. Tier Toggle Fallback
+    const tierWrap = document.getElementById('tier-wrap');
+    if (EXAM_JSON.data.tier2) {
+        tierWrap.classList.remove('hidden');
+    } else {
+        tierWrap.classList.add('hidden');
+        currentFilters.tier = 'tier1'; 
+    }
     
-    // Year Scroll
+    // 2. Year Scroll
     let yearHtml = '';
     years.forEach(y => {
         yearHtml += `<div class="pill-filter ${y === currentFilters.year ? 'active' : ''}" data-year="${y}" onclick="setYear('${y}', this)">${y}</div>`;
     });
     document.getElementById('year-scroll').innerHTML = yearHtml;
 
-    // Type Filter Counting (Full, Sectional, Subject)
-    const source = EXAM_JSON.data[currentFilters.tier][currentFilters.year];
+    // 3. Robust Counting (The Fix for NTPCG)
+    const source = EXAM_JSON.data[currentFilters.tier][currentFilters.year] || {};
+    const config = EXAM_JSON.config[currentFilters.tier] || {};
+
+    // Added || [] to every check to prevent crashes
     const fullCount = (source.full_mocks || []).length;
-    const sectionalCount = fullCount * (EXAM_JSON.config[currentFilters.tier].sections.length);
+    const sectionsCount = (config.sections || []).length; 
+    const sectionalCount = fullCount * sectionsCount;
     const subjectCount = (source.subject_wise || []).length;
 
     const typePills = document.querySelectorAll('#type-filters .pill-filter');
-    typePills[0].innerHTML = `Full Mocks (${fullCount})`;
-    typePills[1].innerHTML = `Sectionals (${sectionalCount})`;
-    typePills[2].innerHTML = `Subject Wise (${subjectCount})`;
+    
+    if (typePills.length >= 3) {
+        typePills[0].innerHTML = `Full Mocks (${fullCount})`;
+        typePills[1].innerHTML = `Sectionals (${sectionalCount})`;
+        typePills[2].innerHTML = `Subject Wise (${subjectCount})`;
+
+        // Fallback: Hide the Sectional button if no sections exist (like in NTPCG)
+        if (sectionsCount === 0) {
+            typePills[1].style.display = 'none';
+        } else {
+            typePills[1].style.display = 'block';
+        }
+    }
 }
+
 
 function renderMocks() {
     const grid = document.getElementById('quizGrid');
