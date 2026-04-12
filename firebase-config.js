@@ -28,7 +28,7 @@ const FIREBASE_PROJECTS = {
   appId: "1:628480016731:web:8f9255dd6181f04d15da7e"
 },
 
-ntpc:  {
+mts:  {
   apiKey: "AIzaSyBvDo7SiNZZNp7GYww2kYL6G6K0rHumJjU",
   authDomain: "mmh-cpo-mock-data.firebaseapp.com",
   databaseURL: "https://mmh-cpo-mock-data-default-rtdb.firebaseio.com",
