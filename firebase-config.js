@@ -18,7 +18,7 @@ const FIREBASE_PROJECTS = {
   messagingSenderId: "672897736088",
   appId: "1:672897736088:web:ddff435bec20076ffe1fed"
 },
-    cpo:  {
+    cpo: {
   apiKey: "AIzaSyBvDo7SiNZZNp7GYww2kYL6G6K0rHumJjU",
   authDomain: "mmh-cpo-mock-data.firebaseapp.com",
   databaseURL: "https://mmh-cpo-mock-data-default-rtdb.firebaseio.com",
@@ -28,7 +28,7 @@ const FIREBASE_PROJECTS = {
   appId: "1:628480016731:web:8f9255dd6181f04d15da7e"
 },
 
-mts:  {
+mts: {
   apiKey: "AIzaSyBvDo7SiNZZNp7GYww2kYL6G6K0rHumJjU",
   authDomain: "mmh-cpo-mock-data.firebaseapp.com",
   databaseURL: "https://mmh-cpo-mock-data-default-rtdb.firebaseio.com",
@@ -36,5 +36,14 @@ mts:  {
   storageBucket: "mmh-cpo-mock-data.firebasestorage.app",
   messagingSenderId: "628480016731",
   appId: "1:628480016731:web:8f9255dd6181f04d15da7e"
+},
+    ntpc: {
+  apiKey: "AIzaSyASXA4iVuYUnyZTgXK-NZWJ47mSXkNEVmc",
+  authDomain: "mmh-ntpc-data.firebaseapp.com",
+  databaseURL: "https://mmh-ntpc-data-default-rtdb.firebaseio.com",
+  projectId: "mmh-ntpc-data",
+  storageBucket: "mmh-ntpc-data.firebasestorage.app",
+  messagingSenderId: "1054107557086",
+  appId: "1:1054107557086:web:8286add6c37ceb0613764f"
 }
 };
