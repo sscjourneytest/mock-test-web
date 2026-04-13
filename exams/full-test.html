@@ -1857,7 +1857,15 @@ const getLangText = (obj) => {
   const baseQuizId = urlParams.get('id');
   const qidStr = String(q.id);
   const cleanIdx = parseInt(qidStr.slice(1));
-  const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
+
+    
+// This splits the path by "/" and takes the first two segments.
+const pathSegments = GITHUB_PATH.split('/');
+const imageBasePath = `${pathSegments[0]}/${pathSegments[1]}`;
+
+// 2. Build the dynamic image URL
+const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${imageBasePath}/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
+
 
   // Define a stable style: natural width, but capped at 90% wide and 250px tall
   const qImgStyle = "max-width:90%; max-height:250px; width:auto; height:auto; display:block; margin:10px auto; border:1px solid #ddd; border-radius:6px; object-fit:contain;";
@@ -1903,7 +1911,7 @@ const getLangText = (obj) => {
 
     // 🖼️ OPTION IMAGE RENDER
     const optImgKey = `option_image_${optionIndex}`;
-    const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
+    const dynamicOptImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${imageBasePath}/${baseQuizId}/q-${cleanIdx}-image${optionIndex + 1}.jpg`;
     
     let optImgHtml = "";
     // Testbook-style: options stay small (max 180px wide) and don't stretch
@@ -1954,7 +1962,7 @@ const getLangText = (obj) => {
     }
 
     // Dynamic Logic for Solution Image (image6)
-    const dynamicSolImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/ssc/cgl/${baseQuizId}/q-${cleanIdx}-image6.jpg`;
+    const dynamicSolImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${imageBasePath}/${baseQuizId}/q-${cleanIdx}-image6.jpg`;
 
     let solImgHtml = "";
     if (q.solution_image && q.solution_image.trim() !== "") {
