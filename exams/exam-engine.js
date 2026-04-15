@@ -100,19 +100,23 @@ function setupFilters(years) {
         currentFilters.tier = 'tier1'; 
     }
     
-    
-    // 2. Year Scroll
-    let yearHtml = '';
-    years.forEach(y => {
-        yearHtml += `<div class="pill-filter ${y === currentFilters.year ? 'active' : ''}" data-year="${y}" onclick="setYear('${y}', this)">${y}</div>`;
-    });
-    document.getElementById('year-scroll').innerHTML = yearHtml;
+    // 2. Year Scroll (Updated with Hide Logic)
+    const yearScroll = document.getElementById('year-scroll');
+    if (years.length === 0 || (years.length === 1 && years[0] === "default")) {
+        yearScroll.classList.add('hidden');
+    } else {
+        yearScroll.classList.remove('hidden');
+        let yearHtml = '';
+        years.forEach(y => {
+            yearHtml += `<div class="pill-filter ${y === currentFilters.year ? 'active' : ''}" data-year="${y}" onclick="setYear('${y}', this)">${y}</div>`;
+        });
+        yearScroll.innerHTML = yearHtml;
+    }
 
     // 3. Robust Counting (The Fix for NTPCG)
     const source = EXAM_JSON.data[currentFilters.tier][currentFilters.year] || {};
     const config = EXAM_JSON.config[currentFilters.tier] || {};
 
-    // Added || [] to every check to prevent crashes
     const fullCount = (source.full_mocks || []).length;
     const sectionsCount = (config.sections || []).length; 
     const sectionalCount = fullCount * sectionsCount;
@@ -125,7 +129,6 @@ function setupFilters(years) {
         typePills[1].innerHTML = `Sectionals (${sectionalCount})`;
         typePills[2].innerHTML = `Subject Wise (${subjectCount})`;
 
-        // Fallback: Hide the Sectional button if no sections exist (like in NTPCG)
         if (sectionsCount === 0) {
             typePills[1].style.display = 'none';
         } else {
@@ -133,6 +136,7 @@ function setupFilters(years) {
         }
     }
 }
+
 
 
 function renderMocks() {
@@ -298,31 +302,25 @@ function reattempt(id, url) {
     const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
     const username = profile ? profile.username : "Guest";
     
-    // 1. Get the current exam name accurately from the URL path
-    const pathParts = window.location.pathname.split('/');
-    const examName = pathParts[pathParts.length - 2];
+    // Detect exam name from query string first, then path
+    let examName = window.location.search ? window.location.search.slice(1) : window.location.pathname.split('/').slice(-2, -1)[0];
 
     if(confirm("Confirm Reattempt? Are you sure to reattempt.")) {
-        // 2. Clear specific local result and state for this test
         localStorage.removeItem(`result_${username}_${id}`);
         localStorage.removeItem(`state_${username}_${id}`);
         localStorage.removeItem(`stream_${username}_${id}`);
 
-        // 3. Update the specific Cloud Cache for THIS exam type
         const cacheKey = `CLOUD_SYNC_${username}_${examName.toLowerCase()}`;
         
         if (CLOUD_CHECKLIST[id]) {
-            // Remove ONLY the specific quiz ID from the RAM object
             delete CLOUD_CHECKLIST[id];
-            
-            // Save the updated checklist back to the specific exam's storage slot
             localStorage.setItem(cacheKey, JSON.stringify(CLOUD_CHECKLIST));
         }
 
-        // 4. Redirect to the test template with reattempt mode enabled
         window.location.href = url + "&mode=reattempt";
     }
 }
+
 // This listener runs every time the page becomes visible
 window.addEventListener('pageshow', function(event) {
     // 1. Check if the page is being loaded from the browser cache (Back button)
