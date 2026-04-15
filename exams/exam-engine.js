@@ -2,28 +2,43 @@ let EXAM_JSON = null;
 let currentFilters = { tier: 'tier1', year: '', type: 'full_mocks', section: '' };
 let CLOUD_CHECKLIST = {};
 const SYNC_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 Hours 
+
 async function initExamEngine() {
     const pathParts = window.location.pathname.split('/');
-    const examName = pathParts[pathParts.length - 2];
+    
+    // 1. Detect Exam Name: Try URL Query (?AtoZ-V) first, fallback to folder name
+    let examName = window.location.search ? window.location.search.slice(1) : pathParts[pathParts.length - 2];
+    
     document.getElementById('grid-sync').innerText = "🔄 Syncing Database...";
     try {
-        // 1. Fetch Mock Data immediately (Normal Way - Fast)
         const response = await fetch(`https://sscjourneytest.github.io/sscjourneytest/data/${examName}-data.json`);
         EXAM_JSON = await response.json();
         
-        const years = Object.keys(EXAM_JSON.data[currentFilters.tier]);
-        currentFilters.year = years.sort().reverse()[0];
+        // 2. Identify Years: Handle cases where tiers or years might be missing
+        let years = [];
+        try {
+            years = Object.keys(EXAM_JSON.data[currentFilters.tier]);
+        } catch(e) { 
+            years = ["default"]; 
+        }
+
+        // 3. Set Year: If "default" exists (Series structure), use it; otherwise pick latest year
+        if (years.includes("default") || years.length === 0) {
+            currentFilters.year = "default";
+        } else {
+            currentFilters.year = years.sort().reverse()[0];
+        }
         
         setupFilters(years);
-        renderMocks(); // First render: Shows cards immediately
-
-        // 2. Start Cloud Sync in the background (Does not block the cards)
+        renderMocks(); 
         syncWithCloud(examName);
         
     } catch (e) {
         console.error("Engine initialization failed", e);
     }
 }
+
+
 async function syncWithCloud(examName) {
     const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
     if (!profile || profile.username === "Guest") return;
@@ -84,6 +99,7 @@ function setupFilters(years) {
         tierWrap.classList.add('hidden');
         currentFilters.tier = 'tier1'; 
     }
+    
     
     // 2. Year Scroll
     let yearHtml = '';
