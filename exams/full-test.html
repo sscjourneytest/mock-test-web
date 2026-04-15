@@ -1264,6 +1264,10 @@ else if (quizIdLower.includes("ntpcg")) {
     selectedConfig = FIREBASE_PROJECTS.ntpc;
     GITHUB_PATH = "rrb/ntpcg/full-mock";
 }
+  else if (quizIdLower.includes("imps")) {
+    selectedConfig = FIREBASE_PROJECTS.imps;
+    GITHUB_PATH = "imps/full-mock";
+  }
 
 // Initialize with selected project
 if (selectedConfig) {
@@ -2066,7 +2070,7 @@ function updateNavButtons() {
  */
 function getExamNameFromId() {
     const idToCheck = (typeof QUIZ_ID !== 'undefined' ? QUIZ_ID : "").toLowerCase();
-    const keywords = ["cgl", "chsl", "cpo", "steno", "phase", "sscje", "mts", "alp", "ntpcg", "ntpcug", "groupd", "rpf"];
+    const keywords = ["cgl", "chsl", "cpo", "steno", "phase", "sscje", "mts", "atoz-v", "alp", "ntpcg", "ntpcug", "groupd", "rpf"];
     
     // Finds the first matching keyword in the ID
     const detected = keywords.find(k => idToCheck.includes(k));
