@@ -27,7 +27,6 @@ const FIREBASE_PROJECTS = {
   messagingSenderId: "628480016731",
   appId: "1:628480016731:web:8f9255dd6181f04d15da7e"
 },
-
 mts: {
   apiKey: "AIzaSyBvDo7SiNZZNp7GYww2kYL6G6K0rHumJjU",
   authDomain: "mmh-cpo-mock-data.firebaseapp.com",
@@ -45,5 +44,14 @@ mts: {
   storageBucket: "mmh-ntpc-data.firebasestorage.app",
   messagingSenderId: "1054107557086",
   appId: "1:1054107557086:web:8286add6c37ceb0613764f"
+},
+imps: {
+  apiKey: "AIzaSyD-oiddgo3e_yCSj_5V-hEkl1v6F_xLfps",
+  authDomain: "important-series-data.firebaseapp.com",
+  databaseURL: "https://important-series-data-default-rtdb.firebaseio.com",
+  projectId: "important-series-data",
+  storageBucket: "important-series-data.firebasestorage.app",
+  messagingSenderId: "522376119353",
+  appId: "1:522376119353:web:85614763392faf2f09f9e8"
 }
 };
