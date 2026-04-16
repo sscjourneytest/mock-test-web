@@ -1384,6 +1384,12 @@ body.mode-solution #pauseBtn {
 .report-btn:active { transform: scale(0.98); }
 .report-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
+  /* Hide header language select and label */
+#langSelect, .lang-label-header { 
+    display: none !important; 
+}
+  
+
 </style>
 
 <script>
@@ -2266,46 +2272,80 @@ if (el("marking")) {
 
 }
 
-
-// ✅ Save Question Logic with Cloud Sync & Popup
+  // ✅ UPDATED: Save & Unsave Logic with Confirmation
 async function saveQuestion() {
-    const q = QUESTIONS[current]; // Current captured JSON (including images)
-    const saveBtn = document.getElementById('cardSaveBtn');
-    const storageKey = `saved_status_${USER_EMAIL_KEY}`;
-    const uniqueKey = `${QUIZ_ID}_${q.id}`;
+  const q = QUESTIONS[current]; 
+  const saveBtn = document.getElementById('cardSaveBtn');
+  const storageKey = `saved_status_${USER_EMAIL_KEY}`;
+  const uniqueKey = `${QUIZ_ID}_${q.id}`;
 
-    // Prevent double clicking while saving
-    if (saveBtn.disabled) return;
+  if (saveBtn.disabled) return;
+
+  // Get current saves from Local Storage
+  let localSaves = JSON.parse(localStorage.getItem(storageKey) || "{}");
+  const isAlreadySaved = localSaves[uniqueKey];
+
+  // --- CASE A: UNSAVE THE QUESTION ---
+  if (isAlreadySaved) {
+    const confirmUnsave = confirm("This question is already saved. Do you want to remove it from your saved collection?");
+    if (!confirmUnsave) return;
 
     try {
-        saveBtn.style.opacity = "0.5";
-        saveBtn.disabled = true;
+      saveBtn.disabled = true;
+      saveBtn.style.opacity = "0.6";
 
-        // 1. Await call to Common Firebase Project
-        // We use savedDb (initialized earlier) to keep it separate from exam data
-        await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${uniqueKey}`).set({
-            quiz_id: QUIZ_ID,
-            question_data: q,
-            saved_at: Date.now()
-        });
+      // 1. Remove from Common Firebase Project
+      await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${uniqueKey}`).remove();
 
-        // 2. Update Local Storage for instant persistence
-        let localSaves = JSON.parse(localStorage.getItem(storageKey) || "{}");
-        localSaves[uniqueKey] = true;
-        localStorage.setItem(storageKey, JSON.stringify(localSaves));
+      // 2. Remove from Local Storage
+      delete localSaves[uniqueKey];
+      localStorage.setItem(storageKey, JSON.stringify(localSaves));
 
-        // 3. UI Update: Make button green and show popup
-        saveBtn.classList.add('saved');
-        showSavePopup("✓ Saved Successfully!");
+      // 3. Update UI
+      saveBtn.classList.remove('saved');
+      showSavePopup("❌ Removed from Saved!");
 
     } catch (error) {
-        console.error("Save failed:", error);
-        alert("Cloud Save Failed. Check your internet.");
+      console.error("Unsave failed:", error);
+      alert("Failed to remove question. Check your connection.");
     } finally {
-        saveBtn.style.opacity = "1";
-        saveBtn.disabled = false;
+      saveBtn.disabled = false;
+      saveBtn.style.opacity = "1";
     }
+    return;
+  }
+
+  // --- CASE B: SAVE THE QUESTION ---
+  try {
+    saveBtn.disabled = true;
+    saveBtn.style.opacity = "0.6";
+
+    await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${uniqueKey}`).set({
+      quiz_id: QUIZ_ID,
+      question_data: q,
+      saved_at: Date.now()
+    });
+
+    localSaves[uniqueKey] = true;
+    localStorage.setItem(storageKey, JSON.stringify(localSaves));
+
+    saveBtn.classList.add('saved');
+    showSavePopup("✓ Saved Successfully!");
+
+  } catch (error) {
+    console.error("Save failed:", error);
+    const errToast = document.createElement("div");
+    errToast.className = "save-toast";
+    errToast.style.background = "#dc3545";
+    errToast.innerText = "Cloud Save Failed!";
+    document.body.appendChild(errToast);
+    setTimeout(() => errToast.remove(), 2000);
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.style.opacity = "1";
+  }
 }
+  
 
 // ✅ Popup Helper (Shows for exactly 1.5s)
 function showSavePopup(message) {
