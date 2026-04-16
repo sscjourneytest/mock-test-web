@@ -1366,6 +1366,11 @@ if (selectedConfig) {
     console.error("No Firebase config mapped for ID:", quizIdParam);
 }
 const db = firebase.database();
+
+// ✅ 1. Initialize the secondary project for Saved Questions
+const commonApp = firebase.initializeApp(FIREBASE_PROJECTS.common, "CommonApp");
+const savedDb = commonApp.database();
+  
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
