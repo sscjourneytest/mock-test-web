@@ -3207,7 +3207,23 @@ function showAttempt(attempt) {
 
 function attachListeners(){
 
+// 1. Language Dropdown Sync
+document.addEventListener('change', function(e) {
+  if (e.target && e.target.id === 'cardLangSelect') {
+    currentLang = e.target.value;
+    saveQuizState();
+    renderQuestion(current);
+  }
+});
 
+// 2. Save Icon Color Toggle
+document.addEventListener('click', function(e) {
+  const saveBtn = e.target.closest('#cardSaveBtn');
+  if (saveBtn) {
+    saveBtn.classList.toggle('saved');
+    // Functionality for saving can be added here
+  }
+});
   
   // ✅ ADD THIS BLOCK (Fixes Back to Analysis Button)
   const backAnaBtn = document.getElementById("backToAnalysisBtn");
