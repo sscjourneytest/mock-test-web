@@ -1344,7 +1344,46 @@ body.mode-solution #pauseBtn {
         font-size: 12px;
     }
 }
-  
+  /* 🚩 REPORT MODAL STYLES */
+.report-modal {
+  display: none; 
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 25000;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+.report-content {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: slideInUp 0.3s ease-out;
+}
+@keyframes slideInUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.report-label { display: block; font-weight: 700; font-size: 13px; margin: 12px 0 6px; color: #111; }
+.report-input {
+  width: 100%; padding: 10px; border: 1.5px solid #ddd;
+  border-radius: 6px; font-size: 14px; outline: none; transition: 0.2s;
+}
+.report-input:focus { border-color: #dc3545; box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1); }
+.report-actions { display: flex; gap: 12px; margin-top: 24px; }
+.report-btn {
+  flex: 1; padding: 12px; border: none; border-radius: 8px;
+  font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.report-btn.cancel { background: #f1f3f5; color: #495057; }
+.report-btn.submit { background: #dc3545; color: white; }
+.report-btn:active { transform: scale(0.98); }
+.report-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
 </style>
 
 <script>
@@ -1639,6 +1678,38 @@ const savedDb = commonApp.database();
     <div class="actions">
       <button id="cancelSubmit" class="btn-ghost">Cancel</button>
       <button id="confirmSubmit" class="btn">Submit</button>
+    </div>
+  </div>
+</div>
+
+  <div id="reportModal" class="report-modal">
+  <div class="report-content">
+    <h3>Report Question</h3>
+    <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Select a reason and provide details to help us fix it.</p>
+    
+    <label class="report-label">Reason (Mandatory)</label>
+    <select id="reportReason" class="report-input" onchange="toggleOtherReason()">
+      <option value="">-- Select Reason --</option>
+      <option value="Question Incorrect">Question Incorrect</option>
+      <option value="Language Issue">Language/Translation Issue</option>
+      <option value="Option Incorrect">Option Content Incorrect</option>
+      <option value="Multiple Options Same">Options are Same</option>
+      <option value="Wrong Answer Marked">Right Option is different</option>
+      <option value="Solution Error">Solution Wrong</option>
+      <option value="Other">Other (Specify below)</option>
+    </select>
+
+    <div id="otherReasonBox" style="display: none;">
+      <label class="report-label">Specify Reason</label>
+      <input type="text" id="reportOtherText" class="report-input" placeholder="Enter your specific issue...">
+    </div>
+
+    <label class="report-label">Additional Details (Mandatory)</label>
+    <textarea id="reportDetails" class="report-input" rows="3" placeholder="Explain the issue in detail..."></textarea>
+
+    <div class="report-actions">
+      <button class="report-btn cancel" onclick="hideReportModal()">Cancel</button>
+      <button id="submitReportBtn" class="report-btn submit" onclick="submitReport()">Submit Request</button>
     </div>
   </div>
 </div>
@@ -2168,21 +2239,29 @@ if (el("marking")) {
       renderQuestion(current);
     };
   }
-    // 8. Handle Save Button State (Local Storage Only)
+    // ✅ FINAL STEP: Action Button Sync (Save & Report)
   const saveBtn = document.getElementById('cardSaveBtn');
-  if (saveBtn) {
-      const storageKey = `saved_status_${USER_EMAIL_KEY}`;
-      const localSaves = JSON.parse(localStorage.getItem(storageKey) || "{}");
-      const uniqueKey = `${QUIZ_ID}_${q.id}`;
+  const reportBtn = document.getElementById('cardReportBtn');
 
-      if (localSaves[uniqueKey]) {
-          saveBtn.classList.add('saved'); // Green using your CSS
-      } else {
-          saveBtn.classList.remove('saved'); // Neutral
-      }
-      
-      // Ensure the button is linked to your save function
-      saveBtn.onclick = () => saveQuestion(); 
+  if (saveBtn) {
+    const storageKey = `saved_status_${USER_EMAIL_KEY}`;
+    const localSaves = JSON.parse(localStorage.getItem(storageKey) || "{}");
+    const uniqueKey = `${QUIZ_ID}_${q.id}`;
+
+    // 1. Sync Save Button Color from Local Storage
+    if (localSaves[uniqueKey]) {
+      saveBtn.classList.add('saved');
+    } else {
+      saveBtn.classList.remove('saved');
+    }
+
+    // 2. Link Save Click Logic
+    saveBtn.onclick = () => saveQuestion();
+  }
+
+  if (reportBtn) {
+    // 3. Link Report Click to show the Sub-page Modal
+    reportBtn.onclick = () => showReportModal();
   }
 
 }
@@ -2241,7 +2320,90 @@ function showSavePopup(message) {
         setTimeout(() => toast.remove(), 500);
     }, 1500); // 1.5 Seconds
   }
-  
+
+  // 🚩 TELEGRAM CONFIG (Replace with your actual data)
+const TG_BOT_TOKEN = "8100840733:AAHixK1uKS16GJPLq3eeNa2UanhfBR6inak"; 
+const TG_CHAT_ID = "-1003993346447"; 
+
+// 1. Control Modal Visibility
+function showReportModal() {
+  document.getElementById('reportModal').style.display = 'flex';
+}
+
+function hideReportModal() {
+  document.getElementById('reportModal').style.display = 'none';
+  // Clear data
+  document.getElementById('reportReason').value = "";
+  document.getElementById('reportOtherText').value = "";
+  document.getElementById('reportDetails').value = "";
+  document.getElementById('otherReasonBox').style.display = 'none';
+}
+
+function toggleOtherReason() {
+  const val = document.getElementById('reportReason').value;
+  document.getElementById('otherReasonBox').style.display = (val === "Other") ? "block" : "none";
+}
+
+// 2. Submit Report Logic (Ultra Fast with Link)
+async function submitReport() {
+  const reasonSelect = document.getElementById('reportReason');
+  const otherText = document.getElementById('reportOtherText').value;
+  const details = document.getElementById('reportDetails').value;
+  const submitBtn = document.getElementById('submitReportBtn');
+
+  // Strict Validation
+  if (!reasonSelect.value || !details || (reasonSelect.value === "Other" && !otherText)) {
+    alert("❌ Please select a reason and provide details.");
+    return;
+  }
+
+  const finalReason = (reasonSelect.value === "Other") ? `Other: ${otherText}` : reasonSelect.value;
+  const q = QUESTIONS[current];
+  const reportLink = window.location.href; // Captures exact URL including quiz ID
+
+  try {
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Submitting...";
+
+    // Telegram Markdown Message Structure
+    const message = `🚨 *NEW QUESTION REPORT* 🚨\n\n` +
+                    `📌 *Quiz:* \`${QUIZ_ID}\`\n` +
+                    `🆔 *Q-ID:* \`${q.id}\`\n` +
+                    `👤 *User:* \`${USER_EMAIL_KEY}\`\n\n` +
+                    `🚩 *Reason:* ${finalReason}\n` +
+                    `💬 *Details:* ${details}\n\n` +
+                    `🔗 *Direct Link:* [Click to Open Question](${reportLink})\n\n` +
+                    `--------------------------\n` +
+                    `⚡ _Submitted via Admin Support Bot_`;
+
+    const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TG_CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown'
+      })
+    });
+
+    if (response.ok) {
+      showSavePopup("✓ Report Submitted Successfully!"); 
+      hideReportModal();
+    } else {
+      throw new Error("Telegram API Error");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Submission Failed. Check internet or Bot Token.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerText = "Submit Request";
+  }
+}
+
 // ===============================
 // 🖱️ OPTION SELECTION
 // ===============================
