@@ -408,29 +408,34 @@ h1 {
   .lang-label, .btn-text {
     display: none;
   }
-  
-  /* Transform into the box-sign style */
+
+/* Transform into the box-sign style */
   .action-btn {
     padding: 6px;
     width: 36px;
     height: 36px;
     justify-content: center;
     border: 1.5px solid currentColor;
-    background: transparent !important;
+    background: transparent !important; /* Ensures background stays clear */
     border-radius: 8px;
+    display: flex;
+    align-items: center;
   }
 
   .btn-save { color: #555; border-color: #555; }
   .btn-report { color: #dc3545; border-color: #dc3545; }
 
+  /* Only green the icon and border, not the whole box background */
   .action-btn.saved {
     color: #198754 !important;
     border-color: #198754 !important;
+    background: transparent !important; 
   }
+  
   .action-btn.saved svg path {
-    fill: #198754; 
+    fill: #198754 !important; 
+    stroke: #198754 !important;
   }
-
   .qtext {
     font-size: 15px; /* Decreased slightly for mobile */
   }
