@@ -1907,6 +1907,16 @@ if (Object.keys(answers).length === 0) {
   }
   current = i;
   const q = QUESTIONS[i];
+
+  // Helper to update JSON with successful dynamic link
+  const captureLink = (type, url) => {
+      if (!q[type] || q[type].trim() === "") {
+          q[type] = url; 
+      }
+  };
+
+
+
 // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
 el("qindex").textContent = i + 1;
 // el("qtotal").textContent = QUESTIONS.length; // ✅ Commented out to prevent crash
@@ -1995,10 +2005,12 @@ const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main
   if (q.question_image && q.question_image.trim() !== "") {
     // Manual image logic
     imgBox.innerHTML = `<img src="${q.question_image}" style="${qImgStyle}" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'">`;
-  } else if (dynamicQImg) {
-    // Dynamic image logic: Start HIDDEN (display:none) to prevent card jumping
-    imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
+      } else if (dynamicQImg) {
+    // Dynamic image logic: Captures URL if loaded successfully
+    imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'; captureLink('question_image', '${dynamicQImg}')" onerror="this.style.display='none'">`;
   }
+
+
 // 3. Update Marks (Safety check added)
 if (el("marking")) {
     el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0.5)}</span>`;
@@ -2043,9 +2055,9 @@ if (el("marking")) {
     if (q[optImgKey] && q[optImgKey].trim() !== "") {
       // Manual images
       optImgHtml = `<div style="margin-top:8px;"><img src="${q[optImgKey]}" style="${optStyle}"></div>`;
-    } else {
-      // Dynamic images: hidden until loaded to keep the option box stable
-      optImgHtml = `<div style="margin-top:8px;"><img src="${dynamicOptImg}" style="${optStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
+          } else {
+      // Dynamic images: Captures URL if loaded successfully
+      optImgHtml = `<div style="margin-top:8px;"><img src="${dynamicOptImg}" style="${optStyle} display:none;" onload="this.style.display='block'; captureLink('${optImgKey}', '${dynamicOptImg}')" onerror="this.style.display='none'"></div>`;
     }
 
     div.innerHTML = `
@@ -2091,10 +2103,12 @@ if (el("marking")) {
     if (q.solution_image && q.solution_image.trim() !== "") {
       // Manual images show using qImgStyle (max-height: 250px) instead of 40%
       solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${q.solution_image}" style="${qImgStyle}" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'"></div>`;
-    } else {
-      // Dynamic images show using qImgStyle
-      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${dynamicSolImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
+          } else {
+      // Dynamic images: Captures URL if loaded successfully
+      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${dynamicSolImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'; captureLink('solution_image', '${dynamicSolImg}')" onerror="this.style.display='none'"></div>`;
     }
+
+
 
     expBox.style.display = "block";
     expBox.innerHTML = `<div style="margin-bottom:8px; font-weight:700;">Status: ${statusText}</div>` +
@@ -2121,6 +2135,23 @@ if (el("marking")) {
       renderQuestion(current);
     };
   }
+    // 8. Handle Save Button State (Local Storage Only)
+  const saveBtn = document.getElementById('cardSaveBtn');
+  if (saveBtn) {
+      const storageKey = `saved_status_${USER_EMAIL_KEY}`;
+      const localSaves = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      const uniqueKey = `${QUIZ_ID}_${q.id}`;
+
+      if (localSaves[uniqueKey]) {
+          saveBtn.classList.add('saved'); // Green using your CSS
+      } else {
+          saveBtn.classList.remove('saved'); // Neutral
+      }
+      
+      // Ensure the button is linked to your save function
+      saveBtn.onclick = () => saveQuestion(); 
+  }
+
 }
 
 
