@@ -314,7 +314,6 @@ h1 {
   font-weight: 600;
   color: #111111; /* Darker than #555 to match intensity */
 }
-
 /* Container for Lang/Save/Report */
 .card-actions {
   display: flex;
@@ -342,26 +341,31 @@ h1 {
   outline: none;
 }
 
-/* Icon Buttons (Save & Report) */
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
+/* Updated Action Buttons (Laptop Style) */
+.action-btn {
   display: flex;
   align-items: center;
-  color: #555; /* Neutral state */
-  transition: color 0.2s;
+  gap: 6px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  transition: 0.2s;
 }
 
-/* Save Icon (Bookmark) Filled state */
-.icon-btn.saved {
-  color: #198754; /* Green */
-}
-.icon-btn.saved svg path {
-  fill: #198754; 
-}
+.btn-save { background: #0b5ed7; }
+.btn-report { background: #dc3545; }
 
+/* Saved state: Button turns Green */
+.action-btn.saved {
+  background: #198754 !important;
+}
+.action-btn.saved svg path {
+  fill: #fff;
+}
 /* =========================
    BOX 2: QUESTION TEXT
    ========================= */
@@ -395,14 +399,38 @@ h1 {
 }
 
 /* =========================
+
+/* =========================
    MOBILE ADJUSTMENTS
    ========================= */
 @media (max-width: 991px) {
-  /* Hiding label and using only icon/dropdown on mobile */
-  .lang-label {
+  /* Hide labels and text on mobile */
+  .lang-label, .btn-text {
     display: none;
   }
   
+  /* Transform into the box-sign style */
+  .action-btn {
+    padding: 6px;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    border: 1.5px solid currentColor;
+    background: transparent !important;
+    border-radius: 8px;
+  }
+
+  .btn-save { color: #555; border-color: #555; }
+  .btn-report { color: #dc3545; border-color: #dc3545; }
+
+  .action-btn.saved {
+    color: #198754 !important;
+    border-color: #198754 !important;
+  }
+  .action-btn.saved svg path {
+    fill: #198754; 
+  }
+
   .qtext {
     font-size: 15px; /* Decreased slightly for mobile */
   }
@@ -421,16 +449,11 @@ h1 {
   }
 }
 
-
-
 /* Selected radio */
 .opt.selected .custom-radio::before {
   border-color: var(--accent);
   
 }
-
-
-
 
 /* Radio container MUST be positioning context */
 .custom-radio {
@@ -1505,31 +1528,30 @@ const db = firebase.database();
 <div id="quizCard" class="card">
   <div class="qbar">
     <div class="qmeta">Question: <span id="qindex">1</span></div>
-    
     <div class="card-actions">
-      <div class="lang-container">
-        <span class="lang-label">Select Language:</span>
-        <select id="cardLangSelect" class="card-lang-dropdown">
-          <option value="en">English</option>
-          <option value="hi">हिन्दी</option>
-          <option value="bilingual">EN+HI</option>
-        </select>
-      </div>
-      
-      <button id="cardSaveBtn" class="icon-btn" title="Save">
-        <svg id="saveIcon" viewBox="0 0 24 24" width="20" height="20">
-          <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" fill="none" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      </button>
+  <div class="lang-container">
+    <span class="lang-label">Select Language:</span>
+    <select id="cardLangSelect" class="card-lang-dropdown">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="bilingual">EN+HI</option>
+    </select>
+  </div>
+  
+  <button id="cardSaveBtn" class="action-btn btn-save" title="Save">
+    <svg id="saveIcon" viewBox="0 0 24 24" width="18" height="18">
+      <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <span class="btn-text">Save</span>
+  </button>
 
-      <button id="cardReportBtn" class="icon-btn" title="Report">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#dc3545" stroke-width="2">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-      </button>
-    </div>
+  <button id="cardReportBtn" class="action-btn btn-report" title="Report">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="7" x2="12" y2="13" /> <circle cx="12" cy="17" r="1" fill="currentColor" /> </svg>
+    <span class="btn-text">Report</span>
+  </button>
+</div>
   </div>
   
   <div class="qtext">
