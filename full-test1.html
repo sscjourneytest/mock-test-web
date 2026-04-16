@@ -1875,10 +1875,10 @@ if (Object.keys(answers).length === 0) {
   }
   current = i;
   const q = QUESTIONS[i];
-
-  // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
-  el("qindex").textContent = i + 1;
-  el("qtotal").textContent = QUESTIONS.length;
+// 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
+el("qindex").textContent = i + 1;
+// el("qtotal").textContent = QUESTIONS.length; // ✅ Commented out to prevent crash
+ 
   // Show time spent on this specific question
   // --- UPDATED: STYLED TIME TAKEN BOX ---
   let timeDisplay = document.getElementById("qTimeTaken");
@@ -1967,10 +1967,11 @@ const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main
     // Dynamic image logic: Start HIDDEN (display:none) to prevent card jumping
     imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
   }
-
-  // 3. Update Marks
-  el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0.5)}</span>`;
-
+// 3. Update Marks (Safety check added)
+if (el("marking")) {
+    el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0.5)}</span>`;
+}
+  
   // 4. Render Options (Updated to include Option Images)
   const optsContainer = el("options");
   optsContainer.innerHTML = "";
@@ -3207,23 +3208,7 @@ function showAttempt(attempt) {
 
 function attachListeners(){
 
-// 1. Language Dropdown Sync
-document.addEventListener('change', function(e) {
-  if (e.target && e.target.id === 'cardLangSelect') {
-    currentLang = e.target.value;
-    saveQuizState();
-    renderQuestion(current);
-  }
-});
 
-// 2. Save Icon Color Toggle
-document.addEventListener('click', function(e) {
-  const saveBtn = e.target.closest('#cardSaveBtn');
-  if (saveBtn) {
-    saveBtn.classList.toggle('saved');
-    // Functionality for saving can be added here
-  }
-});
   
   // ✅ ADD THIS BLOCK (Fixes Back to Analysis Button)
   const backAnaBtn = document.getElementById("backToAnalysisBtn");
@@ -3287,7 +3272,25 @@ document.addEventListener('click', function(e) {
       pal.style.display = "none";
     }
   });
+  
+// 1. Language Dropdown Sync
+document.addEventListener('change', function(e) {
+  if (e.target && e.target.id === 'cardLangSelect') {
+    currentLang = e.target.value;
+    saveQuizState();
+    renderQuestion(current);
+  }
+});
 
+// 2. Save Icon Color Toggle
+document.addEventListener('click', function(e) {
+  const saveBtn = e.target.closest('#cardSaveBtn');
+  if (saveBtn) {
+    saveBtn.classList.toggle('saved');
+    // Functionality for saving can be added here
+  }
+});
+  
   // Submit Modal
   // Submit Modal with Sectional Table
 el("submitBtn").onclick = () => {
