@@ -297,17 +297,14 @@ h1 {
   margin-bottom: 20px;
 
 }
-
 /* =========================
-   BOX 1: META ROW
+   BOX 1: META ROW (Updated for Action Icons)
    ========================= */
 .qbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 10px 14px;
-  
+  padding: 8px 14px; /* Slightly tighter for icons */
   border-bottom: 1.25px solid #333333;
   background: #fff;
 }
@@ -315,13 +312,54 @@ h1 {
 .qmeta {
   font-size: 14px;
   font-weight: 600;
+  color: #111111; /* Darker than #555 to match intensity */
+}
+
+/* Container for Lang/Save/Report */
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lang-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lang-label {
+  font-size: 13px;
+  font-weight: 600;
   color: #555;
 }
 
-.marking {
+.card-lang-dropdown {
+  padding: 3px;
   font-size: 13px;
-  font-weight: 600;
-  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+/* Icon Buttons (Save & Report) */
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  color: #555; /* Neutral state */
+  transition: color 0.2s;
+}
+
+/* Save Icon (Bookmark) Filled state */
+.icon-btn.saved {
+  color: #198754; /* Green */
+}
+.icon-btn.saved svg path {
+  fill: #198754; 
 }
 
 /* =========================
@@ -331,9 +369,8 @@ h1 {
   padding: 12px 14px;
   font-size: 16px;
   line-height: 1.5;
-  color: #222;
-  font-weight: 500;
-
+  color: #111111; /* New darker intensity */
+  font-weight: 500; /* Kept same */
   border-bottom: 1.25px solid #333333;
   background: #fff;
 }
@@ -341,15 +378,47 @@ h1 {
 /* =========================
    BOX 3: OPTIONS TABLE
    ========================= */
-
-/* Option row */
 .opt {
   display: grid;
   grid-template-columns: 48px 1fr;
-
   border-bottom: 1.25px solid #333333;
   background: #fff;
   margin: 0;
+}
+
+.opt-text {
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #111111; /* New darker intensity */
+  display: block;
+  line-height: 1.5;
+}
+
+/* =========================
+   MOBILE ADJUSTMENTS
+   ========================= */
+@media (max-width: 991px) {
+  /* Hiding label and using only icon/dropdown on mobile */
+  .lang-label {
+    display: none;
+  }
+  
+  .qtext {
+    font-size: 15px; /* Decreased slightly for mobile */
+  }
+  
+  .opt-text {
+    font-size: 14px; /* Decreased slightly for mobile */
+  }
+
+  .card-actions {
+    gap: 8px;
+  }
+  
+  .card-lang-dropdown {
+    font-size: 12px;
+    max-width: 80px;
+  }
 }
 
 
@@ -361,13 +430,6 @@ h1 {
 }
 
 
-.opt-text {
-  padding: 10px 14px;
-  font-size: 15px;
-  color: #222;
-  display: block;        /* ✅ REQUIRED */
-  line-height: 1.5;
-}
 
 
 /* Radio container MUST be positioning context */
@@ -1440,20 +1502,44 @@ const db = firebase.database();
 <div class="container">
 
   <div class="quiz-main-area" id="quizMainArea" style="display:none;">
-
-    <div id="quizCard" class="card">
-      <div class="qbar">
-        <div class="qmeta">Question <span id="qindex">1</span> / <span id="qtotal">-</span></div>
-   
-        <div class="marking" id="marking"></div>
+<div id="quizCard" class="card">
+  <div class="qbar">
+    <div class="qmeta">Question: <span id="qindex">1</span></div>
+    
+    <div class="card-actions">
+      <div class="lang-container">
+        <span class="lang-label">Select Language:</span>
+        <select id="cardLangSelect" class="card-lang-dropdown">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="bilingual">EN+HI</option>
+        </select>
       </div>
       
-<div class="qtext">
-    <div id="qtext"></div> <div id="questionImage" style="margin:12px 0;"></div> </div>
-<div class="options" id="options"></div>
+      <button id="cardSaveBtn" class="icon-btn" title="Save">
+        <svg id="saveIcon" viewBox="0 0 24 24" width="20" height="20">
+          <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
 
-      <div id="explanation" class="explanation"></div>
+      <button id="cardReportBtn" class="icon-btn" title="Report">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#dc3545" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </button>
     </div>
+  </div>
+  
+  <div class="qtext">
+    <div id="qtext"></div> 
+    <div id="questionImage" style="margin:12px 0;"></div> 
+  </div>
+  <div class="options" id="options"></div>
+  <div id="explanation" class="explanation"></div>
+</div>
+   
 
     <div id="palette" aria-hidden="true">
 
@@ -3122,6 +3208,7 @@ function showAttempt(attempt) {
 function attachListeners(){
 
 
+  
   // ✅ ADD THIS BLOCK (Fixes Back to Analysis Button)
   const backAnaBtn = document.getElementById("backToAnalysisBtn");
   if(backAnaBtn) {
