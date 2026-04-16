@@ -2245,6 +2245,7 @@ if (el("marking")) {
       renderQuestion(current);
     };
   }
+  
     // ✅ FINAL STEP: Action Button Sync (Save & Report)
   const saveBtn = document.getElementById('cardSaveBtn');
   const reportBtn = document.getElementById('cardReportBtn');
@@ -2269,7 +2270,12 @@ if (el("marking")) {
     // 3. Link Report Click to show the Sub-page Modal
     reportBtn.onclick = () => showReportModal();
   }
-
+  // ✅ Sync the card dropdown with the global language state
+  const cardLang = document.getElementById('cardLangSelect');
+  if (cardLang) {
+    cardLang.value = currentLang; 
+  }
+  
 }
 
   // ✅ UPDATED: Save & Unsave Logic with Confirmation
