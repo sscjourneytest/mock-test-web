@@ -241,14 +241,19 @@
     };
 
     function getDynamicUrl(quizId, qId, imgNum) {
-        let path = "misc";
-        if (quizId.includes("cgl")) path = "ssc/cgl";
-        else if (quizId.includes("chsl")) path = "ssc/chsl";
-        else if (quizId.includes("ntpcg")) path = "rrb/ntpcg";
-        else if (quizId.includes("imps")) path = "imps/full-mock";
-        const cleanIdx = parseInt(String(qId).slice(1));
-        return `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${path}/${quizId}/q-${cleanIdx}-image${imgNum}.jpg`;
-    }
+    // Force to lowercase to ensure matching works regardless of ID casing
+    const idL = quizId.toLowerCase(); 
+    let path = "misc";
+
+    if (idL.includes("cgl")) path = "ssc/cgl";
+    else if (idL.includes("chsl")) path = "ssc/chsl";
+    else if (idL.includes("ntpcg")) path = "rrb/ntpcg";
+    else if (idL.includes("imps")) path = "imps/full-mock";
+
+    const cleanIdx = parseInt(String(qId).slice(1));
+    return `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${path}/${quizId}/q-${cleanIdx}-image${imgNum}.jpg`;
+}
+   
 
     function renderImg(url, quizId, qId, num, isOpt=false) {
         const dyn = getDynamicUrl(quizId, qId, num);
@@ -349,7 +354,20 @@
     }
 
     function navFocus(d) { currentFocusIdx = (currentFocusIdx + d + QUESTION_LIST.length) % QUESTION_LIST.length; renderFocusMode(); }
-    function changeGlobalLang(v) { currentLang = v; localStorage.setItem("quiz_lang", v); processData(); }
+
+    function changeGlobalLang(val) {
+    currentLang = val;
+    localStorage.setItem("quiz_lang", val);
+    
+    // Updates the background data and List View
+    processData(); 
+    
+    // Fix: If Focus Mode is active, re-render the current question in the new language
+    if (document.getElementById('focusView').style.display === 'block') {
+        renderFocusMode();
+    }
+}
+   
     function renderMath() { if (window.MathJax) MathJax.Hub.Queue(["Typeset", MathJax.Hub]); }
     function filterQuestions() {
       const term = document.getElementById('searchBar').value.toLowerCase();
