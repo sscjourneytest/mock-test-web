@@ -157,10 +157,26 @@
     .nav-item.active { color: var(--primary); }
 
     .save-toast {
-      position: fixed; bottom: 85px; right: 20px; background: #1e293b;
-      color: white; padding: 12px 20px; border-radius: 8px; font-weight: 700;
-      z-index: 10000;
-    }
+    position: fixed;
+    bottom: 80px; /* Sits above the navigation bar */
+    right: 20px;
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    z-index: 3000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideInToast 0.3s ease-out;
+}
+
+@keyframes slideInToast {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+    
+
     .MathJax_Display {
     display: inline-block !important;
     margin: 0 !important;
@@ -409,12 +425,52 @@ function normalizeMath(container) {
     function toggleExpand(key) { document.getElementById(`expand-${key}`).classList.toggle('active'); }
 
     async function confirmUnsave(key) {
-      if (!confirm("Remove this question?")) return;
-      await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${key}`).remove();
-      delete SAVED_DATA[key];
-      localStorage.setItem(`saved_data_${USER_EMAIL_KEY}`, JSON.stringify(SAVED_DATA));
-      processData();
+    if (!confirm("⚠️ Remove this question from your saved library?")) return;
+    
+    try {
+        // 1. Remove from Firebase
+        await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${key}`).remove();
+        
+        // 2. Remove from Local Memory
+        delete SAVED_DATA[key];
+        localStorage.setItem(`saved_data_${USER_EMAIL_KEY}`, JSON.stringify(SAVED_DATA));
+        
+        // 3. Show Popup
+        showToast("❌ Unsaved Successfully");
+
+        // 4. Update UI Logic
+        const isFocusMode = document.getElementById('focusView').style.display === 'block';
+        
+        // Refresh the list data first
+        processData(); 
+
+        if (isFocusMode) {
+            if (QUESTION_LIST.length === 0) {
+                // If no questions left, switch back to list mode (which shows empty state)
+                switchMode('list');
+            } else {
+                // If questions remain, stay in focus mode but show the "next" available question
+                if (currentFocusIdx >= QUESTION_LIST.length) {
+                    currentFocusIdx = QUESTION_LIST.length - 1;
+                }
+                renderFocusMode();
+            }
+        }
+    } catch (err) {
+        alert("Action failed. Check internet connection.");
     }
+}
+
+// Helper function to show the toast
+function showToast(msg) {
+    const toast = document.createElement("div");
+    toast.className = "save-toast";
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+}
+    
+
 
     function switchMode(m) {
       document.getElementById('listModeBtn').classList.toggle('active', m === 'list');
