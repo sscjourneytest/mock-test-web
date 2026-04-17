@@ -192,25 +192,27 @@
     }
     const savedDb = firebase.database();
 
-    // Helper to get profile (Matching your index.html/auth.js pattern)
-    function getLocalProfile() {
-      return JSON.parse(localStorage.getItem('user_profile') || 'null');
+    // Use the global function provided by auth.js
+async function loadSavedQuestionsWithAuth() {
+    const profile = getLocalProfile(); // This now calls the correct version in auth.js
+    
+    if (!profile) {
+        // Wait a small moment for auth.js init if needed, or redirect
+        setTimeout(() => {
+            if(!getLocalProfile()) window.location.replace("/login.html");
+        }, 500);
+        return;
     }
+    
+    // Auth.js uses 'User' as default or the actual username from decrypted vault
+    USER_EMAIL_KEY = profile.username || "User"; 
+    document.getElementById('globalLangSelect').value = currentLang;
+    loadSavedQuestions();
+}
 
-    // --- AUTH & DATA SYNC ---
-    window.addEventListener('DOMContentLoaded', async () => {
-      const profile = getLocalProfile();
-      
-      // Fixed Redirect Logic
-      if (!profile || !profile.username) {
-          window.location.replace("/login.html");
-          return;
-      }
-      
-      USER_EMAIL_KEY = profile.username;
-      document.getElementById('globalLangSelect').value = currentLang;
-      loadSavedQuestions();
-    });
+window.addEventListener('DOMContentLoaded', loadSavedQuestionsWithAuth);
+    
+
 
     async function loadSavedQuestions() {
       const storageKey = `saved_data_${USER_EMAIL_KEY}`;
