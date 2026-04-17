@@ -164,6 +164,14 @@
 mjx-container {
     line-height: 0;
 }
+        #focusView { display: none; padding-bottom: 135px; } /* Increased space for solid bar */
+    .focus-nav {
+      position: fixed; bottom: 65px; left: 0; width: 100%; height: 60px;
+      display: flex; gap: 10px; padding: 0 15px; align-items: center;
+      background: #ffffff; border-top: 1px solid #ddd; z-index: 2001;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+    
   </style>
 </head>
 <body>
@@ -186,13 +194,14 @@ mjx-container {
 
   <div class="container">
     <div id="listView"></div>
-    <div id="focusView" style="display:none;">
+        <div id="focusView" style="display:none;">
       <div id="focusContent"></div>
-      <div class="focus-nav" style="position:fixed; bottom:75px; left:0; width:100%; display:flex; gap:10px; padding:10px 16px;">
-        <button class="btn" style="background:var(--primary); color:white;" onclick="navFocus(-1)">PREVIOUS</button>
-        <button class="btn" style="background:var(--primary); color:white;" onclick="navFocus(1)">NEXT</button>
+      <div class="focus-nav">
+        <button class="btn" style="background:var(--primary); color:white; height:42px;" onclick="navFocus(-1)">PREVIOUS</button>
+        <button class="btn" style="background:var(--primary); color:white; height:42px;" onclick="navFocus(1)">NEXT</button>
       </div>
-    </div>
+        </div>
+    
     <div id="emptyState" style="display:none; text-align:center; padding:80px 20px;">
       <i class="fas fa-bookmark mb-3" style="font-size:48px; opacity:0.2;"></i>
       <h3>Your library is empty</h3>
