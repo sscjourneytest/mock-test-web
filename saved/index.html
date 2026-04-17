@@ -45,7 +45,6 @@
       background: var(--bg); margin: 0; padding-bottom: 100px; 
     }
 
-    /* --- HEADER --- */
     .header {
       background: #fff; padding: 12px 16px; position: sticky; top: 0;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000;
@@ -65,10 +64,8 @@
     }
     .mode-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
 
-    /* --- BREATHING CONTAINER --- */
     .container { padding: 16px; max-width: 900px; margin: auto; }
 
-    /* --- TEMPLATE-STYLE QUESTION CARDS --- */
     .q-card {
       background: white; border: 1.25px solid var(--border-dark);
       margin-bottom: 25px; position: relative; width: 100%;
@@ -80,7 +77,6 @@
       background: #fff; font-size: 13px; font-weight: 700;
     }
 
-    /* Collapsed View Style */
     .q-collapsed { padding: 20px; cursor: pointer; }
     .q-text-preview {
       font-size: 15px; color: #334155; line-height: 1.6;
@@ -89,13 +85,11 @@
     }
     .tap-to-expand { color: var(--primary); font-size: 12px; font-weight: 700; margin-top: 10px; display: block; }
 
-    /* Expanded Content */
     .q-expanded { display: none; }
     .q-expanded.active { display: block; }
 
     .qtext { padding: 15px; font-size: 16px; line-height: 1.6; border-bottom: 1.25px solid var(--border-dark); }
     
-    /* Options Engine Styles */
     .opt {
       display: grid; grid-template-columns: 45px 1fr;
       border-bottom: 1.25px solid var(--border-dark); min-height: 45px;
@@ -117,7 +111,7 @@
       padding: 15px; background: #eff6ff; border-top: 1.25px solid var(--border-dark);
     }
 
-    /* MATHJAX & IMAGE FIXES */
+    /* MATHJAX OVERFLOW & DELIMITER FIXES */
     mjx-container { 
         display: inline-block !important; 
         max-width: 100% !important; 
@@ -125,6 +119,7 @@
         vertical-align: middle;
         margin: 2px 0 !important;
     }
+    
     .q-img { 
         max-width: 90%; max-height: 250px; width: auto; height: auto; 
         display: block; margin: 15px auto; border-radius: 6px; 
@@ -135,13 +130,11 @@
         border-radius: 4px; border: 1px solid #e2e8f0; margin-top: 8px;
     }
 
-    /* --- BUTTONS --- */
     .btn-action-row { display: flex; padding: 12px; gap: 10px; border-top: 1px solid #eee; }
     .btn { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px; }
     .btn-collapse { background: #f1f5f9; color: #475569; }
     .btn-unsave { background: #fee2e2; color: var(--danger); }
 
-    /* --- FOCUS MODE NAVIGATION (FIXED) --- */
     #focusView { display: none; padding-bottom: 140px; }
     .focus-nav {
       position: fixed; bottom: 75px; left: 0; width: 100%;
@@ -154,7 +147,6 @@
         box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
     }
 
-    /* --- BOTTOM NAV --- */
     .bottom-nav {
       position: fixed; bottom: 0; width: 100%; height: 65px;
       background: white; border-top: 1px solid #e2e8f0; display: flex;
@@ -219,7 +211,6 @@
   </div>
 
   <script>
-    // --- INITIALIZATION ---
     let SAVED_DATA = {}; 
     let QUESTION_LIST = []; 
     let currentFocusIdx = 0;
@@ -280,8 +271,6 @@
       renderListView();
     }
 
-    // --- RENDER ENGINE HELPERS ---
-
     const applyBoldHighlight = (html) => {
         if (!html) return "";
         return html.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 800; color: #000;">$1</strong>');
@@ -326,7 +315,6 @@
         if (url && url.trim() !== "") {
             return `<img src="${url}" class="${className}" onerror="this.style.display='none'">`;
         }
-        // Smooth Load Logic
         return `<img src="${dynamicUrl}" class="${className}" style="display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
     }
 
@@ -406,17 +394,20 @@
     function normalizeMathForQuiz(container) {
       container.querySelectorAll('.qtext, .opt-text, .sol-text').forEach(el => {
         let content = el.innerHTML;
-        // Handle // math delimiters
+        // Fix delimiters to avoid leaving remnants like /)
         if (content.includes('//')) {
           const parts = content.split('//');
-          for (let i = 1; i < parts.length; i += 2) { parts[i] = '\\(' + parts[i] + '\\)'; }
+          for (let i = 1; i < parts.length; i += 2) { 
+              if (parts[i]) parts[i] = '\\(' + parts[i] + '\\)'; 
+          }
           content = parts.join('');
         }
-        // Handle $ math delimiters
         if (content.includes('$') && !content.includes('$$')) {
           const parts = content.split('$');
           if (parts.length > 1 && (parts.length - 1) % 2 === 0) {
-            for (let i = 1; i < parts.length; i += 2) { parts[i] = '\\(' + parts[i] + '\\)'; }
+            for (let i = 1; i < parts.length; i += 2) { 
+                if (parts[i]) parts[i] = '\\(' + parts[i] + '\\)'; 
+            }
             content = parts.join('');
           }
         }
@@ -429,7 +420,7 @@
     }
 
     async function confirmUnsave(key) {
-      if (!confirm("⚠️ Remove this question from your saved library?")) return;
+      if (!confirm("⚠️ Remove this question?")) return;
       const card = document.getElementById(`card-${key}`);
       if (card) card.style.opacity = "0.4";
       try {
@@ -439,7 +430,7 @@
         showSavePopup("❌ Question Unsaved");
         processData(); 
       } catch (err) {
-        alert("Action failed. Check connection.");
+        alert("Action failed.");
         if (card) card.style.opacity = "1";
       }
     }
@@ -465,8 +456,6 @@
       if (QUESTION_LIST.length === 0) return;
       const item = QUESTION_LIST[currentFocusIdx];
       const q = item.question_data;
-      const qIdNum = String(q.id).slice(1).replace(/^0+/, '');
-
       document.getElementById('focusContent').innerHTML = `
         <div class="q-card">
           <div class="q-bar">
