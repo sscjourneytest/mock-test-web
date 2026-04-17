@@ -2018,14 +2018,6 @@ if (Object.keys(answers).length === 0) {
   current = i;
   const q = QUESTIONS[i];
 
-  // Helper to update JSON with successful dynamic link
-  const captureLink = (type, url) => {
-      if (!q[type] || q[type].trim() === "") {
-          q[type] = url; 
-      }
-  };
-
-
 
 // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
 el("qindex").textContent = i + 1;
@@ -2116,8 +2108,8 @@ const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main
     // Manual image logic
     imgBox.innerHTML = `<img src="${q.question_image}" style="${qImgStyle}" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'">`;
       } else if (dynamicQImg) {
-    // Dynamic image logic: Captures URL if loaded successfully
-    imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'; captureLink('question_image', '${dynamicQImg}')" onerror="this.style.display='none'">`;
+    // Dynamic image logic: Start HIDDEN (display:none) to prevent card jumping
+    imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
   }
 
 
@@ -2166,9 +2158,10 @@ if (el("marking")) {
       // Manual images
       optImgHtml = `<div style="margin-top:8px;"><img src="${q[optImgKey]}" style="${optStyle}"></div>`;
           } else {
-      // Dynamic images: Captures URL if loaded successfully
-      optImgHtml = `<div style="margin-top:8px;"><img src="${dynamicOptImg}" style="${optStyle} display:none;" onload="this.style.display='block'; captureLink('${optImgKey}', '${dynamicOptImg}')" onerror="this.style.display='none'"></div>`;
+      // Dynamic images: hidden until loaded to keep the option box stable
+      optImgHtml = `<div style="margin-top:8px;"><img src="${dynamicOptImg}" style="${optStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
     }
+
 
     div.innerHTML = `
       <div class="custom-radio"></div>
@@ -2214,9 +2207,9 @@ if (el("marking")) {
       // Manual images show using qImgStyle (max-height: 250px) instead of 40%
       solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${q.solution_image}" style="${qImgStyle}" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'"></div>`;
           } else {
-      // Dynamic images: Captures URL if loaded successfully
-      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${dynamicSolImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'; captureLink('solution_image', '${dynamicSolImg}')" onerror="this.style.display='none'"></div>`;
-    }
+      // Dynamic images show using qImgStyle
+      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${dynamicSolImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
+    } 
 
 
 
