@@ -185,23 +185,29 @@
     let currentLang = localStorage.getItem("quiz_lang") || "en";
     let USER_EMAIL_KEY = ""; 
     
-    // ✅ 1. Firebase Initialisation (Matched to common project)
+    // ✅ 1. Firebase Initialisation (Common project)
     const firebaseConfig = FIREBASE_PROJECTS.common;
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
     const savedDb = firebase.database();
 
+    // Helper to get profile (Matching your index.html/auth.js pattern)
+    function getLocalProfile() {
+      return JSON.parse(localStorage.getItem('user_profile') || 'null');
+    }
+
     // --- AUTH & DATA SYNC ---
-    window.addEventListener('load', async () => {
-      const profile = JSON.parse(localStorage.getItem('user_profile') || '{}');
-      USER_EMAIL_KEY = profile.username || "";
+    window.addEventListener('DOMContentLoaded', async () => {
+      const profile = getLocalProfile();
       
-      if (!USER_EMAIL_KEY) {
-          window.location.href = "/login.html";
+      // Fixed Redirect Logic
+      if (!profile || !profile.username) {
+          window.location.replace("/login.html");
           return;
       }
-
+      
+      USER_EMAIL_KEY = profile.username;
       document.getElementById('globalLangSelect').value = currentLang;
       loadSavedQuestions();
     });
@@ -308,7 +314,6 @@
       renderMath();
     }
 
-    // --- UPDATED RENDERING HELPERS (Match Template) ---
     function getLangText(obj) {
       if (!obj) return "";
       const decodeHTML = (h) => { const t = document.createElement("textarea"); t.innerHTML = h; return t.value; };
@@ -330,7 +335,6 @@
       const elements = container.querySelectorAll('.q-text, .opt-text, .explanation, .sol-text, p, span, div');
       elements.forEach(el => {
         let content = el.innerHTML;
-        // Handle //...//
         if (content.includes('//')) {
           const parts = content.split('//');
           for (let i = 1; i < parts.length; i += 2) {
@@ -338,7 +342,6 @@
           }
           content = parts.join('');
         }
-        // Handle $...$
         if (content.includes('$') && !content.includes('$$')) {
           const parts = content.split('$');
           if (parts.length > 1 && (parts.length - 1) % 2 === 0) {
@@ -372,28 +375,22 @@
       return `<img src="${url}" class="q-img" style="${style}" onerror="this.style.display='none'">`;
     }
 
-    // --- ACTIONS ---
     function toggleExpand(key) {
       const el = document.getElementById(`expand-${key}`);
       el.classList.toggle('active');
     }
 
     async function confirmUnsave(key) {
-      if (!confirm("⚠️ Are you sure you want to remove this question from your library?")) return;
-      
+      if (!confirm("⚠️ Are you sure you want to remove this question?")) return;
       const card = document.getElementById(`card-${key}`);
       if (card) card.style.opacity = "0.4";
-
       try {
         await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${key}`).remove();
-        
         delete SAVED_DATA[key];
         localStorage.setItem(`saved_data_${USER_EMAIL_KEY}`, JSON.stringify(SAVED_DATA));
-        
         let statuses = JSON.parse(localStorage.getItem(`saved_status_${USER_EMAIL_KEY}`) || "{}");
         delete statuses[key];
         localStorage.setItem(`saved_status_${USER_EMAIL_KEY}`, JSON.stringify(statuses));
-
         showSavePopup("❌ Question Unsaved");
         processData(); 
       } catch (err) {
@@ -476,5 +473,5 @@
     }
   </script>
 </body>
-  </html>
+</html>
 
