@@ -293,20 +293,46 @@ mjx-container {
     };
 
     function getDynamicUrl(quizId, qId, imgNum) {
-    // Force to lowercase to ensure matching works regardless of ID casing
-    const idL = quizId.toLowerCase(); 
+    // 1. Create a clean version of the Quiz ID for the URL
+    let cleanQuizId = quizId;
+    const lowerQuizId = quizId.toLowerCase();
+    
+    // List of suffixes to remove (with hyphens)
+    const suffixes = [
+        "-mathandreasoning", "-englishandgk", "-generalawareness",
+        "-maths", "-reasoning", "-english", "-gk", "-math",
+        "-section1", "-section2", "-section3"
+    ];
+
+    // Check if the ID ends with any of the suffixes and strip it
+    for (const s of suffixes) {
+        if (lowerQuizId.endsWith(s)) {
+            // Remove the suffix from the ORIGINAL quizId to preserve casing if needed
+            cleanQuizId = quizId.substring(0, quizId.length - s.length);
+            break; 
+        }
+    }
+
+    // 2. Decide Path logic using the lowercase version
+    const idL = lowerQuizId; 
     let path = "misc";
 
     if (idL.includes("cgl")) path = "ssc/cgl";
     else if (idL.includes("chsl")) path = "ssc/chsl";
+    else if (idL.includes("cpo")) path = "ssc/cpo";
+    else if (idL.includes("mts")) path = "ssc/mts";
+    else if (idL.includes("steno")) path = "ssc/steno";
     else if (idL.includes("ntpcg")) path = "rrb/ntpcg";
-    else if (idL.includes("imps")) path = "imps/full-mock";
+    else if (idL.includes("imps")) path = "imps";
 
+    // 3. Extract clean index from Question ID (e.g., 50001 -> 1)
     const cleanIdx = parseInt(String(qId).slice(1));
-    return `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${path}/${quizId}/q-${cleanIdx}-image${imgNum}.jpg`;
-}
-   
-
+    
+    // 4. Return URL using the CLEANED Quiz ID
+    return `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${path}/${cleanQuizId}/q-${cleanIdx}-image${imgNum}.jpg`;
+    }
+    
+    
     function renderImg(url, quizId, qId, num, isOpt=false) {
         const dyn = getDynamicUrl(quizId, qId, num);
         const cls = isOpt ? "opt-img" : "q-img";
