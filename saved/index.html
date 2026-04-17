@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Saved Questions - Mock Matrix Hub</title>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+  <script src="/firebase-config.js"></script>
+  <script type="module" src="/auth.js"></script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['\\(','\\)'], ['//','//']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true
+      },
+      "HTML-CSS": { linebreaks: { automatic: true } },
+      SVG: { linebreaks: { automatic: true } }
+    });
+  </script>
+
+  <style>
+    :root {
+      --primary: #007bff;
+      --success: #198754;
+      --danger: #dc3545;
+      --bg: #f0f2f5;
+      --card-bg: #ffffff;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { 
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+      background: var(--bg); margin: 0; padding-bottom: 80px; 
+    }
+
+    /* --- HEADER --- */
+    .header {
+      background: #fff; padding: 15px; position: sticky; top: 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .header-top { display: flex; justify-content: space-between; align-items: center; }
+    .header-title { font-size: 18px; font-weight: 800; color: #333; }
+
+    /* --- SEARCH & FILTERS --- */
+    .search-box {
+      width: 100%; padding: 10px 15px; border: 1.5px solid #ddd;
+      border-radius: 25px; outline: none; font-size: 14px;
+    }
+    .mode-switch {
+      display: flex; background: #eee; border-radius: 8px; padding: 4px;
+    }
+    .mode-btn {
+      flex: 1; border: none; padding: 8px; border-radius: 6px;
+      font-weight: 700; cursor: pointer; background: transparent; color: #666;
+    }
+    .mode-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+    /* --- QUESTION CARDS --- */
+    .container { padding: 12px; max-width: 800px; margin: auto; }
+    .q-card {
+      background: white; border-radius: 12px; margin-bottom: 12px;
+      border: 1px solid #e0e0e0; overflow: hidden;
+    }
+    .q-meta {
+      background: #f8f9fa; padding: 8px 12px; border-bottom: 1px solid #eee;
+      font-size: 12px; color: #666; font-weight: 600;
+      display: flex; justify-content: space-between;
+    }
+
+    /* Collapsed State */
+    .q-collapsed { padding: 15px; cursor: pointer; }
+    .q-text-preview {
+      font-size: 14px; color: #333; line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; margin-bottom: 10px;
+    }
+    .q-actions-mini { display: flex; gap: 8px; }
+    
+    /* Expanded State */
+    .q-expanded { display: none; padding: 15px; border-top: 1px solid #eee; }
+    .q-expanded.active { display: block; }
+    
+    .q-text { font-size: 15px; margin-bottom: 15px; }
+    .opt {
+      padding: 10px 12px; border: 1.5px solid #eee; border-radius: 8px;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+      font-size: 14px; position: relative;
+    }
+    .opt.correct { background: #e8f5e9; border-color: #a5d6a7; }
+    .opt.correct::after { content: '✓'; color: var(--success); font-weight: 900; margin-left: auto; }
+
+    /* Images Style (Same as Template) */
+    .q-img { max-width:90%; max-height:250px; display:block; margin:10px auto; border-radius:6px; object-fit: contain; }
+
+    /* --- BUTTONS --- */
+    .btn {
+      padding: 8px 16px; border: none; border-radius: 6px;
+      font-weight: 700; font-size: 13px; cursor: pointer;
+    }
+    .btn-show { background: #e7f1ff; color: var(--primary); }
+    .btn-unsave { background: #fff1f0; color: var(--danger); }
+    .btn-nav { background: var(--primary); color: white; flex: 1; padding: 12px; }
+
+    /* --- TOAST POPUP --- */
+    .save-toast {
+      position: fixed; bottom: 85px; right: 20px; background: #198754;
+      color: white; padding: 12px 20px; border-radius: 8px; font-weight: 700;
+      z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* --- BOTTOM NAV --- */
+    .bottom-nav {
+      position: fixed; bottom: 0; width: 100%; height: 65px;
+      background: white; border-top: 1px solid #ddd; display: flex;
+      justify-content: space-around; align-items: center; z-index: 2000;
+    }
+    .nav-item { text-align: center; color: #666; text-decoration: none; font-size: 12px; }
+    .nav-item.active { color: var(--primary); }
+
+    /* --- FOCUS MODE --- */
+    #focusView { display: none; padding: 15px; }
+    .focus-nav { display: flex; gap: 10px; margin-top: 20px; }
+
+    /* --- EMPTY STATE --- */
+    #emptyState { text-align: center; padding: 50px 20px; color: #999; display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-top">
+      <div class="header-title">Saved Questions</div>
+      <select id="globalLangSelect" class="mode-btn" style="flex: 0 0 100px; border: 1px solid #ddd;" onchange="changeGlobalLang(this.value)">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bilingual">Bilingual</option>
+      </select>
+    </div>
+    
+    <div class="mode-switch">
+      <button id="listModeBtn" class="mode-btn active" onclick="switchMode('list')">List View</button>
+      <button id="focusModeBtn" class="mode-btn" onclick="switchMode('focus')">Focus Mode</button>
+    </div>
+    
+    <input type="text" id="searchBar" class="search-box" placeholder="Search by Quiz ID or question text..." oninput="filterQuestions()">
+  </div>
+
+  <div class="container">
+    <div id="listView"></div>
+
+    <div id="focusView">
+      <div id="focusContent"></div>
+      <div class="focus-nav">
+        <button class="btn btn-nav" onclick="navFocus(-1)">Previous</button>
+        <button class="btn btn-nav" onclick="navFocus(1)">Next</button>
+      </div>
+    </div>
+
+    <div id="emptyState">
+      <div style="font-size: 50px; margin-bottom: 10px;">📚</div>
+      <h3>Your library is empty</h3>
+      <p>Questions you save during tests will appear here.</p>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="/index.html" class="nav-item">🏠<br>Home</a>
+    <a href="/series.html" class="nav-item">📝<br>Tests</a>
+    <a href="/saved.html" class="nav-item active">⭐<br>Saved</a>
+    <a href="/profile.html" class="nav-item">👤<br>Profile</a>
+  </div>
+
+  <script>
+    // --- CONFIG & INITIALIZATION ---
+    let SAVED_DATA = {}; 
+    let QUESTION_LIST = []; 
+    let currentFocusIdx = 0;
+    let currentLang = localStorage.getItem("quiz_lang") || "en";
+    let USER_EMAIL_KEY = ""; 
+    
+    // ✅ 1. Firebase Initialisation (Matched to common project)
+    const firebaseConfig = FIREBASE_PROJECTS.common;
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const savedDb = firebase.database();
+
+    // --- AUTH & DATA SYNC ---
+    window.addEventListener('load', async () => {
+      const profile = JSON.parse(localStorage.getItem('user_profile') || '{}');
+      USER_EMAIL_KEY = profile.username || "";
+      
+      if (!USER_EMAIL_KEY) {
+          window.location.href = "/login.html";
+          return;
+      }
+
+      document.getElementById('globalLangSelect').value = currentLang;
+      loadSavedQuestions();
+    });
+
+    async function loadSavedQuestions() {
+      const storageKey = `saved_data_${USER_EMAIL_KEY}`;
+      const syncKey = `last_sync_${USER_EMAIL_KEY}`;
+      
+      const local = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      SAVED_DATA = local;
+      
+      const lastSync = localStorage.getItem(syncKey) || 0;
+      const now = Date.now();
+      
+      // 6-Hour Rule
+      if (now - lastSync > 6 * 60 * 60 * 1000) {
+        syncWithFirebase();
+      } else {
+        processData();
+      }
+    }
+
+    async function syncWithFirebase() {
+      try {
+        const snapshot = await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}`).once('value');
+        const cloudData = snapshot.val() || {};
+        
+        const storageKey = `saved_data_${USER_EMAIL_KEY}`;
+        const syncKey = `last_sync_${USER_EMAIL_KEY}`;
+        
+        localStorage.setItem(storageKey, JSON.stringify(cloudData));
+        localStorage.setItem(syncKey, Date.now());
+        
+        SAVED_DATA = cloudData;
+        processData();
+      } catch (err) {
+        console.warn("Sync failed, using offline data.");
+        processData();
+      }
+    }
+
+    function processData() {
+      QUESTION_LIST = Object.entries(SAVED_DATA).map(([key, val]) => ({
+        key: key,
+        ...val
+      })).sort((a, b) => b.saved_at - a.saved_at);
+      
+      renderListView();
+    }
+
+    // --- RENDERING ENGINE ---
+    function renderListView(filtered = null) {
+      const list = filtered || QUESTION_LIST;
+      const container = document.getElementById('listView');
+      container.innerHTML = "";
+      
+      if (list.length === 0) {
+        document.getElementById('emptyState').style.display = 'block';
+        return;
+      }
+      document.getElementById('emptyState').style.display = 'none';
+
+      list.forEach((item, idx) => {
+        const q = item.question_data;
+        const qIdNum = String(q.id).slice(1).replace(/^0+/, ''); 
+        
+        const card = document.createElement('div');
+        card.className = 'q-card';
+        card.id = `card-${item.key}`;
+        
+        card.innerHTML = `
+          <div class="q-meta">
+            <span>📚 ${item.quiz_id}</span>
+            <span>Question No: ${qIdNum}</span>
+          </div>
+          <div class="q-collapsed" onclick="toggleExpand('${item.key}')">
+            <div class="q-text-preview">${getLangText(q.question)}</div>
+            <div class="q-actions-mini">
+              <button class="btn btn-show">Show Question</button>
+              <button class="btn btn-unsave" onclick="event.stopPropagation(); confirmUnsave('${item.key}')">Unsave</button>
+            </div>
+          </div>
+          <div class="q-expanded" id="expand-${item.key}">
+            <div class="q-text">${getLangText(q.question)}</div>
+            ${renderImage(q.question_image)}
+            <div class="options-container">
+               ${renderOptions(q)}
+            </div>
+            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+            <div class="explanation">
+               <strong>💡 Solution:</strong><br>
+               <div class="sol-text">${getLangText(q.solution_text)}</div>
+               ${renderImage(q.solution_image)}
+            </div>
+            <div style="margin-top:15px; display:flex; gap:10px;">
+                <button class="btn btn-show" style="flex:1" onclick="toggleExpand('${item.key}')">Collapse</button>
+                <button class="btn btn-unsave" style="flex:1" onclick="confirmUnsave('${item.key}')">Unsave</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+        normalizeMathForQuiz(card);
+      });
+      renderMath();
+    }
+
+    // --- UPDATED RENDERING HELPERS (Match Template) ---
+    function getLangText(obj) {
+      if (!obj) return "";
+      const decodeHTML = (h) => { const t = document.createElement("textarea"); t.innerHTML = h; return t.value; };
+      
+      let rawText = "";
+      if (typeof obj === "string") {
+        rawText = obj;
+      } else if (currentLang === "bilingual") {
+        const en = obj.en || "";
+        const hi = obj.hi || "";
+        rawText = en + (en && hi ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hi;
+      } else {
+        rawText = obj[currentLang] || obj["en"] || "";
+      }
+      return decodeHTML(rawText);
+    }
+
+    function normalizeMathForQuiz(container) {
+      const elements = container.querySelectorAll('.q-text, .opt-text, .explanation, .sol-text, p, span, div');
+      elements.forEach(el => {
+        let content = el.innerHTML;
+        // Handle //...//
+        if (content.includes('//')) {
+          const parts = content.split('//');
+          for (let i = 1; i < parts.length; i += 2) {
+            parts[i] = '\\(' + parts[i] + '\\)';
+          }
+          content = parts.join('');
+        }
+        // Handle $...$
+        if (content.includes('$') && !content.includes('$$')) {
+          const parts = content.split('$');
+          if (parts.length > 1 && (parts.length - 1) % 2 === 0) {
+            for (let i = 1; i < parts.length; i += 2) {
+              parts[i] = '\\(' + parts[i] + '\\)';
+            }
+            content = parts.join('');
+          }
+        }
+        el.innerHTML = content;
+      });
+    }
+
+    function renderOptions(q) {
+      let html = "";
+      for (let i = 1; i <= 5; i++) {
+        const opt = q[`option_${i}`];
+        if (!opt) continue;
+        const isCorrect = String(q.answer) === String(i);
+        const optImg = q[`option_image_${i}`];
+        
+        html += `<div class="opt ${isCorrect ? 'correct' : ''}">
+          <div class="opt-text">${getLangText(opt)} ${renderImage(optImg, 'max-height:80px;')}</div>
+        </div>`;
+      }
+      return html;
+    }
+
+    function renderImage(url, style = "") {
+      if (!url || url.trim() === "") return "";
+      return `<img src="${url}" class="q-img" style="${style}" onerror="this.style.display='none'">`;
+    }
+
+    // --- ACTIONS ---
+    function toggleExpand(key) {
+      const el = document.getElementById(`expand-${key}`);
+      el.classList.toggle('active');
+    }
+
+    async function confirmUnsave(key) {
+      if (!confirm("⚠️ Are you sure you want to remove this question from your library?")) return;
+      
+      const card = document.getElementById(`card-${key}`);
+      if (card) card.style.opacity = "0.4";
+
+      try {
+        await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${key}`).remove();
+        
+        delete SAVED_DATA[key];
+        localStorage.setItem(`saved_data_${USER_EMAIL_KEY}`, JSON.stringify(SAVED_DATA));
+        
+        let statuses = JSON.parse(localStorage.getItem(`saved_status_${USER_EMAIL_KEY}`) || "{}");
+        delete statuses[key];
+        localStorage.setItem(`saved_status_${USER_EMAIL_KEY}`, JSON.stringify(statuses));
+
+        showSavePopup("❌ Question Unsaved");
+        processData(); 
+      } catch (err) {
+        alert("Delete failed. Check internet.");
+        if (card) card.style.opacity = "1";
+      }
+    }
+
+    function filterQuestions() {
+      const term = document.getElementById('searchBar').value.toLowerCase();
+      const filtered = QUESTION_LIST.filter(item => {
+        const q = item.question_data;
+        const contentStr = JSON.stringify(q).toLowerCase();
+        return item.quiz_id.toLowerCase().includes(term) || contentStr.includes(term);
+      });
+      renderListView(filtered);
+    }
+
+    function switchMode(mode) {
+      document.getElementById('listModeBtn').classList.toggle('active', mode === 'list');
+      document.getElementById('focusModeBtn').classList.toggle('active', mode === 'focus');
+      document.getElementById('listView').style.display = mode === 'list' ? 'block' : 'none';
+      document.getElementById('focusView').style.display = mode === 'focus' ? 'block' : 'none';
+      if (mode === 'focus') renderFocusMode();
+    }
+
+    function renderFocusMode() {
+      if (QUESTION_LIST.length === 0) return;
+      const item = QUESTION_LIST[currentFocusIdx];
+      const q = item.question_data;
+      const qIdNum = String(q.id).slice(1).replace(/^0+/, '');
+
+      document.getElementById('focusContent').innerHTML = `
+        <div class="q-card">
+          <div class="q-meta">
+            <span>📚 ${item.quiz_id}</span>
+            <span>${currentFocusIdx + 1} of ${QUESTION_LIST.length}</span>
+          </div>
+          <div style="padding:15px">
+            <div class="q-text">${getLangText(q.question)}</div>
+            ${renderImage(q.question_image)}
+            <div class="options-container">${renderOptions(q)}</div>
+            <div class="explanation" style="margin-top:20px; background:#fff9e6; padding:15px; border-radius:8px;">
+               <strong>💡 Solution:</strong><br>
+               <div class="sol-text">${getLangText(q.solution_text)}</div>
+               ${renderImage(q.solution_image)}
+            </div>
+            <button class="btn btn-unsave" style="width:100%; margin-top:15px;" onclick="confirmUnsave('${item.key}')">Remove from Saved</button>
+          </div>
+        </div>
+      `;
+      normalizeMathForQuiz(document.getElementById('focusContent'));
+      renderMath();
+    }
+
+    function navFocus(dir) {
+      currentFocusIdx += dir;
+      if (currentFocusIdx < 0) currentFocusIdx = QUESTION_LIST.length - 1;
+      if (currentFocusIdx >= QUESTION_LIST.length) currentFocusIdx = 0;
+      renderFocusMode();
+    }
+
+    function changeGlobalLang(val) {
+      currentLang = val;
+      localStorage.setItem("quiz_lang", val);
+      processData();
+      if (document.getElementById('focusView').style.display === 'block') renderFocusMode();
+    }
+
+    function showSavePopup(msg) {
+      const t = document.createElement("div");
+      t.className = "save-toast";
+      t.innerText = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 1500);
+    }
+
+    function renderMath() {
+      if (window.MathJax) MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  </script>
+</body>
+  </html>
+
