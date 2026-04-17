@@ -18,15 +18,14 @@
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       tex2jax: {
-        inlineMath: [['\\(','\\)'], ['//','//']],
-        displayMath: [['$$','$$'], ['\\[','\\]']],
+        inlineMath: [['\\(','\\)']],
+        displayMath: [['$$','$$']],
         processEscapes: true
       },
       "HTML-CSS": { 
           linebreaks: { automatic: true },
           availableFonts: ["TeX"]
-      },
-      SVG: { linebreaks: { automatic: true } }
+      }
     });
   </script>
 
@@ -64,7 +63,8 @@
     }
     .mode-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
 
-    .container { padding: 16px; max-width: 900px; margin: auto; }
+    /* BREATHING UI FIX */
+    .container { padding: 16px; max-width: 1200px; margin: auto; width: 100%; }
 
     .q-card {
       background: white; border: 1.25px solid var(--border-dark);
@@ -79,7 +79,7 @@
 
     .q-collapsed { padding: 20px; cursor: pointer; }
     .q-text-preview {
-      font-size: 15px; color: #334155; line-height: 1.6;
+      font-size: 16px; color: #111; line-height: 1.6;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -88,11 +88,11 @@
     .q-expanded { display: none; }
     .q-expanded.active { display: block; }
 
-    .qtext { padding: 15px; font-size: 16px; line-height: 1.6; border-bottom: 1.25px solid var(--border-dark); }
+    .qtext { padding: 15px; font-size: 17px; color: #000; line-height: 1.6; border-bottom: 1.25px solid var(--border-dark); }
     
     .opt {
       display: grid; grid-template-columns: 45px 1fr;
-      border-bottom: 1.25px solid var(--border-dark); min-height: 45px;
+      border-bottom: 1.25px solid var(--border-dark); min-height: 48px;
     }
     .opt:last-child { border-bottom: none; }
     .opt.correct { background-color: #dcfce7; }
@@ -105,13 +105,13 @@
         content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--success);
     }
     
-    .opt-text { padding: 12px 15px; font-size: 15px; color: #1e293b; }
+    .opt-text { padding: 12px 15px; font-size: 16px; color: #000; font-weight: 500; }
 
     .explanation {
-      padding: 15px; background: #eff6ff; border-top: 1.25px solid var(--border-dark);
+      padding: 20px; background: #f0f9ff; border-top: 1.25px solid var(--border-dark); color: #000;
     }
 
-    /* MATHJAX OVERFLOW & DELIMITER FIXES */
+    /* MATHJAX OVERFLOW FIX */
     mjx-container { 
         display: inline-block !important; 
         max-width: 100% !important; 
@@ -121,31 +121,19 @@
     }
     
     .q-img { 
-        max-width: 90%; max-height: 250px; width: auto; height: auto; 
+        max-width: 95%; max-height: 300px; width: auto; height: auto; 
         display: block; margin: 15px auto; border-radius: 6px; 
-        border: 1px solid #e2e8f0; object-fit: contain;
+        border: 1px solid #ddd; object-fit: contain;
     }
     .opt-img { 
-        max-width: 180px; max-height: 100px; width: auto; height: auto; 
-        border-radius: 4px; border: 1px solid #e2e8f0; margin-top: 8px;
+        max-width: 200px; max-height: 120px; width: auto; height: auto; 
+        border-radius: 4px; border: 1px solid #eee; margin-top: 8px;
     }
 
-    .btn-action-row { display: flex; padding: 12px; gap: 10px; border-top: 1px solid #eee; }
-    .btn { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px; }
-    .btn-collapse { background: #f1f5f9; color: #475569; }
+    .btn-action-row { display: flex; padding: 12px; gap: 10px; border-top: 1.25px solid var(--border-dark); }
+    .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 14px; }
+    .btn-collapse { background: #e2e8f0; color: #1e293b; }
     .btn-unsave { background: #fee2e2; color: var(--danger); }
-
-    #focusView { display: none; padding-bottom: 140px; }
-    .focus-nav {
-      position: fixed; bottom: 75px; left: 0; width: 100%;
-      display: flex; gap: 10px; padding: 10px 16px;
-      background: transparent; z-index: 2001;
-    }
-    .btn-focus { 
-        flex: 1; padding: 14px; background: var(--primary); color: white; 
-        border: none; border-radius: 12px; font-weight: 800; 
-        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-    }
 
     .bottom-nav {
       position: fixed; bottom: 0; width: 100%; height: 65px;
@@ -156,11 +144,10 @@
     .nav-item i { display: block; font-size: 1.3rem; margin-bottom: 3px; }
     .nav-item.active { color: var(--primary); }
 
-    #emptyState { text-align: center; padding: 80px 20px; color: #94a3b8; }
     .save-toast {
       position: fixed; bottom: 85px; right: 20px; background: #1e293b;
       color: white; padding: 12px 20px; border-radius: 8px; font-weight: 700;
-      z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 10000;
     }
   </style>
 </head>
@@ -175,30 +162,25 @@
         <option value="bilingual">Bilingual</option>
       </select>
     </div>
-    
+    <input type="text" id="searchBar" class="search-box" placeholder="Search Quiz ID or question text..." oninput="filterQuestions()">
     <div class="mode-switch">
       <button id="listModeBtn" class="mode-btn active" onclick="switchMode('list')">LIST VIEW</button>
       <button id="focusModeBtn" class="mode-btn" onclick="switchMode('focus')">FOCUS MODE</button>
     </div>
-    
-    <input type="text" id="searchBar" class="search-box" placeholder="Search Quiz ID or question text..." oninput="filterQuestions()">
   </div>
 
   <div class="container">
     <div id="listView"></div>
-
-    <div id="focusView">
+    <div id="focusView" style="display:none;">
       <div id="focusContent"></div>
-      <div class="focus-nav">
-        <button class="btn-focus" onclick="navFocus(-1)"><i class="fas fa-arrow-left me-2"></i> PREVIOUS</button>
-        <button class="btn-focus" onclick="navFocus(1)">NEXT <i class="fas fa-arrow-right ms-2"></i></button>
+      <div class="focus-nav" style="position:fixed; bottom:75px; left:0; width:100%; display:flex; gap:10px; padding:10px 16px;">
+        <button class="btn" style="background:var(--primary); color:white;" onclick="navFocus(-1)">PREVIOUS</button>
+        <button class="btn" style="background:var(--primary); color:white;" onclick="navFocus(1)">NEXT</button>
       </div>
     </div>
-
-    <div id="emptyState">
-      <i class="fas fa-bookmark mb-3" style="font-size: 48px; opacity: 0.2;"></i>
+    <div id="emptyState" style="display:none; text-align:center; padding:80px 20px;">
+      <i class="fas fa-bookmark mb-3" style="font-size:48px; opacity:0.2;"></i>
       <h3>Your library is empty</h3>
-      <p>Questions you save during tests will appear here.</p>
     </div>
   </div>
 
@@ -217,8 +199,7 @@
     let currentLang = localStorage.getItem("quiz_lang") || "en";
     let USER_EMAIL_KEY = ""; 
     
-    const firebaseConfig = FIREBASE_PROJECTS.common;
-    if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+    if (!firebase.apps.length) { firebase.initializeApp(FIREBASE_PROJECTS.common); }
     const savedDb = firebase.database();
 
     async function loadSavedQuestionsWithAuth() {
@@ -232,112 +213,62 @@
             return;
         }
         USER_EMAIL_KEY = profile.username; 
-        document.getElementById('globalLangSelect').value = currentLang;
         loadSavedQuestions();
     }
-
     window.addEventListener('DOMContentLoaded', loadSavedQuestionsWithAuth);
 
     async function loadSavedQuestions() {
       const storageKey = `saved_data_${USER_EMAIL_KEY}`;
-      const syncKey = `last_sync_${USER_EMAIL_KEY}`;
-      const local = JSON.parse(localStorage.getItem(storageKey) || "{}");
-      SAVED_DATA = local;
-      
-      const lastSync = localStorage.getItem(syncKey) || 0;
-      if (Date.now() - lastSync > 6 * 60 * 60 * 1000) {
-        syncWithFirebase();
-      } else {
-        processData();
-      }
-    }
-
-    async function syncWithFirebase() {
-      try {
-        const snapshot = await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}`).once('value');
-        const cloudData = snapshot.val() || {};
-        localStorage.setItem(`saved_data_${USER_EMAIL_KEY}`, JSON.stringify(cloudData));
-        localStorage.setItem(`last_sync_${USER_EMAIL_KEY}`, Date.now());
-        SAVED_DATA = cloudData;
-        processData();
-      } catch (err) { processData(); }
+      const snap = await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}`).once('value');
+      SAVED_DATA = snap.val() || {};
+      processData();
     }
 
     function processData() {
-      QUESTION_LIST = Object.entries(SAVED_DATA).map(([key, val]) => ({
-        key: key,
-        ...val
-      })).sort((a, b) => b.saved_at - a.saved_at);
+      QUESTION_LIST = Object.entries(SAVED_DATA).map(([k, v]) => ({ key: k, ...v })).sort((a,b) => b.saved_at - a.saved_at);
       renderListView();
     }
 
-    const applyBoldHighlight = (html) => {
-        if (!html) return "";
-        return html.replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 800; color: #000;">$1</strong>');
-    };
+    const applyBoldHighlight = (html) => html ? html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') : "";
 
     const getLangText = (obj) => {
         if (!obj) return "";
-        const decodeHTML = (html) => {
-            const txt = document.createElement("textarea");
-            txt.innerHTML = html;
-            return txt.value;
-        };
-        let rawText = "";
-        if (typeof obj === "string") {
-            rawText = obj;
-        } else if (currentLang === "bilingual") {
-            const enText = obj.en || "";
-            const hiText = obj.hi || "";
-            rawText = enText + (enText && hiText ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hiText;
-        } else {
-            rawText = obj[currentLang] || obj["en"] || "";
-        }
-        return decodeHTML(rawText);
+        const decodeHTML = (h) => { const t = document.createElement("textarea"); t.innerHTML = h; return t.value; };
+        let raw = (typeof obj === "string") ? obj : (currentLang === "bilingual") ? 
+            ((obj.en || "") + (obj.en && obj.hi ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + (obj.hi || "")) : 
+            (obj[currentLang] || obj["en"] || "");
+        return decodeHTML(raw);
     };
 
-    function getDynamicImagePath(quizId, qId, imgNum) {
-        const idL = quizId.toLowerCase();
+    function getDynamicUrl(quizId, qId, imgNum) {
         let path = "misc";
-        if (idL.includes("cgl")) path = "ssc/cgl";
-        else if (idL.includes("chsl")) path = "ssc/chsl";
-        else if (idL.includes("ntpcg")) path = "rrb/ntpcg";
-        else if (idL.includes("imps")) path = "imps/full-mock";
-        
+        if (quizId.includes("cgl")) path = "ssc/cgl";
+        else if (quizId.includes("chsl")) path = "ssc/chsl";
+        else if (quizId.includes("ntpcg")) path = "rrb/ntpcg";
+        else if (quizId.includes("imps")) path = "imps/full-mock";
         const cleanIdx = parseInt(String(qId).slice(1));
         return `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${path}/${quizId}/q-${cleanIdx}-image${imgNum}.jpg`;
     }
 
-    function renderImageHtml(url, quizId, qId, imgNum, isOpt = false) {
-        const dynamicUrl = getDynamicImagePath(quizId, qId, imgNum);
-        const className = isOpt ? "opt-img" : "q-img";
-        
-        if (url && url.trim() !== "") {
-            return `<img src="${url}" class="${className}" onerror="this.style.display='none'">`;
-        }
-        return `<img src="${dynamicUrl}" class="${className}" style="display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
+    function renderImg(url, quizId, qId, num, isOpt=false) {
+        const dyn = getDynamicUrl(quizId, qId, num);
+        const cls = isOpt ? "opt-img" : "q-img";
+        if (url && url.trim() !== "") return `<img src="${url}" class="${cls}" onerror="this.style.display='none'">`;
+        return `<img src="${dyn}" class="${cls}" style="display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
     }
 
     function renderOptions(item) {
         const q = item.question_data;
         let html = "";
-        const optionKeys = ["option_1", "option_2", "option_3", "option_4", "option_5"];
-
-        optionKeys.forEach((key, idx) => {
-            if (!q[key]) return;
-            const optIdx = idx + 1;
-            const isCorrect = String(q.answer) === String(optIdx);
-            const optImgManual = q[`option_image_${optIdx}`];
-
+        for (let i = 1; i <= 5; i++) {
+            if (!q[`option_${i}`]) continue;
+            const isCor = String(q.answer) === String(i);
             html += `
-                <div class="opt ${isCorrect ? 'correct' : ''}">
+                <div class="opt ${isCor ? 'correct' : ''}">
                     <div class="custom-radio"></div>
-                    <div class="opt-text">
-                        ${applyBoldHighlight(getLangText(q[key]))}
-                        ${renderImageHtml(optImgManual, item.quiz_id, q.id, optIdx + 1, true)}
-                    </div>
+                    <div class="opt-text">${applyBoldHighlight(getLangText(q[`option_${i}`]))}${renderImg(q[`option_image_${i}`], item.quiz_id, q.id, i+1, true)}</div>
                 </div>`;
-        });
+        }
         return html;
     }
 
@@ -345,111 +276,60 @@
       const list = filtered || QUESTION_LIST;
       const container = document.getElementById('listView');
       container.innerHTML = "";
-      
       document.getElementById('emptyState').style.display = list.length === 0 ? 'block' : 'none';
 
       list.forEach((item) => {
         const q = item.question_data;
-        const qIdNum = String(q.id).slice(1).replace(/^0+/, ''); 
         const card = document.createElement('div');
         card.className = 'q-card';
         card.id = `card-${item.key}`;
-        
         card.innerHTML = `
-          <div class="q-bar">
-            <span>📚 ${item.quiz_id}</span>
-            <span>Q.No: ${qIdNum}</span>
-          </div>
+          <div class="q-bar"><span>📚 ${item.quiz_id}</span><span>No: ${String(q.id).slice(1).replace(/^0+/, '')}</span></div>
           <div class="q-collapsed" onclick="toggleExpand('${item.key}')">
             <div class="q-text-preview">${getLangText(q.question)}</div>
-            <span class="tap-to-expand">VIEW QUESTION & SOLUTION <i class="fas fa-chevron-down ms-1"></i></span>
+            <span class="tap-to-expand">VIEW SOLUTION <i class="fas fa-chevron-down ms-1"></i></span>
           </div>
           <div class="q-expanded" id="expand-${item.key}">
-            <div class="qtext">
-                ${applyBoldHighlight(getLangText(q.question))}
-                ${renderImageHtml(q.question_image, item.quiz_id, q.id, 1)}
-            </div>
-            <div class="options-engine">
-                ${renderOptions(item)}
-            </div>
-            <div class="explanation">
-                <div style="margin-bottom:8px; font-weight:800; color:var(--success); font-size:14px;">
-                    <i class="fas fa-lightbulb me-1"></i> SOLUTION & EXPLANATION
-                </div>
-                <div class="sol-text">${applyBoldHighlight(getLangText(q.solution_text))}</div>
-                ${renderImageHtml(q.solution_image, item.quiz_id, q.id, 6)}
-            </div>
+            <div class="qtext">${applyBoldHighlight(getLangText(q.question))}${renderImg(q.question_image, item.quiz_id, q.id, 1)}</div>
+            <div class="options-engine">${renderOptions(item)}</div>
+            <div class="explanation"><strong>💡 SOLUTION:</strong><br><div class="sol-text">${applyBoldHighlight(getLangText(q.solution_text))}</div>${renderImg(q.solution_image, item.quiz_id, q.id, 6)}</div>
             <div class="btn-action-row">
                 <button class="btn btn-collapse" onclick="toggleExpand('${item.key}')">COLLAPSE</button>
-                <button class="btn btn-unsave" onclick="confirmUnsave('${item.key}')"><i class="fas fa-trash-alt me-1"></i> REMOVE</button>
+                <button class="btn btn-unsave" onclick="confirmUnsave('${item.key}')">REMOVE</button>
             </div>
-          </div>
-        `;
+          </div>`;
         container.appendChild(card);
-        normalizeMathForQuiz(card);
+        normalizeMath(card);
       });
       renderMath();
     }
 
-    function normalizeMathForQuiz(container) {
+    function normalizeMath(container) {
       container.querySelectorAll('.qtext, .opt-text, .sol-text').forEach(el => {
         let content = el.innerHTML;
-        // Fix delimiters to avoid leaving remnants like /)
-        if (content.includes('//')) {
-          const parts = content.split('//');
-          for (let i = 1; i < parts.length; i += 2) { 
-              if (parts[i]) parts[i] = '\\(' + parts[i] + '\\)'; 
-          }
-          content = parts.join('');
-        }
-        if (content.includes('$') && !content.includes('$$')) {
-          const parts = content.split('$');
-          if (parts.length > 1 && (parts.length - 1) % 2 === 0) {
-            for (let i = 1; i < parts.length; i += 2) { 
-                if (parts[i]) parts[i] = '\\(' + parts[i] + '\\)'; 
-            }
-            content = parts.join('');
-          }
-        }
+        // CORRECTED MATH CLEANUP
+        content = content.replace(/\/\/ (.*?) \/\//g, '\\($1\\)').replace(/\/\/(.*?)\/\//g, '\\($1\\)');
+        content = content.replace(/\$ (.*?) \$/g, '\\($1\\)').replace(/\$(.*?)\$/g, '\\($1\\)');
         el.innerHTML = content;
       });
     }
 
-    function toggleExpand(key) {
-      document.getElementById(`expand-${key}`).classList.toggle('active');
-    }
+    function toggleExpand(key) { document.getElementById(`expand-${key}`).classList.toggle('active'); }
 
     async function confirmUnsave(key) {
-      if (!confirm("⚠️ Remove this question?")) return;
-      const card = document.getElementById(`card-${key}`);
-      if (card) card.style.opacity = "0.4";
-      try {
-        await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${key}`).remove();
-        delete SAVED_DATA[key];
-        localStorage.setItem(`saved_data_${USER_EMAIL_KEY}`, JSON.stringify(SAVED_DATA));
-        showSavePopup("❌ Question Unsaved");
-        processData(); 
-      } catch (err) {
-        alert("Action failed.");
-        if (card) card.style.opacity = "1";
-      }
+      if (!confirm("Remove this question?")) return;
+      await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${key}`).remove();
+      delete SAVED_DATA[key];
+      localStorage.setItem(`saved_data_${USER_EMAIL_KEY}`, JSON.stringify(SAVED_DATA));
+      processData();
     }
 
-    function filterQuestions() {
-      const term = document.getElementById('searchBar').value.toLowerCase();
-      const filtered = QUESTION_LIST.filter(item => {
-        const qStr = JSON.stringify(item.question_data).toLowerCase();
-        return item.quiz_id.toLowerCase().includes(term) || qStr.includes(term);
-      });
-      renderListView(filtered);
-    }
-
-    function switchMode(mode) {
-      document.getElementById('listModeBtn').classList.toggle('active', mode === 'list');
-      document.getElementById('focusModeBtn').classList.toggle('active', mode === 'focus');
-      document.getElementById('listView').style.display = mode === 'list' ? 'block' : 'none';
-      document.getElementById('focusView').style.display = mode === 'focus' ? 'block' : 'none';
-      if (mode === 'focus') renderFocusMode();
+    function switchMode(m) {
+      document.getElementById('listModeBtn').classList.toggle('active', m === 'list');
+      document.getElementById('focusModeBtn').classList.toggle('active', m === 'focus');
+      document.getElementById('listView').style.display = m === 'list' ? 'block' : 'none';
+      document.getElementById('focusView').style.display = m === 'focus' ? 'block' : 'none';
+      if (m === 'focus') renderFocusMode();
     }
 
     function renderFocusMode() {
@@ -458,53 +338,22 @@
       const q = item.question_data;
       document.getElementById('focusContent').innerHTML = `
         <div class="q-card">
-          <div class="q-bar">
-            <span>📚 ${item.quiz_id}</span>
-            <span>${currentFocusIdx + 1} of ${QUESTION_LIST.length}</span>
-          </div>
-          <div class="qtext">
-            ${applyBoldHighlight(getLangText(q.question))}
-            ${renderImageHtml(q.question_image, item.quiz_id, q.id, 1)}
-          </div>
-          <div class="options-engine">
-            ${renderOptions(item)}
-          </div>
-          <div class="explanation">
-             <strong>💡 Solution:</strong><br>
-             <div class="sol-text">${applyBoldHighlight(getLangText(q.solution_text))}</div>
-             ${renderImageHtml(q.solution_image, item.quiz_id, q.id, 6)}
-          </div>
-          <div style="padding:12px;">
-            <button class="btn btn-unsave" style="width:100%; padding:14px;" onclick="confirmUnsave('${item.key}')">REMOVE FROM SAVED</button>
-          </div>
-        </div>
-      `;
-      normalizeMathForQuiz(document.getElementById('focusContent'));
+          <div class="q-bar"><span>📚 ${item.quiz_id}</span><span>${currentFocusIdx + 1} of ${QUESTION_LIST.length}</span></div>
+          <div class="qtext">${applyBoldHighlight(getLangText(q.question))}${renderImg(q.question_image, item.quiz_id, q.id, 1)}</div>
+          <div class="options-engine">${renderOptions(item)}</div>
+          <div class="explanation"><strong>💡 SOLUTION:</strong><br><div class="sol-text">${applyBoldHighlight(getLangText(q.solution_text))}</div>${renderImg(q.solution_image, item.quiz_id, q.id, 6)}</div>
+          <div style="padding:12px;"><button class="btn btn-unsave" style="width:100%; padding:14px;" onclick="confirmUnsave('${item.key}')">REMOVE FROM SAVED</button></div>
+        </div>`;
+      normalizeMath(document.getElementById('focusContent'));
       renderMath();
     }
 
-    function navFocus(dir) {
-      currentFocusIdx = (currentFocusIdx + dir + QUESTION_LIST.length) % QUESTION_LIST.length;
-      renderFocusMode();
-    }
-
-    function changeGlobalLang(val) {
-      currentLang = val;
-      localStorage.setItem("quiz_lang", val);
-      processData();
-      if (document.getElementById('focusView').style.display === 'block') renderFocusMode();
-    }
-
-    function showSavePopup(msg) {
-      const t = document.createElement("div");
-      t.className = "save-toast";
-      t.innerText = msg;
-      document.body.appendChild(t);
-      setTimeout(() => t.remove(), 1500);
-    }
-
-    function renderMath() {
-      if (window.MathJax) MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    function navFocus(d) { currentFocusIdx = (currentFocusIdx + d + QUESTION_LIST.length) % QUESTION_LIST.length; renderFocusMode(); }
+    function changeGlobalLang(v) { currentLang = v; localStorage.setItem("quiz_lang", v); processData(); }
+    function renderMath() { if (window.MathJax) MathJax.Hub.Queue(["Typeset", MathJax.Hub]); }
+    function filterQuestions() {
+      const term = document.getElementById('searchBar').value.toLowerCase();
+      renderListView(QUESTION_LIST.filter(i => JSON.stringify(i).toLowerCase().includes(term)));
     }
   </script>
 </body>
