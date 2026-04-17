@@ -284,6 +284,7 @@ h1 {
   font-weight: 700;
   margin-bottom: 20px;
 }
+
 /* =========================================
    5. QUIZ CARD & QUESTIONS (TESTBOOK STYLE)
    ========================================= */
@@ -297,17 +298,14 @@ h1 {
   margin-bottom: 20px;
 
 }
-
 /* =========================
-   BOX 1: META ROW
+   BOX 1: META ROW (Updated for Action Icons)
    ========================= */
 .qbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 10px 14px;
-  
+  padding: 8px 14px; /* Slightly tighter for icons */
   border-bottom: 1.25px solid #333333;
   background: #fff;
 }
@@ -315,15 +313,60 @@ h1 {
 .qmeta {
   font-size: 14px;
   font-weight: 600;
+  color: #111111; /* Darker than #555 to match intensity */
+}
+/* Container for Lang/Save/Report */
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lang-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lang-label {
+  font-size: 13px;
+  font-weight: 600;
   color: #555;
 }
 
-.marking {
+.card-lang-dropdown {
+  padding: 3px;
   font-size: 13px;
-  font-weight: 600;
-  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
 }
 
+/* Updated Action Buttons (Laptop Style) */
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  transition: 0.2s;
+}
+
+.btn-save { background: #0b5ed7; }
+.btn-report { background: #dc3545; }
+
+/* Saved state: Button turns Green */
+.action-btn.saved {
+  background: #198754 !important;
+}
+.action-btn.saved svg path {
+  fill: #fff;
+}
 /* =========================
    BOX 2: QUESTION TEXT
    ========================= */
@@ -331,9 +374,8 @@ h1 {
   padding: 12px 14px;
   font-size: 16px;
   line-height: 1.5;
-  color: #222;
-  font-weight: 500;
-
+  color: #111111; /* New darker intensity */
+  font-weight: 500; /* Kept same */
   border-bottom: 1.25px solid #333333;
   background: #fff;
 }
@@ -341,34 +383,83 @@ h1 {
 /* =========================
    BOX 3: OPTIONS TABLE
    ========================= */
-
-/* Option row */
 .opt {
   display: grid;
   grid-template-columns: 48px 1fr;
-
   border-bottom: 1.25px solid #333333;
   background: #fff;
   margin: 0;
 }
 
+.opt-text {
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #111111; /* New darker intensity */
+  display: block;
+  line-height: 1.5;
+}
 
+/* =========================
+
+/* =========================
+   MOBILE ADJUSTMENTS
+   ========================= */
+@media (max-width: 991px) {
+  /* Hide labels and text on mobile */
+  .lang-label, .btn-text {
+    display: none;
+  }
+
+/* Transform into the box-sign style */
+  .action-btn {
+    padding: 6px;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    border: 1.5px solid currentColor;
+    background: transparent !important; /* Ensures background stays clear */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-save { color: #555; border-color: #555; }
+  .btn-report { color: #dc3545; border-color: #dc3545; }
+
+  /* Only green the icon and border, not the whole box background */
+  .action-btn.saved {
+    color: #198754 !important;
+    border-color: #198754 !important;
+    background: transparent !important; 
+  }
+  
+  .action-btn.saved svg path {
+    fill: #198754 !important; 
+    stroke: #198754 !important;
+  }
+  .qtext {
+    font-size: 15px; /* Decreased slightly for mobile */
+  }
+  
+  .opt-text {
+    font-size: 14px; /* Decreased slightly for mobile */
+  }
+
+  .card-actions {
+    gap: 8px;
+  }
+  
+  .card-lang-dropdown {
+    font-size: 12px;
+    max-width: 80px;
+  }
+}
 
 /* Selected radio */
 .opt.selected .custom-radio::before {
   border-color: var(--accent);
   
 }
-
-
-.opt-text {
-  padding: 10px 14px;
-  font-size: 15px;
-  color: #222;
-  display: block;        /* ✅ REQUIRED */
-  line-height: 1.5;
-}
-
 
 /* Radio container MUST be positioning context */
 .custom-radio {
@@ -1222,6 +1313,85 @@ body.mode-solution #pauseBtn {
   }
   #quizCard { width: 100% !important; margin: 0 !important; }
 }
+
+    /* ✅ Save Success Popup Styles */
+.save-toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #198754;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 10000;
+    animation: slideInSave 0.4s ease-out;
+}
+
+@keyframes slideInSave {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Optional: Right-side alignment for mobile */
+@media (max-width: 600px) {
+    .save-toast {
+        right: 10px;
+        bottom: 80px; /* Above mobile bottom bar */
+        font-size: 12px;
+    }
+}
+  /* 🚩 REPORT MODAL STYLES */
+.report-modal {
+  display: none; 
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 25000;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+.report-content {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: slideInUp 0.3s ease-out;
+}
+@keyframes slideInUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.report-label { display: block; font-weight: 700; font-size: 13px; margin: 12px 0 6px; color: #111; }
+.report-input {
+  width: 100%; padding: 10px; border: 1.5px solid #ddd;
+  border-radius: 6px; font-size: 14px; outline: none; transition: 0.2s;
+}
+.report-input:focus { border-color: #dc3545; box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1); }
+.report-actions { display: flex; gap: 12px; margin-top: 24px; }
+.report-btn {
+  flex: 1; padding: 12px; border: none; border-radius: 8px;
+  font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.report-btn.cancel { background: #f1f3f5; color: #495057; }
+.report-btn.submit { background: #dc3545; color: white; }
+.report-btn:active { transform: scale(0.98); }
+.report-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* Hide header language select and label */
+#langSelect, .lang-label-header { 
+    display: none !important; 
+}
+  
+
 </style>
 
 <script>
@@ -1276,6 +1446,10 @@ if (selectedConfig) {
     console.error("No Firebase config mapped for ID:", quizIdParam);
 }
 const db = firebase.database();
+  // ✅ 1. Initialize the secondary project for Saved Questions
+const commonApp = firebase.initializeApp(FIREBASE_PROJECTS.common, "CommonApp");
+const savedDb = commonApp.database();
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
@@ -1444,19 +1618,43 @@ const db = firebase.database();
   <div class="quiz-main-area" id="quizMainArea" style="display:none;">
 
     <div id="quizCard" class="card">
-      <div class="qbar">
-        <div class="qmeta">Question <span id="qindex">1</span> / <span id="qtotal">-</span></div>
-   
-        <div class="marking" id="marking"></div>
-      </div>
+        <div class="qbar">
+    <div class="qmeta">Question: <span id="qindex">1</span></div>
+    <div class="card-actions">
+  <div class="lang-container">
+    <span class="lang-label">Select Language:</span>
+    <select id="cardLangSelect" class="card-lang-dropdown">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="bilingual">EN+HI</option>
+    </select>
+  </div>
+  
+  <button id="cardSaveBtn" class="action-btn btn-save" title="Save">
+    <svg id="saveIcon" viewBox="0 0 24 24" width="18" height="18">
+      <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <span class="btn-text">Save</span>
+  </button>
 
-      <div class="qtext">
-    <div id="qtext"></div> <div id="questionImage" style="margin:12px 0;"></div> </div>
-<div class="options" id="options"></div>
+  <button id="cardReportBtn" class="action-btn btn-report" title="Report">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="7" x2="12" y2="13" /> <circle cx="12" cy="17" r="1" fill="currentColor" /> </svg>
+    <span class="btn-text">Report</span>
+  </button>
+</div>
+  </div>
+  
+  <div class="qtext">
+    <div id="qtext"></div> 
+    <div id="questionImage" style="margin:12px 0;"></div> 
+  </div>
+  <div class="options" id="options"></div>
+  <div id="explanation" class="explanation"></div>
+</div>
 
       
-      <div id="explanation" class="explanation"></div>
-    </div>
 
     <div id="palette" aria-hidden="true">
 
@@ -1491,6 +1689,37 @@ const db = firebase.database();
     <div class="actions">
       <button id="cancelSubmit" class="btn-ghost">Cancel</button>
       <button id="confirmSubmit" class="btn">Submit</button>
+    </div>
+  </div>
+</div>
+<div id="reportModal" class="report-modal">
+  <div class="report-content">
+    <h3>Report Question</h3>
+    <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Select a reason and provide details to help us fix it.</p>
+    
+    <label class="report-label">Reason (Mandatory)</label>
+    <select id="reportReason" class="report-input" onchange="toggleOtherReason()">
+      <option value="">-- Select Reason --</option>
+      <option value="Question Incorrect">Question Incorrect</option>
+      <option value="Language Issue">Language/Translation Issue</option>
+      <option value="Option Incorrect">Option Content Incorrect</option>
+      <option value="Multiple Options Same">Options are Same</option>
+      <option value="Wrong Answer Marked">Right Option is different</option>
+      <option value="Solution Error">Solution Wrong</option>
+      <option value="Other">Other (Specify below)</option>
+    </select>
+
+    <div id="otherReasonBox" style="display: none;">
+      <label class="report-label">Specify Reason</label>
+      <input type="text" id="reportOtherText" class="report-input" placeholder="Enter your specific issue...">
+    </div>
+
+    <label class="report-label">Additional Details (Mandatory)</label>
+    <textarea id="reportDetails" class="report-input" rows="3" placeholder="Explain the issue in detail..."></textarea>
+
+    <div class="report-actions">
+      <button class="report-btn cancel" onclick="hideReportModal()">Cancel</button>
+      <button id="submitReportBtn" class="report-btn submit" onclick="submitReport()">Submit Request</button>
     </div>
   </div>
 </div>
@@ -1773,10 +2002,10 @@ if (Object.keys(answers).length === 0) {
   }
   current = i;
   const q = QUESTIONS[i];
-
-  // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
-  el("qindex").textContent = i + 1;
-  el("qtotal").textContent = QUESTIONS.length;
+// 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
+el("qindex").textContent = i + 1;
+// el("qtotal").textContent = QUESTIONS.length; // ✅ Commented out to prevent crash
+ 
 // --- UPDATED: STYLED TIME TAKEN BOX ---
   let timeDisplay = document.getElementById("qTimeTaken");
   if (!timeDisplay) {
@@ -1852,9 +2081,11 @@ const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main
     imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
   }
   
-
-  // 3. Update Marks
-  el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0)}</span>`;
+// 3. Update Marks (Safety check added)
+if (el("marking")) {
+    el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0.5)}</span>`;
+}
+  
 
   // 4. Render Options (Updated to include Option Images)
   const optsContainer = el("options");
@@ -1979,7 +2210,210 @@ if (q.solution_image && q.solution_image.trim() !== "") {
       renderQuestion(current);
     };
   }
+// ✅ FINAL STEP: Action Button Sync (Save & Report)
+  const saveBtn = document.getElementById('cardSaveBtn');
+  const reportBtn = document.getElementById('cardReportBtn');
+
+  if (saveBtn) {
+    const storageKey = `saved_status_${USER_EMAIL_KEY}`;
+    const localSaves = JSON.parse(localStorage.getItem(storageKey) || "{}");
+    const uniqueKey = `${QUIZ_ID}_${q.id}`;
+
+    // 1. Sync Save Button Color from Local Storage
+    if (localSaves[uniqueKey]) {
+      saveBtn.classList.add('saved');
+    } else {
+      saveBtn.classList.remove('saved');
+    }
+
+    // 2. Link Save Click Logic
+    saveBtn.onclick = () => saveQuestion();
+  }
+
+  if (reportBtn) {
+    // 3. Link Report Click to show the Sub-page Modal
+    reportBtn.onclick = () => showReportModal();
+  }
+  // ✅ Sync the card dropdown with the global language state
+  const cardLang = document.getElementById('cardLangSelect');
+  if (cardLang) {
+    cardLang.value = currentLang; 
+  }
+  
 }
+
+  // ✅ UPDATED: Save & Unsave Logic with Confirmation
+async function saveQuestion() {
+  const q = QUESTIONS[current]; 
+  const saveBtn = document.getElementById('cardSaveBtn');
+  const storageKey = `saved_status_${USER_EMAIL_KEY}`;
+  const uniqueKey = `${QUIZ_ID}_${q.id}`;
+
+  if (saveBtn.disabled) return;
+
+  // Get current saves from Local Storage
+  let localSaves = JSON.parse(localStorage.getItem(storageKey) || "{}");
+  const isAlreadySaved = localSaves[uniqueKey];
+
+  // --- CASE A: UNSAVE THE QUESTION ---
+  if (isAlreadySaved) {
+    const confirmUnsave = confirm("This question is already saved. Do you want to remove it from your saved collection?");
+    if (!confirmUnsave) return;
+
+    try {
+      saveBtn.disabled = true;
+      saveBtn.style.opacity = "0.6";
+
+      // 1. Remove from Common Firebase Project
+      await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${uniqueKey}`).remove();
+
+      // 2. Remove from Local Storage
+      delete localSaves[uniqueKey];
+      localStorage.setItem(storageKey, JSON.stringify(localSaves));
+
+      // 3. Update UI
+      saveBtn.classList.remove('saved');
+      showSavePopup("❌ Removed from Saved!");
+
+    } catch (error) {
+      console.error("Unsave failed:", error);
+      alert("Failed to remove question. Check your connection.");
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.style.opacity = "1";
+    }
+    return;
+  }
+
+  // --- CASE B: SAVE THE QUESTION ---
+  try {
+    saveBtn.disabled = true;
+    saveBtn.style.opacity = "0.6";
+
+    await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${uniqueKey}`).set({
+      quiz_id: QUIZ_ID,
+      question_data: q,
+      saved_at: Date.now()
+    });
+
+    localSaves[uniqueKey] = true;
+    localStorage.setItem(storageKey, JSON.stringify(localSaves));
+
+    saveBtn.classList.add('saved');
+    showSavePopup("✓ Saved Successfully!");
+
+  } catch (error) {
+    console.error("Save failed:", error);
+    const errToast = document.createElement("div");
+    errToast.className = "save-toast";
+    errToast.style.background = "#dc3545";
+    errToast.innerText = "Cloud Save Failed!";
+    document.body.appendChild(errToast);
+    setTimeout(() => errToast.remove(), 2000);
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.style.opacity = "1";
+  }
+}
+  
+
+// ✅ Popup Helper (Shows for exactly 1.5s)
+function showSavePopup(message) {
+    const toast = document.createElement("div");
+    toast.className = "save-toast";
+    toast.innerHTML = `<span>${message}</span>`;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transition = "0.5s";
+        setTimeout(() => toast.remove(), 500);
+    }, 1500); // 1.5 Seconds
+  }
+
+  // 🚩 TELEGRAM CONFIG (Replace with your actual data)
+const TG_BOT_TOKEN = "8100840733:AAHixK1uKS16GJPLq3eeNa2UanhfBR6inak"; 
+const TG_CHAT_ID = "-1003993346447"; 
+
+// 1. Control Modal Visibility
+function showReportModal() {
+  document.getElementById('reportModal').style.display = 'flex';
+}
+
+function hideReportModal() {
+  document.getElementById('reportModal').style.display = 'none';
+  // Clear data
+  document.getElementById('reportReason').value = "";
+  document.getElementById('reportOtherText').value = "";
+  document.getElementById('reportDetails').value = "";
+  document.getElementById('otherReasonBox').style.display = 'none';
+}
+
+function toggleOtherReason() {
+  const val = document.getElementById('reportReason').value;
+  document.getElementById('otherReasonBox').style.display = (val === "Other") ? "block" : "none";
+}
+
+// 2. Submit Report Logic (Ultra Fast with Link)
+async function submitReport() {
+  const reasonSelect = document.getElementById('reportReason');
+  const otherText = document.getElementById('reportOtherText').value;
+  const details = document.getElementById('reportDetails').value;
+  const submitBtn = document.getElementById('submitReportBtn');
+
+  // Strict Validation
+  if (!reasonSelect.value || !details || (reasonSelect.value === "Other" && !otherText)) {
+    alert("❌ Please select a reason and provide details.");
+    return;
+  }
+
+  const finalReason = (reasonSelect.value === "Other") ? `Other: ${otherText}` : reasonSelect.value;
+  const q = QUESTIONS[current];
+  const reportLink = window.location.href; // Captures exact URL including quiz ID
+
+  try {
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Submitting...";
+
+    // Telegram Markdown Message Structure
+    const message = `🚨 *NEW QUESTION REPORT* 🚨\n\n` +
+                    `📌 *Quiz:* \`${QUIZ_ID}\`\n` +
+                    `🆔 *Q-ID:* \`${q.id}\`\n` +
+                    `👤 *User:* \`${USER_EMAIL_KEY}\`\n\n` +
+                    `🚩 *Reason:* ${finalReason}\n` +
+                    `💬 *Details:* ${details}\n\n` +
+                    `🔗 *Direct Link:* [Click to Open Question](${reportLink})\n\n` +
+                    `--------------------------\n` +
+                    `⚡ _Submitted via Admin Support Bot_`;
+
+    const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TG_CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown'
+      })
+    });
+
+    if (response.ok) {
+      showSavePopup("✓ Report Submitted Successfully!"); 
+      hideReportModal();
+    } else {
+      throw new Error("Telegram API Error");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Submission Failed. Check internet or Bot Token.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerText = "Submit Request";
+  }
+}
+
 
 // ===============================
 // 🖱️ OPTION SELECTION
@@ -3148,6 +3582,24 @@ function attachListeners(){
     }
   });
 
+  // 1. Language Dropdown Sync
+document.addEventListener('change', function(e) {
+  if (e.target && e.target.id === 'cardLangSelect') {
+    currentLang = e.target.value;
+    saveQuizState();
+    renderQuestion(current);
+  }
+});
+
+// 2. Save Icon Color Toggle
+document.addEventListener('click', function(e) {
+  const saveBtn = e.target.closest('#cardSaveBtn');
+  if (saveBtn) {
+    saveBtn.classList.toggle('saved');
+    // Functionality for saving can be added here
+  }
+});
+  
   // Submit Modal
   // Submit Modal with Sectional Table
 el("submitBtn").onclick = () => {
