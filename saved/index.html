@@ -149,6 +149,13 @@
       color: white; padding: 12px 20px; border-radius: 8px; font-weight: 700;
       z-index: 10000;
     }
+    .MathJax_Display {
+    display: inline-block !important;
+    margin: 0 !important;
+}
+mjx-container {
+    line-height: 0;
+}
   </style>
 </head>
 <body>
@@ -308,16 +315,25 @@
       });
       renderMath();
     }
+function normalizeMath(container) {
+  const elements = container.querySelectorAll('.qtext, .opt-text, .sol-text');
+  elements.forEach(el => {
+    let content = el.innerHTML;
+    
+    // 1. Clean delimiters and wrap in LaTeX inline format
+    content = content.replace(/\/\/\s*(.*?)\s*\/\//g, '\\($1\\)');
+    content = content.replace(/\$\$\s*(.*?)\s*\$\$/g, '\\($1\\)');
+    content = content.replace(/\$\s*(.*?)\s*\$/g, '\\($1\\)');
 
-    function normalizeMath(container) {
-      container.querySelectorAll('.qtext, .opt-text, .sol-text').forEach(el => {
-        let content = el.innerHTML;
-        // CORRECTED MATH CLEANUP
-        content = content.replace(/\/\/ (.*?) \/\//g, '\\($1\\)').replace(/\/\/(.*?)\/\//g, '\\($1\\)');
-        content = content.replace(/\$ (.*?) \$/g, '\\($1\\)').replace(/\$(.*?)\$/g, '\\($1\\)');
-        el.innerHTML = content;
-      });
+    el.innerHTML = content;
+
+    // 2. CRITICAL: Tell MathJax to process this specific element right now
+    if (window.MathJax) {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub, el]);
     }
+  });
+}
+   
 
     function toggleExpand(key) { document.getElementById(`expand-${key}`).classList.toggle('active'); }
 
