@@ -436,32 +436,23 @@ mjx-container {
   const elements = container.querySelectorAll('.qtext, .opt-text, .sol-text');
   elements.forEach(el => {
     let content = el.innerHTML;
-
-    // 1. Single-pass replacement to avoid nested delimiters like \(\( \)\)
-    // This handles //...//, $$...$$, and $...$ all at once
-    content = content.replace(/\/\/\s*([\s\S]*?)\s*\/\/|\$\$\s*([\s\S]*?)\s*\$\$|\$\s*([\s\S]*?)\s*\$/g, (match, p1, p2, p3) => {
-      let formula = p1 || p2 || p3;
-      
-      // 2. Fix Dotted Circle Issue: 
-      // Wrap Hindi characters inside math formulas with \text{} 
-      // This prevents MathJax from detaching matras (vowels)
-      if (/[\u0900-\u097F]/.test(formula)) {
-        formula = formula.replace(/([\u0900-\u097F]+)/g, '\\text{$1}');
-      }
-      
-      return `\\(${formula}\\)`;
-    });
+    
+    // 1. Clean delimiters and wrap in LaTeX inline format
+    content = content.replace(/\/\/\s*(.*?)\s*\/\//g, '\\($1\\)');
+    content = content.replace(/\$\$\s*(.*?)\s*\$\$/g, '\\($1\\)');
+    content = content.replace(/\$\s*(.*?)\s*\$/g, '\\($1\\)');
 
     el.innerHTML = content;
 
-    // 3. Trigger MathJax typeset
+    // 2. CRITICAL: Tell MathJax to process this specific element right now
     if (window.MathJax) {
       MathJax.Hub.Queue(["Typeset", MathJax.Hub, el]);
     }
   });
-    }
-    
+}
+   
 
+    
 
     function toggleExpand(key) { document.getElementById(`expand-${key}`).classList.toggle('active'); }
 
