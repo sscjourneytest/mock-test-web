@@ -532,14 +532,25 @@ function showToast(msg) {
     MathJax.typesetPromise();
   }
 }
+    function normalizeMath(container) {
+  const elements = container.querySelectorAll('.qtext, .opt-text, .sol-text');
+  elements.forEach(el => {
+    let content = el.innerHTML;
+    
+    // 1. Clean delimiters and wrap in LaTeX inline format
+    content = content.replace(/\/\/\s*(.*?)\s*\/\//g, '\\($1\\)');
+    content = content.replace(/\$\$\s*(.*?)\s*\$\$/g, '\\($1\\)');
+    content = content.replace(/\$\s*(.*?)\s*\$/g, '\\($1\\)');
 
-function normalizeMathForQuiz(container) {
-  if (!container) return;
-  // Convert $$...$$ block math to \(...\) inline math for better mobile flow
-  container.innerHTML = container.innerHTML
-    .replace(/(\S)\s*\$\$(.+?)\$\*\s*(\S)/g, '$1 \\($2\\) $3')
-    .replace(/\$\$(.+?)\$\$/g, '\\($1\\)');
+    el.innerHTML = content;
+
+    // 2. CRITICAL: Tell MathJax to process this specific element right now
+    if (window.MathJax) {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub, el]);
+    }
+  });
 }
+
     
     function filterQuestions() {
       const term = document.getElementById('searchBar').value.toLowerCase();
