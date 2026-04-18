@@ -1117,29 +1117,31 @@ body.mode-solution .container {
 
   /* --- UPDATE THIS IN YOUR CSS --- */
 
-/* Force MathJax containers to wrap and stay within parent bounds */
+  /* --- FINAL CSS FOR WRAPPING EQUATIONS --- */
+
+/* Force math to behave as inline text that can wrap */
 mjx-container {
-  display: inline-block;
+  display: inline !important;      
+  white-space: normal !important;  
   max-width: 100% !important;
-  overflow-x: auto; /* Adds a scrollbar if an equation is truly unbreakable */
-  overflow-y: hidden;
-  vertical-align: middle;
-  white-space: normal; /* Allows wrapping */
+  word-wrap: break-word !important;
 }
 
-/* Ensure the question and option text blocks don't restrict wrapping */
-.qtext, .opt-text, .explanation {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
+/* Ensure the question and option text areas don't block wrapping */
+#qtext, .opt-text, .explanation {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: anywhere !important;
+  display: block; /* Ensures the container fills the card width */
 }
 
-/* Prevents MathJax from being cut off at the bottom */
+/* Fix for any display math that might bypass your function */
 .mjx-display {
-  margin: 1em 0 !important;
-  overflow-x: auto;
-  overflow-y: hidden;
+  display: inline !important;
+  margin: 0 !important;
 }
+  
+
   
 /* Force MathJax to use system fonts for non-Latin characters */
 mjx-utext {
@@ -1417,26 +1419,30 @@ body.mode-solution #pauseBtn {
 </style>
 
 <script>
- /* --- UPDATE THIS BLOCK IN YOUR SCRIPT --- */
+
+  /* --- FINAL MATHJAX CONFIG --- */
 window.MathJax = {
   tex: {
-    inlineMath: [['\\(', '\\)']],
+    inlineMath: [['\\(', '\\)']], 
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
     processEscapes: true,
     fontHTMLLocal: 'serif' 
   },
   chtml: {
     mtextInheritFont: true,
-    displayAlign: 'left', // Aligns block math to the left for better mobile viewing
+    displayAlign: 'left',
+    /* Forces the renderer to break long lines into new lines */
     linebreaks: { 
-      allow: true,      // Enables automatic line breaking
-      width: '100%'     // Breaks at the container width
+      allow: true,
+      width: 'container', // Uses the quiz card width as the limit
+      overflow: 'linebreak' 
     }
   },
   options: {
     skipHtmlTags: ['script', 'style', 'textarea', 'pre']
   }
 };
+
   
   
 /* --- GLOBAL CONFIGURATION (Add at the very top of your first script) --- */
