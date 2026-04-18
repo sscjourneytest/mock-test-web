@@ -1119,27 +1119,31 @@ body.mode-solution .container {
 
   /* --- FINAL CSS FOR WRAPPING EQUATIONS --- */
 
-  /* Force MathJax to behave like text so it wraps at the edge of the card */
+
+/* ✅ Fix MathJax Overflow Properly */
 mjx-container {
-  display: inline !important; 
-  white-space: normal !important;
-  word-wrap: break-word !important;
-}
-
-/* Ensure the question and option text containers allow internal wrapping */
-#qtext, .opt-text, .explanation {
-  white-space: normal !important;
+  max-width: 100% !important;
   overflow-wrap: anywhere !important;
-  word-break: normal !important;
+  word-break: break-word !important;
 }
-  
-/* Fix for any display math that might bypass your function */
-.mjx-display {
-  display: inline !important;
-  margin: 0 !important;
-}
-  
 
+/* For display equations */
+mjx-container[display="true"] {
+  display: block !important;
+  max-width: 100% !important;
+}
+
+/* Allow math content to wrap */
+mjx-math {
+  white-space: normal !important;
+}
+
+/* VERY IMPORTANT: apply to parent container */
+.qtext, #qtext, .opt-text, .explanation {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  white-space: normal !important;
+  }
   
 /* Force MathJax to use system fonts for non-Latin characters */
 mjx-utext {
