@@ -20,7 +20,8 @@ MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['\\(','\\)'],
     displayMath: [['$$','$$']],
-    processEscapes: true
+    processEscapes: true,
+    fontHTMLLocal: 'serif' 
   },
   "HTML-CSS": { 
       linebreaks: { automatic: true, width: "container" },
@@ -169,7 +170,11 @@ MathJax.Hub.Config({
     max-width: 100% !important;
     white-space: normal !important;
 }
-    
+
+    mjx-utext {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-style: normal !important;
+    }
 
 
     
