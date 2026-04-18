@@ -20,8 +20,7 @@ window.MathJax = {
   tex: {
     inlineMath: [['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    processEscapes: true,
-    fontHTMLLocal: 'serif' 
+    processEscapes: true
   },
   chtml: {
     mtextInheritFont: false,
@@ -172,7 +171,9 @@ mjx-math {
   overflow-wrap: break-word !important;
   word-break: normal !important;
 }
-
+mjx-container {
+  font-family: 'STIX Two Math', 'Cambria Math', serif !important;
+}
 
     .btn-collapse { background: #e2e8f0; color: #1e293b; }
     .btn-unsave { background: #fee2e2; color: var(--danger); }
