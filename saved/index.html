@@ -16,17 +16,26 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
   <script type="text/x-mathjax-config">
+
     MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [['\\(','\\)']],
-        displayMath: [['$$','$$']],
-        processEscapes: true
-      },
-      "HTML-CSS": { 
-          linebreaks: { automatic: true },
-          availableFonts: ["TeX"]
-      }
-    });
+  tex2jax: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true
+  },
+  "HTML-CSS": { 
+      linebreaks: { automatic: true, width: "container" }, // Force width to match container
+      availableFonts: ["TeX"],
+      webFont: "TeX"
+  },
+  CommonHTML: { 
+      linebreaks: { automatic: true, width: "container" } 
+  },
+  SVG: { 
+      linebreaks: { automatic: true, width: "container" } 
+  }
+});
+    
   </script>
 
   <style>
@@ -132,18 +141,35 @@
     .btn { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 13px; }
     
 
+/* Force MathJax to wrap within the container width */
+mjx-container {
+  max-width: 100% !important;
+  white-space: normal !important;
+}
 
+/* Ensure the output (CHTML) allows line breaks */
+mjx-container [jax="CHTML"] {
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  max-width: 100% !important;
+}
 
-    /* MATHJAX OVERFLOW FIX */
-    mjx-container { 
-        display: inline-block !important; 
-        max-width: 100% !important; 
-        overflow-x: auto !important; 
-        vertical-align: middle;
-        margin: 2px 0 !important;
-    }
+/* Prevent horizontal scrolling on the card itself */
+.qtext, .explanation, .opt-text {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-x: hidden; /* Prevent the card from stretching */
+}
     
 
+    /* Allow equations to wrap */
+.MathJax_Display, .MathJax {
+    display: inline !important; 
+    white-space: normal !important;
+}
+
+
+    
     .btn-collapse { background: #e2e8f0; color: #1e293b; }
     .btn-unsave { background: #fee2e2; color: var(--danger); }
 
