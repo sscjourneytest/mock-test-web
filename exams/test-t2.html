@@ -1116,12 +1116,14 @@ body.mode-solution .container {
 .ssc-watermark { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .ssc-wm { position: absolute; font-size: 26px; font-weight: 700; color: rgba(0,0,0,0.045); transform: rotate(-30deg); white-space: nowrap; }
 
-
-/* ✅ Fix MathJax Overflow Properly */
-mjx-container {
+      /* ✅ Fix MathJax Overflow Properly */
+    mjx-container {
   max-width: 100% !important;
-  overflow-wrap: anywhere !important;
-  word-break: break-word !important;
+  overflow: visible !important;
+    }
+mjx-container, mjx-math, mjx-mtext {
+  word-break: normal !important;
+  overflow-wrap: normal !important;
 }
 
 /* For display equations */
@@ -1134,16 +1136,9 @@ mjx-container[display="true"] {
 mjx-math {
   white-space: normal !important;
 }
-
-/* VERY IMPORTANT: apply to parent container */
 .qtext, #qtext, .opt-text, .explanation {
-  overflow-wrap: anywhere !important;
-  word-break: break-word !important;
-  white-space: normal !important;
-}
-mjx-utext {
-  font-family: 'Inter', system-ui, sans-serif !important;
-  font-style: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
 }
 
 /* Loader Overlay */
@@ -1420,11 +1415,11 @@ body.mode-solution #pauseBtn {
   tex: {
     inlineMath: [['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    processEscapes: true,
-    fontHTMLLocal: 'serif' 
+    processEscapes: true
   },
   chtml: {
-    mtextInheritFont: true,
+    mtextInheritFont: false,
+    
     displayAlign: 'left',
     // --- THIS SECTION FIXES THE OVERFLOW ---
     linebreaks: { 
