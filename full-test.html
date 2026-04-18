@@ -1115,9 +1115,33 @@ body.mode-solution .container {
 .ssc-watermark { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .ssc-wm { position: absolute; font-size: 26px; font-weight: 700; color: rgba(0,0,0,0.045); transform: rotate(-30deg); white-space: nowrap; }
 
-/* MathJax */
-mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: auto; }
-/* Force MathJax to use system fonts for non-Latin characters */
+  
+    /* 1. Ensure the equation itself can break into multiple lines */
+.MathJax_Display, .MathJax, mjx-container {
+    display: inline !important; 
+    white-space: normal !important;
+    word-wrap: break-word !important;
+}
+
+/* 2. Force the containers to expand vertically to accommodate wrapped text */
+.qtext, .explanation, .opt-text, .sol-text {
+    height: auto !important;
+    width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    overflow-x: visible !important; /* Allow vertical growth, stop horizontal clipping */
+    display: block !important;
+    line-height: 1.6 !important; /* Better spacing between wrapped lines */
+}
+
+/* 3. Specifically fix v2.7.5 internal wrapping for CHTML/HTML-CSS */
+.mjx-chtml, .MathJax_CHTML {
+    display: inline-block !important; /* Required for the internal breaking engine */
+    max-width: 100% !important;
+    white-space: normal !important;
+}
+
+
 mjx-utext {
   font-family: 'Inter', system-ui, sans-serif !important;
   font-style: normal !important;
