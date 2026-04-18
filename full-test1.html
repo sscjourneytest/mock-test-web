@@ -1115,8 +1115,32 @@ body.mode-solution .container {
 .ssc-watermark { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .ssc-wm { position: absolute; font-size: 26px; font-weight: 700; color: rgba(0,0,0,0.045); transform: rotate(-30deg); white-space: nowrap; }
 
-/* MathJax */
-mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: auto; }
+  /* --- UPDATE THIS IN YOUR CSS --- */
+
+/* Force MathJax containers to wrap and stay within parent bounds */
+mjx-container {
+  display: inline-block;
+  max-width: 100% !important;
+  overflow-x: auto; /* Adds a scrollbar if an equation is truly unbreakable */
+  overflow-y: hidden;
+  vertical-align: middle;
+  white-space: normal; /* Allows wrapping */
+}
+
+/* Ensure the question and option text blocks don't restrict wrapping */
+.qtext, .opt-text, .explanation {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Prevents MathJax from being cut off at the bottom */
+.mjx-display {
+  margin: 1em 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+  
 /* Force MathJax to use system fonts for non-Latin characters */
 mjx-utext {
   font-family: 'Inter', system-ui, sans-serif !important;
@@ -1393,23 +1417,28 @@ body.mode-solution #pauseBtn {
 </style>
 
 <script>
- 
-  window.MathJax = {
-    tex: {
-      inlineMath: [['\\(', '\\)']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']],
-      processEscapes: true,
-      /* This allows MathJax to render characters it doesn't recognize using the browser's font */
-      fontHTMLLocal: 'serif' 
-    },
-    chtml: {
-      /* This ensures the Hindi text matches the surrounding font size */
-      mtextInheritFont: true 
-    },
-    options: {
-      skipHtmlTags: ['script', 'style', 'textarea', 'pre']
+ /* --- UPDATE THIS BLOCK IN YOUR SCRIPT --- */
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    fontHTMLLocal: 'serif' 
+  },
+  chtml: {
+    mtextInheritFont: true,
+    displayAlign: 'left', // Aligns block math to the left for better mobile viewing
+    linebreaks: { 
+      allow: true,      // Enables automatic line breaking
+      width: '100%'     // Breaks at the container width
     }
-  };
+  },
+  options: {
+    skipHtmlTags: ['script', 'style', 'textarea', 'pre']
+  }
+};
+  
+  
 /* --- GLOBAL CONFIGURATION (Add at the very top of your first script) --- */
 const urlParams = new URLSearchParams(window.location.search);
 const quizIdParam = urlParams.get('id') || ""; // KEEP EXACT CASE for file fetching
