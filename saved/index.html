@@ -149,10 +149,13 @@ window.MathJax = {
     .btn { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 13px; }
 
     /* ✅ Fix MathJax Overflow Properly */
-mjx-container {
+    mjx-container {
   max-width: 100% !important;
-  overflow-wrap: anywhere !important;
-  word-break: break-word !important;
+  overflow: visible !important;
+    }
+mjx-container, mjx-math, mjx-mtext {
+  word-break: normal !important;
+  overflow-wrap: normal !important;
 }
 
 /* For display equations */
@@ -165,12 +168,9 @@ mjx-container[display="true"] {
 mjx-math {
   white-space: normal !important;
 }
-
-/* VERY IMPORTANT: apply to parent container */
 .qtext, #qtext, .opt-text, .explanation {
-  overflow-wrap: anywhere !important;
-  word-break: break-word !important;
-  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
 }
 mjx-utext {
   font-family: 'Inter', system-ui, sans-serif !important;
