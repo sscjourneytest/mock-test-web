@@ -431,25 +431,28 @@ mjx-container {
       });
       renderMath();
     }
-function normalizeMath(container) {
+
+    function normalizeMath(container) {
   const elements = container.querySelectorAll('.qtext, .opt-text, .sol-text');
   elements.forEach(el => {
     let content = el.innerHTML;
     
-    // 1. Clean delimiters and wrap in LaTeX inline format
-    content = content.replace(/\/\/\s*(.*?)\s*\/\//g, '\\($1\\)');
-    content = content.replace(/\$\$\s*(.*?)\s*\$\$/g, '\\($1\\)');
-    content = content.replace(/\$\s*(.*?)\s*\$/g, '\\($1\\)');
+    // Improved Regex to handle newlines and prevent splitting Hindi Unicode
+    content = content.replace(/\/\/\s*([\s\S]*?)\s*\/\//g, '\\($1\\)');
+    content = content.replace(/\$\$\s*([\s\S]*?)\s*\$\$/g, '\\($1\\)');
+    content = content.replace(/\$\s*([\s\S]*?)\s*\$/g, '\\($1\\)');
 
-    el.innerHTML = content;
+    if (el.innerHTML !== content) {
+        el.innerHTML = content;
+    }
 
-    // 2. CRITICAL: Tell MathJax to process this specific element right now
     if (window.MathJax) {
       MathJax.Hub.Queue(["Typeset", MathJax.Hub, el]);
     }
   });
-}
-   
+    }
+    
+
 
     function toggleExpand(key) { document.getElementById(`expand-${key}`).classList.toggle('active'); }
 
