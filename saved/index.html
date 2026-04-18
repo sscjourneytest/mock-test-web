@@ -27,10 +27,12 @@ MathJax.Hub.Config({
       linebreaks: { automatic: true, width: "container" },
       availableFonts: ["TeX"],
       preferredFont: "TeX",
-      webFont: "TeX"
+      webFont: "TeX",
+    mtextInheritFont: true 
   },
   CommonHTML: { 
-      linebreaks: { automatic: true, width: "container" } 
+      linebreaks: { automatic: true, width: "container" },
+    mtextInheritFont: true 
   },
   SVG: { 
       linebreaks: { automatic: true, width: "container" } 
@@ -38,8 +40,6 @@ MathJax.Hub.Config({
   // This ensures that when equations wrap, they don't overlap vertically
   displayAlign: "left"
 });
-    
-    
     
   </script>
 
