@@ -18,30 +18,30 @@
   <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   tex2jax: {
-    inlineMath: [['\\(','\\)']],
+    inlineMath: [['\\(','\\)'],
     displayMath: [['$$','$$']],
     processEscapes: true
   },
-  // This is the core engine instruction to break equations
   "HTML-CSS": { 
       linebreaks: { automatic: true, width: "container" },
-      availableFonts: ["TeX"],
-      preferredFont: "TeX",
-      webFont: "TeX",
-    mtextInheritFont: true 
+      availableFonts: [], // Forces the use of system fonts for Hindi
+      preferredFont: null,
+      webFont: null,
+      mtextInheritFont: true, // Crucial: Makes Hindi text inside Math look normal
+      matchFontHeight: false
   },
   CommonHTML: { 
       linebreaks: { automatic: true, width: "container" },
-    mtextInheritFont: true 
+      mtextInheritFont: true 
   },
   SVG: { 
-      linebreaks: { automatic: true, width: "container" } 
+      linebreaks: { automatic: true, width: "container" },
+      fontCache: 'none'
   },
-  // This ensures that when equations wrap, they don't overlap vertically
   displayAlign: "left"
 });
-    
   </script>
+  
 
   <style>
     :root {
