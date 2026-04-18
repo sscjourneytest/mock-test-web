@@ -1408,7 +1408,18 @@ body.mode-solution #pauseBtn {
 #langSelect, .lang-label-header { 
     display: none !important; 
 }
+
+  html, body {
+  width: 100%;
+  max-width: 100%;
   
+  }
+
+  .container {
+  padding: 12px;
+  width: 100%;
+  max-width: 100%;
+  }
 
 </style>
 
@@ -1426,7 +1437,8 @@ body.mode-solution #pauseBtn {
     linebreaks: { 
       allow: true,      // Tells MathJax it's okay to break lines
       width: 'container', // Uses the Quiz Card width as the limit
-      overflow: 'linebreak' // Forces a new line instead of scaling or scrolling
+      overflow: 'scale'
+      
     }
   },
   options: {
