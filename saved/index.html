@@ -315,15 +315,23 @@ mjx-container {
       SAVED_DATA = snap.val() || {};
       processData();
     }
+function processData() {
+  // Hide the loader
+  const loader = document.getElementById('loader');
+  if (loader) loader.style.display = 'none';
 
-    function processData() {
-      // Hide the loader as soon as processing starts
-      const loader = document.getElementById('loader');
-      if (loader) loader.style.display = 'none';
+  QUESTION_LIST = Object.entries(SAVED_DATA).map(([k, v]) => ({ key: k, ...v })).sort((a,b) => b.saved_at - a.saved_at);
+  
+  // 1. Render the HTML cards first
+  renderListView();
 
-      QUESTION_LIST = Object.entries(SAVED_DATA).map(([k, v]) => ({ key: k, ...v })).sort((a,b) => b.saved_at - a.saved_at);
-      renderListView();
-    }
+  // 2. CRITICAL FIX: Trigger MathJax manually after the HTML is in the DOM
+  if (window.MathJax) {
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "listView"]);
+  }
+}
+    
+
 
     const applyBoldHighlight = (html) => html ? html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') : "";
 
