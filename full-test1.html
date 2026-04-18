@@ -1119,22 +1119,20 @@ body.mode-solution .container {
 
   /* --- FINAL CSS FOR WRAPPING EQUATIONS --- */
 
-/* Force math to behave as inline text that can wrap */
+  /* Force MathJax to behave like text so it wraps at the edge of the card */
 mjx-container {
-  display: inline !important;      
-  white-space: normal !important;  
-  max-width: 100% !important;
-  word-wrap: break-word !important;
-}
-
-/* Ensure the question and option text areas don't block wrapping */
-#qtext, .opt-text, .explanation {
+  display: inline !important; 
   white-space: normal !important;
   word-wrap: break-word !important;
-  overflow-wrap: anywhere !important;
-  display: block; /* Ensures the container fills the card width */
 }
 
+/* Ensure the question and option text containers allow internal wrapping */
+#qtext, .opt-text, .explanation {
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+  
 /* Fix for any display math that might bypass your function */
 .mjx-display {
   display: inline !important;
@@ -1420,21 +1418,21 @@ body.mode-solution #pauseBtn {
 
 <script>
 
-  /* --- FINAL MATHJAX CONFIG --- */
-window.MathJax = {
+  window.MathJax = {
   tex: {
-    inlineMath: [['$$', '$$'], ['\\[', '\\]']],
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
     processEscapes: true,
     fontHTMLLocal: 'serif' 
   },
   chtml: {
     mtextInheritFont: true,
     displayAlign: 'left',
-    /* Forces the renderer to break long lines into new lines */
+    // --- THIS SECTION FIXES THE OVERFLOW ---
     linebreaks: { 
-      allow: true,
-      width: 'container', // Uses the quiz card width as the limit
-      overflow: 'linebreak' 
+      allow: true,      // Tells MathJax it's okay to break lines
+      width: 'container', // Uses the Quiz Card width as the limit
+      overflow: 'linebreak' // Forces a new line instead of scaling or scrolling
     }
   },
   options: {
