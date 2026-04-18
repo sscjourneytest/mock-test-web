@@ -6,10 +6,9 @@
   <title>Saved Questions - Mock Matrix Hub</title>
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-
+   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+  
 
   
   <script src="/firebase-config.js"></script>
@@ -18,8 +17,7 @@
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-
-      <script>
+  <script>
     window.MathJax = {
       tex: {
         inlineMath: [['\\(', '\\)']],
@@ -27,11 +25,12 @@
         processEscapes: true
       },
       chtml: {
-        mtextInheritFont: true, // Fixes Hindi circles
+        mtextInheritFont: true,
         displayAlign: 'left'
       }
     };
   </script>
+  
   
 
   <style>
@@ -136,32 +135,30 @@
     .btn-action-row { display: flex; padding: 10px; gap: 8px; border-top: 1px solid #eee; }
     .btn { flex: 1; padding: 10px; border: none; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 13px; }
 
-    /* 1. Ensure the equation itself can break into multiple lines */
-.MathJax_Display, .MathJax, mjx-container {
+    /* Ensure the equation itself can break into multiple lines */
+mjx-container {
     display: inline !important; 
     white-space: normal !important;
     word-wrap: break-word !important;
 }
 
-/* 2. Force the containers to expand vertically to accommodate wrapped text */
+/* Force the containers to expand vertically to accommodate wrapped text */
 .qtext, .explanation, .opt-text, .sol-text {
     height: auto !important;
     width: 100% !important;
     word-wrap: break-word !important;
     overflow-wrap: break-word !important;
-    overflow-x: visible !important; /* Allow vertical growth, stop horizontal clipping */
+    overflow-x: visible !important;
     display: block !important;
-    line-height: 1.6 !important; /* Better spacing between wrapped lines */
+    line-height: 1.6 !important;
 }
 
-/* 3. Specifically fix v2.7.5 internal wrapping for CHTML/HTML-CSS */
-.mjx-chtml, .MathJax_CHTML {
-    display: inline-block !important; /* Required for the internal breaking engine */
-    max-width: 100% !important;
-    white-space: normal !important;
+/* Fix for v3 internal wrapping */
+mjx-container[jax="CHTML"][display="true"] {
+    display: block !important;
+    text-align: left !important;
+    margin: 1em 0 !important;
 }
-    
-
 
     
     .btn-collapse { background: #e2e8f0; color: #1e293b; }
@@ -428,18 +425,19 @@ mjx-container {
   elements.forEach(el => {
     let content = el.innerHTML;
     
+    // Convert delimiters
     content = content.replace(/\/\/\s*(.*?)\s*\/\//g, '\\($1\\)');
     content = content.replace(/\$\$\s*(.*?)\s*\$\$/g, '\\($1\\)');
     content = content.replace(/\$\s*(.*?)\s*\$/g, '\\($1\\)');
 
     el.innerHTML = content;
-
-    if (window.MathJax && window.MathJax.typesetPromise) {
-      window.MathJax.typesetPromise([el]);
-    }
   });
-    }
 
+  // Call typeset on the whole container after content is replaced
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    window.MathJax.typesetPromise([container]).catch((err) => console.log(err));
+  }
+    }
 
     function toggleExpand(key) { document.getElementById(`expand-${key}`).classList.toggle('active'); }
 
