@@ -431,10 +431,10 @@ function processData() {
           </div>`;
         container.appendChild(card);
         observer.observe(card);
-        normalizeMathContent(card);
-        
+        normalizeMathForQuiz(card);
+      
       });
-      renderMath();
+      
     }
 
 function renderMath(target) {
@@ -444,20 +444,15 @@ function renderMath(target) {
   }
 }
 
-function normalizeMathContent(container) {
-  const elements = container.querySelectorAll('.qtext, .opt-text, .sol-text');
+    function normalizeMathForQuiz(container) {
+  if (!container) return;
 
-  elements.forEach(el => {
-    let content = el.innerHTML;
+  container.innerHTML = container.innerHTML
+    .replace(/(\S)\s*\$\$(.+?)\$\$\s*(\S)/g, '$1 \\($2\\) $3')
+    .replace(/\$\$(.+?)\$\$/g, '\\($1\\)');
+    }
 
-    content = content
-      .replace(/\/\/(.*?)\/\//g, '\\($1\\)')
-      .replace(/\$\$(.*?)\$\$/g, '\\[$1\\]')
-      .replace(/\$(.*?)\$/g, '\\($1\\)');
 
-    el.innerHTML = content;
-  });
-}
     function toggleExpand(key) {
   const el = document.getElementById(`expand-${key}`);
   const isOpen = el.classList.toggle('active');
@@ -539,7 +534,7 @@ function showToast(msg) {
           <div style="padding:12px;"><button class="btn btn-unsave" style="width:100%; padding:14px;" onclick="confirmUnsave('${item.key}')">REMOVE FROM SAVED</button></div>
         </div>`;
         const fc = document.getElementById('focusContent');
-normalizeMathContent(fc);
+normalizeMathForQuiz(fc);
 renderMath(fc);
       
     }
