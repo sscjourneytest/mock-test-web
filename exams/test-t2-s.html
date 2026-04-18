@@ -1116,9 +1116,31 @@ body.mode-solution .container {
 .ssc-watermark { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .ssc-wm { position: absolute; font-size: 26px; font-weight: 700; color: rgba(0,0,0,0.045); transform: rotate(-30deg); white-space: nowrap; }
 
-/* MathJax */
-mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: auto; }
-/* Force MathJax to use system fonts for non-Latin characters */
+
+/* ✅ Fix MathJax Overflow Properly */
+mjx-container {
+  max-width: 100% !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+/* For display equations */
+mjx-container[display="true"] {
+  display: block !important;
+  max-width: 100% !important;
+}
+
+/* Allow math content to wrap */
+mjx-math {
+  white-space: normal !important;
+}
+
+/* VERY IMPORTANT: apply to parent container */
+.qtext, #qtext, .opt-text, .explanation {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  white-space: normal !important;
+}
 mjx-utext {
   font-family: 'Inter', system-ui, sans-serif !important;
   font-style: normal !important;
@@ -1395,23 +1417,28 @@ body.mode-solution #pauseBtn {
 </style>
 
 <script>
- 
-  window.MathJax = {
-    tex: {
-      inlineMath: [['\\(', '\\)']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']],
-      processEscapes: true,
-      /* This allows MathJax to render characters it doesn't recognize using the browser's font */
-      fontHTMLLocal: 'serif' 
-    },
-    chtml: {
-      /* This ensures the Hindi text matches the surrounding font size */
-      mtextInheritFont: true 
-    },
-    options: {
-      skipHtmlTags: ['script', 'style', 'textarea', 'pre']
+ window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    fontHTMLLocal: 'serif' 
+  },
+  chtml: {
+    mtextInheritFont: true,
+    displayAlign: 'left',
+    // --- THIS SECTION FIXES THE OVERFLOW ---
+    linebreaks: { 
+      allow: true,      // Tells MathJax it's okay to break lines
+      width: 'container', // Uses the Quiz Card width as the limit
+      overflow: 'linebreak' // Forces a new line instead of scaling or scrolling
     }
-  };
+  },
+  options: {
+    skipHtmlTags: ['script', 'style', 'textarea', 'pre']
+  }
+};
+
 /* --- GLOBAL CONFIGURATION (Add at the very top of your first script) --- */
 const urlParams = new URLSearchParams(window.location.search);
 const quizIdParam = urlParams.get('id') || ""; // KEEP EXACT CASE for file fetching
