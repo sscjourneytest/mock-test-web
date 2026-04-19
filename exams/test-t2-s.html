@@ -1141,7 +1141,25 @@ mjx-math {
   word-break: normal !important;
 }
 
+/* Update your .container and .card styles */
+.container {
+  max-width: 100%;
+  overflow-x: hidden; /* Prevents horizontal scroll on the main body */
+}
 
+.card {
+  background: #ffffff;
+  border: 1.25px solid #333333;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 20px;
+  width: 100%;        /* Force it to follow container width */
+  overflow-x: hidden; /* Prevents horizontal scroll on the main body */
+  box-sizing: border-box;
+  overflow-wrap: break-word; 
+  word-wrap: break-word;
+  }
+  
 /* Loader Overlay */
 #loadingOverlay {
   position: fixed; inset:0; background:#fff; z-index:9999;
