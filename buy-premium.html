@@ -43,7 +43,22 @@
         .apply-btn { background: var(--secondary); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; }
 
         .qr-area { text-align: center; border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 20px; }
-        .qr-img { width: 180px; height: 180px; border: 1px solid #e2e8f0; padding: 5px; border-radius: 10px; }
+        /* Update this in your style section */
+.qr-img { 
+    width: 250px;     /* Increased from 180px to 250px */
+    height: 300px;    /* Increased from 180px to 250px */
+    border: 1.5px solid #e2e8f0; 
+    padding: 10px;    /* Added more padding for a cleaner look */
+    border-radius: 12px; 
+    transition: transform 0.3s ease; /* Optional: adds a smooth feel */
+}
+
+/* Optional: Add this to zoom slightly when the mouse hovers over it */
+.qr-img:hover {
+    transform: scale(1.05);
+}
+        
+        
         
         .upi-copy-box { display: flex; align-items: center; background: #f1f5f9; padding: 10px; border-radius: 8px; margin-top: 10px; justify-content: space-between; }
         .upi-id { font-weight: 700; font-size: 13px; }
