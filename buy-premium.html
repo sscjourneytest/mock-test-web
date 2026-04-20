@@ -330,6 +330,8 @@ async function handleCoupon(isFromSync = false) {
     const msg = document.getElementById('couponMsg');
     const reqMsg = document.getElementById('reqCouponMsg');
     const finalPriceEl = document.getElementById('finalPrice');
+    const defQR = document.getElementById('defaultQR');
+    const discQR = document.getElementById('discountQR');
 
     if (data) {
         currentDiscount = Math.round(basePrice * 0.20); 
@@ -346,6 +348,10 @@ async function handleCoupon(isFromSync = false) {
         document.getElementById('couponCode').value = code;
         document.getElementById('reqCouponCode').value = code;
         finalPriceEl.innerText = newPrice;
+        
+        // Strong Image Toggle: Switch to Discount QR
+        if(defQR) defQR.style.display = "none";
+        if(discQR) discQR.style.display = "inline-block";
         
         const successText = `Success! ₹${currentDiscount} Discount Applied.`;
         msg.innerText = successText; 
@@ -367,6 +373,10 @@ async function handleCoupon(isFromSync = false) {
         localStorage.removeItem('mmh_active_coupon');
         finalPriceEl.innerText = basePrice;
         
+        // Reset Images: Show Default QR
+        if(defQR) defQR.style.display = "inline-block";
+        if(discQR) discQR.style.display = "none";
+        
         msg.innerText = "Invalid or expired code."; 
         msg.style.color = "red";
         
@@ -382,7 +392,7 @@ function syncAndApply() {
     handleCoupon(true);
 }
     
-    
+
     // 1. Check file size and format immediately upon selection
 document.getElementById('paySS').addEventListener('change', function() {
     const file = this.files[0];
