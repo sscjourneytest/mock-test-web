@@ -453,8 +453,10 @@ document.getElementById('requestForm').addEventListener('submit', async (e) => {
         email: emailValue,
         phone: document.getElementById('userPhone').value,
         utr_number: document.getElementById('utrNumber').value,
-        coupon_used: document.getElementById('couponCode').value,
-        amount_paid: document.getElementById('finalPrice').innerText,
+                // Takes value from the new synced/locked box
+        coupon_used: document.getElementById('reqCouponCode').value || "None", 
+        // Takes the current displayed price (discounted or base)
+        amount_paid: document.getElementById('finalPrice').innerText, 
         discount_given: currentDiscount,
         status: 'pending'
     }]);
