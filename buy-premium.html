@@ -263,64 +263,123 @@
     let currentDiscount = 0;
 
     document.addEventListener('DOMContentLoaded', async () => {
-        const profile = getLocalProfile();
-        if (profile) {
-            document.getElementById('userName').value = profile.username || "User";
-            document.getElementById('userEmail').value = profile.email || "";
-            if(profile.is_paid) {
-                document.getElementById('submitBtn').disabled = true;
-                document.getElementById('submitBtn').innerText = "Already Premium ✅";
-            }
+    const profile = getLocalProfile();
+    if (profile) {
+        document.getElementById('userName').value = profile.username || "User";
+        document.getElementById('userEmail').value = profile.email || "";
+        if(profile.is_paid) {
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').innerText = "Already Premium ✅";
         }
+    }
 
-        // Persistent UI Pending State from LocalStorage
-        if (localStorage.getItem('pending_premium_request') === 'true') {
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.innerText = "Verification Pending...";
-        }
 
-        // Auto-apply referral links (?c=CODE)
-        const urlParams = new URLSearchParams(window.location.search);
-        const couponFromUrl = urlParams.get('c');
-        if (couponFromUrl) {
-            document.getElementById('couponCode').value = couponFromUrl.toUpperCase();
+    // Persistent UI Pending State from LocalStorage
+    if (localStorage.getItem('pending_premium_request') === 'true') {
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerText = "Verification Pending...";
+    }
+
+    // Auto-apply referral links (?c=CODE)
+    const urlParams = new URLSearchParams(window.location.search);
+    const couponFromUrl = urlParams.get('c');
+    if (couponFromUrl) {
+        document.getElementById('couponCode').value = couponFromUrl.toUpperCase();
+        handleCoupon(); 
+    }
+
+    // NEW LOGIC: Check for saved coupon from last 1 hour
+    const savedCouponData = localStorage.getItem('mmh_active_coupon');
+    if (savedCouponData) {
+        const saved = JSON.parse(savedCouponData);
+        const oneHour = 3600000; // 60 minutes in milliseconds
+        
+        if (Date.now() - saved.timestamp < oneHour) {
+            // Auto-fill the top box and trigger the handleCoupon logic
+            document.getElementById('couponCode').value = saved.code;
             handleCoupon(); 
+        } else {
+            // Clean up if the coupon has expired
+            localStorage.removeItem('mmh_active_coupon');
         }
-    });
-
+    }
+});
+    
+    
     function copyUPI() {
         const upi = document.getElementById('upiId').innerText;
         navigator.clipboard.writeText(upi);
         alert("UPI ID copied to clipboard!");
     }
+async function handleCoupon(isFromSync = false) {
+    const inputId = isFromSync ? 'reqCouponCode' : 'couponCode';
+    const code = document.getElementById(inputId).value.trim().toUpperCase();
+    if (!code) return;
 
-    async function handleCoupon() {
-        const code = document.getElementById('couponCode').value.trim();
-        if (!code) return;
+    // Search in PROFILES table for partner coupon
+    const { data, error } = await _supabase.from('profiles')
+        .select('partner_coupon, is_coupon_active')
+        .eq('partner_coupon', code)
+        .eq('is_coupon_active', true)
+        .single();
 
-        // Search in PROFILES table instead of a separate coupons table
-        const { data, error } = await _supabase.from('profiles')
-            .select('partner_coupon, is_coupon_active')
-            .eq('partner_coupon', code)
-            .eq('is_coupon_active', true)
-            .single();
+    const msg = document.getElementById('couponMsg');
+    const reqMsg = document.getElementById('reqCouponMsg');
+    const finalPriceEl = document.getElementById('finalPrice');
 
-        const msg = document.getElementById('couponMsg');
-        if (data) {
-            // Fixed 20% calculation (Nearest integer)
-            currentDiscount = Math.round(basePrice * 0.20); 
-            msg.innerText = `Success! ₹${currentDiscount} Discount Applied.`;
-            msg.style.color = "var(--success)";
-            document.getElementById('finalPrice').innerText = basePrice - currentDiscount;
-        } else {
-            currentDiscount = 0;
-            msg.innerText = "Invalid or expired code.";
-            msg.style.color = "red";
-            document.getElementById('finalPrice').innerText = basePrice;
+    if (data) {
+        currentDiscount = Math.round(basePrice * 0.20); 
+        const newPrice = basePrice - currentDiscount;
+        
+        // Save to Local Storage for 1 Hour (3600000ms)
+        localStorage.setItem('mmh_active_coupon', JSON.stringify({ 
+            code: code, 
+            discount: currentDiscount, 
+            timestamp: Date.now() 
+        }));
+
+        // Update UI & Sync both inputs
+        document.getElementById('couponCode').value = code;
+        document.getElementById('reqCouponCode').value = code;
+        finalPriceEl.innerText = newPrice;
+        
+        const successText = `Success! ₹${currentDiscount} Discount Applied.`;
+        msg.innerText = successText; 
+        msg.style.color = "var(--success)";
+        
+        if(reqMsg) {
+            reqMsg.innerText = "✅ Coupon Applied Successfully"; 
+            reqMsg.style.color = "var(--success)";
+        }
+
+        // Lock the Request form box for security
+        const reqInput = document.getElementById('reqCouponCode');
+        const reqBtn = document.getElementById('reqApplyBtn');
+        if(reqInput) reqInput.readOnly = true;
+        if(reqBtn) reqBtn.style.display = "none";
+
+    } else {
+        currentDiscount = 0;
+        localStorage.removeItem('mmh_active_coupon');
+        finalPriceEl.innerText = basePrice;
+        
+        msg.innerText = "Invalid or expired code."; 
+        msg.style.color = "red";
+        
+        if(reqMsg) {
+            reqMsg.innerText = "Invalid Code"; 
+            reqMsg.style.color = "red";
         }
     }
+}
 
+// Simple helper to connect the new box button to the main logic
+function syncAndApply() {
+    handleCoupon(true);
+}
+    
+    
     // 1. Check file size and format immediately upon selection
 document.getElementById('paySS').addEventListener('change', function() {
     const file = this.files[0];
