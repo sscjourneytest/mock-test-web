@@ -44,15 +44,17 @@
 
         .qr-area { text-align: center; border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 20px; }
         /* Update this in your style section */
-.qr-img { 
-    width: 250px;     /* Increased from 180px to 250px */
-    height: 300px;    /* Increased from 180px to 250px */
+        .qr-img { 
+    width: 100%;            /* Fills the container width */
+    height: 100%;           /* Fills the container height */
+    max-width: 400px;       /* Set your maximum zoom size in pixels here */
+    max-height: 500px;      /* Set your maximum zoom size in pixels here */
     border: 1.5px solid #e2e8f0; 
-    padding: 10px;    /* Added more padding for a cleaner look */
-    border-radius: 12px; 
-    transition: transform 0.3s ease; /* Optional: adds a smooth feel */
-}
-
+    padding: 10px; 
+    border-radius: 12px;
+    object-fit: contain;    /* Ensures the QR doesn't get stretched/distorted */
+        }
+        
 /* Optional: Add this to zoom slightly when the mouse hovers over it */
 .qr-img:hover {
     transform: scale(1.05);
