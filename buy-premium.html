@@ -165,14 +165,15 @@
                         <label>Email</label>
                         <input type="email" id="userEmail" readonly>
                     </div>
-                    <div class="form-group" id="reqCouponContainer" style="background: #f8fafc; padding: 10px; border-radius: 8px; border: 1.5px dashed var(--primary); margin-bottom: 20px;">
+                    <div class="form-group" id="reqCouponGroup" style="background: #f0f9ff; padding: 12px; border-radius: 10px; border: 1.5px dashed var(--primary); margin-bottom: 20px;">
     <label>Applied Coupon Code</label>
-    <div style="display: flex; gap: 5px;">
-        <input type="text" id="reqCouponCode" placeholder="No Coupon Applied" style="margin-bottom: 0;">
-        <button type="button" class="apply-btn" id="reqApplyBtn" onclick="syncAndApply()" style="padding: 0 15px;">Apply</button>
+    <div style="display: flex; gap: 8px;">
+        <input type="text" id="reqCouponCode" placeholder="Enter Coupon Code" style="margin-bottom: 0;">
+        <button type="button" class="apply-btn" id="reqApplyBtn" onclick="syncAndApply()" style="padding: 0 15px; background: var(--primary);">Apply</button>
     </div>
-    <p id="reqCouponMsg" style="font-size: 11px; margin-top: 4px; font-weight: 700;"></p>
+    <p id="reqCouponMsg" style="font-size: 11px; margin-top: 5px; font-weight: 700;"></p>
                     </div>
+                    
                     
                     <div class="form-group">
                         <label>Phone Number *</label>
