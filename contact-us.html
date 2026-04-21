@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Mock Matrix Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--text-dark); padding: 40px 20px; }
+        .contact-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .contact-header {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+        .contact-header h1 { font-family: 'Poppins', sans-serif; font-weight: 800; margin: 0; }
+        .contact-body { padding: 40px; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .info-item { display: flex; align-items: flex-start; gap: 15px; }
+        .icon-box {
+            width: 45px; height: 45px;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .info-content h5 { font-weight: 700; margin-bottom: 5px; font-size: 1rem; }
+        .info-content p, .info-content a { color: #64748b; text-decoration: none; font-size: 0.95rem; margin: 0; }
+        .info-content a:hover { color: var(--primary); }
+        .support-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #0088cc;
+            color: white !important;
+            padding: 12px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .support-btn:hover { background: #0077b5; transform: translateY(-2px); }
+        .back-home { display: block; text-align: center; margin-top: 30px; color: var(--primary); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <div class="contact-card">
+        <div class="contact-header">
+            <h1>Contact Us</h1>
+            <p class="mt-2 opacity-75">We are here to help you with your exam preparation</p>
+        </div>
+        <div class="contact-body">
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                    <div class="info-content">
+                        <h5>Email Support</h5>
+                        <a href="mailto:mockmatrixsupport@gmail.com">mockmatrixsupport@gmail.com</a>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+                    <div class="info-content">
+                        <h5>Call / WhatsApp</h5>
+                        <a href="tel:+918094372456">+91 8094372456</a>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="icon-box"><i class="fas fa-clock"></i></div>
+                    <div class="info-content">
+                        <h5>Support Hours</h5>
+                        <p>Mon-Sat: 10 AM to 6 PM</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="info-content">
+                        <h5>Office Address</h5>
+                        <p>Phalsund, Jaisalmer,<br>Rajasthan - 345025</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-5" style="border-color: #e2e8f0;">
+
+            <div class="text-center">
+                <h5 class="fw-bold mb-3">Instant Telegram Support</h5>
+                <p class="text-muted small mb-4">For faster resolution regarding payment or test access, chat with our automated bot.</p>
+                <a href="https://t.me/Mock_Matrix_Support_Bot" target="_blank" class="support-btn">
+                    <i class="fab fa-telegram-plane"></i> Message @Mock_Matrix_Support_Bot
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <a href="/" class="back-home"><i class="fas fa-arrow-left me-2"></i> Back to Home</a>
+
+</body>
+</html>
+
