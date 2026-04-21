@@ -14,7 +14,8 @@
             --bg-light: #f8fafc;
             --text-dark: #0f172a;
         }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--text-dark); padding: 40px 20px; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--text-dark); padding: 20px 15px; }
+        
         .contact-card {
             max-width: 800px;
             margin: 0 auto;
@@ -26,43 +27,73 @@
         }
         .contact-header {
             background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-            padding: 40px;
+            padding: 30px 20px;
             color: white;
             text-align: center;
         }
-        .contact-header h1 { font-family: 'Poppins', sans-serif; font-weight: 800; margin: 0; }
-        .contact-body { padding: 40px; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .contact-header h1 { font-family: 'Poppins', sans-serif; font-weight: 800; margin: 0; font-size: 1.8rem; }
+        
+        .contact-body { padding: 30px 20px; }
+        
+        /* Fixed Grid for Mobile: column on small, 2-col on large */
+        .info-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 25px; 
+        }
+        @media (min-width: 576px) {
+            .info-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-header { padding: 40px; }
+            .contact-header h1 { font-size: 2.2rem; }
+            .contact-body { padding: 40px; }
+        }
+
         .info-item { display: flex; align-items: flex-start; gap: 15px; }
+        
         .icon-box {
-            width: 45px; height: 45px;
+            width: 42px; height: 42px;
             background: #eff6ff;
             color: var(--primary);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             flex-shrink: 0;
         }
-        .info-content h5 { font-weight: 700; margin-bottom: 5px; font-size: 1rem; }
-        .info-content p, .info-content a { color: #64748b; text-decoration: none; font-size: 0.95rem; margin: 0; }
-        .info-content a:hover { color: var(--primary); }
+        
+        .info-content { overflow-wrap: anywhere; } /* Prevents long emails from breaking UI */
+        .info-content h5 { font-weight: 700; margin-bottom: 4px; font-size: 0.95rem; }
+        .info-content p { color: #64748b; font-size: 0.9rem; margin: 0; line-height: 1.4; }
+        
+        /* Updated Link Styles */
+        .contact-link { 
+            color: var(--primary) !important; 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            font-weight: 600;
+        }
+        .contact-link:hover { text-decoration: underline !important; }
+
         .support-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             background: #0088cc;
             color: white !important;
-            padding: 12px 25px;
+            padding: 12px 20px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 700;
-            margin-top: 20px;
+            width: 100%; /* Full width on mobile */
+            max-width: 320px;
             transition: 0.3s;
+            margin-top: 10px;
         }
         .support-btn:hover { background: #0077b5; transform: translateY(-2px); }
-        .back-home { display: block; text-align: center; margin-top: 30px; color: var(--primary); text-decoration: none; font-weight: 600; }
+        
+        .back-home { display: block; text-align: center; margin-top: 30px; color: var(--primary); text-decoration: none; font-weight: 600; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -70,7 +101,7 @@
     <div class="contact-card">
         <div class="contact-header">
             <h1>Contact Us</h1>
-            <p class="mt-2 opacity-75">We are here to help you with your exam preparation</p>
+            <p class="mt-2 opacity-75 small">We are here to help you with your exam preparation</p>
         </div>
         <div class="contact-body">
             <div class="info-grid">
@@ -78,14 +109,14 @@
                     <div class="icon-box"><i class="fas fa-envelope"></i></div>
                     <div class="info-content">
                         <h5>Email Support</h5>
-                        <a href="mailto:mockmatrixsupport@gmail.com">mockmatrixsupport@gmail.com</a>
+                        <a href="mailto:mockmatrixsupport@gmail.com" class="contact-link">mockmatrixsupport@gmail.com</a>
                     </div>
                 </div>
                 <div class="info-item">
                     <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
                     <div class="info-content">
                         <h5>Call / WhatsApp</h5>
-                        <a href="tel:+918094372456">+91 8094372456</a>
+                        <a href="tel:+918094372456" class="contact-link">+91 8094372456</a>
                     </div>
                 </div>
                 <div class="info-item">
@@ -104,13 +135,13 @@
                 </div>
             </div>
 
-            <hr class="my-5" style="border-color: #e2e8f0;">
+            <hr class="my-4 my-md-5" style="border-color: #e2e8f0;">
 
             <div class="text-center">
-                <h5 class="fw-bold mb-3">Instant Telegram Support</h5>
-                <p class="text-muted small mb-4">For faster resolution regarding payment or test access, chat with our automated bot.</p>
+                <h5 class="fw-bold mb-2">Instant Telegram Support</h5>
+                <p class="text-muted small mb-3 px-2">For faster resolution regarding payment or test access, chat with our automated bot.</p>
                 <a href="https://t.me/Mock_Matrix_Support_Bot" target="_blank" class="support-btn">
-                    <i class="fab fa-telegram-plane"></i> Message @Mock_Matrix_Support_Bot
+                    <i class="fab fa-telegram-plane"></i> Message @Mock_Matrix_Hub_Support_Bot
                 </a>
             </div>
         </div>
