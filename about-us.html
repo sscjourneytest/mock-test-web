@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Mock Matrix Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-grey: #64748b;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+        
+        /* Hero Section */
+        .about-hero {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            padding: 80px 20px;
+            color: white;
+            text-align: center;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+        }
+        .about-hero h1 { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 2.8rem; margin-bottom: 15px; }
+        .about-hero p { font-size: 1.1rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+
+        .content-card {
+            max-width: 900px;
+            margin: -40px auto 60px;
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-box {
+            background: #eff6ff;
+            border-radius: 16px;
+            padding: 20px;
+            height: 100%;
+            border: 1px solid #dbeafe;
+            transition: transform 0.3s ease;
+        }
+        .feature-box:hover { transform: translateY(-5px); }
+        .feature-icon { font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; }
+        .feature-box h5 { font-weight: 700; color: var(--text-dark); }
+        .feature-box p { font-size: 0.9rem; color: var(--text-grey); margin: 0; }
+
+        .vision-box {
+            background: #fff7ed;
+            border-left: 5px solid #f59e0b;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        .back-home { display: block; text-align: center; margin-bottom: 50px; color: var(--primary); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <section class="about-hero">
+        <h1>Our Story</h1>
+        <p>Empowering millions of aspirants to achieve their dream government jobs through precision-based mock testing.</p>
+    </section>
+
+    <div class="container">
+        <div class="content-card">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="section-title"><i class="fas fa-bullseye"></i> Who We Are</h3>
+                    <p><b>Mock Matrix Hub</b> is India's rapidly growing educational platform specifically designed for government exam aspirants. We are a team of dedicated educators and developers committed to bridging the gap between hard work and success. Our platform provides a real-time exam environment that helps students master the latest patterns of <b>SSC, RRB, Banking, and State Exams</b>.</p>
+                </div>
+            </div>
+
+            <div class="row mt-4 g-4">
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <i class="fas fa-layer-group feature-icon"></i>
+                        <h5>Latest Pattern</h5>
+                        <p>Our mocks are based on the 2025-26 Ediquity pattern, ensuring you stay ahead.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <i class="fas fa-history feature-icon"></i>
+                        <h5>Real PYQs</h5>
+                        <p>Access over 20,000+ Previous Year Questions formatted for real test practice.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h5>Instant Analysis</h5>
+                        <p>Get All India Rankings and sectional analysis the moment you submit.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vision-box">
+                <h5 class="fw-bold text-dark"><i class="fas fa-heart text-warning me-2"></i> Our Mission</h5>
+                <p class="m-0">We believe quality education shouldn't be expensive. Our mission is to provide <b>premium-grade mock tests at the lowest and most comfortable price</b> possible, ensuring that every student, regardless of their financial background, has a fair shot at a government career.</p>
+            </div>
+            
+            <p class="mt-4 text-center text-muted small">Practice to Perfection with Mock Matrix Hub.</p>
+        </div>
+    </div>
+
+    <a href="/" class="back-home"><i class="fas fa-arrow-left me-2"></i> Back to Home</a>
+
+</body>
+</html>
+
