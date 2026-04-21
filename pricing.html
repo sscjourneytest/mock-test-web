@@ -199,9 +199,25 @@
             <div class="fw-bold">₹124 <span class="text-muted small">/ Year</span></div>
             <div class="text-success x-small" style="font-size: 10px;">100% Secure Payment</div>
         </div>
-        <a href="/buy-premium.html" class="buy-btn">BUY PREMIUM NOW</a>
+        <a href="javascript:void(0)" onclick="handleBuyClick()" class="buy-btn">BUY PREMIUM NOW</a>
     </div>
+    
+<script src="/auth.js"></script> <script>
+    function handleBuyClick() {
+        // Use your existing function to get the user's login status
+        const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
 
+        if (!profile) {
+            // If not logged in, send to login page
+            // The 'redirect' parameter helps your login page know where to send them back
+            window.location.href = "/login.html?redirect=buy-premium.html";
+        } else {
+            // If logged in, send to the payment page
+            window.location.href = "/buy-premium.html";
+        }
+    }
+</script>
+    
 </body>
 </html>
 
