@@ -15,10 +15,13 @@ async function initAuth() {
     const client = await getClient();
     const { data: { user } } = await client.auth.getUser();
     const path = window.location.pathname;
-    
-    const isLoginPage = path.endsWith("login.html") || path.endsWith("/login");
+
+        const isLoginPage = path.endsWith("login.html") || path.endsWith("/login");
     const isHomePage = path === "/" || path.endsWith("index.html") || path.endsWith("/index");
-    const isPublicPage = isLoginPage || isHomePage;
+    const isPricingPage = path.endsWith("pricing.html") || path.endsWith("/pricing");
+    const isPublicPage = isLoginPage || isHomePage || isPricingPage;
+    
+    
 
     if (user) {
         // 1. BACKGROUND SYNC: If user has a pending request, check status automatically
