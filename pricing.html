@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Plans - Mock Matrix Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --success: #16a34a;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-grey: #64748b;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--text-dark); padding-bottom: 100px; }
+        
+        .pricing-header {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            padding: 60px 20px;
+            color: white;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+        .pricing-header h1 { font-family: 'Poppins', sans-serif; font-weight: 800; }
+
+        .container { max-width: 900px; margin-top: -30px; }
+
+        /* Pricing Card */
+        .price-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 2px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: #f59e0b;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .price-tag { font-size: 3.5rem; font-weight: 800; color: var(--text-dark); }
+        .price-tag span { font-size: 1.2rem; color: var(--text-grey); text-decoration: line-through; }
+
+        /* Comparison Table */
+        .table-container { background: white; border-radius: 20px; padding: 20px; margin-top: 30px; border: 1px solid #e2e8f0; }
+        .comp-table { width: 100%; border-collapse: collapse; }
+        .comp-table th { padding: 15px; text-align: center; font-weight: 800; border-bottom: 2px solid #f1f5f9; }
+        .comp-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.95rem; }
+        .feature-name { font-weight: 600; color: var(--text-dark); }
+        .icon-yes { color: var(--success); font-size: 1.2rem; }
+        .icon-no { color: #ef4444; font-size: 1.1rem; }
+
+        /* FAQ Section */
+        .faq-section { margin-top: 40px; }
+        details { background: white; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; }
+        summary { padding: 15px; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: 0.3s; }
+        details[open] summary::after { transform: rotate(180deg); }
+        .faq-content { padding: 0 15px 15px; color: var(--text-grey); font-size: 0.9rem; border-top: 1px solid #f1f5f9; padding-top: 10px; }
+
+        /* Sticky CTA for Mobile */
+        .sticky-buy {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: white; padding: 15px 20px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: space-between;
+            z-index: 1000;
+        }
+        .buy-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white !important;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: 0.3s;
+        }
+        .buy-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4); }
+
+        @media (max-width: 600px) {
+            .pricing-header h1 { font-size: 1.8rem; }
+            .price-tag { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="pricing-header">
+        <h1>Premium Pass</h1>
+        <p class="opacity-75">Unlock all SSC, RRB & Banking Mocks</p>
+    </header>
+
+    <div class="container">
+        <div class="price-card">
+            <div class="popular-badge">BEST VALUE</div>
+            <p class="text-muted fw-bold mb-0">ANNUAL MEMBERSHIP</p>
+            <div class="price-tag"><span>₹299</span> ₹124</div>
+            <p class="text-success fw-bold"><i class="fas fa-percentage"></i> Use Partner Coupon for extra discount!</p>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <span class="badge bg-light text-dark border"><i class="fas fa-calendar-alt me-1"></i> 1 Year Validity</span>
+                <span class="badge bg-light text-dark border"><i class="fas fa-shield-check me-1"></i> Secure Access</span>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h5 class="fw-bold mb-3 text-center">Plan Comparison</h5>
+            <div class="table-responsive">
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Features</th>
+                            <th>Free</th>
+                            <th>Premium</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Daily Live Tests</td>
+                            <td class="text-center icon-yes"><i class="fas fa-check-circle"></i></td>
+                            <td class="text-center icon-yes"><i class="fas fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Demo Mock Tests</td>
+                            <td class="text-center icon-yes"><i class="fas fa-check-circle"></i></td>
+                            <td class="text-center icon-yes"><i class="fas fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">All Exam Mocks (SSC/RRB)</td>
+                            <td class="text-center icon-no"><i class="fas fa-times-circle"></i></td>
+                            <td class="text-center icon-yes"><i class="fas fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">20,000+ Real PYQs</td>
+                            <td class="text-center icon-no"><i class="fas fa-times-circle"></i></td>
+                            <td class="text-center icon-yes"><i class="fas fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Unlimited Reattempt Mode</td>
+                            <td class="text-center icon-no"><i class="fas fa-times-circle"></i></td>
+                            <td class="text-center icon-yes"><i class="fas fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Private Telegram Group</td>
+                            <td class="text-center icon-no"><i class="fas fa-times-circle"></i></td>
+                            <td class="text-center icon-yes"><i class="fas fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Detailed Performance Analysis</td>
+                            <td class="text-center">Basic</td>
+                            <td class="text-center">Advanced</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h5 class="fw-bold mb-3"><i class="fas fa-question-circle me-2"></i> Common Questions</h5>
+            
+            <details>
+                <summary>How do I get the ₹99 discounted price?</summary>
+                <div class="faq-content">You can apply a Partner Coupon code during the checkout process to reduce the price from ₹124 to ₹99 instantly.</div>
+            </details>
+
+            <details>
+                <summary>How long does activation take?</summary>
+                <div class="faq-content">Manual verification typically takes 1-6 hours. We guarantee activation within 24 hours or a full refund is provided.</div>
+            </details>
+
+            <details>
+                <summary>Can I reattempt a mock test?</summary>
+                <div class="faq-content">Yes! Premium users have the "Unlimited Reattempt" feature, allowing you to practice the same test multiple times to improve your score.</div>
+            </details>
+
+            <details>
+                <summary>Is this a monthly subscription?</summary>
+                <div class="faq-content">No, this is a one-time payment that gives you full premium access for 365 days. No hidden monthly charges.</div>
+            </details>
+        </div>
+    </div>
+
+    <div class="sticky-buy">
+        <div>
+            <div class="fw-bold">₹124 <span class="text-muted small">/ Year</span></div>
+            <div class="text-success x-small" style="font-size: 10px;">100% Secure Payment</div>
+        </div>
+        <a href="/buy-premium.html" class="buy-btn">BUY PREMIUM NOW</a>
+    </div>
+
+</body>
+</html>
+
