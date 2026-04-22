@@ -2742,10 +2742,10 @@ localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
     emailKey: USER_EMAIL_KEY,
     sections: sectionalDataForFirebase,
     responseStream: responseStream,
-    // CHANGE: Use existing timestamp if available, otherwise create new one
-    submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now()
-    
-  };
+  submittedAt: (isAuto === "silent" && data && data.firebasePayload) 
+               ? data.firebasePayload.submittedAt 
+               : Date.now()
+};
 
 
 // Only save to Firebase if NOT in silent sync mode
