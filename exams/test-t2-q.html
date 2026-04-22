@@ -2742,9 +2742,8 @@ localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
     emailKey: USER_EMAIL_KEY,
     sections: sectionalDataForFirebase,
     responseStream: responseStream,
-  submittedAt: (isAuto === "silent" && data && data.firebasePayload) 
-               ? data.firebasePayload.submittedAt 
-               : Date.now()
+   submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now()
+  
 };
 
 
