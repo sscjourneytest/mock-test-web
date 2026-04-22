@@ -2729,9 +2729,13 @@ localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
   }
   return sum;
 }, 0);
-  
 
- const firebasePayload = {
+  // This ensures the ID (timestamp) stays the same during a local reload
+const originalTime = (isAuto === "silent" && typeof data !== 'undefined' && data.firebasePayload) 
+                     ? data.firebasePayload.submittedAt 
+                     : Date.now();
+
+const firebasePayload = {
     name: USER_DISPLAY_NAME,
     score: totalMarks,
     total: maxTotalMarks,
@@ -2742,10 +2746,9 @@ localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
     emailKey: USER_EMAIL_KEY,
     sections: sectionalDataForFirebase,
     responseStream: responseStream,
-   submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now()
-  
+    submittedAt: originalTime // Use the synchronized time
 };
-
+  
 
 // Only save to Firebase if NOT in silent sync mode
   const runUIGeneration = ([rankData, toppersList]) => {
