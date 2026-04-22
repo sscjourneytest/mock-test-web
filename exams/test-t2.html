@@ -3018,48 +3018,56 @@ function saveAttemptHistory(payload) {
   const ref = db.ref("attempt_history/" + payload.quizId + "/" + USER_EMAIL_KEY + "/" + payload.submittedAt);
   return ref.set(payload);
 }
-
-
-// 3. Calculate Rank & Percentile (Enhanced for Sectional Support)
+// 3. Calculate Rank & Percentile (Denominator includes ALL attempts)
 function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
   return db.ref("attempt_history/" + quizId).once("value").then(snapshot => {
     const data = snapshot.val() || {};
     let attempts = [];
 
-    // Flatten all attempts
+    // 1. Flatten every single attempt from every user/device
     Object.values(data).forEach(deviceData => {
-      Object.values(deviceData).forEach(att => attempts.push(att));
+      Object.values(deviceData).forEach(att => {
+          attempts.push(att);
+      });
     });
 
-    // Sort: Score DESC, Time ASC
+    // 2. Sort the entire list: Score DESC, Time ASC
     attempts.sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;
       return a.timeTaken - b.timeTaken;
     });
 
     const total = attempts.length;
-    let rank = total + 1; 
-
-    // Find my rank
-    for (let i = 0; i < attempts.length; i++) {
-      if (attempts[i].score === myScore &&
-          attempts[i].timeTaken === myTime &&
-          attempts[i].submittedAt === mySubmittedAt) {
-        rank = i + 1;
-        break;
-      }
+    
+    // 3. Find your rank by matching the UNIQUE timestamp
+    // This ensures that even if scores match, we find the exact "click"
+    let myIndex = attempts.findIndex(a => a.submittedAt === mySubmittedAt);
+    
+    // 4. Fallback: If findIndex fails (due to sync delay), use the old logic
+    let rank;
+    if (myIndex !== -1) {
+        rank = myIndex + 1;
+    } else {
+        // This is a safety net so you never see "Rank 0"
+        rank = attempts.filter(a => 
+            a.score > myScore || (a.score === myScore && a.timeTaken < myTime)
+        ).length + 1;
     }
 
-    // Calculate Percentile
+    // 5. Calculate Percentile
     const below = attempts.filter(a =>
       a.score < myScore || (a.score === myScore && a.timeTaken > myTime)
     ).length;
 
     const percentile = total ? ((below / total) * 100).toFixed(2) : "0.00";
 
+    // Ensure Rank never exceeds Total
+    if (rank > total && total > 0) rank = total;
+
     return { rank, percentile, total };
   });
-}
+  }
+
 
 // 4. Fetch Top 10 List
 function getToppersList(quizId) {
