@@ -2730,12 +2730,7 @@ localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
   return sum;
 }, 0);
 
-  // This ensures the ID (timestamp) stays the same during a local reload
-const originalTime = (isAuto === "silent" && typeof data !== 'undefined' && data.firebasePayload) 
-                     ? data.firebasePayload.submittedAt 
-                     : Date.now();
-
-const firebasePayload = {
+  const firebasePayload = {
     name: USER_DISPLAY_NAME,
     score: totalMarks,
     total: maxTotalMarks,
@@ -2746,8 +2741,11 @@ const firebasePayload = {
     emailKey: USER_EMAIL_KEY,
     sections: sectionalDataForFirebase,
     responseStream: responseStream,
-    submittedAt: originalTime // Use the synchronized time
+   submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now()
+  
 };
+
+
   
 
 // Only save to Firebase if NOT in silent sync mode
@@ -4143,18 +4141,20 @@ QUESTIONS = SECTIONS[SECTION_NAMES[currentSectionIdx]];
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
 
-      setTimeout(() => {
+      // Inside init() resultSaved block:
+setTimeout(() => {
   const liveBtn = document.querySelector("button[onclick*='refreshLatestRankOnDemand']");
   if (liveBtn) {
     liveBtn.disabled = false;
     liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
-    // REMOVED: refreshLatestRankOnDemand(liveBtn); 
+    // Do NOT auto-call refreshLatestRankOnDemand(liveBtn) here 
+    // unless you are sure the sync is 100% finished.
   }
-}, 0);
+}, 1000); // Give it a slight delay
+      
       
 
    
-    
 
       // 🔴 CHANGED: Time Taken is now sectional-sum, still formatted
       res.querySelectorAll(".bar-section").forEach(sec => {
