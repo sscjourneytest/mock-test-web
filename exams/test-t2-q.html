@@ -4358,41 +4358,40 @@ if (latest.sections) {
     }
   }
 
-  // 2. UI Transformation: If a result exists (Local or just Synced), render it
-  if (resultSaved) {
+            if (resultSaved) {
     const data = JSON.parse(resultSaved);
     if (data.submitted) {
-      isQuiz = false; // Stop the quiz engine
+        isQuiz = false;
 
-      // Hide all Quiz-related UI
-      document.getElementById("welcomeScreen").style.display = "none";
-      document.getElementById("mainHeader").style.display = "none";
-      document.getElementById("quizMainArea").style.display = "none";
-      document.getElementById("floatBar").style.display = "none";
-if (!data.resultHTML || QUALIFYING_SECTIONS.length > 0) {
-  // Trigger fresh UI generation so qualifying logic always applies
-  answers = data.answers || {};
-  marked = data.marked || {};
-  questionTime = data.questionTime || {};
+        // 🔥 CRITICAL FIX: Restore sectionTime before building UI
+        sectionTime = {};
+        if (data.firebasePayload && data.firebasePayload.sections) {
+            Object.keys(data.firebasePayload.sections).forEach(sName => {
+                const sec = data.firebasePayload.sections[sName];
+                // Extract the number specifically so fmt() doesn't fail
+                sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
+            });
+        }
 
-  data.resultHTML = "";
-
-  submitQuiz("silent");
-
-} else {
-  // Just show the already generated HTML
-  const res = document.getElementById("results");
-  res.innerHTML = data.resultHTML;
-  res.style.display = "block";
-  LAST_RESULT_HTML = data.resultHTML;
-  formatTimeValues(res);
-}
-    
-      // Hide the loader as the very last step
-      document.getElementById("loadingOverlay").style.display = "none";
-      return true; 
+        // Now that sectionTime is restored, generate the UI
+        if (!data.resultHTML || QUALIFYING_SECTIONS.length > 0) {
+            answers = data.answers || {};
+            marked = data.marked || {};
+            questionTime = data.questionTime || {};
+            data.resultHTML = "";
+            submitQuiz("silent"); 
+        } else {
+            const res = document.getElementById("results");
+            res.innerHTML = data.resultHTML;
+            res.style.display = "block";
+            LAST_RESULT_HTML = data.resultHTML;
+            formatTimeValues(res);
+        }
+        
+        document.getElementById("loadingOverlay").style.display = "none";
+        return true; 
     }
-  }
+            }
 
   return false; 
 }
