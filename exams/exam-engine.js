@@ -323,7 +323,6 @@ function reattempt(id, url) {
 
 // This listener runs every time the page becomes visible
 window.addEventListener('pageshow', function(event) {
-    
     // 1. Check if the page is being loaded from the browser cache (Back button)
     if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
         console.log("Back button detected: Refreshing mock states...");
