@@ -386,7 +386,6 @@
 
         .badge-pro { background: #f59e0b; color: white; font-size: 10px; padding: 2px 8px; border-radius: 50px; }
         .hidden { display: none !important; }
-        #install-banner { position: fixed; top: 0; width: 100%; z-index: 10000; background: #1e293b; color: white; padding: 15px; text-align: center; font-size: 14px; border-bottom: 3px solid var(--primary); }
   /* --- DARK MODE ADJUSTMENTS FOR ACTION & REC CARDS --- */
 body.dark-mode .box-style, 
 body.dark-mode .rec-card {
@@ -438,16 +437,80 @@ body.dark-mode .box-1 i { color: #60a5fa; } /* Brighter Blue */
 body.dark-mode .box-2 i { color: #fbbf24; } /* Brighter Gold/Orange */
 body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
 
+        /* Custom Install Modal */
+.install-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+.install-content {
+  background: #fff;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modalPop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.install-app-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 10px 20px rgba(11, 94, 215, 0.2);
+}
+.install-content h3 { margin: 0 0 10px; color: #333; font-size: 20px; }
+.install-content p { color: #666; font-size: 14px; margin-bottom: 25px; }
+
+.install-actions { display: flex; flex-direction: column; gap: 10px; }
+.btn-install-now {
+  background: #0b5ed7;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-install-cancel {
+  background: #f1f3f5;
+  color: #666;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Sidebar Install Button */
+#sidebarInstallBtn {
+  display: none; /* Hidden if already installed */
+  background: linear-gradient(135deg, #0b5ed7, #00d2ff);
+  color: white;
+  margin: 10px 15px;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+        
     </style>
 </head>
 <body>
 
-    <div id="install-banner" style="display: none;">
-        <i class="fas fa-mobile-alt me-2"></i> Install App for a better experience!
-        <button id="btn-install" class="btn btn-sm btn-primary ms-3 px-3 fw-bold">Install</button>
-        <button id="btn-close" class="btn btn-sm btn-link text-white ms-2"><i class="fas fa-times"></i></button>
-    </div>
-
+ 
     <header class="app-header">
         <div class="d-flex align-items-center gap-3">
             <i class="fas fa-bars fs-5" id="menuBtn" style="cursor: pointer;" onclick="toggleSidebar()"></i>
@@ -496,6 +559,10 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
         <i class="fab fa-telegram"></i> Private Channel
     </a>
 </div>
+            <button id="sidebarInstallBtn">
+  <i class="fas fa-download" style="margin-right: 8px;"></i> Install App
+            </button>
+            
 
             <div class="border-bottom my-2"></div>
             
@@ -542,6 +609,18 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
     </div>
 </div>
 
+    <div id="pwaInstallModal" class="install-modal">
+  <div class="install-content">
+    <img src="https://mockmatrixhub.com/logo.png" class="install-app-icon" alt="App Icon">
+    <h3>Install App</h3>
+    <p>Install the Mock Matrix Hub app for a faster and smoother testing experience.</p>
+    <div class="install-actions">
+      <button class="btn-install-now" id="doInstall">Install Now</button>
+      <button class="btn-install-cancel" id="closeInstall">Maybe Later</button>
+    </div>
+  </div>
+    </div>
+    
 <script>
     /* This script updates the hidden detector images so the scroller works on all devices */
     function updateDetectors() {
@@ -818,18 +897,59 @@ window.addEventListener('pageshow', (event) => {
     refreshAppUI();
 });
         
+let deferredPrompt;
+const installModal = document.getElementById('pwaInstallModal');
+const sidebarBtn = document.getElementById('sidebarInstallBtn');
 
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  
+  // Show the Sidebar button
+  if(sidebarBtn) sidebarBtn.style.display = 'block';
+
+  // Check if we have already shown the popup this session to avoid annoyance
+  if (!sessionStorage.getItem('pwaPromptShown')) {
+    setTimeout(() => {
+      installModal.style.display = 'flex';
+      sessionStorage.setItem('pwaPromptShown', 'true');
+    }, 3000); // Show after 3 seconds
+  }
+});
+
+// Handle the "Install" button in the modal or sidebar
+const triggerInstall = async () => {
+  if (!deferredPrompt) return;
+  
+  installModal.style.display = 'none';
+  deferredPrompt.prompt();
+  
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    console.log('User accepted the install prompt');
+    if(sidebarBtn) sidebarBtn.style.display = 'none';
+  }
+  deferredPrompt = null;
+};
+
+document.getElementById('doInstall').onclick = triggerInstall;
+if(sidebarBtn) sidebarBtn.onclick = triggerInstall;
+
+// Cancel button
+document.getElementById('closeInstall').onclick = () => {
+  installModal.style.display = 'none';
+};
+
+// Hide UI if installed
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  installModal.style.display = 'none';
+  if(sidebarBtn) sidebarBtn.style.display = 'none';
+});
         
-        let defP;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); defP = e;
-            document.getElementById('install-banner').style.display = 'block';
-        });
-        document.getElementById('btn-install').onclick = () => {
-            document.getElementById('install-banner').style.display = 'none';
-            if (defP) { defP.prompt(); defP = null; }
-        };
-        document.getElementById('btn-close').onclick = () => document.getElementById('install-banner').style.display = 'none';
+        
     </script>
 </body>
 </html>
