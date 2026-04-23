@@ -330,6 +330,7 @@ window.addEventListener('pageshow', function(event) {
         // 2. Re-run renderMocks to pick up any new results saved in localStorage
         if (typeof renderMocks === 'function' && EXAM_JSON) {
             renderMocks(); 
+            initExamEngine();
         }
     }
 });
