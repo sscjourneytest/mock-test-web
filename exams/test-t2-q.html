@@ -4359,25 +4359,28 @@ if (latest.sections) {
       }
     }
   }
-
-            if (resultSaved) {
+if (resultSaved) {
     const data = JSON.parse(resultSaved);
     if (data.submitted) {
         isQuiz = false;
 
-        // 🔥 CRITICAL FIX: Restore sectionTime before building UI
+        // Restore sectionTime
         sectionTime = {};
         if (data.firebasePayload && data.firebasePayload.sections) {
             Object.keys(data.firebasePayload.sections).forEach(sName => {
                 const sec = data.firebasePayload.sections[sName];
-                // Extract the number specifically so fmt() doesn't fail
-                sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
+                const timeVal = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
+                sectionTime[sName] = parseInt(timeVal) || 0;
             });
         }
 
-        // Now that sectionTime is restored, generate the UI
+        // ✅ THE FIX: Re-anchor the global timestamp for Rank Updates
+        if (data.firebasePayload && data.firebasePayload.submittedAt) {
+            answers.originalTimestamp = data.firebasePayload.submittedAt;
+        }
+
         if (!data.resultHTML || QUALIFYING_SECTIONS.length > 0) {
-            answers = data.answers || {};
+            answers = Object.assign(answers, data.answers || {}); // Merge to keep originalTimestamp
             marked = data.marked || {};
             questionTime = data.questionTime || {};
             data.resultHTML = "";
@@ -4393,8 +4396,8 @@ if (latest.sections) {
         document.getElementById("loadingOverlay").style.display = "none";
         return true; 
     }
-            }
-
+}
+  
   return false; 
 }
   
