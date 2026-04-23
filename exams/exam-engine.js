@@ -11,7 +11,10 @@ async function initExamEngine() {
     
     document.getElementById('grid-sync').innerText = "🔄 Syncing Database...";
     try {
-        const response = await fetch(`https://sscjourneytest.github.io/sscjourneytest/data/${examName}-data.json`);
+       // Change: Use raw.githubusercontent and add a timestamp to force latest content
+        const rawUrl = `https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/data/${examName}-data.json?t=${Date.now()}`;
+        const response = await fetch(rawUrl);
+        
         EXAM_JSON = await response.json();
         
         // 2. Identify Years: Handle cases where tiers or years might be missing
