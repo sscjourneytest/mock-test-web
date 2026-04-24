@@ -2449,19 +2449,22 @@ async function submitReport() {
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting...";
 
-    // 3. Modified Telegram Message Structure (Added Email Field)
-        // 3. Modified Telegram Message Structure (With Clickable Email Link)
+    // 3. Modified Telegram Message Structure (With Clickable Email Link)
     const message = `🚨 *NEW QUESTION REPORT* 🚨\n\n` +
-                    `📌 *Quiz ID:* \`${QUIZ_ID}\`\n` +
+                    `📌 *Quiz:* \`${QUIZ_ID}\`\n` +
                     `🆔 *Q-ID:* \`${q.id}\`\n` +
                     `👤 *User Name:* \`${USER_DISPLAY_NAME}\`\n` +
-                    `📧 *User Email:* [${userEmail}](mailto:${userEmail})\n\n` + 
+                    `📧 *Email:* [${userEmail}](mailto:${userEmail})\n\n` + 
                     `🚩 *Reason:* ${finalReason}\n` +
                     `💬 *Details:* ${details}\n\n` +
                     `🔗 *Direct Link:* [Click to Open Question](${reportLink})\n\n` +
                     `--------------------------\n` +
                     `⚡ _Submitted via Admin Support Bot_`;
-  
+
+    // 4. Data bundle for the Cloudflare Worker buttons
+    // Format: action:email:username:qId:quizId
+    const dataBundle = `${userEmail}:${USER_DISPLAY_NAME}:${q.id}:${QUIZ_ID}`;
+
     const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
     
     const response = await fetch(url, {
@@ -2470,9 +2473,21 @@ async function submitReport() {
       body: JSON.stringify({
         chat_id: TG_CHAT_ID,
         text: message,
-        parse_mode: 'Markdown'
+        parse_mode: 'Markdown',
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: "✅ Fixed & Send Email", callback_data: `fixed:${dataBundle}` }
+            ],
+            [
+              { text: "❌ Already Correct", callback_data: `correct:${dataBundle}` }
+            ]
+          ]
+        }
       })
     });
+    
+
 
     if (response.ok) {
       showSavePopup("✓ Report Submitted Successfully!"); 
