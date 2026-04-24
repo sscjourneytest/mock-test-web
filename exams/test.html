@@ -2420,21 +2420,27 @@ async function submitReport() {
   const q = QUESTIONS[current];
   const reportLink = window.location.href; // Captures exact URL including quiz ID
 
+    // 2. Get User Email from the global variable or local profile
+  const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+  const userEmail = profile ? (profile.email || profile.username) : "Unknown User";
+
   try {
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting...";
 
-    // Telegram Markdown Message Structure
+    // 3. Modified Telegram Message Structure (Added Email Field)
+        // 3. Modified Telegram Message Structure (With Clickable Email Link)
     const message = `🚨 *NEW QUESTION REPORT* 🚨\n\n` +
-                    `📌 *Quiz:* \`${QUIZ_ID}\`\n` +
+                    `📌 *Quiz ID:* \`${QUIZ_ID}\`\n` +
                     `🆔 *Q-ID:* \`${q.id}\`\n` +
-                    `👤 *User:* \`${USER_EMAIL_KEY}\`\n\n` +
+                    `👤 *User Name:* \`${USER_DISPLAY_NAME}\`\n` +
+                    `📧 *User Email:* [${userEmail}](mailto:${userEmail})\n\n` + 
                     `🚩 *Reason:* ${finalReason}\n` +
                     `💬 *Details:* ${details}\n\n` +
                     `🔗 *Direct Link:* [Click to Open Question](${reportLink})\n\n` +
                     `--------------------------\n` +
                     `⚡ _Submitted via Admin Support Bot_`;
-
+  
     const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
     
     const response = await fetch(url, {
