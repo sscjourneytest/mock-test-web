@@ -2451,18 +2451,19 @@ async function submitReport() {
     submitBtn.innerText = "Submitting...";
 
     // 3. Modified Telegram Message Structure (Added Email Field)
+        // 3. Modified Telegram Message Structure (With Clickable Email Link)
     const message = `🚨 *NEW QUESTION REPORT* 🚨\n\n` +
                     `📌 *Quiz ID:* \`${QUIZ_ID}\`\n` +
                     `🆔 *Q-ID:* \`${q.id}\`\n` +
                     `👤 *User Name:* \`${USER_DISPLAY_NAME}\`\n` +
-                    `📧 *User Email:* \`${userEmail}\`\n\n` + 
+                    `📧 *User Email:* [${userEmail}](mailto:${userEmail})\n\n` + 
                     `🚩 *Reason:* ${finalReason}\n` +
                     `💬 *Details:* ${details}\n\n` +
                     `🔗 *Direct Link:* [Click to Open Question](${reportLink})\n\n` +
                     `--------------------------\n` +
                     `⚡ _Submitted via Admin Support Bot_`;
-  
-
+    
+    
     const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
     
     const response = await fetch(url, {
