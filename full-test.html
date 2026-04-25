@@ -2441,7 +2441,7 @@ async function submitReport() {
   const q = QUESTIONS[current];
   const reportLink = window.location.href; // Captures exact URL including quiz ID
 
-   // 2. Get User Email from the global variable or local profile
+  // 2. Get User Email and Details
   const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
   const userEmail = profile ? (profile.email || profile.username) : "Unknown User";
 
@@ -2449,46 +2449,41 @@ async function submitReport() {
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting...";
 
-    // 3. Modified Telegram Message Structure (With Clickable Email Link)
-    const message = `🚨 *NEW QUESTION REPORT* 🚨\n\n` +
-                    `📌 *Quiz:* \`${QUIZ_ID}\`\n` +
-                    `🆔 *Q-ID:* \`${q.id}\`\n` +
-                    `👤 *User Name:* \`${USER_DISPLAY_NAME}\`\n` +
-                    `📧 *Email:* [${userEmail}](mailto:${userEmail})\n\n` + 
-                    `🚩 *Reason:* ${finalReason}\n` +
-                    `💬 *Details:* ${details}\n\n` +
-                    `🔗 *Direct Link:* [Click to Open Question](${reportLink})\n\n` +
+    // 3. Structured HTML Message (The Edge Function will "read" this)
+    const message = `<b>🚨 NEW QUESTION REPORT 🚨</b>\n\n` +
+                    `<b>📌 Quiz:</b> <code>${QUIZ_ID}</code>\n` +
+                    `<b>🆔 Q-ID:</b> <code>${q.id}</code>\n` +
+                    `<b>📝 Title:</b> ${QUIZ_TITLE}\n` +
+                    `<b>👤 User:</b> ${USER_DISPLAY_NAME}\n` +
+                    `<b>📧 Email:</b> ${userEmail}\n\n` + 
+                    `<b>🚩 Reason:</b> ${finalReason}\n` +
+                    `<b>💬 Details:</b> ${details}\n\n` +
+                    `🔗 <a href="${reportLink}">Open Question</a>\n\n` +
                     `--------------------------\n` +
-                    `⚡ _Submitted via Admin Support Bot_`;
+                    `⚡ <i>Submitted via Admin Support Bot</i>`;
 
-    // 4. Data bundle for the Cloudflare Worker buttons
-    // Format: action:email:username:qId:quizId
-    const dataBundle = `${userEmail}:${USER_DISPLAY_NAME}:${q.id}:${QUIZ_ID}`;
+    // 4. Compact Data Bundle (STRICTLY for IDs to avoid 64-char limit)
+    // Format: action:qId:quizId
+    const dataBundle = `${q.id}:${QUIZ_ID}`;
 
     const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
     
-    const response = await fetch(url, {
+    await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: TG_CHAT_ID,
         text: message,
-        parse_mode: 'Markdown',
+        parse_mode: 'HTML',
         reply_markup: {
           inline_keyboard: [
-            [
-              { text: "✅ Fixed & Send Email", callback_data: `fixed:${dataBundle}` }
-            ],
-            [
-              { text: "❌ Already Correct", callback_data: `correct:${dataBundle}` }
-            ]
+            [ { text: "✅ Fixed & Notify", callback_data: `f:${dataBundle}` } ],
+            [ { text: "❌ Already Correct", callback_data: `c:${dataBundle}` } ]
           ]
         }
       })
     });
-    
  
-  
     if (response.ok) {
       showSavePopup("✓ Report Submitted Successfully!"); 
       hideReportModal();
