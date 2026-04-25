@@ -2441,7 +2441,7 @@ async function submitReport() {
   const q = QUESTIONS[current];
   const reportLink = window.location.href; // Captures exact URL including quiz ID
 
-    // 2. Get User Email from the global variable or local profile
+  // 2. Get User Email from the global variable or local profile
   const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
   const userEmail = profile ? (profile.email || profile.username) : "Unknown User";
 
@@ -2449,7 +2449,7 @@ async function submitReport() {
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting...";
 
-    // 3. Modified Telegram Message Structure (With Clickable Email Link)
+    // 3. Structured Telegram Message (Professional Layout)
     const message = `🚨 *NEW QUESTION REPORT* 🚨\n\n` +
                     `📌 *Quiz:* \`${QUIZ_ID}\`\n` +
                     `🆔 *Q-ID:* \`${q.id}\`\n` +
@@ -2461,9 +2461,9 @@ async function submitReport() {
                     `--------------------------\n` +
                     `⚡ _Submitted via Admin Support Bot_`;
 
-    // 4. Data bundle for the Cloudflare Worker buttons
-    // Format: action:email:username:qId:quizId
-    const dataBundle = `${userEmail}:${USER_DISPLAY_NAME}:${q.id}:${QUIZ_ID}`;
+    // 4. Data bundle for the Supabase Edge Function
+    // Format required by your Edge Function: action:email:username:qId:quizId:quizTitle
+    const dataBundle = `${userEmail}:${USER_DISPLAY_NAME}:${q.id}:${QUIZ_ID}:${QUIZ_TITLE}`;
 
     const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
     
@@ -2486,9 +2486,7 @@ async function submitReport() {
         }
       })
     });
-    
-
-
+  
     if (response.ok) {
       showSavePopup("✓ Report Submitted Successfully!"); 
       hideReportModal();
