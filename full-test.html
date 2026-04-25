@@ -2463,12 +2463,11 @@ async function submitReport() {
                     `⚡ <i>Submitted via Admin Support Bot</i>`;
 
     // 4. Compact Data Bundle (STRICTLY for IDs to avoid 64-char limit)
-    // Format: action:qId:quizId
     const dataBundle = `${q.id}:${QUIZ_ID}`;
-
     const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
     
-    await fetch(url, {
+    // 🔥 FIXED: Added "const response =" here
+    const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -2483,13 +2482,14 @@ async function submitReport() {
         }
       })
     });
- 
+
     if (response.ok) {
       showSavePopup("✓ Report Submitted Successfully!"); 
       hideReportModal();
     } else {
       throw new Error("Telegram API Error");
     }
+    
 
   } catch (err) {
     console.error(err);
