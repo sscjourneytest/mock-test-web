@@ -62,5 +62,14 @@ common: {
   storageBucket: "mmh-cgl-paid-full-mock-data.firebasestorage.app",
   messagingSenderId: "779226300897",
   appId: "1:779226300897:web:b266edaa84cafd982892a0"
+},
+steno: {
+  apiKey: "AIzaSyALO6nic0bFKa3uhM-XmgVz1GjkoLKqExs",
+  authDomain: "mmh-cgl-paid-full-mock-data.firebaseapp.com",
+  databaseURL: "https://mmh-cgl-paid-full-mock-data-default-rtdb.firebaseio.com",
+  projectId: "mmh-cgl-paid-full-mock-data",
+  storageBucket: "mmh-cgl-paid-full-mock-data.firebasestorage.app",
+  messagingSenderId: "779226300897",
+  appId: "1:779226300897:web:b266edaa84cafd982892a0"
 }
 };
