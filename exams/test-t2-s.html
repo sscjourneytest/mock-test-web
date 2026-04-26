@@ -3233,19 +3233,36 @@ async function refreshLatestRankOnDemand(btn) {
     Object.keys(freshData.sections).forEach(key => {
         standardizedFreshSections[key] = freshData.sections[key].questions || freshData.sections[key];
     });
+// ... inside the try block after freshData is fetched
+let freshSections = standardizedFreshSections;
 
-    let freshSections = standardizedFreshSections;
+if (specificSection && standardizedFreshSections[specificSection]) {
+    freshSections = {};
+    freshSections[specificSection] = standardizedFreshSections[specificSection];
+    
+    // Check JSON for timing first
+    const sectionConfig = freshData.sections[specificSection];
+    const jsonSectionTime = sectionConfig ? sectionConfig.time_seconds : null;
 
-    if (specificSection && standardizedFreshSections[specificSection]) {
-        freshSections = {};
-        freshSections[specificSection] = standardizedFreshSections[specificSection];
-        
-        const timeMap = { "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30, "MATH": 30, "MATHS": 30, "ENGLISH": 30, "MATH AND REASONING": 45, "ENGLISH AND GK": 45, "SECTION 1": 60, "SECTION 2": 60, "SECTION 3": 15 };
-        const mins = timeMap[specificSection] || 20;
-        freshData.meta.timer_minutes = mins;
-        freshData.meta.timer_seconds = mins * 60;
-        freshData.meta.total_questions = standardizedFreshSections[specificSection].length;
+    const timeMap = { 
+        "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30, "MATH": 30, 
+        "MATHS": 30, "ENGLISH": 30, "MATH AND REASONING": 45, 
+        "ENGLISH AND GK": 45, "SECTION 1": 60, "SECTION 2": 60
+    };
+
+    let mins;
+    if (jsonSectionTime) {
+        mins = Math.floor(jsonSectionTime / 60);
+    } else {
+        mins = timeMap[specificSection] || 20;
     }
+
+    freshData.meta.timer_minutes = mins;
+    freshData.meta.timer_seconds = jsonSectionTime || (mins * 60);
+    freshData.meta.total_questions = standardizedFreshSections[specificSection].length;
+}
+     
+
     // ------------------------------
     
     // 2. Re-Calculation Loop: Re-evaluate answers against standardized arrays
@@ -4299,41 +4316,43 @@ try {
     
     const data = await response.json();
 
- 
-
     // --- DYNAMIC SECTIONAL LOGIC ---
     // Standardize HELLOMISTER structure: Convert objects with .questions into plain arrays
     let standardizedSections = {};
     Object.keys(data.sections).forEach(key => {
         standardizedSections[key] = data.sections[key].questions || data.sections[key];
     });
+  
+if (specificSection && standardizedSections[specificSection]) {
+    const cleanSectionName = specificSection.replace(/\s+/g, '').toLowerCase();
+    QUIZ_ID = data.meta.id + "-" + cleanSectionName;
+    QUIZ_TITLE = data.meta.title + " - " + specificSection;
+    
+    SECTIONS = {};
+    SECTIONS[specificSection] = standardizedSections[specificSection];
+    SECTION_NAMES = [specificSection];
 
-    if (specificSection && standardizedSections[specificSection]) {
-        const cleanSectionName = specificSection.replace(/\s+/g, '').toLowerCase();
-        QUIZ_ID = data.meta.id + "-" + cleanSectionName;
-        QUIZ_TITLE = data.meta.title + " - " + specificSection;
-        
-        SECTIONS = {};
-        SECTIONS[specificSection] = standardizedSections[specificSection];
-        SECTION_NAMES = [specificSection];
+    // Priority 1: Check if section has its own time_seconds in JSON
+    // Priority 2: Use the manual timeMap fallback
+    const sectionConfig = data.sections[specificSection];
+    const jsonSectionTime = sectionConfig ? sectionConfig.time_seconds : null;
 
-        const timeMap = {
-            "REASONING": 30,
-            "GENERAL AWARENESS": 30,
-            "GK": 30,
-            "MATH": 30, 
-            "MATHS": 30, 
-            "ENGLISH": 30, 
-            "MATH AND REASONING": 45,
-            "ENGLISH AND GK": 45,
-            "SECTION 1": 60,
-            "SECTION 2": 60,
-            "SECTION 3": 15
-        };
-        const mins = timeMap[specificSection] || 20;
-        data.meta.timer_minutes = mins;
-        data.meta.timer_seconds = mins * 60;
+    const timeMap = {
+        "REASONING": 30, "GENERAL AWARENESS": 30, "GK": 30, "MATH": 30, 
+        "MATHS": 30, "ENGLISH": 30, "MATH AND REASONING": 45,
+        "ENGLISH AND GK": 45, "SECTION 1": 60, "SECTION 2": 60
+    };
+
+    let mins;
+    if (jsonSectionTime) {
+        mins = Math.floor(jsonSectionTime / 60);
     } else {
+        mins = timeMap[specificSection] || 20;
+    }
+
+    data.meta.timer_minutes = mins;
+    data.meta.timer_seconds = jsonSectionTime || (mins * 60);
+} else {
         QUIZ_TITLE = data.meta.title;
         QUIZ_ID = data.meta.id;
         SECTIONS = standardizedSections; // Use the standardized arrays
