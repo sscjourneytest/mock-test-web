@@ -1478,7 +1478,11 @@ else if (quizIdLower.includes("cpo")) {
     selectedConfig = FIREBASE_PROJECTS.cpo;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cpo/subject" : "ssc/cpo/full-mock";
 }
-
+else if (quizIdLower.includes("steno")) {
+    selectedConfig = FIREBASE_PROJECTS.steno;
+    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/steno/subject" : "ssc/steno/full-mock";
+  }
+  
 // Initialize with selected project
 if (selectedConfig) {
     firebase.initializeApp(selectedConfig);
