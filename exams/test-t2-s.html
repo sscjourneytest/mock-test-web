@@ -2024,7 +2024,6 @@ function setupPauseFeature() {
   };
 }
 
-
 // ===============================
 // 📝 RENDER QUESTION ENGINE
 // ===============================
@@ -2036,6 +2035,7 @@ function renderQuestion(i) {
     return; 
   }
 
+  
 if (Object.keys(answers).length === 0) {
     const rebuilt = rebuildFromSavedStream();
     if (rebuilt) {
@@ -2046,11 +2046,14 @@ if (Object.keys(answers).length === 0) {
   }
   current = i;
   const q = QUESTIONS[i];
+
+
 // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
 el("qindex").textContent = i + 1;
 // el("qtotal").textContent = QUESTIONS.length; // ✅ Commented out to prevent crash
  
-// --- UPDATED: STYLED TIME TAKEN BOX ---
+  // Show time spent on this specific question
+  // --- UPDATED: STYLED TIME TAKEN BOX ---
   let timeDisplay = document.getElementById("qTimeTaken");
   if (!timeDisplay) {
     const metaBox = document.querySelector(".qmeta");
@@ -2077,25 +2080,38 @@ el("qindex").textContent = i + 1;
   timeDisplay.innerHTML = `⏱️: ${fmtMSS(spent)}`; // Changed 'Time:' to 'Time Taken:'
  
 
-  // --- LANGUAGE HELPER FUNCTION ---
-  const getLangText = (obj) => {
+// --- UPDATED LANGUAGE & DECODING HELPER ---
+const getLangText = (obj) => {
     if (!obj) return "";
-    if (typeof obj === "string") return obj; 
+    
+    // Helper to decode HTML entities like &lt; and &amp;
+    const decodeHTML = (html) => {
+        const txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    };
 
-    if (currentLang === "bilingual") {
-      const enText = obj.en || "";
-      const hiText = obj.hi || "";
-      return enText + (enText && hiText ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hiText;
+    let rawText = "";
+    if (typeof obj === "string") {
+        rawText = obj;
+    } else if (currentLang === "bilingual") {
+        const enText = obj.en || "";
+        const hiText = obj.hi || "";
+        rawText = enText + (enText && hiText ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hiText;
+    } else {
+        rawText = obj[currentLang] || obj["en"] || "";
     }
-    return obj[currentLang] || obj["en"] || "";
-  };
 
+    // Decode the entities so <p> becomes actual HTML
+    return decodeHTML(rawText);
+};
+ 
   // 2. Render Question Text & Math
   const qTextEl = el("qtext");
+  // innerHTML ensures images and tags inside the question string render correctly
   qTextEl.innerHTML = applyBoldHighlight(getLangText(q.question));
   normalizeMathForQuiz(qTextEl);
 
-  
   // 🖼️ QUESTION IMAGE RENDER
   const imgBox = document.getElementById("questionImage");
   imgBox.innerHTML = "";
@@ -2104,33 +2120,33 @@ el("qindex").textContent = i + 1;
   const baseQuizId = urlParams.get('id');
   const qidStr = String(q.id);
   const cleanIdx = parseInt(qidStr.slice(1));
-  // --- Inside renderQuestion(i) ---
 
-// 1. Get the base folder (e.g., 'ssc/chsl') from the full GITHUB_PATH ('ssc/chsl/full-mock')
+    
 // This splits the path by "/" and takes the first two segments.
 const pathSegments = GITHUB_PATH.split('/');
 const imageBasePath = `${pathSegments[0]}/${pathSegments[1]}`;
 
 // 2. Build the dynamic image URL
 const dynamicQImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${imageBasePath}/${baseQuizId}/q-${cleanIdx}-image1.jpg`;
-  
-  // Define a stable style: natural width, but capped at 90% wide and 350px tall
+
+
+  // Define a stable style: natural width, but capped at 90% wide and 250px tall
   const qImgStyle = "max-width:90%; max-height:250px; width:auto; height:auto; display:block; margin:10px auto; border:1px solid #ddd; border-radius:6px; object-fit:contain;";
 
   if (q.question_image && q.question_image.trim() !== "") {
     // Manual image logic
     imgBox.innerHTML = `<img src="${q.question_image}" style="${qImgStyle}" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'">`;
-  } else if (dynamicQImg) {
+      } else if (dynamicQImg) {
     // Dynamic image logic: Start HIDDEN (display:none) to prevent card jumping
     imgBox.innerHTML = `<img src="${dynamicQImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'">`;
   }
-  
+
+
 // 3. Update Marks (Safety check added)
 if (el("marking")) {
     el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0.5)}</span>`;
 }
   
-
   // 4. Render Options (Updated to include Option Images)
   const optsContainer = el("options");
   optsContainer.innerHTML = "";
@@ -2149,16 +2165,13 @@ if (el("marking")) {
 
     if (isQuiz) {
       if (isSelected) div.classList.add("selected");
-     
     } else {
       div.style.cursor = "default";
       if (isCorrectAns) {
         div.classList.add("correct");
-        
       }
       if (isSelected && !isCorrectAns) {
         div.classList.add("wrong");
-        
       }
     }
 
@@ -2173,27 +2186,27 @@ if (el("marking")) {
     if (q[optImgKey] && q[optImgKey].trim() !== "") {
       // Manual images
       optImgHtml = `<div style="margin-top:8px;"><img src="${q[optImgKey]}" style="${optStyle}"></div>`;
-    } else {
+          } else {
       // Dynamic images: hidden until loaded to keep the option box stable
       optImgHtml = `<div style="margin-top:8px;"><img src="${dynamicOptImg}" style="${optStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
     }
-    
+
+
     div.innerHTML = `
       <div class="custom-radio"></div>
       <div style="flex:1">
-  <div class="opt-text">${applyBoldHighlight(getLangText(q[key]))}</div>
-  ${optImgHtml}
-</div>
-
+        <div class="opt-text">${applyBoldHighlight(getLangText(q[key]))}</div>
+        ${optImgHtml}
+      </div>
     `;
-const radio = div.querySelector(".custom-radio");
+    const radio = div.querySelector(".custom-radio");
 
-if (isQuiz) {
-  radio.addEventListener("click", (e) => {
-    e.stopPropagation();   // 🔥 CRITICAL
-    selectOption(q, optionIndex, div);
-  });
-}
+    if (isQuiz) {
+      radio.addEventListener("click", (e) => {
+        e.stopPropagation();   // 🔥 CRITICAL
+        selectOption(q, optionIndex, div);
+      });
+    }
 
     optsContainer.appendChild(div);
     normalizeMathForQuiz(div.querySelector(".opt-text"));
@@ -2219,19 +2232,19 @@ if (isQuiz) {
     const dynamicSolImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${imageBasePath}/${baseQuizId}/q-${cleanIdx}-image6.jpg`;
 
     let solImgHtml = "";
-if (q.solution_image && q.solution_image.trim() !== "") {
+    if (q.solution_image && q.solution_image.trim() !== "") {
       // Manual images show using qImgStyle (max-height: 250px) instead of 40%
       solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${q.solution_image}" style="${qImgStyle}" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'"></div>`;
-    } else {
+          } else {
       // Dynamic images show using qImgStyle
       solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${dynamicSolImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
-    }
-   
+    } 
+
+
 
     expBox.style.display = "block";
     expBox.innerHTML = `<div style="margin-bottom:8px; font-weight:700;">Status: ${statusText}</div>` +
-      (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br>${applyBoldHighlight(getLangText(q.solution_text))}` : "") +
-    
+      (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br><div>${applyBoldHighlight(getLangText(q.solution_text))}</div>` : "") +
       solImgHtml;
     normalizeMathForQuiz(expBox);
   } else {
@@ -2254,6 +2267,9 @@ if (q.solution_image && q.solution_image.trim() !== "") {
       renderQuestion(current);
     };
   }
+  
+
+
 // ✅ FINAL STEP: Action Button Sync (Save & Report)
   const saveBtn = document.getElementById('cardSaveBtn');
   const reportBtn = document.getElementById('cardReportBtn');
