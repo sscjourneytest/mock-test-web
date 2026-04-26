@@ -64,12 +64,12 @@ common: {
   appId: "1:779226300897:web:b266edaa84cafd982892a0"
 },
 steno: {
-  apiKey: "AIzaSyALO6nic0bFKa3uhM-XmgVz1GjkoLKqExs",
-  authDomain: "mmh-cgl-paid-full-mock-data.firebaseapp.com",
-  databaseURL: "https://mmh-cgl-paid-full-mock-data-default-rtdb.firebaseio.com",
-  projectId: "mmh-cgl-paid-full-mock-data",
-  storageBucket: "mmh-cgl-paid-full-mock-data.firebasestorage.app",
-  messagingSenderId: "779226300897",
-  appId: "1:779226300897:web:b266edaa84cafd982892a0"
+  apiKey: "AIzaSyA6A9-97Z5bBFNCDwI4qHAQ2y7IbydO1RA",
+  authDomain: "mmh-cgl-sectional-mocks-data.firebaseapp.com",
+  databaseURL: "https://mmh-cgl-sectional-mocks-data-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "mmh-cgl-sectional-mocks-data",
+  storageBucket: "mmh-cgl-sectional-mocks-data.firebasestorage.app",
+  messagingSenderId: "557957241227",
+  appId: "1:557957241227:web:21873351a0d301b6c4f78e"
 }
 };
