@@ -1429,9 +1429,10 @@ body.mode-solution #pauseBtn {
   
 /* Specific Styling for Solution Images */
 .sol-img-styled {
-  max-width: 100%;       /* Not larger than quiz card width */
-  height: auto;          /* Maintain aspect ratio */
-  max-height: 500px;     /* Increased height as requested */
+  width: auto;           /* Image stays natural size if small */
+  max-width: 100%;       /* Image shrinks to fit card if large */
+  height: auto;          /* Maintains correct aspect ratio */
+  max-height: 600px;
   display: block;
   margin: 15px 0;        /* Align to Left (removed 'auto' margin) */
   border: 1px solid #ddd;
