@@ -123,7 +123,7 @@ function setYear(y, el) {
 // --- UPDATED RENDER LOGIC FOR DEEP HIERARCHY ---
 function renderMocks() {
     const grid = document.getElementById('quizGrid');
-    const config = EXAM_JSON.config.default || {}; // Uses 'default' config for sub-wise
+    const config = EXAM_JSON.config.default || {}; 
     const searchVal = document.getElementById('mockSearch').value.toLowerCase();
     const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
     const isPaidUser = profile ? profile.is_paid : false;
@@ -132,21 +132,30 @@ function renderMocks() {
     let html = '';
     let itemsToDisplay = [];
 
-    // DATA PARSING LOGIC
     const yearData = EXAM_JSON.data[currentFilters.year] || {};
     const selectedSub = yearData[currentFilters.subject] || [];
 
     if (Array.isArray(selectedSub)) {
-        itemsToDisplay = selectedSub; // Direct Array under Subject
+        itemsToDisplay = selectedSub; 
     } else {
-        itemsToDisplay = selectedSub[currentFilters.topic] || []; // Nested under Topic
+        itemsToDisplay = selectedSub[currentFilters.topic] || []; 
     }
-
-    // Link parameter normalization
-    itemsToDisplay = itemsToDisplay.map(item => ({...item, linkParam: `id=${item.id}`, originalId: item.id }));
 
     itemsToDisplay.forEach(item => {
         if (searchVal && !item.title.toLowerCase().includes(searchVal)) return;
+
+        // --- UPDATED: SECTIONAL ID PREPARATION ---
+        // 1. Store the direct JSON ID for the link param BEFORE we change item.id
+        const finalLinkParam = `id=${item.id}`; 
+
+        // 2. If it is the new structure (&section=), set item.id to the Merged Clean version
+        if (item.id.includes('&section=')) {
+            const parts = item.id.split('&section=');
+            const baseId = parts[0];
+            const cleanSec = parts[1].replace(/\s+/g, '').toLowerCase();
+            item.id = `${baseId}-${cleanSec}`; // Updated for all portal-side tasks
+        }
+        // --- END OF UPDATED LOGIC ---
 
         // RELEASE DATE LOGIC (DIRECT COPY)
         let isLockedDate = false;
@@ -159,11 +168,15 @@ function renderMocks() {
         }
 
         const accessDenied = item.type === 'paid' && !isPaidUser;
+        
+        // These now use the updated item.id automatically
         const localResult = localStorage.getItem(`result_${username}_${item.id}`);
         const savedState = JSON.parse(localStorage.getItem(`state_${username}_${item.id}`) || "{}");
         const isSubmitted = localResult !== null || CLOUD_CHECKLIST[item.id];
         
         let actionHtml = '';
+        const targetUrl = `../${config.subject_link}?${finalLinkParam}`; // Uses raw JSON ID
+
         if (isLockedDate) {
             actionHtml = `<div class="action-btn unlock-btn" style="opacity:0.6; cursor:default;">Available ${item.releaseDate}</div>`;
         } else if (accessDenied) {
@@ -171,13 +184,13 @@ function renderMocks() {
         } else {
             if (isSubmitted) {
                 actionHtml = `<div class="btn-grid btn-dual">
-                    <a href="../${config.subject_link}?${item.linkParam}" class="action-btn analysis-btn">ANALYSIS</a>
-                    <button onclick="reattempt('${item.id}', '../${config.subject_link}?${item.linkParam}')" class="action-btn reattempt-btn">REATTEMPT</button>
+                    <a href="${targetUrl}" class="action-btn analysis-btn">ANALYSIS</a>
+                    <button onclick="reattempt('${item.id}', '${targetUrl}')" class="action-btn reattempt-btn">REATTEMPT</button>
                 </div>`;
             } else if (savedState.isPaused) {
-                actionHtml = `<a href="../${config.subject_link}?${item.linkParam}" class="action-btn resume-btn">▶️ RESUME TEST</a>`;
+                actionHtml = `<a href="${targetUrl}" class="action-btn resume-btn">▶️ RESUME TEST</a>`;
             } else {
-                actionHtml = `<a href="../${config.subject_link}?${item.linkParam}" class="action-btn start-btn">START TEST</a>`;
+                actionHtml = `<a href="${targetUrl}" class="action-btn start-btn">START TEST</a>`;
             }
         }
 
@@ -193,6 +206,8 @@ function renderMocks() {
     grid.innerHTML = html || `<div class="text-center p-5 text-muted">🚀 Tests Coming Soon...</div>`;
     document.getElementById('grid-sync').innerText = "";
 }
+
+
 
 // --- UTILITY FUNCTIONS (DIRECT COPY) ---
 function reattempt(id, url) {
