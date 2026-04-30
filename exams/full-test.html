@@ -1425,7 +1425,58 @@ body.mode-solution #pauseBtn {
     display: none !important; 
 }
   
+/* Responsive Table Container */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal swipe if table is too wide */
+    -webkit-overflow-scrolling: touch;
+    margin: 15px 0;
+    border-radius: 8px;
+}
 
+/* Table Styling for Mock Matrix Hub */
+.table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    font-size: 14px; /* Optimized for mobile reading */
+    border: 1px solid #dee2e6;
+}
+
+/* Header Styling */
+.table-wrapper th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    padding: 12px 8px;
+    border: 1px solid #dee2e6;
+    text-align: center;
+}
+
+/* Cell Styling */
+.table-wrapper td {
+    padding: 10px 8px;
+    border: 1px solid #dee2e6;
+    text-align: center;
+    color: #495057;
+    vertical-align: middle;
+}
+
+/* Row Hover effect for better UX */
+.table-wrapper tr:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+/* Handling MathJax and Images inside tables */
+.table-wrapper td img {
+    max-width: 100px; /* Prevents large images from expanding cells */
+    height: auto;
+}
+
+.table-wrapper .MathJax_Display {
+    margin: 5px 0 !important;
+  }
+               
 </style>
 
 <script>
