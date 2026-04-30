@@ -1427,7 +1427,26 @@ body.mode-solution #pauseBtn {
     display: none !important; 
 }
   
+/* Specific Styling for Solution Images */
+.sol-img-styled {
+  max-width: 100%;       /* Not larger than quiz card width */
+  height: auto;          /* Maintain aspect ratio */
+  max-height: 500px;     /* Increased height as requested */
+  display: block;
+  margin: 15px 0;        /* Align to Left (removed 'auto' margin) */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  object-fit: contain;   /* Zoom-in effect without cropping */
+  cursor: zoom-in;       /* Indicates it can be zoomed/viewed */
+}
 
+/* Container for left alignment */
+.sol-img-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; /* Ensure left-to-right alignment */
+  padding: 0;
+}
 </style>
 
 <script>
@@ -2232,25 +2251,24 @@ if (el("marking")) {
     } else {
       statusText = `<span style="color:var(--danger)">Wrong (-${q.negative_score ?? 1})</span>`;
     }
-
-    // Dynamic Logic for Solution Image (image6)
+// Dynamic Logic for Solution Image (image6)
     const dynamicSolImg = `https://raw.githubusercontent.com/mockmatrixhub/mmhimg/main/${imageBasePath}/${baseQuizId}/q-${cleanIdx}-image6.jpg`;
 
     let solImgHtml = "";
     if (q.solution_image && q.solution_image.trim() !== "") {
-      // Manual images show using qImgStyle (max-height: 250px) instead of 40%
-      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${q.solution_image}" style="${qImgStyle}" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'"></div>`;
-          } else {
-      // Dynamic images show using qImgStyle
-      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${dynamicSolImg}" style="${qImgStyle} display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
+      // Manual images with new styling
+      solImgHtml = `<div class="sol-img-container"><img src="${q.solution_image}" class="sol-img-styled" onerror="this.parentElement.innerHTML='<div style=\'color:red;font-size:13px\'>⚠ Image failed to load</div>'"></div>`;
+    } else {
+      // Dynamic images with new styling
+      solImgHtml = `<div class="sol-img-container"><img src="${dynamicSolImg}" class="sol-img-styled" style="display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
     } 
 
-
-
     expBox.style.display = "block";
+    // Construct the explanation box content
     expBox.innerHTML = `<div style="margin-bottom:8px; font-weight:700;">Status: ${statusText}</div>` +
       (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br><div>${applyBoldHighlight(getLangText(q.solution_text))}</div>` : "") +
-      solImgHtml;
+      solImgHtml; // Injected styled image container
+  
     normalizeMathForQuiz(expBox);
   } else {
     expBox.style.display = "none";
