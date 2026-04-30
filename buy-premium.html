@@ -313,7 +313,7 @@
     const savedCouponData = localStorage.getItem('mmh_active_coupon');
     if (savedCouponData) {
         const saved = JSON.parse(savedCouponData);
-        const oneHour = 360000; // 60 minutes in milliseconds
+        const oneHour = 3600000; // 60 minutes in milliseconds
         
         if (Date.now() - saved.timestamp < oneHour) {
             // Auto-fill the top box and trigger the handleCoupon logic
