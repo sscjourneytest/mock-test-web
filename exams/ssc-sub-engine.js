@@ -61,16 +61,23 @@ async function syncWithCloud(examName) {
 
 // --- UPDATED FILTER LOGIC FOR DEEP HIERARCHY ---
 function setupFilters(years) {
-    // 1. Year Scroll
+    // 1. Year Scroll - Logic to hide if only one year exists
     const yearScroll = document.getElementById('year-scroll');
     if (yearScroll) {
-        yearScroll.innerHTML = years.map(y => 
-            `<div class="pill-filter ${y === currentFilters.year ? 'active' : ''}" onclick="setYear('${y}', this)">${y}</div>`
-        ).join('');
+        // If there is only 1 year, hide the filter entirely
+        if (years.length <= 1) {
+            yearScroll.style.display = 'none';
+        } else {
+            yearScroll.style.display = 'flex'; // Ensure it's visible if more than 1
+            yearScroll.innerHTML = years.map(y => 
+                `<div class="pill-filter ${y === currentFilters.year ? 'active' : ''}" onclick="setYear('${y}', this)">${y}</div>`
+            ).join('');
+        }
     }
 
-    // 2. Subject Scroll
+    // 2. Subject Scroll (Keep existing logic...)
     const subjects = Object.keys(EXAM_JSON.data[currentFilters.year] || {});
+
     if (!currentFilters.subject && subjects.length > 0) currentFilters.subject = subjects[0];
     
     const subScroll = document.getElementById('subject-scroll');
@@ -104,6 +111,8 @@ function setupFilters(years) {
         topicWrap?.classList.add('hidden');
     }
 }
+
+
 
 function setDeepFilter(level, value) {
     currentFilters[level] = value;
