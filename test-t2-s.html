@@ -1559,6 +1559,11 @@ else if (quizIdLower.includes("ssc-sub-25")) {
     selectedConfig = FIREBASE_PROJECTS["ssc-sub"];
     GITHUB_PATH = "ssc-sub/2025/mocks";
 }
+  else if (quizIdLower.includes("imps")) {
+    selectedConfig = FIREBASE_PROJECTS.imps;
+    GITHUB_PATH = "imps/full-mock";
+  }
+  
   
 // Initialize with selected project
 if (selectedConfig) {
@@ -2629,7 +2634,7 @@ function updateNavButtons() {
  */
 function getExamNameFromId() {
     const idToCheck = (typeof QUIZ_ID !== 'undefined' ? QUIZ_ID : "").toLowerCase();
-    const keywords = ["cgl", "ssc-sub", "chsl", "cpo", "steno", "phase", "sscje", "mts", "alp", "ntpc-g", "ntpc-ug", "groupd", "rpf"];
+    const keywords = ["cgl", "ssc-sub", "chsl", "cpo", "steno", "atoz-v", "phase", "sscje", "mts", "alp", "ntpc-g", "ntpc-ug", "groupd", "rpf"];
     
     // Finds the first matching keyword in the ID
     const detected = keywords.find(k => idToCheck.includes(k));
@@ -3350,7 +3355,7 @@ if (specificSection && standardizedFreshSections[specificSection]) {
     if (jsonSectionTime) {
         mins = Math.floor(jsonSectionTime / 60);
     } else {
-        mins = timeMap[specificSection] || 20;
+        mins = timeMap[specificSection] || 15;
     }
 
     freshData.meta.timer_minutes = mins;
@@ -4443,7 +4448,7 @@ if (specificSection && standardizedSections[specificSection]) {
     if (jsonSectionTime) {
         mins = Math.floor(jsonSectionTime / 60);
     } else {
-        mins = timeMap[specificSection] || 20;
+        mins = timeMap[specificSection] || 15;
     }
 
     data.meta.timer_minutes = mins;
