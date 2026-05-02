@@ -10,32 +10,26 @@
 </head>
 <body>
 
-<div class="exam-page-container">
+    <div class="exam-page-container">
     <div class="sticky-header-section">
         <div class="p-3 d-flex align-items-center border-bottom">
             <a href="/series/" class="text-dark me-3"><i class="fas fa-arrow-left fs-5"></i></a>
             <h5 class="m-0 fw-bold" id="seriesTitleDisplay">Preparation Series</h5>
         </div>
-
+        
+        
         <div class="search-input-wrap mt-2">
-            <input type="text" id="mockSearch" placeholder="Search by mock name..." onkeyup="renderMocks()">
-        </div>
-
-        <div class="filter-scroll-wrapper hidden" id="tier-wrap">
-            <div class="pill-filter active" onclick="setTier('tier1', this)">Tier I</div>
-            <div class="pill-filter" onclick="setTier('tier2', this)">Tier II</div>
+            <input type="text" id="mockSearch" placeholder="Search chapter or topic..." onkeyup="renderMocks()">
         </div>
 
         <div class="filter-scroll-wrapper" id="year-scroll"></div>
 
-        <div class="filter-scroll-wrapper" id="type-filters">
-            <div class="pill-filter active" onclick="filterType('full_mocks', this)">Full Mocks</div>
-            
-            
+        <div class="filter-scroll-wrapper" id="subject-wrap">
+            <div id="subject-scroll" class="d-flex gap-2"></div>
         </div>
 
-        <div class="filter-scroll-wrapper hidden" id="section-wrap">
-            <div id="section-scroll" class="d-flex gap-2"></div>
+        <div class="filter-scroll-wrapper hidden" id="topic-wrap">
+            <div id="topic-scroll" class="d-flex gap-2"></div>
         </div>
     </div>
 
@@ -43,7 +37,8 @@
         <div id="grid-sync" class="text-center small text-primary mb-3"></div>
         <div id="quizGrid"></div>
     </div>
-</div>
+    </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/auth.js"></script> 
