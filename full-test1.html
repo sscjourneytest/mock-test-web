@@ -2993,18 +2993,23 @@ function saveAttemptHistory(payload) {
   const ref = db.ref("attempt_history/" + payload.quizId + "/" + USER_EMAIL_KEY + "/" + payload.submittedAt);
   return ref.set(payload);
 }
-// --- REPLACE THIS FUNCTION ---
-async function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
+
+  async function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
   const workerUrl = "https://mmh-ranking-worker.sscgkgspreparation.workers.dev/";
-  // Securely pass selectedConfig.databaseURL to the worker dynamically
-  const url = `${workerUrl}?dbUrl=${selectedConfig.databaseURL}&quizId=${quizId}&score=${myScore}&timeTaken=${myTime}&submittedAt=${mySubmittedAt}`;
+  
+  // Strict Parameter Check: fallback to 0 or "null" so worker validation never fails
+  const s = myScore ?? 0;
+  const t = myTime ?? 0;
+  const sub = mySubmittedAt ?? "sync_fetch";
+  const db = selectedConfig.databaseURL;
+
+  const url = `${workerUrl}?dbUrl=${db}&quizId=${quizId}&score=${s}&timeTaken=${t}&submittedAt=${sub}`;
 
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error("Worker Rank Fetch Failed");
     const data = await response.json();
 
-    // Worker returns precisely calculated rank, total, and percentile
     return { 
       rank: data.rank, 
       total: data.total, 
@@ -3012,26 +3017,27 @@ async function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
     };
   } catch (err) {
     console.error("Ranking Error:", err);
-    // Fallback display if worker is unreachable
     return { rank: "N/A", total: "N/A", percentile: "0.00" };
   }
 }
-// --- REPLACE THIS FUNCTION ---
 async function getToppersList(quizId) {
   const workerUrl = "https://mmh-ranking-worker.sscgkgspreparation.workers.dev/";
-  // Re-use the same parameters to ensure leaderboard matches the user's current project
-  const url = `${workerUrl}?dbUrl=${selectedConfig.databaseURL}&quizId=${quizId}`;
+  
+  // Strict Parameter Check: sends placeholders to pass Worker validation
+  const db = selectedConfig.databaseURL;
+  const url = `${workerUrl}?dbUrl=${db}&quizId=${quizId}&score=0&timeTaken=0&submittedAt=leaderboard_only`;
 
   try {
     const response = await fetch(url);
+    if (!response.ok) throw new Error("Worker Topper Fetch Failed");
     const data = await response.json();
-    // Worker sorts these internally using the tie-breaker logic
     return data.toppers || [];
   } catch (err) {
     console.error("Topper Fetch Error:", err);
     return [];
   }
 }
+
   
 // 5. Get Topper Stats for Bar Chart (Updated for Sectional scaling)
 function getTopperStatsForComparison(toppersList, totalQ) {
