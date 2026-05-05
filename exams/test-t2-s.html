@@ -3040,47 +3040,65 @@ function saveAttemptHistory(payload) {
   const ref = db.ref("attempt_history/" + payload.quizId + "/" + USER_EMAIL_KEY + "/" + payload.submittedAt);
   return ref.set(payload);
 }
-// --- REPLACE THIS FUNCTION ---
-async function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
-  const workerUrl = "https://mmh-ranking-worker.sscgkgspreparation.workers.dev/";
-  // Securely pass selectedConfig.databaseURL to the worker dynamically
-  const url = `${workerUrl}?dbUrl=${selectedConfig.databaseURL}&quizId=${quizId}&score=${myScore}&timeTaken=${myTime}&submittedAt=${mySubmittedAt}`;
 
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Worker Rank Fetch Failed");
-    const data = await response.json();
 
-    // Worker returns precisely calculated rank, total, and percentile
-    return { 
-      rank: data.rank, 
-      total: data.total, 
-      percentile: data.percentile 
-    };
-  } catch (err) {
-    console.error("Ranking Error:", err);
-    // Fallback display if worker is unreachable
-    return { rank: "N/A", total: "N/A", percentile: "0.00" };
-  }
+// 3. Calculate Rank & Percentile (Enhanced for Sectional Support)
+function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
+  return db.ref("attempt_history/" + quizId).once("value").then(snapshot => {
+    const data = snapshot.val() || {};
+    let attempts = [];
+
+    // Flatten all attempts
+    Object.values(data).forEach(deviceData => {
+      Object.values(deviceData).forEach(att => attempts.push(att));
+    });
+
+    // Sort: Score DESC, Time ASC
+    attempts.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.timeTaken - b.timeTaken;
+    });
+
+    const total = attempts.length;
+    let rank = total + 1; 
+
+    // Find my rank
+    for (let i = 0; i < attempts.length; i++) {
+      if (attempts[i].score === myScore &&
+          attempts[i].timeTaken === myTime &&
+          attempts[i].submittedAt === mySubmittedAt) {
+        rank = i + 1;
+        break;
+      }
+    }
+
+    // Calculate Percentile
+    const below = attempts.filter(a =>
+      a.score < myScore || (a.score === myScore && a.timeTaken > myTime)
+    ).length;
+
+    const percentile = total ? ((below / total) * 100).toFixed(2) : "0.00";
+
+    return { rank, percentile, total };
+  });
 }
-// --- REPLACE THIS FUNCTION ---
-async function getToppersList(quizId) {
-  const workerUrl = "https://mmh-ranking-worker.sscgkgspreparation.workers.dev/";
-  // Re-use the same parameters to ensure leaderboard matches the user's current project
-  const url = `${workerUrl}?dbUrl=${selectedConfig.databaseURL}&quizId=${quizId}`;
 
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    // Worker sorts these internally using the tie-breaker logic
-    return data.toppers || [];
-  } catch (err) {
-    console.error("Topper Fetch Error:", err);
-    return [];
-  }
+// 4. Fetch Top 10 List
+function getToppersList(quizId) {
+  return db.ref("quiz_results/" + quizId).once("value").then(snapshot => {
+    const data = snapshot.val();
+    if (!data) return [];
+
+    let all = Object.values(data);
+    // Sort: Score High->Low, Time Low->High
+    all.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.timeTaken - b.timeTaken;
+    });
+
+    return all.slice(0, 10);
+  });
 }
-
-
 
 // 5. Get Topper Stats for Bar Chart (Updated for Sectional scaling)
 function getTopperStatsForComparison(toppersList, totalQ) {
