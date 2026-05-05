@@ -4505,7 +4505,6 @@ const SECURITY = {
 
   init() {
     this.detectTabSwitch();
-    this.detectDevTools();
     this.disablePrint();
     this.disableDragDrop();
   },
@@ -4530,29 +4529,6 @@ const SECURITY = {
     });
   },
 
-  detectDevTools() {
-    const threshold = 160;
-
-    const check = () => {
-      const w = window.outerWidth - window.innerWidth > threshold;
-      const h = window.outerHeight - window.innerHeight > threshold;
-      if ((w || h) && !this.devToolsWarned) {
-        this.devToolsWarned = true;
-        this.showWarning("Developer tools detected!", "error");
-      }
-    };
-
-    window.addEventListener("resize", check);
-    setInterval(check, 1000);
-
-    setInterval(() => {
-      const t = performance.now();
-      debugger;
-      if (performance.now() - t > 100) {
-        this.showWarning("Debugger detected!", "error");
-      }
-    }, 1000);
-  },
 
   disablePrint() {
     const style = document.createElement("style");
