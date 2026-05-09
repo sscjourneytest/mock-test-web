@@ -2497,6 +2497,23 @@ async function submitReport() {
   const q = QUESTIONS[current];
   const reportLink = window.location.href; // Captures exact URL including quiz ID
 
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const quizIdParam = urlParams.get('id');
+  // 1. Define variables for Deep Links
+  // We use the global QUIZ_ID and GITHUB_PATH defined at the top of your template
+  const reportQuizId = quizIdParam; 
+  const reportPath = GITHUB_PATH; 
+  const reportQId = q.id;
+
+  // 2. Build Deep Links for Editor
+  const chromeEditorLink = `https://mmh-master-editor.pages.dev/?id=${reportQuizId}&path=${reportPath}&qid=${reportQId}`;
+  
+  // Encode path for Telegram (replacing slashes with underscores)
+  const encodedPathForTG = reportPath ? reportPath.replace(/\//g, '_') : "others";
+  const miniAppLink = `http://t.me/MMH_QUESTION_EDITOR_BOT/MMH_MASTER_EDITOR?startapp=${reportQuizId}__${encodedPathForTG}__${reportQId}`;
+  
+
    // 2. Get User Email and Details
   const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
   const userEmail = profile ? (profile.email || profile.username) : "Unknown User";
@@ -2533,8 +2550,11 @@ async function submitReport() {
         reply_markup: {
           inline_keyboard: [
             [ { text: "✅ Fixed & Notify", callback_data: `f:${dataBundle}` } ],
-            [ { text: "❌ Already Correct", callback_data: `c:${dataBundle}` } ]
+            [ { text: "❌ Already Correct", callback_data: `c:${dataBundle}` } ],
+            [ { text: "🌐 Open in Chrome", url: chromeEditorLink } ],
+            [ { text: "📱 Open in Mini App", url: miniAppLink } ]
           ]
+
         }
       })
     });
