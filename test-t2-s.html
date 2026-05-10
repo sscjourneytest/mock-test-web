@@ -15,22 +15,7 @@
   gtag('js', new Date());
   gtag('config', 'G-4B6V3MV51Q');
 </script>
-<script>
-    // Execute immediately to prevent flickering
-    (function() {
-        const theme = localStorage.getItem('mmh_theme');
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark-mode');
-            // Also apply to body once it exists
-            window.addEventListener('DOMContentLoaded', () => {
-                document.body.classList.add('dark-mode');
-                const switchEl = document.getElementById('themeSwitch');
-                if(switchEl) switchEl.checked = true;
-            });
-        }
-    })();
-</script>
-  
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/auth.js"></script>
 <script src="/firebase-config.js"></script>
