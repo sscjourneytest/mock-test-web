@@ -3568,13 +3568,12 @@ SECTION_NAMES.forEach(name => {
       firebasePayload: payload,
       resultHTML: LAST_RESULT_HTML
     }));
-
-    alert("All Ranks and Comparison Bars updated to the latest data!");
-
+console.log("All Ranks and Comparison Bars updated to the latest data!");
+    
+    
   } catch (err) {
     console.error("Live Update Error:", err);
-    alert("Could not update ranks. Please check your connection.");
-  } finally {
+      } finally {
     btn.disabled = false;
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
