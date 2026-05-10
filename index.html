@@ -778,13 +778,20 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
             sb.classList.toggle('show');
             ov.style.display = sb.classList.contains('show') ? 'block' : 'none';
         }
-
         function toggleTheme() {
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('mmh_theme', isDark ? 'dark' : 'light');
+    const isDark = document.body.classList.toggle('dark-mode');
+    
+    // Save to localStorage (this is domain-wide)
+    localStorage.setItem('mmh_theme', isDark ? 'dark' : 'light');
+    
+    // Optional: Sync the HTML tag for head-script consistency
+    if (isDark) {
+        document.documentElement.classList.add('dark-mode');
+    } else {
+        document.documentElement.classList.remove('dark-mode');
+    }
         }
-
-
+        
 
 // Add these two helper functions
 function checkTelegramPopup() {
