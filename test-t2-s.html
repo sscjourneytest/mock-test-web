@@ -1576,9 +1576,6 @@ const db = firebase.database();
 const commonApp = firebase.initializeApp(FIREBASE_PROJECTS.common, "CommonApp");
 const savedDb = commonApp.database();
 
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 
   // --- SPECIFIC EYE-FRIENDLY DARK MODE FOR TEST TEMPLATE ---
 (function() {
@@ -1666,6 +1663,11 @@ window.toggleTheme = function() {
     document.documentElement.classList.toggle('dark-mode');
     localStorage.setItem('mmh_theme', isDark ? 'dark' : 'light');
 };
+  
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
   
 </head>
 <body>
