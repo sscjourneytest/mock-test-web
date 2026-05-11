@@ -1580,6 +1580,93 @@ const savedDb = commonApp.database();
 
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 
+  // --- SPECIFIC EYE-FRIENDLY DARK MODE FOR TEST TEMPLATE ---
+(function() {
+    const theme = localStorage.getItem('mmh_theme');
+    
+    // 1. Inject Theme-Specific CSS
+    const style = document.createElement('style');
+    style.id = "test-dark-mode-logic";
+    style.innerHTML = `
+        /* DARK THEME DEFINITIONS */
+        body.dark-mode {
+            --bg-color: #0f172a !important;
+            --white: #1e293b !important;
+            --light-gray: #020617 !important;
+            --border-color: #334155 !important;
+            background: #020617 !important;
+            color: #f1f5f9 !important;
+        }
+
+        /* Surface Colors */
+        body.dark-mode header, 
+        body.dark-mode .welcome-screen,
+        body.dark-mode .welcome-instructions,
+        body.dark-mode .welcome-footer,
+        body.dark-mode .card,
+        body.dark-mode .qbar,
+        body.dark-mode .qtext,
+        body.dark-mode .opt,
+        body.dark-mode #palette,
+        body.dark-mode .fbar,
+        body.dark-mode .modal-content,
+        body.dark-mode .card-dashboard,
+        body.dark-mode .score-item,
+        body.dark-mode #results,
+        body.dark-mode #sectionNav,
+        body.dark-mode footer {
+            background-color: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+
+        /* Text Overrides */
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, 
+        body.dark-mode h4, body.dark-mode .timer-text, 
+        body.dark-mode .qmeta, body.dark-mode .opt-text {
+            color: #f8fafc !important;
+        }
+
+        /* Preserve Question Palette Colors (Don't let dark mode hide them) */
+        body.dark-mode .qbtn.notvisited { background: #334155 !important; color: #cbd5e1 !important; }
+        body.dark-mode .qbtn.answered { background: #198754 !important; color: #fff !important; }
+        body.dark-mode .qbtn.marked { background: #0b5ed7 !important; color: #fff !important; }
+
+        /* Eye-Friendly Adjustments for Analysis Mode */
+        body.dark-mode .explanation { background: #0f172a !important; border-color: #3b82f6 !important; color: #e2e8f0 !important; }
+        body.dark-mode .opt.selected { background: #1e3a8a !important; }
+        
+        /* MathJax Visibility */
+        body.dark-mode mjx-container { color: #f1f5f9 !important; }
+        
+        /* Analysis Tables */
+        body.dark-mode .analysis-table th { background: #334155 !important; color: #fff !important; }
+        body.dark-mode .analysis-table td { background: #1e293b !important; color: #cbd5e1 !important; }
+    `;
+    document.head.appendChild(style);
+
+    // 2. Application Logic
+    if (theme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+        // Wait for body to be ready
+        const applyToBody = () => {
+            if (document.body) {
+                document.body.classList.add('dark-mode');
+            } else {
+                setTimeout(applyToBody, 10);
+            }
+        };
+        applyToBody();
+    }
+})();
+
+// Define global toggle for this specific page
+window.toggleTheme = function() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.documentElement.classList.toggle('dark-mode');
+    localStorage.setItem('mmh_theme', isDark ? 'dark' : 'light');
+};
+  
 </head>
 <body>
 
