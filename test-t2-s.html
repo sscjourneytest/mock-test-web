@@ -1577,92 +1577,89 @@ const commonApp = firebase.initializeApp(FIREBASE_PROJECTS.common, "CommonApp");
 const savedDb = commonApp.database();
 
 
-  // --- SPECIFIC EYE-FRIENDLY DARK MODE FOR TEST TEMPLATE ---
+// --- REFINED EYE-FRIENDLY DARK MODE ---
 (function() {
     const theme = localStorage.getItem('mmh_theme');
     
-    // 1. Inject Theme-Specific CSS
     const style = document.createElement('style');
     style.id = "test-dark-mode-logic";
     style.innerHTML = `
-        /* DARK THEME DEFINITIONS */
+        /* 1. BASE LEVEL: Deep charcoal instead of pure black */
         body.dark-mode {
             --bg-color: #0f172a !important;
             --white: #1e293b !important;
-            --light-gray: #020617 !important;
             --border-color: #334155 !important;
-            background: #020617 !important;
+            background: #0f172a !important;
             color: #f1f5f9 !important;
         }
 
-        /* Surface Colors */
-        body.dark-mode header, 
-        body.dark-mode .welcome-screen,
+        /* 2. TEXT CONVERSION: Turn black text to off-white */
+        body.dark-mode #qtext, 
+        body.dark-mode .opt-text, 
+        body.dark-mode .qmeta,
         body.dark-mode .welcome-instructions,
-        body.dark-mode .welcome-footer,
+        body.dark-mode .detail-value,
+        body.dark-mode .timer-text,
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4,
+        body.dark-mode .topper-table td {
+            color: #f1f5f9 !important;
+        }
+
+        /* 3. CONTAINER SURFACES: Deep slate */
+        body.dark-mode header, 
         body.dark-mode .card,
         body.dark-mode .qbar,
         body.dark-mode .qtext,
         body.dark-mode .opt,
-        body.dark-mode #palette,
+        body.dark-mode .welcome-screen,
+        body.dark-mode .welcome-instructions,
+        body.dark-mode .welcome-footer,
         body.dark-mode .fbar,
-        body.dark-mode .modal-content,
         body.dark-mode .card-dashboard,
         body.dark-mode .score-item,
+        body.dark-mode .attempt-box.at-total,
         body.dark-mode #results,
         body.dark-mode #sectionNav,
+        body.dark-mode .modal-content,
         body.dark-mode footer {
             background-color: #1e293b !important;
-            color: #f1f5f9 !important;
             border-color: #334155 !important;
         }
 
-        /* Text Overrides */
-        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, 
-        body.dark-mode h4, body.dark-mode .timer-text, 
-        body.dark-mode .qmeta, body.dark-mode .opt-text {
-            color: #f8fafc !important;
-        }
+        /* 4. PRESERVE FUNCTIONAL COLORS (Analysis Mode) */
+        /* Keep correct/wrong backgrounds slightly tinted but dark */
+        body.dark-mode .opt.correct { background: #064e3b !important; border-color: #059669 !important; }
+        body.dark-mode .opt.wrong { background: #7f1d1d !important; border-color: #dc2626 !important; }
+        body.dark-mode .explanation { background: #111827 !important; border: 1px solid #3b82f6 !important; }
 
-        /* Preserve Question Palette Colors (Don't let dark mode hide them) */
-        body.dark-mode .qbtn.notvisited { background: #334155 !important; color: #cbd5e1 !important; }
-        body.dark-mode .qbtn.answered { background: #198754 !important; color: #fff !important; }
-        body.dark-mode .qbtn.marked { background: #0b5ed7 !important; color: #fff !important; }
-
-        /* Eye-Friendly Adjustments for Analysis Mode */
-        body.dark-mode .explanation { background: #0f172a !important; border-color: #3b82f6 !important; color: #e2e8f0 !important; }
-        body.dark-mode .opt.selected { background: #1e3a8a !important; }
+        /* 5. UI ELEMENTS: Buttons and Boxes */
+        body.dark-mode .header-username-box { background: rgba(37, 99, 235, 0.2); color: #60a5fa; border-color: #2563eb; }
+        body.dark-mode .pause-btn-img-style { background: #334155; color: #fff; border-color: #475569; }
+        body.dark-mode .pause-bars { border-left-color: #fff; border-right-color: #fff; }
+        body.dark-mode .timer-text { background: #334155 !important; }
         
-        /* MathJax Visibility */
+        /* 6. MATH & TABLES */
         body.dark-mode mjx-container { color: #f1f5f9 !important; }
-        
-        /* Analysis Tables */
-        body.dark-mode .analysis-table th { background: #334155 !important; color: #fff !important; }
-        body.dark-mode .analysis-table td { background: #1e293b !important; color: #cbd5e1 !important; }
+        body.dark-mode .analysis-table th { background: #334155; color: #fff; }
+        body.dark-mode .analysis-table td { background: #1e293b; border-color: #334155; }
+        body.dark-mode .topper-table th { background: #334155; color: #fff; }
+
+        /* 7. PALETTE FIX: Ensures buttons don't vanish */
+        body.dark-mode #palette { background: #0f172a !important; border-color: #334155 !important; }
+        body.dark-mode .qbtn { border-color: #475569 !important; }
+        body.dark-mode .qbtn.notvisited { background: #475569 !important; color: #fff !important; }
     `;
     document.head.appendChild(style);
 
-    // 2. Application Logic
     if (theme === 'dark') {
         document.documentElement.classList.add('dark-mode');
-        // Wait for body to be ready
-        const applyToBody = () => {
-            if (document.body) {
-                document.body.classList.add('dark-mode');
-            } else {
-                setTimeout(applyToBody, 10);
-            }
+        const apply = () => {
+            if (document.body) document.body.classList.add('dark-mode');
+            else setTimeout(apply, 50);
         };
-        applyToBody();
+        apply();
     }
 })();
-
-// Define global toggle for this specific page
-window.toggleTheme = function() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.documentElement.classList.toggle('dark-mode');
-    localStorage.setItem('mmh_theme', isDark ? 'dark' : 'light');
-};
   
 </script>
 
