@@ -28,16 +28,46 @@ body.dark-mode {
     box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
 }
 
-/* --- TESTBOOK STYLE FILTERS --- */
+/* --- UPDATED TESTBOOK STYLE FILTERS --- */
 .filter-scroll-wrapper { 
     display: flex; 
     overflow-x: auto; 
     gap: 0; 
     padding: 0 5px; 
-    scrollbar-width: none;
     border-bottom: 1px solid var(--border);
+    /* Standard property for Firefox - hide by default */
+    scrollbar-width: none; 
 }
-.filter-scroll-wrapper::-webkit-scrollbar { display: none; }
+
+/* Hide scrollbar for Chrome/Safari on mobile by default */
+
+.filter-scroll-wrapper::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* DESKTOP SPECIFIC: Show thin scrollbar only when more than 992px */
+@media (min-width: 992px) {
+    .filter-scroll-wrapper {
+        /* Restore scrollbar for Firefox on Desktop */
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) transparent;
+        padding-bottom: 2px; /* Space for the scrollbar so it doesn't touch the blue border */
+    }
+
+    .filter-scroll-wrapper::-webkit-scrollbar {
+        display: block; /* Show for Chrome/Edge/Safari */
+        height: 5px;    /* Thin height */
+    }
+
+    .filter-scroll-wrapper::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .filter-scroll-wrapper::-webkit-scrollbar-thumb {
+        background-color: var(--primary); /* Blue scrollbar */
+        border-radius: 10px;
+    }
+}
 
 .pill-filter {
     white-space: nowrap; 
@@ -49,14 +79,20 @@ body.dark-mode {
     font-weight: 700; 
     color: var(--text-grey); 
     cursor: pointer;
-    border-radius: 0; /* Remove elliptical shape */
+    border-radius: 0; 
     transition: 0.2s;
+    /* Ensure the filter stays above the scrollbar area */
+    position: relative;
+    z-index: 1;
 }
+
 .pill-filter.active { 
     color: var(--primary);
     border-bottom-color: var(--primary);
     background: transparent;
 }
+
+
 
 /* Search Box Smaller */
 .search-input-wrap { padding: 8px 15px; }
