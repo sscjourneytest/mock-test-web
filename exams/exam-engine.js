@@ -1,5 +1,6 @@
 let EXAM_JSON = null;
-let currentFilters = { tier: 'tier1', year: '', type: 'full_mocks', section: '' };
+let currentFilters = { category: 'PYQ MOCK', tier: 'tier1', year: '', type: 'full_mocks', section: '' };
+
 let CLOUD_CHECKLIST = {};
 const SYNC_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 Hours 
 
@@ -9,23 +10,38 @@ async function initExamEngine() {
     // 1. Detect Exam Name: Try URL Query (?AtoZ-V) first, fallback to folder name
     let examName = window.location.search ? window.location.search.slice(1) : pathParts[pathParts.length - 2];
     
-    document.getElementById('grid-sync').innerText = "🔄 Syncing Database...";
+    document.getElementById('grid-sync').innerText = "ðŸ”„ Syncing Database...";
     try {
        // Change: Use raw.githubusercontent and add a timestamp to force latest content
         const rawUrl = `https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/data/${examName}-data.json?t=${Date.now()}`;
         const response = await fetch(rawUrl);
         
-        EXAM_JSON = await response.json();
-        
-        // 2. Identify Years: Handle cases where tiers or years might be missing
-        let years = [];
-        try {
-            years = Object.keys(EXAM_JSON.data[currentFilters.tier]);
-        } catch(e) { 
-            years = ["default"]; 
+                EXAM_JSON = await response.json();
+
+        // 1. Compatibility: Auto-wrap old JSON structure into "PYQ MOCK"
+        if (!EXAM_JSON.data['PYQ MOCK'] && EXAM_JSON.data['tier1']) {
+            const oldData = EXAM_JSON.data;
+            EXAM_JSON.data = { "PYQ MOCK": oldData };
         }
 
-        // 3. Set Year: If "default" exists (Series structure), use it; otherwise pick latest year
+        // 2. Render Category Filter (PYQ vs NEW)
+        const categories = Object.keys(EXAM_JSON.data);
+        renderCategoryFilters(categories);
+
+        // 3. Set Active Data Scope
+        if (!categories.includes(currentFilters.category)) {
+            currentFilters.category = categories[0];
+        }
+
+        const categoryData = EXAM_JSON.data[currentFilters.category];
+        const availableTiers = Object.keys(categoryData);
+        
+        if (!availableTiers.includes(currentFilters.tier)) {
+            currentFilters.tier = availableTiers[0];
+        }
+
+        let years = Object.keys(categoryData[currentFilters.tier] || {});
+
         if (years.includes("default") || years.length === 0) {
             currentFilters.year = "default";
         } else {
@@ -33,6 +49,8 @@ async function initExamEngine() {
         }
         
         setupFilters(years);
+
+        
         renderMocks(); 
         syncWithCloud(examName);
         
@@ -94,30 +112,36 @@ async function syncWithCloud(examName) {
 }
 
 function setupFilters(years) {
-    // 1. Tier Toggle Fallback
+    // 1. Tier Toggle Hide Logic (Hides ONLY if 1 tier exists)
     const tierWrap = document.getElementById('tier-wrap');
-    if (EXAM_JSON.data.tier2) {
+    const availableTiers = Object.keys(EXAM_JSON.data[currentFilters.category] || {});
+    
+    if (availableTiers.length > 1) {
         tierWrap.classList.remove('hidden');
+        let tierHtml = '';
+        availableTiers.forEach(t => {
+            tierHtml += `<div class="pill-filter ${t === currentFilters.tier ? 'active' : ''}" onclick="setTier('${t}', this)">${t.toUpperCase()}</div>`;
+        });
+        tierWrap.innerHTML = tierHtml;
     } else {
         tierWrap.classList.add('hidden');
-        currentFilters.tier = 'tier1'; 
+        currentFilters.tier = availableTiers[0] || 'tier1'; 
     }
     
-    // 2. Year Scroll (Updated with Hide Logic)
+    // 2. Year Scroll (Always visible, no hiding)
     const yearScroll = document.getElementById('year-scroll');
-    if (years.length === 0 || (years.length === 1 && years[0] === "default")) {
-        yearScroll.classList.add('hidden');
-    } else {
-        yearScroll.classList.remove('hidden');
-        let yearHtml = '';
-        years.forEach(y => {
-            yearHtml += `<div class="pill-filter ${y === currentFilters.year ? 'active' : ''}" data-year="${y}" onclick="setYear('${y}', this)">${y}</div>`;
-        });
-        yearScroll.innerHTML = yearHtml;
-    }
+    yearScroll.classList.remove('hidden');
+    let yearHtml = '';
+    years.forEach(y => {
+        // If the year is "default", you might want to call it "All" or "Series" 
+        // but it will show up as a pill regardless of length.
+        yearHtml += `<div class="pill-filter ${y === currentFilters.year ? 'active' : ''}" data-year="${y}" onclick="setYear('${y}', this)">${y === 'default' ? 'Tests' : y}</div>`;
+    });
+    yearScroll.innerHTML = yearHtml;
 
-    // 3. Robust Counting (The Fix for NTPCG)
-    const source = EXAM_JSON.data[currentFilters.tier][currentFilters.year] || {};
+    // 3. Counting Logic Fix
+    const categoryData = EXAM_JSON.data[currentFilters.category];
+    const source = (categoryData[currentFilters.tier] || {})[currentFilters.year] || {};
     const config = EXAM_JSON.config[currentFilters.tier] || {};
 
     const fullCount = (source.full_mocks || []).length;
@@ -126,26 +150,21 @@ function setupFilters(years) {
     const subjectCount = (source.subject_wise || []).length;
 
     const typePills = document.querySelectorAll('#type-filters .pill-filter');
-    
     if (typePills.length >= 3) {
         typePills[0].innerHTML = `Full Mocks (${fullCount})`;
         typePills[1].innerHTML = `Sectionals (${sectionalCount})`;
         typePills[2].innerHTML = `Subject Wise (${subjectCount})`;
-
-        if (sectionsCount === 0) {
-            typePills[1].style.display = 'none';
-        } else {
-            typePills[1].style.display = 'block';
-        }
+        typePills[1].style.display = (sectionsCount === 0) ? 'none' : 'block';
     }
 }
+
 
 
 
 function renderMocks() {
     const grid = document.getElementById('quizGrid');
     const config = EXAM_JSON.config[currentFilters.tier];
-    const source = EXAM_JSON.data[currentFilters.tier][currentFilters.year];
+    const source = EXAM_JSON.data[currentFilters.category][currentFilters.tier][currentFilters.year];
     const searchVal = document.getElementById('mockSearch').value.toLowerCase();
     
     const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
@@ -211,7 +230,7 @@ const accessDenied = item.type === 'paid' && !isPaidUser;
         if (isLockedDate) {
             actionHtml = `<div class="action-btn unlock-btn" style="opacity:0.6; cursor:default;">Available ${item.releaseDate}</div>`;
         } else if (accessDenied) {
-            actionHtml = `<a href="/buy-premium.html" class="action-btn unlock-btn">🔒 UNLOCK TEST</a>`;
+            actionHtml = `<a href="/buy-premium.html" class="action-btn unlock-btn">ðŸ”’ UNLOCK TEST</a>`;
         } else {
             if (isSubmitted) {
                 actionHtml = `
@@ -221,7 +240,7 @@ const accessDenied = item.type === 'paid' && !isPaidUser;
                     </div>
                 `;
             } else if (savedState.isPaused && savedState) {
-                actionHtml = `<a href="${getLink(config)}?${item.linkParam}" class="action-btn resume-btn">▶️ RESUME TEST</a>`;
+                actionHtml = `<a href="${getLink(config)}?${item.linkParam}" class="action-btn resume-btn">â–¶ï¸ RESUME TEST</a>`;
             } else {
                 actionHtml = `<a href="${getLink(config)}?${item.linkParam}" class="action-btn start-btn">START TEST</a>`;
             }
@@ -232,7 +251,7 @@ const accessDenied = item.type === 'paid' && !isPaidUser;
                 <div class="card-top">
                     <div class="card-info">
                         <div class="card-title">${item.title} <span class="badge-type ${item.type === 'free' ? 'free-badge' : 'paid-badge'}">${item.type.toUpperCase()}</span></div>
-                        <div class="card-meta">${item.qs || 100} Questions • ${item.time || '60 Min'}</div>
+                        <div class="card-meta">${item.qs || 100} Questions â€¢ ${item.time || '60 Min'}</div>
                     </div>
                 </div>
                 <div class="btn-grid">${actionHtml}</div>
@@ -240,7 +259,7 @@ const accessDenied = item.type === 'paid' && !isPaidUser;
         `;
     });
 
-    grid.innerHTML = html || `<div class="text-center p-5 text-muted">🚀 Tests Coming Soon...</div>`;
+    grid.innerHTML = html || `<div class="text-center p-5 text-muted">ðŸš€ Tests Coming Soon...</div>`;
     document.getElementById('grid-sync').innerText = "";
 }
 
@@ -254,9 +273,22 @@ function setYear(y, el) {
     document.querySelectorAll('#year-scroll .pill-filter').forEach(p => p.classList.remove('active'));
     el.classList.add('active');
     currentFilters.year = y;
-    setupFilters(Object.keys(EXAM_JSON.data[currentFilters.tier])); 
+    const years = Object.keys(EXAM_JSON.data[currentFilters.category][currentFilters.tier]);
+    setupFilters(years); 
     renderMocks();
 }
+
+function setTier(t, el) {
+    document.querySelectorAll('#tier-wrap .pill-filter').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    currentFilters.tier = t;
+    const years = Object.keys(EXAM_JSON.data[currentFilters.category][currentFilters.tier] || {});
+    currentFilters.year = years.includes("default") ? "default" : years.sort().reverse()[0];
+    setupFilters(years); 
+    renderMocks();
+}
+
+
 
 function filterType(type, el) {
     document.querySelectorAll('#type-filters .pill-filter').forEach(p => p.classList.remove('active'));
@@ -275,8 +307,10 @@ function filterType(type, el) {
 
 function renderSectionPills() {
     const sections = EXAM_JSON.config[currentFilters.tier].sections;
-    const source = EXAM_JSON.data[currentFilters.tier][currentFilters.year];
+    // Fix: Add currentFilters.category to the path
+    const source = EXAM_JSON.data[currentFilters.category][currentFilters.tier][currentFilters.year];
     const fullMockCount = (source.full_mocks || []).length;
+    
 
     currentFilters.section = sections[0].id;
     let html = '';
@@ -294,13 +328,41 @@ function setSection(id, el) {
     renderMocks();
 }
 
-function setTier(t, el) {
-    document.querySelectorAll('#tier-wrap .pill-filter').forEach(p => p.classList.remove('active'));
+function renderCategoryFilters(categories) {
+    const wrap = document.getElementById('category-wrap');
+    if (!wrap) return;
+    
+    // Always show the row
+    wrap.classList.remove('hidden');
+    
+    let html = '';
+    categories.forEach(cat => {
+        html += `<div class="pill-filter ${cat === currentFilters.category ? 'active' : ''}" onclick="setCategory('${cat}', this)">${cat}</div>`;
+    });
+    wrap.innerHTML = html;
+}
+
+
+function setCategory(cat, el) {
+    currentFilters.category = cat;
+    document.querySelectorAll('#category-wrap .pill-filter').forEach(p => p.classList.remove('active'));
     el.classList.add('active');
-    currentFilters.tier = t;
-    setupFilters(Object.keys(EXAM_JSON.data[currentFilters.tier])); 
+    
+    const categoryData = EXAM_JSON.data[cat];
+    const availableTiers = Object.keys(categoryData);
+    
+    // Auto-select first tier if current tier doesn't exist in new category
+    if (!availableTiers.includes(currentFilters.tier)) {
+        currentFilters.tier = availableTiers[0];
+    }
+    
+    const years = Object.keys(categoryData[currentFilters.tier] || {});
+    currentFilters.year = years.includes("default") ? "default" : years.sort().reverse()[0];
+
+    setupFilters(years);
     renderMocks();
 }
+
 function reattempt(id, url) {
     const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
     const username = profile ? profile.username : "Guest";
@@ -337,3 +399,4 @@ window.addEventListener('pageshow', function(event) {
         }
     }
 });
+
