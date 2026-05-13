@@ -14,19 +14,23 @@
 
 <div class="exam-page-container">
     <div class="sticky-header-section">
-        <div class="p-3 d-flex align-items-center border-bottom">
-            <a href="../" class="text-dark me-3"><i class="fas fa-arrow-left fs-5"></i></a>
-            <h5 class="m-0 fw-bold">SSC CGL Preparation</h5>
-        </div>
+    <div class="p-3 d-flex align-items-center border-bottom">
+        <a href="../" class="text-dark me-3"><i class="fas fa-arrow-left fs-5"></i></a>
+        <h5 class="m-0 fw-bold">SSC CGL Preparation</h5>
+    </div>
 
-        <div class="search-input-wrap mt-2">
-            <input type="text" id="mockSearch" placeholder="Search by mock name..." onkeyup="renderMocks()">
-        </div>
+    <div class="search-input-wrap mt-2">
+        <input type="text" id="mockSearch" placeholder="Search by mock name..." onkeyup="renderMocks()">
+    </div>
 
-        <div class="filter-scroll-wrapper" id="tier-wrap">
-            <div class="pill-filter active" onclick="setTier('tier1', this)">Tier I</div>
-            <div class="pill-filter" onclick="setTier('tier2', this)">Tier II</div>
-        </div>
+    <div class="filter-scroll-wrapper" id="category-wrap"></div>
+
+    <div class="filter-scroll-wrapper" id="tier-wrap">
+        <div class="pill-filter active" onclick="setTier('tier1', this)">Tier I</div>
+        <div class="pill-filter" onclick="setTier('tier2', this)">Tier II</div>
+    </div>
+        
+    
 
         <div class="filter-scroll-wrapper" id="year-scroll"></div>
 
