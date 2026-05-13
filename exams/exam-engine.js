@@ -10,7 +10,7 @@ async function initExamEngine() {
     // 1. Detect Exam Name: Try URL Query (?AtoZ-V) first, fallback to folder name
     let examName = window.location.search ? window.location.search.slice(1) : pathParts[pathParts.length - 2];
     
-    document.getElementById('grid-sync').innerText = "ðŸ”„ Syncing Database...";
+    document.getElementById('grid-sync').innerText = "Loading...";
     try {
        // Change: Use raw.githubusercontent and add a timestamp to force latest content
         const rawUrl = `https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/data/${examName}-data.json?t=${Date.now()}`;
@@ -240,7 +240,7 @@ const accessDenied = item.type === 'paid' && !isPaidUser;
                     </div>
                 `;
             } else if (savedState.isPaused && savedState) {
-                actionHtml = `<a href="${getLink(config)}?${item.linkParam}" class="action-btn resume-btn">â–¶ï¸ RESUME TEST</a>`;
+                actionHtml = `<a href="${getLink(config)}?${item.linkParam}" class="action-btn resume-btn">▶️ RESUME TEST</a>`;
             } else {
                 actionHtml = `<a href="${getLink(config)}?${item.linkParam}" class="action-btn start-btn">START TEST</a>`;
             }
@@ -251,7 +251,7 @@ const accessDenied = item.type === 'paid' && !isPaidUser;
                 <div class="card-top">
                     <div class="card-info">
                         <div class="card-title">${item.title} <span class="badge-type ${item.type === 'free' ? 'free-badge' : 'paid-badge'}">${item.type.toUpperCase()}</span></div>
-                        <div class="card-meta">${item.qs || 100} Questions â€¢ ${item.time || '60 Min'}</div>
+                        <div class="card-meta">${item.qs || 100} Questions ⏱️ ${item.time || '60 Min'}</div>
                     </div>
                 </div>
                 <div class="btn-grid">${actionHtml}</div>
@@ -259,7 +259,7 @@ const accessDenied = item.type === 'paid' && !isPaidUser;
         `;
     });
 
-    grid.innerHTML = html || `<div class="text-center p-5 text-muted">ðŸš€ Tests Coming Soon...</div>`;
+    grid.innerHTML = html || `<div class="text-center p-5 text-muted">🚀 Tests Coming Soon...</div>`;
     document.getElementById('grid-sync').innerText = "";
 }
 
