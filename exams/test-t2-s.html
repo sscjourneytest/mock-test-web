@@ -4005,18 +4005,19 @@ function highlightPalette() {
         palSubmitBtn.textContent = "Back to Analysis";
     }
   }
-
-  const curQid = QUESTIONS[current].id ?? current;
-  const mkBtn = el("markBtn");
-  if (mkBtn) {
+   const curQid = QUESTIONS[current].id ?? current;
+  // Select all elements with the ID markBtn (both top and bottom bars)
+  const mkBtns = document.querySelectorAll("#markBtn");
+  mkBtns.forEach(btn => {
     if (marked[curQid]) {
-      mkBtn.textContent = "Unmark Review";
-      mkBtn.classList.add("active-mark");
+      btn.textContent = "Unmark Review";
+      btn.classList.add("active-mark");
     } else {
-      mkBtn.textContent = "Mark for Review";
-      mkBtn.classList.remove("active-mark");
+      btn.textContent = "Mark for Review";
+      btn.classList.remove("active-mark");
     }
-  }
+  });
+ 
   updatePaletteLegend();
 }
 
