@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MOCK MATRIX HUB</title>
     <meta name="description" content="Free SSC Mock Tests based on 2025 Ediquity pattern. Practice PYQ, Sectional, Subject-wise, and Full Mocks.">
-    
+
+        
     <script>
         (function() {
+            // Anti-flash safety check block
+            const savedTheme = localStorage.getItem('mmh_theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                // Adds safety helper classes early
+                document.documentElement.classList.add('dark-mode'); 
+            }
             const SECRET_SALT = "mmh_vault_key_99";
             const raw = localStorage.getItem('u_vault');
             if (raw) {
@@ -510,8 +518,7 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
 </head>
 <body>
 
- 
-    <header class="app-header">
+        <header class="app-header">
         <div class="d-flex align-items-center gap-3">
             <i class="fas fa-bars fs-5" id="menuBtn" style="cursor: pointer;" onclick="toggleSidebar()"></i>
             <a href="/" class="brand-logo">
@@ -519,11 +526,15 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
                 <span>MOCK MATRIX <span style="color:var(--text-dark)">HUB</span></span>
             </a>
         </div>
-        <div id="authHeaderArea">
-            <a href="/login.html" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">LOGIN</a>
+        <div class="d-flex align-items-center gap-2">
+            <button id="darkModeToggle" onclick="toggleTheme()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; line-height: 1;">🌙</button>
+            <div id="authHeaderArea">
+                <a href="/login.html" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">LOGIN</a>
+            </div>
         </div>
     </header>
 
+ 
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
     <nav id="appSidebar" class="sidebar">
         <div class="sidebar-header">
@@ -567,13 +578,7 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
             <div class="border-bottom my-2"></div>
             
             <a href="/saved" class="menu-item"><i class="fas fa-bookmark"></i> Saved Questions</a>
-            <div class="menu-item d-flex justify-content-between" onclick="toggleTheme()" style="cursor: pointer;">
-    <span><i class="fas fa-moon"></i> Dark Mode</span>
-    <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="themeSwitch">
-    </div>
-            </div>
-            
+
         
             <a href="/privacy-policy.html" class="menu-item"><i class="fas fa-shield-halved"></i> Privacy Policy</a>
             
@@ -782,20 +787,46 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
             sb.classList.toggle('show');
             ov.style.display = sb.classList.contains('show') ? 'block' : 'none';
         }
-        
-        function toggleTheme() {
+
+        // ===== REFACTORED DOMAIN-WIDE DARK MODE TOGGLE =====
+function toggleTheme() {
     const isDark = document.body.classList.toggle('dark-mode');
+    const newTheme = isDark ? 'dark' : 'light';
     
-    // Save to localStorage (this is domain-wide)
-    localStorage.setItem('mmh_theme', isDark ? 'dark' : 'light');
+    // Write state synchronization parameters across cross-page files
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('mmh_theme', newTheme);
     
-    // Optional: Sync the HTML tag for head-script consistency
-    if (isDark) {
-        document.documentElement.classList.add('dark-mode');
-    } else {
-        document.documentElement.classList.remove('dark-mode');
+    // Swap dynamic icon presentation parameters natively
+    const toggleBtn = document.getElementById('darkModeToggle');
+    if (toggleBtn) {
+        toggleBtn.textContent = isDark ? '☀️' : '🌙';
     }
-        }
+}
+
+// Ensure parsing routines apply configuration vectors immediately on render execution
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('mmh_theme') || 'light';
+    const isDark = savedTheme === 'dark';
+    
+    if (isDark) {
+        document.body.classList.add('dark-mode');
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.body.classList.remove('dark-mode');
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+    
+    // Set matching top bar icon display parameters
+    const toggleBtn = document.getElementById('darkModeToggle');
+    if (toggleBtn) {
+        toggleBtn.textContent = isDark ? '☀️' : '🌙';
+    }
+
+    // Refresh application profile components
+    refreshAppUI();
+});
+
 
 // Add these two helper functions
 function checkTelegramPopup() {
