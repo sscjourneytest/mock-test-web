@@ -20,15 +20,41 @@
             --border: #e2e8f0;
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
         }
-
         body.dark-mode {
             --bg-light: #0f172a;
             --white: #1e293b;
-            --text-dark: #f1f5f9;
+            --text-dark: #f8fafc; /* Crisp white for standard and bold text visibility */
             --text-grey: #94a3b8;
             --border: #334155;
             background-color: #020617 !important;
         }
+
+        /* --- DARK MODE CORRECTIONS --- */
+        body.dark-mode .app-header {
+            background: var(--white);
+            border-color: var(--border);
+        }
+
+        body.dark-mode .back-btn,
+        body.dark-mode .header-title {
+            color: var(--text-dark);
+        }
+
+        /* Inverts the background placeholder container for icons */
+        body.dark-mode .exam-box .bg-light {
+            background-color: #0f172a !important; 
+        }
+
+        body.dark-mode .exam-box h3 {
+            color: var(--text-dark);
+        }
+
+        body.dark-mode .bottom-nav {
+            background: var(--white);
+            border-top-color: var(--border);
+        }
+
+        
 
         body {
             font-family: 'Inter', sans-serif;
@@ -249,10 +275,11 @@
             }
         }
 
-        // Theme Sync
-        if (localStorage.getItem('theme') === 'dark') {
+                // Theme Sync
+        if (localStorage.getItem('mmh_theme') === 'dark') {
             document.body.classList.add('dark-mode');
         }
+
     </script>
 </body>
 </html>
