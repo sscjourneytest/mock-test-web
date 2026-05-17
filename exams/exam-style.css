@@ -2,20 +2,23 @@
     --primary: #2563eb;
     --primary-light: #eff6ff;
     --white: #ffffff;
-    --bg-light: #f1f5f9; /* Slightly darker to make cards pop */
+    --bg-light: #f1f5f9; 
     --card-bg: #ffffff;
     --border: #e2e8f0;
     --text-dark: #0f172a;
     --text-grey: #64748b;
+    --search-input-bg: #f1f5f9;
 }
 
 body.dark-mode {
+    background-color: #020617; /* Ensures the page body background matches */
     --bg-light: #020617; 
     --white: #0f172a;
     --card-bg: #1e293b;
-    --text-dark: #f1f5f9; 
+    --text-dark: #f8fafc; /* Upgraded to a clean crisp white for normal/bold text visibility */
     --text-grey: #94a3b8; 
     --border: #334155;
+    --search-input-bg: #1e293b; /* Prevents search bar from staying bright */
 }
 
 .exam-page-container { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
@@ -99,8 +102,6 @@ body.dark-mode {
     background: transparent;
 }
 
-
-
 /* Search Box Smaller */
 .search-input-wrap { padding: 8px 15px; }
 .search-input-wrap input {
@@ -108,10 +109,11 @@ body.dark-mode {
     padding: 8px 15px; 
     border-radius: 8px; 
     border: 1px solid var(--border);
-    background: var(--bg-light); 
+    background: var(--search-input-bg); /* Changed from var(--bg-light) */
     color: var(--text-dark); 
     font-size: 14px;
 }
+
 
 /* Scrollable Grid */
 .scrollable-grid-area { 
@@ -223,3 +225,29 @@ body.dark-mode {
 .paid-badge { background: #fef3c7; color: #92400e; }
 
 .hidden { display: none !important; }
+
+/* --- DARK MODE EXPLICIT FIXES --- */
+body.dark-mode {
+    color: var(--text-dark);
+}
+
+/* Fixes top portal header text and back icon color */
+body.dark-mode .sticky-header-section,
+body.dark-mode .sticky-header-section h5,
+body.dark-mode .sticky-header-section a {
+    color: var(--text-dark) !important;
+}
+
+/* Keeps pill filters readable when not active */
+body.dark-mode .pill-filter {
+    color: var(--text-grey);
+}
+body.dark-mode .pill-filter.active {
+    color: var(--primary);
+}
+
+/* Score text visibility update */
+body.dark-mode .score-text {
+    color: var(--text-dark);
+}
+
