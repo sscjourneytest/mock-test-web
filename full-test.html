@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>
+  // Apply theme instantly — prevents white flash on dark mode
+  (function(){
+    var t = localStorage.getItem('mmh_theme');
+    if(t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+</script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Loading Quiz...</title>
@@ -24,25 +31,132 @@
 
 <style>
 
+
 /* =========================================
    1. GLOBAL VARIABLES & RESET
    ========================================= */
 :root {
-  --accent: #0b5ed7;       /* Testbook Blue */
+  --accent: #0b5ed7;
   --accent-dark: #094bc0;
-  --success: #198754;      /* Green */
-  --danger: #dc3545;       /* Red */
-  --warning: #ffc107;      /* Yellow/Orange */
+  --success: #198754;
+  --danger: #dc3545;
+  --warning: #ffc107;
   --muted: #6c757d;
-  --bg-color: #ffffff;     /* Solid White Background */
+  --max-width: 1280px;
+  --header-height: 60px;
+
+  /* ===== LIGHT MODE TOKENS ===== */
+  --bg-color: #ffffff;
   --light-gray: #f5f7fa;
   --border-color: #e0e0e0;
-  --max-width: 1280px;     /* Wider for Desktop */
-  --header-height: 60px;
+
+  --body-bg: #ffffff;
+  --body-text: #212121;
+
+  --header-bg: #ffffff;
+  --header-border: #e0e0e0;
+
+  --card-bg: #ffffff;
+  --card-border: #333333;
+  --qbar-bg: #ffffff;
+  --qtext-bg: #ffffff;
+  --qtext-color: #111111;
+  --opt-bg: #ffffff;
+  --opt-text: #111111;
+  --opt-selected-bg: #eef5ff;
+
+  --palette-bg: #dae5f0;
+  --palette-border: #e0e0e0;
+
+  --section-nav-bg: #ffffff;
+  --section-nav-border: #eeeeee;
+
+  --timer-bg: #f0f2f5;
+  --timer-text: #333333;
+
+  --fbar-bg: #ffffff;
+  --fbar-border: #dddddd;
+
+  --welcome-bg: #ffffff;
+  --welcome-footer-bg: #ffffff;
+  --instructions-bg: #f9f9f9;
+  --instructions-border: #dddddd;
+  --detail-item-bg: #f8fbff;
+  --detail-item-border: #e1ecff;
+
+  --modal-bg: #ffffff;
+  --results-bg: #ffffff;
+  --analysis-bg: #ffffff;
+  --score-item-bg: #f8fbff;
+  --score-item-border: #e1ecff;
+  --loader-bg: #ffffff;
+
+  --input-bg: #ffffff;
+  --input-text: #333333;
+  --input-border: #cccccc;
+
+  --muted-text: #555555;
+  --dark-mode-toggle-bg: #f0f2f5;
+  --dark-mode-toggle-text: #333;
+}
+
+/* ===== DARK MODE TOKENS ===== */
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --light-gray: #1e1e1e;
+  --border-color: #3a3a3a;
+
+  --body-bg: #121212;
+  --body-text: #e8e8e8;
+
+  --header-bg: #1a1a1a;
+  --header-border: #2e2e2e;
+
+  --card-bg: #1e1e1e;
+  --card-border: #444444;
+  --qbar-bg: #1e1e1e;
+  --qtext-bg: #1e1e1e;
+  --qtext-color: #e0e0e0;
+  --opt-bg: #1e1e1e;
+  --opt-text: #e0e0e0;
+  --opt-selected-bg: #1a2a45;
+
+  --palette-bg: #1a2535;
+  --palette-border: #2e2e2e;
+
+  --section-nav-bg: #1a1a1a;
+  --section-nav-border: #2e2e2e;
+
+  --timer-bg: #2a2a2a;
+  --timer-text: #e0e0e0;
+
+  --fbar-bg: #1a1a1a;
+  --fbar-border: #2e2e2e;
+
+  --welcome-bg: #121212;
+  --welcome-footer-bg: #1a1a1a;
+  --instructions-bg: #1e1e1e;
+  --instructions-border: #333333;
+  --detail-item-bg: #1a2535;
+  --detail-item-border: #1e3a5f;
+
+  --modal-bg: #1e1e1e;
+  --results-bg: #121212;
+  --analysis-bg: #121212;
+  --score-item-bg: #1a2535;
+  --score-item-border: #1e3a5f;
+  --loader-bg: #121212;
+
+  --input-bg: #2a2a2a;
+  --input-text: #e0e0e0;
+  --input-border: #444444;
+
+  --muted-text: #999999;
+  --dark-mode-toggle-bg: #2a2a2a;
+  --dark-mode-toggle-text: #e0e0e0;
 }
 
 * { box-sizing: border-box; }
-
 body {
   margin: 0;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -548,6 +662,31 @@ body.mode-solution .opt.wrong .custom-radio::before {
     pointer-events: auto;        /* ✅ enable radio only */
     cursor: pointer;
   }
+}
+  /* Dark mode overrides for solution options */
+[data-theme="dark"] body.mode-solution .opt.correct,
+[data-theme="dark"].mode-solution .opt.correct {
+  background: #0d3320 !important;
+}
+[data-theme="dark"] body.mode-solution .opt.correct .opt-text,
+[data-theme="dark"].mode-solution .opt.correct .opt-text {
+  color: #6ee89a !important;
+}
+[data-theme="dark"] body.mode-solution .opt.wrong,
+[data-theme="dark"].mode-solution .opt.wrong {
+  background: #3d0d0d !important;
+}
+[data-theme="dark"] body.mode-solution .opt.wrong .opt-text,
+[data-theme="dark"].mode-solution .opt.wrong .opt-text {
+  color: #f08080 !important;
+}
+
+/* Selected option in quiz mode — dark mode */
+[data-theme="dark"] .opt.selected {
+  background: #1a2a45 !important;
+}
+[data-theme="dark"] .opt.selected .opt-text {
+  color: #a8c8ff !important;
 }
 
 /* =========================================
@@ -1424,7 +1563,63 @@ body.mode-solution #pauseBtn {
     display: none !important; 
 }
   
+/* ===== GLOBAL DARK MODE SAFETY NET =====
+   Catches any remaining hardcoded dark colors that may still be in
+   dynamically generated HTML or inline styles not yet converted */
+[data-theme="dark"] .qtext,
+[data-theme="dark"] .qtext *,
+[data-theme="dark"] .opt-text,
+[data-theme="dark"] .opt-text *,
+[data-theme="dark"] .explanation,
+[data-theme="dark"] .explanation * {
+  color: var(--qtext-color) !important;
+}
 
+[data-theme="dark"] strong,
+[data-theme="dark"] b {
+  color: inherit;
+}
+
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .modal-content * {
+  color: var(--body-text);
+}
+
+[data-theme="dark"] .welcome-instructions,
+[data-theme="dark"] .welcome-instructions *:not(.leg-box):not(button):not(a) {
+  color: var(--body-text);
+}
+
+[data-theme="dark"] .analysis-container,
+[data-theme="dark"] .card-dashboard,
+[data-theme="dark"] .card-dashboard * {
+  color: var(--body-text);
+}
+
+[data-theme="dark"] select option {
+  background: var(--input-bg);
+  color: var(--input-text);
+}
+
+/* ===== DARK MODE TOGGLE BUTTON ===== */
+#darkModeToggle {
+  background: var(--dark-mode-toggle-bg);
+  color: var(--dark-mode-toggle-text);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#darkModeToggle:hover { opacity: 0.85; }
 </style>
 
 <script>
@@ -1634,6 +1829,7 @@ const savedDb = commonApp.database();
         </select>
         <div class="timer-text" id="timer">00:00</div>
         <button id="submitBtn" class="btn">Submit</button>
+        <button id="darkModeToggle" onclick="toggleDarkMode()">🌙</button>
         <button id="paletteBtn" class="btn-ghost">View</button>
         <button id="toggleActionBarBtn" class="btn-ghost btn-sm">⇅</button>
       </div>
@@ -4635,6 +4831,32 @@ const SECURITY = {
     setTimeout(() => div.remove(), 3000);
   }
 };
+  // ===== DARK MODE TOGGLE =====
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  // Sync with site-wide mmh_theme key (index.html uses same key)
+  // Setting 'light' explicitly so index.html also picks up the change
+  localStorage.setItem('mmh_theme', newTheme);
+  const btn1 = document.getElementById('darkModeToggle');
+  if (btn1) btn1.textContent = isDark ? '🌙' : '☀️';
+  
+}
+
+// Apply saved theme immediately on page load (reads site-wide mmh_theme key)
+(function() {
+  const saved = localStorage.getItem('mmh_theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  window.addEventListener('DOMContentLoaded', function() {
+    const isDark = saved === 'dark';
+    const btn1 = document.getElementById('darkModeToggle');
+    
+    if (btn1) btn1.textContent = isDark ? '☀️' : '🌙';
+  
+  });
+})();
 
 </script>
 </body>
