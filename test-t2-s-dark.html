@@ -636,9 +636,11 @@ h1 {
 
 /* Correct answer */
 body.mode-solution .opt.correct {
-  background: #dff5e7;            /* deeper green tint */
+  background: #dff5e7;
 }
-
+body.mode-solution .opt.correct .opt-text {
+  color: #0a3d1f !important;
+}
 body.mode-solution .opt.correct .custom-radio::before {
   border-color: #198754;
   background: #198754;
@@ -646,11 +648,40 @@ body.mode-solution .opt.correct .custom-radio::before {
 
 /* Wrong selected answer */
 body.mode-solution .opt.wrong {
-  background: #fde2e2;            /* deeper red tint */
+  background: #fde2e2;
+}
+body.mode-solution .opt.wrong .opt-text {
+  color: #5c0a0a !important;
 }
 body.mode-solution .opt.wrong .custom-radio::before {
   border-color: #dc3545;
   background: #dc3545;
+}
+
+/* Dark mode overrides for solution options */
+[data-theme="dark"] body.mode-solution .opt.correct,
+[data-theme="dark"].mode-solution .opt.correct {
+  background: #0d3320 !important;
+}
+[data-theme="dark"] body.mode-solution .opt.correct .opt-text,
+[data-theme="dark"].mode-solution .opt.correct .opt-text {
+  color: #6ee89a !important;
+}
+[data-theme="dark"] body.mode-solution .opt.wrong,
+[data-theme="dark"].mode-solution .opt.wrong {
+  background: #3d0d0d !important;
+}
+[data-theme="dark"] body.mode-solution .opt.wrong .opt-text,
+[data-theme="dark"].mode-solution .opt.wrong .opt-text {
+  color: #f08080 !important;
+}
+
+/* Selected option in quiz mode — dark mode */
+[data-theme="dark"] .opt.selected {
+  background: #1a2a45 !important;
+}
+[data-theme="dark"] .opt.selected .opt-text {
+  color: #a8c8ff !important;
 }
 /* ===============================
    DESKTOP: RADIO ONLY SELECTION
@@ -1128,6 +1159,12 @@ body.mode-solution .container {
 .at-wrong { background: #fdeaea; color: var(--danger); border-color: #f5c6cb; }
 .at-unattempted { background: #fff8e1; color: #b77c00; border-color: #ffeeba; }
 .at-total { background: #e7f0ff; color: var(--accent); border-color: #b6d4fe; }
+
+/* Dark mode — deeper backgrounds so colored text stays visible */
+[data-theme="dark"] .at-correct { background: #0d3320; color: #6ee89a; border-color: #1a5c36; }
+[data-theme="dark"] .at-wrong { background: #3d0d0d; color: #f08080; border-color: #6b1a1a; }
+[data-theme="dark"] .at-unattempted { background: #3d3000; color: #f5c842; border-color: #665200; }
+[data-theme="dark"] .at-total { background: #0d1f3d; color: #7ab3ff; border-color: #1a3a6b; }
 
 .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 10px; }
 .btn-dash { padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; transition: 0.2s; text-align: center; border: 2px solid transparent; }
