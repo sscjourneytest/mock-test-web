@@ -513,12 +513,52 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
   cursor: pointer;
   border: none;
 }
-        
+
+        /* --- FIXED TOP BAR OVERFLOW & TOGGLE BOX --- */
+.brand-logo span {
+    white-space: nowrap;
+}
+
+#darkModeToggle {
+    background: var(--white) !important;
+    color: var(--text-dark);
+    border: 1px solid var(--border) !important;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+body.dark-mode #darkModeToggle {
+    background: #2a2a2a !important; /* Matches template background for toggle */
+}
+
+/* Mobile responsive tight-fit safety net */
+@media (max-width: 400px) {
+    .app-header {
+        padding: 12px 10px !important; /* Extra horizontal room */
+    }
+    .brand-logo {
+        font-size: 0.95rem !important; /* Slightly scale text down */
+    }
+    .brand-logo img {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    .app-header .gap-3 {
+        gap: 0.5rem !important; /* Tighten gap between menu and logo */
+    }
+}
+
     </style>
 </head>
 <body>
-
-        <header class="app-header">
+    <header class="app-header">
         <div class="d-flex align-items-center gap-3">
             <i class="fas fa-bars fs-5" id="menuBtn" style="cursor: pointer;" onclick="toggleSidebar()"></i>
             <a href="/" class="brand-logo">
@@ -527,12 +567,13 @@ body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
             </a>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <button id="darkModeToggle" onclick="toggleTheme()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; line-height: 1;">🌙</button>
+            <button id="darkModeToggle" onclick="toggleTheme()">🌙</button>
             <div id="authHeaderArea">
                 <a href="/login.html" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">LOGIN</a>
             </div>
         </div>
     </header>
+
 
  
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
