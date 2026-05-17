@@ -56,7 +56,17 @@
     }
 
     updateSeriesUI();
-    document.addEventListener('DOMContentLoaded', initExamEngine);
+   
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Check if home page set the theme to 'dark'
+        if (localStorage.getItem('mmh_theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 2. Initialize the exam engine as normal
+        initExamEngine();
+    });
+
 </script>
 </body>
 </html>
