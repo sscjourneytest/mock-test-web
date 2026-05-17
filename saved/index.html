@@ -335,7 +335,13 @@ mjx-math {
     if (!firebase.apps.length) { firebase.initializeApp(FIREBASE_PROJECTS.common); }
     const savedDb = firebase.database();
 
+
     async function loadSavedQuestionsWithAuth() {
+
+              // Instant global dashboard lookahead key sync
+        if (localStorage.getItem('mmh_theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
         if (typeof getLocalProfile !== 'function') {
             setTimeout(loadSavedQuestionsWithAuth, 100);
             return;
