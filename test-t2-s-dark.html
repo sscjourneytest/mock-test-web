@@ -4,8 +4,8 @@
 <script>
   // Apply theme instantly — prevents white flash on dark mode
   (function(){
-    var t = localStorage.getItem('quiz-theme');
-    if(t) document.documentElement.setAttribute('data-theme', t);
+    var t = localStorage.getItem('mmh_theme');
+    if(t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
   })();
 </script>
 <meta charset="utf-8" />
@@ -4952,16 +4952,18 @@ function toggleDarkMode() {
   const isDark = html.getAttribute('data-theme') === 'dark';
   const newTheme = isDark ? 'light' : 'dark';
   html.setAttribute('data-theme', newTheme);
-  localStorage.setItem('quiz-theme', newTheme);
+  // Sync with site-wide mmh_theme key (index.html uses same key)
+  // Setting 'light' explicitly so index.html also picks up the change
+  localStorage.setItem('mmh_theme', newTheme);
   const btn1 = document.getElementById('darkModeToggle');
   const btn2 = document.getElementById('darkModeToggleWelcome');
   if (btn1) btn1.textContent = isDark ? '🌙' : '☀️';
   if (btn2) btn2.textContent = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
 }
 
-// Apply saved theme immediately on page load
+// Apply saved theme immediately on page load (reads site-wide mmh_theme key)
 (function() {
-  const saved = localStorage.getItem('quiz-theme') || 'light';
+  const saved = localStorage.getItem('mmh_theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
   window.addEventListener('DOMContentLoaded', function() {
     const isDark = saved === 'dark';
