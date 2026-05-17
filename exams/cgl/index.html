@@ -53,9 +53,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/auth.js"></script> 
 <script src="../exam-engine.js"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', initExamEngine);
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Check if home page set the theme to 'dark'
+        if (localStorage.getItem('mmh_theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 2. Initialize the exam engine as normal
+        initExamEngine();
+    });
 </script>
+
 </body>
 </html>
