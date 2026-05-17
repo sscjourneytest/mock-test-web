@@ -1785,7 +1785,6 @@ const savedDb = commonApp.database();
 
 </head>
 <body>
-
 <div id="loadingOverlay">
   <div class="spinner"></div>
   <h3 id="loadingText">FETCHING TEST...</h3>
@@ -1797,6 +1796,7 @@ const savedDb = commonApp.database();
     <div style="text-align: center;">
       <a class="channel-link-top" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">📢 Join Telegram Channel</a>
     </div>
+
     
       <div class="welcome-header">
       <h1 id="disp_quizTitle">Loading...</h1> <p>Quiz ID: <span id="disp_quizId">...</span></p>
@@ -1824,19 +1824,20 @@ const savedDb = commonApp.database();
       </div>
     </div>
 <div id="welcomeSectionTableContainer" style="margin-bottom: 24px;">
-  <h3 style="margin-bottom: 12px; font-size: 16px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 10px; color: #333;">Test Summary</h3>
+  <h3 style="margin-bottom: 12px; font-size: 16px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 10px; color: var(--body-text);">Test Summary</h3>
   <div style="overflow-x:auto;">
-    <table style="width:100%; border-collapse: collapse; background: #fff; border: 1px solid #ddd; font-size: 13px;">
+    <table style="width:100%; border-collapse: collapse; background: var(--card-bg); border: 1px solid var(--border-color); font-size: 13px; color: var(--body-text);">
       <thead>
-        <tr style="background: #f1f5f9; color: #444;">
-          <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Section Name</th>
-          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Questions</th>
-          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Marks</th>
-          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Negative</th>
+        <tr style="background: var(--light-gray); color: var(--body-text);">
+          <th style="padding: 10px; border: 1px solid var(--border-color); text-align: left;">Section Name</th>
+          <th style="padding: 10px; border: 1px solid var(--border-color); text-align: center;">Questions</th>
+          <th style="padding: 10px; border: 1px solid var(--border-color); text-align: center;">Time (Min)</th>
+          <th style="padding: 10px; border: 1px solid var(--border-color); text-align: center;">Marks</th>
+          <th style="padding: 10px; border: 1px solid var(--border-color); text-align: center;">Negative</th>
         </tr>
       </thead>
       <tbody id="welcomeSectionTableBody"></tbody>
-      <tfoot id="welcomeSectionTableFoot" style="background: #f8fbff; font-weight: 800; color: #222;"></tfoot>
+      <tfoot id="welcomeSectionTableFoot" style="background: var(--detail-item-bg); font-weight: 800; color: var(--body-text);"></tfoot>
     </table>
   </div>
 </div>
@@ -1866,8 +1867,8 @@ const savedDb = commonApp.database();
         <li><b>Submit before time ends.</b><br><span>समय समाप्त होने से पहले जमा करें।</span></li>
       </ul>
 
-      <div style="margin-top: 20px; padding: 10px; border: 1px solid #ddd; background: #fff;">
-         <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer;">
+      <div style="margin-top: 20px; padding: 10px; border: 1px solid var(--border-color); background: var(--card-bg);">
+         <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer; color: var(--body-text);">
            <input type="checkbox" id="instrConfirm" style="margin-top: 3px;">
            <span>I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination.</span>
          </label>
