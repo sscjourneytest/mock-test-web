@@ -4000,19 +4000,18 @@ document.addEventListener('click', function(e) {
     // Functionality for saving can be added here
   }
 });
-  
-  // Submit Modal
+    // Submit Modal
   // Submit Modal with Sectional Table
 el("submitBtn").onclick = () => {
     let modalTableHtml = `
       <div style="overflow-x:auto; margin-top:15px;">
-        <table style="width:100%; border-collapse: collapse; font-size: 12px; text-align: left; border: 1px solid #ddd;">
+        <table style="width:100%; border-collapse: collapse; font-size: 12px; text-align: left; border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--body-text);">
           <thead>
-            <tr style="background-color: #f2f2f2;">
-              <th style="padding: 8px; border: 1px solid #ddd;">Section</th>
-              <th style="padding: 8px; border: 1px solid #ddd;">Att.</th>
-              <th style="padding: 8px; border: 1px solid #ddd;">Left</th>
-              <th style="padding: 8px; border: 1px solid #ddd;">Marked</th>
+            <tr style="background-color: var(--light-gray); color: var(--body-text);">
+              <th style="padding: 8px; border: 1px solid var(--border-color);">Section</th>
+              <th style="padding: 8px; border: 1px solid var(--border-color);">Att.</th>
+              <th style="padding: 8px; border: 1px solid var(--border-color);">Left</th>
+              <th style="padding: 8px; border: 1px solid var(--border-color);">Marked</th>
             </tr>
           </thead>
           <tbody>`;
@@ -4041,10 +4040,10 @@ el("submitBtn").onclick = () => {
 
       modalTableHtml += `
         <tr>
-          <td style="padding: 8px; border: 1px solid #ddd;"><b>${name}</b></td>
-          <td style="padding: 8px; border: 1px solid #ddd; color: var(--success);">${att}</td>
-          <td style="padding: 8px; border: 1px solid #ddd; color: var(--danger);">${left}</td>
-          <td style="padding: 8px; border: 1px solid #ddd; color: var(--accent);">${markedCount}</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><b>${name}</b></td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: var(--success);">${att}</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: var(--danger);">${left}</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: var(--accent);">${markedCount}</td>
         </tr>`;
     });
 
@@ -4053,14 +4052,14 @@ el("submitBtn").onclick = () => {
     modalTableHtml += `
           </tbody>
           <tfoot>
-            <tr style="background-color: #f9f9f9; font-weight: bold;">
-              <td style="padding: 8px; border: 1px solid #ddd;">Total</td>
-              <td style="padding: 8px; border: 1px solid #ddd; color: var(--success);">${totalAttempted}</td>
-              <td style="padding: 8px; border: 1px solid #ddd; color: var(--danger);">${totalLeft}</td>
-              <td style="padding: 8px; border: 1px solid #ddd; color: var(--accent);">${totalMarked}</td>
+            <tr style="background-color: var(--light-gray); font-weight: bold; color: var(--body-text);">
+              <td style="padding: 8px; border: 1px solid var(--border-color);">Total</td>
+              <td style="padding: 8px; border: 1px solid var(--border-color); color: var(--success);">${totalAttempted}</td>
+              <td style="padding: 8px; border: 1px solid var(--border-color); color: var(--danger);">${totalLeft}</td>
+              <td style="padding: 8px; border: 1px solid var(--border-color); color: var(--accent);">${totalMarked}</td>
             </tr>
-            <tr style="background-color: #eee; font-weight: 800; text-align: center;">
-              <td colspan="4" style="padding: 10px; border: 1px solid #ddd;">
+            <tr style="background-color: var(--detail-item-bg); font-weight: 800; text-align: center; color: var(--body-text);">
+              <td colspan="4" style="padding: 10px; border: 1px solid var(--border-color);">
                 Overall: ${totalAttempted} / ${totalQuestionsInQuiz} Attempted
               </td>
             </tr>
@@ -4068,9 +4067,11 @@ el("submitBtn").onclick = () => {
         </table>
       </div>`;
 
-    el("submitMsg").innerHTML = `<div style="text-align:center; font-weight:700; margin-bottom:10px;">Exam Summary</div>` + modalTableHtml;
+    el("submitMsg").innerHTML = `<div style="text-align:center; font-weight:700; margin-bottom:10px; color: var(--body-text);">Exam Summary</div>` + modalTableHtml;
     el("submitModal").style.display = "flex";
 };
+  
+
   // Close modal on cancel (Normal function is fine here)
 el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
   
