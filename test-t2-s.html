@@ -2373,9 +2373,8 @@ el("qindex").textContent = i + 1;
   // FIX: Ensure spent time is pulled from the questionTime object
   const spent = (questionTime && questionTime[q.id]) ? questionTime[q.id] : 0;
   timeDisplay.innerHTML = `⏱️: ${fmtMSS(spent)}`; // Changed 'Time:' to 'Time Taken:'
- 
 
-// --- UPDATED LANGUAGE & DECODING HELPER ---
+  // --- UPDATED LANGUAGE & DECODING HELPER ---
 const getLangText = (obj) => {
     if (!obj) return "";
     
@@ -2397,9 +2396,17 @@ const getLangText = (obj) => {
         rawText = obj[currentLang] || obj["en"] || "";
     }
 
-    // Decode the entities so <p> becomes actual HTML
-    return decodeHTML(rawText);
+    // Decode the entities so encoded tags become text strings
+    let decodedText = decodeHTML(rawText);
+
+    // 🔥 FIX: Convert literal "<br>" and "<br/>" strings into working HTML element breaks
+    decodedText = decodedText.replace(/&lt;br\s*\/?&gt;/gi, '<br>')
+                             .replace(/<br\s*\/?>/gi, '<br>');
+
+    return decodedText;
 };
+  
+
  
   // 2. Render Question Text & Math
   const qTextEl = el("qtext");
