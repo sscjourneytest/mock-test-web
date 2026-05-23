@@ -24,23 +24,18 @@ async function initExamEngine() {
             EXAM_JSON.data = { "PYQ MOCK": oldData };
         }
 
-                // 2. Render Category Filter (PYQ vs NEW)
+        
+        // 2. Render Category Filter (PYQ vs NEW)
         const categories = Object.keys(EXAM_JSON.data);
         renderCategoryFilters(categories);
-
-        // --- LOAD COPIED FILTERS HERE ---
-        const savedFilters = localStorage.getItem('MMH_SELECTED_FILTERS');
-        if (savedFilters) {
-            try {
-                // Instantly restores category, tier, year, type, and section states
-                Object.assign(currentFilters, JSON.parse(savedFilters));
-            } catch(e) { console.error(e); }
-        }
 
         // 3. Set Active Data Scope
         if (!categories.includes(currentFilters.category)) {
             currentFilters.category = categories[0];
         }
+        
+
+
         
 
         const categoryData = EXAM_JSON.data[currentFilters.category];
@@ -409,14 +404,3 @@ window.addEventListener('pageshow', function(event) {
         }
     }
 });
-
-// Automatically saves currentFilters whenever any pill is clicked
-document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('pill-filter')) {
-        // Short timeout allows your existing click functions to update currentFilters first
-        setTimeout(() => {
-            localStorage.setItem('MMH_SELECTED_FILTERS', JSON.stringify(currentFilters));
-        }, 50);
-    }
-});
-
