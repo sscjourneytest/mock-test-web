@@ -157,6 +157,9 @@ function setupFilters(years) {
     } else {
         topicWrap?.classList.add('hidden');
     }
+    document.querySelector('#subject-scroll .pill-filter.active')?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'center' });
+document.querySelector('#topic-scroll .pill-filter.active')?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'center' });
+document.querySelector('#year-scroll .pill-filter.active')?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'center' });
 }
 
 
