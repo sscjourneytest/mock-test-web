@@ -100,7 +100,7 @@ async function syncWithCloud(examName) {
     const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
     if (!profile || profile.username === "Guest") return;
 
-    const user = profile.username
+    const user = profile.username;
     const exam = examName.toLowerCase();
 
     const cacheKey = `CLOUD_SYNC_${user}_${exam}`;
