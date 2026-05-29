@@ -29,7 +29,7 @@ let CLOUD_CHECKLIST = {};
 // 48h expiry matches Worker KV TTL — no point fetching more often than KV refreshes
 const SYNC_EXPIRY_MS = 48 * 60 * 60 * 1000;
 
-const WORKER_URL = "https://mmh-userdata.maniyamaniya789.workers.dev/";
+const WORKER_URL = "https://mmh-userdata-test.maniyamaniya789.workers.dev/";
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 async function initExamEngine() {
