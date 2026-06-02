@@ -1007,32 +1007,21 @@ body.actions-bottom .fbar {
   /* 5. Hide Mobile "View" Toggle in Header */
   #paletteBtn { display: none !important; }
 }
+/* MOBILE LAYOUT */
 @media (max-width: 991px) {
   /* Palette is a popup overlay */
   #palette {
     position: fixed;
     top: var(--header-height);
     right: 0;
-    bottom: 0;
+    bottom: 0; /* Full height */
     width: 280px;
     border-left: 1px solid #ccc;
     box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-    overscroll-behavior: contain;
-    display: flex !important;
-    flex-direction: column;
-    overflow-y: hidden;
-  }
-
-  #palette #palette-grid {
     overflow-y: auto;
-    flex: 1 1 0;
-    min-height: 0;
+    overscroll-behavior: contain;
   }
-
-  #palette #palSubmitArea {
-    flex-shrink: 0;
-  }
-  }
+}
 
 @media (max-width: 991px) {
 
