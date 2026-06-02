@@ -906,6 +906,7 @@ body.mode-solution.actions-bottom #floatBar {
 
   #palette {
     display: flex !important;
+    flex-direction: column;
     position: fixed;
     top: var(--header-height);
     right: 0;
@@ -914,9 +915,21 @@ body.mode-solution.actions-bottom #floatBar {
     background: var(--palette-bg) !important;
     border-left: 1px solid var(--palette-border);
     border-radius: 0;
-    overflow-y: auto;
+    overflow-y: hidden;
     z-index: 50;
   }
+
+  #palette #palette-grid {
+    overflow-y: auto;
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  #palette #palSubmitArea {
+    flex-shrink: 0;
+  }
+
+
 
   /* ===============================
      QUIZ AREA (LEFT CONTENT)
