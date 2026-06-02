@@ -4156,11 +4156,12 @@ function buildPalette() {
     <div id="palSectionLabel" style="background:var(--section-nav-bg); padding:6px; margin-bottom:10px; text-align:center; font-weight:800; border:1px solid var(--border-color); font-size:12px; color:var(--body-text);"></div>
     <div id="palette-summary" style="margin-bottom:10px; font-weight:700; font-size:13px; text-align:center;"></div>
     <div id="palette-grid" class="palette-grid" style="overflow-y:auto; flex-grow:1;"></div>
-    <div class="palette-submit-container" id="palSubmitArea" style="padding:10px 0; border-top:1px solid var(--border-color); background:var(--palette-bg); text-align:center;">
+    
+    <div class="palette-submit-container" id="palSubmitArea" style="padding:10px 0; border-top:1px solid var(--border-color); background:var(--palette-bg); text-align:center; position:sticky; bottom:0;">
       <button id="palSubmitBtn" class="btn" style="width:95%; background:#1a73e8; color:white; font-weight:700; padding:12px; border-radius:4px; border:none; cursor:pointer;">Submit Test</button>
     </div>
   `;
-
+  
   // NEW: Update Section Label inside Palette
   const sName = SECTION_NAMES[currentSectionIdx] || "";
   el("palSectionLabel").textContent = sName.toUpperCase();
