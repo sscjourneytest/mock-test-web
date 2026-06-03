@@ -967,6 +967,8 @@ body.mode-solution.actions-bottom #floatBar {
     border: none;
     cursor: pointer;
     box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15);
+    position:sticky;
+    bottom:0;
   }
 
   /* Hide the original header submit button on desktop since it's now in palette */
@@ -1997,6 +1999,7 @@ const savedDb = commonApp.database();
       <div id="palette-summary" style="margin-bottom:10px; font-weight:700; font-size:13px; text-align:center;"></div>
 
       <div id="palette-grid" class="palette-grid"></div>
+          
 
     </div>
 
@@ -4190,7 +4193,7 @@ function buildPalette() {
     <div id="palette-grid" class="palette-grid" style="overflow-y:auto; flex-grow:1;"></div>
 
     <div class="palette-submit-container" id="palSubmitArea"
-         style="padding:10px 0; border-top:1px solid #ccc; background:#dae5f0; text-align:center;">
+         style="padding:10px 0; border-top:1px solid #ccc; background:#dae5f0; text-align:center; position:sticky; bottom:0;">
 
       <!-- 🔴 NEW: SUBMIT SECTION BUTTON -->
       <button id="palSectionSubmitBtn"
