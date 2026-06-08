@@ -1,36 +1,22 @@
-name: Delete Quiz Files from Subfolder
-on: 
-  workflow_dispatch: # Allows you to click "Run workflow" manually
+name: Rename phase to selection-post
+
+on:
+  workflow_dispatch:
 
 jobs:
-  delete-files:
+  rename-directory:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Delete files from specific folder
+      - name: Rename directory
         run: |
-          # The path to your files
-          DIR="paid/ssc/cgl/full-mock"
-
-          rm -f "$DIR/cgl-25-12-sep-s3-full.json"
-          rm -f "$DIR/CGL-2025-12-SEP-SHIFT-1.json"
-          rm -f "$DIR/CGL-2025-12-SEP-SHIFT-2.json"
-          rm -f "$DIR/CGL-2025-13-SEP-SHIFT-1.json"
-          rm -f "$DIR/CGL-2025-13-SEP-SHIFT-2.json"
-          rm -f "$DIR/CGL-2025-13-SEP-SHIFT-3.json"
-          rm -f "$DIR/CGL-2025-14-SEP-SHIFT-1.json"
-          rm -f "$DIR/CGL-2025-14-SEP-SHIFT-2.json"
-          rm -f "$DIR/CGL-2025-14-SEP-SHIFT-3.json"
-          rm -f "$DIR/CGL-2025-15-SEP-SHIFT-1.json"
-          rm -f "$DIR/CGL-2025-15-SEP-SHIFT-2.json"
-          rm -f "$DIR/CGL-2025-15-SEP-SHIFT-3.json"
-
-      - name: Commit and Push changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Cleanup: Deleted 12 JSON files from $DIR"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git mv exams/phase exams/selection-post
+          git commit -m "Rename exams/phase to exams/selection-post"
           git push
