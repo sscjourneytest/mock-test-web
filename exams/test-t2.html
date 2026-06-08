@@ -1748,10 +1748,14 @@ else if (quizIdLower.includes("chsl")) {
     selectedConfig = FIREBASE_PROJECTS.chsl;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/chsl/subject" : "ssc/chsl/full-mock";
 }
-else if (quizIdLower.includes("mts")) {
-    selectedConfig = FIREBASE_PROJECTS.mts;
+ if (quizIdLower.includes("mts")) {
+    selectedelseConfig = FIREBASE_PROJECTS.mts;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/mts/subject" : "ssc/mts/full-mock";
 }
+    if (quizIdLower.includes("selection-post")) {
+    selectedelseConfig = FIREBASE_PROJECTS.phase;
+    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/phase/subject" : "ssc/phase/full-mock";
+    }
 else if (quizIdLower.includes("cpo")) {
     selectedConfig = FIREBASE_PROJECTS.cpo;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cpo/subject" : "ssc/cpo/full-mock";
