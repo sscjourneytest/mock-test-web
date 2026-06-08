@@ -63,6 +63,15 @@ common: {
   messagingSenderId: "779226300897",
   appId: "1:779226300897:web:b266edaa84cafd982892a0"
 },
+    phase: {
+  apiKey: "AIzaSyASXA4iVuYUnyZTgXK-NZWJ47mSXkNEVmc",
+  authDomain: "mmh-ntpc-data.firebaseapp.com",
+  databaseURL: "https://mmh-ntpc-data-default-rtdb.firebaseio.com",
+  projectId: "mmh-ntpc-data",
+  storageBucket: "mmh-ntpc-data.firebasestorage.app",
+  messagingSenderId: "1054107557086",
+  appId: "1:1054107557086:web:8286add6c37ceb0613764f"
+},
 steno: {
   apiKey: "AIzaSyA6A9-97Z5bBFNCDwI4qHAQ2y7IbydO1RA",
   authDomain: "mmh-cgl-sectional-mocks-data.firebaseapp.com",
@@ -72,6 +81,7 @@ steno: {
   messagingSenderId: "557957241227",
   appId: "1:557957241227:web:21873351a0d301b6c4f78e"
 },
+    
 "ssc-sub": {
   apiKey: "AIzaSyA6A9-97Z5bBFNCDwI4qHAQ2y7IbydO1RA",
   authDomain: "mmh-cgl-sectional-mocks-data.firebaseapp.com",
