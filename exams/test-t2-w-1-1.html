@@ -4465,7 +4465,7 @@ function buildPalette() {
   const pal = el("palette");
 
   pal.innerHTML = `
-    <div id="palMobileTop"><span class="pal-username" id="palUsername">User</span><span id="palSectionName"></span></div>
+    <div id="palMobileTop"><span class="pal-username" id="palUsername">User</span></div>
     <div id="palSectionLabel"></div>
     <div id="palette-legend" style="display:none;"></div>
     <div id="palette-grid" class="palette-grid"></div>
@@ -4485,10 +4485,9 @@ function buildPalette() {
   el("palSectionLabel").style.cssText = ""; // Styling handled by CSS
   // Update mobile top bar
   const palUN = document.getElementById("palUsername");
-  const palSN = document.getElementById("palSectionName");
+  
   if (palUN) palUN.textContent = (typeof USER_DISPLAY_NAME !== "undefined" ? USER_DISPLAY_NAME : "User");
-  if (palSN) palSN.textContent = sName ? " — " + sName.toUpperCase() : "";
-
+  
   const grid = el("palette-grid");
   grid.innerHTML = "";
 
@@ -4625,7 +4624,7 @@ function updatePaletteLegend() {
 
     summary.innerHTML = `
       <div style="border-top:1px solid #ccc; padding:8px 0; font-size:12px; flex-shrink:0;">
-        <div style="font-weight:700; margin-bottom:6px; color:var(--body-text);">PART-B Analysis</div>
+        <div style="font-weight:700; margin-bottom:6px; color:var(--body-text);">PART Analysis</div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; color:#555;">
           <span>Answered</span>
           <span style="background:#fceb1c; color:#d32f2f; font-weight:700; padding:1px 7px; border-radius:3px; font-size:13px;">${s_answered}</span>
