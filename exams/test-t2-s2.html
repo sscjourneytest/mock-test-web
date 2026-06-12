@@ -4984,14 +4984,20 @@ if (specificSection && standardizedSections[specificSection]) {
     if (totalQBox) totalQBox.textContent = totalQuestionsCount;
 
     // 5. Update UI Texts
-    document.title = QUIZ_TITLE;
+   
+document.title = QUIZ_TITLE;
     document.getElementById("headerTitle").textContent = QUIZ_TITLE;
-    document.getElementById("disp_quizTitle").textContent = QUIZ_TITLE;
-    document.getElementById("disp_quizId").textContent = QUIZ_ID;
-    
-    document.getElementById("disp_correct").textContent = "+" + CORRECT_SCORE;
-    document.getElementById("disp_negative").textContent = "-" + NEGATIVE_SCORE;
-    document.getElementById("disp_time").textContent = data.meta.timer_minutes;
+    const elTitle = document.getElementById("disp_quizTitle");
+    if (elTitle) elTitle.textContent = QUIZ_TITLE;
+    const elId = document.getElementById("disp_quizId");
+    if (elId) elId.textContent = QUIZ_ID;
+  const elCorrect = document.getElementById("disp_correct");
+    if (elCorrect) elCorrect.textContent = "+" + CORRECT_SCORE;
+    const elNegative = document.getElementById("disp_negative");
+    if (elNegative) elNegative.textContent = "-" + NEGATIVE_SCORE;
+    const elTime = document.getElementById("disp_time");
+    if (elTime) elTime.textContent = data.meta.timer_minutes;
+   
 
   // 1. Perform the Sync check first
 const hasSubmitted = await checkPreviousSubmission();
