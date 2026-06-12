@@ -288,8 +288,9 @@ h1 {
   background: #094bc0 !important;
   opacity: 0.9;
 }
+
   /* =========================================
-   4. WELCOME SCREEN (Deto Absolute Replica)
+   4. WELCOME SCREEN (Full-Bleed Responsive Engine)
    ========================================= */
 .welcome-screen {
   position: fixed;
@@ -303,33 +304,46 @@ h1 {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Crisp Top Header Bar */
+/* Fluid Layout Responsive Top Header Bar */
 .ws-top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 24px;
+  padding: 10px 12px;
   height: 65px;
   background: #ffffff;
-  border-bottom: 1.5px solid #dcdcdc;
+  border-bottom: 2px solid #000000;
+  box-sizing: border-box;
 }
 .ws-logo {
-  height: 38px;
+  height: 36px;
   width: auto;
   object-fit: contain;
+}
+.ws-center-brand {
+  font-size: 18px;
+  font-weight: 800;
+  color: #000000 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  text-align: center;
+  flex: 1;
+  padding: 0 6px;
+  white-space: nowrap;
 }
 .ws-lang-indicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #1a73e8;
-  color: #1a73e8;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 700;
+  border: 2px solid #000000;
+  color: #000000;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 800;
   line-height: 1.2;
   text-align: center;
+  background: #ffffff;
+  flex-shrink: 0;
 }
 
 /* Page Control Sliders */
@@ -343,67 +357,84 @@ h1 {
   display: flex;
 }
 
-/* Main Content Wrapper - Flat Layout Frame */
+/* Scrollable Container Canvas */
 .ws-content {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 24px;
-  width: 100%;
-}
-
-.ws-main-heading-box {
-  background: #ece9e4;
-  border: 1px solid #ababab;
-  padding: 8px 16px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #212121;
-  margin-bottom: -1px;
-}
-
-.ws-inner-frame {
-  border: 1px solid #ababab;
+  padding: 0px !important; 
+  width: 100% !important;
   background: #ffffff;
-  padding: 24px 20px;
 }
 
-/* Instruction Block Headers */
-.ws-block-title {
+/* Core Outer Frame Structure with Heavy Double Border Line */
+.ws-master-container {
+  width: 100%;
+  border: 4px double #000000 !important;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+/* Primary Section Strip Header */
+.ws-main-heading-box {
+  background: #ece9e4 !important;
+  padding: 12px 16px;
   font-size: 15px;
   font-weight: 700;
   color: #000000 !important;
-  margin: 0 0 16px 0;
-  border-bottom: 1px solid #eaeaea;
-  padding-bottom: 6px;
+  border-bottom: 2px solid #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Precise Document Lists */
-.ws-main-ol {
-  margin: 0;
-  padding-left: 0;
-  list-style: none;
+/* Clear Isolation Box Frames for Each Instruction Section Part */
+.ws-instruction-frame {
+  border-bottom: 2px solid #000000 !important; /* Forces definitive dark layout line between every item */
+  background: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
 }
-.ws-main-ol > li {
-  margin-bottom: 30px;
+.ws-instruction-frame:last-child {
+  border-bottom: none !important;
 }
 
+/* Internal Structural Header Bars */
+.ws-frame-heading {
+  background: #f5f3f0 !important;
+  padding: 10px 16px;
+  font-size: 14.5px;
+  font-weight: 700;
+  border-bottom: 1.5px solid #000000;
+  color: #000000 !important;
+}
+
+/* Content Container with Prominent Solid Dark Left Border Accentuation Line */
+.ws-frame-content {
+  padding: 14px 16px;
+  border-left: 6px solid #000000 !important; /* Thick High Contrast Border Left Line */
+}
+
+/* Text List Components */
 .ws-subul {
   list-style-type: disc;
-  margin-top: 8px;
+  margin: 0;
   padding-left: 20px;
 }
 .ws-subul li {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   font-size: 14px;
   line-height: 1.6;
   color: #000000 !important;
 }
+.ws-subul li:last-child {
+  margin-bottom: 0;
+}
 
 .ws-bilingual-trans {
   display: block;
-  color: #454545 !important;
+  color: #222222 !important;
   margin-top: 4px;
   font-size: 13.5px;
+  font-weight: 500;
 }
 
 /* Responsive Table Shell Wrapper */
@@ -411,125 +442,147 @@ h1 {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin: 16px 0;
-  border: 1px solid #ababab;
+  margin: 14px 0 0 0;
+  border: 1.5px solid #000000;
 }
 .ws-table-scroll-container table {
   width: 100%;
   border-collapse: collapse;
   background: #ffffff;
-  font-size: 14px;
+  font-size: 13.5px;
 }
 .ws-table-scroll-container th {
-  background: #ece9e4;
-  color: #000000;
-  font-weight: 600;
-  padding: 10px 12px;
-  border: 1px solid #ababab;
+  background: #ece9e4 !important;
+  color: #000000 !important;
+  font-weight: 700;
+  padding: 10px;
+  border: 1.5px solid #000000;
   text-align: left;
 }
 .ws-table-scroll-container td {
-  padding: 10px 12px;
-  border: 1px solid #ababab;
-  color: #000000;
+  padding: 10px;
+  border: 1.5px solid #000000;
+  color: #000000 !important;
   text-align: left;
 }
 
 .ws-highlight-val {
   color: #0b5ed7;
-  font-weight: 700;
+  font-weight: 800;
 }
 
-/* Fixed Multi-Device Bottom Button Row */
+/* Mobile Friendly Row Bottom Action Navigation Base */
 .ws-action-footer {
   height: 65px;
   background: #ffffff;
-  border-top: 1.5px solid #dcdcdc;
+  border-top: 2px solid #000000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 16px;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .ws-control-btn-yellow {
   background: #f09819;
   color: #ffffff !important;
-  border: none;
-  padding: 10px 24px;
+  border: 1px solid #d48207;
+  padding: 10px 18px;
   border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13.5px;
+  font-weight: 700;
   cursor: pointer;
 }
 .ws-control-btn-blue {
   background: #0091ff;
   color: #ffffff !important;
-  border: none;
-  padding: 10px 28px;
+  border: 1px solid #007adb;
+  padding: 10px 22px;
   border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13.5px;
+  font-weight: 700;
   cursor: pointer;
 }
 
 .ws-dropdown-selector {
   padding: 6px 12px;
   border-radius: 4px;
-  border: 1px solid #ababab;
+  border: 1.5px solid #000000;
   font-size: 14px;
   background: #ffffff;
   color: #000000;
+  font-weight: 600;
   outline: none;
 }
 .ws-verification-card {
   background: #ffffff;
-  border: 1px solid #ababab;
+  border: 2px solid #000000;
   padding: 16px;
-  margin-top: 24px;
+  margin: 16px 0;
 }
 
 .ws-good-luck {
   text-align: center;
   font-size: 16px;
-  font-weight: 700;
-  margin-top: 24px;
-  color: #333333;
+  font-weight: 800;
+  margin: 20px 0;
+  color: #000000 !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* Force Light Theme Colors Inside Welcome Layer Even in Dark Mode Profiles */
+/* Mobile Fluid Target Screen Breaks */
+@media (max-width: 480px) {
+  .ws-center-brand {
+    font-size: 14px;
+    letter-spacing: 0px;
+    padding: 0 4px;
+  }
+  .ws-logo {
+    height: 30px;
+  }
+  .ws-lang-indicator {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+}
+
+/* Prevent System Inversions from Custom Dark Mode Settings Modules */
 [data-theme="dark"] .welcome-screen,
 [data-theme="dark"] .ws-page,
 [data-theme="dark"] .ws-top-bar,
 [data-theme="dark"] .ws-action-footer,
-[data-theme="dark"] .ws-inner-frame,
+[data-theme="dark"] .ws-master-container,
+[data-theme="dark"] .ws-instruction-frame,
 [data-theme="dark"] .ws-verification-card,
 [data-theme="dark"] .ws-table-scroll-container table {
   background: #ffffff !important;
-  border-color: #ababab !important;
+  border-color: #000000 !important;
   color: #000000 !important;
 }
 [data-theme="dark"] .ws-main-heading-box,
+[data-theme="dark"] .ws-frame-heading,
 [data-theme="dark"] .ws-table-scroll-container th {
   background: #ece9e4 !important;
-  color: #212121 !important;
-  border-color: #ababab !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
 }
 [data-theme="dark"] .ws-subul li,
-[data-theme="dark"] .ws-block-title,
+[data-theme="dark"] .ws-center-brand,
+[data-theme="dark"] .ws-good-luck,
 [data-theme="dark"] .ws-table-scroll-container td {
   color: #000000 !important;
 }
 [data-theme="dark"] .ws-bilingual-trans {
-  color: #454545 !important;
+  color: #222222 !important;
 }
 [data-theme="dark"] .ws-dropdown-selector {
   background: #ffffff !important;
   color: #000000 !important;
-  border-color: #ababab !important;
+  border-color: #000000 !important;
 }
-  
-
+ 
 /* =========================================
    5. QUIZ CARD & QUESTIONS (TESTBOOK STYLE)
    ========================================= */
@@ -1924,29 +1977,31 @@ const savedDb = commonApp.database();
   <div class="spinner"></div>
   <h3 id="loadingText">FETCHING TEST...</h3>
 </div>
-  <div class="welcome-screen" id="welcomeScreen">
+
+<div class="welcome-screen" id="welcomeScreen">
   
   <div class="ws-top-bar">
     <img src="/logo.png" alt="Mock Matrix Logo" class="ws-logo" onerror="this.src='https://mockmatrixhub.pages.dev/logo.jpg';">
+    <div class="ws-center-brand">Mock Matrix Hub</div>
     <div class="ws-lang-indicator">
-      ГА<br><span style="font-size:11px; font-weight:500;">आ</span>
+      ГА<br><span style="font-size:10px; font-weight:600;">आ</span>
     </div>
   </div>
 
   <div id="welcomePage1" class="ws-page active">
     <div class="ws-content">
-      
-      <div class="ws-main-heading-box">Instructions, Terms & Conditions</div>
-      <div class="ws-inner-frame">
-        <ul class="ws-main-ol">
-          
-          <li>
-            <div class="ws-block-title">1. Exam Overview / परीक्षा का संक्षिप्त विवरण</div>
-            <ul class="ws-subul">
-              <li>• Duration: <span id="disp_time" class="ws-highlight-val">-</span> minutes <span class="ws-bilingual-trans">• समयावधि: <span id="disp_time_hi" class="ws-highlight-val">-</span> मिनट</span></li>
-              <li>• Total Questions: <span id="disp_totalQ" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• कुल प्रश्न: <span id="disp_totalQ_hi" class="ws-highlight-val">-</span></span></li>
-              <li>• Correct Marks: <span id="disp_correct" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• सही अंक: <span id="disp_correct_hi" class="ws-highlight-val">-</span></span></li>
-              <li>• Negative Marking: <span id="disp_negative" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• ऋणात्मक अंकन: <span id="disp_negative_hi" class="ws-highlight-val">-</span></span></li>
+      <div class="ws-master-container">
+        
+        <div class="ws-main-heading-box">Instructions, Terms & Conditions</div>
+
+        <div class="ws-instruction-frame">
+          <div class="ws-frame-heading">1. Exam Overview / परीक्षा का संक्षिप्त विवरण</div>
+          <div class="ws-frame-content">
+            <ul class="ws-subul" style="padding-left: 0; list-style: none;">
+              <li style="margin-bottom: 12px; font-weight: 600;">• Duration: <span id="disp_time" class="ws-highlight-val">-</span> minutes <span class="ws-bilingual-trans">• समयावधि: <span id="disp_time_hi" class="ws-highlight-val">-</span> मिनट</span></li>
+              <li style="margin-bottom: 12px; font-weight: 600;">• Total Questions: <span id="disp_totalQ" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• कुल प्रश्न: <span id="disp_totalQ_hi" class="ws-highlight-val">-</span></span></li>
+              <li style="margin-bottom: 12px; font-weight: 600;">• Correct Marks: <span id="disp_correct" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• सही अंक: <span id="disp_correct_hi" class="ws-highlight-val">-</span></span></li>
+              <li style="margin-bottom: 12px; font-weight: 600;">• Negative Marking: <span id="disp_negative" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• ऋणात्मक अंकन: <span id="disp_negative_hi" class="ws-highlight-val">-</span></span></li>
               <li style="display: none;">• Number of Sections: <span id="disp_sec_count">-</span><span id="disp_sec_count_hi">-</span></li>
             </ul>
 
@@ -1961,52 +2016,62 @@ const savedDb = commonApp.database();
                   </tr>
                 </thead>
                 <tbody id="welcomeSectionTableBody"></tbody>
-                <tfoot id="welcomeSectionTableFoot" style="background: #ece9e4; font-weight: bold; color: #000000;"></tfoot>
+                <tfoot id="welcomeSectionTableFoot" style="background: #ece9e4; font-weight: bold; color: #000000; display:none;"></tfoot>
               </table>
             </div>
-          </li>
+          </div>
+        </div>
 
-          <li>
-            <div class="ws-block-title">2. Timing & Submission / समय और उत्तर जमा करना</div>
+        <div class="ws-instruction-frame">
+          <div class="ws-frame-heading">2. Timing & Submission / समय और उत्तर जमा करना</div>
+          <div class="ws-frame-content">
             <ul class="ws-subul">
               <li>• The timer (top right) is server-controlled; Remaining time appears top right.<br><span class="ws-bilingual-trans">ऊपरी दाएँ कोने में टाइमर सर्वर-नियंत्रित है; शेष समय वहीं दिखेगा।</span></li>
               <li>• The exam auto-submits when time ends—no manual submission required.<br><span class="ws-bilingual-trans">समय समाप्त होने पर परीक्षा स्वतः सबमिट हो जाएगी—मैनुअल सबमिशन की आवश्यकता नहीं है।</span></li>
               <li>• At the end, you may be asked to take a photo (ensure your face is aligned with area delineated. After seeing the "Thank you" message, raise your hand and on approval proceed for exit verification.<br><span class="ws-bilingual-trans">अंत में, आपसे एक फोटो लेने को कहा जा सकता है (सुनिश्चित करें कि आपका चेहरा चिन्हित क्षेत्र के भीतर हो) "Thank you" संदेश दिखाई देने के बाद, अपना हाथ उठाएँ और स्वीकृति मिलने के बाद ही बाहर निकलने की प्रक्रिया पूरी करें।</span></li>
             </ul>
-          </li>
+          </div>
+        </div>
 
-          <li>
-            <div class="ws-block-title">3. Language / भाषा</div>
+        <div class="ws-instruction-frame">
+          <div class="ws-frame-heading">3. Language / भाषा</div>
+          <div class="ws-frame-content">
             <ul class="ws-subul">
               <li>• Only one comprehension section (Hindi or English) appears as per your initial choice; this cannot be changed during the exam.<br><span class="ws-bilingual-trans">केवल एक समझ-बूझ (कॉम्प्रेहेंशन) अनुभाग आपकी प्रारंभिक भाषा चयन (हिंदी या अंग्रेजी) के अनुसार दिखाई देगा; इसे परीक्षा के दौरान बदला नहीं जा सकता।</span></li>
               <li>• Other MCQ sections may be displayed in English, Hindi, or both, based on your language selection.<br><span class="ws-bilingual-trans">अन्य MCQ अनुभाग अंग्रेजी, हिंदी या दोनों में दिख सकते हैं—आपके द्वारा की गई भाषा चयन के आधार पर।</span></li>
               <li>• If you select English and choose ENGLISH AND SELECTED LANGUAGE after start of exam, questions will appear only in English (since both Selection are the same).<br><span class="ws-bilingual-trans">यदि आपने English चुना और परीक्षा शुरू होने के बाद "ENGLISH AND SELECTED LANGUAGE" को चुना, तो प्रश्न केवल अंग्रेजी में दिखेंगे।</span></li>
               <li>• If you select Hindi and choose ENGLISH AND SELECTED LANGUAGE after start of exam, questions will appear both in English and Hindi.<br><span class="ws-bilingual-trans">यदि आपने Hindi चुना और "ENGLISH AND SELECTED LANGUAGE" चुना, तो प्रश्न हिंदी और अंग्रेजी दोनों में दिखेंगे।</span></li>
               <li>• You can change your selection during the examination.<br><span class="ws-bilingual-trans">आप भाषा चयन परीक्षा के दौरान बदल सकते हैं।</span></li>
-              <li>• For language-oriented sections, questions will be displayed in the selected language only.<br><span class="ws-bilingual-trans">भाषा आधारित अनुभागों में प्रश्न केवलं चयनित भाषा में ही प्रदर्शित होंगे।</span></li>
+              <li>• For language-oriented sections, questions will be displayed in the selected language only.<br><span class="ws-bilingual-trans">भाषा आधारित अनुभागों में प्रश्न केवल चयनित भाषा में ही प्रदर्शित होंगे।</span></li>
             </ul>
-          </li>
+          </div>
+        </div>
 
-          <li>
-            <div class="ws-block-title">4. Navigation / नेविगेशन (परीक्षा में चलना)</div>
+        <div class="ws-instruction-frame">
+          <div class="ws-frame-heading">4. Navigation / नेविगेशन (परीक्षा में चलना)</div>
+          <div class="ws-frame-content">
             <ul class="ws-subul">
               <li>• All sections are always visible, you can move freely between sections or questions in any order by clicking section names (top left) or question numbers.<br><span class="ws-bilingual-trans">सभी अनुभाग हमेशा दिखाई देते हैं, आप किसी भी अनुभाग या प्रश्न पर सीधे क्लिक कर के जा सकते हैं।</span></li>
               <li>• Use <b>Previous</b> or <b>Save & Next</b> to move between questions; use <b>Mark for Review</b> button to flag questions you wish to revisit later.<br><span class="ws-bilingual-trans">प्रश्नों के बीच जाने के लिए Previous या Save & Next का उपयोग करें; किसी प्रश्न को बाद में देखने के लिए Mark for Review बटन दबाएँ।</span></li>
               <li>• After the last question in a section, <b>Save & Next</b> takes you to the next section.<br><span class="ws-bilingual-trans">किसी अनुभाग का अंतिम प्रश्न पूरा करने के बाद Save & Next अगला अनुभाग खोलेगा।</span></li>
             </ul>
-          </li>
+          </div>
+        </div>
 
-          <li>
-            <div class="ws-block-title">5. Answering / उत्तर देना</div>
+        <div class="ws-instruction-frame">
+          <div class="ws-frame-heading">5. Answering / उत्तर देना</div>
+          <div class="ws-frame-content">
             <ul class="ws-subul">
               <li>• Each question has four options, out of which only one is correct. Select or change your answer at any time before saving.<br><span class="ws-bilingual-trans">हर प्रश्न के चार विकल्प होते हैं, जिनमें से केवल एक ही सही होता है। सहेजने से पहले किसी भी समय अपना उत्तर चुनें या बदलें।</span></li>
               <li>• Answers are saved only after clicking <b>Save & Next</b>.<br><span class="ws-bilingual-trans">उत्तर चुनें या बदलें, लेकिन Save & Next पर क्लिक करने के बाद ही उत्तर सुरक्षित होता है।</span></li>
               <li>• अगर उत्तर बदलना है, तो प्रश्न पर फिर से जाकर नया उत्तर दें और फिर से सुरक्षित करें।</li>
             </ul>
-          </li>
+          </div>
+        </div>
 
-          <li>
-            <div class="ws-block-title">6. Additional Notes / अतिरिक्त निर्देश</div>
+        <div class="ws-instruction-frame">
+          <div class="ws-frame-heading">6. Additional Notes / अतिरिक्त निर्देश</div>
+          <div class="ws-frame-content">
             <ul class="ws-subul">
               <li>• Maintain silence in the exam hall and do not engage in any communication with other candidates.<br><span class="ws-bilingual-trans">परीक्षा कक्ष में शांति बनाए रखें और अन्य उम्मीदवारों से बात न करें।</span></li>
               <li>• The system saves responses for each question and auto-submits when time ends.<br><span class="ws-bilingual-trans">हर उत्तर स्वचालित रूप से सिस्टम में सुरक्षित होता है और समय समाप्त होने पर स्वचालित रूप से जमा हो जाता है।</span></li>
@@ -2022,9 +2087,9 @@ const savedDb = commonApp.database();
             </ul>
             
             <div class="ws-good-luck">Good Luck.</div>
-          </li>
+          </div>
+        </div>
 
-        </ul>
       </div>
     </div>
     
@@ -2036,31 +2101,38 @@ const savedDb = commonApp.database();
 
   <div id="welcomePage2" class="ws-page">
     <div class="ws-content">
-      <div style="font-size: 14.5px; font-weight: 600; margin-bottom: 16px; color:#000000;">
-        The different symbols used in the next pages are shown below. Please go through them and understand their meaning before you start the test.
-      </div>
-      
-      <div style="width:100%; border:1px solid #ababab; margin-bottom:20px; background:#ffffff; padding:4px;">
-        <img src="https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/test-symbol.jpg" alt="Symbols Reference Guide" style="width:100%; height:auto; display:block; object-fit:contain;">
-      </div>
-
-      <div class="ws-verification-card">
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
-          <label style="font-weight:700; font-size:14px; color:#000000;">Select Test Language</label>
-          <select id="welcomeLangSelect" class="ws-dropdown-selector">
-            <option value="">Select Language</option>
-            <option value="en">English</option>
-            <option value="hi">हिन्दी</option>
-            <option value="bilingual">Bilingual</option>
-          </select>
-        </div>
+      <div class="ws-master-container">
         
-        <label style="display: flex; align-items: flex-start; gap: 12px; font-size: 13.5px; cursor: pointer; color: #000000; user-select:none;">
-          <input type="checkbox" id="instrConfirm" style="margin-top: 2px; width:18px; height:18px; flex-shrink:0; cursor:pointer;">
-          <span style="line-height:1.5;">I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination. I understand that using unfair means of any sort for my own or someone else's advantage will lead to my immediate disqualification. The decision of Test Ranking will be final in these matters and cannot be appealed.</span>
-        </label>
-      </div>
+        <div class="ws-main-heading-box">Symbols Reference Map</div>
+        
+        <div style="padding: 16px;">
+          <div style="font-size: 14.5px; font-weight: 700; margin-bottom: 16px; color:#000000; line-height:1.4;">
+            The different symbols used in the next pages are shown below. Please go through them and understand their meaning before you start the test.
+          </div>
+          
+          <div style="border:2px solid #000000; background:#ffffff; padding:4px; margin-bottom: 16px;">
+            <img src="https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/test-symbol.jpg" alt="Symbols Reference Guide" style="width:100%; height:auto; display:block; object-fit:contain;">
+          </div>
 
+          <div class="ws-verification-card">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+              <label style="font-weight:700; font-size:14px; color:#000000;">Select Test Language</label>
+              <select id="welcomeLangSelect" class="ws-dropdown-selector">
+                <option value="">Select Language</option>
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+                <option value="bilingual">Bilingual</option>
+              </select>
+            </div>
+            
+            <label style="display: flex; align-items: flex-start; gap: 12px; font-size: 13.5px; cursor: pointer; color: #000000; user-select:none;">
+              <input type="checkbox" id="instrConfirm" style="margin-top: 2px; width:18px; height:18px; flex-shrink:0; cursor:pointer;">
+              <span style="line-height:1.5;">I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination. I understand that using unfair means of any sort for my own or someone else's advantage will lead to my immediate disqualification. The decision of Test Ranking will be final in these matters and cannot be appealed.</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
     </div>
     
     <div class="ws-action-footer">
@@ -2070,7 +2142,6 @@ const savedDb = commonApp.database();
   </div>
 
 </div>
-
 <div id="ssc-watermark" class="ssc-watermark">
   <div class="ssc-wm" style="top:10%; left:5%;">@SSC_COMPILATIONS_2025</div>
   <div class="ssc-wm" style="top:30%; left:60%;">@SSC_COMPILATIONS_2025</div>
