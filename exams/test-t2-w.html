@@ -386,9 +386,6 @@ h1 {
 .ws-main-ol > li {
   margin-bottom: 30px;
 }
-.ws-main-ol > li:last-child {
-  margin-bottom: 0;
-}
 
 .ws-subul {
   list-style-type: disc;
@@ -531,6 +528,7 @@ h1 {
   color: #000000 !important;
   border-color: #ababab !important;
 }
+  
 
 /* =========================================
    5. QUIZ CARD & QUESTIONS (TESTBOOK STYLE)
@@ -1926,7 +1924,7 @@ const savedDb = commonApp.database();
   <div class="spinner"></div>
   <h3 id="loadingText">FETCHING TEST...</h3>
 </div>
-<div class="welcome-screen" id="welcomeScreen">
+  <div class="welcome-screen" id="welcomeScreen">
   
   <div class="ws-top-bar">
     <img src="/logo.jpg" alt="Mock Matrix Logo" class="ws-logo" onerror="this.src='https://mockmatrixhub.pages.dev/logo.jpg';">
@@ -1947,22 +1945,23 @@ const savedDb = commonApp.database();
             <ul class="ws-subul">
               <li>• Duration: <span id="disp_time" class="ws-highlight-val">-</span> minutes <span class="ws-bilingual-trans">• समयावधि: <span id="disp_time_hi" class="ws-highlight-val">-</span> मिनट</span></li>
               <li>• Total Questions: <span id="disp_totalQ" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• कुल प्रश्न: <span id="disp_totalQ_hi" class="ws-highlight-val">-</span></span></li>
-              <li>• Negative Marking: <span id="disp_negative" class="ws-highlight-val">-</span> marks deducted for each wrong answer. <span class="ws-bilingual-trans">• ऋणात्मक अंकन: प्रत्येक गलत उत्तर पर <span id="disp_negative_hi" class="ws-highlight-val">-</span> अंक काटे जाएंगे।</span></li>
-              <li>• Number of Sections displayed at any time: <span class="ws-highlight-val" id="disp_sec_count">4</span> <span class="ws-bilingual-trans">• किसी भी समय पर प्रदर्शित अनुभागों की संख्या: <span class="ws-highlight-val" id="disp_sec_count_hi">4</span></span></li>
+              <li>• Correct Marks: <span id="disp_correct" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• सही अंक: <span id="disp_correct_hi" class="ws-highlight-val">-</span></span></li>
+              <li>• Negative Marking: <span id="disp_negative" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• ऋणात्मक अंकन: <span id="disp_negative_hi" class="ws-highlight-val">-</span></span></li>
+              <li style="display: none;">• Number of Sections: <span id="disp_sec_count">-</span><span id="disp_sec_count_hi">-</span></li>
             </ul>
 
             <div class="ws-table-scroll-container">
               <table>
                 <thead>
                   <tr>
-                    <th>Section</th>
-                    <th>Subject</th>
-                    <th style="text-align: center;">Number of Questions</th>
-                    <th style="text-align: center;">Maximum Marks</th>
+                    <th>Section Name</th>
+                    <th style="text-align: center;">Questions</th>
+                    <th style="text-align: center;">Marks</th>
+                    <th style="text-align: center;">Negative</th>
                   </tr>
                 </thead>
                 <tbody id="welcomeSectionTableBody"></tbody>
-                <tfoot id="welcomeSectionTableFoot" style="display:none;"></tfoot>
+                <tfoot id="welcomeSectionTableFoot" style="background: #ece9e4; font-weight: bold; color: #000000;"></tfoot>
               </table>
             </div>
           </li>
@@ -1984,7 +1983,7 @@ const savedDb = commonApp.database();
               <li>• If you select English and choose ENGLISH AND SELECTED LANGUAGE after start of exam, questions will appear only in English (since both Selection are the same).<br><span class="ws-bilingual-trans">यदि आपने English चुना और परीक्षा शुरू होने के बाद "ENGLISH AND SELECTED LANGUAGE" को चुना, तो प्रश्न केवल अंग्रेजी में दिखेंगे।</span></li>
               <li>• If you select Hindi and choose ENGLISH AND SELECTED LANGUAGE after start of exam, questions will appear both in English and Hindi.<br><span class="ws-bilingual-trans">यदि आपने Hindi चुना और "ENGLISH AND SELECTED LANGUAGE" चुना, तो प्रश्न हिंदी और अंग्रेजी दोनों में दिखेंगे।</span></li>
               <li>• You can change your selection during the examination.<br><span class="ws-bilingual-trans">आप भाषा चयन परीक्षा के दौरान बदल सकते हैं।</span></li>
-              <li>• For language-oriented sections, questions will be displayed in the selected language only.<br><span class="ws-bilingual-trans">भाषा आधारित अनुभागों में प्रश्न केवल चयनित भाषा में ही प्रदर्शित होंगे।</span></li>
+              <li>• For language-oriented sections, questions will be displayed in the selected language only.<br><span class="ws-bilingual-trans">भाषा आधारित अनुभागों में प्रश्न केवलं चयनित भाषा में ही प्रदर्शित होंगे।</span></li>
             </ul>
           </li>
 
@@ -2071,7 +2070,6 @@ const savedDb = commonApp.database();
   </div>
 
 </div>
-
 
 <div id="ssc-watermark" class="ssc-watermark">
   <div class="ssc-wm" style="top:10%; left:5%;">@SSC_COMPILATIONS_2025</div>
@@ -4903,7 +4901,7 @@ if (specificSection && standardizedSections[specificSection]) {
       });
     }
 
-    // --- Updated Logic for Sectional Summary ---
+  // --- Updated Logic for Sectional Summary Table Generation ---
     let welcomeTableHtml = "";
     let totalQuestionsCount = 0;
 
@@ -4936,27 +4934,48 @@ if (specificSection && standardizedSections[specificSection]) {
         </tr>`;
     }
 
-    const totalQBox = document.getElementById("disp_totalQ");
-    if (totalQBox) totalQBox.textContent = totalQuestionsCount;
+    // 5. Defensive UI Text Population Binders
+    const txtTime = document.getElementById("disp_time");
+    if (txtTime) txtTime.textContent = data.meta.timer_minutes;
 
-    // 5. Update UI Texts
-    document.title = QUIZ_TITLE;
-    document.getElementById("headerTitle").textContent = QUIZ_TITLE;
-    document.getElementById("disp_quizTitle").textContent = QUIZ_TITLE;
-    
-    document.getElementById("disp_correct").textContent = "+" + CORRECT_SCORE;
-    document.getElementById("disp_negative").textContent = "-" + NEGATIVE_SCORE;
-    document.getElementById("disp_time").textContent = data.meta.timer_minutes;
+    const txtTotalQ = document.getElementById("disp_totalQ");
+    if (txtTotalQ) txtTotalQ.textContent = totalQuestionsCount;
 
-    // Sync structural multi-language fallback configurations cleanly
-    if (document.getElementById("disp_time_hi")) document.getElementById("disp_time_hi").textContent = data.meta.timer_minutes;
-    if (document.getElementById("disp_totalQ_hi")) document.getElementById("disp_totalQ_hi").textContent = totalQuestionsCount;
-    if (document.getElementById("disp_correct_hi")) document.getElementById("disp_correct_hi").textContent = "+" + CORRECT_SCORE;
-    if (document.getElementById("disp_negative_hi")) document.getElementById("disp_negative_hi").textContent = NEGATIVE_SCORE;
+    const txtCorrect = document.getElementById("disp_correct");
+    if (txtCorrect) txtCorrect.textContent = "+" + CORRECT_SCORE;
+
+    const txtNegative = document.getElementById("disp_negative");
+    if (txtNegative) txtNegative.textContent = "-" + NEGATIVE_SCORE;
+
+    // Bilingual Safeguards
+    const txtTimeHi = document.getElementById("disp_time_hi");
+    if (txtTimeHi) txtTimeHi.textContent = data.meta.timer_minutes;
+
+    const txtTotalQHi = document.getElementById("disp_totalQ_hi");
+    if (txtTotalQHi) txtTotalQHi.textContent = totalQuestionsCount;
+
+    const txtCorrectHi = document.getElementById("disp_correct_hi");
+    if (txtCorrectHi) txtCorrectHi.textContent = "+" + CORRECT_SCORE;
+
+    const txtNegativeHi = document.getElementById("disp_negative_hi");
+    if (txtNegativeHi) txtNegativeHi.textContent = "-" + NEGATIVE_SCORE;
 
     const totalSectionsDetected = SECTION_NAMES.length;
-    if (document.getElementById("disp_sec_count")) document.getElementById("disp_sec_count").textContent = totalSectionsDetected;
-    if (document.getElementById("disp_sec_count_hi")) document.getElementById("disp_sec_count_hi").textContent = totalSectionsDetected;
+    const txtSecCount = document.getElementById("disp_sec_count");
+    if (txtSecCount) txtSecCount.textContent = totalSectionsDetected;
+
+    const txtSecCountHi = document.getElementById("disp_sec_count_hi");
+    if (txtSecCountHi) txtSecCountHi.textContent = totalSectionsDetected;
+
+    document.title = QUIZ_TITLE;
+    const headerTitle = document.getElementById("headerTitle");
+    if (headerTitle) headerTitle.textContent = QUIZ_TITLE;
+
+    const dispQuizTitle = document.getElementById("disp_quizTitle");
+    if (dispQuizTitle) dispQuizTitle.textContent = QUIZ_TITLE;
+
+    const dispQuizId = document.getElementById("disp_quizId");
+    if (dispQuizId) dispQuizId.textContent = QUIZ_ID;
   
   // 1. Perform the Sync check first
 const hasSubmitted = await checkPreviousSubmission();
