@@ -290,7 +290,7 @@ h1 {
 }
 
 /* =========================================
-   4. WELCOME SCREEN (Continuous Page Layout)
+   4. WELCOME SCREEN — Full Page Flat Layout
    ========================================= */
 .welcome-screen {
   position: fixed;
@@ -298,53 +298,144 @@ h1 {
   background: var(--welcome-bg);
   z-index: 2000;
   display: flex;
-  flex-direction: column; 
-  padding: 0;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Each wizard page fills full screen */
+.welcome-page {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+.welcome-page.active { display: flex; }
+
+/* Sticky top branding bar */
+.welcome-topbar {
+  background: var(--header-bg);
+  border-bottom: 2px solid var(--header-border);
+  padding: 0 16px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.welcome-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 17px; font-weight: 800; color: var(--accent);
+  text-decoration: none;
+}
+.welcome-brand img {
+  width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
+}
+
+/* Scrollable content area — fills space between topbar and footer */
+.welcome-scroll-area {
+  flex: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.welcome-container {
-  /* Removed flex: 1 and overflow-y: auto to allow natural page flow */
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px 20px 100px 20px; /* Extra bottom padding so content isn't hidden by fixed footer */
+/* Grey section heading bar (matches image) */
+.instr-section-header {
+  background: #c8d8e8;
+  padding: 9px 16px;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #1a1a1a;
+  border-bottom: 1px solid #b0c4d8;
+}
+[data-theme="dark"] .instr-section-header {
+  background: #1c2e46; color: #cce; border-color: #2a4070;
 }
 
-.welcome-header { text-align: center; margin-bottom: 24px; }
-.welcome-header h1 { font-size: 28px; color: #d32f2f; margin-bottom: 8px; }
-
-/* Dedicated Scrolling removed - Box now expands with content */
-.welcome-instructions {
-  background: var(--instructions-bg);
+/* Numbered instruction blocks */
+.instr-block {
   border: 1px solid var(--instructions-border);
-  border-radius: 8px;
-  padding: 25px;
-  margin-bottom: 20px;
+  margin: 10px 10px 0 10px;
+  overflow: hidden;
+}
+.instr-block:last-child { margin-bottom: 10px; }
+
+.instr-block-title {
+  background: var(--light-gray);
+  padding: 8px 12px;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--body-text);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--instructions-border);
+}
+.instr-block-num {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  min-width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 3px; margin-right: 8px; flex-shrink: 0;
+}
+.instr-block-body {
+  padding: 10px 14px;
+  background: var(--card-bg);
+}
+.instr-block-body ul {
+  margin: 0; padding-left: 18px;
+}
+.instr-block-body li {
+  margin-bottom: 7px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--body-text);
+}
+.instr-block-body li span {
+  display: block;
+  color: var(--muted-text);
+  font-size: 12px;
 }
 
-/* RESTORED: Boxed Test Details Styling */
+/* Section summary table */
+.welcome-section-table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+.welcome-section-table th {
+  background: var(--light-gray);
+  padding: 9px 8px; border: 1px solid var(--border-color);
+  text-align: center; font-weight: 700; color: var(--body-text);
+}
+.welcome-section-table th:first-child { text-align: left; padding-left: 10px; }
+.welcome-section-table td {
+  padding: 9px 8px; border: 1px solid var(--border-color);
+  text-align: center; color: var(--body-text);
+}
+.welcome-section-table td:first-child { text-align: left; padding-left: 10px; }
+.welcome-section-table tfoot tr { background: var(--detail-item-bg); font-weight: 800; }
+
+/* Overview stat cards */
 .test-details {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px; padding: 10px;
 }
 .detail-item {
   background: var(--detail-item-bg);
   border: 1px solid var(--detail-item-border);
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  padding: 12px 10px; border-radius: 6px; text-align: center;
 }
+.detail-label { font-size: 11px; color: var(--muted-text); margin-bottom: 4px; }
+.detail-value { font-size: 18px; font-weight: 800; color: var(--accent); }
 
-/* Legend Symbol Styles */
-.symbol-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 15px 0; }
-.symbol-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
-.leg-box { 
-  width: 42px; height: 35px; display: flex; align-items: center; justify-content: center; 
-  font-weight: 700; color: #fff; border-radius: 2px; position: relative; 
+/* Legend (kept for quiz palette use elsewhere) */
+.symbol-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 10px 0; }
+.symbol-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--body-text); }
+.leg-box {
+  width: 42px; height: 35px; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #fff; border-radius: 2px; position: relative; flex-shrink: 0;
 }
 .leg-current { background: #dc3545; clip-path: polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%); }
 .leg-answered { background: #198754; }
@@ -353,52 +444,79 @@ h1 {
 .leg-marked-ans { background: #0b5ed7; }
 .leg-marked-ans::after { content: "★"; position: absolute; bottom: -2px; right: 1px; color: #ffeb3b; font-size: 14px; }
 
-/* FIXED BOTTOM BAR (Testbook Style) */
+/* FIXED BOTTOM BAR — always pinned, never scrolls away */
 .welcome-footer {
   background: var(--welcome-footer-bg);
   border-top: 1px solid var(--instructions-border);
-  padding: 15px 20px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  z-index: 2001;
+  gap: 12px;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.07);
+  flex-shrink: 0;
+  z-index: 10;
 }
+
+/* Page 2 footer has language + confirm above buttons — stack layout */
+.welcome-footer-p2 {
+  background: var(--welcome-footer-bg);
+  border-top: 1px solid var(--instructions-border);
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.07);
+  flex-shrink: 0;
+  z-index: 10;
+}
+.welcome-footer-p2-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.welcome-lang-wrap {
+  display: flex; align-items: center; gap: 8px;
+}
+.welcome-lang-wrap label { font-size: 13px; font-weight: 700; color: var(--body-text); white-space: nowrap; }
+.welcome-lang-wrap select {
+  padding: 7px 10px; border-radius: 4px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg); color: var(--input-text);
+  font-size: 13px;
+}
+.instr-confirm-row {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 12.5px; color: var(--body-text); line-height: 1.5;
+}
+.instr-confirm-row input[type=checkbox] { margin-top: 2px; flex-shrink: 0; }
 
 .start-btn {
-  background: #1a73e8;
-  color: #fff;
-  border: none;
-  padding: 10px 30px;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
+  background: #1a73e8; color: #fff; border: none;
+  padding: 10px 26px; border-radius: 4px;
+  font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap;
 }
+.start-btn:disabled { background: #9ab8e8; cursor: not-allowed; }
 
 .back-btn {
-  background: #ff9800;
-  color: #fff;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 4px;
-  font-weight: 700;
-  cursor: pointer;
+  background: var(--light-gray); color: var(--body-text);
+  border: 1px solid var(--border-color);
+  padding: 10px 22px; border-radius: 4px;
+  font-weight: 700; cursor: pointer; font-size: 14px; white-space: nowrap;
+}
+.next-btn {
+  background: #1a73e8; color: #fff; border: none;
+  padding: 10px 26px; border-radius: 4px;
+  font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap;
 }
 
 .channel-link-top {
-  display: inline-block;
-  padding: 10px 20px;
-  background: #0088cc;
-  color: #fff;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 700;
-  margin-bottom: 20px;
+  display: inline-block; padding: 8px 16px;
+  background: #0088cc; color: #fff; border-radius: 5px;
+  text-decoration: none; font-weight: 700; font-size: 13px; margin: 10px 10px 4px;
+}
+
+@media (max-width: 480px) {
+  .welcome-footer-p2-row { flex-wrap: wrap; }
+  .welcome-lang-wrap { width: 100%; }
 }
 
 /* =========================================
@@ -1797,106 +1915,205 @@ const savedDb = commonApp.database();
 </div>
 
 <div class="welcome-screen" id="welcomeScreen">
-  <div class="welcome-container">
 
-    <div style="text-align: center;">
-      <a class="channel-link-top" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">📢 Join Telegram Channel</a>
+  <!-- ══════════════════════════════════════
+       PAGE 1 — Instructions & Terms
+  ══════════════════════════════════════ -->
+  <div class="welcome-page active" id="welcomePage1">
+
+    <!-- Fixed Top Bar -->
+    <div class="welcome-topbar">
+      <a class="welcome-brand" href="./">
+        <img src="/logo.jpg" alt="Mock Matrix Logo">
+        MOCK MATRIX
+      </a>
+      <div style="font-size:12px;color:var(--muted-text);font-weight:600;" id="disp_quizId">Loading...</div>
     </div>
 
-    
-      <div class="welcome-header">
-      <h1 id="disp_quizTitle">Loading...</h1> <p>Quiz ID: <span id="disp_quizId">...</span></p>
+    <!-- Scrollable content -->
+    <div class="welcome-scroll-area">
+
+      <div class="instr-section-header">Instructions, Terms &amp; Conditions</div>
+
+      <!-- 1. Exam Overview -->
+      <div class="instr-block">
+        <div class="instr-block-title">
+          <span class="instr-block-num">1</span>
+          Exam Overview / परीक्षा का संक्षिप्त विवरण
+        </div>
+        <div class="instr-block-body">
+          <ul>
+            <li><b>Duration: <span id="disp_time">-</span> minutes</b> / समयावधि: <b><span id="disp_time">-</span> मिनट</b></li>
+            <li><b>Total Questions: <span id="disp_totalQ">-</span></b> / कुल प्रश्न: <b><span id="disp_totalQ">-</span></b></li>
+            <li><b>Negative Marking:</b> 25% marks deducted for each wrong answer. / ऋणात्मक अंकन: प्रत्येक गलत उत्तर पर 25% अंक काटे जाएंगे।</li>
+            <li><b>Number of Sections displayed at any time: 4</b> / किसी भी समय पर प्रदर्शित अनुभागों की संख्या: <b>4</b></li>
+          </ul>
+          <div style="overflow-x:auto; margin-top:10px;">
+            <table class="welcome-section-table">
+              <thead>
+                <tr>
+                  <th>Section</th>
+                  <th>Questions</th>
+                  <th>Marks (+)</th>
+                  <th>Negative (−)</th>
+                </tr>
+              </thead>
+              <tbody id="welcomeSectionTableBody"></tbody>
+              <tfoot id="welcomeSectionTableFoot"></tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Timing & Submission -->
+      <div class="instr-block">
+        <div class="instr-block-title">
+          <span class="instr-block-num">2</span>
+          Timing &amp; Submission / समय और उत्तर जमा करना
+        </div>
+        <div class="instr-block-body">
+          <ul>
+            <li>The timer (top right) is server-controlled; Remaining time appears top right.<br><span>ऊपरी दाईं कोने में टाइमर सर्वर-नियंत्रित है; शेष समय वहीं दिखेगा।</span></li>
+            <li>The exam auto-submits when time ends — no manual submission required.<br><span>समय समाप्त होने पर परीक्षा स्वतः सबमिट हो जाएगी — मैन्युअल सबमिशन की आवश्यकता नहीं है।</span></li>
+            <li>At the end, you may be asked to take a photo (ensure your face is aligned with area delineated). After seeing the "Thank you" message, raise your hand and on approval proceed for exit verification.<br><span>अंत में, आपसे एक फोटो लेने को कहा जा सकता है। "Thank you" संदेश दिखाई देने के बाद, अपना हाथ उठाएँ और स्वीकृति मिलने के बाद बाहर निकलने की प्रक्रिया पूरी करें।</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3. Language -->
+      <div class="instr-block">
+        <div class="instr-block-title">
+          <span class="instr-block-num">3</span>
+          Language / भाषा
+        </div>
+        <div class="instr-block-body">
+          <ul>
+            <li>Only one comprehension section (Hindi or English) appears as per your initial choice; this cannot be changed during the exam.<br><span>केवल एक समझ-बूझ (कॉम्प्रिहेंशन) अनुभाग आपकी प्रारंभिक भाषा चयन (हिंदी या अंग्रेज़ी) के अनुसार दिखाई देगा; इसे परीक्षा के दौरान बदला नहीं जा सकता।</span></li>
+            <li>Other MCQ sections may be displayed in English, Hindi, or both, based on your language selection.<br><span>अन्य MCQ अनुभाग अंग्रेज़ी, हिंदी या दोनों में दिख सकते हैं – आपके द्वारा की गई भाषा चयन के आधार पर।</span></li>
+            <li>If you select English and choose ENGLISH AND SELECTED LANGUAGE after start of exam, questions will appear only in English.<br><span>यदि आप English चुना और परीक्षा शुरू होने के बाद 'ENGLISH AND SELECTED LANGUAGE' को चुना, तो प्रश्न केवल अंग्रेज़ी में दिखेंगे।</span></li>
+            <li>If you select Hindi and choose ENGLISH AND SELECTED LANGUAGE, questions will appear both in English and Hindi.<br><span>यदि आप Hindi चुना और 'ENGLISH AND SELECTED LANGUAGE' चुना, तो प्रश्न हिंदी और अंग्रेज़ी दोनों में दिखेंगे।</span></li>
+            <li>You can change your selection during the examination.<br><span>आप भाषा चयन परीक्षा के दौरान बदल सकते हैं।</span></li>
+            <li>For language-oriented sections, questions will be displayed in the selected language only.<br><span>भाषा आधारित अनुभागों में प्रश्न केवल चयनित भाषा में ही प्रदर्शित होंगे।</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4. Navigation -->
+      <div class="instr-block">
+        <div class="instr-block-title">
+          <span class="instr-block-num">4</span>
+          Navigation / नेविगेशन (परीक्षा में चलना)
+        </div>
+        <div class="instr-block-body">
+          <ul>
+            <li>All sections are always visible; you can move freely between sections or questions in any order by clicking section names (top left) or question numbers.<br><span>सभी अनुभाग हमेशा दिखाई देते हैं; आप किसी भी अनुभाग या प्रश्न पर सीधे क्लिक कर के जा सकते हैं।</span></li>
+            <li>Use <b>Previous</b> or <b>Save &amp; Next</b> to move between questions; use <b>Mark for Review</b> button to flag questions you wish to revisit later.<br><span>प्रश्नों के बीच जाने के लिए Previous या Save &amp; Next का उपयोग करें; किसी प्रश्न को बाद में देखने के लिए Mark for Review बटन दबाएँ।</span></li>
+            <li>After the last question in a section, <b>Save &amp; Next</b> takes you to the next section.<br><span>किसी अनुभाग का अंतिम प्रश्न पूरा करने के बाद Save &amp; Next अगला अनुभाग खोलेगा।</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 5. Answering -->
+      <div class="instr-block">
+        <div class="instr-block-title">
+          <span class="instr-block-num">5</span>
+          Answering / उत्तर देना
+        </div>
+        <div class="instr-block-body">
+          <ul>
+            <li>Each question has four options, out of which only one is correct. Select or change your answer at any time before saving.</li>
+            <li>Answers are saved only after clicking <b>Save &amp; Next</b>.<br><span>उत्तर चुने या बदलें, लेकिन Save &amp; Next पर क्लिक करने के बाद ही उत्तर सुरक्षित होगा है।</span></li>
+            <li>To change a saved answer, revisit and update it, then save again.<br><span>अगर उत्तर बदलना है, तो प्रश्न पर फिर से जाकर नया उत्तर दें और फिर से सुरक्षित करें।</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 6. Additional Notes -->
+      <div class="instr-block" style="margin-bottom:10px;">
+        <div class="instr-block-title">
+          <span class="instr-block-num">6</span>
+          Additional Notes / अतिरिक्त निर्देश
+        </div>
+        <div class="instr-block-body">
+          <ul>
+            <li>Maintain silence in the exam hall and do not engage in any communication with other candidates.<br><span>परीक्षा कक्ष में शांति बनाए रखें और अन्य उम्मीदवारों से बात न करें।</span></li>
+            <li>The system saves responses for each question and auto-submits when time ends.<br><span>हर उत्तर स्वचालित रूप से सिस्टम में सुरक्षित होता है और समय समाप्त होने पर स्वचालित रूप से जमा हो जाता है।</span></li>
+            <li>If you have any queries regarding exam content, raise your hand and seek invigilator assistance without disturbing others.<br><span>परीक्षा सामग्री से संबंधित कोई प्रश्न हो, तो हाथ उठाकर निरीक्षक से सहायता लें, दूसरों को परेशान न करें।</span></li>
+            <li>In case of a technical issue (system hang, network loss, or power failure), immediately inform the invigilator without attempting to resolve it on your own.<br><span>तकनीकी समस्या (सिस्टम हैंग, नेटवर्क फेल या बिजली चली जाना) होने पर निरीक्षक को तुरंत सूचित करें, खुद हल करने का प्रयास न करें।</span></li>
+            <li>Bathroom breaks or leaving your seat are not allowed during the exam.<br><span>परीक्षा के दौरान बाथरूम ब्रेक या सीट छोड़ने की अनुमति नहीं है।</span></li>
+            <li>All exam materials (Rough sheets, pens) provided must be returned to the invigilator before exiting the exam hall.<br><span>सभी परीक्षा सामग्री (रफ़ शीट, पेन) परीक्षा समाप्त होने पर निरीक्षक को लौटानी होगी।</span></li>
+            <li>Do not attempt to capture screenshots or take photos of the exam screen at any time.<br><span>किसी भी समय परीक्षा की तस्वीरें या स्क्रीनशॉट लेने का प्रयास न करें।</span></li>
+            <li>Use only the designated computer and do not switch systems during the exam.<br><span>केवल निर्दिष्ट कंप्यूटर का उपयोग करें और परीक्षा के दौरान सिस्टम न बदलें।</span></li>
+            <li>Any attempt to use unfair means or malpractice will result in disqualification.<br><span>अगर कोई अनुचित साधनों या नकल का प्रयास किया गया, तो आपकी परीक्षा रद्द कर दी जाएगी।</span></li>
+            <li>Remain seated until the invigilator announces the end of the exam and confirms completion of all formalities.<br><span>परीक्षा पूरी होने तक अपनी नोट पर बैठे रहें और निरीक्षक द्वारा औपचारिकताओं की पुष्टि होने के बाद ही उठें।</span></li>
+            <li>Do not discuss or share any questions or answers with other candidates in the examination hall.<br><span>परीक्षा कक्ष में किसी अन्य उम्मीदवार से प्रश्न या उत्तर पर चर्चा करें और न ही साझा करें।</span></li>
+          </ul>
+          <div style="text-align:center;font-weight:700;font-size:15px;padding:8px 0 2px;">Good Luck.</div>
+        </div>
+      </div>
+
+    </div><!-- /welcome-scroll-area -->
+
+    <!-- Fixed Bottom Bar Page 1 -->
+    <div class="welcome-footer">
+      <button class="back-btn" onclick="window.location.href='./'">Go to Tests</button>
+      <div></div>
+      <button class="next-btn" onclick="showWelcomePage(2)">Next &rsaquo;</button>
     </div>
 
-    <div class="test-details">
-      <div class="detail-item">
-        <div class="detail-label">Total Questions</div>
-        <div class="detail-value" id="disp_totalQ">-</div>
-      </div>
+  </div><!-- /welcomePage1 -->
 
-      <div class="detail-item">
-        <div class="detail-label">Correct Marks</div>
-        <div class="detail-value" id="disp_correct">-</div>
-      </div>
 
-      <div class="detail-item">
-        <div class="detail-label">Negative Marks</div>
-        <div class="detail-value" id="disp_negative">-</div>
-      </div>
+  <!-- ══════════════════════════════════════
+       PAGE 2 — Symbols image + Language + Start
+  ══════════════════════════════════════ -->
+  <div class="welcome-page" id="welcomePage2">
 
-      <div class="detail-item">
-        <div class="detail-label">Total Time</div>
-        <div class="detail-value"><span id="disp_time">-</span> Minutes</div>
-      </div>
-    </div>
-<div id="welcomeSectionTableContainer" style="margin-bottom: 24px;">
-  <h3 style="margin-bottom: 12px; font-size: 16px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 10px; color: var(--body-text);">Test Summary</h3>
-  <div style="overflow-x:auto;">
-    <table style="width:100%; border-collapse: collapse; background: var(--card-bg); border: 1px solid var(--border-color); font-size: 13px; color: var(--body-text);">
-      <thead>
-        <tr style="background: var(--light-gray); color: var(--body-text);">
-          <th style="padding: 10px; border: 1px solid var(--border-color); text-align: left;">Section Name</th>
-          <th style="padding: 10px; border: 1px solid var(--border-color); text-align: center;">Questions</th>
-          <th style="padding: 10px; border: 1px solid var(--border-color); text-align: center;">Marks</th>
-          <th style="padding: 10px; border: 1px solid var(--border-color); text-align: center;">Negative</th>
-        </tr>
-      </thead>
-      <tbody id="welcomeSectionTableBody"></tbody>
-      <tfoot id="welcomeSectionTableFoot" style="background: var(--detail-item-bg); font-weight: 800; color: var(--body-text);"></tfoot>
-    </table>
-  </div>
-</div>
-    
-    <div class="welcome-instructions">
-      <h3>1. Quiz Mode Symbols (During Test)</h3>
-      <div class="symbol-list">
-        <div class="symbol-item"><div class="leg-box leg-answered">1</div> Answered</div>
-        <div class="symbol-item"><div class="leg-box leg-marked-ans">2</div> Answered & Marked for Review</div>
-        <div class="symbol-item"><div class="leg-box leg-marked">3</div> Marked for Review (Unanswered)</div>
-        <div class="symbol-item"><div class="leg-box leg-current">4</div> Current Question</div>
-        <div class="symbol-item"><div class="leg-box leg-notvisited">5</div> Not Visited</div>
-      </div>
-
-      <h3>2. Solution Mode Symbols (Analysis)</h3>
-      <div class="symbol-list">
-        <div class="symbol-item"><div class="leg-box" style="background: #198754;">✔</div> Correct Answer</div>
-        <div class="symbol-item"><div class="leg-box" style="background: #dc3545;">✖</div> Wrong Answer</div>
-        <div class="symbol-item"><div class="leg-box" style="background: #bdbdbd; color:#000;">0</div> Skipped</div>
-      </div>
-
-      <h3>3. General Instructions / सामान्य निर्देश</h3>
-      <ul>
-        <li><b>Name Entry:</b> You <u>MUST</u> enter your full name in the box provided inside the quiz to submit.</li>
-        <li><b>Do not reload the page.</b><br><span>कृपया पेज को रीलोड न करें।</span></li>
-        <li><b>Stable internet is required.</b><br><span>स्थिर इंटरनेट सुनिश्चित करें।</span></li>
-        <li><b>Submit before time ends.</b><br><span>समय समाप्त होने से पहले जमा करें।</span></li>
-      </ul>
-
-      <div style="margin-top: 20px; padding: 10px; border: 1px solid var(--border-color); background: var(--card-bg);">
-         <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer; color: var(--body-text);">
-           <input type="checkbox" id="instrConfirm" style="margin-top: 3px;">
-           <span>I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination.</span>
-         </label>
-      </div>
-    </div>
-  </div>
-
-  <div class="welcome-footer">
-    <button class="back-btn" onclick="window.location.href='./'">Back</button>
-    
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span style="font-size: 13px; font-weight: 700;">Select Language:</span>
-      <select id="welcomeLangSelect" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-        <option value="">Select Language</option>
-        <option value="en">English</option>
-        <option value="hi">हिन्दी</option>
-        <option value="bilingual">Bilingual</option>
-      </select>
+    <!-- Fixed Top Bar -->
+    <div class="welcome-topbar">
+      <a class="welcome-brand" href="./">
+        <img src="/logo.jpg" alt="Mock Matrix Logo">
+        MOCK MATRIX
+      </a>
+      <div style="font-size:12px;color:var(--muted-text);font-weight:600;" id="disp_quizTitle">Loading...</div>
     </div>
 
-    <button id="welcomeStartBtn" class="start-btn">Start Test</button>
-  </div>
-</div>
+    <!-- Scrollable: just the symbol image -->
+    <div class="welcome-scroll-area" style="display:flex;flex-direction:column;">
+      <div class="instr-section-header">The different symbols used in the next pages are shown below. Please go through them and understand their meaning before you start the test.</div>
+      <div style="flex:1;overflow-y:auto;padding:10px;">
+        <img id="symbolsInstructionImg" src="YOUR_SYMBOLS_IMAGE_URL_HERE" alt="Symbols Instructions"
+             style="width:100%;max-width:860px;display:block;margin:0 auto;border:1px solid var(--border-color);">
+      </div>
+    </div>
+
+    <!-- Fixed Bottom Bar Page 2: language + checkbox + buttons — all pinned -->
+    <div class="welcome-footer-p2">
+      <div class="welcome-footer-p2-row">
+        <div class="welcome-lang-wrap">
+          <label for="welcomeLangSelect">Select Test Language</label>
+          <select id="welcomeLangSelect">
+            <option value="">Select Language</option>
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="bilingual">Bilingual</option>
+          </select>
+        </div>
+      </div>
+      <div class="instr-confirm-row">
+        <input type="checkbox" id="instrConfirm">
+        <label for="instrConfirm">I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination. I understand that using unfair means of any sort for my own or someone else's advantage will lead to my immediate disqualification. The decision of Mock Matrix will be final in these matters and cannot be appealed.</label>
+      </div>
+      <div class="welcome-footer-p2-row">
+        <button class="back-btn" onclick="showWelcomePage(1)">&lsaquo; Back</button>
+        <div></div>
+        <button id="welcomeStartBtn" class="start-btn" disabled>Start Test</button>
+      </div>
+    </div>
+
+  </div><!-- /welcomePage2 -->
+
+</div><!-- /welcome-screen -->
        
 <div id="ssc-watermark" class="ssc-watermark">
   <div class="ssc-wm" style="top:10%; left:5%;">@SSC_COMPILATIONS_2025</div>
@@ -4951,7 +5168,16 @@ const SECURITY = {
     setTimeout(() => div.remove(), 3000);
   }
 };
-
+// ===== WELCOME PAGE NAVIGATION =====
+function showWelcomePage(n) {
+  document.querySelectorAll('.welcome-page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('welcomePage' + n);
+  if (page) {
+    page.classList.add('active');
+    const sa = page.querySelector('.welcome-scroll-area');
+    if (sa) sa.scrollTop = 0;
+  }
+}
 // ===== DARK MODE TOGGLE =====
 function toggleDarkMode() {
   const html = document.documentElement;
