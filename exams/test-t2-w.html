@@ -289,194 +289,240 @@ h1 {
   opacity: 0.9;
 }
 /* =========================================
-   4. WELCOME SCREEN (Two-Page Replica)
+   4. WELCOME SCREEN (Premium Full-Screen Replica)
    ========================================= */
 .welcome-screen {
   position: fixed;
   inset: 0;
-  background: #f9f9f9;
-  z-index: 2000;
+  background: #ffffff !important;
+  z-index: 2500;
   display: flex;
   flex-direction: column;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  color: #000000 !important;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Shared Top Bar */
+/* Crisp Top Header Bar */
 .ws-top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  height: 60px;
+  padding: 10px 24px;
+  height: 65px;
   background: #ffffff;
-  border-bottom: 1px solid #d1d5db;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  border-bottom: 1.5px solid #dcdcdc;
 }
 .ws-logo {
-  height: 40px;
+  height: 42px;
   width: auto;
+  object-fit: contain;
 }
-.ws-title {
-  color: #0b5ed7;
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0;
-  text-align: center;
-  flex: 1;
-}
-.ws-lang-dummy {
-  font-size: 16px;
-  border: 1px solid #0b5ed7;
-  color: #0b5ed7;
-  padding: 2px 8px;
+.ws-lang-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #1a73e8;
+  color: #1a73e8;
+  padding: 4px 8px;
   border-radius: 4px;
-  font-weight: bold;
-  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
   line-height: 1.2;
+  text-align: center;
 }
 
-/* Page Containers */
+/* Page Control Sliders */
 .ws-page {
   display: none;
   flex-direction: column;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 65px);
+  background: #ffffff;
 }
 .ws-page.active {
   display: flex;
 }
 
-/* Scrollable Content Area */
+/* Main Flow Container - Eliminates Box Padding Constraints */
 .ws-content {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 20px 24px 40px 24px;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
-/* Outer Border Box (Like Screenshot) */
-.ws-box {
-  border: 1px solid #9ca3af;
+/* Structural Layout Outer Bounds */
+.ws-instruction-frame {
+  border: 1px solid #ababab;
   background: #ffffff;
+  margin-bottom: 20px;
+  width: 100%;
 }
-.ws-box-header {
-  background: #e4dfd8; /* Light brownish-grey from screenshot */
-  padding: 10px 15px;
-  font-size: 14px;
+.ws-frame-heading {
+  background: #ece9e4; /* Exact brown/beige tone match */
+  padding: 8px 16px;
+  font-size: 15px;
   font-weight: 600;
-  border-bottom: 1px solid #9ca3af;
-  color: #333;
+  border-bottom: 1px solid #ababab;
+  color: #212121;
 }
-.ws-box-body {
-  padding: 15px 20px;
+.ws-frame-content {
+  padding: 20px;
 }
 
-/* Ordered List Styling */
-.ws-ol {
+/* Highly Crisp Rules Lists */
+.ws-rules-list {
   margin: 0;
   padding-left: 20px;
-  color: #111;
+  color: #000000 !important;
   font-size: 14px;
 }
-.ws-ol > li {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 20px;
+.ws-rules-list > li {
+  margin-bottom: 24px;
+  line-height: 1.6;
 }
-.ws-ol > li:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-.ws-ol b {
+.ws-rules-list b {
   font-size: 15px;
-  color: #333;
+  color: #000000 !important;
+  font-weight: 700;
 }
-.ws-ol ul {
+.ws-subul {
   list-style-type: disc;
-  margin-top: 10px;
+  margin-top: 8px;
   padding-left: 20px;
 }
-.ws-ol ul li {
+.ws-subul li {
   margin-bottom: 8px;
+  font-size: 14px;
+  color: #111111 !important;
+}
+.ws-bilingual-trans {
+  display: block;
+  color: #444444 !important;
+  margin-top: 3px;
   font-size: 13.5px;
-  line-height: 1.5;
-}
-.ws-hi {
-  color: #555; /* Slightly muted for hindi translation */
 }
 
-/* Dynamic Data Highlights */
-.ws-dynamic {
-  color: #0b5ed7;
-  font-weight: bold;
+/* Complete Mobile Safety Wrap For Tables */
+.ws-table-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 16px 0;
+  border: 1px solid #ababab;
 }
-
-/* Footer & Buttons */
-.ws-footer {
-  height: 70px;
+.ws-table-scroll-container table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap; /* Forces layout stability on tight screens */
   background: #ffffff;
-  border-top: 1px solid #d1d5db;
+  font-size: 14px;
+}
+.ws-table-scroll-container th {
+  background: #ece9e4;
+  color: #000000;
+  font-weight: 600;
+  padding: 10px 12px;
+  border: 1px solid #ababab;
+  text-align: left;
+}
+.ws-table-scroll-container td {
+  padding: 10px 12px;
+  border: 1px solid #ababab;
+  color: #000000;
+  text-align: left;
+}
+
+/* Dynamic Content Variables Highlight */
+.ws-highlight-val {
+  color: #0b5ed7;
+  font-weight: 700;
+}
+
+/* Sticky Screen Action Footers */
+.ws-action-footer {
+  height: 65px;
+  background: #ffffff;
+  border-top: 1.5px solid #dcdcdc;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 24px;
   flex-shrink: 0;
 }
-.ws-btn-orange {
-  background: #f59e0b;
-  color: #ffffff;
+
+/* Custom Navigation Engine Controls */
+.ws-control-btn-yellow {
+  background: #f09819;
+  color: #ffffff !important;
   border: none;
-  padding: 10px 25px;
+  padding: 10px 24px;
   border-radius: 4px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
 }
-.ws-btn-blue {
-  background: #0ea5e9;
-  color: #ffffff;
+.ws-control-btn-blue {
+  background: #0091ff;
+  color: #ffffff !important;
   border: none;
-  padding: 10px 25px;
+  padding: 10px 28px;
   border-radius: 4px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
 }
-.ws-btn-orange:hover, .ws-btn-blue:hover {
-  opacity: 0.9;
+.ws-control-btn-yellow:hover, .ws-control-btn-blue:hover {
+  opacity: 0.95;
 }
 
-/* Page 2 Specific Elements */
-.ws-p2-title {
-  color: #0b5ed7;
-  font-size: 15px;
-  font-weight: 700;
-  margin-bottom: 15px;
-}
-.ws-lang-select {
+/* Interface Options Configurations */
+.ws-dropdown-selector {
   padding: 6px 12px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid #ababab;
   font-size: 14px;
+  background: #ffffff;
+  color: #000000;
   outline: none;
 }
-.ws-confirm-box {
+.ws-verification-card {
   background: #ffffff;
-  border: 1px solid #d1d5db;
-  padding: 15px;
+  border: 1px solid #ababab;
+  padding: 16px;
   margin-top: 20px;
 }
 
-/* Dark Mode Overrides for Welcome Screen */
-[data-theme="dark"] .welcome-screen { background: var(--welcome-bg); }
-[data-theme="dark"] .ws-top-bar, [data-theme="dark"] .ws-footer, [data-theme="dark"] .ws-box, [data-theme="dark"] .ws-confirm-box { background: var(--card-bg); border-color: var(--border-color); }
-[data-theme="dark"] .ws-box-header { background: #333; border-color: var(--border-color); color: #fff; }
-[data-theme="dark"] .ws-ol, [data-theme="dark"] .ws-ol b, [data-theme="dark"] .ws-ol ul li, [data-theme="dark"] .ws-hi { color: var(--body-text); }
-[data-theme="dark"] .ws-ol > li { border-color: var(--border-color); }
-
+/* Dark Mode Overrides Safeguards */
+[data-theme="dark"] .welcome-screen,
+[data-theme="dark"] .ws-page,
+[data-theme="dark"] .ws-top-bar,
+[data-theme="dark"] .ws-action-footer,
+[data-theme="dark"] .ws-table-scroll-container table,
+[data-theme="dark"] .ws-instruction-frame {
+  background: #121212 !important;
+  border-color: #444444 !important;
+}
+[data-theme="dark"] .ws-frame-heading,
+[data-theme="dark"] .ws-table-scroll-container th {
+  background: #222222 !important;
+  border-color: #444444 !important;
+  color: #ffffff !important;
+}
+[data-theme="dark"] .ws-rules-list,
+[data-theme="dark"] .ws-rules-list b,
+[data-theme="dark"] .ws-subul li,
+[data-theme="dark"] .ws-table-scroll-container td {
+  color: #ffffff !important;
+}
+[data-theme="dark"] .ws-bilingual-trans {
+  color: #aaaaaa !important;
+}
+[data-theme="dark"] .ws-dropdown-selector {
+  background: #222222;
+  color: #ffffff;
+  border-color: #444444;
+}
 
 /* =========================================
    5. QUIZ CARD & QUESTIONS (TESTBOOK STYLE)
@@ -1873,110 +1919,122 @@ const savedDb = commonApp.database();
   <h3 id="loadingText">FETCHING TEST...</h3>
 </div>
 
-
 <div class="welcome-screen" id="welcomeScreen">
   
   <div class="ws-top-bar">
-    <img src="/logo.jpg" alt="Mock Matrix" class="ws-logo" onerror="this.style.display='none'">
-    <h1 class="ws-title" id="disp_quizTitle">Loading...</h1>
-    <span id="disp_quizId" style="display:none;"></span> <div class="ws-lang-dummy">
-      A<br><span style="font-size:12px;">आ</span>
+    <img src="/logo.jpg" alt="Mock Matrix Logo" class="ws-logo" onerror="this.src='https://mockmatrixhub.pages.dev/logo.jpg';">
+    <div class="ws-lang-indicator">
+      ГА<br><span style="font-size:11px; font-weight:500;">आ</span>
     </div>
   </div>
 
   <div id="welcomePage1" class="ws-page active">
     <div class="ws-content">
-      <div class="ws-box">
-        <div class="ws-box-header">Instructions, Terms & Conditions</div>
-        <div class="ws-box-body">
-          <ol class="ws-ol">
-            
-            <li>
-              <b>Exam Overview / परीक्षा का संक्षिप्त विवरण</b>
-              <ul>
-                <li>Duration: <span id="disp_time" class="ws-dynamic">-</span> minutes / समयावधि: <span class="ws-dynamic">-</span> मिनट</li>
-                <li>Total Questions: <span id="disp_totalQ" class="ws-dynamic">-</span> / कुल प्रश्न: <span class="ws-dynamic">-</span></li>
-                <li>Correct Marks: <span class="ws-dynamic">+</span><span id="disp_correct" class="ws-dynamic">-</span> / सही उत्तर: <span class="ws-dynamic">+</span><span class="ws-dynamic">-</span></li>
-                <li>Negative Marking: <span class="ws-dynamic">-</span><span id="disp_negative" class="ws-dynamic">-</span> marks deducted for each wrong answer. / ऋणात्मक अंकन: गलत उत्तर पर <span class="ws-dynamic">-</span> अंक काटे जाएंगे।</li>
-              </ul>
+      
+      <div class="ws-instruction-frame">
+        <div class="ws-frame-heading">1. Exam Overview</div>
+        <div class="ws-frame-content">
+          <ul class="ws-subul" style="padding-left: 0; list-style: none;">
+            <li style="margin-bottom: 12px;">• Duration: <span id="disp_time" class="ws-highlight-val">-</span> minutes <span class="ws-bilingual-trans">• समयावधि: <span id="disp_time_hi" class="ws-highlight-val">-</span> मिनट</span></li>
+            <li style="margin-bottom: 12px;">• Total Questions: <span id="disp_totalQ" class="ws-highlight-val">-</span> <span class="ws-bilingual-trans">• कुल प्रश्न: <span id="disp_totalQ_hi" class="ws-highlight-val">-</span></span></li>
+            <li style="margin-bottom: 12px;">• Negative Marking: <span id="disp_negative" class="ws-highlight-val">-</span> marks deducted for each wrong answer. <span class="ws-bilingual-trans">• ऋणात्मक अंकन: प्रत्येक गलत उत्तर पर <span id="disp_negative_hi" class="ws-highlight-val">-</span> अंक काटे जाएंगे।</span></li>
+            <li style="margin-bottom: 12px;">• Number of Sections displayed at any time: <span class="ws-highlight-val" id="disp_sec_count">4</span> <span class="ws-bilingual-trans">• किसी भी समय पर प्रदर्शित अनुभागों की संख्या: <span class="ws-highlight-val" id="disp_sec_count_hi">4</span></span></li>
+          </ul>
 
-              <div id="welcomeSectionTableContainer" style="margin: 15px 0;">
-                <table style="width:100%; border-collapse: collapse; border: 1px solid #ccc; font-size: 13px; background: #fff;">
-                  <thead>
-                    <tr style="background: #e5e7eb; color: #333;">
-                      <th style="padding: 10px; border: 1px solid #ccc; text-align: left;">Section</th>
-                      <th style="padding: 10px; border: 1px solid #ccc; text-align: center;">Number of Questions</th>
-                      <th style="padding: 10px; border: 1px solid #ccc; text-align: center;">Maximum Marks</th>
-                      <th style="padding: 10px; border: 1px solid #ccc; text-align: center;">Negative</th>
-                    </tr>
-                  </thead>
-                  <tbody id="welcomeSectionTableBody"></tbody>
-                  <tfoot id="welcomeSectionTableFoot" style="background: #f3f4f6; font-weight: 800; color: #333;"></tfoot>
-                </table>
-              </div>
-            </li>
-
-            <li>
-              <b>Timing & Submission / समय और उत्तर जमा करना</b>
-              <ul>
-                <li>The timer (top right) is server-controlled; Remaining time appears top right.<br><span class="ws-hi">ऊपरी दाएँ कोने में टाइमर सर्वर-नियंत्रित है; शेष समय वहीं दिखेगा।</span></li>
-                <li>The exam auto-submits when time ends - no manual submission required.<br><span class="ws-hi">समय समाप्त होने पर परीक्षा स्वतः सबमिट हो जाएगी - मैनुअल सबमिशन की आवश्यकता नहीं है।</span></li>
-              </ul>
-            </li>
-
-            <li>
-              <b>Language / भाषा</b>
-              <ul>
-                <li>Other MCQ sections may be displayed in English, Hindi, or both, based on your language selection.<br><span class="ws-hi">अन्य MCQ अनुभाग अंग्रेजी, हिंदी या दोनों में दिख सकते हैं - आपके द्वारा की गई भाषा चयन के आधार पर।</span></li>
-                <li>You can change your selection during the examination.<br><span class="ws-hi">आप भाषा चयन परीक्षा के दौरान बदल सकते हैं।</span></li>
-              </ul>
-            </li>
-
-            <li>
-              <b>Navigation / नेविगेशन (परीक्षा में चलना)</b>
-              <ul>
-                <li>All sections are always visible, you can move freely between sections or questions in any order.<br><span class="ws-hi">सभी अनुभाग हमेशा दिखाई देते हैं; आप किसी भी अनुभाग या प्रश्न पर सीधे क्लिक कर के जा सकते हैं।</span></li>
-                <li>Use Previous or Save & Next to move between questions; use Mark for Review button to flag questions.<br><span class="ws-hi">प्रश्नों के बीच जाने के लिए Previous या Save & Next का उपयोग करें; देखने के लिए Mark for Review बटन दबाएँ।</span></li>
-              </ul>
-            </li>
-
-            <li>
-              <b>Answering / उत्तर देना</b>
-              <ul>
-                <li>Each question has four options, out of which only one is correct. Select or change your answer at any time before saving.<br><span class="ws-hi">हर प्रश्न के चार विकल्प होते हैं, जिनमें से केवल एक ही सही होता है। सहेजने से पहले किसी भी समय अपना उत्तर चुनें या बदलें।</span></li>
-                <li>Answers are saved only after clicking Save & Next.<br><span class="ws-hi">उत्तर चुनने या बदलने, लेकिन Save & Next पर क्लिक करने के बाद ही उत्तर सुरक्षित होता है।</span></li>
-              </ul>
-            </li>
-
-            <li>
-              <b>Additional Notes / अतिरिक्त निर्देश</b>
-              <ul>
-                <li>Maintain silence in the exam hall and do not engage in any communication with other candidates.<br><span class="ws-hi">परीक्षा कक्ष में शांति बनाए रखें और अन्य उम्मीदवारों से बात न करें।</span></li>
-                <li>Any attempt to use unfair means or malpractice will result in disqualification.<br><span class="ws-hi">अगर कोई अनुचित साधनों या नकल का प्रयास किया गया, तो आपकी परीक्षा रद्द कर दी जाएगी।</span></li>
-                <li><b>Do not reload the page.</b> / <b>Stable internet is required.</b><br><span class="ws-hi">कृपया पेज को रीलोड न करें। स्थिर इंटरनेट सुनिश्चित करें।</span></li>
-              </ul>
-            </li>
-
-          </ol>
+          <div class="ws-table-scroll-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Section</th>
+                  <th>Subject</th>
+                  <th style="text-align: center;">Number of Questions</th>
+                  <th style="text-align: center;">Maximum Marks</th>
+                </tr>
+              </thead>
+              <tbody id="welcomeSectionTableBody">
+                </tbody>
+              <tfoot id="welcomeSectionTableFoot" style="display:none;">
+                </tfoot>
+            </table>
+          </div>
         </div>
       </div>
+
+      <div class="ws-instruction-frame">
+        <div class="ws-frame-heading">2. Timing & Submission / समय और उत्तर जमा करना</div>
+        <div class="ws-frame-content">
+          <ul class="ws-subul" style="padding-left:5px; list-style:none;">
+            <li style="margin-bottom:15px;">• The timer (top right) is server-controlled; Remaining time appears top right.<br><span class="ws-bilingual-trans">ऊपरी दाएँ कोने में टाइमर सर्वर-नियंत्रित है; शेष समय वहीं दिखेगा।</span></li>
+            <li>• The exam auto-submits when time ends—no manual submission required.<br><span class="ws-bilingual-trans">समय समाप्त होने पर परीक्षा स्वतः सबमिट हो जाएगी—मैनुअल सबमिशन की आवश्यकता नहीं है।</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ws-instruction-frame">
+        <div class="ws-frame-heading">3. Language / भाषा</div>
+        <div class="ws-frame-content">
+          <ul class="ws-subul" style="padding-left:5px; list-style:none;">
+            <li style="margin-bottom:15px;">• Only one comprehension section (Hindi or English) appears as per your initial choice; this cannot be changed during the exam.<br><span class="ws-bilingual-trans">केवल एक समझ-बूझ (कॉम्प्रेहेंशन) अनुभाग आपकी प्रारंभिक भाषा चयन (हिंदी या अंग्रेजी) के अनुसार दिखाई देगा; इसे परीक्षा के दौरान बदला नहीं जा सकता।</span></li>
+            <li style="margin-bottom:15px;">• Other MCQ sections may be displayed in English, Hindi, or both, based on your language selection.<br><span class="ws-bilingual-trans">अन्य MCQ अनुभाग अंग्रेजी, हिंदी या दोनों में दिख सकते हैं—आपके द्वारा की गई भाषा चयन के आधार पर।</span></li>
+            <li>• You can change your selection during the examination.<br><span class="ws-bilingual-trans">आप भाषा चयन परीक्षा के दौरान बदल सकते हैं।</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ws-instruction-frame">
+        <div class="ws-frame-heading">4. Navigation / नेविगेशन (परीक्षा में चलना)</div>
+        <div class="ws-frame-content">
+          <ul class="ws-subul" style="padding-left:5px; list-style:none;">
+            <li style="margin-bottom:15px;">• All sections are always visible, you can move freely between sections or questions in any order by clicking section names (top left) or question numbers.<br><span class="ws-bilingual-trans">सभी अनुभाग हमेशा दिखाई देते हैं, आप किसी भी अनुभाग या प्रश्न पर सीधे क्लिक कर के जा सकते हैं।</span></li>
+            <li>• Use <b>Previous</b> or <b>Save & Next</b> to move between questions; use <b>Mark for Review</b> button to flag questions you wish to revisit later.<br><span class="ws-bilingual-trans">प्रश्नों के बीच जाने के लिए Previous या Save & Next का उपयोग करें; किसी प्रश्न को बाद में देखने के लिए Mark for Review बटन दबाएँ।</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ws-instruction-frame">
+        <div class="ws-frame-heading">5. Answering / उत्तर देना</div>
+        <div class="ws-frame-content">
+          <ul class="ws-subul" style="padding-left:5px; list-style:none;">
+            <li style="margin-bottom:15px;">• Each question has four options, out of which only one is correct. Select or change your answer at any time before saving.<br><span class="ws-bilingual-trans">हर प्रश्न के चार विकल्प होते हैं, जिनमें से केवल एक ही सही होता है। सहेजने से पहले किसी भी समय अपना उत्तर चुनें या बदलें।</span></li>
+            <li>• Answers are saved only after clicking <b>Save & Next</b>.<br><span class="ws-bilingual-trans">उत्तर चुनें या बदलें, लेकिन Save & Next पर क्लिक करने के बाद ही उत्तर सुरक्षित होता है।</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ws-instruction-frame">
+        <div class="ws-frame-heading">6. Additional Notes / अतिरिक्त निर्देश</div>
+        <div class="ws-frame-content">
+          <ul class="ws-subul" style="padding-left:5px; list-style:none;">
+            <li style="margin-bottom:12px;">• Maintain silence in the exam hall and do not engage in any communication with other candidates.<br><span class="ws-bilingual-trans">परीक्षा कक्ष में शांति बनाए रखें और अन्य उम्मीदवारों से बात न करें।</span></li>
+            <li style="margin-bottom:12px;">• The system saves responses for each question and auto-submits when time ends.<br><span class="ws-bilingual-trans">हर उत्तर स्वचालित रूप से सिस्टम में सुरक्षित होता है और समय समाप्त होने पर स्वचालित रूप से जमा हो जाता है।</span></li>
+            <li style="margin-bottom:12px;">• Do not attempt to capture screenshots or take photos of the exam screen at any time.<br><span class="ws-bilingual-trans">किसी भी समय परीक्षा स्क्रीन की तस्वीर या स्क्रीनशॉट लेने का प्रयास न करें।</span></li>
+            <li style="margin-bottom:12px;">• Any attempt to use unfair means or malpractice will result in disqualification.<br><span class="ws-bilingual-trans">अगर कोई अनुचित साधनों या नकल का प्रयास किया गया, तो आपकी परीक्षा रद्द कर दी जाएगी।</span></li>
+          </ul>
+        </div>
+      </div>
+
     </div>
-    <div class="ws-footer">
-      <button class="ws-btn-orange" onclick="window.location.href='./'">Go to Tests</button>
-      <button class="ws-btn-blue" onclick="document.getElementById('welcomePage1').classList.remove('active'); document.getElementById('welcomePage2').classList.add('active');">Next</button>
+    
+    <div class="ws-action-footer">
+      <button class="ws-control-btn-yellow" onclick="window.location.href='./'">Go to Tests</button>
+      <button class="ws-control-btn-blue" onclick="document.getElementById('welcomePage1').classList.remove('active'); document.getElementById('welcomePage2').classList.add('active');">Next</button>
     </div>
   </div>
 
   <div id="welcomePage2" class="ws-page">
     <div class="ws-content">
-      <div class="ws-p2-title">The different symbols used in the next pages are shown below. Please go through them and understand their meaning before you start the test.</div>
+      <div style="font-size: 14.5px; font-weight: 600; margin-bottom: 16px; color:#000000;">
+        The different symbols used in the next pages are shown below. Please go through them and understand their meaning before you start the test.
+      </div>
       
-      <img src="YOUR_IMAGE_LINK_HERE.jpg" alt="Symbols Instruction" style="max-width:100%; border:1px solid #ccc; display:block;">
+      <div style="width:100%; border:1px solid #ababab; margin-bottom:20px; background:#ffffff; padding:4px;">
+        <img src="https://mockmatrixhub.pages.dev/symbols-map.jpg" alt="Exam System Legend Metrics" style="width:100%; height:auto; display:block; object-fit:contain;">
+      </div>
 
-      <div class="ws-confirm-box">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
-          <label style="font-weight:700; font-size:14px;">Select Test Language</label>
-          <select id="welcomeLangSelect" class="ws-lang-select">
+      <div class="ws-verification-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+          <label style="font-weight:700; font-size:14px; color:#000000;">Select Test Language</label>
+          <select id="welcomeLangSelect" class="ws-dropdown-selector">
             <option value="">Select Language</option>
             <option value="en">English</option>
             <option value="hi">हिन्दी</option>
@@ -1984,20 +2042,23 @@ const savedDb = commonApp.database();
           </select>
         </div>
         
-        <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer; color: #333;">
-          <input type="checkbox" id="instrConfirm" style="margin-top: 3px; width:16px; height:16px; cursor: pointer;">
+        <label style="display: flex; align-items: flex-start; gap: 12px; font-size: 13.5px; cursor: pointer; color: #000000; user-select:none;">
+          <input type="checkbox" id="instrConfirm" style="margin-top: 2px; width:18px; height:18px; flex-shrink:0; cursor:pointer;">
           <span style="line-height:1.5;">I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination. I understand that using unfair means of any sort for my own or someone else's advantage will lead to my immediate disqualification. The decision of Test Ranking will be final in these matters and cannot be appealed.</span>
         </label>
       </div>
 
     </div>
-    <div class="ws-footer">
-      <button class="ws-btn-orange" onclick="document.getElementById('welcomePage2').classList.remove('active'); document.getElementById('welcomePage1').classList.add('active');">Back</button>
-      <button id="welcomeStartBtn" class="ws-btn-blue">Start Test</button>
+    
+    <div class="ws-action-footer">
+      <button class="ws-control-btn-yellow" onclick="document.getElementById('welcomePage2').classList.remove('active'); document.getElementById('welcomePage1').classList.add('active');">Back</button>
+      <button id="welcomeStartBtn" class="ws-control-btn-blue">Start Test</button>
     </div>
   </div>
 
-</div>       
+</div>
+
+
 <div id="ssc-watermark" class="ssc-watermark">
   <div class="ssc-wm" style="top:10%; left:5%;">@SSC_COMPILATIONS_2025</div>
   <div class="ssc-wm" style="top:30%; left:60%;">@SSC_COMPILATIONS_2025</div>
@@ -4875,7 +4936,17 @@ if (specificSection && standardizedSections[specificSection]) {
     document.getElementById("disp_correct").textContent = "+" + CORRECT_SCORE;
     document.getElementById("disp_negative").textContent = "-" + NEGATIVE_SCORE;
     document.getElementById("disp_time").textContent = data.meta.timer_minutes;
+  
+// Ensure both the English and Hindi values are synced smoothly to prevent undefined spaces
+if (document.getElementById("disp_time_hi")) document.getElementById("disp_time_hi").textContent = data.meta.timer_minutes;
+if (document.getElementById("disp_totalQ_hi")) document.getElementById("disp_totalQ_hi").textContent = totalQuestionsCount;
+if (document.getElementById("disp_correct_hi")) document.getElementById("disp_correct_hi").textContent = "+" + CORRECT_SCORE;
+if (document.getElementById("disp_negative_hi")) document.getElementById("disp_negative_hi").textContent = NEGATIVE_SCORE;
 
+// Auto-populate structural counts
+const totalSectionsDetected = SECTION_NAMES.length;
+if (document.getElementById("disp_sec_count")) document.getElementById("disp_sec_count").textContent = totalSectionsDetected;
+if (document.getElementById("disp_sec_count_hi")) document.getElementById("disp_sec_count_hi").textContent = totalSectionsDetected;
   // 1. Perform the Sync check first
 const hasSubmitted = await checkPreviousSubmission();
   
