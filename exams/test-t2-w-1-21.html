@@ -1638,17 +1638,15 @@ mjx-math {
   overflow-x: auto; 
   white-space: nowrap;
 }
-
-/* Part Buttons (Reasoning, Math, etc.) */
 .sec-btn {
-  padding: 8px 18px; 
+  padding: 5px 12px; 
   background: #0000ff; /* Blue for Inactive */
   color: #fff; 
   border: none;
   border-radius: 4px; 
   font-weight: 700; 
   cursor: pointer; 
-  font-size: 13px;
+  font-size: 12px;
   text-transform: uppercase;
 }
 
@@ -2112,7 +2110,6 @@ body.mode-solution #pauseBtn {
   .header-logo,
   .header-proctor-icons,
   .zoom-btn .icon-btn-label,
-  .last-minutes,
   .fullscreen-btn,
   #darkModeToggle,
   #backToAnalysisBtn { display: none !important; }
@@ -2708,7 +2705,12 @@ function startTimer() {
   seconds = Math.max(0, seconds);
   el("timer").textContent = fmt(seconds);
   const lastMinEl0 = document.getElementById("lastMinutesDisplay");
-  if (lastMinEl0) lastMinEl0.textContent = "Last " + Math.ceil(seconds/60) + " Minutes";
+  if (lastMinEl0) {
+    const mins0 = Math.floor(seconds/60);
+    if (mins0 > 0) lastMinEl0.innerHTML = "Last <span style='color:#0b5ed7'>" + mins0 + "</span> Minutes";
+    else lastMinEl0.innerHTML = "Last <span style='color:#0b5ed7'>" + seconds + "</span> Seconds";
+  }
+ 
 
   timerInterval = setInterval(() => {
 
@@ -2727,7 +2729,12 @@ function startTimer() {
     seconds--;
     el("timer").textContent = fmt(seconds);
     const lastMinEl = document.getElementById("lastMinutesDisplay");
-    if (lastMinEl) lastMinEl.textContent = "Last " + Math.ceil(seconds/60) + " Minutes";
+    if (lastMinEl) {
+      const mins = Math.floor(seconds/60);
+      if (mins > 0) lastMinEl.innerHTML = "Last <span style='color:#0b5ed7'>" + mins + "</span> Minutes";
+      else lastMinEl.innerHTML = "Last <span style='color:#0b5ed7'>" + seconds + "</span> Seconds";
+    }
+   
 
     // 1. Track time for the active section
     const activeSectionName = SECTION_NAMES[currentSectionIdx];
@@ -2864,7 +2871,7 @@ if (Object.keys(answers).length === 0) {
 // 1. Update Header Info - NOW SCOPED TO ACTIVE SECTION
 el("qindex").textContent = i + 1;
 // el("qtotal").textContent = QUESTIONS.length; // ✅ Commented out to prevent crash
- 
+ const navQ = document.getElementById("navQIndex"); if(navQ) navQ.textContent = current + 1;
   // Show time spent on this specific question
   // --- UPDATED: STYLED TIME TAKEN BOX ---
   let timeDisplay = document.getElementById("qTimeTaken");
@@ -5329,10 +5336,14 @@ if (specificSection && standardizedSections[specificSection]) {
 
     QUESTIONS = SECTIONS[SECTION_NAMES[0]];
 
+  
     // 4. Build Section Buttons (and merge action row on desktop into the same line)
     const nav = document.getElementById("sectionNav");
-    if(nav) {
+  if(nav) {
       nav.innerHTML = "";
+
+     
+      // ROW 2: Section buttons + actions
       const secGroup = document.createElement("div");
       secGroup.className = "sec-btn-group";
       SECTION_NAMES.forEach((name, i) => {
@@ -5350,14 +5361,18 @@ if (specificSection && standardizedSections[specificSection]) {
         if (topActions) nav.appendChild(topActions);
         const actionRow = document.getElementById("desktopActionRow");
         if (actionRow) actionRow.style.display = "none";
-
-        const lastMin = document.createElement("span");
-        lastMin.id = "lastMinutesDisplay";
-        lastMin.className = "last-minutes";
-        nav.appendChild(lastMin);
       }
-      
+      // ROW 1: Question meta + Last Minutes
+      const metaRow = document.createElement("div");
+      metaRow.id = "navMetaRow";
+      metaRow.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:4px 16px; background:var(--section-nav-bg); border-bottom:1px solid var(--section-nav-border); font-size:13px; font-weight:600;";
+      metaRow.innerHTML = `<span id="navQuestionMeta">Question: <span id="navQIndex">1</span></span><span id="lastMinutesDisplay" class="last-minutes" style="margin-left:auto;"></span>`;
+      nav.parentNode.insertBefore(metaRow, nav);
+ 
     }
+    
+      
+    
    
   // --- Updated Logic for Sectional Summary Table Generation ---
     let welcomeTableHtml = "";
