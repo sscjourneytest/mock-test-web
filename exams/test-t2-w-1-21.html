@@ -2066,12 +2066,12 @@ body.mode-solution #pauseBtn {
 
 /* New Submit Section/Test buttons */
 #submitSectionBtn { background: #0b5ed7 !important; color: #fff !important; }
-#submitTestBtn { background: #198754 !important; color: #fff !important; }
+#submitTestBtn { background: #0b5ed7 !important; color: #fff !important; }
 @media (min-width: 992px) {
   #sectionNav {
     display: flex !important;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;  /* section btns left, actions right */
     flex-wrap: nowrap !important;
     gap: 10px;
   }
@@ -2079,18 +2079,21 @@ body.mode-solution #pauseBtn {
   #sectionNav #topActions {
     display: flex;
     gap: 6px;
-    flex-shrink: 1;
-    min-width: 0;
+    flex-shrink: 0;       /* never shrink — keep buttons at fixed size */
+    margin-left: auto;    /* push all the way to the right edge */
     margin-right: 0;
   }
   #sectionNav #topActions button {
-    flex-shrink: 1;
-    min-width: 0;
-    padding: 6px 8px;
-    font-size: 12px;
+    flex-shrink: 0;       /* buttons don't compress */
+    padding: 6px 14px;
+    font-size: 13px;
     white-space: nowrap;
   }
-  .last-minutes {
+
+
+  .fullscreen-btn { white-space: nowrap; }
+}
+ .last-minutes {
     font-weight: 700;
     color: var(--danger);
     white-space: nowrap;
@@ -2098,9 +2101,6 @@ body.mode-solution #pauseBtn {
     flex-shrink: 0;
     padding-left: 8px;
   }
-  .fullscreen-btn { white-space: nowrap; }
-}
-
 
 /* ===== Mobile Header: Orange Background, minimal content ===== */
 @media (max-width: 991px) {
@@ -2454,8 +2454,12 @@ const savedDb = commonApp.database();
 </button>
 
 
-
 <div id="sectionNav" class="section-nav" style="display:none;"></div>
+<div id="infoRow" style="display:none; align-items:center; justify-content:space-between; padding:5px 16px; background:var(--section-nav-bg); border-bottom:1px solid var(--section-nav-border); margin-right:372px; position:sticky; top:calc(var(--header-height) + 41px); z-index:98;">
+  <span id="lastMinutesDisplay" style="font-weight:800; color:#dc3545; font-size:14px; white-space:nowrap;"></span>
+  <span id="navQIndex" style="font-weight:700; font-size:13px; color:var(--muted-text);"></span>
+</div>
+
 <div class="container">
 
   <div class="quiz-main-area" id="quizMainArea" style="display:none;">
@@ -3461,7 +3465,8 @@ function submitQuiz(isAuto = false) {
 localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
   document.getElementById("mainHeader").style.display = "none";
  
-  if (el("sectionNav")) el("sectionNav").style.display = "none";
+ if (el("sectionNav")) el("sectionNav").style.display = "none";
+  const iRowHide = document.getElementById("infoRow"); if(iRowHide) iRowHide.style.display = "none";
   document.getElementById("floatBar").style.display = "none";
   document.body.classList.remove("actions-bottom");
   const quizArea = document.getElementById("quizMainArea");
@@ -5090,10 +5095,11 @@ document.getElementById("welcomeStartBtn").addEventListener("click", function() 
   // Proceed to quiz
   document.getElementById("welcomeScreen").style.display = "none";
   document.getElementById("mainHeader").style.display = "block";
-  
-  // SHOW Section Navigation
   const sNav = el("sectionNav");
   if(sNav) sNav.style.display = "flex";
+  const iRow = document.getElementById("infoRow");
+  if(iRow) iRow.style.display = "flex";
+  
  
   document.body.classList.add("mode-quiz");
   document.body.classList.remove("mode-solution");
@@ -5336,41 +5342,43 @@ if (specificSection && standardizedSections[specificSection]) {
 
     QUESTIONS = SECTIONS[SECTION_NAMES[0]];
 
-  
-    // 4. Build Section Buttons (and merge action row on desktop into the same line)
+  // 4. Build Section Buttons (and merge action row on desktop into the same line)
     const nav = document.getElementById("sectionNav");
   if(nav) {
       nav.innerHTML = "";
 
-     
-      // ROW 2: Section buttons + actions
+      // Section buttons
       const secGroup = document.createElement("div");
       secGroup.className = "sec-btn-group";
       SECTION_NAMES.forEach((name, i) => {
         const btn = document.createElement("button");
         btn.className = "sec-btn" + (i === 0 ? " active" : "");
-        const partLabel = "PART " + String.fromCharCode(65 + i); 
+        const partLabel = "PART " + String.fromCharCode(65 + i);
         btn.textContent = partLabel;
         btn.onclick = () => switchSection(i);
         secGroup.appendChild(btn);
       });
       nav.appendChild(secGroup);
 
+      // On desktop: append topActions into sectionNav (right-aligned via CSS)
       if (window.innerWidth >= 992) {
         const topActions = document.getElementById("topActions");
         if (topActions) nav.appendChild(topActions);
         const actionRow = document.getElementById("desktopActionRow");
         if (actionRow) actionRow.style.display = "none";
       }
-      // ROW 1: Question meta + Last Minutes
-      const metaRow = document.createElement("div");
-      metaRow.id = "navMetaRow";
-      metaRow.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:4px 16px; background:var(--section-nav-bg); border-bottom:1px solid var(--section-nav-border); font-size:13px; font-weight:600;";
-      metaRow.innerHTML = `<span id="navQuestionMeta">Question: <span id="navQIndex">1</span></span><span id="lastMinutesDisplay" class="last-minutes" style="margin-left:auto;"></span>`;
-      nav.parentNode.insertBefore(metaRow, nav);
- 
+
+      // Insert infoRow AFTER sectionNav (Last Minutes + Q index)
+      let infoRow = document.getElementById("infoRow");
+      if (!infoRow) {
+        infoRow = document.createElement("div");
+        infoRow.id = "infoRow";
+        infoRow.style.cssText = "display:none; align-items:center; justify-content:space-between; padding:5px 16px; background:var(--section-nav-bg); border-bottom:1px solid var(--section-nav-border); margin-right:372px; position:sticky; top:calc(var(--header-height) + 41px); z-index:98;";
+        infoRow.innerHTML = `<span id="lastMinutesDisplay" style="font-weight:800; color:#dc3545; font-size:14px; white-space:nowrap;"></span><span id="navQIndex" style="font-weight:700; font-size:13px; color:var(--muted-text);"></span>`;
+        nav.parentNode.insertBefore(infoRow, nav.nextSibling);
+      }
     }
-    
+   
       
     
    
