@@ -1698,15 +1698,11 @@ mjx-math {
   border-right: 2px solid #555;
   margin-right: 8px;
 }
-
-/* Fix Vertical Overlap & Palette Spacing */
 @media (min-width: 992px) {
-  /* Increase header height variable to account for 2nd row */
-  :root { --header-height: 110px; } 
+  :root { --header-height: 64px; } 
 
   header { height: var(--header-height) !important; }
 
-  /* Ensure Section Nav sticks BELOW the new taller header */
   #sectionNav {
     top: var(--header-height) !important;
   }
@@ -2073,20 +2069,40 @@ body.mode-solution #pauseBtn {
 /* New Submit Section/Test buttons */
 #submitSectionBtn { background: #0b5ed7 !important; color: #fff !important; }
 #submitTestBtn { background: #198754 !important; color: #fff !important; }
-
-/* ===== Combined Section Nav + Action Row (Desktop) ===== */
 @media (min-width: 992px) {
   #sectionNav {
     display: flex !important;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-wrap: nowrap !important;
     gap: 10px;
   }
-  .last-minutes { font-weight: 700; color: var(--danger); white-space: nowrap; margin: 0 4px; }
+  .sec-btn-group { flex-shrink: 0; }
+  #sectionNav #topActions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 1;
+    min-width: 0;
+    margin-right: 0;
+  }
+  #sectionNav #topActions button {
+    flex-shrink: 1;
+    min-width: 0;
+    padding: 6px 8px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .last-minutes {
+    font-weight: 700;
+    color: var(--danger);
+    white-space: nowrap;
+    margin-left: auto;
+    flex-shrink: 0;
+    padding-left: 8px;
+  }
   .fullscreen-btn { white-space: nowrap; }
-  #sectionNav #topActions { margin-right: 372px; }
 }
+
 
 /* ===== Mobile Header: Orange Background, minimal content ===== */
 @media (max-width: 991px) {
@@ -2401,13 +2417,15 @@ const savedDb = commonApp.database();
         <div class="timer-text" id="timer">00:00</div>
         <div class="header-proctor-icons">
           <span class="icon-btn proctor-icon" title="Camera">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
           </span>
           <span class="icon-btn proctor-icon" title="Candidate">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </span>
         </div>
+        <button id="fullscreenBtn" class="btn-ghost btn-sm fullscreen-btn">Show Fullscreen</button>
       </div>
+        
 
     </div>
 
@@ -5328,22 +5346,17 @@ if (specificSection && standardizedSections[specificSection]) {
       nav.appendChild(secGroup);
 
       if (window.innerWidth >= 992) {
-        const lastMin = document.createElement("span");
-        lastMin.id = "lastMinutesDisplay";
-        lastMin.className = "last-minutes";
-        nav.appendChild(lastMin);
-
-        const fsBtn = document.createElement("button");
-        fsBtn.id = "fullscreenBtn";
-        fsBtn.className = "btn-ghost btn-sm fullscreen-btn";
-        fsBtn.textContent = "Show Fullscreen";
-        nav.appendChild(fsBtn);
-
         const topActions = document.getElementById("topActions");
         if (topActions) nav.appendChild(topActions);
         const actionRow = document.getElementById("desktopActionRow");
         if (actionRow) actionRow.style.display = "none";
+
+        const lastMin = document.createElement("span");
+        lastMin.id = "lastMinutesDisplay";
+        lastMin.className = "last-minutes";
+        nav.appendChild(lastMin);
       }
+      
     }
    
   // --- Updated Logic for Sectional Summary Table Generation ---
