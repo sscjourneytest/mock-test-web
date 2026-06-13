@@ -1757,33 +1757,22 @@ body.mode-solution #pauseBtn {
     font-size: 13px !important; /* Made bigger */
     padding: 4px !important;
   }
-
-  /* View (Palette) Button - Increased padding/font */
-  #paletteBtn { 
-    order: 4; 
-    display: inline-flex !important; 
-    margin-top: 10px; 
-    padding: 8px 12px !important; /* Made bigger */
-    font-size: 14px !important; /* Made bigger */
-  }
+/* Palette toggle is now the floating hamburger (.palette-fab) */
 
   /* Timer Text - Increased padding/font */
   #timer { 
-    order: 5; 
-    margin-top: 10px; 
-    font-size: 15px !important; /* Made bigger */
-    padding: 4px 8px !important; /* Made bigger */
+    font-size: 15px !important;
+    padding: 4px 8px !important;
   }
 
   /* Pause Button - Increased padding/font */
   #pauseBtn { 
-    order: 6; 
-    margin-top: 10px; 
     display: inline-flex !important; 
-    font-size: 14px !important; /* Made bigger */
-    padding: 6px 12px !important; /* Made bigger */
+    font-size: 14px !important;
+    padding: 6px 12px !important;
     white-space: nowrap;
   }
+ 
 .pause-bars {
   display: inline-block;
   width: 10px;
@@ -2012,7 +2001,110 @@ body.mode-solution #pauseBtn {
   user-select: none;
   -webkit-user-select: none;
 }
-#darkModeToggle:hover { opacity: 0.85; }
+
+
+  #darkModeToggle:hover { opacity: 0.85; }
+
+/* =========================================
+   HEADER v2 — ICON BUTTONS & NEW LAYOUT
+   ========================================= */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #ababab;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #333;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+}
+.icon-btn svg { flex-shrink: 0; }
+.icon-btn-label { white-space: nowrap; }
+
+.header-logo { height: 32px; width: auto; object-fit: contain; }
+
+.header-row-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+.header-left, .header-right { display: flex; align-items: center; gap: 8px; }
+.header-center { display: flex; flex-direction: column; align-items: center; text-align: center; flex: 1; }
+.header-center h1 { padding-left: 0; }
+.header-center .header-username-box { margin-left: 0; margin-top: 2px; }
+
+.header-proctor-icons { display: flex; align-items: center; gap: 6px; }
+.proctor-icon { padding: 6px; border-radius: 50%; }
+
+/* Orange/Red Timer everywhere */
+.timer-text { background: #f09819 !important; color: #d32f2f !important; }
+[data-theme="dark"] .timer-text { background: #f09819 !important; color: #d32f2f !important; }
+
+/* Floating hamburger palette toggle (mobile only) */
+.palette-fab {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #198754;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  z-index: 1200;
+  cursor: pointer;
+}
+
+.sec-btn-group { display: flex; gap: 8px; }
+
+/* Hide Clear button everywhere */
+#clearBtn { display: none !important; }
+
+/* New Submit Section/Test buttons */
+#submitSectionBtn { background: #0b5ed7 !important; color: #fff !important; }
+#submitTestBtn { background: #198754 !important; color: #fff !important; }
+
+/* ===== Combined Section Nav + Action Row (Desktop) ===== */
+@media (min-width: 992px) {
+  #sectionNav {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .last-minutes { font-weight: 700; color: var(--danger); white-space: nowrap; margin: 0 4px; }
+  .fullscreen-btn { white-space: nowrap; }
+  #sectionNav #topActions { margin-right: 372px; }
+}
+
+/* ===== Mobile Header: Orange Background, minimal content ===== */
+@media (max-width: 991px) {
+  header, .header-inner { background: #f09819 !important; }
+  .header-row-main { flex-wrap: nowrap !important; justify-content: space-between !important; }
+  .header-center,
+  .header-logo,
+  .header-proctor-icons,
+  .zoom-btn .icon-btn-label,
+  .last-minutes,
+  .fullscreen-btn,
+  #darkModeToggle,
+  #backToAnalysisBtn { display: none !important; }
+  .icon-btn { background: rgba(255,255,255,0.85); border: none; padding: 6px 8px; }
+  .timer-text { font-weight: 800; }
+  .palette-fab { display: flex !important; }
+}
+
 </style>
 
 
@@ -2273,45 +2365,79 @@ const savedDb = commonApp.database();
 </div>
 
 
-
-
 <header id="mainHeader" style="display:none;">
-  <div class="header-inner" style="flex-direction: column; height: auto; padding: 10px 16px;">
-    <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-      <div style="display:flex; align-items:center; gap:12px;">
+  <div class="header-inner">
+    <div class="header-row header-row-main">
+
+      <div class="header-left">
+        <button id="backBtn" class="icon-btn" title="Back" aria-label="Back">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </button>
         <button id="backToAnalysisBtn" class="btn-ghost" style="display:none;">⬅ Analysis</button>
-        <h1 id="headerTitle" style="padding-left:0;">Loading...</h1>
-        <button id="pauseBtn" class="pause-btn-img-style">
-          <span class="pause-bars"></span>
-          Pause
+        <img src="/logo.png" alt="logo" id="headerLogo" class="header-logo">
+        <button id="zoomInBtn" class="icon-btn zoom-btn" title="Zoom In">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          <span class="icon-btn-label">Zoom (+)</span>
+        </button>
+        <button id="zoomOutBtn" class="icon-btn zoom-btn" title="Zoom Out">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          <span class="icon-btn-label">Zoom (-)</span>
         </button>
       </div>
-      
-      <div style="display:flex; align-items:center; gap:10px;">
+
+      <div class="header-center">
+        <h1 id="headerTitle" style="padding-left:0;">Loading...</h1>
         <div id="headerUsername" class="header-username-box">User</div>
-        <select id="langSelect" class="btn-ghost" style="padding: 4px; font-size: 13px;">
-          <option value="en">English</option>
-          <option value="hi">हिन्दी</option>
-          <option value="bilingual">EN+HI</option>
-        </select>
-        <div class="timer-text" id="timer">00:00</div>
-        <button id="submitBtn" class="btn">Submit</button>
-        <button id="paletteBtn" class="btn-ghost">View</button>
-                 <button id="darkModeToggle" onclick="toggleDarkMode()">🌙</button>
-        <button id="toggleActionBarBtn" class="btn-ghost btn-sm">⇅</button>
       </div>
+
+      <div class="header-right">
+        <button id="darkModeToggle" class="icon-btn" onclick="toggleDarkMode()" title="Toggle Theme">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button id="pauseBtn" class="pause-btn-img-style">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          Pause
+        </button>
+        <div class="timer-text" id="timer">00:00</div>
+        <div class="header-proctor-icons">
+          <span class="icon-btn proctor-icon" title="Camera">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          </span>
+          <span class="icon-btn proctor-icon" title="Candidate">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+        </div>
+      </div>
+
     </div>
-    
+
     <div id="desktopActionRow" style="display:flex; justify-content:flex-end; width:100%; margin-top:10px; padding-top:8px; border-top:1px solid #eee;">
         <div id="topActions" class="top-actions" style="display:flex !important; margin-right: 372px; gap: 10px;">
           <button id="prevBtn" class="btn-prev btn-ghost btn-sm">Previous</button>
-          <button id="clearBtn" class="btn-clear btn-ghost btn-sm">Clear</button>
+          <button id="clearBtn" class="btn-clear btn-ghost btn-sm" style="display:none;">Clear</button>
           <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
           <button id="nextBtn" class="btn-next btn btn-sm">Save & Next</button>
+         
+          <button id="submitTestBtn" class="btn-sm">Submit Test</button>
         </div>
     </div>
+
+    <!-- Retained hidden for script compatibility, will be cleaned up later -->
+    <select id="langSelect" style="display:none;">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="bilingual">EN+HI</option>
+    </select>
+    <button id="submitBtn" class="btn" style="display:none;">Submit</button>
+    <button id="toggleActionBarBtn" class="btn-ghost btn-sm" style="display:none;">⇅</button>
   </div>
 </header>
+
+<!-- Mobile floating palette toggle (replaces "View" button) -->
+<button id="paletteBtn" class="palette-fab" title="Toggle Palette" aria-label="Toggle Palette">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
 
 
 <div id="sectionNav" class="section-nav" style="display:none;"></div>
@@ -2466,6 +2592,12 @@ let questionTime = {};
 // 🛠️ HELPER FUNCTIONS
 // ===============================
 
+let zoomLevel = 1;
+function applyZoom() {
+  const card = document.getElementById("quizCard");
+  if (card) card.style.zoom = zoomLevel;
+}
+
 // Short helper for getting elements
 const el = id => document.getElementById(id);
 function fmtMSS(s) {
@@ -2550,12 +2682,15 @@ function saveQuizState(){
 // ===============================
 // ⏱️ TIMER LOGIC
 // ===============================
+
 function startTimer() {
   if (timerInterval) clearInterval(timerInterval);
 
   // Always show valid time
   seconds = Math.max(0, seconds);
   el("timer").textContent = fmt(seconds);
+  const lastMinEl0 = document.getElementById("lastMinutesDisplay");
+  if (lastMinEl0) lastMinEl0.textContent = "Last " + Math.ceil(seconds/60) + " Minutes";
 
   timerInterval = setInterval(() => {
 
@@ -2573,6 +2708,8 @@ function startTimer() {
     // Normal countdown
     seconds--;
     el("timer").textContent = fmt(seconds);
+    const lastMinEl = document.getElementById("lastMinutesDisplay");
+    if (lastMinEl) lastMinEl.textContent = "Last " + Math.ceil(seconds/60) + " Minutes";
 
     // 1. Track time for the active section
     const activeSectionName = SECTION_NAMES[currentSectionIdx];
@@ -3178,19 +3315,24 @@ async function submitReport() {
 // ===============================
 // 🖱️ OPTION SELECTION
 // ===============================
-
 function selectOption(q, val, divEl) {
   if (!isQuiz) return;
 
   const qid = q.id ?? current;
-  answers[qid] = String(val);
+
+  // Clicking the already-selected option clears the answer
+  if (answers[qid] === String(val)) {
+    delete answers[qid];
+  } else {
+    answers[qid] = String(val);
+  }
   saveQuizState();
 
   // Instead of re-rendering the whole question (which reloads images),
   // just update the 'selected' class on the option rows.
   const allOpts = document.querySelectorAll("#options .opt");
   allOpts.forEach((opt, idx) => {
-    if (idx + 1 === val) {
+    if (answers[qid] !== undefined && (idx + 1) === Number(answers[qid])) {
       opt.classList.add("selected");
     } else {
       opt.classList.remove("selected");
@@ -3201,6 +3343,7 @@ function selectOption(q, val, divEl) {
   if (typeof highlightPalette === "function") highlightPalette();
   updateNavButtons();
 }
+
 
 
 // ===============================
@@ -3820,9 +3963,12 @@ function enterSolutionMode() {
       palette.style.display = "none"; // Hide mobile palette until "View" clicked
   }
 
- // 6. Fix Button Visibility for BOTH Desktop and Mobile
+// 6. Fix Button Visibility for BOTH Desktop and Mobile
   document.querySelectorAll("#clearBtn").forEach(btn => btn.style.display = "none");
   document.querySelectorAll("#markBtn").forEach(btn => btn.style.display = "none");
+ 
+  document.querySelectorAll("#submitTestBtn").forEach(btn => btn.style.display = "none");
+  document.querySelectorAll("#fullscreenBtn, .last-minutes").forEach(elx => elx.style.display = "none");
   
   attachListeners();   // Re-links the clicks
 
@@ -4322,8 +4468,7 @@ function attachListeners(){
       renderQuestion(current);
     };
   });
-
-  document.querySelectorAll("#markBtn").forEach(btn => {
+document.querySelectorAll("#markBtn").forEach(btn => {
     btn.onclick = () => {
       const qid = QUESTIONS[current].id ?? current;
       if(marked[qid]) delete marked[qid];
@@ -4333,6 +4478,58 @@ function attachListeners(){
     };
   });
 
+  // Back arrow: Previous question (quiz mode) / Analysis (solution mode)
+  document.querySelectorAll("#backBtn").forEach(btn => {
+    btn.onclick = () => {
+      if (!isQuiz) { restoreLatestResult(); return; }
+      if (current > 0) { renderQuestion(current - 1); return; }
+      if (confirm("Exit quiz? Your progress will be saved.")) {
+        saveQuizState();
+        const currentUrl = window.location.pathname;
+        const parentFolder = currentUrl.substring(0, currentUrl.lastIndexOf('/')) + '/';
+        window.location.href = parentFolder;
+      }
+    };
+  });
+
+  // Zoom controls
+  document.querySelectorAll("#zoomInBtn").forEach(btn => {
+    btn.onclick = () => {
+      zoomLevel = Math.min(1.5, +(zoomLevel + 0.1).toFixed(2));
+      applyZoom();
+    };
+  });
+  document.querySelectorAll("#zoomOutBtn").forEach(btn => {
+    btn.onclick = () => {
+      zoomLevel = Math.max(0.7, +(zoomLevel - 0.1).toFixed(2));
+      applyZoom();
+    };
+  });
+
+  // Fullscreen toggle
+  document.querySelectorAll("#fullscreenBtn").forEach(btn => {
+    btn.onclick = () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.().catch(()=>{});
+        btn.textContent = "Exit Fullscreen";
+      } else {
+        document.exitFullscreen?.();
+        btn.textContent = "Show Fullscreen";
+      }
+    };
+  });
+  document.addEventListener("fullscreenchange", () => {
+    document.querySelectorAll("#fullscreenBtn").forEach(btn => {
+      btn.textContent = document.fullscreenElement ? "Exit Fullscreen" : "Show Fullscreen";
+    });
+  });
+
+  
+  // Submit Test (reuse existing submit modal flow)
+  document.querySelectorAll("#submitTestBtn").forEach(btn => {
+    btn.onclick = () => el("submitBtn").click();
+  });
+ 
 
 
   // Palette Toggle (Mobile)
@@ -5114,21 +5311,41 @@ if (specificSection && standardizedSections[specificSection]) {
 
     QUESTIONS = SECTIONS[SECTION_NAMES[0]];
 
-    
-    // 4. Build Section Buttons
+    // 4. Build Section Buttons (and merge action row on desktop into the same line)
     const nav = document.getElementById("sectionNav");
     if(nav) {
       nav.innerHTML = "";
+      const secGroup = document.createElement("div");
+      secGroup.className = "sec-btn-group";
       SECTION_NAMES.forEach((name, i) => {
         const btn = document.createElement("button");
         btn.className = "sec-btn" + (i === 0 ? " active" : "");
         const partLabel = "PART " + String.fromCharCode(65 + i); 
         btn.textContent = partLabel;
         btn.onclick = () => switchSection(i);
-        nav.appendChild(btn);
+        secGroup.appendChild(btn);
       });
-    }
+      nav.appendChild(secGroup);
 
+      if (window.innerWidth >= 992) {
+        const lastMin = document.createElement("span");
+        lastMin.id = "lastMinutesDisplay";
+        lastMin.className = "last-minutes";
+        nav.appendChild(lastMin);
+
+        const fsBtn = document.createElement("button");
+        fsBtn.id = "fullscreenBtn";
+        fsBtn.className = "btn-ghost btn-sm fullscreen-btn";
+        fsBtn.textContent = "Show Fullscreen";
+        nav.appendChild(fsBtn);
+
+        const topActions = document.getElementById("topActions");
+        if (topActions) nav.appendChild(topActions);
+        const actionRow = document.getElementById("desktopActionRow");
+        if (actionRow) actionRow.style.display = "none";
+      }
+    }
+   
   // --- Updated Logic for Sectional Summary Table Generation ---
     let welcomeTableHtml = "";
     let totalQuestionsCount = 0;
