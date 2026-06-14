@@ -1508,16 +1508,23 @@ body.mode-solution .container {
   }
 
 
-  .main-dashboard-window {
+
+.main-dashboard-window {
   flex: 1;
   width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
   margin-left: 260px;
+}
+
+@media (max-width: 991px) {
+  .main-dashboard-window {
+    margin-left: 0;
   }
-
-
-
+  .dash-sidebar {
+    display: none;
+  }
+}
 
 
 /* Base View Layout Visibility Mechanics */
@@ -2930,7 +2937,7 @@ let currentSectionIdx = 0;   // New: Active section tracking
 let sectionTime = {};        // <-- ADD THIS LINE
 let questionTime = {};  
   
-const RESULT_HTML_VERSION = "v2";
+const RESULT_HTML_VERSION = "v3";
 // ===============================
 // 🛠️ HELPER FUNCTIONS
 // ===============================
