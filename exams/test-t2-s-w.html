@@ -2925,6 +2925,7 @@ let seconds = 0;              // Changed from placeholder
 let timerInterval = null;
 let isQuiz = true;
 let LAST_RESULT_HTML = "";
+let isPracticeToggle = false;
 let currentLang = "en";
 
 
@@ -3302,9 +3303,28 @@ if (el("marking")) {
 
     const div = document.createElement("div");
     div.className = "opt";
-
-    if (isQuiz) {
+    
+if (isQuiz) {
       if (isSelected) div.classList.add("selected");
+    } else if (isPracticeToggle) {
+      // Practice mode — allow clicking to reveal answer for this question
+      div.style.cursor = "pointer";
+      if (isSelected) div.classList.add("selected");
+      radio.addEventListener("click", (e) => {
+        e.stopPropagation();
+        // Reveal correct/wrong just for this question temporarily
+        const allOpts = optsContainer.querySelectorAll(".opt");
+        allOpts.forEach((opt, idx) => {
+          const isC = String(q.answer) === String(idx + 1);
+          const isSel = String(optionIndex) === String(idx + 1);
+          opt.classList.remove("correct", "wrong", "selected");
+          if (isC) opt.classList.add("correct");
+          if (isSel && !isC) opt.classList.add("wrong");
+        });
+        // Also show explanation
+        const expBox = el("explanation");
+        expBox.style.display = "block";
+      });
     } else {
       div.style.cursor = "default";
       if (isCorrectAns) {
@@ -3314,6 +3334,7 @@ if (el("marking")) {
         div.classList.add("wrong");
       }
     }
+
 
     // 🖼️ OPTION IMAGE RENDER
     const optImgKey = `option_image_${optionIndex}`;
@@ -3342,6 +3363,7 @@ if (el("marking")) {
     const radio = div.querySelector(".custom-radio");
 
     if (isQuiz) {
+      
       radio.addEventListener("click", (e) => {
         e.stopPropagation();   // 🔥 CRITICAL
         selectOption(q, optionIndex, div);
@@ -3354,7 +3376,8 @@ if (el("marking")) {
 
   // 5. Render Explanation (Only in Solution Mode)
   const expBox = el("explanation");
-  if (!isQuiz) {
+  
+    if (!isQuiz && !isPracticeToggle) {
     const qid = q.id;
     const userAns = answers[qid];
     const isCorrect = userAns && String(userAns) === String(q.answer);
@@ -4580,8 +4603,26 @@ function enterSolutionMode() {
   document.getElementById("backToAnalysisBtn").style.display = "inline-block";
   document.getElementById("timer").style.display = "none";
   document.getElementById("submitBtn").style.display = "none";
-  document.getElementById("headerTitle").textContent = "Solution Mode";
 
+document.getElementById("headerTitle").textContent = "Solution Mode";
+
+// Add practice toggle button if not already there
+if (!document.getElementById("practiceToggleBtn")) {
+  const toggleBtn = document.createElement("button");
+  toggleBtn.id = "practiceToggleBtn";
+  toggleBtn.textContent = "🔍 Practice Mode: OFF";
+  toggleBtn.style.cssText = "background:#f0f0f0; color:#333; border:1.5px solid #ccc; border-radius:6px; padding:4px 12px; font-size:13px; font-weight:700; cursor:pointer; margin-left:10px;";
+  toggleBtn.onclick = () => {
+    isPracticeToggle = !isPracticeToggle;
+    toggleBtn.textContent = isPracticeToggle ? "🔍 Practice Mode: ON" : "🔍 Practice Mode: OFF";
+    toggleBtn.style.background = isPracticeToggle ? "#0b5ed7" : "#f0f0f0";
+    toggleBtn.style.color = isPracticeToggle ? "#fff" : "#333";
+    toggleBtn.style.borderColor = isPracticeToggle ? "#0b5ed7" : "#ccc";
+    renderQuestion(current);
+  };
+  document.getElementById("headerTitle").after(toggleBtn);
+}
+isPracticeToggle = false;
   // 5. Layout Restoration (Critical for the "nothing showing" issue)
   if (window.innerWidth >= 992) {
       quizArea.style.display = "grid";
