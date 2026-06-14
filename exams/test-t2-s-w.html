@@ -3298,42 +3298,33 @@ if (el("marking")) {
     if (!q[key]) return; 
 
     const optionIndex = idx + 1; 
+    const isSelected = answers[q.id] === String(optionIndex);
+    const isCorrectAns = String(q.answer) === String(optionIndex);
+
+    const div = document.createElement("div");
+    div.className = "opt";
+
+    if (isQuiz) {
+      if (isSelected) div.classList.add("selected");
+    } else if (!isPracticeToggle) {
+      // Normal solution mode — show correct/wrong colors
+      div.style.cursor = "default";
+      if (isCorrectAns) div.classList.add("correct");
+      if (isSelected && !isCorrectAns) div.classList.add("wrong");
+    } else {
+      // Practice mode — clean, no colors, clickable to reveal
+      div.style.cursor = "pointer";
+  }
+  optionKeys.forEach((key, idx) => {
+    if (!q[key]) return; 
+
+    const optionIndex = idx + 1; 
     const isSelected = answers[q.id] === String(optionIndex); // Use q.id strictly
     const isCorrectAns = String(q.answer) === String(optionIndex);
 
     const div = document.createElement("div");
     div.className = "opt";
     
-if (isQuiz) {
-      if (isSelected) div.classList.add("selected");
-    } else if (isPracticeToggle) {
-      // Practice mode — allow clicking to reveal answer for this question
-      div.style.cursor = "pointer";
-      if (isSelected) div.classList.add("selected");
-      radio.addEventListener("click", (e) => {
-        e.stopPropagation();
-        // Reveal correct/wrong just for this question temporarily
-        const allOpts = optsContainer.querySelectorAll(".opt");
-        allOpts.forEach((opt, idx) => {
-          const isC = String(q.answer) === String(idx + 1);
-          const isSel = String(optionIndex) === String(idx + 1);
-          opt.classList.remove("correct", "wrong", "selected");
-          if (isC) opt.classList.add("correct");
-          if (isSel && !isC) opt.classList.add("wrong");
-        });
-        // Also show explanation
-        const expBox = el("explanation");
-        expBox.style.display = "block";
-      });
-    } else {
-      div.style.cursor = "default";
-      if (isCorrectAns) {
-        div.classList.add("correct");
-      }
-      if (isSelected && !isCorrectAns) {
-        div.classList.add("wrong");
-      }
-    }
 
 
     // 🖼️ OPTION IMAGE RENDER
@@ -3363,10 +3354,24 @@ if (isQuiz) {
     const radio = div.querySelector(".custom-radio");
 
     if (isQuiz) {
-      
       radio.addEventListener("click", (e) => {
-        e.stopPropagation();   // 🔥 CRITICAL
+        e.stopPropagation();
         selectOption(q, optionIndex, div);
+      });
+    } else if (isPracticeToggle) {
+      // Practice mode — click to reveal answer for this question
+      radio.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const allOpts = optsContainer.querySelectorAll(".opt");
+        allOpts.forEach((opt, i) => {
+          const isC = String(q.answer) === String(i + 1);
+          const isSel = String(optionIndex) === String(i + 1);
+          opt.classList.remove("correct", "wrong");
+          if (isC) opt.classList.add("correct");
+          if (isSel && !isC) opt.classList.add("wrong");
+        });
+        // Show explanation after clicking
+        el("explanation").style.display = "block";
       });
     }
 
