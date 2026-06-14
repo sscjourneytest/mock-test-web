@@ -15,6 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" 
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
 <script>
@@ -1733,6 +1735,11 @@ body.mode-solution .container {
   /* Re-align leaderboard cards into 7 items per row on broad desktop displays */
   .toppers-avatars-row { grid-template-columns: repeat(7, 1fr) !important; gap: 15px; }
 }
+
+  @media (max-width: 991px) {
+  .dash-sidebar, .sidebar { 
+    display: none !important; 
+  }
 
 /* =========================================
    10. UTILITIES & MODALS
