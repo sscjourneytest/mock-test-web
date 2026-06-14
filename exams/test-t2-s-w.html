@@ -4562,7 +4562,14 @@ function resetForSolutionMode() {
   QUESTIONS = SECTIONS[SECTION_NAMES[0]];
 
 }
-
+function togglePracticeMode() {
+  isPracticeToggle = !isPracticeToggle;
+  const track = document.getElementById("practiceToggleBtn");
+  const knob = document.getElementById("practiceToggleKnob");
+  if (track) track.style.background = isPracticeToggle ? "#0b5ed7" : "#ccc";
+  if (knob) knob.style.left = isPracticeToggle ? "20px" : "2px";
+  renderQuestion(current);
+}
 // ===============================
 // 🎮 DASHBOARD INTERACTIONS
 // ===============================
@@ -4606,23 +4613,33 @@ function enterSolutionMode() {
 
 document.getElementById("headerTitle").textContent = "Solution Mode";
 
-// Add practice toggle button if not already there
-if (!document.getElementById("practiceToggleBtn")) {
-  const toggleBtn = document.createElement("button");
-  toggleBtn.id = "practiceToggleBtn";
-  toggleBtn.textContent = "🔍 Practice Mode: OFF";
-  toggleBtn.style.cssText = "background:#f0f0f0; color:#333; border:1.5px solid #ccc; border-radius:6px; padding:4px 12px; font-size:13px; font-weight:700; cursor:pointer; margin-left:10px;";
-  toggleBtn.onclick = () => {
-    isPracticeToggle = !isPracticeToggle;
-    toggleBtn.textContent = isPracticeToggle ? "🔍 Practice Mode: ON" : "🔍 Practice Mode: OFF";
-    toggleBtn.style.background = isPracticeToggle ? "#0b5ed7" : "#f0f0f0";
-    toggleBtn.style.color = isPracticeToggle ? "#fff" : "#333";
-    toggleBtn.style.borderColor = isPracticeToggle ? "#0b5ed7" : "#ccc";
-    renderQuestion(current);
-  };
-  document.getElementById("headerTitle").after(toggleBtn);
+if (!document.getElementById("practiceToggleWrap")) {
+  const wrap = document.createElement("div");
+  wrap.id = "practiceToggleWrap";
+  wrap.style.cssText = "display:inline-flex; align-items:center; gap:8px; margin-left:12px;";
+  wrap.innerHTML = `
+    <span style="font-size:12px; font-weight:700; color:var(--muted-text);">Practice Mode</span>
+    <div id="practiceToggleBtn" onclick="togglePracticeMode()" style="
+      width:42px; height:24px; border-radius:12px; background:#ccc;
+      position:relative; cursor:pointer; transition:background 0.3s;
+      flex-shrink:0;
+    ">
+      <div id="practiceToggleKnob" style="
+        width:20px; height:20px; border-radius:50%; background:#fff;
+        position:absolute; top:2px; left:2px;
+        transition:left 0.3s; box-shadow:0 1px 3px rgba(0,0,0,0.3);
+      "></div>
+    </div>
+  `;
+  document.getElementById("headerTitle").after(wrap);
 }
 isPracticeToggle = false;
+// Reset toggle visual to OFF
+const track = document.getElementById("practiceToggleBtn");
+const knob = document.getElementById("practiceToggleKnob");
+if (track) { track.style.background = "#ccc"; }
+if (knob) { knob.style.left = "2px"; }
+  
   // 5. Layout Restoration (Critical for the "nothing showing" issue)
   if (window.innerWidth >= 992) {
       quizArea.style.display = "grid";
