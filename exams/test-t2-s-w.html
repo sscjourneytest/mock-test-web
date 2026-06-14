@@ -1497,7 +1497,7 @@ body.mode-solution .container {
   box-sizing: border-box;
 }
 
-.analysis-container {
+  .analysis-container {
   background: var(--analysis-bg);
   width: 100% !important;
   max-width: 100% !important;
@@ -1505,7 +1505,9 @@ body.mode-solution .container {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-}
+  align-items: flex-start;
+  }
+
 
 .main-dashboard-window {
   flex: 1;
@@ -1613,14 +1615,18 @@ body.mode-solution .container {
 .math-card-text span:last-child { color: var(--text-dark-solid); }
 
 /* --- LEFT NAV SIDEBAR (Desktop Locked View Mode) --- */
-.dash-sidebar {
+  .dash-sidebar {
   width: 260px;
   background-color: var(--card-bg);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-}
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  }
 
 .sidebar-brand-header {
   padding: 16px 20px;
@@ -1709,7 +1715,7 @@ body.mode-solution .container {
   padding: 6px 16px; 
   cursor: pointer; 
   border: 1.5px solid var(--border-color); 
-  border-radius: 20px; 
+  border-radius: 0; 
   background: #ffffff; 
   white-space: nowrap; 
   transition: all 0.2s ease; 
@@ -1942,7 +1948,7 @@ body.mode-solution .container {
   }
 
   .progress-bar-flat {
-    height: 6px !important; /* Slimmed track rule line to look crisp and long */
+    height: 8px !important; /* Slimmed track rule line to look crisp and long */
     border-radius: 0;
   }
   
@@ -3830,7 +3836,8 @@ function submitQuiz(isAuto = false) {
       
       <div class="dash-sidebar">
           <div class="sidebar-brand-header">
-              <div class="brand-logo-mockup"><i class="fa-solid fa-cubes"></i></div>
+          <img src="/logo.png" alt="Mock Matrix Hub" style="width:32px;height:32px;object-fit:contain;border-radius:6px;">
+              
               <div class="brand-name">Mock Matrix Hub</div>
           </div>
           <div class="sidebar-user-box">
@@ -3851,7 +3858,11 @@ function submitQuiz(isAuto = false) {
 
       <div class="main-dashboard-window">
           <div class="dash-header-bar">
-              <div class="dash-header-title">Analysis</div>
+              
+              <div class="dash-header-title" style="display:flex;align-items:center;gap:12px;">
+  <button onclick="window.location.href='/'" style="background:#ffffff;color:#2563eb;border:1.5px solid #2563eb;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">← Back to Test</button>
+  <span style="font-size:clamp(14px,3vw,22px);">Analysis</span>
+</div>
               <div class="dash-header-controls">
                   <select class="dash-dropdown-select"><option>Attempt 1</option></select>
                   <button class="dash-btn-solution" onclick="enterSolutionMode()">View Solution</button>
