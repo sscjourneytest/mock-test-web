@@ -14,7 +14,10 @@
 <title>Loading Quiz...</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Google Analytics -->
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
 <script>
@@ -1442,31 +1445,72 @@ body.mode-solution .container {
     min-width: auto !important;    /* Remove the 120px minimum width */
   }
 }
+/* ===== ANALYSIS PAGE — RESPONSIVE LAYOUT ===== */
+/* Mobile (<600px): app-style fixed, Desktop (≥600px): full-width expanding */
 
-/* =========================================
-   9. ANALYSIS DASHBOARD (From gem test.html)
-   ========================================= */
-.analysis-container { max-width: 900px; margin: auto; display: flex; flex-direction: column; gap: 14px; padding: 10px 0; }
+.analysis-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  background: var(--analysis-bg);
+}
+
+/* Mobile inner content padding */
+.analysis-inner { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+
+/* Desktop — full width, no fixed box */
+@media (min-width: 600px) {
+  .analysis-container { max-width: 100%; padding: 0 24px 60px; gap: 28px; }
+  .analysis-inner { padding: 0; gap: 28px; }
+}
+
 .card-dashboard { background: var(--card-bg); border-radius: 12px; padding: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.08); border: 1px solid var(--border-color); }
 
 .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 14px; color: var(--muted-text); }
 .info-grid div b { color: var(--body-text); }
 
-.score-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; text-align: center; }
-.score-item { background: var(--score-item-bg); border-radius: 10px; padding: 14px; border: 1px solid var(--score-item-border); }
-.score-item h4 { margin: 0; font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
-.score-item p { margin: 6px 0 0; font-size: 20px; font-weight: 800; color: var(--body-text); }
+/* ── OVERALL PERFORMANCE — Mobile: 2-col stat cards with icon + bar ── */
+.overall-perf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.overall-perf-label { font-size: 13px; font-weight: 600; color: #444; text-transform: uppercase; letter-spacing: 0.3px; }
+.cutoff-badge-new { background: #4caf50; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
 
+.stat-grid-2col { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 22px; }
+.stat-card-new { display: flex; flex-direction: column; gap: 7px; }
+.stat-header-new { display: flex; align-items: center; gap: 12px; }
+.ui-icon-svg { width: 42px; height: 42px; flex-shrink: 0; }
+.stat-text-new { display: flex; flex-direction: column; gap: 2px; }
+.stat-title-new { font-size: 15px; font-weight: 600; color: var(--body-text); }
+.stat-value-new { font-size: 13px; color: var(--muted-text); }
+.progress-track-new { width: 100%; height: 6px; background: var(--light-gray); border-radius: 10px; overflow: hidden; }
+.progress-fill-new { height: 100%; border-radius: 10px; }
+
+/* Desktop: switch to 6-col ring layout */
+@media (min-width: 600px) {
+  .stat-grid-2col { grid-template-columns: repeat(5, 1fr); column-gap: 16px; }
+  .stat-card-new { align-items: center; text-align: center; }
+  .stat-header-new { flex-direction: column; align-items: center; gap: 8px; }
+  .ui-icon-svg { width: 90px; height: 90px; }
+  .stat-title-new { font-size: 14px; }
+  .stat-value-new { font-size: 13px; }
+}
+
+/* ── ATTEMPT SUMMARY ── */
 .attempt-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; text-align: center; }
 .attempt-box { padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; border: 1px solid transparent; }
 .attempt-box span { display: block; font-size: 20px; margin-top: 4px; font-weight: 800; }
-
 .at-correct { background: #e6f7ee; color: var(--success); border-color: #c3e6cb; }
 .at-wrong { background: #fdeaea; color: var(--danger); border-color: #f5c6cb; }
 .at-unattempted { background: #fff8e1; color: #b77c00; border-color: #ffeeba; }
 .at-total { background: #e7f0ff; color: var(--accent); border-color: #b6d4fe; }
-
-/* Dark mode — deeper backgrounds so colored text stays visible */
 [data-theme="dark"] .at-correct { background: #0d3320; color: #6ee89a; border-color: #1a5c36; }
 [data-theme="dark"] .at-wrong { background: #3d0d0d; color: #f08080; border-color: #6b1a1a; }
 [data-theme="dark"] .at-unattempted { background: #3d3000; color: #f5c842; border-color: #665200; }
@@ -1479,22 +1523,107 @@ body.mode-solution .container {
 .btn-outline { background: var(--card-bg); color: var(--accent); border-color: var(--accent); }
 .btn-outline:hover { background: var(--light-gray); }
 
-/* Comparison Bars */
-.bar-section { margin-top: 10px; }
+/* ── SECTION WISE PERFORMANCE CARDS ── */
+.section-wise-grid { display: flex; flex-direction: column; gap: 14px; }
+.perf-section-card {
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+              linear-gradient(135deg, #ff6b6b, #4dabf7) border-box;
+  padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.perf-section-title { font-size: 15px; font-weight: 700; color: var(--body-text); }
+.perf-row { display: flex; flex-direction: column; gap: 6px; }
+.perf-row-text { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted-text); font-weight: 500; }
+.perf-row-text span:last-child { color: var(--body-text); font-weight: 700; }
+.perf-divider { border-top: 1px solid var(--border-color); margin: 4px 0; }
+
+/* Desktop: grid layout */
+@media (min-width: 600px) {
+  .section-wise-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .perf-section-card { padding: 20px 22px; }
+  .perf-section-title { font-size: 17px; text-align: center; }
+}
+
+/* ── COMPARISON BARS — shared between Overall & Sectional ── */
+/* Mobile: side-by-side row style (Rank.html style) */
+.compare-legend { display: flex; justify-content: center; gap: 32px; margin-bottom: 18px; font-size: 13px; font-weight: 600; color: var(--muted-text); }
+.legend-sq { width: 13px; height: 13px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: middle; }
+.legend-you { background: var(--accent); }
+.legend-topper { background: #f59e0b; }
+
+/* Compare tabs (mobile: pill buttons; desktop: underline tabs) */
+.compare-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.compare-tab-btn { border: 1px solid var(--border-color); background: var(--card-bg); padding: 7px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--body-text); cursor: pointer; transition: 0.15s; }
+.compare-tab-btn.active { border-color: var(--body-text); box-shadow: 0 0 0 1px var(--body-text); }
+
+@media (min-width: 600px) {
+  .compare-tabs { gap: 0; border-bottom: 1.5px solid var(--border-color); margin-bottom: 24px; flex-wrap: nowrap; }
+  .compare-tab-btn { border: none; border-radius: 0; padding: 10px 20px; background: transparent; position: relative; }
+  .compare-tab-btn.active { box-shadow: none; border-bottom: 2.5px solid var(--accent); color: var(--accent); }
+}
+
+/* Bar rows */
+.bar-section { margin-bottom: 18px; }
 .bar-row { margin-bottom: 16px; }
 .bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--muted-text); }
+
+/* Mobile comparison style: label | dual bars | values */
+.comp-metric-line { display: flex; align-items: center; margin-bottom: 18px; }
+.lbl-metric { width: 72px; font-size: 13px; font-weight: 600; color: var(--body-text); flex-shrink: 0; line-height: 1.2; }
+.bars-dual { flex: 1; display: flex; flex-direction: column; gap: 6px; padding: 0 12px; }
+.comp-track { width: 100%; height: 8px; background: var(--light-gray); border-radius: 3px; overflow: hidden; }
+.comp-fill-you { background: var(--accent); height: 100%; border-radius: 3px; }
+.comp-fill-topper { background: #f59e0b; height: 100%; border-radius: 3px; }
+.val-metric { width: 72px; display: flex; flex-direction: column; gap: 3px; text-align: right; font-size: 12px; color: var(--muted-text); font-weight: 600; }
+
+@media (min-width: 600px) {
+  .comp-metric-line { margin-bottom: 24px; }
+  .lbl-metric { width: 140px; font-size: 15px; }
+  .bars-dual { padding: 0 30px; gap: 8px; }
+  .comp-track { height: 16px; border-radius: 4px; }
+  .val-metric { width: 110px; font-size: 14px; font-weight: 700; text-align: left; }
+}
+
 .bar-track { height: 10px; background: var(--light-gray); border-radius: 99px; overflow: hidden; position: relative; }
 .bar-fill { height: 100%; border-radius: 99px; transition: width 1s ease-out; }
 .fill-you { background: var(--accent); }
-.fill-topper { background: var(--success); }
+.fill-topper { background: #f59e0b; }
 .bar-values { display: flex; justify-content: space-between; font-size: 12px; margin-top: 4px; color: var(--muted-text); font-weight: 600; }
 
-/* Topper Table */
+/* ── TOPPER LEADERBOARD ── */
+/* Mobile: 3-col avatar grid */
+.topper-leaderboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 12px; text-align: center; margin-top: 14px; }
+.topper-profile-card { display: flex; flex-direction: column; align-items: center; }
+.topper-avatar-ring { width: 56px; height: 56px; background: #fff; border-radius: 50%; border: 1.5px solid var(--accent); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 28px; margin-bottom: 6px; box-shadow: 0 2px 8px rgba(37,99,235,0.15); }
+.topper-rank-lbl { font-size: 11px; color: var(--muted-text); font-weight: 600; }
+.topper-name-lbl { font-size: 12px; color: var(--body-text); font-weight: 600; max-width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 1px 0; }
+.topper-score-lbl { font-size: 11px; color: var(--muted-text); }
+
+/* Desktop: 7-col boxed cards */
+@media (min-width: 600px) {
+  .topper-leaderboard-grid { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 14px; }
+  .topper-avatar-ring { width: 52px; height: 52px; font-size: 26px; }
+  .topper-profile-card { border: 1.5px solid var(--border-color); border-radius: 8px; padding: 14px 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); background: var(--card-bg); }
+  .topper-name-lbl { max-width: 100%; font-size: 13px; }
+}
+
+/* ── TOPPER TABLE (hidden on mobile, shown desktop) ── */
 .topper-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
 .topper-table th { background: var(--light-gray); color: var(--muted-text); font-weight: 700; padding: 10px; text-align: left; border-bottom: 2px solid var(--border-color); }
 .topper-table td { padding: 10px; border-bottom: 1px solid var(--border-color); color: var(--body-text); }
+
 .section-title { font-size: 16px; font-weight: 700; margin: 0 0 14px; color: var(--body-text); padding-bottom: 8px; border-bottom: 1px solid var(--border-color); }
-/* Change this to force a solid background and continuous flow */
+
+/* ── SCORE SUMMARY — keep old for fallback ── */
+.score-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; text-align: center; }
+.score-item { background: var(--score-item-bg); border-radius: 10px; padding: 14px; border: 1px solid var(--score-item-border); }
+.score-item h4 { margin: 0; font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+.score-item p { margin: 6px 0 0; font-size: 20px; font-weight: 800; color: var(--body-text); }
+
+  /* Change this to force a solid background and continuous flow */
 #results {
     position: relative !important;
     background: var(--results-bg) !important;
@@ -3273,76 +3402,56 @@ async function saveStatusToCloud() {
 // 🚀 SUBMIT & ANALYSIS ENGINE
 // ===============================
 function submitQuiz(isAuto = false) {
-  
-  // 2. 🛑 Stop Timer & Hide Quiz UI
+
   if (timerInterval) clearInterval(timerInterval);
   const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
-  // --- GENERATE RESPONSE STREAM (Updated with Marked Status) ---
+
   let responseArray = [];
   SECTION_NAMES.forEach(sName => {
     SECTIONS[sName].forEach(q => {
       const ans = answers[q.id] || "0";
       const time = questionTime[q.id] || 0;
-      // If the question ID exists in the marked object, add :Y
-      const isMarked = marked[q.id] ? ":Y" : ""; 
+      const isMarked = marked[q.id] ? ":Y" : "";
       responseArray.push(`${ans}:${time}${isMarked}`);
     });
   });
   const responseStream = responseArray.join('|');
+  localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
 
-localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
   document.getElementById("mainHeader").style.display = "none";
- 
   if (el("sectionNav")) el("sectionNav").style.display = "none";
   document.getElementById("floatBar").style.display = "none";
   document.body.classList.remove("actions-bottom");
   const quizArea = document.getElementById("quizMainArea");
-  if(quizArea) quizArea.style.display = "none";
+  if (quizArea) quizArea.style.display = "none";
 
   const resBox = document.getElementById("results");
   resBox.style.display = "block";
-  resBox.innerHTML = `<div class="card-dashboard" style="text-align:center; padding:50px;">
-                        <h2 style="color:var(--accent);">Generating analysis...</h2>
-                        <p>Please wait while we calculate your sectional ranks and toppers list.</p>
-                      </div>`;
+  resBox.innerHTML = `<div class="card-dashboard" style="text-align:center;padding:50px;">
+    <h2 style="color:var(--accent);">Generating analysis...</h2>
+    <p>Please wait while we calculate your sectional ranks and toppers list.</p>
+  </div>`;
 
-
-  // 3. 🧮 Calculate Global & Sectional Scores
   let totalCorrect = 0, totalWrong = 0, totalMarks = 0, maxTotalMarks = 0;
-  let totalQuestionsCount = 0; // Added for precise math
+  let totalQuestionsCount = 0;
   const sectionalDataForFirebase = {};
-  let sectionalBarsHTML = "";
 
   SECTION_NAMES.forEach(sName => {
     let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
     totalQuestionsCount += SECTIONS[sName].length;
-    
     SECTIONS[sName].forEach(q => {
       sMax += Number(q.correct_score ?? 2);
       const ans = answers[q.id];
-      if (ans == q.answer) {
-        sCor++;
-        sScore += Number(q.correct_score ?? 2);
-      } else if (ans) {
-        sWr++;
-        sScore -= Number(q.negative_score ?? 0.5);
-      }
+      if (ans == q.answer) { sCor++; sScore += Number(q.correct_score ?? 2); }
+      else if (ans) { sWr++; sScore -= Number(q.negative_score ?? 0.5); }
     });
-
-    // Store per section - UPDATED: sectionTime[sName] tracks the real time spent
     sectionalDataForFirebase[sName] = {
-      score: sScore,
-      total: sMax,
-      correct: sCor,
-      wrong: sWr,
+      score: sScore, total: sMax, correct: sCor, wrong: sWr,
       unattempted: SECTIONS[sName].length - (sCor + sWr),
-      timeTaken: sectionTime[sName] || 0 
+      timeTaken: sectionTime[sName] || 0
     };
-
-    totalCorrect += sCor;
-    totalWrong += sWr;
-    totalMarks += sScore;
-    maxTotalMarks += sMax;
+    totalCorrect += sCor; totalWrong += sWr;
+    totalMarks += sScore; maxTotalMarks += sMax;
   });
 
   const attempted = totalCorrect + totalWrong;
@@ -3351,230 +3460,214 @@ localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, responseStream);
 
   const firebasePayload = {
     name: USER_DISPLAY_NAME,
-    score: totalMarks,
-    total: maxTotalMarks,
-    correct: totalCorrect,
-    wrong: totalWrong,
+    score: totalMarks, total: maxTotalMarks,
+    correct: totalCorrect, wrong: totalWrong,
     timeTaken: timeTakenSeconds,
-    quizId: QUIZ_ID,
-    emailKey: USER_EMAIL_KEY,
+    quizId: QUIZ_ID, emailKey: USER_EMAIL_KEY,
     sections: sectionalDataForFirebase,
     responseStream: responseStream,
-    // CHANGE: Use existing timestamp if available, otherwise create new one
     submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now()
-    
   };
 
-// Only save to Firebase if NOT in silent sync mode
   const runUIGeneration = ([rankData, toppersList]) => {
-      const topperStats = getTopperStatsForComparison(toppersList, attempted);
+    const topperStats = getTopperStatsForComparison(toppersList, attempted);
 
-      // 6. 📊 Generate Sectional Summary Table
-      let sectionalTableHtml = `
-      <div class="card-dashboard">
-        <h3 class="section-title">📊 Sectional Summary</h3>
-        <div style="overflow-x:auto">
-          <table class="analysis-table">
-            <tr>
-              <th>Section</th><th>Marks</th><th>Correct</th><th>Wrong</th><th>Left</th><th>Time Spent</th>
-            </tr>`;
-
-
-SECTION_NAMES.forEach(name => {
-  const d = sectionalDataForFirebase[name];
-  const secId = name.replace(/\s+/g, ''); 
-
-  sectionalTableHtml += `
-    <tr>
-      <td><b>${name}</b></td>
-      <td>${d.score}</td>
-      <td>${d.correct}</td>
-      <td>${d.wrong}</td>
-      <td>${d.unattempted}</td>
-      <td>${fmt(d.timeTaken)}</td>
-      
-    </tr>`;
-  
-
-  const secAttempted = d.correct + d.wrong;
-
-const topperSecRaw = topperStats.sections?.[name] || {};
-const topperSec = {
-  score: topperSecRaw.score || 0,
-  correct: topperSecRaw.correct || 0,
-  wrong: topperSecRaw.wrong || 0,
-  timeTaken: topperSecRaw.timeTaken || 0
-};
-
-const topperAttempted = topperSec.correct + topperSec.wrong;
-
-const accuracy = secAttempted
-  ? ((d.correct / secAttempted) * 100).toFixed(2)
-  : "0.00";
-
-const topperAccuracy = topperAttempted
-  ? ((topperSec.correct / topperAttempted) * 100).toFixed(2)
-  : "0.00";
-
-sectionalBarsHTML += `
-  <h4 class="section-title" style="margin-top:25px; border-left:4px solid var(--accent); padding-left:10px;">
-    Part: ${name}
-  </h4>
-
-  ${renderComparisonBar("Score", d.score, d.total, topperSec.score, d.total)}
-  ${renderComparisonBar("Accuracy", accuracy, 100, topperAccuracy, 100, "%")}
-    ${renderComparisonBar(
-  "Correct",
-  d.correct,
-  SECTIONS[name].length,
-  topperSec.correct,
-  SECTIONS[name].length
-)}
-${renderComparisonBar(
-  "Wrong",
-  d.wrong,
-  SECTIONS[name].length,
-  topperSec.wrong,
-  SECTIONS[name].length,
-  "",
-  true
-)}
-
-  ${renderComparisonBar(
-    "Time Taken",
-    d.timeTaken,
-    TOTAL_TIME_SECONDS,
-    topperSec.timeTaken,
-    TOTAL_TIME_SECONDS
-  )}
-`;
-  
-});
-sectionalTableHtml += `</table></div></div>`;
-
-      // 7. 🎨 Generate Dashboard HTML
-      let dashboardHTML = `
-      <div class="analysis-container">
-        <div style="margin-bottom: 10px;">
-          <button class="btn-dash btn-outline" style="width: 100%; background: #ffffff; color: #333; border: 2px solid #333; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="window.location.href='./'">
-            <span style="font-size: 18px;">⬅</span> GO TO ALL TESTS
-          </button>
-        </div>
-
-        <div class="card-dashboard">
-          <div class="info-grid">
-            <div><b>Name:</b> ${firebasePayload.name}</div>
-            <div><b>Quiz ID:</b> ${QUIZ_ID}</div>
-            <div><b>Quiz Name:</b> ${QUIZ_TITLE}</div>
+    // ── Sectional Performance Cards (Score, Attempted, Accuracy + progress bars only) ──
+    let sectionalCardsHtml = `<div class="card-dashboard"><h3 class="section-title">📋 Section Wise Performance</h3><div class="section-wise-grid">`;
+    SECTION_NAMES.forEach(name => {
+      const d = sectionalDataForFirebase[name];
+      const secAttempted = d.correct + d.wrong;
+      const secAcc = secAttempted ? ((d.correct / secAttempted) * 100).toFixed(1) : "0.0";
+      sectionalCardsHtml += `
+        <div class="perf-section-card">
+          <div class="perf-section-title">${name}</div>
+          <div class="perf-row">
+            <div class="perf-row-text"><span>Score</span><span>${d.score} / ${d.total}</span></div>
+            <div class="progress-track-new"><div class="progress-fill-new" style="background:#0f5132;width:${d.total>0?Math.max(0,Math.min(100,(d.score/d.total)*100)).toFixed(1):0}%"></div></div>
           </div>
-        </div>
-
-        <div class="card-dashboard">
-           <div class="action-grid">
-              <button class="btn-dash btn-solid" onclick="reattemptQuiz()">🔄 Reattempt</button>
-              <button class="btn-dash btn-outline" onclick="enterSolutionMode()">📊 Detailed Solution</button>
-           </div>
-           <div class="action-grid">
-              <button class="btn-dash btn-outline" onclick="restoreLatestResult()">⬅ Back to Latest Result</button>
-              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts(QUIZ_ID)">📁 Previous Results</button>
-              </div>
-        </div>
-
-        <div class="card-dashboard score-summary">
-          <div class="score-item"><h4>🏆 Rank</h4><p>${rankData.rank} / ${rankData.total}</p></div>
-          <div class="score-item"><h4>📊 Percentile</h4><p>${rankData.percentile}%</p></div>
-          <div class="score-item"><h4>🧮 Score</h4><p>${totalMarks} / ${maxTotalMarks}</p></div>
-          <div class="score-item"><h4>⏱ Time</h4><p>${timeFormatted}</p></div>
-        </div>
-
-        <div class="card-dashboard attempt-summary">
-           <div class="attempt-box at-correct">✅ Correct<span>${totalCorrect}</span></div>
-           <div class="attempt-box at-wrong">❌ Wrong<span>${totalWrong}</span></div>
-           <div class="attempt-box at-unattempted">🟡 Left<span>${totalQuestionsCount - attempted}</span></div>
-           <div class="attempt-box at-total">✍️ Attempted<span>${attempted}</span></div>
-        </div>
-
-        <div style="text-align:center">
-           <button class="btn-dash btn-solid" style="width:100%; max-width:400px;" onclick="refreshLatestRankOnDemand(this)">🔄 GET LIVE UPDATED RANK</button>
-        </div>
-
-        ${sectionalTableHtml}
-
-        <div class="card-dashboard" id="comparisonModule">
-          <h3 class="section-title">📊 You vs Topper (Complete Test)</h3>
-          ${renderComparisonBar("Score", totalMarks, maxTotalMarks, topperStats.score, maxTotalMarks)}
-          ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
-          ${renderComparisonBar("Correct", totalCorrect, totalQuestionsCount, topperStats.correct, totalQuestionsCount)}
-          ${renderComparisonBar("Wrong", totalWrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
-          ${renderComparisonBar("Time Taken", timeTakenSeconds, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
-
-          <div id="sectionalBarsContainer">
-            ${sectionalBarsHTML}
+          <div class="perf-row">
+            <div class="perf-row-text"><span>Attempted</span><span>${secAttempted} / ${SECTIONS[name].length}</span></div>
+            <div class="progress-track-new"><div class="progress-fill-new" style="background:#ff9f43;width:${SECTIONS[name].length>0?((secAttempted/SECTIONS[name].length)*100).toFixed(1):0}%"></div></div>
           </div>
-        </div>
-
-        <div class="card-dashboard">
-          <h3 class="section-title">🏆 Top 10 Toppers(first attempt)</h3>
-          <div style="overflow-x:auto">
-            <table class="topper-table">
-              <tr><th>Rank</th><th>Name</th><th>Score</th><th>Time</th></tr>
-              ${toppersList.map((t, idx) => `
-                <tr>
-                  <td>${idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : '#' + (idx + 1)))}</td>
-                  <td>${t.name}</td>
-                  <td><b>${t.score}</b></td>
-                  <td>${fmt(t.timeTaken)}</td>
-                </tr>
-              `).join('')}
-            </table>
+          <div class="perf-row">
+            <div class="perf-row-text"><span>Accuracy</span><span>${secAcc}%</span></div>
+            <div class="progress-track-new"><div class="progress-fill-new" style="background:#17a2b8;width:${secAcc}%"></div></div>
           </div>
-        </div>
-      </div>`;
-
-      resBox.innerHTML = dashboardHTML;
-      resBox.style.display = "block";
-
-      // 🔧 format Time Taken bars (section + total)
-resBox.querySelectorAll(".bar-section").forEach(sec => {
-  const label = sec.querySelector(".bar-label span")?.textContent;
-  if (label === "Time Taken") {
-    const values = sec.querySelectorAll("span[style*='text-align:right']");
-    values.forEach(val => {
-      const raw = val.textContent.trim();
-      if (!isNaN(raw) && raw !== "") {
-        val.textContent = fmt(parseInt(raw));
-      }
+        </div>`;
     });
-  }
-});
+    sectionalCardsHtml += `</div></div>`;
 
-      LAST_RESULT_HTML = dashboardHTML;
-      localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
-        submitted: true,
-        resultHTML: dashboardHTML,
-        answers,
-        marked,
-        current: 0,
-        questionTime,
-        sectionalData: sectionalDataForFirebase,
-        totalMarks,
-        timeTakenSeconds,
-        firebasePayload 
-      }));
+    // ── Compare with Topper: Overall + per-section tabs ──
+    let sectionTabBtns = `<button class="compare-tab-btn active" onclick="switchCompareTab('overall',this)">Overall</button>`;
+    let sectionTabPanels = `<div id="compareContent_overall">
+      ${renderComparisonBar("Score",      totalMarks,       maxTotalMarks,       topperStats.score,    maxTotalMarks)}
+      ${renderComparisonBar("Accuracy",   accuracy,         100,                 topperStats.accuracy, 100, "%")}
+      ${renderComparisonBar("Correct",    totalCorrect,     totalQuestionsCount, topperStats.correct,  totalQuestionsCount)}
+      ${renderComparisonBar("Wrong",      totalWrong,       totalQuestionsCount, topperStats.wrong,    totalQuestionsCount, "", true)}
+      ${renderComparisonBar("Time Taken", timeTakenSeconds, TOTAL_TIME_SECONDS,  topperStats.time,     TOTAL_TIME_SECONDS)}
+    </div>`;
 
-      normalizeMathForQuiz(resBox);
-      renderMath();
-  }; // <--- This closes runUIGeneration
+    SECTION_NAMES.forEach(name => {
+      const d = sectionalDataForFirebase[name];
+      const tSecRaw = topperStats.sections?.[name] || {};
+      const tSec = { score: tSecRaw.score||0, correct: tSecRaw.correct||0, wrong: tSecRaw.wrong||0, timeTaken: tSecRaw.timeTaken||0 };
+      const sAtt = d.correct + d.wrong;
+      const tAtt = tSec.correct + tSec.wrong;
+      const sAcc = sAtt ? ((d.correct/sAtt)*100).toFixed(2) : "0.00";
+      const tAcc = tAtt ? ((tSec.correct/tAtt)*100).toFixed(2) : "0.00";
+      const key = name.replace(/\s+/g,'_');
+      sectionTabBtns += `<button class="compare-tab-btn" onclick="switchCompareTab('${key}',this)">${name}</button>`;
+      sectionTabPanels += `<div id="compareContent_${key}" style="display:none">
+        ${renderComparisonBar("Score",      d.score,      d.total,               tSec.score,    d.total)}
+        ${renderComparisonBar("Accuracy",   sAcc,         100,                   tAcc,          100, "%")}
+        ${renderComparisonBar("Correct",    d.correct,    SECTIONS[name].length, tSec.correct,  SECTIONS[name].length)}
+        ${renderComparisonBar("Wrong",      d.wrong,      SECTIONS[name].length, tSec.wrong,    SECTIONS[name].length, "", true)}
+        ${renderComparisonBar("Time Taken", d.timeTaken,  TOTAL_TIME_SECONDS,    tSec.timeTaken,TOTAL_TIME_SECONDS)}
+      </div>`;
+    });
 
-  // --- HYBRID SYNC GUARD: SELECTIVE FIREBASE WRITE ---
+    // ── Topper Leaderboard ──
+    const topperGridHtml = toppersList.map((t, idx) => {
+      const ordinal = idx===0?'1st':idx===1?'2nd':idx===2?'3rd':(idx+1)+'th';
+      return `<div class="topper-profile-card">
+        <div class="topper-avatar-ring"><i class="fa-regular fa-user"></i></div>
+        <span class="topper-rank-lbl">${ordinal}</span>
+        <span class="topper-name-lbl" title="${t.name}">${t.name}</span>
+        <span class="topper-score-lbl">${t.score} / ${maxTotalMarks}</span>
+      </div>`;
+    }).join('');
+
+    // ── Full Dashboard ──
+    const dashboardHTML = `
+    <div class="analysis-container"><div class="analysis-inner">
+
+      <div class="card-dashboard">
+        <div class="overall-perf-header">
+          <span class="overall-perf-label">Overall Performance</span>
+          ${typeof QUIZ_CUT_OFF !== "undefined" && QUIZ_CUT_OFF ? `<span class="cutoff-badge-new">Cut Off : ${QUIZ_CUT_OFF}</span>` : ''}
+        </div>
+        <div class="stat-grid-2col">
+          <div class="stat-card-new">
+            <div class="stat-header-new">
+              <div class="ui-icon-svg"><svg viewBox="0 0 60 60" width="100%" height="100%">
+                <rect x="8" y="32" width="12" height="16" fill="#7ba3e3" rx="1"/>
+                <rect x="24" y="20" width="12" height="28" fill="#4a7bc7" rx="1"/>
+                <rect x="40" y="38" width="12" height="10" fill="#a3c2f0" rx="1"/>
+                <polygon points="30,4 34,12 43,13 36,19 38,28 30,23 22,28 24,19 17,13 26,12" fill="#ffca28"/>
+                <text x="30" y="40" font-family="sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+              </svg></div>
+              <div class="stat-text-new"><span class="stat-title-new">Rank</span><span class="stat-value-new">${rankData.rank} / ${rankData.total}</span></div>
+            </div>
+            <div class="progress-track-new"><div class="progress-fill-new" style="background:#e83e8c;width:${Math.max(1,Math.min(100,(1-(rankData.rank/rankData.total))*100)).toFixed(1)}%"></div></div>
+          </div>
+          <div class="stat-card-new">
+            <div class="stat-header-new">
+              <div class="ui-icon-svg"><svg viewBox="0 0 60 60" width="100%" height="100%">
+                <path d="M10,45 A22,22 0 1,1 50,45" fill="none" stroke="#e0e0e0" stroke-width="5" stroke-linecap="round"/>
+                <path d="M10,45 A22,22 0 0,1 42,16" fill="none" stroke="#ffca28" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="30" cy="35" r="12" fill="#beffbe"/>
+                <circle cx="26" cy="32" r="2" fill="#333"/><circle cx="34" cy="32" r="2" fill="#333"/>
+                <path d="M25,38 Q30,42 35,38" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                <line x1="30" y1="35" x2="42" y2="18" stroke="#007bff" stroke-width="3" stroke-linecap="round"/>
+              </svg></div>
+              <div class="stat-text-new"><span class="stat-title-new">Score</span><span class="stat-value-new">${totalMarks} / ${maxTotalMarks}</span></div>
+            </div>
+            <div class="progress-track-new"><div class="progress-fill-new" style="background:#0f5132;width:${maxTotalMarks>0?Math.max(0,Math.min(100,(totalMarks/maxTotalMarks)*100)).toFixed(1):0}%"></div></div>
+          </div>
+          <div class="stat-card-new">
+            <div class="stat-header-new">
+              <div class="ui-icon-svg"><svg viewBox="0 0 60 60" width="100%" height="100%">
+                <circle cx="30" cy="30" r="20" fill="none" stroke="#e83e8c" stroke-width="3"/>
+                <circle cx="30" cy="30" r="13" fill="#e8f5e9"/>
+                <circle cx="30" cy="30" r="10" fill="none" stroke="#28a745" stroke-width="2"/>
+                <circle cx="30" cy="30" r="4" fill="#28a745"/>
+                <line x1="30" y1="4" x2="30" y2="56" stroke="#e83e8c" stroke-width="2"/>
+                <line x1="4" y1="30" x2="56" y2="30" stroke="#e83e8c" stroke-width="2"/>
+              </svg></div>
+              <div class="stat-text-new"><span class="stat-title-new">Accuracy</span><span class="stat-value-new">${accuracy}%</span></div>
+            </div>
+            <div class="progress-track-new"><div class="progress-fill-new" style="background:#17a2b8;width:${accuracy}%"></div></div>
+          </div>
+          <div class="stat-card-new">
+            <div class="stat-header-new">
+              <div class="ui-icon-svg"><svg viewBox="0 0 60 60" width="100%" height="100%">
+                <circle cx="30" cy="30" r="22" fill="#ff4757"/>
+                <text x="30" y="37" font-family="sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">%</text>
+              </svg></div>
+              <div class="stat-text-new"><span class="stat-title-new">Percentile</span><span class="stat-value-new">${rankData.percentile}%</span></div>
+            </div>
+            <div class="progress-track-new"><div class="progress-fill-new" style="background:#b55fe6;width:${rankData.percentile}%"></div></div>
+          </div>
+          <div class="stat-card-new">
+            <div class="stat-header-new">
+              <div class="ui-icon-svg"><svg viewBox="0 0 60 60" width="100%" height="100%">
+                <circle cx="30" cy="30" r="22" fill="none" stroke="#ff4757" stroke-width="4"/>
+                <polyline points="30,14 30,30 42,30" fill="none" stroke="#ff4757" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+              <div class="stat-text-new"><span class="stat-title-new">Time Spent</span><span class="stat-value-new">${timeFormatted}</span></div>
+            </div>
+            <div class="progress-track-new"><div class="progress-fill-new" style="background:#f51bf5;width:${TOTAL_TIME_SECONDS>0?Math.min(100,(timeTakenSeconds/TOTAL_TIME_SECONDS)*100).toFixed(1):0}%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-dashboard attempt-summary">
+        <div class="attempt-box at-correct">✅ Correct<span>${totalCorrect}</span></div>
+        <div class="attempt-box at-wrong">❌ Wrong<span>${totalWrong}</span></div>
+        <div class="attempt-box at-unattempted">🟡 Left<span>${totalQuestionsCount - attempted}</span></div>
+        <div class="attempt-box at-total">✍️ Attempted<span>${attempted}</span></div>
+      </div>
+
+      ${sectionalCardsHtml}
+
+      <div class="card-dashboard" id="comparisonModule">
+        <h3 class="section-title">📊 Compare with Topper</h3>
+        <div class="compare-tabs">${sectionTabBtns}</div>
+        <div class="compare-legend">
+          <span><span class="legend-sq legend-you"></span>YOU</span>
+          <span><span class="legend-sq legend-topper"></span>TOPPER</span>
+        </div>
+        ${sectionTabPanels}
+      </div>
+
+      <div class="card-dashboard">
+        <h3 class="section-title">🏆 Toppers</h3>
+        <div class="topper-leaderboard-grid">${topperGridHtml}</div>
+      </div>
+
+      <div class="card-dashboard" style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-dash btn-solid" style="flex:1;min-width:140px;" onclick="reattemptQuiz()">🔄 Reattempt</button>
+        <button class="btn-dash btn-outline" style="flex:1;min-width:140px;" onclick="enterSolutionMode()">📊 Solution</button>
+        <button class="btn-dash btn-outline" style="flex:1;min-width:140px;" onclick="loadPreviousAttempts(QUIZ_ID)">📁 History</button>
+        <button class="btn-dash btn-outline" style="flex:1;min-width:140px;" onclick="window.location.href='./'">🏠 All Tests</button>
+      </div>
+
+    </div></div>`;
+
+    resBox.innerHTML = dashboardHTML;
+    resBox.style.display = "block";
+
+    LAST_RESULT_HTML = dashboardHTML;
+    localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
+      submitted: true,
+      resultHTML: dashboardHTML,
+      answers, marked, current: 0,
+      questionTime,
+      sectionalData: sectionalDataForFirebase,
+      totalMarks, timeTakenSeconds,
+      firebasePayload
+    }));
+
+    normalizeMathForQuiz(resBox);
+    renderMath();
+  };
+
   if (isAuto === "silent") {
-    // Sync mode: Just get Ranks and build UI locally
     Promise.all([
       getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
       getToppersList(QUIZ_ID)
     ]).then(runUIGeneration);
   } else {
-    // Normal Live mode: Save to Cloud then build UI
     saveResultFirebase(firebasePayload).finally(() => {
       saveAttemptHistory(firebasePayload);
       Promise.all([
@@ -3583,7 +3676,7 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
       ]).then(runUIGeneration);
     });
   }
-} // <--- This is the final brace that closes function submitQuiz()
+}
 
     async function autoSubmitQuiz() {
     // 1. Prevent double submission and stop the timer
@@ -3727,28 +3820,33 @@ function getTopperStatsForComparison(toppersList, totalQ) {
     sections: t.sections || {} // NEW: Include topper's sectional breakdown
   };
 }
-
-// 6. Render Comparison Bar HTML (Deto same as before, used for Total and Sections)
 function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, unit = "", isReverse = false) {
-  const userPct = (userVal > 0) ? Math.min(100, (userVal / maxVal) * 100) : 0;
-  const topperPct = (topperVal > 0) ? Math.min(100, (topperVal / maxTopperVal) * 100) : 0;
-
+  const userPct  = (userVal  > 0 && maxVal      > 0) ? Math.min(100, (userVal  / maxVal)      * 100) : 0;
+  const topperPct= (topperVal> 0 && maxTopperVal> 0) ? Math.min(100, (topperVal/ maxTopperVal) * 100) : 0;
+  const displayUser   = (label === "Time Taken") ? fmt(userVal)   : userVal   + unit;
+  const displayTopper = (label === "Time Taken") ? fmt(topperVal) : topperVal + unit;
   return `
-  <div class="bar-section">
-    <div class="bar-label"><span>${label}</span></div>
-
-    <div style="display:grid; grid-template-columns: 60px 1fr 80px; gap:10px; align-items:center; margin-bottom:6px;">
-        <span style="font-size:12px; font-weight:700; color:var(--accent);">YOU</span>
-        <div class="bar-track"><div class="bar-fill fill-you" style="width:${userPct}%"></div></div>
-        <span style="font-size:12px; font-weight:700; text-align:right;">${userVal}${unit}</span>
+  <div class="comp-metric-line">
+    <div class="lbl-metric">${label === "Time Taken" ? "Time<br><span style='font-size:11px;color:var(--muted-text);font-weight:normal;'>(min)</span>" : label}</div>
+    <div class="bars-dual">
+      <div class="comp-track"><div class="comp-fill-you"   style="width:${userPct}%"></div></div>
+      <div class="comp-track"><div class="comp-fill-topper" style="width:${topperPct}%"></div></div>
     </div>
-
-    <div style="display:grid; grid-template-columns: 60px 1fr 80px; gap:10px; align-items:center;">
-        <span style="font-size:12px; font-weight:700; color:var(--success);">TOPPER</span>
-        <div class="bar-track"><div class="bar-fill fill-topper" style="width:${topperPct}%"></div></div>
-        <span style="font-size:12px; font-weight:700; text-align:right;">${topperVal}${unit}</span>
+    <div class="val-metric">
+      <span>${displayUser}</span>
+      <span>${displayTopper}</span>
     </div>
   </div>`;
+}
+function switchCompareTab(key, btn) {
+  // hide all compare content panels
+  document.querySelectorAll("[id^='compareContent_']").forEach(el => el.style.display = "none");
+  // show selected
+  const target = document.getElementById("compareContent_" + key);
+  if (target) target.style.display = "block";
+  // toggle active class on buttons
+  btn.closest(".compare-tabs").querySelectorAll(".compare-tab-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
 }
 function resetForSolutionMode() {
 
@@ -3880,315 +3978,212 @@ if (liveBtn) {
     document.getElementById("floatBar").style.display = "none";
   }
 }
-
- 
-// Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
-async function refreshLatestRankOnDemand(btn) {
+async function refreshLatestRankOnDemand() {
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
-
   const rebuilt = rebuildFromSavedStream();
-
-  if (rebuilt) {
-    answers = rebuilt.answers;
-    marked = rebuilt.marked;
-    questionTime = rebuilt.questionTime;
-  }
-
-  if (!resultData || !resultData.firebasePayload) {
-    alert("No submission data found to update.");
-    return;
-  }
-  
-  btn.disabled = true;
-  btn.textContent = "Updating All Parts...";
+  if (rebuilt) { answers = rebuilt.answers; marked = rebuilt.marked; questionTime = rebuilt.questionTime; }
+  if (!resultData || !resultData.firebasePayload) { console.warn("No submission data found."); return; }
 
   const urlParams = new URLSearchParams(window.location.search);
   const quizIdParam = urlParams.get('id');
+  if (!quizIdParam) { console.warn("No Quiz ID in URL."); return; }
 
-  if (!quizIdParam) {
-    document.getElementById("loadingText").innerHTML = "Error: No Quiz ID provided in URL.<br><small>Example: ?id=Rajuhari</small>";
-    return;
-  }
-
-   try {
-    // --- 1. GET ACCESS TOKEN FROM SUPABASE ---
+  try {
     const { data: { session } } = await _supabase.auth.getSession();
     const token = session ? session.access_token : null;
-
-    // --- 2. CONFIGURE PATHS ---
-    const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/"; 
-    // GITHUB_PATH is now set globally by the URL ID logic we added previously
-
-    // --- 3. ADD AUTHORIZATION HEADER ---
+    const GATEKEEPER_URL = "https://gatekeeper-api.sscjourney2official.workers.dev/";
     const headers = { "Accept": "application/json" };
-    if (token) {
-        headers["Authorization"] = `Bearer ${token}`; 
-    }
+    if (token) headers["Authorization"] = `Bearer ${token}`;
 
-    const response = await fetch(`${GATEKEEPER_URL}?id=${quizIdParam}&path=${GITHUB_PATH}`, {
-      method: 'GET',
-      headers: headers
-    });
-    
+    const response = await fetch(`${GATEKEEPER_URL}?id=${quizIdParam}&path=${GITHUB_PATH}`, { method: 'GET', headers });
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     const freshData = await response.json();
-    
+
     const specificSection = urlParams.get('section');
-    
-    // Standardize HELLOMISTER structure: Extract .questions into plain arrays
     let standardizedFreshSections = {};
     Object.keys(freshData.sections).forEach(key => {
-        standardizedFreshSections[key] = freshData.sections[key].questions || freshData.sections[key];
+      standardizedFreshSections[key] = freshData.sections[key].questions || freshData.sections[key];
     });
-// ... inside the try block after freshData is fetched
-let freshSections = standardizedFreshSections;
+    let freshSections = standardizedFreshSections;
 
-if (specificSection && standardizedFreshSections[specificSection]) {
-    freshSections = {};
-    freshSections[specificSection] = standardizedFreshSections[specificSection];
-    
-    // Check JSON for timing first
-    const sectionConfig = freshData.sections[specificSection];
-    const jsonSectionTime = sectionConfig ? sectionConfig.time_seconds : null;
-
-    const timeMap = { 
-        "REASONING": 15, "GENERAL AWARENESS": 15, "GK": 15, "MATH": 15, 
-        "MATHS": 15, "ENGLISH": 15, "MATH AND REASONING": 45, 
-        "ENGLISH AND GK": 45, "SECTION 1": 60, "SECTION 2": 60
-    };
-
-    let mins;
-    if (jsonSectionTime) {
-        mins = Math.floor(jsonSectionTime / 60);
-    } else {
-        mins = timeMap[specificSection] || 20;
+    if (specificSection && standardizedFreshSections[specificSection]) {
+      freshSections = {};
+      freshSections[specificSection] = standardizedFreshSections[specificSection];
+      const sectionConfig = freshData.sections[specificSection];
+      const jsonSectionTime = sectionConfig ? sectionConfig.time_seconds : null;
+      const timeMap = { "REASONING":15,"GENERAL AWARENESS":15,"GK":15,"MATH":15,"MATHS":15,"ENGLISH":15,"MATH AND REASONING":45,"ENGLISH AND GK":45,"SECTION 1":60,"SECTION 2":60 };
+      const mins = jsonSectionTime ? Math.floor(jsonSectionTime/60) : (timeMap[specificSection] || 20);
+      freshData.meta.timer_minutes = mins;
+      freshData.meta.timer_seconds = jsonSectionTime || (mins * 60);
+      freshData.meta.total_questions = standardizedFreshSections[specificSection].length;
     }
 
-    freshData.meta.timer_minutes = mins;
-    freshData.meta.timer_seconds = jsonSectionTime || (mins * 60);
-    freshData.meta.total_questions = standardizedFreshSections[specificSection].length;
-}
-     
-
-    // ------------------------------
-    
-    // 2. Re-Calculation Loop: Re-evaluate answers against standardized arrays
+    // Recalculate scores
     let newTotalCorrect = 0, newTotalWrong = 0, newTotalMarks = 0, newMaxTotalMarks = 0;
     const newSectionalData = {};
     const freshNames = Object.keys(freshSections);
 
     freshNames.forEach(name => {
       let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
-      // freshSections[name] is now guaranteed to be the array of questions
       freshSections[name].forEach(q => {
         const qCorScore = Number(q.correct_score ?? freshData.meta.correct_score ?? 2);
         const qNegScore = Number(q.negative_score ?? freshData.meta.negative_score ?? 0.5);
         sMax += qCorScore;
         const userAns = answers[q.id];
-
         if (userAns) {
-          if (String(userAns) === String(q.answer)) {
-            sCor++; sScore += qCorScore;
-          } else {
-            sWr++; sScore -= qNegScore;
-          }
+          if (String(userAns) === String(q.answer)) { sCor++; sScore += qCorScore; }
+          else { sWr++; sScore -= qNegScore; }
         }
       });
-      
       const oldTime = resultData.firebasePayload.sections?.[name]?.timeTaken || 0;
-      newSectionalData[name] = {
-        score: sScore, 
-        total: sMax, 
-        correct: sCor, 
-        wrong: sWr,
-        unattempted: freshSections[name].length - (sCor + sWr),
-        timeTaken: oldTime
-      };
-      newTotalCorrect += sCor; newTotalWrong += sWr;
-      newTotalMarks += sScore; newMaxTotalMarks += sMax;
+      newSectionalData[name] = { score: sScore, total: sMax, correct: sCor, wrong: sWr, unattempted: freshSections[name].length - (sCor + sWr), timeTaken: oldTime };
+      newTotalCorrect += sCor; newTotalWrong += sWr; newTotalMarks += sScore; newMaxTotalMarks += sMax;
     });
-  
-  
 
-    // 3. Firebase Sync: Update BOTH results and history so rank remains accurate
-    const fbUpdate = {
-      score: newTotalMarks,
-      correct: newTotalCorrect,
-      wrong: newTotalWrong,
-      sections: newSectionalData
-    };
+    // Firebase sync
+    const fbUpdate = { score: newTotalMarks, correct: newTotalCorrect, wrong: newTotalWrong, sections: newSectionalData };
+    await db.ref("quiz_results/" + QUIZ_ID + "/" + USER_EMAIL_KEY).update(fbUpdate);
+    await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
 
-    // Change these lines:
-await db.ref("quiz_results/" + QUIZ_ID + "/" + USER_EMAIL_KEY).update(fbUpdate);
-await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
-
-    // Define payload with updated values for UI rendering
-    const payload = {
-      ...resultData.firebasePayload,
-      score: newTotalMarks,
-      total: newMaxTotalMarks,
-      correct: newTotalCorrect,
-      wrong: newTotalWrong,
-      sections: newSectionalData
-    };
-
-    const resultsContainer = document.getElementById("results");
+    const payload = { ...resultData.firebasePayload, score: newTotalMarks, total: newMaxTotalMarks, correct: newTotalCorrect, wrong: newTotalWrong, sections: newSectionalData };
     const scorePerQ = Number(freshData.meta.correct_score) || 2;
-    const totalQuestionsCount = payload.total / scorePerQ;
+    const totalQuestionsCount = newMaxTotalMarks / scorePerQ;
+    const totalAttempted = newTotalCorrect + newTotalWrong;
+    const accuracy = totalAttempted > 0 ? ((newTotalCorrect / totalAttempted) * 100).toFixed(2) : "0.00";
 
-    // 1. Update Latest Global Total Rank
-    const totalRank = await getRankAndPercentile(
-      QUIZ_ID,
-      payload.score,
-      payload.timeTaken,
-      payload.submittedAt
-    );
-    
-    // 4. UI Refresh: Update Score Summary and Attempt Summary Boxes
-    const scoreItems = document.querySelectorAll(".score-item p");
-    if(scoreItems.length >= 3) {
-      scoreItems[0].textContent = `${totalRank.rank} / ${totalRank.total}`;
-      scoreItems[1].textContent = `${totalRank.percentile}%`;
-      scoreItems[2].textContent = `${payload.score} / ${payload.total}`;
-    }
-    
-    const attBoxes = document.querySelectorAll(".attempt-box span");
-    if(attBoxes.length >= 4) {
-      attBoxes[0].textContent = payload.correct;
-      attBoxes[1].textContent = payload.wrong;
-      attBoxes[2].textContent = (freshData.meta.total_questions || totalQuestionsCount) - (payload.correct + payload.wrong);
-      attBoxes[3].textContent = payload.correct + payload.wrong;
-    }
-
-    // UPDATE: Sectional Summary Table Rows
-    const analysisTable = resultsContainer.querySelector(".analysis-table");
-    if (analysisTable) {
-      const rows = analysisTable.querySelectorAll("tr");
-      freshNames.forEach(name => {
-        const d = newSectionalData[name];
-        // Find row by section name text
-        for (let row of rows) {
-          if (row.cells[0] && row.cells[0].textContent.trim() === name) {
-            row.cells[1].textContent = d.score;
-            row.cells[2].textContent = d.correct;
-            row.cells[3].textContent = d.wrong;
-            row.cells[4].textContent = d.unattempted;
-            break;
-          }
-        }
-      });
-    }
-
-    // 2. Fetch Topper Data
-    const toppersList = await getToppersList(QUIZ_ID);
+    // Get fresh rank + toppers
+    const [totalRank, toppersList] = await Promise.all([
+      getRankAndPercentile(QUIZ_ID, payload.score, payload.timeTaken, payload.submittedAt),
+      getToppersList(QUIZ_ID)
+    ]);
     const topperStats = getTopperStatsForComparison(toppersList, totalQuestionsCount);
 
-    // 3. Calculate local variables needed for the bars
-    const totalAttempted = payload.correct + payload.wrong;
-    const accuracy = totalAttempted > 0 
-        ? ((payload.correct / totalAttempted) * 100).toFixed(2) 
-        : "0.00";
+    const resultsContainer = document.getElementById("results");
 
-    // 4. Update Comparison Bars
-    const mainBars = Array.from(resultsContainer.querySelectorAll(".section-title"))
-      .find(el => el.textContent.includes("Complete Test"))?.closest(".card-dashboard");
+    // ── Update Overall Stat Cards ──
+    const statValues = resultsContainer.querySelectorAll(".stat-value-new");
+    if (statValues[0]) statValues[0].textContent = `${totalRank.rank} / ${totalRank.total}`;
+    if (statValues[1]) statValues[1].textContent = `${newTotalMarks} / ${newMaxTotalMarks}`;
+    if (statValues[2]) statValues[2].textContent = `${accuracy}%`;
+    if (statValues[3]) statValues[3].textContent = `${totalRank.percentile}%`;
 
-    if (mainBars) {
-      let secBarsHTML = "";
-      const namesToProcess = (freshNames && freshNames.length > 0) ? freshNames : Object.keys(payload.sections || {});
+    // Update stat bars
+    const statBars = resultsContainer.querySelectorAll(".stat-card-new .progress-fill-new");
+    if (statBars[0]) statBars[0].style.width = `${Math.max(1, Math.min(100, (1 - totalRank.rank / totalRank.total) * 100)).toFixed(1)}%`;
+    if (statBars[1]) statBars[1].style.width = `${newMaxTotalMarks > 0 ? Math.min(100, (newTotalMarks / newMaxTotalMarks) * 100).toFixed(1) : 0}%`;
+    if (statBars[2]) statBars[2].style.width = `${accuracy}%`;
+    if (statBars[3]) statBars[3].style.width = `${totalRank.percentile}%`;
 
-      namesToProcess.forEach(name => {
-        const mySec = payload.sections[name];
-        if (!mySec) return;
+    // ── Update Attempt Summary Boxes ──
+    const attBoxes = resultsContainer.querySelectorAll(".attempt-box span");
+    if (attBoxes[0]) attBoxes[0].textContent = newTotalCorrect;
+    if (attBoxes[1]) attBoxes[1].textContent = newTotalWrong;
+    if (attBoxes[2]) attBoxes[2].textContent = (freshData.meta.total_questions || totalQuestionsCount) - totalAttempted;
+    if (attBoxes[3]) attBoxes[3].textContent = totalAttempted;
 
-        const topperSecRaw = topperStats.sections?.[name] || {};
-        const topperSec = {
-          score: topperSecRaw.score || 0,
-          correct: topperSecRaw.correct || 0,
-          wrong: topperSecRaw.wrong || 0,
-          timeTaken: topperSecRaw.timeTaken || 0
-        };
+    // ── Update Section Cards (Score / Attempted / Accuracy rows + bars) ──
+    const secCards = resultsContainer.querySelectorAll(".perf-section-card");
+    secCards.forEach(card => {
+      const titleEl = card.querySelector(".perf-section-title");
+      if (!titleEl) return;
+      const name = titleEl.textContent.trim();
+      const d = newSectionalData[name];
+      if (!d) return;
+      const secAtt = d.correct + d.wrong;
+      const secAcc = secAtt ? ((d.correct / secAtt) * 100).toFixed(1) : "0.0";
+      const rowTexts = card.querySelectorAll(".perf-row-text");
+      const rowBars  = card.querySelectorAll(".progress-fill-new");
+      if (rowTexts[0]) rowTexts[0].querySelector("span:last-child").textContent = `${d.score} / ${d.total}`;
+      if (rowTexts[1]) rowTexts[1].querySelector("span:last-child").textContent = `${secAtt} / ${SECTIONS[name]?.length || '?'}`;
+      if (rowTexts[2]) rowTexts[2].querySelector("span:last-child").textContent = `${secAcc}%`;
+      if (rowBars[0])  rowBars[0].style.width  = `${d.total > 0 ? Math.max(0, Math.min(100, (d.score / d.total) * 100)).toFixed(1) : 0}%`;
+      if (rowBars[1])  rowBars[1].style.width  = `${SECTIONS[name]?.length > 0 ? ((secAtt / SECTIONS[name].length) * 100).toFixed(1) : 0}%`;
+      if (rowBars[2])  rowBars[2].style.width  = `${secAcc}%`;
+    });
 
-        const myAttempted = mySec.correct + mySec.wrong;
-        const topperAttempted = topperSec.correct + topperSec.wrong;
-        const myAcc = myAttempted ? ((mySec.correct / myAttempted) * 100).toFixed(2) : "0.00";
-        const topperAcc = topperAttempted ? ((topperSec.correct / topperAttempted) * 100).toFixed(2) : "0.00";
+    // ── Rebuild Compare with Topper module ──
+    const compModule = resultsContainer.querySelector("#comparisonModule");
+    if (compModule) {
+      let sectionTabBtns = `<button class="compare-tab-btn active" onclick="switchCompareTab('overall',this)">Overall</button>`;
+      let sectionTabPanels = `<div id="compareContent_overall">
+        ${renderComparisonBar("Score",      newTotalMarks,    newMaxTotalMarks,    topperStats.score,    newMaxTotalMarks)}
+        ${renderComparisonBar("Accuracy",   accuracy,         100,                 topperStats.accuracy, 100, "%")}
+        ${renderComparisonBar("Correct",    newTotalCorrect,  totalQuestionsCount, topperStats.correct,  totalQuestionsCount)}
+        ${renderComparisonBar("Wrong",      newTotalWrong,    totalQuestionsCount, topperStats.wrong,    totalQuestionsCount, "", true)}
+        ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS||3600, topperStats.time, TOTAL_TIME_SECONDS||3600)}
+      </div>`;
 
-        secBarsHTML += `
-          <h4 class="section-title" style="margin-top:25px; border-left:4px solid var(--accent); padding-left:10px;">
-            Part: ${name}
-          </h4>
-          ${renderComparisonBar("Score", mySec.score, mySec.total, topperSec.score, mySec.total)}
-          ${renderComparisonBar("Accuracy", myAcc, 100, topperAcc, 100, "%")}
-          ${renderComparisonBar("Correct", mySec.correct, mySec.total / scorePerQ, topperSec.correct, mySec.total / scorePerQ)}
-          ${renderComparisonBar("Wrong", mySec.wrong, mySec.total / scorePerQ, topperSec.wrong, mySec.total / scorePerQ, "", true)}
-          ${renderComparisonBar("Time Taken", mySec.timeTaken, TOTAL_TIME_SECONDS || 3600, topperSec.timeTaken, TOTAL_TIME_SECONDS || 3600)}
-        `;
+      freshNames.forEach(name => {
+        const d = newSectionalData[name];
+        const tRaw = topperStats.sections?.[name] || {};
+        const tSec = { score: tRaw.score||0, correct: tRaw.correct||0, wrong: tRaw.wrong||0, timeTaken: tRaw.timeTaken||0 };
+        const sAtt = d.correct + d.wrong;
+        const tAtt = tSec.correct + tSec.wrong;
+        const sAcc = sAtt ? ((d.correct/sAtt)*100).toFixed(2) : "0.00";
+        const tAcc = tAtt ? ((tSec.correct/tAtt)*100).toFixed(2) : "0.00";
+        const key = name.replace(/\s+/g,'_');
+        sectionTabBtns += `<button class="compare-tab-btn" onclick="switchCompareTab('${key}',this)">${name}</button>`;
+        sectionTabPanels += `<div id="compareContent_${key}" style="display:none">
+          ${renderComparisonBar("Score",      d.score,      d.total,               tSec.score,    d.total)}
+          ${renderComparisonBar("Accuracy",   sAcc,         100,                   tAcc,          100, "%")}
+          ${renderComparisonBar("Correct",    d.correct,    SECTIONS[name]?.length||1, tSec.correct, SECTIONS[name]?.length||1)}
+          ${renderComparisonBar("Wrong",      d.wrong,      SECTIONS[name]?.length||1, tSec.wrong,   SECTIONS[name]?.length||1, "", true)}
+          ${renderComparisonBar("Time Taken", d.timeTaken,  TOTAL_TIME_SECONDS||3600, tSec.timeTaken, TOTAL_TIME_SECONDS||3600)}
+        </div>`;
       });
 
-      mainBars.innerHTML = `
-        <h3 class="section-title">📊 You vs Topper (Complete Test)</h3>
-        ${renderComparisonBar("Score", payload.score, payload.total, topperStats.score, payload.total)}
-        ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
-        ${renderComparisonBar("Correct", payload.correct, totalQuestionsCount, topperStats.correct, totalQuestionsCount)}
-        ${renderComparisonBar("Wrong", payload.wrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
-        ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS || 3600, topperStats.time, TOTAL_TIME_SECONDS || 3600)}
-        <div id="sectionalBarsContainer">${secBarsHTML}</div>
-      `;
-      formatTimeValues(mainBars);
+      compModule.innerHTML = `
+        <h3 class="section-title">📊 Compare with Topper</h3>
+        <div class="compare-tabs">${sectionTabBtns}</div>
+        <div class="compare-legend">
+          <span><span class="legend-sq legend-you"></span>YOU</span>
+          <span><span class="legend-sq legend-topper"></span>TOPPER</span>
+        </div>
+        ${sectionTabPanels}`;
     }
 
-    const topperCard = resultsContainer.querySelector(".topper-table")?.closest(".card-dashboard");
+    // ── Rebuild Topper leaderboard ──
+    const topperCard = resultsContainer.querySelector(".topper-leaderboard-grid")?.closest(".card-dashboard");
     if (topperCard) {
       topperCard.innerHTML = `
-        <h3 class="section-title">🏆 Top 10 Toppers (First Attempt)</h3>
-        <div style="overflow-x:auto">
-          <table class="topper-table">
-            <tr><th>Rank</th><th>Name</th><th>Score</th><th>Time</th></tr>
-            ${toppersList.map((t, idx) => `
-              <tr>
-                <td>${idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : '#' + (idx + 1)))}</td>
-                <td>${t.name}</td>
-                <td><b>${t.score}</b></td>
-                <td>${fmt(t.timeTaken)}</td>
-              </tr>
-            `).join("")}
-          </table>
-        </div>
-      `;
+        <h3 class="section-title">🏆 Toppers</h3>
+        <div class="topper-leaderboard-grid">
+          ${toppersList.map((t, idx) => {
+            const ord = idx===0?'1st':idx===1?'2nd':idx===2?'3rd':(idx+1)+'th';
+            return `<div class="topper-profile-card">
+              <div class="topper-avatar-ring"><i class="fa-regular fa-user"></i></div>
+              <span class="topper-rank-lbl">${ord}</span>
+              <span class="topper-name-lbl" title="${t.name}">${t.name}</span>
+              <span class="topper-score-lbl">${t.score} / ${newMaxTotalMarks}</span>
+            </div>`;
+          }).join('')}
+        </div>`;
     }
 
-    // 5. Storage Overwrite: Save updated HTML so changes persist on reload
+    // Persist updated data
     LAST_RESULT_HTML = resultsContainer.innerHTML;
-    localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
-      ...resultData,
-      firebasePayload: payload,
-      resultHTML: LAST_RESULT_HTML
-    }));
-console.log("All Ranks and Comparison Bars updated to the latest data!");
-     
-      } catch (err) {
+    localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({ ...resultData, firebasePayload: payload, resultHTML: LAST_RESULT_HTML }));
+    console.log("✅ Live rank update complete.");
+
+  } catch (err) {
     console.error("Live Update Error:", err);
-      } finally {
-    btn.disabled = false;
-    btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
-} 
-// Helper to fix the time formatting in bars
+}
+
 function formatTimeValues(container) {
-  container.querySelectorAll(".bar-section").forEach(sec => {
-    const label = sec.querySelector(".bar-label span")?.textContent;
-    if (label === "Time Taken") {
-      const values = sec.querySelectorAll("span[style*='text-align:right']");
-      values.forEach(val => {
-        const raw = val.textContent.replace('%', '').trim();
-        if (!isNaN(raw) && raw !== "") {
-          val.textContent = fmt(parseInt(raw));
-        }
+  container.querySelectorAll(".comp-metric-line").forEach(row => {
+    const label = row.querySelector(".lbl-metric")?.textContent?.trim();
+    if (label && label.includes("Time")) {
+      const vals = row.querySelectorAll(".val-metric span");
+      vals.forEach(v => {
+        const raw = v.textContent.replace('%','').trim();
+        if (!isNaN(raw) && raw !== "") v.textContent = fmt(parseInt(raw));
       });
     }
   });
 }
+ 
+
  
 // ===============================
 // ?? HISTORY & ATTEMPT REVIEW
