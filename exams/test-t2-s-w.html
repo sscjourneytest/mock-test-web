@@ -3638,34 +3638,32 @@ async function submitReport() {
 // ===============================
 // 🖱️ OPTION SELECTION
 // ===============================
-function selectOption(q, val, divEl) {
+  function selectOption(q, val, divEl) {
   if (!isQuiz) return;
 
   const qid = q.id ?? current;
 
-  if (answers[qid] === String(val)) {
+  // Reclick same option = deselect (acts as clear)
+  if (answers[qid] == val) {
     delete answers[qid];
   } else {
     answers[qid] = String(val);
   }
   saveQuizState();
 
-
-  // Instead of re-rendering the whole question (which reloads images),
-  // just update the 'selected' class on the option rows.
+  // Update highlight — if deleted, no option gets selected class
   const allOpts = document.querySelectorAll("#options .opt");
   allOpts.forEach((opt, idx) => {
-    if (idx + 1 === val) {
+    if (idx + 1 === val && answers[qid]) {
       opt.classList.add("selected");
     } else {
       opt.classList.remove("selected");
     }
   });
 
-  // Refresh only the side palette to show the new 'Answered' status
   if (typeof highlightPalette === "function") highlightPalette();
   updateNavButtons();
-}
+  }
 
 
 // ===============================
@@ -5062,7 +5060,9 @@ document.addEventListener('click', function(e) {
 });
   // Submit Modal
   // Submit Modal with Sectional Table
-el("submitBtn").onclick = () => {
+  
+
+  document.querySelectorAll("#submitBtn").forEach(btn => { btn.onclick = () => {
     let modalTableHtml = `
       <div style="overflow-x:auto; margin-top:15px;">
         <table style="width:100%; border-collapse: collapse; font-size: 12px; text-align: left; border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--body-text);">
@@ -5129,7 +5129,8 @@ el("submitBtn").onclick = () => {
 
     el("submitMsg").innerHTML = `<div style="text-align:center; font-weight:700; margin-bottom:10px; color: var(--body-text);">Exam Summary</div>` + modalTableHtml;
     el("submitModal").style.display = "flex";
-};
+  };
+});
   
  // Close modal on cancel (Normal function is fine here)
 el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
