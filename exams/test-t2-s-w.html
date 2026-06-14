@@ -1549,6 +1549,8 @@ body.mode-solution .container {
   font-weight: 600;
 }
 
+
+
 /* Fluid Horizontal Progress Tracks */
 .progress-track-mobile {
   width: 100%;
@@ -1691,13 +1693,71 @@ body.mode-solution .container {
 .fill-t-flat { background-color: var(--dash-gold); height: 100%; }
 .val-metric-side { width: 110px; display: flex; flex-direction: column; gap: 5px; text-align: left; font-size: 13px; color: var(--text-dark-solid); font-weight: 700; }
 
-/* Leaderboard Profile Blocks Grid */
-.toppers-avatars-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
-.topper-avatar-box { border: 1.5px solid var(--border-color); background: var(--card-bg); border-radius: 6px; padding: 12px 4px; display: flex; flex-direction: column; align-items: center; }
-.user-circle-icon { width: 46px; height: 40px; background-color: var(--card-bg); border-radius: 50%; border: 2px solid var(--dash-blue); display: flex; align-items: center; justify-content: center; color: var(--dash-blue); font-size: 24px; margin-bottom: 6px; }
-.top-rnk-num { font-size: 11px; color: var(--muted-text); font-weight: 700; margin-bottom: 2px; }
-.top-user-name { font-size: 12px; color: var(--text-dark-solid); font-weight: 700; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-.top-user-score { font-size: 11px; color: var(--muted-text); font-weight: 600; }
+  /* Leaderboard Profile Blocks Grid */
+.toppers-avatars-row { 
+  display: flex; 
+  gap: 12px; 
+  margin-top: 15px; 
+  overflow-x: auto; 
+  padding: 10px 4px 15px 4px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.topper-avatar-box { 
+  flex: 0 0 95px; /* Fixed, uniform width for every block */
+  width: 95px;
+  background: var(--card-bg); 
+  border-radius: 8px; 
+  padding: 8px 4px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-sizing: border-box;
+}
+
+/* Perfect reference-matched circular profile icon container */
+.user-circle-icon { 
+  width: 52px; 
+  height: 52px; 
+  background-color: #2563eb; /* Matches the solid brand blue background color */
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  color: #ffffff !important; /* Forces a crisp white icon indicator */
+  font-size: 24px; 
+  margin-bottom: 6px; 
+  box-shadow: 0 0 0 4px #ffffff, 0 4px 10px rgba(0,0,0,0.15); /* Recreates the floating ring depth mapping effect */
+}
+
+/* Ensure font labels scale elegantly down on phones */
+.top-rnk-num { 
+  font-size: 11px; 
+  color: var(--muted-text); 
+  font-weight: 500; 
+  margin-bottom: 2px; 
+}
+
+.top-user-name { 
+  font-size: 11px; 
+  color: var(--text-dark-solid); 
+  font-weight: 600; 
+  width: 100%;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; /* Safely truncates massive strings with an ellipsis (...) */
+  margin-bottom: 2px; 
+}
+
+.top-user-score { 
+  font-size: 11px; 
+  color: var(--muted-text); 
+  font-weight: 700; 
+}
+
 
 .right-social-panel { position: fixed; right: 10px; top: 320px; display: flex; flex-direction: column; gap: 12px; z-index: 101; }
 .social-icon-btn { width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #ffffff; font-size: 14px; text-decoration: none; }
@@ -1740,6 +1800,125 @@ body.mode-solution .container {
   .dash-sidebar, .sidebar { 
     display: none !important; 
   }
+
+    /* ==========================================================================
+   TARGETED MOBILE FONTS & SIZE MICRO-OVERRIDES (< 991px)
+   ========================================================================== */
+@media (max-width: 991px) {
+  /* Shrink Header Text Components */
+  .dash-header-title {
+    font-size: 16px !important;
+  }
+
+  /* Dynamic Dual-Gradient Subject Performance Panels Container */
+.section-wise-grid {
+  display: flex; /* Switches from grid to flex row layout */
+  gap: 12px;
+  overflow-x: auto; /* Enables responsive swipe touch scrolling tracking */
+  padding: 8px 4px 15px 4px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.math-card-panel {
+  flex: 0 0 165px; /* Gives cards a slightly larger, consistent landscape profile footprint */
+  width: 165px;
+  border: 1.5px solid #dedfdf;
+  border-radius: 12px;
+  background: var(--card-bg);
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+  box-sizing: border-box;
+}
+
+.math-card-title { 
+  font-size: 13px; /* Slightly more compact font sizing hierarchy */
+  font-weight: 700; 
+  color: var(--text-dark-solid); 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+  .subheader-banner {
+    font-size: 14px !important;
+    padding: 12px 12px 6px 12px !important;
+    font-weight: 700;
+  }
+
+  .module-section-title {
+    font-size: 13px !important;
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
+    font-weight: 700;
+  }
+
+  /* Micro Dropdown Button Configurations */
+  .dash-dropdown-select,
+  .dash-btn-solution {
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+    border-radius: 6px !important;
+  }
+
+  /* Compact Overview Metric Grid Layout */
+  .grid-container-mobile {
+    column-gap: 12px !important;
+    row-gap: 14px !important;
+    margin-bottom: 15px !important;
+    margin-top: 10px !important;
+  }
+
+  .stat-title-mobile {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+  }
+
+  .stat-value-mobile {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+  }
+
+  .ui-icon-mobile {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  /* Thin Comparison Parallel Bars Section Adjustments */
+  .lbl-metric-side {
+    width: 85px !important; /* Gives more horizontal track lane length back to the progress fills */
+    font-size: 12px !important;
+  }
+
+  .val-metric-side {
+    width: 75px !important;
+    font-size: 11px !important;
+    gap: 4px !important;
+  }
+  
+  .comp-metric-line {
+    margin-bottom: 6px;
+  }
+
+  .bars-dual-combinator {
+    gap: 6px !important;
+    padding-right: 12px !important;
+  }
+  
+  .compare-tabs-list {
+    gap: 15px !important;
+    margin-bottom: 15px !important;
+  }
+  
+  .compare-tab-item {
+    font-size: 13px !important;
+    padding-bottom: 4px !important;
+  }
+}
+
 
 /* =========================================
    10. UTILITIES & MODALS
@@ -4216,7 +4395,7 @@ function generateFlatTrackRow(lbl, uVal, uMax, tVal, tMax, unit, isTimeMode = fa
  * 6. RENDERS TOPPERS LEADERBOARD BLOCK
  * Iterates through the top 7 rows to populate user profiles and person icon frames.
  */
-function renderToppersGallery() {
+  function renderToppersGallery() {
   const container = document.getElementById("toppersGalleryContainer");
   if (!container) return;
   container.innerHTML = "";
@@ -4230,14 +4409,14 @@ function renderToppersGallery() {
 
     if (elementsList[idx]) {
       cardCell.innerHTML = `
-        <div class="user-circle-icon"><i class="fa-regular fa-user"></i></div>
+        <div class="user-circle-icon"><i class="fa-solid fa-user"></i></div>
         <span class="top-rnk-num">${labelsMap[idx]}</span>
         <span class="top-user-name">${elementsList[idx].name || "Aspirant"}</span>
         <span class="top-user-score">${Number(elementsList[idx].score).toFixed(2)}</span>
       `;
     } else {
       cardCell.innerHTML = `
-        <div class="user-circle-icon" style="border-color:var(--border-color); color:var(--muted-text);"><i class="fa-regular fa-user"></i></div>
+        <div class="user-circle-icon" style="background-color:var(--track-gray); color:var(--muted-text) !important; box-shadow:none;"><i class="fa-solid fa-user"></i></div>
         <span class="top-rnk-num">#${idx+1}</span>
         <span class="top-user-name" style="color:var(--muted-text);">Empty</span>
         <span class="top-user-score">--</span>
@@ -4246,6 +4425,8 @@ function renderToppersGallery() {
     container.appendChild(cardCell);
   }
 }
+
+
 
 /**
  * 7. CORE MATHEMATICAL HANDLER FOR PROGRESS RINGS
