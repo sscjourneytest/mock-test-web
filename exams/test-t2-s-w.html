@@ -1951,17 +1951,6 @@ body.mode-solution .container {
   }
 }
 
-
-/* Responsive adjustments for the new Analysis Page back button */
-.dash-header-controls .back-txt-desktop { display: inline; }
-.dash-header-controls .back-txt-mobile { display: none; }
-
-@media (max-width: 991px) {
-  .dash-header-controls .back-txt-desktop { display: none !important; }
-  .dash-header-controls .back-txt-mobile { display: inline !important; }
-}
-
-
   /* Language Dropdown Styling */
 #langSelect {
   background-color: var(--input-bg);
@@ -2463,6 +2452,15 @@ body.mode-solution #pauseBtn {
   -webkit-user-select: none;
 }
 #darkModeToggle:hover { opacity: 0.85; }
+  /* Responsive visibility configurations for the dashboard link buttons */
+.dash-header-controls .back-txt-desktop { display: inline; }
+.dash-header-controls .back-txt-mobile { display: none; }
+
+@media (max-width: 991px) {
+  .dash-header-controls .back-txt-desktop { display: none !important; }
+  .dash-header-controls .back-txt-mobile { display: inline !important; }
+}
+  
 </style>
 
 
@@ -3849,20 +3847,18 @@ function submitQuiz(isAuto = false) {
               <a href="#" class="sidebar-item-link"><i class="fa-solid fa-shield-halved"></i> <span>Privacy Policy</span></a>
           </div>
       </div>
-
-      <div class="main-dashboard-window">
           <div class="dash-header-bar">
               <div class="dash-header-title">Analysis</div>
               <div class="dash-header-controls">
-    <a href="../" class="dash-btn-solution" style="text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-        <span class="back-txt-desktop">⬅ Back to Test Series</span>
-        <span class="back-txt-mobile">⬅</span>
-    </a>
-    <select class="dash-dropdown-select"><option>Attempt 1</option></select>
-    <button class="dash-btn-solution" onclick="enterSolutionMode()">View Solution</button>
-</div>
-
-      
+                  <a href="../" class="dash-btn-solution" style="text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                      <span class="back-txt-desktop">⬅ Back to Test Series</span>
+                      <span class="back-txt-mobile">⬅</span>
+                  </a>
+                  <select class="dash-dropdown-select"><option>Attempt 1</option></select>
+                  <button class="dash-btn-solution" onclick="enterSolutionMode()">View Solution</button>
+              </div>
+          </div>
+          
 
           <div class="subheader-banner">${QUIZ_TITLE}</div>
 
