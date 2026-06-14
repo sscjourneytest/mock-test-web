@@ -1275,7 +1275,7 @@ body.mode-solution.actions-bottom #floatBar {
   }
 
   /* Hide the original header submit button on desktop since it's now in palette */
-  header #submitBtn { display: none !important; }
+  
 
   /* 3. Hide Mobile Bottom Bar */
   .fbar { display: none !important; }
@@ -2752,7 +2752,7 @@ const savedDb = commonApp.database();
           <option value="bilingual">EN+HI</option>
         </select>
         <div class="timer-text" id="timer">00:00</div>
-        <button id="submitBtn" class="btn">Submit</button>
+        <button id="submitBtn" style="display:none;">Submit</button>
         <button id="paletteBtn" class="btn-ghost">View</button>
                  <button id="darkModeToggle" onclick="toggleDarkMode()">🌙</button>
         <button id="toggleActionBarBtn" class="btn-ghost btn-sm">⇅</button>
@@ -2765,7 +2765,7 @@ const savedDb = commonApp.database();
           <button id="clearBtn" style="display:none;">Clear</button>
           <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
           <button id="nextBtn" class="btn-next btn btn-sm">Save & Next</button>
-            <button id="submitBtn" class="btn-ghost btn-sm">Submit Test</button>
+            <button id="submitBtn" class="btn btn-sm">Submit Test</button>
         </div>
     </div>
   </div>
