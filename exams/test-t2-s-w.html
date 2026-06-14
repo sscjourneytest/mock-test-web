@@ -2762,9 +2762,10 @@ const savedDb = commonApp.database();
     <div id="desktopActionRow" style="display:flex; justify-content:flex-end; width:100%; margin-top:10px; padding-top:8px; border-top:1px solid #eee;">
         <div id="topActions" class="top-actions" style="display:flex !important; margin-right: 372px; gap: 10px;">
           <button id="prevBtn" class="btn-prev btn-ghost btn-sm">Previous</button>
-          <button id="clearBtn" class="btn-clear btn-ghost btn-sm">Clear</button>
+          <button id="clearBtn" style="display:none;">Clear</button>
           <button id="markBtn" class="btn-mark btn-ghost btn-sm">Mark for Review</button>
           <button id="nextBtn" class="btn-next btn btn-sm">Save & Next</button>
+            <button id="submitBtn" class="btn-ghost btn-sm">Submit Test</button>
         </div>
     </div>
   </div>
@@ -2836,7 +2837,9 @@ const savedDb = commonApp.database();
 
 </div>
 <div class="fbar" id="floatBar" style="display:none;">
-  <button id="prevBtn">Previous</button> <button id="clearBtn">Clear</button>
+  <button id="prevBtn">Previous</button>
+  <button id="clearBtn" style="display:none;">Clear</button>
+
   <button id="markBtn">Mark for Review</button>
   <button id="nextBtn">Save & Next</button> </div>
 
@@ -3635,13 +3638,18 @@ async function submitReport() {
 // ===============================
 // 🖱️ OPTION SELECTION
 // ===============================
-
 function selectOption(q, val, divEl) {
   if (!isQuiz) return;
 
   const qid = q.id ?? current;
-  answers[qid] = String(val);
+
+  if (answers[qid] === String(val)) {
+    delete answers[qid];
+  } else {
+    answers[qid] = String(val);
+  }
   saveQuizState();
+
 
   // Instead of re-rendering the whole question (which reloads images),
   // just update the 'selected' class on the option rows.
