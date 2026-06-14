@@ -2929,7 +2929,8 @@ let currentSectionIdx = 0;   // New: Active section tracking
 
 let sectionTime = {};        // <-- ADD THIS LINE
 let questionTime = {};  
-
+  
+const RESULT_HTML_VERSION = "v2";
 // ===============================
 // 🛠️ HELPER FUNCTIONS
 // ===============================
@@ -4130,17 +4131,20 @@ function submitQuiz(isAuto = false) {
       accuracy, 
       rankData.percentile
     );
-
-    // 4. Capture the fully compiled layout markup to local cache storage
-    LAST_RESULT_HTML = resBox.innerHTML;
-    localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
     
-     submitted: true,
-      resultHTML: LAST_RESULT_HTML,
-      answers, marked, current: 0, questionTime,
-      sectionalData: sectionalDataForFirebase,
-      totalMarks, timeTakenSeconds, firebasePayload
-    }));
+LAST_RESULT_HTML = resBox.innerHTML;
+  localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
+  submitted: true,
+  resultHTML: LAST_RESULT_HTML,
+  htmlVersion: RESULT_HTML_VERSION,
+  answers, marked, current: 0, questionTime,
+  sectionalData: sectionalDataForFirebase,
+  totalMarks, timeTakenSeconds, firebasePayload
+}));
+
+
+    
+    
 
     normalizeMathForQuiz(resBox);
     renderMath();
@@ -5434,10 +5438,12 @@ function updatePaletteLegend() {
 
  
   // 1. CHECK IF ALREADY SUBMITTED (Static Result Page)
+    const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
+if (resultSaved) {
+  const data = JSON.parse(resultSaved);
+  if (data.submitted && data.resultHTML && data.htmlVersion === RESULT_HTML_VERSION) {
   const resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
-  if (resultSaved) {
-    const data = JSON.parse(resultSaved);
-    if (data.submitted && data.resultHTML) {
+
       isQuiz = false; // <--- ✅ ADD THIS LINE HERE
       updatePaletteLegend();
       // Hide Welcome & Quiz
@@ -5680,7 +5686,8 @@ async function checkPreviousSubmission() {
       document.getElementById("quizMainArea").style.display = "none";
       document.getElementById("floatBar").style.display = "none";
 
-      if (!data.resultHTML) {
+
+        if (!data.resultHTML || data.htmlVersion !== RESULT_HTML_VERSION) {
         // Trigger the UI generation without touching init
         answers = data.answers || {};
         marked = data.marked || {};
