@@ -2345,6 +2345,16 @@ mjx-math {
 #quizCard .explanation {
   font-size: inherit !important;
 }
+  body.mode-solution .hdr-timer-box {
+  display: none !important;
+}
+  body.mode-result #paletteBtn {
+  display: none !important;
+}
+
+body.mode-result #palette {
+  display: none !important;
+}
 </style>
 
 
@@ -3693,7 +3703,9 @@ function submitQuiz(isAuto = false) {
   if(quizArea) quizArea.style.display = "none";
 
   const resBox = document.getElementById("results");
+  
   resBox.style.display = "block";
+document.body.classList.add("mode-result");
   resBox.innerHTML = `<div class="card-dashboard" style="text-align:center; padding:50px;">
                         <h2 style="color:var(--accent);">Generating analysis...</h2>
                         <p>Please wait while we calculate your sectional ranks and toppers list.</p>
