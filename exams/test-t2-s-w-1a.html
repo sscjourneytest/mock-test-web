@@ -3120,25 +3120,32 @@ function switchSection(idx) {
                            Object.values(SECTION_TIMERS).some(t => t > 0);
 
   if (isSectionalTimer) {
-    // Block manual navigation to locked sections
+    // Block reopening already submitted sections
     if (completedSections.includes(secName) && idx !== currentSectionIdx) {
-      // Allow viewing completed sections for review (or block — adjust as needed)
+      alert("This section is already submitted.");
+      return;
     }
-    if (completedSections.includes(SECTION_NAMES[currentSectionIdx]) === false 
-        && idx !== currentSectionIdx 
-        && !completedSections.includes(secName)) {
-      // Only allow going to next section when current is done
-      // (For strict sectional, you may want to block — leave open for now)
+    // Block jumping to any other section while current is not yet submitted
+    if (!completedSections.includes(SECTION_NAMES[currentSectionIdx]) 
+        && idx !== currentSectionIdx) {
+      alert("Please submit the current section to proceed.");
+      return;
     }
   }
 
+  
   currentSectionIdx = idx;
   QUESTIONS = SECTIONS[secName];
   current = 0;
 
   document.querySelectorAll('.sec-btn').forEach((btn, i) => {
     btn.classList.toggle('active', i === idx);
+    if (isSectionalTimer) {
+      btn.disabled = i !== idx; // 🔒 Lock all other tabs during sectional quiz
+    }
   });
+
+  
 
   // For sectional timer: reset sectionSecondsLeft for new section
   if (isSectionalTimer) {
