@@ -5426,7 +5426,33 @@ el("palSubmitBtn").onclick = () => {
       }
     };
   }
+// Sync a "Submit Section" button in the desktop top action row
+const topActions = document.getElementById("topActions");
+let topSecBtn = document.getElementById("topSectionSubmitBtn");
+if (topSecBtn) topSecBtn.remove(); // remove stale one
 
+const isSectionalTimerTop = Object.keys(SECTION_TIMERS).length > 0 && 
+                             Object.values(SECTION_TIMERS).some(t => t > 0);
+const isLastSectionTop = currentSectionIdx === SECTION_NAMES.length - 1;
+
+if (isSectionalTimerTop && !isLastSectionTop && isQuiz && topActions) {
+  topSecBtn = document.createElement("button");
+  topSecBtn.id = "topSectionSubmitBtn";
+  topSecBtn.className = "btn btn-sm";
+  topSecBtn.textContent = "Submit Section";
+  topSecBtn.style.background = "#198754";
+  topSecBtn.onclick = () => {
+    if (!isQuiz) return;
+    if (confirm(`Submit "${SECTION_NAMES[currentSectionIdx]}" section and move to next?`)) {
+      lockCurrentSection();
+      moveToNextSection();
+    }
+  };
+  // Insert before Submit Test button
+  const submitBtn = topActions.querySelector("#submitBtn");
+  if (submitBtn) topActions.insertBefore(topSecBtn, submitBtn);
+  else topActions.appendChild(topSecBtn);
+  }
 
   updatePaletteLegend();
 }
