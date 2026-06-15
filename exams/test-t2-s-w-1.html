@@ -1275,7 +1275,7 @@ body.mode-solution.actions-bottom #floatBar {
   /* ===============================
      SECTION BUTTON ALIGNMENT
      =============================== */
-#sectionNav {
+    #sectionNav {
     max-width: none;
     margin-left: 0;
     margin-right: 372px;
@@ -1286,7 +1286,23 @@ body.mode-solution.actions-bottom #floatBar {
     top: var(--header-height);
     z-index: 99;
     background: var(--section-nav-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
+#timeWarningLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-right: 16px;
+  }
+
+#timeWarningLabel span {
+  color: #1a73e8;
+}
 
 
 
@@ -1843,6 +1859,7 @@ body.mode-solution .container {
    TARGETED MOBILE FONTS & SIZE MICRO-OVERRIDES (< 991px)
    ========================================================================== */
 @media (max-width: 991px) {
+  #timeWarningLabel,
   .dash-sidebar, .sidebar { 
     display: none !important; 
   }
@@ -2078,15 +2095,7 @@ mjx-math {
    NEW: SECTION NAVIGATION & TABLE STYLES
    ========================================= */
 
-.section-nav {
-  display: flex; 
-  gap: 8px; 
-  padding: 10px 16px; 
-  background: var(--section-nav-bg);
-  border-bottom: 2px solid var(--section-nav-border); 
-  overflow-x: auto; 
-  white-space: nowrap;
-}
+
 
 /* Part Buttons (Reasoning, Math, etc.) */
 .sec-btn {
