@@ -4483,9 +4483,10 @@ function enterSolutionMode() {
   // 1. Switch Flags
   isQuiz = false;
     resetForSolutionMode();
+  
   document.body.classList.add("mode-solution");
   document.body.classList.remove("mode-quiz");
-  
+  document.body.classList.remove("mode-result");
   // ... rest of your code stays exactly the same
   
 
@@ -4512,7 +4513,8 @@ function enterSolutionMode() {
 
   // 4. Header UI Adjustments
   document.getElementById("backToAnalysisBtn").style.display = "inline-block";
-  document.getElementById("timer").style.display = "none";
+  document.querySelectorAll("#timer").forEach(t => t.closest(".hdr-timer-box") && (t.closest(".hdr-timer-box").style.display = "none"));
+  
   document.getElementById("submitBtn").style.display = "none";
 
 document.getElementById("headerTitle").textContent = "Solution Mode";
