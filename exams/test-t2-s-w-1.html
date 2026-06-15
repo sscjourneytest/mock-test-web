@@ -262,8 +262,9 @@ h1 {
 .hdr-pause-btn { display: flex; align-items: center; gap: 6px; background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: 700; font-size: 13px; }
 .hdr-timer-box { background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 3px 10px; text-align: center; }
 .hdr-timer-label { display: block; font-size: 9px; font-weight: 600; color: #856404; line-height: 1.2; }
+
 .hdr-timer-val { color: #c0392b !important; font-weight: 800; font-size: 15px; background: none !important; padding: 0 !important; }
-.hdr-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); }
+  .hdr-avatar { max-height: 60px; width: auto; border-radius: 0; object-fit: contain; border: none; }
 .hdr-action-row { display: flex; justify-content: flex-end; padding: 6px 16px; border-top: 1px solid var(--border-color); background: var(--header-bg); }
 .hdr-action-row .top-actions { margin-right: 372px; display: flex; gap: 8px; }
 body.mode-solution .hdr-pause-btn { display: none !important; }
@@ -2076,6 +2077,7 @@ mjx-math {
   /* =========================================
    NEW: SECTION NAVIGATION & TABLE STYLES
    ========================================= */
+
 .section-nav {
   display: flex; 
   gap: 8px; 
