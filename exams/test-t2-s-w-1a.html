@@ -2919,9 +2919,10 @@ function saveQuizState(){
     currentLang,
     currentSectionIdx,
     questionTime,
-    sectionSecondsLeft,
+        sectionSecondsLeft,
     sectionTime,
-    completedSections
+    completedSections,
+    seconds
   };
   localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
 }
@@ -3109,6 +3110,7 @@ function autoSubmitSection() {
     autoSubmitQuiz();
   }
 }
+
 
 function switchSection(idx) {
   const secName = SECTION_NAMES[idx];
@@ -4667,13 +4669,19 @@ function togglePracticeMode() {
 // ===============================
 
 // Enter "Detailed Solution" Mode (Testbook Style)
-
 function enterSolutionMode() {
   // 1. Switch Flags
   isQuiz = false;
-    resetForSolutionMode();
+  
+  currentSectionIdx = 0;
+  current = 0;
+  if (SECTION_NAMES && SECTION_NAMES[0]) {
+    QUESTIONS = SECTIONS[SECTION_NAMES[0]];
+  }
   
   document.body.classList.add("mode-solution");
+
+
   document.body.classList.remove("mode-quiz");
   document.body.classList.remove("mode-result");
   // ... rest of your code stays exactly the same
@@ -4772,7 +4780,7 @@ function restoreLatestResult() {
     // 🔴 CRITICAL FIX: analysis page must NEVER show section buttons
     const sNav = document.getElementById("sectionNav");
     if (sNav) sNav.style.display = "none";
-    
+    document.body.classList.add("mode-result");
     document.getElementById("results").innerHTML = LAST_RESULT_HTML;
     document.getElementById("results").style.display = "block";
     document.body.classList.remove("actions-bottom");
@@ -6058,13 +6066,15 @@ try {
 
       // Section buttons wrapper
       const btnWrap = document.createElement("div");
-      btnWrap.style.cssText = "display:flex; align-items:center; gap:8px; flex-wrap:wrap;";
-      SECTION_NAMES.forEach((name, i) => {
+      btnWrap.style.cssText = "display:flex; align-items:center; gap:8px; overflow-x:auto; white-space:nowrap; width:100%; -webkit-overflow-scrolling:touch; padding-bottom:4px;";
+
+          SECTION_NAMES.forEach((name, i) => {
         const btn = document.createElement("button");
         btn.className = "sec-btn" + (i === 0 ? " active" : "");
         const partLabel = "PART " + String.fromCharCode(65 + i);
         btn.textContent = partLabel;
         btn.onclick = () => switchSection(i);
+        btn.style.cssText = "flex-shrink:0;";
         btnWrap.appendChild(btn);
       });
       nav.appendChild(btnWrap);
@@ -6194,14 +6204,15 @@ if (savedState && !alreadySubmitted) {
       if (canResume) {
         console.log("Resuming active session...");
         currentSectionIdx = state.currentSectionIdx || 0;
-
+        
+        seconds = state.seconds ?? seconds; 
         if (isSectionalTimerMode) {
-          sectionSecondsLeft = state.sectionSecondsLeft || 0;
+          sectionSecondsLeft = state.sectionSecondsLeft ?? SECTION_TIMERS[SECTION_NAMES[currentSectionIdx]];
           sectionTime = state.sectionTime || {};
           completedSections = state.completedSections || [];
-        } else {
-          seconds = state.seconds ?? seconds;
         }
+
+
 
         document.getElementById("welcomeScreen").style.display = "none";
         document.getElementById("mainHeader").style.display = "block";
