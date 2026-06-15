@@ -2938,7 +2938,7 @@ let currentSectionIdx = 0;   // New: Active section tracking
 let sectionTime = {};        // <-- ADD THIS LINE
 let questionTime = {};  
   
-const RESULT_HTML_VERSION = "v4";
+const RESULT_HTML_VERSION = "v5";
 // ===============================
 // 🛠️ HELPER FUNCTIONS
 // ===============================
@@ -5745,13 +5745,22 @@ async function checkPreviousSubmission() {
       document.getElementById("quizMainArea").style.display = "none";
       document.getElementById("floatBar").style.display = "none";
 
+      if (!data.resultHTML || data.htmlVersion !== RESULT_HTML_VERSION) {
+  answers = data.answers || {};
+  marked = data.marked || {};
+  questionTime = data.questionTime || {};
+  sectionTime = data.sectionalData 
+    ? Object.fromEntries(Object.entries(data.sectionalData).map(([k,v]) => [k, v.timeTaken || 0]))
+    : {};
+  // Restore seconds so timeTakenSeconds = TOTAL_TIME_SECONDS - seconds is correct
+  if (data.timeTakenSeconds) {
+    seconds = TOTAL_TIME_SECONDS - data.timeTakenSeconds;
+  } else if (data.firebasePayload?.timeTaken) {
+    seconds = TOTAL_TIME_SECONDS - data.firebasePayload.timeTaken;
+  }
+  submitQuiz("silent");
 
-        if (!data.resultHTML || data.htmlVersion !== RESULT_HTML_VERSION) {
-        // Trigger the UI generation without touching init
-        answers = data.answers || {};
-        marked = data.marked || {};
-        questionTime = data.questionTime || {};
-        submitQuiz("silent"); 
+        
       } else {
         // Just show the already generated HTML
         const res = document.getElementById("results");
