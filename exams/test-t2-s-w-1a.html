@@ -3051,10 +3051,11 @@ function startSectionTimer() {
   if (timerInterval) clearInterval(timerInterval);
 
   const secName = SECTION_NAMES[currentSectionIdx];
-
-  if (!sectionSecondsLeft) {
+  // FIXED:
+if (!sectionSecondsLeft || sectionSecondsLeft <= 0) {
     sectionSecondsLeft = SECTION_TIMERS[secName];
-  }
+}
+
 
   document.querySelectorAll("#timer").forEach(t => t.textContent = fmt(sectionSecondsLeft));
 
@@ -4672,12 +4673,12 @@ function togglePracticeMode() {
 function enterSolutionMode() {
   // 1. Switch Flags
   isQuiz = false;
+
+// Always reset to first section, first question in solution mode
+currentSectionIdx = 0;
+current = 0;
+QUESTIONS = SECTIONS[SECTION_NAMES[0]] || [];
   
-  currentSectionIdx = 0;
-  current = 0;
-  if (SECTION_NAMES && SECTION_NAMES[0]) {
-    QUESTIONS = SECTIONS[SECTION_NAMES[0]];
-  }
   
   document.body.classList.add("mode-solution");
 
@@ -4686,9 +4687,14 @@ function enterSolutionMode() {
   document.body.classList.remove("mode-result");
   // ... rest of your code stays exactly the same
   
+buildPalette();      // Re-creates the 1, 2, 3... buttons
 
-      // 7. 🔥 REBUILD AND RE-RENDER (The Fix)
-  buildPalette();      // Re-creates the 1, 2, 3... buttons
+// FIX: Unlock and reset all section nav buttons for solution mode
+document.querySelectorAll('.sec-btn').forEach((btn, i) => {
+  btn.disabled = false;
+  btn.classList.toggle('active', i === 0);
+});
+
   updatePaletteLegend();
   highlightPalette();  // Apply Red/Green colors to the new buttons
   renderQuestion(0);   // Show first question
@@ -6207,9 +6213,15 @@ if (savedState && !alreadySubmitted) {
         
         seconds = state.seconds ?? seconds; 
         if (isSectionalTimerMode) {
-          sectionSecondsLeft = state.sectionSecondsLeft ?? SECTION_TIMERS[SECTION_NAMES[currentSectionIdx]];
-          sectionTime = state.sectionTime || {};
-          completedSections = state.completedSections || [];
+  // Use saved time; only fallback to full section time if nothing saved
+  sectionSecondsLeft = (state.sectionSecondsLeft > 0)
+    ? state.sectionSecondsLeft
+    : SECTION_TIMERS[SECTION_NAMES[currentSectionIdx]];
+  sectionTime = state.sectionTime || {};
+  completedSections = state.completedSections || [];
+} else {
+  // Normal timer: restore remaining seconds from saved state
+  seconds = (state.seconds > 0) ? state.seconds : TOTAL_TIME_SECONDS;
         }
 
 
