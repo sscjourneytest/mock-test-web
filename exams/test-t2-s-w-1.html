@@ -2712,9 +2712,8 @@ const savedDb = commonApp.database();
   </div>
 </div>
 
+<div id="sectionNav" class="section-nav" style="display:none;"><div id="sectionNavBtns"></div><div id="timeWarningLabel" style="display:none;"></div></div>
 
-
-<div id="sectionNav" class="section-nav" style="display:none;"></div>
 <div class="container">
 
   <div class="quiz-main-area" id="quizMainArea" style="display:none;">
@@ -2975,8 +2974,24 @@ function startTimer() {
       return;
     }
 
-seconds--;
+
+    seconds--;
     document.querySelectorAll("#timer").forEach(t => t.textContent = fmt(seconds));
+
+    // Desktop time warning label in sectionNav
+    if (window.innerWidth >= 992) {
+      const label = document.getElementById("timeWarningLabel");
+      if (label) {
+        if (seconds < 60) {
+          label.style.display = "block";
+          label.innerHTML = `Last <span style="color:#1a73e8;">${seconds}</span> Seconds`;
+        } else {
+          const mins = Math.floor(seconds / 60);
+          label.style.display = "block";
+          label.innerHTML = `Last <span style="color:#1a73e8;">${mins}</span> Minutes`;
+        }
+      }
+    }
 
     // 1. Track time for the active section
     const activeSectionName = SECTION_NAMES[currentSectionIdx];
@@ -5779,20 +5794,30 @@ if (specificSection && standardizedSections[specificSection]) {
 
     QUESTIONS = SECTIONS[SECTION_NAMES[0]];
 
-    
-    // 4. Build Section Buttons
     const nav = document.getElementById("sectionNav");
     if(nav) {
       nav.innerHTML = "";
+
+      // Section buttons wrapper
+      const btnWrap = document.createElement("div");
+      btnWrap.style.cssText = "display:flex; align-items:center; gap:8px; flex-wrap:wrap;";
       SECTION_NAMES.forEach((name, i) => {
         const btn = document.createElement("button");
         btn.className = "sec-btn" + (i === 0 ? " active" : "");
-        const partLabel = "PART " + String.fromCharCode(65 + i); 
+        const partLabel = "PART " + String.fromCharCode(65 + i);
         btn.textContent = partLabel;
         btn.onclick = () => switchSection(i);
-        nav.appendChild(btn);
+        btnWrap.appendChild(btn);
       });
+      nav.appendChild(btnWrap);
+
+      // Time warning label (desktop only)
+      const timeLabel = document.createElement("div");
+      timeLabel.id = "timeWarningLabel";
+      timeLabel.style.cssText = "display:none; font-size:13px; font-weight:700; color:#555; white-space:nowrap; padding-left:12px;";
+      nav.appendChild(timeLabel);
     }
+
 
   // --- Updated Logic for Sectional Summary Table Generation ---
     let welcomeTableHtml = "";
