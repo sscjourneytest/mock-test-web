@@ -2382,6 +2382,9 @@ body.mode-result #palette {
 body.mode-solution #palSectionSubmitBtn {
   display: none !important;
 }
+  body.mode-solution #topSectionSubmitBtn {
+  display: none !important;
+  }
 </style>
 
 
@@ -3062,7 +3065,19 @@ function startSectionTimer() {
 
     sectionSecondsLeft--;
     document.querySelectorAll("#timer").forEach(t => t.textContent = fmt(sectionSecondsLeft));
-
+if (window.innerWidth >= 992) {
+  const label = document.getElementById("timeWarningLabel");
+  if (label) {
+    if (sectionSecondsLeft < 60) {
+      label.style.display = "block";
+      label.innerHTML = `Last <span style="color:#1a73e8;">${sectionSecondsLeft}</span> Seconds`;
+    } else {
+      const mins = Math.floor(sectionSecondsLeft / 60);
+      label.style.display = "block";
+      label.innerHTML = `Last <span style="color:#1a73e8;">${mins}</span> Minutes`;
+    }
+  }
+  }
     if (!sectionTime[secName]) sectionTime[secName] = 0;
     sectionTime[secName]++;
 
@@ -5329,6 +5344,8 @@ const isSectionalTimer = Object.keys(SECTION_TIMERS).length > 0 &&
                            Object.values(SECTION_TIMERS).some(t => t > 0);
   const isLastSection = currentSectionIdx === SECTION_NAMES.length - 1;
 
+  
+
   pal.innerHTML = `
     <div id="palMobileTop"><span class="pal-username" id="palUsername">User</span></div>
     <div id="palSectionLabel"></div>
@@ -5397,6 +5414,7 @@ el("palSubmitBtn").onclick = () => {
       restoreLatestResult();
     }
   };
+
 
   const palSecBtn = document.getElementById("palSectionSubmitBtn");
   if (palSecBtn) {
