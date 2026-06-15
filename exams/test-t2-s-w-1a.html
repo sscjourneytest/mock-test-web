@@ -3165,11 +3165,12 @@ function switchSection(idx) {
   });
 
   
-
-  // For sectional timer: reset sectionSecondsLeft for new section
-  if (isSectionalTimer) {
+// For sectional timer: only reset if switching to a genuinely new section
+  // Do NOT reset if sectionSecondsLeft already has a saved/restored value
+  if (isSectionalTimer && sectionSecondsLeft <= 0) {
     sectionSecondsLeft = SECTION_TIMERS[secName] || 0;
   }
+
 
   buildPalette();
   renderQuestion(0);
