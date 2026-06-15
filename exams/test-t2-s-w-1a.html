@@ -1881,27 +1881,29 @@ body.mode-solution .container {
   }
 
   .math-card-panel {
-    flex: 0 0 165px !important; 
-    width: 165px !important;
-    border: 1.5px solid #dedfdf;
-    border-radius: 12px;
-    background: var(--card-bg);
-    padding: 12px 10px;
+    flex: 0 0 210px !important; 
+    width: 210px !important;
+    min-height: 160px;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+                linear-gradient(135deg, #ff6b6b, #4dabf7) border-box;
+    padding: 15px 13px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    gap: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     box-sizing: border-box;
   }
-
-  .math-card-title { 
-    font-size: 13px; 
+.math-card-title { 
+    font-size: 14px; 
     font-weight: 700; 
     color: var(--text-dark-solid); 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
+}
+
 
   /* Leaderboard Grid Matrix Override - Maps cleanly inside a standard 3-column multi-row wrap schema */
   .toppers-avatars-row { 
