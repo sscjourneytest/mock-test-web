@@ -2450,7 +2450,15 @@ else if (quizIdLower.includes("ssc-sub-25")) {
     selectedConfig = FIREBASE_PROJECTS["ssc-sub"];
     GITHUB_PATH = "ssc-sub/2025/mocks";
 }
+  else if (quizIdLower.includes("ntpcg")) {
+    selectedConfig = FIREBASE_PROJECTS.ntpc;
+    GITHUB_PATH = "rrb/ntpcg/full-mock";
+  }
   
+  else if (quizIdLower.includes("imps")) {
+    selectedConfig = FIREBASE_PROJECTS.imps;
+    GITHUB_PATH = "imps/full-mock";
+  }
 // Initialize with selected project
 if (selectedConfig) {
     firebase.initializeApp(selectedConfig);
@@ -3825,7 +3833,7 @@ function updateNavButtons() {
  */
 function getExamNameFromId() {
     const idToCheck = (typeof QUIZ_ID !== 'undefined' ? QUIZ_ID : "").toLowerCase();
-    const keywords = ["cgl", "ssc-sub", "chsl", "cpo", "steno", "selection-post", "sscje", "mts", "alp", "ntpc-g", "ntpc-ug", "groupd", "rpf"];
+    const keywords = ["cgl", "ssc-sub", "chsl", "cpo", "steno", "selection-post", "sscje", "mts", "atoz-v", "ntpc-g", "ntpc-ug", "groupd", "rpf"];
     
     // Finds the first matching keyword in the ID
     const detected = keywords.find(k => idToCheck.includes(k));
