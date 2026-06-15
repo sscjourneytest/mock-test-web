@@ -1533,14 +1533,15 @@ body.mode-solution .container {
 
   /* Edge-to-edge: break out of .container padding */
   #results {
-    margin-left: -16px !important;
-    margin-right: -16px !important;
+    margin-left: -4px !important;
+    margin-right: -4px !important;
     width: calc(100% + 32px) !important;
   }
 
   .dash-header-bar {
-    padding: 0 !important;
+    padding: 12px 0px;
   }
+
   }
 
 
@@ -2901,7 +2902,7 @@ let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
 let currentSectionIdx = 0;   // New: Active section tracking
 
 
-const RESULT_HTML_VERSION = "v2";
+const RESULT_HTML_VERSION = "v1";
 
 let sectionTime = {};
 let SECTION_TIMERS = {};     // seconds per section from JSON
