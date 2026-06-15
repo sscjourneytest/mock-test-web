@@ -2889,7 +2889,7 @@ let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
 let currentSectionIdx = 0;   // New: Active section tracking
 
 
-const RESULT_HTML_VERSION = "v8";
+const RESULT_HTML_VERSION = "v9";
 
 let sectionTime = {};
 let SECTION_TIMERS = {};     // seconds per section from JSON
@@ -5909,6 +5909,11 @@ async function checkPreviousSubmission() {
   answers = data.answers || {};
   marked = data.marked || {};
   questionTime = data.questionTime || {};
+
+  // ✅ CRITICAL: Restore original timestamp so rank lookup matches Firebase
+  const originalTs = data.firebasePayload?.submittedAt || data.submittedAt || null;
+  if (originalTs) answers.originalTimestamp = originalTs;
+
   sectionTime = data.sectionalData 
     ? Object.fromEntries(Object.entries(data.sectionalData).map(([k,v]) => [k, v.timeTaken || 0]))
     : {};
@@ -5929,8 +5934,7 @@ async function checkPreviousSubmission() {
     }
 
   submitQuiz("silent");
-
-        
+      
       } else {
         // Just show the already generated HTML
         const res = document.getElementById("results");
