@@ -1344,18 +1344,18 @@ body.mode-solution.actions-bottom #floatBar {
     gap: 10px;
     align-items: center;
   }
-
-  .top-actions .btn,
+.top-actions .btn,
   .top-actions .btn-ghost {
-    padding: 12px 18px;
-    font-size: 14px;
-    font-weight: 700;
-    border-radius: 8px; /* Matching image */
+    padding: 10px 15px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    border-radius: 6px;
     min-width: 120px;
     background: #0b5ed7 !important;
     color: #fff !important;
   }
-
+ 
   /* Keep the Mark button color changing on desktop too */
   #markBtn.active-mark { 
     background: #198754 !important; 
@@ -2037,9 +2037,6 @@ body.mode-solution .container {
 .modal h3 { margin-top: 0; color: var(--accent); }
 .modal .actions { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
 
-/* Watermark */
-.ssc-watermark { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-.ssc-wm { position: absolute; font-size: 26px; font-weight: 700; color: rgba(0,0,0,0.045); transform: rotate(-30deg); white-space: nowrap; }
 
     /* ✅ Fix MathJax Overflow Properly */
     mjx-container {
@@ -2650,13 +2647,6 @@ const savedDb = commonApp.database();
     </div>
   </div>
 
-</div>
-<div id="ssc-watermark" class="ssc-watermark">
-  <div class="ssc-wm" style="top:10%; left:5%;">@SSC_COMPILATIONS_2025</div>
-  <div class="ssc-wm" style="top:30%; left:60%;">@SSC_COMPILATIONS_2025</div>
-  <div class="ssc-wm" style="top:55%; left:25%;">@SSC_COMPILATIONS_2025</div>
-  <div class="ssc-wm" style="top:75%; left:65%;">@SSC_COMPILATIONS_2025</div>
-  <div class="ssc-wm" style="top:90%; left:10%;">@SSC_COMPILATIONS_2025</div>
 </div>
 
 
@@ -6289,13 +6279,7 @@ if (savedState && !alreadySubmitted) {
     }
   });
 
-  // Watermark Integrity Check
-  setInterval(() => {
-    const wm = document.getElementById("ssc-watermark");
-    if(!wm || wm.style.display === "none" || wm.style.opacity === "0") {
-       document.body.innerHTML = "Security Violation: Watermark Tampered";
-    }
-  }, 3000);
+ 
 })();
 // ================= SECURITY (MERGED) =================
 const SECURITY = {
