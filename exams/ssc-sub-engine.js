@@ -105,8 +105,8 @@ async function initExamEngine() {
 async function syncWithCloud(examName) {
     const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
     if (!profile || profile.username === "Guest") return;
-
-    const user = profile.username.toLowerCase();
+const user = profile.username;  // original case — NOT lowercased
+    
     const exam = examName.toLowerCase();
 
     const cacheKey = `CLOUD_SYNC_${user}_${exam}`;
@@ -395,7 +395,8 @@ async function reattempt(id, url) {
         localStorage.removeItem(`stream_${username}_${id}`);
 
         // Step 2: Update in-memory checklist and save updated cache
-        const user     = username.toLowerCase();
+        const user = profile.username;  // original case — NOT lowercased
+       
         const exam     = examName.toLowerCase();
         const cacheKey = `CLOUD_SYNC_${user}_${exam}`;
 
