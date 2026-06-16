@@ -525,9 +525,8 @@ button#paletteBtn[style*="position:fixed"] { display: inline-flex !important; }
   flex-shrink: 0;
   box-sizing: border-box;
 }
-
-/* Mobile: fix footer to bottom so it never goes behind phone nav bar */
-@media (max-width: 991px) {
+/* Tablet + Mobile: fix footer to bottom */
+@media (max-width: 1024px) {
   .ws-action-footer {
     position: fixed;
     bottom: 0;
@@ -535,12 +534,16 @@ button#paletteBtn[style*="position:fixed"] { display: inline-flex !important; }
     right: 0;
     z-index: 3000;
     height: 65px;
+    /* Safe area for devices with browser bottom nav bar */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: content-box;
   }
   /* Give ws-page enough bottom padding to not hide content under fixed footer */
   .ws-page .ws-content {
-    padding-bottom: 75px !important;
+    padding-bottom: 85px !important;
   }
 }
+
 
 .ws-control-btn-yellow {
   background: #f09819;
