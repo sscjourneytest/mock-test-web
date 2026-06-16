@@ -3828,7 +3828,7 @@ function updateNavButtons() {
  */
 function getExamNameFromId() {
     const idToCheck = (typeof QUIZ_ID !== 'undefined' ? QUIZ_ID : "").toLowerCase();
-    const keywords = ["cgl", "ssc-sub", "chsl", "cpo", "steno", "selection-post", "sscje", "mts", "atoz-v", "ntpc-g", "ntpc-ug", "groupd", "rpf"];
+    const keywords = ["cgl", "ssc-sub", "chsl", "cpo", "steno", "selection-post", "sscje", "mts", "atoz-v", "ntpcg", "ntpc-ug", "groupd", "rpf"];
     
     // Finds the first matching keyword in the ID
     const detected = keywords.find(k => idToCheck.includes(k));
