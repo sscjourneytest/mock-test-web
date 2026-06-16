@@ -422,7 +422,8 @@ function setCategory(cat, el) {
     renderMocks();
 }
 
-function reattempt(id, url) {
+
+async function reattempt(id, url) {
     const profile  = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
     const username = profile ? profile.username : "Guest";
 
@@ -430,27 +431,43 @@ function reattempt(id, url) {
         ? window.location.search.slice(1)
         : window.location.pathname.split('/').slice(-2, -1)[0];
 
-    if (confirm("Confirm Reattempt? Are you sure to reattempt.")) {
+    if (!confirm("Confirm Reattempt? Are you sure to reattempt.")) return;
+
+    try {
+        // Step 1: Remove all local keys for this quiz
         localStorage.removeItem(`result_${username}_${id}`);
         localStorage.removeItem(`state_${username}_${id}`);
         localStorage.removeItem(`stream_${username}_${id}`);
 
-        // Remove from in-memory checklist + invalidate localStorage cache
+        // Step 2: Update in-memory checklist and save updated cache
         const user     = username.toLowerCase();
         const exam     = examName.toLowerCase();
         const cacheKey = `CLOUD_SYNC_${user}_${exam}`;
 
-        if (CLOUD_CHECKLIST[id]) {
-            delete CLOUD_CHECKLIST[id];
-            localStorage.setItem(cacheKey, JSON.stringify(CLOUD_CHECKLIST));
-        }
-        // Clear timestamp — force fresh Worker fetch on next load
-        localStorage.removeItem(`${cacheKey}_TIME`);
+        delete CLOUD_CHECKLIST[id];
+        localStorage.setItem(cacheKey, JSON.stringify(CLOUD_CHECKLIST));
 
+        // Step 3: Reset sync timestamp to now — prevents Worker re-fetch on return
+        // (Worker still has old Firebase data; local removal is source of truth)
+        localStorage.setItem(`${cacheKey}_TIME`, Date.now().toString());
+
+        // Step 4: Verify all keys are actually gone before navigating
+        const allCleared = [
+            `result_${username}_${id}`,
+            `state_${username}_${id}`,
+            `stream_${username}_${id}`
+        ].every(key => localStorage.getItem(key) === null);
+
+        if (!allCleared) throw new Error("Cache clear failed — some keys still present");
+
+        // Step 5: Navigate only after confirmed cleanup
         window.location.href = url + "&mode=reattempt";
+
+    } catch (err) {
+        console.error("Reattempt cleanup failed:", err);
+        alert("Something went wrong while clearing your previous attempt. Please try again.");
     }
 }
-
 // ── Page lifecycle ─────────────────────────────────────────────────────────────
 window.addEventListener('pageshow', function (event) {
     initExamEngine();
