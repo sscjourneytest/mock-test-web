@@ -1153,10 +1153,10 @@ body.mode-solution .qbtn.current {
 }
 
 /* Specific logic for Mark button color toggle */
-#markBtn.active-mark { 
-  background: #198754 !important; /* Green when active */
-}
 
+#markBtn.active-mark { 
+    background: #6c757d !important;
+  }
 /* =========================================
    DESKTOP ACTION BAR TOGGLE
    ========================================= */
@@ -1346,21 +1346,18 @@ body.mode-solution.actions-bottom #floatBar {
   }
 .top-actions .btn,
   .top-actions .btn-ghost {
-    padding: 10px 15px;
+    padding: 10px 8px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.3px;
     border-radius: 6px;
     min-width: 120px;
     background: #0b5ed7 !important;
     color: #fff !important;
   }
- 
-  /* Keep the Mark button color changing on desktop too */
-  #markBtn.active-mark { 
-    background: #198754 !important; 
+ #markBtn.active-mark { 
+    background: #6c757d !important;
   }
-
 body.actions-bottom .fbar {
   display: flex !important;
   right: 372px;     /* same gap used for palette */
@@ -2881,7 +2878,7 @@ let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
 let currentSectionIdx = 0;   // New: Active section tracking
 
 
-const RESULT_HTML_VERSION = "v1";
+const RESULT_HTML_VERSION = "v0";
 
 let sectionTime = {};
 let SECTION_TIMERS = {};     // seconds per section from JSON
@@ -3989,14 +3986,14 @@ SECTION_NAMES.forEach(sName => {
           
           </div>
           <div class="sidebar-menu-wrapper">
-              <a href="#" class="sidebar-item-link link-home"><i class="fa-solid fa-house"></i> <span>Home</span></a>
-              <a href="#" class="sidebar-item-link"><i class="fa-regular fa-file-lines"></i> <span>Mock Tests</span></a>
-              <a href="#" class="sidebar-item-link"><i class="fa-solid fa-bolt"></i> <span>Live Mocks</span></a>
-              <a href="#" class="sidebar-item-link link-premium"><i class="fa-regular fa-crown"></i> <span>Buy Premium</span></a>
-              <a href="#" class="sidebar-item-link"><i class="fa-solid fa-handshake"></i> <span>Become a Partner</span></a>
+              <a href="/" class="sidebar-item-link link-home"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+              <a href="/exams/" class="sidebar-item-link"><i class="fa-regular fa-file-lines"></i> <span>Mock Tests</span></a>
+              <a href="/live-test" class="sidebar-item-link"><i class="fa-solid fa-bolt"></i> <span>Live Mocks</span></a>
+              <a href="/pricing.html" class="sidebar-item-link link-premium"><i class="fa-regular fa-crown"></i> <span>Buy Premium</span></a>
+              <a href="/apply-coupon.html" class="sidebar-item-link"><i class="fa-solid fa-handshake"></i> <span>Become a Partner</span></a>
               <div class="sidebar-divider"></div>
-              <a href="#" class="sidebar-item-link"><i class="fa-regular fa-bookmark"></i> <span>Saved Questions</span></a>
-              <a href="#" class="sidebar-item-link"><i class="fa-solid fa-shield-halved"></i> <span>Privacy Policy</span></a>
+              <a href="/saved" class="sidebar-item-link"><i class="fa-regular fa-bookmark"></i> <span>Saved Questions</span></a>
+              <a href="/privacy-policy.html" class="sidebar-item-link"><i class="fa-solid fa-shield-halved"></i> <span>Privacy Policy</span></a>
           </div>
       </div>
 
@@ -4004,7 +4001,7 @@ SECTION_NAMES.forEach(sName => {
           <div class="dash-header-bar">
               
               <div class="dash-header-title" style="display:flex;align-items:center;gap:12px;">
-  <button onclick="window.location.href='/'" style="background:#ffffff;color:#2563eb;border:1.5px solid #2563eb;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">Go to Test</button>
+  <button onclick="window.location.href='./'" style="background:#ffffff;color:#2563eb;border:1.5px solid #2563eb;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">Go to Test</button>
 </div>
               <div class="dash-header-controls">
                   <select class="dash-dropdown-select"><option>Attempt 1</option></select>
