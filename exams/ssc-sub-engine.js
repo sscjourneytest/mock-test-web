@@ -212,11 +212,21 @@ function setupFilters(years) {
         currentFilters.topic = '';
         currentFilters.subtopic = '';
     }
-
-    // 4. Subtopic Scroll — only shown when depth === 2
+// 4. Subtopic Scroll — only shown when depth === 2
+    // Auto-inject subtopic row if not already in HTML
+    if (!document.getElementById('subtopic-wrap')) {
+        const topicWrapEl = document.getElementById('topic-wrap');
+        if (topicWrapEl) {
+            const div = document.createElement('div');
+            div.id = 'subtopic-wrap';
+            div.className = 'hidden';
+            div.innerHTML = '<div id="subtopic-scroll" class="pill-scroll"></div>';
+            topicWrapEl.insertAdjacentElement('afterend', div);
+        }
+    }
     const subtopicWrap   = document.getElementById('subtopic-wrap');
     const subtopicScroll = document.getElementById('subtopic-scroll');
-
+    
     if (depth === 2 && currentFilters.topic) {
         const topicData = selectedSubData[currentFilters.topic];
 
