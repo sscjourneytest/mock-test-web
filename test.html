@@ -3912,18 +3912,23 @@ document.body.classList.add("mode-result");
 SECTION_NAMES.forEach(sName => {
     let sCor = 0, sWr = 0, sScore = 0, sMax = 0;
     totalQuestionsCount += SECTIONS[sName].length;
-    
-    SECTIONS[sName].forEach(q => {
-      sMax += Number(q.correct_score ?? 2);
+
+  SECTIONS[sName].forEach(q => {
+      const qCorScore = Number(q.correct_score ?? 2);
+      const qNegScore = Number(q.negative_score ?? 0.5);
+      sMax += qCorScore;
       const ans = answers[q.id];
       if (ans == q.answer) {
         sCor++;
-        sScore += Number(q.correct_score ?? 2);
+        sScore += qCorScore;
       } else if (ans) {
         sWr++;
-        sScore -= Number(q.negative_score ?? 0.5);
+        // Non-terminating decimal logic: if neg ≈ cor/3, deduct exactly cor/3
+        const isThirdFraction = Math.abs(qNegScore - qCorScore / 3) < 0.01;
+        sScore -= isThirdFraction ? (qCorScore / 3) : qNegScore;
       }
     });
+    
 
     sectionalDataForFirebase[sName] = {
       score: sScore,
@@ -4065,7 +4070,8 @@ SECTION_NAMES.forEach(sName => {
                               </div>
                               <div class="stat-text-mobile">
                                   <span class="sidebar-section-lbl" style="padding:0; font-size:14px;">Score</span>
-                                  <span class="stat-value-mobile">${totalMarks}/${maxTotalMarks}</span>
+                                  <span class="stat-value-mobile">${Number.isInteger(totalMarks) ? totalMarks : parseFloat(totalMarks.toFixed(2))}/${maxTotalMarks}</span>
+                               
                               </div>
                           </div>
                           <div class="progress-track-mobile"><div class="progress-fill-mobile fill-score" style="width: ${pctScore}%"></div></div>
@@ -4166,8 +4172,8 @@ SECTION_NAMES.forEach(sName => {
                                   <circle class="prog" id="ringScoreCircle" cx="80" cy="80" r="70"/>
                               </svg>
                               <div class="ring-text-center">
-                                  <span class="ring-val-top">${totalMarks} / ${maxTotalMarks}</span>
-                                  <span class="ring-val-label">Score</span>
+                              <span class="ring-val-top">${Number.isInteger(totalMarks) ? totalMarks : parseFloat(totalMarks.toFixed(2))}/${maxTotalMarks}</span>
+                                <span class="ring-val-label">Score</span>
                               </div>
                           </div>
                       </div>
@@ -4919,13 +4925,16 @@ if (specificSection && standardizedFreshSections[specificSection]) {
         sMax += qCorScore;
         const userAns = answers[q.id];
 
-        if (userAns) {
+  if (userAns) {
           if (String(userAns) === String(q.answer)) {
             sCor++; sScore += qCorScore;
           } else {
-            sWr++; sScore -= qNegScore;
+            sWr++;
+            const isThirdFraction = Math.abs(qNegScore - qCorScore / 3) < 0.01;
+            sScore -= isThirdFraction ? (qCorScore / 3) : qNegScore;
           }
-        }
+  }
+        
       });
       
       const oldTime = resultData.firebasePayload.sections?.[name]?.timeTaken || 0;
@@ -5897,7 +5906,7 @@ async function checkPreviousSubmission() {
       document.getElementById("mainHeader").style.display = "none";
       document.getElementById("quizMainArea").style.display = "none";
       document.getElementById("floatBar").style.display = "none";
-
+     document.body.classList.add("mode-result");
       if (!data.resultHTML || data.htmlVersion !== RESULT_HTML_VERSION) {
   answers = data.answers || {};
   marked = data.marked || {};
