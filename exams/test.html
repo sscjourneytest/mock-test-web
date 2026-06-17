@@ -2438,6 +2438,10 @@ else if (quizIdLower.includes("mts")) {
   else if (quizIdLower.includes("selection-post")) {
     selectedConfig = FIREBASE_PROJECTS.phase;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/phase/subject" : "ssc/phase/full-mock";
+}
+ else if (quizIdLower.includes("gd")) {
+    selectedConfig = FIREBASE_PROJECTS.gd;
+    GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/gd/subject" : "ssc/gd/full-mock";
   }
 else if (quizIdLower.includes("cpo")) {
     selectedConfig = FIREBASE_PROJECTS.cpo;
