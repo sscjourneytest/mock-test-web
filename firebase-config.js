@@ -72,6 +72,15 @@ common: {
   messagingSenderId: "1054107557086",
   appId: "1:1054107557086:web:8286add6c37ceb0613764f"
 },
+    gd: {
+  apiKey: "AIzaSyADjzBAITrE8WF_825Nba5NMxbLxPWA20w",
+  authDomain: "ssc-gd-databse.firebaseapp.com",
+  databaseURL: "https://ssc-gd-databse-default-rtdb.firebaseio.com",
+  projectId: "ssc-gd-databse",
+  storageBucket: "ssc-gd-databse.firebasestorage.app",
+  messagingSenderId: "417110128359",
+  appId: "1:417110128359:web:d96f5341c1f461e2a59442"
+},
 steno: {
   apiKey: "AIzaSyA6A9-97Z5bBFNCDwI4qHAQ2y7IbydO1RA",
   authDomain: "mmh-cgl-sectional-mocks-data.firebaseapp.com",
