@@ -3454,7 +3454,8 @@ if (el("marking")) {
           if (isC) opt.classList.add("correct");
           if (isSel && !isC) opt.classList.add("wrong");
         });
-        el("explanation").style.display = "block";
+        buildExplanationHTML();
+el("explanation").style.display = "block";
       });
     }
     
@@ -3465,8 +3466,8 @@ if (el("marking")) {
 
   // 5. Render Explanation (Only in Solution Mode)
   const expBox = el("explanation");
-  
-    if (!isQuiz && !isPracticeToggle) {
+
+  function buildExplanationHTML() {
     const qid = q.id;
     const userAns = answers[qid];
     const isCorrect = userAns && String(userAns) === String(q.answer);
@@ -3491,16 +3492,20 @@ if (el("marking")) {
       solImgHtml = `<div class="sol-img-container"><img src="${dynamicSolImg}" class="sol-img-styled" style="display:none;" onload="this.style.display='block'" onerror="this.style.display='none'"></div>`;
     } 
 
-    expBox.style.display = "block";
-    // Construct the explanation box content
     expBox.innerHTML = `<div style="margin-bottom:8px; font-weight:700;">Status: ${statusText}</div>` +
       (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br><div>${applyBoldHighlight(getLangText(q.solution_text))}</div>` : "") +
       solImgHtml; // Injected styled image container
   
     normalizeMathForQuiz(expBox);
+  }
+
+  if (!isQuiz && !isPracticeToggle) {
+    buildExplanationHTML();
+    expBox.style.display = "block";
   } else {
     expBox.style.display = "none";
   }
+
 
   // 6. Update MathJax
   renderMath();
