@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Clear User Data — Admin</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="/firebase-config.js"></script>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel-border:#262b35;
+    --text:#e6e8ec; --muted:#8a8f9b; --accent:#3b82f6; --accent-dim:#1e3a5f;
+    --danger:#ef4444; --danger-dim:#3a1a1a; --ok:#22c55e; --warn:#f59e0b;
+    --mono: "SF Mono", "Cascadia Code", Consolas, monospace;
+    --sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text); font-family:var(--sans);
+    padding:24px 16px 80px; min-height:100vh;
+  }
+  .wrap{max-width:720px; margin:0 auto;}
+  h1{font-size:18px; font-weight:700; margin:0 0 4px;}
+  .sub{color:var(--muted); font-size:13px; margin:0 0 24px;}
+  .panel{
+    background:var(--panel); border:1px solid var(--panel-border);
+    border-radius:10px; padding:18px; margin-bottom:16px;
+  }
+  label{display:block; font-size:12px; font-weight:600; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:.04em;}
+  select, input[type=text]{
+    width:100%; background:#0d0f13; border:1px solid var(--panel-border); color:var(--text);
+    padding:10px 12px; border-radius:8px; font-size:14px; font-family:var(--sans);
+  }
+  select:focus, input:focus{outline:none; border-color:var(--accent);}
+  .row{margin-bottom:14px;}
+  .btn{
+    appearance:none; border:none; border-radius:8px; padding:11px 16px;
+    font-weight:700; font-size:14px; cursor:pointer; font-family:var(--sans);
+  }
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:disabled{background:#2a2f3a; color:var(--muted); cursor:not-allowed;}
+  .btn-danger{background:var(--danger); color:#fff;}
+  .btn-danger:disabled{background:#2a2f3a; color:var(--muted); cursor:not-allowed;}
+  .btn-ghost{background:transparent; color:var(--muted); border:1px solid var(--panel-border);}
+  .actions{display:flex; gap:10px; flex-wrap:wrap;}
+  .status{font-size:13px; color:var(--muted); margin-top:10px; min-height:18px;}
+  .status.error{color:var(--danger);}
+  .status.ok{color:var(--ok);}
+  table{width:100%; border-collapse:collapse; margin-top:14px; font-size:13px;}
+  th{text-align:left; color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.04em; padding:6px 8px; border-bottom:1px solid var(--panel-border);}
+  td{padding:8px; border-bottom:1px solid #1e222b; font-family:var(--mono); font-size:12.5px;}
+  td.proj{color:var(--accent);}
+  td.node{color:var(--muted);}
+  .tag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:700; margin-left:6px;}
+  .tag-results{background:var(--accent-dim); color:#8ab4f8;}
+  .tag-history{background:#3a2f1e; color:#f0b860;}
+  .empty{color:var(--muted); font-size:13px; padding:14px 0; text-align:center;}
+  .summary{font-size:13px; margin-top:10px;}
+  .summary b{color:var(--text);}
+  .confirm-box{
+    background:var(--danger-dim); border:1px solid #5a2a2a; border-radius:8px;
+    padding:14px; margin-top:16px;
+  }
+  .confirm-box p{margin:0 0 10px; font-size:13px; line-height:1.5;}
+  .confirm-box input[type=text]{margin-bottom:10px;}
+  .pill{
+    display:inline-flex; align-items:center; gap:6px; background:#0d0f13;
+    border:1px solid var(--panel-border); border-radius:20px; padding:4px 10px;
+    font-size:12px; color:var(--muted); margin-bottom:14px;
+  }
+  .pill b{color:var(--text);}
+  code{background:#0d0f13; padding:1px 5px; border-radius:4px; font-family:var(--mono); font-size:12px;}
+  .footnote{font-size:12px; color:var(--muted); margin-top:18px; line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Clear user data — exam-wise</h1>
+  <p class="sub">Finds a username under <code>quiz_results</code> and <code>attempt_history</code> for the selected project(s), shows you exactly what was found, then deletes only that username's node from each quiz. Nothing else is touched.</p>
+
+  <div class="panel">
+    <div class="row">
+      <label for="projectSelect">Firebase project</label>
+      <select id="projectSelect"></select>
+    </div>
+    <div class="row">
+      <label for="usernameInput">Username</label>
+      <input type="text" id="usernameInput" placeholder="exact username as stored, e.g. rajesh123" autocomplete="off" />
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" id="scanBtn">Scan</button>
+      <button class="btn btn-ghost" id="resetBtn" style="display:none;">Reset</button>
+    </div>
+    <div class="status" id="statusMsg"></div>
+  </div>
+
+  <div class="panel" id="resultsPanel" style="display:none;">
+    <div class="pill" id="resultSummaryPill"></div>
+    <div id="resultsTableWrap"></div>
+
+    <div class="confirm-box" id="confirmBox" style="display:none;">
+      <p>This will permanently delete the listed nodes above. This cannot be undone. Type the username again to confirm.</p>
+      <input type="text" id="confirmInput" placeholder="re-type username to confirm" autocomplete="off" />
+      <div class="actions">
+        <button class="btn btn-danger" id="deleteBtn" disabled>Delete confirmed nodes</button>
+        <button class="btn btn-ghost" id="cancelBtn">Cancel</button>
+      </div>
+      <div class="status" id="deleteStatus"></div>
+    </div>
+  </div>
+
+  <p class="footnote">
+    Scans <code>quiz_results/&lt;quizId&gt;/&lt;username&gt;</code> and <code>attempt_history/&lt;quizId&gt;/&lt;username&gt;</code> across every quiz ID under the chosen project. Does not touch <code>saved_questions</code> (lives in the common project, not exam-specific) or any other quiz's data, and does not touch other usernames under the same quiz.
+  </p>
+
+</div>
+
+<script>
+/* ---------------------------------------------------------
+   This page relies on FIREBASE_PROJECTS from /firebase-config.js
+   (same file your quiz pages already load), so project keys/
+   credentials stay in one place and aren't duplicated here.
+   Expected shape, same as used elsewhere on the site:
+   FIREBASE_PROJECTS = { cgl: {...}, chsl: {...}, mts: {...},
+     phase: {...}, cpo: {...}, steno: {...}, "ssc-sub": {...},
+     ntpc: {...}, imps: {...}, common: {...} }
+--------------------------------------------------------- */
+
+const PROJECT_LABELS = {
+  cgl: "CGL",
+  chsl: "CHSL",
+  mts: "MTS",
+  phase: "Selection Post / Phase",
+  cpo: "CPO",
+  steno: "Steno",
+  "ssc-sub": "SSC Subject (2025 mocks)",
+  ntpc: "RRB NTPC",
+  imps: "IMPS"
+  // "common" intentionally excluded — it holds saved_questions, not exam results
+};
+
+const statusMsg = document.getElementById("statusMsg");
+const projectSelect = document.getElementById("projectSelect");
+const usernameInput = document.getElementById("usernameInput");
+const scanBtn = document.getElementById("scanBtn");
+const resetBtn = document.getElementById("resetBtn");
+const resultsPanel = document.getElementById("resultsPanel");
+const resultSummaryPill = document.getElementById("resultSummaryPill");
+const resultsTableWrap = document.getElementById("resultsTableWrap");
+const confirmBox = document.getElementById("confirmBox");
+const confirmInput = document.getElementById("confirmInput");
+const deleteBtn = document.getElementById("deleteBtn");
+const deleteStatus = document.getElementById("deleteStatus");
+const cancelBtn = document.getElementById("cancelBtn");
+
+let appCache = {};   // key -> initialized firebase app
+let dbCache = {};    // key -> database instance
+let lastFindings = []; // [{projectKey, quizId, tree}] from the most recent scan
+let scannedUsername = "";
+
+function setStatus(msg, type) {
+  statusMsg.textContent = msg || "";
+  statusMsg.className = "status" + (type ? " " + type : "");
+}
+
+function getDb(projectKey) {
+  if (dbCache[projectKey]) return dbCache[projectKey];
+  if (typeof FIREBASE_PROJECTS === "undefined" || !FIREBASE_PROJECTS[projectKey]) {
+    throw new Error("No config found for project: " + projectKey);
+  }
+  const appName = "admin_" + projectKey;
+  let app;
+  try {
+    app = firebase.app(appName);
+  } catch (e) {
+    app = firebase.initializeApp(FIREBASE_PROJECTS[projectKey], appName);
+  }
+  appCache[projectKey] = app;
+  dbCache[projectKey] = app.database();
+  return dbCache[projectKey];
+}
+
+function populateProjectSelect() {
+  projectSelect.innerHTML = "";
+
+  if (typeof FIREBASE_PROJECTS === "undefined") {
+    setStatus("firebase-config.js did not load FIREBASE_PROJECTS. Check the script path.", "error");
+    scanBtn.disabled = true;
+    return;
+  }
+
+  const optAll = document.createElement("option");
+  optAll.value = "__all__";
+  optAll.textContent = "All projects";
+  projectSelect.appendChild(optAll);
+
+  Object.keys(PROJECT_LABELS).forEach(key => {
+    if (!FIREBASE_PROJECTS[key]) return; // skip if not actually configured
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = PROJECT_LABELS[key] + " (" + key + ")";
+    projectSelect.appendChild(opt);
+  });
+}
+
+async function scanProjectForUser(projectKey, username) {
+  const db = getDb(projectKey);
+  const findings = [];
+
+  const trees = ["quiz_results", "attempt_history"];
+
+  for (const tree of trees) {
+    const snap = await db.ref(tree).once("value");
+    if (!snap.exists()) continue;
+    const allQuizzes = snap.val(); // { quizId: { username: {...}, ... }, ... }
+    Object.keys(allQuizzes).forEach(quizId => {
+      const quizNode = allQuizzes[quizId];
+      if (quizNode && Object.prototype.hasOwnProperty.call(quizNode, username)) {
+        findings.push({ projectKey, quizId, tree });
+      }
+    });
+  }
+
+  return findings;
+}
+
+async function runScan() {
+  const username = usernameInput.value.trim();
+  if (!username) {
+    setStatus("Enter a username first.", "error");
+    return;
+  }
+  const projectChoice = projectSelect.value;
+  const projectKeys = projectChoice === "__all__"
+    ? Object.keys(PROJECT_LABELS).filter(k => FIREBASE_PROJECTS[k])
+    : [projectChoice];
+
+  scanBtn.disabled = true;
+  setStatus("Scanning " + projectKeys.length + " project(s)…");
+  resultsPanel.style.display = "none";
+  confirmBox.style.display = "none";
+
+  try {
+    let allFindings = [];
+    for (const key of projectKeys) {
+      setStatus("Scanning " + (PROJECT_LABELS[key] || key) + "…");
+      const found = await scanProjectForUser(key, username);
+      allFindings = allFindings.concat(found);
+    }
+
+    lastFindings = allFindings;
+    scannedUsername = username;
+    renderFindings(allFindings, username);
+
+    if (allFindings.length === 0) {
+      setStatus("No matching nodes found for \"" + username + "\".", "ok");
+    } else {
+      setStatus("Scan complete.", "ok");
+    }
+  } catch (err) {
+    console.error(err);
+    setStatus("Scan failed: " + err.message, "error");
+  } finally {
+    scanBtn.disabled = false;
+    resetBtn.style.display = "inline-block";
+  }
+}
+
+function renderFindings(findings, username) {
+  resultsPanel.style.display = "block";
+
+  if (findings.length === 0) {
+    resultSummaryPill.innerHTML = "No nodes found for <b>" + escapeHtml(username) + "</b>";
+    resultsTableWrap.innerHTML = '<div class="empty">Nothing to delete.</div>';
+    confirmBox.style.display = "none";
+    return;
+  }
+
+  const quizCount = new Set(findings.map(f => f.projectKey + "::" + f.quizId)).size;
+  resultSummaryPill.innerHTML =
+    "Found <b>" + findings.length + "</b> node(s) across <b>" + quizCount + "</b> quiz(zes) for <b>" + escapeHtml(username) + "</b>";
+
+  let rows = findings.map(f => {
+    const tagClass = f.tree === "quiz_results" ? "tag-results" : "tag-history";
+    const tagLabel = f.tree === "quiz_results" ? "result" : "history";
+    return "<tr><td class=\"proj\">" + escapeHtml(f.projectKey) + "</td>" +
+           "<td>" + escapeHtml(f.quizId) + "</td>" +
+           "<td class=\"node\">" + f.tree + "/" + escapeHtml(f.quizId) + "/" + escapeHtml(username) +
+           "<span class=\"tag " + tagClass + "\">" + tagLabel + "</span></td></tr>";
+  }).join("");
+
+  resultsTableWrap.innerHTML =
+    "<table><thead><tr><th>Project</th><th>Quiz ID</th><th>Path to be deleted</th></tr></thead><tbody>" +
+    rows + "</tbody></table>";
+
+  confirmBox.style.display = "block";
+  confirmInput.value = "";
+  deleteBtn.disabled = true;
+  deleteStatus.textContent = "";
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+async function runDelete() {
+  if (lastFindings.length === 0) return;
+
+  deleteBtn.disabled = true;
+  deleteStatus.textContent = "Deleting…";
+  deleteStatus.className = "status";
+
+  let success = 0;
+  let failed = [];
+
+  for (const f of lastFindings) {
+    try {
+      const db = getDb(f.projectKey);
+      await db.ref(f.tree + "/" + f.quizId + "/" + scannedUsername).remove();
+      success++;
+    } catch (err) {
+      failed.push(f.tree + "/" + f.quizId + " (" + f.projectKey + "): " + err.message);
+    }
+  }
+
+  if (failed.length === 0) {
+    deleteStatus.textContent = "Done. Removed " + success + " node(s) for \"" + scannedUsername + "\".";
+    deleteStatus.className = "status ok";
+    lastFindings = [];
+    confirmBox.style.display = "none";
+    resultsTableWrap.innerHTML = '<div class="empty">Cleared.</div>';
+    resultSummaryPill.innerHTML = "Cleared <b>" + success + "</b> node(s) for <b>" + escapeHtml(scannedUsername) + "</b>";
+  } else {
+    deleteStatus.textContent = "Removed " + success + ", failed " + failed.length + ": " + failed.join("; ");
+    deleteStatus.className = "status error";
+  }
+}
+
+scanBtn.addEventListener("click", runScan);
+
+resetBtn.addEventListener("click", () => {
+  usernameInput.value = "";
+  resultsPanel.style.display = "none";
+  confirmBox.style.display = "none";
+  resetBtn.style.display = "none";
+  lastFindings = [];
+  scannedUsername = "";
+  setStatus("");
+});
+
+cancelBtn.addEventListener("click", () => {
+  confirmBox.style.display = "none";
+});
+
+confirmInput.addEventListener("input", () => {
+  deleteBtn.disabled = confirmInput.value.trim() !== scannedUsername;
+});
+
+deleteBtn.addEventListener("click", runDelete);
+
+populateProjectSelect();
+</script>
+</body>
+</html>
