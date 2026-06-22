@@ -554,7 +554,44 @@ body.dark-mode #darkModeToggle {
         gap: 0.5rem !important; /* Tighten gap between menu and logo */
     }
 }
+.notif-bell-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+}
+.notif-bell-wrap:hover { background: var(--primary-light); color: var(--primary); }
 
+.notif-badge-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50px;
+    display: none; /* shown via JS when unreadCount > 0 */
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 1.5px solid var(--white);
+    line-height: 1;
+}
+
+/* Bottom nav bell badge sits slightly differently since icons are stacked (icon above label) */
+.nav-item .notif-badge-dot {
+    top: -4px;
+    right: 18%;
+}
     </style>
 </head>
 <body>
@@ -568,6 +605,10 @@ body.dark-mode #darkModeToggle {
         </div>
         <div class="d-flex align-items-center gap-2">
             <button id="darkModeToggle" onclick="toggleTheme()">🌙</button>
+            <a href="/notifications.html" class="notif-bell-wrap" aria-label="Notifications">
+    <i class="fas fa-bell"></i>
+    <span class="notif-badge-dot"></span>
+</a>
             <div id="authHeaderArea">
                 <a href="/login.html" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">LOGIN</a>
             </div>
@@ -768,12 +809,17 @@ body.dark-mode #darkModeToggle {
     </div>
 
     <nav class="bottom-nav">
-        <a href="/" class="nav-item active"><i class="fas fa-home-alt"></i><span>HOME</span></a>
-        <a href="/exams/" class="nav-item"><i class="fas fa-file-pen"></i><span>EXAMS</span></a>
-        <a href="/live-test" class="nav-item"><i class="fas fa-bolt"></i><span>LIVE</span></a>
-        <a href="/profile" class="nav-item" id="bottomProfileLink"><i class="fas fa-user-circle"></i><span>PROFILE</span></a>
-    </nav>
-
+    <a href="/" class="nav-item active"><i class="fas fa-home-alt"></i><span>HOME</span></a>
+    <a href="/exams/" class="nav-item"><i class="fas fa-file-pen"></i><span>EXAMS</span></a>
+    <a href="/live-test" class="nav-item"><i class="fas fa-bolt"></i><span>LIVE</span></a>
+    <a href="/notifications.html" class="nav-item" style="position:relative;">
+        <i class="fas fa-bell"></i>
+        <span class="notif-badge-dot"></span>
+        <span>ALERTS</span>
+    </a>
+    <a href="/profile" class="nav-item" id="bottomProfileLink"><i class="fas fa-user-circle"></i><span>PROFILE</span></a>
+</nav>
+    
     <footer style="padding: 40px 20px; background: #fff; border-top: 1px solid #e2e8f0; text-align: center; font-family: 'Inter', sans-serif;">
     <div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
         <a href="/about-us.html" 
@@ -1034,5 +1080,6 @@ window.addEventListener('appinstalled', () => {
         
         
     </script>
+    
 </body>
 </html>
