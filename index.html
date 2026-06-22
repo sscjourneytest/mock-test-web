@@ -539,19 +539,34 @@ body.dark-mode #darkModeToggle {
 }
 
 /* Mobile responsive tight-fit safety net */
-@media (max-width: 400px) {
+@media (max-width: 480px) {
     .app-header {
         padding: 12px 10px !important; /* Extra horizontal room */
     }
     .brand-logo {
-        font-size: 0.95rem !important; /* Slightly scale text down */
+        font-size: 0.85rem !important; /* Slightly scale text down */
+        gap: 6px !important;
+    }
+    .brand-logo span {
+        letter-spacing: -0.2px;
     }
     .brand-logo img {
-        width: 28px !important;
-        height: 28px !important;
+        width: 26px !important;
+        height: 26px !important;
     }
     .app-header .gap-3 {
-        gap: 0.5rem !important; /* Tighten gap between menu and logo */
+        gap: 0.4rem !important; /* Tighten gap between menu and logo */
+    }
+    .app-header .gap-2 {
+        gap: 0.35rem !important; /* Tighten gap between toggle, bell, auth area */
+    }
+}
+
+/* Extra-narrow phones (e.g. older/small Android) — shrink brand text further
+   but keep icons full size so they stay easily tappable */
+@media (max-width: 360px) {
+    .brand-logo {
+        font-size: 0.75rem !important;
     }
 }
 .notif-bell-wrap {
@@ -1212,3 +1227,4 @@ window.addEventListener('pageshow', refreshNotificationBadge);
     
 </body>
 </html>
+
