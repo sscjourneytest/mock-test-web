@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/auth.js"></script>
 <style>
     :root {
         --primary: #2563eb;
@@ -371,10 +371,7 @@
 <script>
 const NOTIFY_API_BASE = 'https://mmh-notify-worker.mockmatrixsupport.workers.dev';
 
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
-let supabaseClient = null;
 let adminSecretInMemory = null;
 
 function applyTheme(theme) {
@@ -397,23 +394,11 @@ function showToast(message, isError) {
     setTimeout(() => { toast.className = 'toast'; }, 3200);
 }
 
-async function checkAdminAccess() {
+    async function checkAdminAccess() {
     try {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        const { data: { session } } = await supabaseClient.auth.getSession();
+        const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
 
-        if (!session) {
-            showDenied();
-            return;
-        }
-
-        const { data: profile, error } = await supabaseClient
-            .from('profiles')
-            .select('role')
-            .eq('id', session.user.id)
-            .single();
-
-        if (error || !profile || profile.role !== 'admin') {
+        if (!profile || profile.role !== 'admin') {
             showDenied();
             return;
         }
