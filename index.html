@@ -1166,16 +1166,22 @@ async function initPushSubscription(registration) {
     }
 }
 
-// ---- 2b. Trigger permission request ONLY on first bell tap ---------------
-// Attach this to every bell element (header + bottom nav both use class
-// "notif-bell-wrap" or the bottom-nav alerts link — selector below covers both).
-function handleBellTap(event) {
-    // Always let the navigation to /notifications.html happen normally —
-    // we just also fire off the permission request in parallel the first time.
-    const alreadyAsked = localStorage.getItem('mmh_push_asked');
-    if (alreadyAsked || Notification.permission !== 'default') return; // already asked, or already granted/denied
 
-    localStorage.setItem('mmh_push_asked', 'true');
+        // ---- 2b. Permission check on EVERY bell tap -------------------------------
+function handleBellTap(event) {
+    if (!('Notification' in window)) return;
+
+    const currentPermission = Notification.permission;
+
+    if (currentPermission === 'granted') {
+        if (swRegistration) initPushSubscription(swRegistration);
+        return;
+    }
+
+    if (currentPermission === 'denied') {
+        showPermissionBlockedNotice();
+        return;
+    }
 
     Notification.requestPermission().then((permission) => {
         if (permission === 'granted' && swRegistration) {
@@ -1184,11 +1190,23 @@ function handleBellTap(event) {
     });
 }
 
+function showPermissionBlockedNotice() {
+    if (window.__mmhPermissionNoticeShown) return;
+    window.__mmhPermissionNoticeShown = true;
+
+    alert(
+        'Notifications are blocked for this site in your browser settings.\n\n' +
+        'To enable them: open your browser settings → Site settings → Notifications, ' +
+        'find this site, and set it to "Allow".'
+    );
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.notif-bell-wrap, a[href="/notifications.html"]').forEach(el => {
         el.addEventListener('click', handleBellTap);
     });
 });
+
 
 // ---- 3. Bell badge (header + bottom nav) ---------------------------------
 // Checks the latest notification id against what the user last saw.
