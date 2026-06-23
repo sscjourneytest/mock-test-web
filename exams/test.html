@@ -2713,6 +2713,7 @@ const savedDb = commonApp.database();
     <button id="backToAnalysisBtn" class="hdr-icon-btn hdr-back-mobile" style="display:none;">⬅Analysis</button>
     <button class="hdr-icon-btn" onclick="zoomOut()">🔍−</button>
     <button class="hdr-icon-btn" onclick="zoomIn()">🔍+</button>
+    <button class="hdr-icon-btn" onclick="toggleDarkMode()" title="Dark Mode" id="darkModeToggleMobile">🌙</button>
     <div class="hdr-mobile-spacer"></div>
     <button id="pauseBtn" class="hdr-pause-btn">
       <span class="pause-bars"></span>
@@ -2723,6 +2724,7 @@ const savedDb = commonApp.database();
     <button id="submitBtn" style="display:none;">Submit</button>
     <button id="paletteBtn" class="btn-ghost" style="display:none;">View</button>
   </div>
+
 
 </header>
 
@@ -5010,16 +5012,38 @@ if (specificSection && standardizedFreshSections[specificSection]) {
     window.currentOverallTime = payload.timeTaken;
     window.currentTotalQuestions = totalQuestionsCount;
 
-    // A. Sync Rank Metrics Texts Concurrently across both screen layouts
+     // A. Sync Rank Metrics Texts Concurrently across both screen layouts
     const dTxt = document.getElementById("dTxtRank");
     if (dTxt) dTxt.textContent = `${totalRank.rank} / ${totalRank.total}`;
     
     const mTxt = document.getElementById("mTxtRank");
     if (mTxt) mTxt.textContent = `${totalRank.rank}/${totalRank.total}`;
 
+    // A2. Update Score text in both mobile grid and desktop rings
+    const scoreFormatted = Number.isInteger(newTotalMarks) ? newTotalMarks : parseFloat(newTotalMarks.toFixed(2));
+    // Mobile grid score card (find by label sibling)
+    document.querySelectorAll(".stat-card-mobile").forEach(card => {
+      const lbl = card.querySelector(".sidebar-section-lbl");
+      if (lbl && lbl.textContent.trim() === "Score") {
+        const val = card.querySelector(".stat-value-mobile");
+        if (val) val.textContent = `${scoreFormatted}/${newMaxTotalMarks}`;
+        const fill = card.querySelector(".progress-fill-mobile");
+        if (fill) fill.style.width = (newMaxTotalMarks > 0 ? (newTotalMarks / newMaxTotalMarks * 100).toFixed(1) : 0) + "%";
+      }
+    });
+    // Desktop ring score card (find by label sibling)
+    document.querySelectorAll(".ring-card").forEach(card => {
+      const lbl = card.querySelector(".ring-val-label");
+      if (lbl && lbl.textContent.trim() === "Score") {
+        const val = card.querySelector(".ring-val-top");
+        if (val) val.textContent = `${scoreFormatted}/${newMaxTotalMarks}`;
+      }
+    });
+
     // B. Trigger Dynamic UI Subroutines to refresh the child DOM blocks instantly
     renderSectionalCards();
     renderToppersGallery();
+
     
     // C. Re-render the active comparison stack bars
     const activeTab = document.querySelector(".compare-tab-item.active")?.textContent || "Overall";
@@ -6437,8 +6461,10 @@ function toggleDarkMode() {
   // Sync with site-wide mmh_theme key (index.html uses same key)
   // Setting 'light' explicitly so index.html also picks up the change
   localStorage.setItem('mmh_theme', newTheme);
-  const btn1 = document.getElementById('darkModeToggle');
-  if (btn1) btn1.textContent = isDark ? '🌙' : '☀️';
+  document.querySelectorAll('#darkModeToggle, #darkModeToggleMobile').forEach(btn => {
+    btn.textContent = isDark ? '🌙' : '☀️';
+  });
+  
   
 }
 
@@ -6448,9 +6474,10 @@ function toggleDarkMode() {
   document.documentElement.setAttribute('data-theme', saved);
   window.addEventListener('DOMContentLoaded', function() {
     const isDark = saved === 'dark';
-    const btn1 = document.getElementById('darkModeToggle');
+    document.querySelectorAll('#darkModeToggle, #darkModeToggleMobile').forEach(btn => {
+      btn.textContent = isDark ? '☀️' : '🌙';
+    });
     
-    if (btn1) btn1.textContent = isDark ? '☀️' : '🌙';
   
   });
 })();
