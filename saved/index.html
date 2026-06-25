@@ -399,8 +399,8 @@ function processData() {
     // 1. Create a clean version of the Quiz ID for the URL
     let cleanQuizId = quizId;
     const lowerQuizId = quizId.toLowerCase();
-    
-    // List of suffixes to remove (with hyphens)
+
+      // List of suffixes to remove (with hyphens)
     const suffixes = [
         "-mathandreasoning", "-englishandgk", "-generalawareness",
         "-maths", "-reasoning", "-english", "-gk", "-math",
@@ -415,6 +415,10 @@ function processData() {
             break; 
         }
     }
+
+    // Also strip -part-1, -part-2 ... -part-N suffixes
+    cleanQuizId = cleanQuizId.replace(/-part-\d+$/i, "");
+
 
     // 2. Decide Path logic using the lowercase version
     const idL = lowerQuizId; 
