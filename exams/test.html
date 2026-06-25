@@ -14,7 +14,10 @@
 <title>Loading Quiz...</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+<!-- REPLACE WITH: -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" 
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <!-- Google Analytics -->
@@ -2388,6 +2391,10 @@ body.mode-solution #palSectionSubmitBtn {
   body.mode-solution #topSectionSubmitBtn {
   display: none !important;
   }
+
+
+/* REPLACE WITH: */
+font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
 </style>
 
 
@@ -2399,7 +2406,9 @@ body.mode-solution #palSectionSubmitBtn {
     processEscapes: true
   },
   chtml: {
-    mtextInheritFont: false,
+    
+    mtextInheritFont: true,
+    
     displayAlign: 'left',
     // --- THIS SECTION FIXES THE OVERFLOW ---
     linebreaks: { 
