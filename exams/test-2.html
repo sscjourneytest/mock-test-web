@@ -1643,7 +1643,7 @@ body.mode-solution .container {
   flex-shrink: 0;
   position: fixed;
   /* ── FIX 4: sidebar starts BELOW the sticky header so they don't overlap ── */
-  top: var(--result-header-height);
+  top: 0;
   left: 0;
   height: calc(100vh - var(--result-header-height));
   overflow-y: auto;
@@ -1708,7 +1708,8 @@ body.mode-solution .container {
 /* ── FIX 5: dash-header-bar — fixed to top, full width, doesn't scroll, sits above sidebar ── */
 
 .dash-header-bar {
-  background-color: var(--dash-blue);
+  background: linear-gradient(135deg, #1e3fa0 0%, #2d55c8 100%);
+  
   color: #ffffff;
   height: var(--result-header-height);
   padding: 0 16px;
@@ -1741,34 +1742,37 @@ body.mode-solution .container {
 }
 .dash-header-controls { display: flex; align-items: center; gap: 10px; }
 
-/* Attempt dropdown — glass style on blue */
+  /* Attempt dropdown — frosted glass pill */
 .dash-dropdown-select {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.18);
   color: #ffffff;
-  border: 1.5px solid rgba(255,255,255,0.4);
-  padding: 5px 10px;
-  border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,0.6);
+  padding: 6px 14px;
+  border-radius: 20px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   outline: none;
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.3px;
 }
 .dash-dropdown-select option {
   background: #1e40af;
   color: #ffffff;
 }
 
-/* Solution button — white pill on blue */
+/* Solution button — red pill */
 .dash-btn-solution {
-  background-color: #ffffff;
-  color: var(--dash-blue);
+  background-color: #e8445a;
+  color: #ffffff;
   border: none;
-  padding: 5px 14px;
-  border-radius: 8px;
+  padding: 6px 18px;
+  border-radius: 20px;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   transition: opacity 0.2s;
+  box-shadow: 0 2px 6px rgba(232,68,90,0.4);
 }
 .dash-btn-solution:hover { opacity: 0.88; }
 
@@ -1963,13 +1967,13 @@ body.mode-solution .container {
     margin-bottom: 10px !important;
     font-weight: 700;
   }
-
-  .dash-dropdown-select,
+.dash-dropdown-select,
   .dash-btn-solution {
-    padding: 4px 10px !important;
+    padding: 4px 12px !important;
     font-size: 12px !important;
-    border-radius: 6px !important;
+    border-radius: 20px !important;
   }
+
 
   .grid-container-mobile {
     column-gap: 12px !important;
@@ -4055,7 +4059,7 @@ SECTION_NAMES.forEach(sName => {
           <div class="dash-header-bar">
               
               <div class="dash-header-title" style="display:flex;align-items:center;gap:12px;">
-  <button onclick="window.location.href='./'" style="background:rgba(255,255,255,0.15);color:#ffffff;border:1.5px solid rgba(255,255,255,0.5);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">← Go to Test</button>
+  <button onclick="window.location.href='./'" style="background:#e8445a;color:#ffffff;border:none;border-radius:20px;padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:0 2px 6px rgba(232,68,90,0.4);">Go to Test</button>
 </div>
               <div class="dash-header-controls">
                   <select class="dash-dropdown-select"><option>Attempt 1</option></select>
