@@ -99,5 +99,14 @@ steno: {
   storageBucket: "mmh-cgl-sectional-mocks-data.firebasestorage.app",
   messagingSenderId: "557957241227",
   appId: "1:557957241227:web:21873351a0d301b6c4f78e"
+},
+    "ntpc-ug": {
+  apiKey: "AIzaSyBQf89WRZ0UqjFraat3LJjmAtMiDK8V1-M",
+  authDomain: "mmh-ntpc-ug.firebaseapp.com",
+  databaseURL: "https://mmh-ntpc-ug-default-rtdb.firebaseio.com",
+  projectId: "mmh-ntpc-ug",
+  storageBucket: "mmh-ntpc-ug.firebasestorage.app",
+  messagingSenderId: "912675733508",
+  appId: "1:912675733508:web:a357b581b9c36b35557551"
 }
 };
