@@ -3859,13 +3859,13 @@ function renderMath(){
   }
 }
 
-function normalizeMathForQuiz(container) {
+  function normalizeMathForQuiz(container) {
   if (!container) return;
-  // Convert $$...$$ block math to \(...\) inline math for better mobile flow
   container.innerHTML = container.innerHTML
-    .replace(/(\S)\s*\$\$(.+?)\$\*\s*(\S)/g, '$1 \\($2\\) $3')
-    .replace(/\$\$(.+?)\$\$/g, '\\($1\\)');
-}
+    .replace(/\$\$([\s\S]+?)\$\$/g, '\\($1\\)');
+  }
+
+
 // Update Prev/Next Button States for BOTH Desktop and Mobile
 function updateNavButtons() {
   const prevBtns = document.querySelectorAll("#prevBtn");
