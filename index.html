@@ -630,6 +630,42 @@ body.dark-mode #darkModeToggle {
         </div>
     </header>
 
+    <!-- Only rendered/shown when running inside the Rank Score Master
+         app wrapper (AndroidBridge present) — a normal browser or
+         standalone PWA visitor has no "Rank Master" to switch to. -->
+    <div id="appSwitchSlot"></div>
+    <style>
+    .app-switch {
+      display: flex; align-items: center; gap: 2px;
+      background: #f1f1ef; border: 1px solid #e5e5e5;
+      border-radius: 999px; padding: 3px; margin: 10px auto;
+      max-width: 280px;
+    }
+    .app-switch__btn {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
+      padding: 6px 10px; border-radius: 999px; border: none; background: transparent;
+      font-size: 0.72rem; font-weight: 700; color: #888; cursor: pointer;
+    }
+    .app-switch__btn img { width: 15px; height: 15px; border-radius: 4px; object-fit: cover; }
+    .app-switch__btn--active { background: #fff; color: #000; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+    </style>
+    <script>
+    if (window.AndroidBridge) {
+      document.getElementById('appSwitchSlot').innerHTML = `
+        <div class="app-switch">
+          <button class="app-switch__btn" type="button" id="switchToRankMaster">
+            <img src="/rank-master-logo.png" alt="">Rank Master
+          </button>
+          <button class="app-switch__btn app-switch__btn--active" type="button" disabled>
+            <img src="/logo.png" alt="">Mock Matrix
+          </button>
+        </div>`;
+      document.getElementById('switchToRankMaster').addEventListener('click', () => {
+        window.AndroidBridge.switchToRankMaster();
+      });
+    }
+    </script>
+
 
  
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
@@ -1247,4 +1283,5 @@ window.addEventListener('pageshow', refreshNotificationBadge);
     
 </body>
 </html>
+
 
