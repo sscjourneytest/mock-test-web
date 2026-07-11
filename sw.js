@@ -1,16 +1,44 @@
-const CACHE_NAME = 'mock-matrix-v2';
+const CACHE_NAME = 'mock-matrix-v3';
 
 // Install event
 self.addEventListener('install', (event) => {
     self.skipWaiting();
 });
 
-// Fetch event (Always gets latest from web - Auto-Update)
+// Activate event — clean up old cache versions and take control of
+// any already-open pages immediately (previously missing entirely,
+// meaning a freshly-installed SW wouldn't control open tabs until a
+// full reload).
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((names) =>
+            Promise.all(names.filter((n) => n !== CACHE_NAME).map((n) => caches.delete(n)))
+        ).then(() => self.clients.claim())
+    );
+});
+
+// Fetch event — network-first, falls back to cache when offline.
+// FIX: the previous version only ever READ from cache
+// (caches.match) but never WROTE anything into it — meaning the
+// cache was permanently empty and offline fallback could never
+// actually serve anything. This version caches every successful
+// response as it comes in, so there's something real to fall back to.
 self.addEventListener('fetch', (event) => {
+    if (event.request.method !== 'GET') return; // don't try to cache POSTs etc.
+
     event.respondWith(
-        fetch(event.request).catch(() => {
-            return caches.match(event.request);
-        })
+        fetch(event.request)
+            .then((response) => {
+                // Only cache valid, same-origin-ish responses.
+                if (response && response.status === 200) {
+                    const responseClone = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseClone);
+                    });
+                }
+                return response;
+            })
+            .catch(() => caches.match(event.request))
     );
 });
 
@@ -70,5 +98,4 @@ self.addEventListener('notificationclick', (event) => {
         })
     );
 });
-
 
