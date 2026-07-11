@@ -1,4 +1,14 @@
-const CACHE_NAME = 'mock-matrix-v3';
+// ============================================================
+// MOCK MATRIX HUB — Service Worker
+// v4: fixes uncontrolled cache growth. Only same-origin static
+// assets (html/css/js/images) are cached, capped at 60 entries.
+// CDN scripts, fonts, Supabase/gtag calls, exam/mock JSON, and
+// any cross-origin request are fetched live and never stored —
+// this is what was causing MBs of growth on every visit.
+// ============================================================
+const CACHE_NAME = 'mock-matrix-v4'; // bump this string on future deploys to force a clean cache
+const MAX_CACHE_ENTRIES = 60;
+const STATIC_PATTERNS = [/\.html$/, /\.css$/, /\.js$/, /\.(png|jpg|jpeg|svg|ico)$/];
 
 // Install event
 self.addEventListener('install', (event) => {
@@ -6,9 +16,7 @@ self.addEventListener('install', (event) => {
 });
 
 // Activate event — clean up old cache versions and take control of
-// any already-open pages immediately (previously missing entirely,
-// meaning a freshly-installed SW wouldn't control open tabs until a
-// full reload).
+// any already-open pages immediately.
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((names) =>
@@ -17,23 +25,44 @@ self.addEventListener('activate', (event) => {
     );
 });
 
+// Drop the oldest entries once the cache exceeds MAX_CACHE_ENTRIES,
+// so storage never grows without bound.
+async function trimCache(cache) {
+    const keys = await cache.keys();
+    if (keys.length <= MAX_CACHE_ENTRIES) return;
+    const excess = keys.length - MAX_CACHE_ENTRIES;
+    for (let i = 0; i < excess; i++) {
+        await cache.delete(keys[i]); // oldest first (insertion order)
+    }
+}
+
 // Fetch event — network-first, falls back to cache when offline.
-// FIX: the previous version only ever READ from cache
-// (caches.match) but never WROTE anything into it — meaning the
-// cache was permanently empty and offline fallback could never
-// actually serve anything. This version caches every successful
-// response as it comes in, so there's something real to fall back to.
+// Only same-origin static assets are ever written to the cache.
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return; // don't try to cache POSTs etc.
+
+    const url = new URL(event.request.url);
+    const isSameOrigin = url.origin === self.location.origin;
+    const isStaticAsset = isSameOrigin && STATIC_PATTERNS.some((p) => p.test(url.pathname));
+
+    if (!isStaticAsset) {
+        // CDN libs (bootstrap/fontawesome/fonts), gtag, Supabase, the
+        // notify-worker API, and any exam/mock JSON: fetch live, never
+        // cache. The browser's own HTTP cache already handles CDN files.
+        event.respondWith(
+            fetch(event.request).catch(() => caches.match(event.request))
+        );
+        return;
+    }
 
     event.respondWith(
         fetch(event.request)
             .then((response) => {
-                // Only cache valid, same-origin-ish responses.
                 if (response && response.status === 200) {
                     const responseClone = response.clone();
                     caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, responseClone);
+                        trimCache(cache);
                     });
                 }
                 return response;
@@ -43,9 +72,7 @@ self.addEventListener('fetch', (event) => {
 });
 
 // ============================================================
-// PUSH NOTIFICATIONS
-// Fires even when the site/app is fully closed, as long as the
-// service worker is registered and the OS delivers the push.
+// PUSH NOTIFICATIONS (unchanged)
 // ============================================================
 self.addEventListener('push', (event) => {
     let data = {};
@@ -59,7 +86,7 @@ self.addEventListener('push', (event) => {
     const options = {
         body: data.body || '',
         icon: data.icon || '/icons/icon-192.png',
-        badge: '/icons/icon-192.png', // small monochrome icon shown in status bar (Android)
+        badge: '/icons/icon-192.png',
         data: {
             url: data.url || '/',
             notificationId: data.notificationId || null
@@ -71,10 +98,7 @@ self.addEventListener('push', (event) => {
 });
 
 // ============================================================
-// NOTIFICATION CLICK
-// Opens the specific url from the payload. If a tab is already
-// open on this site, it focuses & navigates that tab instead of
-// opening a duplicate one.
+// NOTIFICATION CLICK (unchanged)
 // ============================================================
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
@@ -83,7 +107,6 @@ self.addEventListener('notificationclick', (event) => {
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
             for (const client of windowClients) {
-                // If any open tab belongs to our origin, reuse it.
                 const clientUrl = new URL(client.url);
                 const targetOrigin = new URL(targetUrl, self.location.origin).origin;
                 if (clientUrl.origin === targetOrigin && 'focus' in client) {
@@ -91,7 +114,6 @@ self.addEventListener('notificationclick', (event) => {
                     return client.focus();
                 }
             }
-            // No existing tab — open a new one.
             if (clients.openWindow) {
                 return clients.openWindow(targetUrl);
             }
