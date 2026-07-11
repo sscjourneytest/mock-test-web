@@ -77,18 +77,23 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- APP TOP BAR --- */
+        /* --- APP TOP BAR (now a column: top row + optional switch row) --- */
         .app-header {
             background: var(--white);
-            padding: 12px 20px;
+            padding: 12px 20px 0;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: var(--shadow-sm);
             border-bottom: 1px solid var(--border);
+        }
+        .app-header__toprow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
         }
 
         .brand-logo {
@@ -540,8 +545,11 @@ body.dark-mode #darkModeToggle {
 
 /* Mobile responsive tight-fit safety net */
 @media (max-width: 480px) {
+    .app-header__toprow {
+        padding-left: 0; padding-right: 0;
+    }
     .app-header {
-        padding: 12px 10px !important; /* Extra horizontal room */
+        padding: 12px 10px 0 !important; /* Extra horizontal room */
     }
     .brand-logo {
         font-size: 0.85rem !important; /* Slightly scale text down */
@@ -607,48 +615,57 @@ body.dark-mode #darkModeToggle {
     top: -4px;
     right: 18%;
 }
+
+/* --- App switcher toggle (Rank Master / Mock Matrix) — widened,
+   sits as a second row inside the sticky header, APK webview only --- */
+.app-switch {
+  display: flex; align-items: center; gap: 2px;
+  background: #f1f1ef; border: 1px solid #e5e5e5;
+  border-radius: 999px; padding: 4px;
+  max-width: 320px; width: calc(100% - 8px);
+  margin: 0 auto 12px;
+}
+.app-switch__btn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 12px; border-radius: 999px; border: none; background: transparent;
+  font-size: 0.78rem; font-weight: 700; color: #888; cursor: pointer;
+}
+.app-switch__btn img { width: 17px; height: 17px; border-radius: 4px; object-fit: cover; }
+.app-switch__btn--active { background: #fff; color: #000; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+
+body.dark-mode .app-switch { background: #1e293b; border-color: #334155; }
+body.dark-mode .app-switch__btn { color: #94a3b8; }
+body.dark-mode .app-switch__btn--active { background: #2d3748; color: #f1f5f9; }
     </style>
 </head>
 <body>
     <header class="app-header">
-        <div class="d-flex align-items-center gap-3">
-            <i class="fas fa-bars fs-5" id="menuBtn" style="cursor: pointer;" onclick="toggleSidebar()"></i>
-            <a href="/" class="brand-logo">
-                <img src="/logo.png" alt="MMH">
-                <span>MOCK MATRIX <span style="color:var(--text-dark)">HUB</span></span>
-            </a>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-            <button id="darkModeToggle" onclick="toggleTheme()">🌙</button>
-            <a href="/notifications.html" class="notif-bell-wrap" aria-label="Notifications">
-    <i class="fas fa-bell"></i>
-    <span class="notif-badge-dot"></span>
-</a>
-            <div id="authHeaderArea">
-                <a href="/login.html" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">LOGIN</a>
+        <div class="app-header__toprow">
+            <div class="d-flex align-items-center gap-3">
+                <i class="fas fa-bars fs-5" id="menuBtn" style="cursor: pointer;" onclick="toggleSidebar()"></i>
+                <a href="/" class="brand-logo">
+                    <img src="/logo.png" alt="MMH">
+                    <span>MOCK MATRIX <span style="color:var(--text-dark)">HUB</span></span>
+                </a>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button id="darkModeToggle" onclick="toggleTheme()">🌙</button>
+                <a href="/notifications.html" class="notif-bell-wrap" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge-dot"></span>
+                </a>
+                <div id="authHeaderArea">
+                    <a href="/login.html" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">LOGIN</a>
+                </div>
             </div>
         </div>
+
+        <!-- Only rendered/shown when running inside the Rank Score Master
+             app wrapper (AndroidBridge present) — a normal browser or
+             standalone PWA visitor has no "Rank Master" to switch to. -->
+        <div id="appSwitchSlot"></div>
     </header>
 
-    <!-- Only rendered/shown when running inside the Rank Score Master
-         app wrapper (AndroidBridge present) — a normal browser or
-         standalone PWA visitor has no "Rank Master" to switch to. -->
-    <div id="appSwitchSlot"></div>
-    <style>
-    .app-switch {
-      display: flex; align-items: center; gap: 2px;
-      background: #f1f1ef; border: 1px solid #e5e5e5;
-      border-radius: 999px; padding: 3px; margin: 10px auto;
-      max-width: 280px;
-    }
-    .app-switch__btn {
-      flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
-      padding: 6px 10px; border-radius: 999px; border: none; background: transparent;
-      font-size: 0.72rem; font-weight: 700; color: #888; cursor: pointer;
-    }
-    .app-switch__btn img { width: 15px; height: 15px; border-radius: 4px; object-fit: cover; }
-    .app-switch__btn--active { background: #fff; color: #000; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
-    </style>
     <script>
     if (window.AndroidBridge) {
       document.getElementById('appSwitchSlot').innerHTML = `
@@ -1133,16 +1150,8 @@ window.addEventListener('appinstalled', () => {
         // ============================================================
 // MOCK MATRIX HUB — Notifications (Service Worker + Push + Bell)
 // ============================================================
-// Paste this whole block into index.html, just before the closing </body>
-// tag (after your existing scripts is fine too — order doesn't matter much
-// since everything here is wrapped in functions/listeners).
-//
-// CONFIG: change this one line if your Worker URL is ever different.
-// ============================================================
 const NOTIFY_API_BASE = 'https://mmh-notify-worker.mockmatrixsupport.workers.dev';
 
-// ---- 1. Register the service worker (this can still happen automatically — 
-// registering itself does NOT ask for any permission or show any prompt) ----
 let swRegistration = null;
 
 if ('serviceWorker' in navigator) {
@@ -1151,8 +1160,6 @@ if ('serviceWorker' in navigator) {
             .then((reg) => {
                 console.log('Service worker registered:', reg.scope);
                 swRegistration = reg;
-                // If permission was already granted in a previous visit, quietly
-                // make sure the subscription is still active — no prompt shown.
                 if (Notification.permission === 'granted') {
                     initPushSubscription(reg);
                 }
@@ -1161,7 +1168,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-// ---- 2. Ask permission + subscribe to push -------------------------------
 function urlBase64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
     const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
@@ -1174,7 +1180,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 async function initPushSubscription(registration) {
-    if (!('PushManager' in window)) return; // browser doesn't support push at all
+    if (!('PushManager' in window)) return;
     if (Notification.permission === 'denied') return;
 
     try {
@@ -1205,7 +1211,6 @@ async function initPushSubscription(registration) {
 }
 
 
-        // ---- 2b. Permission check on EVERY bell tap -------------------------------
 function handleBellTap(event) {
     if (!('Notification' in window)) return;
 
@@ -1246,9 +1251,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// ---- 3. Bell badge (header + bottom nav) ---------------------------------
-// Checks the latest notification id against what the user last saw.
-// Cheap call: runs once per page load.
 async function refreshNotificationBadge() {
     try {
         const res = await fetch(`${NOTIFY_API_BASE}/api/notify/list?limit=11`);
@@ -1283,5 +1285,4 @@ window.addEventListener('pageshow', refreshNotificationBadge);
     
 </body>
 </html>
-
 
