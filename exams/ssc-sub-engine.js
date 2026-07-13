@@ -9,12 +9,47 @@ const SYNC_EXPIRY_MS = 48 * 60 * 60 * 1000;
 
 const WORKER_URL = "https://mmh-userdata-test.maniyamaniya789.workers.dev";
 
+// ── Exam Name Resolution Helper ──────────────────────────────────────────────
+// Exam name is the bare token in the query string (e.g. "?ssc-cgl-2025"),
+// picked out from any other real params (like &filter=...) using URLSearchParams
+// so it keeps working exactly as before even when extra params are present.
+function _getExamNameFromUrl() {
+    const pathParts = window.location.pathname.split('/');
+    if (!window.location.search) return pathParts[pathParts.length - 2];
+
+    const params = new URLSearchParams(window.location.search);
+    for (const key of params.keys()) {
+        if (key !== 'filter') return key;
+    }
+    return pathParts[pathParts.length - 2];
+}
+
+// ── URL Filter Helper ─────────────────────────────────────────────────────────
+// Reads &filter=year=2025,subject=Maths,topic=Algebra,subtopic=Percentage
+// Any subset of levels can be given; applied top-down and validated afterwards
+// by the existing fallback logic in initExamEngine.
+function _getUrlFilters() {
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('filter');
+    if (!raw) return null;
+
+    const result = {};
+    const allowedKeys = ['year', 'subject', 'topic', 'subtopic'];
+    raw.split(',').forEach(pair => {
+        const idx = pair.indexOf('=');
+        if (idx === -1) return;
+        const key = pair.slice(0, idx).trim();
+        const value = pair.slice(idx + 1).trim();
+        if (allowedKeys.includes(key) && value) {
+            result[key] = value;
+        }
+    });
+    return Object.keys(result).length ? result : null;
+}
+
 // ── Filter Persistence Helpers ──────────────────────────────────────────────
 function _filterCacheKey() {
-    const pathParts = window.location.pathname.split('/');
-    const examName = window.location.search
-        ? window.location.search.slice(1)
-        : pathParts[pathParts.length - 2];
+    const examName = _getExamNameFromUrl();
     return `examFilters_${examName}`;
 }
 
@@ -50,8 +85,12 @@ function _depth(node) {
 
 async function initExamEngine() {
     loadSavedFilters();
-    const pathParts = window.location.pathname.split('/');
-    let examName = window.location.search ? window.location.search.slice(1) : pathParts[pathParts.length - 2];
+
+    // URL filters take precedence over saved session filters
+    const urlFilters = _getUrlFilters();
+    if (urlFilters) Object.assign(currentFilters, urlFilters);
+
+    let examName = _getExamNameFromUrl();
 
     document.getElementById('grid-sync').innerText = "🔄 Syncing Database...";
     try {
@@ -431,3 +470,4 @@ window.addEventListener('pageshow', function(event) {
         if (typeof renderMocks === 'function' && EXAM_JSON) { renderMocks(); }
     }
 });
+
