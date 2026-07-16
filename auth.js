@@ -11,6 +11,71 @@ async function getClient() {
 
 const SECRET_SALT = "mmh_vault_key_99";
 
+/**
+ * Fetches (and caches) the full profile for a logged-in user.
+ * Used both by initAuth() and by login.html's login/signup flows so that
+ * nobody gets redirected to another page before their profile data
+ * has actually arrived.
+ * Returns the profile object on success, or null if it could not be loaded.
+ */
+async function fetchAndCacheProfile(client, user) {
+    // 1. BACKGROUND SYNC: If user has a pending request, check status automatically
+    if (localStorage.getItem('pending_premium_request') === 'true') {
+        await syncPendingPremiumStatus(client, user.email);
+    }
+
+    let profile = getLocalProfile();
+    const urlParams = new URLSearchParams(window.location.search);
+    const forceFetch = urlParams.get('type') === 'recovery' || !profile;
+
+    // 2. CACHE MANAGEMENT: Fetch profile if missing or expired
+    if (forceFetch || isCacheExpired()) {
+        try {
+            const { data: dbProfile } = await client.from('profiles').select('*').eq('id', user.id).single();
+            if (dbProfile) {
+                profile = { ...dbProfile, email: user.email };
+                saveLocalProfile(profile);
+            } else if (!profile) {
+                return null; // nothing cached and nothing fetched = failure
+            }
+        } catch (e) {
+            if (!profile) return null;
+        }
+    }
+
+    return profile;
+}
+
+/**
+ * Works out where to send the user after they finish logging in / registering.
+ * Priority: explicit ?redirect= param (the page that bounced them to login) >
+ * same-origin referrer (if it isn't the login page itself) > home page.
+ */
+function getSafeRedirectTarget() {
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('redirect');
+    if (raw) {
+        try {
+            const decoded = decodeURIComponent(raw);
+            // Only allow internal, same-site paths (never redirect off-site)
+            if (decoded.startsWith('/') && !decoded.startsWith('//')) {
+                return decoded;
+            }
+        } catch (e) {}
+    }
+
+    if (document.referrer) {
+        try {
+            const refUrl = new URL(document.referrer);
+            if (refUrl.origin === window.location.origin && !refUrl.pathname.endsWith('login.html')) {
+                return refUrl.pathname + refUrl.search;
+            }
+        } catch (e) {}
+    }
+
+    return "/index.html";
+}
+
 async function initAuth() {
     const client = await getClient();
     const { data: { user } } = await client.auth.getUser();
@@ -24,25 +89,11 @@ async function initAuth() {
     
 
     if (user) {
-        // 1. BACKGROUND SYNC: If user has a pending request, check status automatically
-        if (localStorage.getItem('pending_premium_request') === 'true') {
-            await syncPendingPremiumStatus(client, user.email);
-        }
+        // Fetch the full profile and WAIT for it before doing anything that
+        // depends on it (like leaving the login page).
+        const profile = await fetchAndCacheProfile(client, user);
 
-        let profile = getLocalProfile();
-        const urlParams = new URLSearchParams(window.location.search);
-        const forceFetch = urlParams.get('type') === 'recovery' || !profile;
-
-        // 2. CACHE MANAGEMENT: Fetch profile if missing or expired
-        if (forceFetch || isCacheExpired()) {
-            const { data: dbProfile } = await client.from('profiles').select('*').eq('id', user.id).single();
-            if (dbProfile) {
-                profile = { ...dbProfile, email: user.email };
-                saveLocalProfile(profile);
-            }
-        }
-
-        // 3. VARIABLE EXPOSURE: Extracting required data for other page functions
+        // VARIABLE EXPOSURE: Extracting required data for other page functions
         const username = profile ? profile.username : "User";
         const isPaid = profile ? profile.is_paid : false;
         const isAdmin = profile ? profile.role === 'admin' : false;
@@ -55,11 +106,22 @@ async function initAuth() {
         }
 
         // (Note: UI rendering logic moved to individual index.html files)
-      
-        if (isLoginPage) window.location.href = "/index.html";
+
+        if (isLoginPage) {
+            if (profile) {
+                // Profile confirmed loaded — safe to leave the login page now.
+                window.location.href = getSafeRedirectTarget();
+            } else {
+                // Profile failed to load — stay put and let the login page know.
+                window.dispatchEvent(new Event('profileLoadFailed'));
+            }
+        }
 
     } else {
-        if (!isPublicPage) window.location.href = "/login.html";
+        if (!isPublicPage) {
+            const returnTo = path + window.location.search;
+            window.location.href = "/login.html?redirect=" + encodeURIComponent(returnTo);
+        }
     }
 }
 
@@ -145,3 +207,4 @@ async function handleLogout() {
 
 // Keep this for the very first initial load
 document.addEventListener('DOMContentLoaded', initAuth);
+
