@@ -294,6 +294,37 @@
         .box-arrow { font-size: 1.2rem; color: var(--text-grey); opacity: 0.5; }
         .free-badge-green { background: #22c55e; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; margin-left: 5px; font-weight: 800; }
 
+        /* --- WHAT'S NEW TICKER BOX (full width, sits above Exams row) --- */
+        .whats-new-section { padding: 0 20px; margin: 5px 0 15px; }
+        .whats-new-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 14px 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .whats-new-header { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .whats-new-header i { color: var(--primary); font-size: 1.05rem; }
+        .whats-new-header h4 { font-size: 0.82rem; font-weight: 800; margin: 0; color: var(--text-dark); white-space: nowrap; }
+        .whats-new-divider { width: 1px; align-self: stretch; background: var(--border); flex-shrink: 0; }
+        .whats-new-viewport { flex: 1; min-width: 0; height: 20px; overflow: hidden; position: relative; }
+        .whats-new-list { list-style: none; margin: 0; padding: 0; }
+        .whats-new-item { height: 20px; display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; }
+        .whats-new-link {
+            color: #2563eb; text-decoration: underline; font-size: 0.78rem; font-weight: 700;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 65%;
+        }
+        .whats-new-date { font-size: 0.68rem; color: var(--text-grey); margin-left: auto; flex-shrink: 0; white-space: nowrap; }
+
+        body.dark-mode .whats-new-card { background: #1e293b !important; border-color: #334155 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        body.dark-mode .whats-new-header h4 { color: #f8fafc; }
+        body.dark-mode .whats-new-divider { background: #334155; }
+        body.dark-mode .whats-new-link { color: #60a5fa; }
+        body.dark-mode .whats-new-date { color: #94a3b8; }
+
         /* --- RECOMMENDATIONS (Full Width Rows with Right Arrows) --- */
         .rec-section { padding: 25px 20px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
@@ -801,6 +832,19 @@ body.dark-mode .app-switch__btn--active { background: #2d3748; color: #f1f5f9; }
     updateDetectors();
 </script>
    
+<div class="whats-new-section" id="whatsNewSection" style="display:none;">
+    <div class="whats-new-card">
+        <div class="whats-new-header">
+            <i class="fas fa-bullhorn"></i>
+            <h4>What's New?</h4>
+        </div>
+        <div class="whats-new-divider"></div>
+        <div class="whats-new-viewport">
+            <ul class="whats-new-list" id="whatsNewList"></ul>
+        </div>
+    </div>
+</div>
+
 <div class="action-container">
         <div class="action-row">
             <a href="/exams/" class="box-style box-1">
@@ -1096,6 +1140,74 @@ window.addEventListener('pageshow', (event) => {
     refreshAppUI();
 });
         
+// ============================================================
+// WHAT'S NEW TICKER — loads /whats-new.json, shows newest first,
+// scrolls up slowly to reveal each older update.
+// ============================================================
+async function loadWhatsNew() {
+    try {
+        const res = await fetch('/whats-new.json?v=' + Date.now());
+        if (!res.ok) return;
+        const items = await res.json();
+        if (!Array.isArray(items) || items.length === 0) return;
+
+        // Always render newest first, regardless of order in the file
+        items.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        const list = document.getElementById('whatsNewList');
+        const section = document.getElementById('whatsNewSection');
+        if (!list || !section) return;
+
+        const rowHTML = (item) => `
+            <li class="whats-new-item">
+                <a href="${item.link}" class="whats-new-link">${item.title}</a>
+                ${item.badge ? `<span class="new-badge-blink">${item.badge}</span>` : ''}
+                <span class="whats-new-date">${formatWhatsNewDate(item.date)}</span>
+            </li>`;
+
+        // Build the list, then repeat the first item at the end so the
+        // upward scroll can loop back seamlessly.
+        list.innerHTML = items.map(rowHTML).join('') + (items.length > 1 ? rowHTML(items[0]) : '');
+
+        section.style.display = 'block';
+
+        if (items.length > 1) startWhatsNewTicker(list, items.length);
+    } catch (e) {
+        console.error('Failed to load What\'s New:', e);
+    }
+}
+
+function formatWhatsNewDate(dateStr) {
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+}
+
+function startWhatsNewTicker(list, count) {
+    const ITEM_HEIGHT = 20; // must match .whats-new-item CSS height
+    let index = 0;
+    list.style.transition = 'transform 0.8s ease';
+
+    setInterval(() => {
+        index++;
+        list.style.transition = 'transform 0.8s ease';
+        list.style.transform = `translateY(-${index * ITEM_HEIGHT}px)`;
+
+        if (index === count) {
+            // Reached the cloned first item — snap back to the real
+            // first item with no transition once the scroll finishes.
+            list.addEventListener('transitionend', function resetTicker() {
+                list.style.transition = 'none';
+                list.style.transform = 'translateY(0)';
+                index = 0;
+                list.removeEventListener('transitionend', resetTicker);
+            }, { once: true });
+        }
+    }, 3500);
+}
+
+document.addEventListener('DOMContentLoaded', loadWhatsNew);
+
 let deferredPrompt;
 const installModal = document.getElementById('pwaInstallModal');
 const sidebarBtn = document.getElementById('sidebarInstallBtn');
@@ -1285,4 +1397,5 @@ window.addEventListener('pageshow', refreshNotificationBadge);
     
 </body>
 </html>
+
 
