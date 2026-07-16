@@ -294,36 +294,50 @@
         .box-arrow { font-size: 1.2rem; color: var(--text-grey); opacity: 0.5; }
         .free-badge-green { background: #22c55e; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; margin-left: 5px; font-weight: 800; }
 
-        /* --- WHAT'S NEW TICKER BOX (full width, sits above Exams row) --- */
+        /* --- WHAT'S NEW MARQUEE BOX (heading above, 3-line right-to-left ticker like Sarkari-Result style) --- */
         .whats-new-section { padding: 0 20px; margin: 5px 0 15px; }
+        .whats-new-heading {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.95rem; font-weight: 800; color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        .whats-new-heading i { color: var(--primary); font-size: 1rem; }
         .whats-new-card {
             background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 14px 20px;
+            border-radius: 18px;
+            padding: 10px 16px;
             box-shadow: var(--shadow-sm);
             display: flex;
-            align-items: center;
-            gap: 14px;
+            flex-direction: column;
         }
-        .whats-new-header { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-        .whats-new-header i { color: var(--primary); font-size: 1.05rem; }
-        .whats-new-header h4 { font-size: 0.82rem; font-weight: 800; margin: 0; color: var(--text-dark); white-space: nowrap; }
-        .whats-new-divider { width: 1px; align-self: stretch; background: var(--border); flex-shrink: 0; }
-        .whats-new-viewport { flex: 1; min-width: 0; height: 20px; overflow: hidden; position: relative; }
-        .whats-new-list { list-style: none; margin: 0; padding: 0; }
-        .whats-new-item { height: 20px; display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; }
-        .whats-new-link {
-            color: #2563eb; text-decoration: underline; font-size: 0.78rem; font-weight: 700;
-            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 65%;
+        .whats-new-row {
+            height: 34px;
+            position: relative;
+            overflow: hidden;
         }
-        .whats-new-date { font-size: 0.68rem; color: var(--text-grey); margin-left: auto; flex-shrink: 0; white-space: nowrap; }
+        .whats-new-row + .whats-new-row { border-top: 1px dashed var(--border); }
+        .whats-new-track {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; gap: 10px;
+            white-space: nowrap;
+            will-change: transform;
+        }
+        .whats-new-link { color: #2563eb; text-decoration: underline; font-size: 0.85rem; font-weight: 700; }
+        .whats-new-date { font-size: 0.72rem; color: var(--text-grey); }
 
+        @keyframes whatsNewMarquee {
+            from { transform: translateX(var(--wn-start, 100%)); }
+            to   { transform: translateX(var(--wn-end, -100%)); }
+        }
+
+        body.dark-mode .whats-new-heading { color: #f8fafc; }
         body.dark-mode .whats-new-card { background: #1e293b !important; border-color: #334155 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-        body.dark-mode .whats-new-header h4 { color: #f8fafc; }
-        body.dark-mode .whats-new-divider { background: #334155; }
+        body.dark-mode .whats-new-row + .whats-new-row { border-top-color: #334155; }
         body.dark-mode .whats-new-link { color: #60a5fa; }
         body.dark-mode .whats-new-date { color: #94a3b8; }
+
 
         /* --- RECOMMENDATIONS (Full Width Rows with Right Arrows) --- */
         .rec-section { padding: 25px 20px; }
@@ -833,16 +847,8 @@ body.dark-mode .app-switch__btn--active { background: #2d3748; color: #f1f5f9; }
 </script>
    
 <div class="whats-new-section" id="whatsNewSection" style="display:none;">
-    <div class="whats-new-card">
-        <div class="whats-new-header">
-            <i class="fas fa-bullhorn"></i>
-            <h4>What's New?</h4>
-        </div>
-        <div class="whats-new-divider"></div>
-        <div class="whats-new-viewport">
-            <ul class="whats-new-list" id="whatsNewList"></ul>
-        </div>
-    </div>
+    <div class="whats-new-heading"><i class="fas fa-bullhorn"></i> What's New?</div>
+    <div class="whats-new-card" id="whatsNewCard"></div>
 </div>
 
 <div class="action-container">
@@ -1141,9 +1147,13 @@ window.addEventListener('pageshow', (event) => {
 });
         
 // ============================================================
-// WHAT'S NEW TICKER — loads /whats-new.json, shows newest first,
-// scrolls up slowly to reveal each older update.
+// WHAT'S NEW MARQUEE — loads /whats-new.json, shows newest first,
+// each row scrolls its full text right-to-left (Sarkari-Result style
+// ticker) so nothing is ever cut off with "...".
 // ============================================================
+const WHATS_NEW_MAX_ROWS = 3;
+const WHATS_NEW_SPEED_PX_PER_SEC = 55; // constant scroll speed regardless of text length
+
 async function loadWhatsNew() {
     try {
         const res = await fetch('/whats-new.json?v=' + Date.now());
@@ -1154,24 +1164,28 @@ async function loadWhatsNew() {
         // Always render newest first, regardless of order in the file
         items.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        const list = document.getElementById('whatsNewList');
+        const card = document.getElementById('whatsNewCard');
         const section = document.getElementById('whatsNewSection');
-        if (!list || !section) return;
+        if (!card || !section) return;
 
-        const rowHTML = (item) => `
-            <li class="whats-new-item">
-                <a href="${item.link}" class="whats-new-link">${item.title}</a>
-                ${item.badge ? `<span class="new-badge-blink">${item.badge}</span>` : ''}
-                <span class="whats-new-date">${formatWhatsNewDate(item.date)}</span>
-            </li>`;
+        const rows = items.slice(0, WHATS_NEW_MAX_ROWS);
 
-        // Build the list, then repeat the first item at the end so the
-        // upward scroll can loop back seamlessly.
-        list.innerHTML = items.map(rowHTML).join('') + (items.length > 1 ? rowHTML(items[0]) : '');
+        card.innerHTML = rows.map(item => `
+            <div class="whats-new-row">
+                <div class="whats-new-track">
+                    <a href="${item.link}" class="whats-new-link">${item.title}</a>
+                    ${item.badge ? `<span class="new-badge-blink">${item.badge}</span>` : ''}
+                    <span class="whats-new-date">${formatWhatsNewDate(item.date)}</span>
+                </div>
+            </div>
+        `).join('');
 
         section.style.display = 'block';
 
-        if (items.length > 1) startWhatsNewTicker(list, items.length);
+        // Wait one frame so layout is ready, then measure & animate each row
+        requestAnimationFrame(() => {
+            card.querySelectorAll('.whats-new-row').forEach(startMarqueeRow);
+        });
     } catch (e) {
         console.error('Failed to load What\'s New:', e);
     }
@@ -1183,27 +1197,20 @@ function formatWhatsNewDate(dateStr) {
     return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
 }
 
-function startWhatsNewTicker(list, count) {
-    const ITEM_HEIGHT = 20; // must match .whats-new-item CSS height
-    let index = 0;
-    list.style.transition = 'transform 0.8s ease';
+// Scrolls one row's full text from just-off-right to just-off-left at a
+// constant speed, so longer titles simply take a bit longer — never cut.
+function startMarqueeRow(rowEl) {
+    const track = rowEl.querySelector('.whats-new-track');
+    if (!track) return;
 
-    setInterval(() => {
-        index++;
-        list.style.transition = 'transform 0.8s ease';
-        list.style.transform = `translateY(-${index * ITEM_HEIGHT}px)`;
+    const rowWidth = rowEl.offsetWidth;
+    const trackWidth = track.scrollWidth;
+    const totalDistance = rowWidth + trackWidth;
+    const duration = Math.max(totalDistance / WHATS_NEW_SPEED_PX_PER_SEC, 6);
 
-        if (index === count) {
-            // Reached the cloned first item — snap back to the real
-            // first item with no transition once the scroll finishes.
-            list.addEventListener('transitionend', function resetTicker() {
-                list.style.transition = 'none';
-                list.style.transform = 'translateY(0)';
-                index = 0;
-                list.removeEventListener('transitionend', resetTicker);
-            }, { once: true });
-        }
-    }, 3500);
+    track.style.setProperty('--wn-start', rowWidth + 'px');
+    track.style.setProperty('--wn-end', (-trackWidth) + 'px');
+    track.style.animation = `whatsNewMarquee ${duration}s linear infinite`;
 }
 
 document.addEventListener('DOMContentLoaded', loadWhatsNew);
