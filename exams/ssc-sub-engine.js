@@ -83,6 +83,19 @@ function _depth(node) {
 }
 // ────────────────────────────────────────────────────────────────────────────
 
+// ── Case-Insensitive Key Resolver ─────────────────────────────────────────
+// Finds the real, correctly-cased key in `obj` that matches `value`
+// (exact match preferred, falls back to case-insensitive match).
+// Returns null if no key matches at all.
+function _resolveKeyCI(obj, value) {
+    if (!obj || !value) return null;
+    const keys = Object.keys(obj);
+    if (keys.includes(value)) return value;
+    const lower = value.toLowerCase();
+    return keys.find(k => k.toLowerCase() === lower) || null;
+}
+// ────────────────────────────────────────────────────────────────────────────
+
 async function initExamEngine() {
     loadSavedFilters();
 
@@ -104,27 +117,37 @@ async function initExamEngine() {
             currentFilters.year = years.length > 0 ? years.sort().reverse()[0] : "default";
         }
 
-        // Validate subject
-        const subjectsForYear = Object.keys(EXAM_JSON.data[currentFilters.year] || {});
-        if (!currentFilters.subject || !subjectsForYear.includes(currentFilters.subject)) {
+        // Validate subject (case-insensitive)
+        const yearData = EXAM_JSON.data[currentFilters.year] || {};
+        const subjectsForYear = Object.keys(yearData);
+        const matchedSubject = _resolveKeyCI(yearData, currentFilters.subject);
+        if (matchedSubject) {
+            currentFilters.subject = matchedSubject;
+        } else {
             currentFilters.subject = subjectsForYear.length > 0 ? subjectsForYear[0] : '';
             currentFilters.topic = '';
             currentFilters.subtopic = '';
         }
 
-        // Validate topic
+        // Validate topic (case-insensitive)
         if (currentFilters.topic) {
             const subData = EXAM_JSON.data[currentFilters.year][currentFilters.subject];
-            if (!subData || Array.isArray(subData) || !Object.keys(subData).includes(currentFilters.topic)) {
+            const matchedTopic = (!subData || Array.isArray(subData)) ? null : _resolveKeyCI(subData, currentFilters.topic);
+            if (matchedTopic) {
+                currentFilters.topic = matchedTopic;
+            } else {
                 currentFilters.topic = '';
                 currentFilters.subtopic = '';
             }
         }
 
-        // Validate subtopic
+        // Validate subtopic (case-insensitive)
         if (currentFilters.subtopic && currentFilters.topic) {
             const topicData = (EXAM_JSON.data[currentFilters.year][currentFilters.subject] || {})[currentFilters.topic];
-            if (!topicData || Array.isArray(topicData) || !Object.keys(topicData).includes(currentFilters.subtopic)) {
+            const matchedSubtopic = (!topicData || Array.isArray(topicData)) ? null : _resolveKeyCI(topicData, currentFilters.subtopic);
+            if (matchedSubtopic) {
+                currentFilters.subtopic = matchedSubtopic;
+            } else {
                 currentFilters.subtopic = '';
             }
         }
@@ -470,4 +493,5 @@ window.addEventListener('pageshow', function(event) {
         if (typeof renderMocks === 'function' && EXAM_JSON) { renderMocks(); }
     }
 });
+
 
