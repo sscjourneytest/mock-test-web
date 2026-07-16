@@ -181,7 +181,7 @@
             
             <a href="javascript:void(0)" onclick="toggleView('reset')" style="font-size: 12px; color: #2563eb; text-decoration: none; display: block; margin-bottom: 15px; text-align: right; font-weight: 600;">Forgot Password?</a>
             
-            <button class="btn btn-primary" onclick="login()">Sign In</button>
+            <button class="btn btn-primary" id="login-btn" onclick="login()">Sign In</button>
             <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
         </div>
 
@@ -237,7 +237,7 @@
                 <span class="toggle-eye" onclick="toggleEye('s-password')">👁️</span>
             </div>
             
-            <button class="btn btn-primary" onclick="signup()">Verify & Register</button>
+            <button class="btn btn-primary" id="signup-btn" onclick="signup()">Verify & Register</button>
             <button class="btn btn-link" onclick="toggleView('login')">Already have account? Login</button>
         </div>
         <p id="msg"></p>
@@ -327,40 +327,66 @@
             msg.style.background = isError ? "#fef2f2" : "#f0fdf4";
         }
 
+        function setButtonLoading(btn, isLoading, idleText) {
+            if (!btn) return;
+            if (isLoading) {
+                btn.dataset.originalText = btn.dataset.originalText || btn.innerText;
+                btn.innerText = "Verifying...";
+                btn.disabled = true;
+            } else {
+                btn.innerText = idleText || btn.dataset.originalText || btn.innerText;
+                btn.disabled = false;
+            }
+        }
+
+        // If auth.js couldn't load the profile for an already-logged-in
+        // visitor, let them know instead of silently doing nothing.
+        window.addEventListener('profileLoadFailed', () => {
+            showMessage("Error: Could not load your profile. Please refresh and try again.", true);
+        });
+
         async function signup() {
             const email = document.getElementById('s-email').value.trim();
             const pass = document.getElementById('s-password').value;
             const name = document.getElementById('s-name').value.trim();
             const user = document.getElementById('s-username').value.trim();
             const userRegex = /^[A-Za-z0-9]+$/;
-           
 
             if(!email || !pass || !name || !user) return showMessage("Error: All fields are mandatory!", true);
             if(!userRegex.test(user)) return showMessage("Error: Username must only contain letters and numbers.", true);
             if(pass.length < 6) return showMessage("Error: Password should be at least 6 characters.", true);
 
+            const btn = document.getElementById('signup-btn');
+            setButtonLoading(btn, true);
             showMessage("Checking availability...", false);
-            const client = await getLoginClient();
 
-            const { data: emailExist } = await client.from('profiles').select('id').eq('email', email).maybeSingle();
-            if (emailExist) return showMessage("Error: This Email is already registered!", true);
+            try {
+                const client = await getLoginClient();
 
-            const { data: userExist } = await client.from('profiles').select('username').eq('username', user).maybeSingle();
-            if (userExist) return showMessage("Error: Username already taken.", true);
+                const { data: emailExist } = await client.from('profiles').select('id').eq('email', email).maybeSingle();
+                if (emailExist) return showMessage("Error: This Email is already registered!", true);
 
-            const { data: authData, error: authError } = await client.auth.signUp({ email, password: pass });
-            if (authError) {
-                showMessage("Error: " + authError.message, true);
-            } else if (authData.user) {
+                const { data: userExist } = await client.from('profiles').select('username').eq('username', user).maybeSingle();
+                if (userExist) return showMessage("Error: Username already taken.", true);
+
+                const { data: authData, error: authError } = await client.auth.signUp({ email, password: pass });
+                if (authError) return showMessage("Error: " + authError.message, true);
+                if (!authData.user) return showMessage("Error: Registration failed. Please try again.", true);
+
                 const { error } = await client.from('profiles').insert([{ id: authData.user.id, username: user, full_name: name, email: email }]);
-                if (error) {
-                    showMessage("Error: " + error.message, true);
-                } else {
-                    showMessage("Registration Successful! Redirecting...", false);
-                    setTimeout(() => { 
-                        window.location.href = "/index.html?v=" + Date.now(); 
-                    }, 1500);
-                }
+                if (error) return showMessage("Error: " + error.message, true);
+
+                // Don't leave this page until the profile has actually loaded.
+                showMessage("Loading your profile...", false);
+                const profile = await fetchAndCacheProfile(client, authData.user);
+                if (!profile) return showMessage("Error: Could not load your profile. Please refresh and try again.", true);
+
+                showMessage("Registration Successful! Redirecting...", false);
+                window.location.href = getSafeRedirectTarget();
+            } catch (err) {
+                showMessage("Error: " + err.message, true);
+            } finally {
+                setButtonLoading(btn, false, "Verify & Register");
             }
         }
 
@@ -369,21 +395,38 @@
             const pass = document.getElementById('l-password').value;
             if(!identity || !pass) return showMessage("Error: All fields are mandatory!", true);
 
+            const btn = document.getElementById('login-btn');
+            setButtonLoading(btn, true);
             showMessage("Authenticating...", false);
-            const client = await getLoginClient();
-            let loginEmail = identity;
 
-            if (!identity.includes('@')) {
-                const { data } = await client.from('profiles').select('email').eq('username', identity).maybeSingle();
-                if (data) loginEmail = data.email;
-                else return showMessage("Error: Username not found.", true);
+            try {
+                const client = await getLoginClient();
+                let loginEmail = identity;
+
+                if (!identity.includes('@')) {
+                    const { data } = await client.from('profiles').select('email').eq('username', identity).maybeSingle();
+                    if (data) loginEmail = data.email;
+                    else return showMessage("Error: Username not found.", true);
+                }
+
+                const { data: signInData, error } = await client.auth.signInWithPassword({ email: loginEmail, password: pass });
+                if (error) return showMessage("Error: " + error.message, true);
+
+                // Don't leave this page until the profile has actually loaded.
+                showMessage("Loading your profile...", false);
+                const profile = await fetchAndCacheProfile(client, signInData.user);
+                if (!profile) return showMessage("Error: Could not load your profile. Please try again.", true);
+
+                showMessage("Success! Redirecting...", false);
+                // Sends the user back to the page they came from (or home if none)
+                window.location.href = getSafeRedirectTarget();
+            } catch (err) {
+                showMessage("Error: " + err.message, true);
+            } finally {
+                setButtonLoading(btn, false, "Sign In");
             }
-
-            const { error } = await client.auth.signInWithPassword({ email: loginEmail, password: pass });
-            if (error) showMessage("Error: " + error.message, true);
-            // The Date.now() ensures the URL is unique every time, forcing a fresh load
-            else window.location.href = "/index.html?v=" + Date.now();
         }
     </script>
 </body>
 </html>
+
