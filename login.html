@@ -269,7 +269,7 @@
         }
 
         async function forgotPassword() {
-            const email = document.getElementById('r-email').value.trim();
+            const email = document.getElementById('r-email').value.trim().toLowerCase();
             if (!email) return showMessage("Error: Please enter your Gmail address.", true);
 
             showMessage("Sending code to your email...", false);
@@ -346,7 +346,7 @@
         });
 
         async function signup() {
-            const email = document.getElementById('s-email').value.trim();
+            const email = document.getElementById('s-email').value.trim().toLowerCase();
             const pass = document.getElementById('s-password').value;
             const name = document.getElementById('s-name').value.trim();
             const user = document.getElementById('s-username').value.trim();
@@ -407,6 +407,8 @@
                     const { data } = await client.from('profiles').select('email').eq('username', identity).maybeSingle();
                     if (data) loginEmail = data.email;
                     else return showMessage("Error: Username not found.", true);
+                } else {
+                    loginEmail = identity.toLowerCase();
                 }
 
                 const { data: signInData, error } = await client.auth.signInWithPassword({ email: loginEmail, password: pass });
@@ -429,4 +431,5 @@
     </script>
 </body>
 </html>
+
 
