@@ -260,18 +260,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const applyBtn = document.getElementById("applyCouponBtn");
   const payBtn = document.getElementById("payBtn");
-  const couponToggle = document.getElementById("couponToggle");
-  const couponPanel = document.getElementById("couponPanel");
 
   if (applyBtn) applyBtn.addEventListener("click", applyCoupon);
   if (payBtn) payBtn.addEventListener("click", startCheckout);
-  if (couponToggle) {
-    couponToggle.addEventListener("click", () => {
-      couponPanel.classList.toggle("open");
-      couponToggle.textContent = couponPanel.classList.contains("open")
-        ? "Have a coupon? Apply ↑"
-        : "Have a coupon? Apply →";
-    });
-  }
 });
 
