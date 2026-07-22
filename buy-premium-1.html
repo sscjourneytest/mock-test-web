@@ -22,22 +22,26 @@
     --ink: #2B2E33;
     --ink-soft: #6B7280;
     --line: #DCD6C6;
+    --link: #1D4ED8;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  [id] { scroll-margin-top: 88px; }
 
   body {
     background: var(--paper);
-    background-image:
-      radial-gradient(circle at 1px 1px, rgba(15,42,74,0.06) 1px, transparent 0);
+    background-image: radial-gradient(circle at 1px 1px, rgba(15,42,74,0.06) 1px, transparent 0);
     background-size: 22px 22px;
     color: var(--ink);
     font-family: 'Inter', sans-serif;
-    padding: 32px 16px 60px;
+    padding: 76px 16px 60px;
   }
 
-  body { padding-top: 76px; }
+  a.textlink { color: var(--link); text-decoration: none; font-weight: 600; }
+  a.textlink:hover { text-decoration: underline; }
 
+  /* ---------- Top bar ---------- */
   .topbar {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -49,275 +53,169 @@
     background: #FFFFFF;
     border-bottom: 1px solid #E5E1D6;
     padding: 14px 18px;
-    margin: 0;
   }
-  .topbar .left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+  .topbar .left { display: flex; align-items: center; gap: 14px; }
+  .topbar a.back {
+    display: flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #F1EEE4; color: var(--navy); text-decoration: none; font-size: 15px; flex-shrink: 0;
   }
-  .topbar a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    background: #F1EEE4;
-    color: var(--navy);
-    text-decoration: none;
-    font-size: 15px;
-    flex-shrink: 0;
-  }
-  .topbar a:hover { background: var(--navy); color: #fff; }
-  .topbar span {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    color: var(--navy);
-  }
-  .topbar-logo {
-    width: 34px; height: 34px;
-    border-radius: 8px;
-    border: 1.5px solid var(--line);
-    flex-shrink: 0;
-  }
+  .topbar a.back:hover { background: var(--navy); color: #fff; }
+  .topbar span.title { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 20px; color: var(--navy); }
+  .topbar-logo { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--line); flex-shrink: 0; }
 
   .wrap { max-width: 980px; margin: 0 auto; }
 
   /* ---------- Header ---------- */
-  .header {
-    text-align: center;
-    margin-bottom: 34px;
-  }
-  .logo {
-    width: 56px; height: 56px;
-    border-radius: 10px;
-    margin-bottom: 14px;
-    border: 2px solid var(--navy);
-  }
+  .header { text-align: center; margin-bottom: 28px; }
   .eyebrow {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    color: var(--seal);
-    text-transform: uppercase;
-    margin-bottom: 10px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em;
+    color: var(--seal); text-transform: uppercase; margin-bottom: 10px;
   }
   .header h1 {
-    font-family: 'Lora', serif;
-    font-weight: 700;
-    font-size: clamp(28px, 4vw, 40px);
-    color: var(--navy);
-    line-height: 1.15;
+    font-family: 'Lora', serif; font-weight: 700; font-size: clamp(28px, 4vw, 40px);
+    color: var(--navy); line-height: 1.15;
   }
-  .header p {
-    margin-top: 10px;
-    color: var(--ink-soft);
-    font-size: 15px;
+  .header p { margin-top: 10px; color: var(--ink-soft); font-size: 15px; }
+
+  /* ---------- Plan selector (only shown if >1 active plan) ---------- */
+  #planSelector {
+    display: none;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
+  .plan-option {
+    background: var(--paper-raised);
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    padding: 12px 18px;
+    cursor: pointer;
+    text-align: center;
+    min-width: 130px;
+  }
+  .plan-option.active { border-color: var(--navy); box-shadow: 0 0 0 2px rgba(15,42,74,0.12); }
+  .plan-option .po-name { font-family: 'Lora', serif; font-weight: 600; font-size: 14px; color: var(--navy); }
+  .plan-option .po-price { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
 
   /* ---------- Layout ---------- */
-  .layout {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 28px;
-    align-items: start;
-  }
-  @media (max-width: 860px) {
-    .layout { grid-template-columns: 1fr; }
-  }
+  .layout { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 28px; align-items: start; }
+  @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
 
   /* ---------- Admit-card pricing panel ---------- */
   .admit-card {
-    background: var(--paper-raised);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(15,42,74,0.08);
-    overflow: hidden;
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 4px;
+    position: relative; box-shadow: 0 10px 30px rgba(15,42,74,0.08); overflow: hidden;
   }
-
   .admit-strip {
-    background: var(--navy);
-    color: #fff;
-    padding: 14px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
+    background: var(--navy); color: #fff; padding: 14px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em;
   }
-  .admit-strip .status {
-    background: var(--gold);
-    color: var(--navy);
-    padding: 3px 10px;
-    border-radius: 3px;
-    font-weight: 600;
-  }
-
+  .admit-strip .status { background: var(--gold); color: var(--navy); padding: 3px 10px; border-radius: 3px; font-weight: 600; }
   .admit-body { padding: 26px 24px 28px; }
 
   .plan-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 18px;
-    margin-bottom: 18px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-bottom: 18px;
   }
-  .plan-name {
-    font-family: 'Lora', serif;
-    font-weight: 600;
-    font-size: 20px;
-    color: var(--navy);
-  }
-  .plan-validity {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--ink-soft);
-  }
+  .plan-name { font-family: 'Lora', serif; font-weight: 600; font-size: 20px; color: var(--navy); }
+  .plan-validity { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink-soft); }
 
-  .price-block { text-align: left; margin-bottom: 22px; }
-  .strike {
-    font-family: 'IBM Plex Mono', monospace;
-    text-decoration: line-through;
-    color: var(--ink-soft);
-    font-size: 16px;
-    margin-right: 10px;
-  }
-  .real-price {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 44px;
-    font-weight: 600;
-    color: var(--navy);
-  }
+  .price-block { text-align: left; margin-bottom: 16px; }
+  .strike { font-family: 'IBM Plex Mono', monospace; text-decoration: line-through; color: var(--ink-soft); font-size: 16px; margin-right: 10px; }
+  .real-price { font-family: 'IBM Plex Mono', monospace; font-size: 44px; font-weight: 600; color: var(--navy); }
   .price-note { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
 
-  .coupon-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
+  .quick-links { display: flex; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+  .quick-links a { font-size: 12.5px; }
+
+  .coupon-toggle { display: inline-block; margin-bottom: 10px; font-size: 13px; cursor: pointer; }
+  .coupon-panel { display: none; margin-bottom: 6px; }
+  .coupon-panel.open { display: block; }
+  .coupon-row { display: flex; gap: 8px; margin-bottom: 6px; }
   .coupon-row input {
-    flex: 1;
-    border: 1.5px solid var(--line);
-    border-radius: 4px;
-    padding: 11px 12px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    outline: none;
-    background: #FCFAF5;
+    flex: 1; border: 1.5px solid var(--line); border-radius: 4px; padding: 11px 12px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.05em;
+    text-transform: uppercase; outline: none; background: #FCFAF5;
   }
   .coupon-row input:focus { border-color: var(--navy); }
   .coupon-row button {
-    background: var(--navy);
-    color: #fff;
-    border: none;
-    padding: 0 18px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 13px;
-    cursor: pointer;
+    background: var(--navy); color: #fff; border: none; padding: 0 18px; border-radius: 4px;
+    font-weight: 600; font-size: 13px; cursor: pointer;
   }
   .coupon-row button:hover { background: var(--navy-soft); }
-  #couponMsg { font-size: 12px; font-weight: 600; min-height: 16px; margin-bottom: 18px; }
+  #couponMsg { font-size: 12px; font-weight: 600; min-height: 16px; margin-bottom: 12px; }
 
   .pay-btn {
-    width: 100%;
-    padding: 16px;
-    background: var(--seal);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    cursor: pointer;
-    transition: 0.2s;
+    width: 100%; padding: 16px; background: var(--seal); color: #fff; border: none; border-radius: 4px;
+    font-size: 15px; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; transition: 0.2s;
   }
   .pay-btn:hover { background: #8E1E17; }
   .pay-btn:disabled { background: #A8A29E; cursor: not-allowed; }
 
-  .secure-note {
-    text-align: center;
-    font-size: 11px;
-    color: var(--ink-soft);
-    margin-top: 12px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
+  .secure-note { text-align: center; font-size: 11px; color: var(--ink-soft); margin-top: 12px; font-family: 'IBM Plex Mono', monospace; }
 
   /* ---------- Right column ---------- */
-  .panel {
-    background: var(--paper-raised);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    padding: 22px;
-    margin-bottom: 20px;
-  }
+  .panel { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 4px; padding: 22px; margin-bottom: 20px; }
   .panel h3 {
-    font-family: 'Lora', serif;
-    font-size: 17px;
-    color: var(--navy);
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--line);
+    font-family: 'Lora', serif; font-size: 17px; color: var(--navy); margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--line);
   }
-
-  .syllabus-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 9px 0;
-    font-size: 13.5px;
-    border-bottom: 1px dashed var(--line);
-  }
+  .syllabus-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; font-size: 13.5px; border-bottom: 1px dashed var(--line); }
   .syllabus-item:last-child { border-bottom: none; }
   .syllabus-item i { color: var(--gold); font-size: 13px; margin-top: 2px; }
 
-  .instruction-item {
-    display: flex;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .instruction-item:last-child { border-bottom: none; }
-  .instruction-num {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--seal);
-    font-weight: 600;
-    flex-shrink: 0;
-    width: 20px;
-  }
-  .instruction-text h4 {
-    font-size: 13.5px;
-    color: var(--ink);
-    margin-bottom: 3px;
-  }
-  .instruction-text p {
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    line-height: 1.5;
+  /* ---------- Below-fold: Plan Details ---------- */
+  section.below { margin-top: 48px; }
+  section.below h2 {
+    font-family: 'Lora', serif; font-size: 24px; color: var(--navy); text-align: center; margin-bottom: 22px;
   }
 
-  footer {
-    text-align: center;
-    font-size: 11.5px;
-    color: var(--ink-soft);
-    margin-top: 40px;
-    font-family: 'IBM Plex Mono', monospace;
+  .compare-table {
+    width: 100%; border-collapse: collapse; background: var(--paper-raised);
+    border: 1px solid var(--line); border-radius: 4px; overflow: hidden; font-size: 13.5px;
   }
+  .compare-table th, .compare-table td { padding: 12px 14px; text-align: center; border-bottom: 1px solid var(--line); }
+  .compare-table th { background: var(--navy); color: #fff; font-family: 'Inter', sans-serif; font-weight: 600; }
+  .compare-table td:first-child, .compare-table th:first-child { text-align: left; font-weight: 500; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table .yes { color: #16a34a; font-weight: 700; }
+  .compare-table .no { color: #DC2626; }
+
+  /* ---------- FAQ ---------- */
+  .instruction-item { display: flex; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .instruction-item:last-child { border-bottom: none; }
+  .instruction-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--seal); font-weight: 600; flex-shrink: 0; width: 22px; }
+  .instruction-text h4 { font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+  .instruction-text p { font-size: 13px; color: var(--ink-soft); line-height: 1.55; }
+
+  footer { text-align: center; font-size: 11.5px; color: var(--ink-soft); margin-top: 44px; font-family: 'IBM Plex Mono', monospace; }
+
+  /* ---------- Floating support button ---------- */
+  .support-fab {
+    position: fixed;
+    right: 18px; bottom: 22px;
+    z-index: 200;
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 21px;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(15,42,74,0.35);
+  }
+  .support-fab:hover { background: var(--navy-soft); }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="left">
-    <a href="/index.html" aria-label="Back to home"><i class="fas fa-arrow-left"></i></a>
-    <span>Buy Premium</span>
+    <a href="/index.html" class="back" aria-label="Back to home"><i class="fas fa-arrow-left"></i></a>
+    <span class="title">Buy Premium</span>
   </div>
   <img src="/logo.png" alt="Mock Matrix Hub" class="topbar-logo">
 </div>
@@ -327,44 +225,52 @@
   <div class="header">
     <div class="eyebrow">Mock Matrix Hub · Premium</div>
     <h1>Unlock Full Access to<br>Mock Matrix Hub</h1>
-    <p>SSC · Railway (RRB/NTPC) · State Exams — full mock library, one year</p>
+    <p>SSC · Railway (RRB/NTPC) · State Exams — full mock library</p>
   </div>
+
+  <div id="planSelector"></div>
 
   <div class="layout">
 
-    <!-- Left: Admit-card style pricing panel -->
+    <!-- Left: pricing / checkout panel -->
     <div class="admit-card">
       <div class="admit-strip">
         <span>FORM NO. MMH-PREMIUM</span>
-        <span class="status">VALID 365 DAYS</span>
+        <span class="status" id="validityBadge">VALID 365 DAYS</span>
       </div>
 
       <div class="admit-body">
         <div class="plan-row">
-          <span class="plan-name">Annual Premium</span>
+          <span class="plan-name" id="planNameLabel">Annual Premium</span>
           <span class="plan-validity">ONE-TIME PAYMENT</span>
         </div>
 
         <div class="price-block">
           <span class="strike">₹<span id="originalPrice">299</span></span>
           <span class="real-price">₹<span id="finalPrice">124</span></span>
-          <div class="price-note">Full access, all exam categories, 1 year validity</div>
+          <div class="price-note">Full access, all exam categories</div>
         </div>
 
-        <div class="coupon-row">
-          <input type="text" id="couponCode" placeholder="COUPON CODE">
-          <button id="applyCouponBtn">Apply</button>
+        <span class="coupon-toggle textlink" id="couponToggle">Have a coupon? Apply →</span>
+        <div class="coupon-panel" id="couponPanel">
+          <div class="coupon-row">
+            <input type="text" id="couponCode" placeholder="COUPON CODE">
+            <button id="applyCouponBtn">Apply</button>
+          </div>
         </div>
         <p id="couponMsg"></p>
 
-        <button class="pay-btn" id="payBtn">Pay Now</button>
-        <div class="secure-note">
-          <i class="fas fa-lock"></i> Secured by Razorpay · Instant activation on payment
+        <div class="quick-links">
+          <a href="#planDetails" class="textlink">Plan details</a>
+          <a href="#faq" class="textlink">FAQ</a>
         </div>
+
+        <button class="pay-btn" id="payBtn">Continue</button>
+        <div class="secure-note"><i class="fas fa-lock"></i> Secured by Razorpay · Instant activation on payment</div>
       </div>
     </div>
 
-    <!-- Right: Syllabus (features) + Instructions (FAQ) -->
+    <!-- Right: quick highlights -->
     <div class="right-col">
       <div class="panel">
         <h3>What's Covered</h3>
@@ -375,37 +281,79 @@
         <div class="syllabus-item"><i class="fas fa-check"></i> Instant result analysis</div>
         <div class="syllabus-item"><i class="fas fa-check"></i> All-India ranking on every test</div>
       </div>
-
-      <div class="panel">
-        <h3>General Instructions</h3>
-        <div class="instruction-item">
-          <span class="instruction-num">01</span>
-          <div class="instruction-text">
-            <h4>Activation</h4>
-            <p>Access activates automatically the moment payment is confirmed — no manual approval needed.</p>
-          </div>
-        </div>
-        <div class="instruction-item">
-          <span class="instruction-num">02</span>
-          <div class="instruction-text">
-            <h4>Validity</h4>
-            <p>Premium access is valid for exactly one year from the date of payment.</p>
-          </div>
-        </div>
-        <div class="instruction-item">
-          <span class="instruction-num">03</span>
-          <div class="instruction-text">
-            <h4>Refunds</h4>
-            <p>Once access is granted, payments are non-refundable.</p>
-          </div>
-        </div>
-      </div>
     </div>
 
   </div>
 
-  <footer>MOCK MATRIX HUB — PREMIUM ACCESS FORM — RETAIN FOR YOUR RECORDS</footer>
+  <!-- Below-fold: full plan details -->
+  <section class="below" id="planDetails">
+    <h2>Free vs Premium</h2>
+    <table class="compare-table">
+      <tr><th>Feature</th><th>Free</th><th>Premium</th></tr>
+      <tr><td>Mock tests per exam</td><td>Limited</td><td class="yes">Unlimited</td></tr>
+      <tr><td>Previous year questions</td><td>Sample only</td><td class="yes">Full 20,000+ bank</td></tr>
+      <tr><td>Chapter-wise practice</td><td class="no">✕</td><td class="yes">✓</td></tr>
+      <tr><td>Detailed result analysis</td><td class="no">✕</td><td class="yes">✓</td></tr>
+      <tr><td>All-India ranking</td><td class="no">✕</td><td class="yes">✓</td></tr>
+      <tr><td>New mocks every week</td><td class="no">✕</td><td class="yes">✓</td></tr>
+      <tr><td>Validity</td><td>—</td><td class="yes">1 Year</td></tr>
+    </table>
+  </section>
+
+  <!-- Below-fold: FAQ -->
+  <section class="below" id="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="panel">
+      <div class="instruction-item">
+        <span class="instruction-num">01</span>
+        <div class="instruction-text">
+          <h4>When does my access activate?</h4>
+          <p>Automatically, the moment your payment is confirmed — no manual approval needed.</p>
+        </div>
+      </div>
+      <div class="instruction-item">
+        <span class="instruction-num">02</span>
+        <div class="instruction-text">
+          <h4>How long is Premium valid?</h4>
+          <p>Exactly one year from the date of payment, shown on your plan above.</p>
+        </div>
+      </div>
+      <div class="instruction-item">
+        <span class="instruction-num">03</span>
+        <div class="instruction-text">
+          <h4>Can I get a refund?</h4>
+          <p>Once access is granted, payments are non-refundable.</p>
+        </div>
+      </div>
+      <div class="instruction-item">
+        <span class="instruction-num">04</span>
+        <div class="instruction-text">
+          <h4>What payment methods are accepted?</h4>
+          <p>UPI (QR / apps), debit & credit cards, netbanking, and wallets — powered by Razorpay.</p>
+        </div>
+      </div>
+      <div class="instruction-item">
+        <span class="instruction-num">05</span>
+        <div class="instruction-text">
+          <h4>Is my payment secure?</h4>
+          <p>Yes — payments are processed directly by Razorpay; we never see or store your card/UPI details.</p>
+        </div>
+      </div>
+      <div class="instruction-item">
+        <span class="instruction-num">06</span>
+        <div class="instruction-text">
+          <h4>Money was deducted but access didn't activate — what do I do?</h4>
+          <p>This is rare and usually resolves within a few minutes automatically. If it doesn't, tap the support button and share your payment details.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>MOCK MATRIX HUB — PREMIUM ACCESS — RETAIN FOR YOUR RECORDS</footer>
 </div>
+
+<!-- TODO: point this at your real support contact (WhatsApp / Telegram / email) -->
+<a href="#" class="support-fab" aria-label="Contact support"><i class="fas fa-headset"></i></a>
 
 <script src="/checkout.js"></script>
 </body>
