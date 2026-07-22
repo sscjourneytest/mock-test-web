@@ -36,7 +36,7 @@
     padding: 32px 16px 60px;
   }
 
-  body { padding-top: 64px; }
+  body { padding-top: 76px; }
 
   .topbar {
     position: fixed;
@@ -44,11 +44,17 @@
     z-index: 100;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 16px;
     background: #FFFFFF;
     border-bottom: 1px solid #E5E1D6;
-    padding: 16px 18px;
+    padding: 14px 18px;
     margin: 0;
+  }
+  .topbar .left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
   .topbar a {
     display: flex;
@@ -68,6 +74,12 @@
     font-weight: 700;
     font-size: 20px;
     color: var(--navy);
+  }
+  .topbar-logo {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1.5px solid var(--line);
+    flex-shrink: 0;
   }
 
   .wrap { max-width: 980px; margin: 0 auto; }
@@ -123,16 +135,6 @@
     position: relative;
     box-shadow: 0 10px 30px rgba(15,42,74,0.08);
     overflow: hidden;
-  }
-  .admit-card::before {
-    content: "";
-    position: absolute;
-    top: 0; bottom: 0; left: 118px;
-    width: 0;
-    border-left: 2px dashed var(--line);
-  }
-  @media (max-width: 500px) {
-    .admit-card::before { display: none; }
   }
 
   .admit-strip {
@@ -313,15 +315,17 @@
 <body>
 
 <div class="topbar">
-  <a href="/index.html" aria-label="Back to home"><i class="fas fa-arrow-left"></i></a>
-  <span>Buy Premium</span>
+  <div class="left">
+    <a href="/index.html" aria-label="Back to home"><i class="fas fa-arrow-left"></i></a>
+    <span>Buy Premium</span>
+  </div>
+  <img src="/logo.png" alt="Mock Matrix Hub" class="topbar-logo">
 </div>
 
 <div class="wrap">
 
   <div class="header">
-    <img src="/logo.png" alt="Mock Matrix Hub" class="logo">
-    <div class="eyebrow">Premium Access · Application Form</div>
+    <div class="eyebrow">Mock Matrix Hub · Premium</div>
     <h1>Unlock Full Access to<br>Mock Matrix Hub</h1>
     <p>SSC · Railway (RRB/NTPC) · State Exams — full mock library, one year</p>
   </div>
@@ -406,3 +410,4 @@
 <script src="/checkout.js"></script>
 </body>
 </html>
+
