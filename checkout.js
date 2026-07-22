@@ -159,6 +159,11 @@ async function startCheckout() {
       return;
     }
 
+    // Mark a payment as pending BEFORE opening the modal — if the tab gets
+    // killed while the user is in a UPI app and reloads later, index.html
+    // will see this flag and force a fresh profile check on its own.
+    localStorage.setItem("mmh_payment_pending", JSON.stringify({ ts: Date.now() }));
+
     const options = {
       key: order.key_id,
       amount: order.amount * 100,
@@ -234,6 +239,7 @@ async function pollForAccess() {
         clearInterval(interval);
         const cached = getLocalProfile() || {};
         saveLocalProfile({ ...cached, is_paid: true, expires_at: profile.expires_at });
+        localStorage.removeItem("mmh_payment_pending");
         alert("Payment confirmed! Your premium access is now active.");
         window.location.href = "/index.html";
         return;
