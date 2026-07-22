@@ -86,6 +86,7 @@ async function startCheckout() {
   try {
     const { data: sessionData } = await _supabase.auth.getSession();
     const token = sessionData?.session?.access_token;
+    const userEmail = sessionData?.session?.user?.email || "";
 
     if (!token) {
       alert("Please login to continue.");
@@ -121,6 +122,9 @@ async function startCheckout() {
       name: "Mock Matrix Hub",
       description: `${order.plan_name} Premium`,
       order_id: order.order_id,
+      prefill: {
+        email: userEmail,
+      },
       handler: function (response) {
         // This fires client-side on success — NOT the source of truth.
         // The webhook confirms the payment server-side; we just start polling.
@@ -134,6 +138,20 @@ async function startCheckout() {
         },
       },
       theme: { color: "#2563eb" },
+      config: {
+        display: {
+          blocks: {
+            qr_block: {
+              name: "Pay via UPI QR",
+              instruments: [
+                { method: "upi", flows: ["qr"] },
+              ],
+            },
+          },
+          sequence: ["block.qr_block"],
+          preferences: { show_default_blocks: true },
+        },
+      },
     };
 
     const rzp = new Razorpay(options);
