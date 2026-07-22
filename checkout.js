@@ -174,6 +174,8 @@ async function pollForAccess() {
 
       if (profile && profile.is_paid) {
         clearInterval(interval);
+        const cached = getLocalProfile() || {};
+        saveLocalProfile({ ...cached, is_paid: true, expires_at: profile.expires_at });
         alert("Payment confirmed! Your premium access is now active.");
         window.location.href = "/index.html";
         return;
@@ -202,3 +204,4 @@ document.addEventListener("DOMContentLoaded", () => {
   if (applyBtn) applyBtn.addEventListener("click", applyCoupon);
   if (payBtn) payBtn.addEventListener("click", startCheckout);
 });
+
