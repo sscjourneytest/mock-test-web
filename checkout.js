@@ -3,32 +3,72 @@
 // Requires: auth.js already loaded (provides _supabase client)
 
 const WORKER_BASE = "https://mmh-vault-2.mockmatrixhub.workers.dev";
-const PLAN_NAME = "Annual"; // must match pricing.plan_name in Supabase
 
+let plans = [];
+let selectedPlan = null;
 let appliedCoupon = null;
-let currentFinalAmount = null; // in rupees
 
 // -----------------------------------------------------------
-// 0. Load current price directly from Supabase on page load
-//    (same direct-read pattern auth.js already uses)
+// 0. Load all active plans from Supabase, pick / render selection
 // -----------------------------------------------------------
-async function loadCurrentPrice() {
+async function loadPlans() {
   try {
     const { data, error } = await _supabase
       .from("pricing")
-      .select("original_price, offer_price")
-      .eq("plan_name", PLAN_NAME)
+      .select("plan_name, original_price, offer_price, validity_days")
       .eq("is_active", true)
-      .single();
+      .order("offer_price", { ascending: true });
 
-    if (error || !data) return; // fall back to whatever's in the HTML
+    if (error || !data || data.length === 0) return; // keep hardcoded fallback in HTML
 
-    document.getElementById("originalPrice").textContent = data.original_price;
-    document.getElementById("finalPrice").textContent = data.offer_price;
-    currentFinalAmount = data.offer_price;
+    plans = data;
+
+    if (plans.length > 1) {
+      renderPlanSelector();
+    }
+
+    selectPlan(plans[0].plan_name);
   } catch (err) {
     // silently keep hardcoded fallback price if this fails
   }
+}
+
+function renderPlanSelector() {
+  const container = document.getElementById("planSelector");
+  container.innerHTML = "";
+  container.style.display = "flex";
+
+  plans.forEach((plan) => {
+    const el = document.createElement("div");
+    el.className = "plan-option";
+    el.dataset.plan = plan.plan_name;
+    el.innerHTML = `
+      <div class="po-name">${plan.plan_name}</div>
+      <div class="po-price">₹${plan.offer_price} · ${plan.validity_days}d</div>
+    `;
+    el.addEventListener("click", () => selectPlan(plan.plan_name));
+    container.appendChild(el);
+  });
+}
+
+function selectPlan(planName) {
+  const plan = plans.find((p) => p.plan_name === planName);
+  if (!plan) return;
+
+  selectedPlan = plan;
+  appliedCoupon = null;
+
+  document.getElementById("planNameLabel").textContent = plan.plan_name + " Premium";
+  document.getElementById("validityBadge").textContent = `VALID ${plan.validity_days} DAYS`;
+  document.getElementById("originalPrice").textContent = plan.original_price;
+  document.getElementById("finalPrice").textContent = plan.offer_price;
+
+  document.getElementById("couponCode").value = "";
+  document.getElementById("couponMsg").textContent = "";
+
+  document.querySelectorAll(".plan-option").forEach((el) => {
+    el.classList.toggle("active", el.dataset.plan === planName);
+  });
 }
 
 // -----------------------------------------------------------
@@ -39,9 +79,12 @@ async function applyCoupon() {
   const msgEl = document.getElementById("couponMsg");
   const code = codeInput.value.trim();
 
+  if (!selectedPlan) return;
+
   if (!code) {
     msgEl.textContent = "";
     appliedCoupon = null;
+    document.getElementById("finalPrice").textContent = selectedPlan.offer_price;
     return;
   }
 
@@ -52,7 +95,7 @@ async function applyCoupon() {
     const res = await fetch(`${WORKER_BASE}/validate-coupon`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ plan_name: PLAN_NAME, coupon_code: code }),
+      body: JSON.stringify({ plan_name: selectedPlan.plan_name, coupon_code: code }),
     });
     const data = await res.json();
 
@@ -64,7 +107,6 @@ async function applyCoupon() {
     }
 
     appliedCoupon = code;
-    currentFinalAmount = data.final_amount;
     document.getElementById("finalPrice").textContent = data.final_amount;
     msgEl.style.color = "#16a34a";
     msgEl.textContent = `Coupon applied — ${data.discount_percent}% off`;
@@ -80,6 +122,8 @@ async function applyCoupon() {
 // -----------------------------------------------------------
 async function startCheckout() {
   const btn = document.getElementById("payBtn");
+  if (!selectedPlan) return;
+
   btn.disabled = true;
   btn.innerText = "Preparing checkout...";
 
@@ -101,7 +145,7 @@ async function startCheckout() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        plan_name: PLAN_NAME,
+        plan_name: selectedPlan.plan_name,
         coupon_code: appliedCoupon || undefined,
       }),
     });
@@ -111,7 +155,7 @@ async function startCheckout() {
     if (!res.ok) {
       alert("Could not start checkout: " + (order.error || "unknown error") + "\n\nDetails: " + JSON.stringify(order.details || {}));
       btn.disabled = false;
-      btn.innerText = "Pay Now";
+      btn.innerText = "Continue";
       return;
     }
 
@@ -122,9 +166,7 @@ async function startCheckout() {
       name: "Mock Matrix Hub",
       description: `${order.plan_name} Premium`,
       order_id: order.order_id,
-      prefill: {
-        email: userEmail,
-      },
+      prefill: { email: userEmail },
       handler: function (response) {
         // This fires client-side on success — NOT the source of truth.
         // The webhook confirms the payment server-side; we just start polling.
@@ -134,7 +176,7 @@ async function startCheckout() {
       modal: {
         ondismiss: function () {
           btn.disabled = false;
-          btn.innerText = "Pay Now";
+          btn.innerText = "Continue";
         },
       },
       theme: { color: "#2563eb" },
@@ -143,9 +185,7 @@ async function startCheckout() {
           blocks: {
             qr_block: {
               name: "Pay via UPI QR",
-              instruments: [
-                { method: "upi", flows: ["qr"] },
-              ],
+              instruments: [{ method: "upi", flows: ["qr"] }],
             },
           },
           sequence: ["block.qr_block"],
@@ -159,14 +199,14 @@ async function startCheckout() {
     rzp.on("payment.failed", function (response) {
       alert("Payment failed: " + response.error.description);
       btn.disabled = false;
-      btn.innerText = "Pay Now";
+      btn.innerText = "Continue";
     });
 
     rzp.open();
   } catch (err) {
     alert("Something went wrong: " + err.message);
     btn.disabled = false;
-    btn.innerText = "Pay Now";
+    btn.innerText = "Continue";
   }
 }
 
@@ -207,7 +247,7 @@ async function pollForAccess() {
         "Please check back in a few minutes — your access will activate automatically."
       );
       btn.disabled = false;
-      btn.innerText = "Pay Now";
+      btn.innerText = "Continue";
     }
   }, 3000);
 }
@@ -216,10 +256,22 @@ async function pollForAccess() {
 // Wire up events
 // -----------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  loadCurrentPrice();
+  loadPlans();
+
   const applyBtn = document.getElementById("applyCouponBtn");
   const payBtn = document.getElementById("payBtn");
+  const couponToggle = document.getElementById("couponToggle");
+  const couponPanel = document.getElementById("couponPanel");
+
   if (applyBtn) applyBtn.addEventListener("click", applyCoupon);
   if (payBtn) payBtn.addEventListener("click", startCheckout);
+  if (couponToggle) {
+    couponToggle.addEventListener("click", () => {
+      couponPanel.classList.toggle("open");
+      couponToggle.textContent = couponPanel.classList.contains("open")
+        ? "Have a coupon? Apply ↑"
+        : "Have a coupon? Apply →";
+    });
+  }
 });
 
