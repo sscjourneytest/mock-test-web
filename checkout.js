@@ -108,7 +108,7 @@ async function startCheckout() {
     const order = await res.json();
 
     if (!res.ok) {
-      alert("Could not start checkout: " + (order.error || "unknown error"));
+      alert("Could not start checkout: " + (order.error || "unknown error") + "\n\nDetails: " + JSON.stringify(order.details || {}));
       btn.disabled = false;
       btn.innerText = "Pay Now";
       return;
