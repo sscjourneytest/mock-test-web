@@ -131,9 +131,7 @@
   .quick-links { display: flex; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
   .quick-links a { font-size: 12.5px; }
 
-  .coupon-toggle { display: inline-block; margin-bottom: 10px; font-size: 13px; cursor: pointer; }
-  .coupon-panel { display: none; margin-bottom: 6px; }
-  .coupon-panel.open { display: block; }
+  .coupon-label { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 6px; font-weight: 600; }
   .coupon-row { display: flex; gap: 8px; margin-bottom: 6px; }
   .coupon-row input {
     flex: 1; border: 1.5px solid var(--line); border-radius: 4px; padding: 11px 12px;
@@ -251,12 +249,10 @@
           <div class="price-note">Full access, all exam categories</div>
         </div>
 
-        <span class="coupon-toggle textlink" id="couponToggle">Have a coupon? Apply →</span>
-        <div class="coupon-panel" id="couponPanel">
-          <div class="coupon-row">
-            <input type="text" id="couponCode" placeholder="COUPON CODE">
-            <button id="applyCouponBtn">Apply</button>
-          </div>
+        <div class="coupon-label">Coupon to get discount (optional)</div>
+        <div class="coupon-row">
+          <input type="text" id="couponCode" placeholder="COUPON CODE">
+          <button id="applyCouponBtn">Apply</button>
         </div>
         <p id="couponMsg"></p>
 
