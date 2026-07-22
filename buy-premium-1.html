@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Access — Mock Matrix Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="/auth.js"></script>
+
+<style>
+  :root {
+    --paper: #F6F3EC;
+    --paper-raised: #FFFFFF;
+    --navy: #0F2A4A;
+    --navy-soft: #1D3E63;
+    --seal: #A8241C;
+    --gold: #B8901F;
+    --ink: #2B2E33;
+    --ink-soft: #6B7280;
+    --line: #DCD6C6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(15,42,74,0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    padding: 32px 16px 60px;
+  }
+
+  body { padding-top: 64px; }
+
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E5E1D6;
+    padding: 16px 18px;
+    margin: 0;
+  }
+  .topbar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: #F1EEE4;
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .topbar a:hover { background: var(--navy); color: #fff; }
+  .topbar span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--navy);
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; }
+
+  /* ---------- Header ---------- */
+  .header {
+    text-align: center;
+    margin-bottom: 34px;
+  }
+  .logo {
+    width: 56px; height: 56px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    border: 2px solid var(--navy);
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--seal);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Lora', serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 40px);
+    color: var(--navy);
+    line-height: 1.15;
+  }
+  .header p {
+    margin-top: 10px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  /* ---------- Layout ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Admit-card pricing panel ---------- */
+  .admit-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(15,42,74,0.08);
+    overflow: hidden;
+  }
+  .admit-card::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 118px;
+    width: 0;
+    border-left: 2px dashed var(--line);
+  }
+  @media (max-width: 500px) {
+    .admit-card::before { display: none; }
+  }
+
+  .admit-strip {
+    background: var(--navy);
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .admit-strip .status {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  .admit-body { padding: 26px 24px 28px; }
+
+  .plan-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+  }
+  .plan-name {
+    font-family: 'Lora', serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--navy);
+  }
+  .plan-validity {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .price-block { text-align: left; margin-bottom: 22px; }
+  .strike {
+    font-family: 'IBM Plex Mono', monospace;
+    text-decoration: line-through;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  .real-price {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 44px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .price-note { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
+
+  .coupon-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .coupon-row input {
+    flex: 1;
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    padding: 11px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    outline: none;
+    background: #FCFAF5;
+  }
+  .coupon-row input:focus { border-color: var(--navy); }
+  .coupon-row button {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    padding: 0 18px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .coupon-row button:hover { background: var(--navy-soft); }
+  #couponMsg { font-size: 12px; font-weight: 600; min-height: 16px; margin-bottom: 18px; }
+
+  .pay-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--seal);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .pay-btn:hover { background: #8E1E17; }
+  .pay-btn:disabled { background: #A8A29E; cursor: not-allowed; }
+
+  .secure-note {
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ---------- Right column ---------- */
+  .panel {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px;
+    margin-bottom: 20px;
+  }
+  .panel h3 {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    color: var(--navy);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .syllabus-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    font-size: 13.5px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .syllabus-item:last-child { border-bottom: none; }
+  .syllabus-item i { color: var(--gold); font-size: 13px; margin-top: 2px; }
+
+  .instruction-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .instruction-item:last-child { border-bottom: none; }
+  .instruction-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--seal);
+    font-weight: 600;
+    flex-shrink: 0;
+    width: 20px;
+  }
+  .instruction-text h4 {
+    font-size: 13.5px;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .instruction-text p {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 40px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/index.html" aria-label="Back to home"><i class="fas fa-arrow-left"></i></a>
+  <span>Buy Premium</span>
+</div>
+
+<div class="wrap">
+
+  <div class="header">
+    <img src="/logo.png" alt="Mock Matrix Hub" class="logo">
+    <div class="eyebrow">Premium Access · Application Form</div>
+    <h1>Unlock Full Access to<br>Mock Matrix Hub</h1>
+    <p>SSC · Railway (RRB/NTPC) · State Exams — full mock library, one year</p>
+  </div>
+
+  <div class="layout">
+
+    <!-- Left: Admit-card style pricing panel -->
+    <div class="admit-card">
+      <div class="admit-strip">
+        <span>FORM NO. MMH-PREMIUM</span>
+        <span class="status">VALID 365 DAYS</span>
+      </div>
+
+      <div class="admit-body">
+        <div class="plan-row">
+          <span class="plan-name">Annual Premium</span>
+          <span class="plan-validity">ONE-TIME PAYMENT</span>
+        </div>
+
+        <div class="price-block">
+          <span class="strike">₹<span id="originalPrice">299</span></span>
+          <span class="real-price">₹<span id="finalPrice">124</span></span>
+          <div class="price-note">Full access, all exam categories, 1 year validity</div>
+        </div>
+
+        <div class="coupon-row">
+          <input type="text" id="couponCode" placeholder="COUPON CODE">
+          <button id="applyCouponBtn">Apply</button>
+        </div>
+        <p id="couponMsg"></p>
+
+        <button class="pay-btn" id="payBtn">Pay Now</button>
+        <div class="secure-note">
+          <i class="fas fa-lock"></i> Secured by Razorpay · Instant activation on payment
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Syllabus (features) + Instructions (FAQ) -->
+    <div class="right-col">
+      <div class="panel">
+        <h3>What's Covered</h3>
+        <div class="syllabus-item"><i class="fas fa-check"></i> All SSC & Bank mock series</div>
+        <div class="syllabus-item"><i class="fas fa-check"></i> Railway (RRB/NTPC) & State exam mocks</div>
+        <div class="syllabus-item"><i class="fas fa-check"></i> Chapter-wise practice tests</div>
+        <div class="syllabus-item"><i class="fas fa-check"></i> 20,000+ previous year questions</div>
+        <div class="syllabus-item"><i class="fas fa-check"></i> Instant result analysis</div>
+        <div class="syllabus-item"><i class="fas fa-check"></i> All-India ranking on every test</div>
+      </div>
+
+      <div class="panel">
+        <h3>General Instructions</h3>
+        <div class="instruction-item">
+          <span class="instruction-num">01</span>
+          <div class="instruction-text">
+            <h4>Activation</h4>
+            <p>Access activates automatically the moment payment is confirmed — no manual approval needed.</p>
+          </div>
+        </div>
+        <div class="instruction-item">
+          <span class="instruction-num">02</span>
+          <div class="instruction-text">
+            <h4>Validity</h4>
+            <p>Premium access is valid for exactly one year from the date of payment.</p>
+          </div>
+        </div>
+        <div class="instruction-item">
+          <span class="instruction-num">03</span>
+          <div class="instruction-text">
+            <h4>Refunds</h4>
+            <p>Once access is granted, payments are non-refundable.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>MOCK MATRIX HUB — PREMIUM ACCESS FORM — RETAIN FOR YOUR RECORDS</footer>
+</div>
+
+<script src="/checkout.js"></script>
+</body>
+</html>
