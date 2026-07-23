@@ -117,6 +117,20 @@ async function applyCoupon() {
   }
 }
 
+function showAlreadyPremium(expiresAt) {
+  const btn = document.getElementById("payBtn");
+  btn.disabled = true;
+  btn.innerText = "Already Premium ✓";
+  btn.style.background = "#16a34a";
+
+  const msgEl = document.getElementById("couponMsg");
+  const validText = expiresAt
+    ? `You already have Premium, valid until ${new Date(expiresAt).toDateString()}.`
+    : "You already have Premium access.";
+  msgEl.style.color = "#16a34a";
+  msgEl.textContent = validText;
+}
+
 // -----------------------------------------------------------
 // 2. Start checkout — creates order, opens Razorpay modal
 // -----------------------------------------------------------
@@ -136,6 +150,27 @@ async function startCheckout() {
       alert("Please login to continue.");
       window.location.href = "/login.html?redirect=/buy-premium.html";
       return;
+    }
+
+    // Check live is_paid + expires_at from profiles before creating an order —
+    // don't let an already-premium user pay again.
+    const { data: userData } = await _supabase.auth.getUser();
+    const userId = userData?.user?.id;
+
+    if (userId) {
+      const { data: profile } = await _supabase
+        .from("profiles")
+        .select("is_paid, expires_at")
+        .eq("id", userId)
+        .maybeSingle();
+
+      const stillValid = profile && profile.is_paid &&
+        (!profile.expires_at || new Date(profile.expires_at) > new Date());
+
+      if (stillValid) {
+        showAlreadyPremium(profile.expires_at);
+        return;
+      }
     }
 
     const res = await fetch(`${WORKER_BASE}/create-order`, {
@@ -270,4 +305,3 @@ document.addEventListener("DOMContentLoaded", () => {
   if (applyBtn) applyBtn.addEventListener("click", applyCoupon);
   if (payBtn) payBtn.addEventListener("click", startCheckout);
 });
-
