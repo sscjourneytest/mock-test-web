@@ -1,3 +1,131 @@
+// --- Domain migration: pages.dev -> mockmatrixhub.in ---
+// Add this ONLY in the pages.dev repo's auth.js (top of file, before PROXY_URL).
+// Nothing needs to be added to the mockmatrixhub.in repo at all.
+(function() {
+    if (window.location.hostname !== 'mockmatrixhub.pages.dev') return;
+
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches
+                  || window.navigator.standalone === true;
+
+    const newUrl = "https://mockmatrixhub.in" + window.location.pathname + window.location.search;
+
+    if (isPWA) {
+        // Installed app — show full install dialog (can't auto-redirect an installed PWA)
+        window.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes mmh-pop-in {
+                    from { transform: scale(0.9); opacity: 0; }
+                    to { transform: scale(1); opacity: 1; }
+                }
+                .mmh-migrate-overlay {
+                    position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
+                    backdrop-filter: blur(3px); z-index: 999998;
+                    display: flex; align-items: center; justify-content: center; padding: 20px;
+                }
+                .mmh-migrate-card {
+                    background: white; border-radius: 24px; max-width: 380px; width: 100%;
+                    padding: 28px 24px; text-align: center;
+                    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+                    font-family: 'Poppins', -apple-system, sans-serif;
+                    animation: mmh-pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                }
+                .mmh-migrate-icon-badge {
+                    width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 18px;
+                    background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+                    display: flex; align-items: center; justify-content: center;
+                    font-size: 32px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+                }
+                .mmh-migrate-title { font-weight: 800; font-size: 19px; color: #0f172a; margin: 0 0 8px 0; }
+                .mmh-migrate-sub { font-size: 13.5px; color: #64748b; margin: 0 0 20px 0; line-height: 1.5; }
+                .mmh-migrate-steps {
+                    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px;
+                    padding: 14px 16px; text-align: left; margin-bottom: 20px;
+                }
+                .mmh-migrate-step { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; color: #334155; padding: 6px 0; line-height: 1.4; }
+                .mmh-migrate-step-num {
+                    flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+                    background: #2563eb; color: white; font-size: 11px; font-weight: 800;
+                    display: flex; align-items: center; justify-content: center;
+                }
+                .mmh-migrate-btn-primary {
+                    display: block; width: 100%;
+                    background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+                    color: white; font-weight: 700; font-size: 15px; padding: 14px;
+                    border-radius: 12px; text-decoration: none;
+                    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+                    box-sizing: border-box; margin-bottom: 10px; border: none;
+                }
+                .mmh-migrate-later { display: block; width: 100%; background: transparent; color: #94a3b8; font-weight: 600; font-size: 13px; padding: 8px; border: none; cursor: pointer; }
+            `;
+            document.head.appendChild(style);
+
+            const overlay = document.createElement('div');
+            overlay.className = 'mmh-migrate-overlay';
+            overlay.innerHTML = `
+                <div class="mmh-migrate-card">
+                    <div class="mmh-migrate-icon-badge">🚀</div>
+                    <p class="mmh-migrate-title">A New, Updated App Is Here!</p>
+                    <p class="mmh-migrate-sub">Please install our latest official app to keep getting new features and updates. This old version will stop receiving updates soon.</p>
+                    <div class="mmh-migrate-steps">
+                        <div class="mmh-migrate-step"><div class="mmh-migrate-step-num">1</div><div>Tap <b>"Install New App"</b> below and add it to your home screen</div></div>
+                        <div class="mmh-migrate-step"><div class="mmh-migrate-step-num">2</div><div>Open the <b>new app</b> from your home screen and log in again</div></div>
+                        <div class="mmh-migrate-step"><div class="mmh-migrate-step-num">3</div><div>Delete this old app icon — long-press it and choose <b>Remove / Uninstall</b></div></div>
+                    </div>
+                    <a href="${newUrl}" class="mmh-migrate-btn-primary">Install New App</a>
+                    <button class="mmh-migrate-later" id="mmh-migrate-later">Remind me later</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            document.getElementById('mmh-migrate-later').addEventListener('click', () => overlay.remove());
+        });
+    } else {
+        // Normal browser tab — show a brief "switching you" toast, THEN redirect.
+        // This all happens on pages.dev itself, so .in repo needs zero changes.
+        window.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes mmh-toast-in {
+                    from { transform: translate(-50%, -20px); opacity: 0; }
+                    to { transform: translate(-50%, 0); opacity: 1; }
+                }
+                .mmh-switch-toast {
+                    position: fixed; top: 16px; left: 50%;
+                    background: #0f172a; color: white;
+                    padding: 12px 18px; border-radius: 50px;
+                    display: flex; align-items: center; gap: 10px;
+                    font-family: 'Poppins', -apple-system, sans-serif;
+                    font-size: 13px; font-weight: 600;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+                    z-index: 999999;
+                    animation: mmh-toast-in 0.35s ease-out;
+                    white-space: nowrap;
+                }
+                .mmh-switch-toast-spinner {
+                    width: 14px; height: 14px; border-radius: 50%;
+                    border: 2px solid rgba(255,255,255,0.3);
+                    border-top-color: #60a5fa;
+                    animation: mmh-spin 0.6s linear infinite;
+                    flex-shrink: 0;
+                }
+                @keyframes mmh-spin { to { transform: rotate(360deg); } }
+            `;
+            document.head.appendChild(style);
+
+            const toast = document.createElement('div');
+            toast.className = 'mmh-switch-toast';
+            toast.innerHTML = `<span class="mmh-switch-toast-spinner"></span> Switching you to our new official website...`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                window.location.replace(newUrl);
+            }, 1200);
+        });
+    }
+})();
+
+
+
 const PROXY_URL = 'https://mmh-vault-2.mockmatrixhub.workers.dev';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1cW1lanl5cHFna3JqbHBwbHJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDIyNTAsImV4cCI6MjA4NzE3ODI1MH0.aAIITdr-BS-D-TJHY1fEkqgN4CRVwsyz90d2I9IrhVc';
 
