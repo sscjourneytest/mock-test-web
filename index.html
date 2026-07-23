@@ -1215,6 +1215,48 @@ function startMarqueeRow(rowEl) {
 
 document.addEventListener('DOMContentLoaded', loadWhatsNew);
 
+// ---------------------------------------------------------------
+// Recover from a killed tab mid-payment: if buy-premium.html set a
+// pending flag before opening the Razorpay modal and the browser
+// reloaded this page before polling finished, force one fresh
+// profile fetch here so premium status isn't stuck showing stale
+// (cached) data for up to 7 days.
+// ---------------------------------------------------------------
+(async function checkPendingPayment() {
+    const raw = localStorage.getItem('mmh_payment_pending');
+    if (!raw) return;
+
+    let pending;
+    try { pending = JSON.parse(raw); } catch (e) { localStorage.removeItem('mmh_payment_pending'); return; }
+
+    const oneHour = 60 * 60 * 1000;
+    if (!pending.ts || Date.now() - pending.ts > oneHour) {
+        localStorage.removeItem('mmh_payment_pending'); // give up, likely abandoned
+        return;
+    }
+
+    try {
+        const { data: userData } = await _supabase.auth.getUser();
+        const userId = userData?.user?.id;
+        if (!userId) return;
+
+        const { data: profile } = await _supabase
+            .from('profiles')
+            .select('is_paid, expires_at')
+            .eq('id', userId)
+            .maybeSingle();
+
+        if (profile && profile.is_paid) {
+            const cached = getLocalProfile() || {};
+            saveLocalProfile({ ...cached, is_paid: true, expires_at: profile.expires_at });
+            localStorage.removeItem('mmh_payment_pending');
+        }
+        // else: leave the flag in place, will retry on next page load
+    } catch (e) {
+        // silent — will retry on next load
+    }
+})();
+
 let deferredPrompt;
 const installModal = document.getElementById('pwaInstallModal');
 const sidebarBtn = document.getElementById('sidebarInstallBtn');
@@ -1398,6 +1440,7 @@ async function refreshNotificationBadge() {
 
 document.addEventListener('DOMContentLoaded', refreshNotificationBadge);
 window.addEventListener('pageshow', refreshNotificationBadge);
+        
 
         <!-- ============================================================
      MOCK MATRIX HUB — Simple "We've Moved" Prompt (HOME PAGE ONLY)
@@ -1459,10 +1502,10 @@ window.addEventListener('pageshow', refreshNotificationBadge);
     });
 </script>
     
-        
     </script>
     
 </body>
 </html>
+
 
 
