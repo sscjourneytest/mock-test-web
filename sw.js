@@ -6,7 +6,7 @@
 // any cross-origin request are fetched live and never stored —
 // this is what was causing MBs of growth on every visit.
 // ============================================================
-const CACHE_NAME = 'mock-matrix-v5'; // bump this string on future deploys to force a clean cache
+const CACHE_NAME = 'mock-matrix-v6'; // bump this string on future deploys to force a clean cache
 const MAX_CACHE_ENTRIES = 60;
 const STATIC_PATTERNS = [/\.html$/, /\.css$/, /\.js$/, /\.(png|jpg|jpeg|svg|ico)$/];
 
