@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MOCK MATRIX HUB</title>
+    <meta name="description" content="Free SSC Mock Tests based on 2025 Ediquity pattern. Practice PYQ, Sectional, Subject-wise, and Full Mocks.">
+
+        
+    <script>
+        (function() {
+            // Anti-flash safety check block
+            const savedTheme = localStorage.getItem('mmh_theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                // Adds safety helper classes early
+                document.documentElement.classList.add('dark-mode'); 
+            }
+            const SECRET_SALT = "mmh_vault_key_99";
+            const raw = localStorage.getItem('u_vault');
+            if (raw) {
+                try {
+                    const decrypted = atob(raw).replace(SECRET_SALT, '');
+                    const profile = JSON.parse(decrypted);
+                    if (profile && profile.cache_expiry > Date.now()) {
+                        document.documentElement.classList.add('user-is-logged-in');
+                    }
+                } catch (e) {}
+            }
+        })();
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4B6V3MV51Q');</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/auth.js"></script>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2563eb">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --secondary: #1e40af;
+            --accent: #f59e0b;
+            --text-dark: #0f172a;
+            --text-grey: #64748b;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .user-is-logged-in #authHeaderArea { visibility: hidden; opacity: 0; }
+
+        body.dark-mode {
+            --text-dark: #f1f5f9;
+            --text-grey: #94a3b8;
+            --bg-light: #0f172a;
+            --white: #1e293b;
+            --border: #334155;
+            background-color: #020617 !important;
+            color: var(--text-dark);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            transition: background 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- APP TOP BAR (now a column: top row + optional switch row) --- */
+        .app-header {
+            background: var(--white);
+            padding: 12px 20px 0;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border);
+        }
+        .app-header__toprow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+        }
+
+        .brand-logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-logo img { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--primary); }
+
+        /* --- SIDEBAR --- */
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1040; display: none;
+            backdrop-filter: blur(3px);
+        }
+        .sidebar {
+            position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
+            background: var(--white); z-index: 1050;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            display: flex; flex-direction: column;
+            border-right: 1px solid var(--border);
+        }
+        .sidebar.show { left: 0; }
+        .sidebar-header {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            padding: 35px 20px; color: white;
+        }
+        .user-avatar-circle {
+            width: 55px; height: 55px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--primary); font-size: 1.5rem; border: 3px solid rgba(255,255,255,0.3);
+        }
+        .menu-item {
+            display: flex; align-items: center; padding: 14px 25px;
+            color: var(--text-dark); text-decoration: none; font-weight: 500;
+            transition: 0.2s;
+        }
+        .menu-item i { width: 35px; font-size: 1.1rem; color: var(--text-grey); }
+        .menu-item:hover { background: var(--primary-light); color: var(--primary); }
+        .menu-item.pro-btn { background: #fff7ed; color: #9a3412; font-weight: 700; }
+        .menu-item.admin-btn { background: #f0fdf4; color: #166534; font-weight: 700; }
+
+        /* --- GREETING --- */
+        .greeting-section { padding: 20px 20px 10px; }
+        .greeting-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+/* --- IMAGE-BASED BANNER (ONE IMAGE ONLY) --- */
+        .banner-container {
+            width: 100%;
+            padding: 0 45px;
+            margin-bottom: 25px;
+            position: relative;
+            height: 360px;
+        }
+        .banner-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: #000;
+        }
+        .banner-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 20px;
+            /* Force exactly one image, centered */
+            background-size: contain; 
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .banner-slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
+
+        /* Loading Spinner */
+        .banner-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+            z-index: 5;
+        }
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .banner-slide .banner-btn { display: none; }
+        .banner-slide.loaded .banner-btn { display: block; }
+        .banner-slide.loaded .banner-loader { display: none; }
+
+        .banner-btn {
+            position: relative;
+            z-index: 3;
+            background: #991b1b;
+            color: white !important;
+            padding: 10px 30px;
+            border-radius: 10px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .banner-nav {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+            pointer-events: none;
+            padding: 0 10px;
+        }
+        .nav-arrow {
+            width: 32px;
+            height: 32px;
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            cursor: pointer;
+            pointer-events: auto;
+            border: 1px solid var(--border);
+        }
+
+        .banner-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; transition: 0.3s; }
+        .dot.active { width: 20px; background: var(--primary); border-radius: 10px; }
+
+        /* --- ACTION BOXES (Full Width Rows with Right Arrows) --- */
+        .action-container { padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
+        .action-row { display: flex; flex-direction: column; gap: 15px; }
+        
+        .box-style {
+            border-radius: 20px;
+            padding: 22px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Arrow to right, text to left */
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            min-height: 100px;
+        }
+        .box-content { display: flex; align-items: center; gap: 15px; }
+
+        .box-1 { background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); }
+        .box-2 { background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%); }
+        .box-3 { background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%); }
+
+        .box-style i { font-size: 1.6rem; color: var(--primary); }
+        .box-2 i { color: var(--accent); }
+        .box-3 i { color: #16a34a; }
+        .box-style h4 { font-size: 0.95rem; font-weight: 800; margin: 0; }
+        .box-arrow { font-size: 1.2rem; color: var(--text-grey); opacity: 0.5; }
+        .free-badge-green { background: #22c55e; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; margin-left: 5px; font-weight: 800; }
+
+        /* --- WHAT'S NEW MARQUEE BOX (heading above, 3-line right-to-left ticker like Sarkari-Result style) --- */
+        .whats-new-section { padding: 0 20px; margin: 5px 0 15px; }
+        .whats-new-heading {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.95rem; font-weight: 800; color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        .whats-new-heading i { color: var(--primary); font-size: 1rem; }
+        .whats-new-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 10px 16px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+        .whats-new-row {
+            height: 34px;
+            position: relative;
+            overflow: hidden;
+        }
+        .whats-new-row + .whats-new-row { border-top: 1px dashed var(--border); }
+        .whats-new-track {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; gap: 10px;
+            white-space: nowrap;
+            will-change: transform;
+        }
+        .whats-new-link { color: #2563eb; text-decoration: underline; font-size: 0.85rem; font-weight: 700; }
+        .whats-new-date { font-size: 0.72rem; color: var(--text-grey); }
+
+        @keyframes whatsNewMarquee {
+            from { transform: translateX(var(--wn-start, 100%)); }
+            to   { transform: translateX(var(--wn-end, -100%)); }
+        }
+
+        body.dark-mode .whats-new-heading { color: #f8fafc; }
+        body.dark-mode .whats-new-card { background: #1e293b !important; border-color: #334155 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        body.dark-mode .whats-new-row + .whats-new-row { border-top-color: #334155; }
+        body.dark-mode .whats-new-link { color: #60a5fa; }
+        body.dark-mode .whats-new-date { color: #94a3b8; }
+
+
+        /* --- RECOMMENDATIONS (Full Width Rows with Right Arrows) --- */
+        .rec-section { padding: 25px 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .section-header h3 { font-size: 1rem; font-weight: 800; margin: 0; }
+        .view-all-btn { font-size: 0.75rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        
+        .rec-grid { display: flex; flex-direction: column; gap: 12px; }
+        .rec-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+            border-radius: 18px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm);
+        }
+        .rec-left { display: flex; align-items: center; gap: 15px; }
+        .rec-card img { width: 55px; height: 55px; border-radius: 12px; }
+        .rec-card h4 { font-size: 0.9rem; font-weight: 800; margin: 0; }
+        .rec-card p { font-size: 0.75rem; color: var(--text-grey); margin: 3px 0 0; }
+
+        /* --- BEAUTIFUL ANIMATED TAGLINE --- */
+        .tagline {
+            text-align: center;
+            padding: 30px 20px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #64748b 20%, #1e293b 40%, #1e293b 60%, #64748b 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            opacity: 0.8;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+
+       /* --- DESKTOP SPECIFIC HEIGHT --- */
+@media (min-width: 992px) {
+    .banner-container {
+        height: 400px !important;
+    }
+}
+ /* --- Desktop Image Switch Logic --- */
+@media (min-width: 992px) {
+    /* 1. Set Desktop Height */
+    .banner-container {
+        height: 300px !important; 
+    }
+
+    /* 2. Swap to Horizontal Images */
+    #slide0 { 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Desktop.jpg') !important; 
+    }
+    #slide1 { 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Desktop.jpg') !important; 
+    }
+}
+
+/* --- Mobile Image Switch Logic --- */
+@media (max-width: 991px) {
+    /* Ensure Mobile uses the Square images */
+    #slide0 { 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Banner.jpg') !important; 
+    }
+    #slide1 { 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Banner.jpg') !important; 
+    }
+}      
+        /* --- FLOATING ICONS (ORIGINAL) --- */
+        .fab-container { position: fixed; bottom: 85px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 999; }
+        .fab {
+            width: 55px; height: 55px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; color: white;
+            font-size: 1.6rem; box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            text-decoration: none; transition: transform 0.2s;
+        }
+        .fab-tg { background: #0088cc; animation: pulse-tg 2s infinite; }
+        .fab-wa { background: #25d366; }
+        @keyframes pulse-tg {
+            0% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.6); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 136, 204, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0); }
+        }
+
+        /* --- BOTTOM NAV --- */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--white); display: flex; justify-content: space-around;
+            padding: 12px 0; border-top: 1px solid var(--border); z-index: 1000;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.03);
+        }
+        .nav-item {
+            text-align: center; color: var(--text-grey); text-decoration: none;
+            font-size: 0.7rem; font-weight: 700; flex: 1; transition: 0.2s;
+        }
+        .nav-item i { display: block; font-size: 1.3rem; margin-bottom: 4px; }
+        .nav-item.active { color: var(--primary); }
+
+        .badge-pro { background: #f59e0b; color: white; font-size: 10px; padding: 2px 8px; border-radius: 50px; }
+        .hidden { display: none !important; }
+  /* --- DARK MODE ADJUSTMENTS FOR ACTION & REC CARDS --- */
+body.dark-mode .box-style, 
+body.dark-mode .rec-card {
+    background: #1e293b !important; /* Solid dark blue-grey */
+    border-color: #334155 !important; /* Subtle border */
+    color: #f1f5f9 !important; /* Off-white text */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Fix specific Action Box Icon & Arrow colors for visibility */
+body.dark-mode .box-style h4,
+body.dark-mode .rec-card h4 {
+    color: #f8fafc;
+}
+
+body.dark-mode .box-arrow {
+    color: #94a3b8;
+    opacity: 0.8;
+}
+
+/* Ensure the text descriptions in Rec Cards are readable */
+body.dark-mode .rec-card p {
+    color: #94a3b8 !important;
+}
+
+/* Hover states for Dark Mode */
+body.dark-mode .box-style:hover,
+body.dark-mode .rec-card:hover {
+    background: #2d3748 !important; /* Slightly lighter on hover */
+    border-color: var(--primary) !important;
+}
+.new-badge-blink {
+    background: #ef4444;
+    color: white;
+    font-size: 8px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-weight: 900;
+    margin-left: 8px;
+    animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+    to { visibility: hidden; }
+}
+        
+/* Maintain Icon Colors in Dark Mode */
+body.dark-mode .box-1 i { color: #60a5fa; } /* Brighter Blue */
+body.dark-mode .box-2 i { color: #fbbf24; } /* Brighter Gold/Orange */
+body.dark-mode .box-3 i { color: #4ade80; } /* Brighter Green */
+
+        /* Custom Install Modal */
+.install-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+.install-content {
+  background: #fff;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modalPop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.install-app-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 10px 20px rgba(11, 94, 215, 0.2);
+}
+.install-content h3 { margin: 0 0 10px; color: #333; font-size: 20px; }
+.install-content p { color: #666; font-size: 14px; margin-bottom: 25px; }
+
+.install-actions { display: flex; flex-direction: column; gap: 10px; }
+.btn-install-now {
+  background: #0b5ed7;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-install-cancel {
+  background: #f1f3f5;
+  color: #666;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Sidebar Install Button */
+#sidebarInstallBtn {
+  display: none; /* Hidden if already installed */
+  background: linear-gradient(135deg, #0b5ed7, #00d2ff);
+  color: white;
+  margin: 10px 15px;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+        /* --- FIXED TOP BAR OVERFLOW & TOGGLE BOX --- */
+.brand-logo span {
+    white-space: nowrap;
+}
+
+#darkModeToggle {
+    background: var(--white) !important;
+    color: var(--text-dark);
+    border: 1px solid var(--border) !important;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+body.dark-mode #darkModeToggle {
+    background: #2a2a2a !important; /* Matches template background for toggle */
+}
+
+/* Mobile responsive tight-fit safety net */
+@media (max-width: 480px) {
+    .app-header__toprow {
+        padding-left: 0; padding-right: 0;
+    }
+    .app-header {
+        padding: 12px 10px 0 !important; /* Extra horizontal room */
+    }
+    .brand-logo {
+        font-size: 0.85rem !important; /* Slightly scale text down */
+        gap: 6px !important;
+    }
+    .brand-logo span {
+        letter-spacing: -0.2px;
+    }
+    .brand-logo img {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    .app-header .gap-3 {
+        gap: 0.4rem !important; /* Tighten gap between menu and logo */
+    }
+    .app-header .gap-2 {
+        gap: 0.35rem !important; /* Tighten gap between toggle, bell, auth area */
+    }
+}
+
+/* Extra-narrow phones (e.g. older/small Android) — shrink brand text further
+   but keep icons full size so they stay easily tappable */
+@media (max-width: 360px) {
+    .brand-logo {
+        font-size: 0.75rem !important;
+    }
+}
+.notif-bell-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+}
+.notif-bell-wrap:hover { background: var(--primary-light); color: var(--primary); }
+
+.notif-badge-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50px;
+    display: none; /* shown via JS when unreadCount > 0 */
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 1.5px solid var(--white);
+    line-height: 1;
+}
+
+/* Bottom nav bell badge sits slightly differently since icons are stacked (icon above label) */
+.nav-item .notif-badge-dot {
+    top: -4px;
+    right: 18%;
+}
+
+/* --- App switcher toggle (Rank Master / Mock Matrix) — widened,
+   sits as a second row inside the sticky header, APK webview only --- */
+.app-switch {
+  display: flex; align-items: center; gap: 2px;
+  background: #f1f1ef; border: 1px solid #e5e5e5;
+  border-radius: 999px; padding: 4px;
+  max-width: 320px; width: calc(100% - 8px);
+  margin: 0 auto 12px;
+}
+.app-switch__btn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 12px; border-radius: 999px; border: none; background: transparent;
+  font-size: 0.78rem; font-weight: 700; color: #888; cursor: pointer;
+}
+.app-switch__btn img { width: 17px; height: 17px; border-radius: 4px; object-fit: cover; }
+.app-switch__btn--active { background: #fff; color: #000; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+
+body.dark-mode .app-switch { background: #1e293b; border-color: #334155; }
+body.dark-mode .app-switch__btn { color: #94a3b8; }
+body.dark-mode .app-switch__btn--active { background: #2d3748; color: #f1f5f9; }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="app-header__toprow">
+            <div class="d-flex align-items-center gap-3">
+                <i class="fas fa-bars fs-5" id="menuBtn" style="cursor: pointer;" onclick="toggleSidebar()"></i>
+                <a href="/" class="brand-logo">
+                    <img src="/logo.png" alt="MMH">
+                    <span>MOCK MATRIX <span style="color:var(--text-dark)">HUB</span></span>
+                </a>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button id="darkModeToggle" onclick="toggleTheme()">🌙</button>
+                <a href="/notifications.html" class="notif-bell-wrap" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge-dot"></span>
+                </a>
+                <div id="authHeaderArea">
+                    <a href="/login.html" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">LOGIN</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Only rendered/shown when running inside the Rank Score Master
+             app wrapper (AndroidBridge present) — a normal browser or
+             standalone PWA visitor has no "Rank Master" to switch to. -->
+        <div id="appSwitchSlot"></div>
+    </header>
+
+    <script>
+    if (window.AndroidBridge) {
+      document.getElementById('appSwitchSlot').innerHTML = `
+        <div class="app-switch">
+          <button class="app-switch__btn" type="button" id="switchToRankMaster">
+            <img src="/rank-master-logo.png" alt="">Rank Master
+          </button>
+          <button class="app-switch__btn app-switch__btn--active" type="button" disabled>
+            <img src="/logo.png" alt="">Mock Matrix
+          </button>
+        </div>`;
+      document.getElementById('switchToRankMaster').addEventListener('click', () => {
+        window.AndroidBridge.switchToRankMaster();
+      });
+    }
+    </script>
+
+
+ 
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <nav id="appSidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="d-flex align-items-center gap-3">
+                <div class="user-avatar-circle" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <h6 class="m-0 fw-bold" id="sidebarUserName">Aspirant</h6>
+                    <div id="sidebarPlanBadge" class="mt-1"></div>
+                </div>
+            </div>
+        </div>
+        <div class="py-3 flex-grow-1 overflow-auto">
+            <a href="/" class="menu-item"><i class="fas fa-house-user"></i> Home</a>
+            <a href="/exams/" class="menu-item"><i class="fas fa-file-signature"></i> Mock Tests</a>
+            <a href="/live-test" class="menu-item"><i class="fas fa-bolt-lightning"></i> Live Mocks</a>
+
+            <div id="adminLinkArea" class="hidden">
+    <a href="/admin-vault.html" class="menu-item admin-btn"><i class="fas fa-user-shield"></i> Admin Panel</a>
+    <a href="/admin-notify.html" class="menu-item admin-btn"><i class="fas fa-tower-broadcast"></i> Send Notification</a>
+            </div>
+            
+            <div id="partnerLinkArea" class="hidden">
+                <a href="/partner-dashboard.html" class="menu-item admin-btn" style="background:#f0f9ff; color:#0369a1;"><i class="fas fa-chart-pie"></i> Earnings</a>
+            </div>
+            <div id="buyPremiumArea">
+                <a href="/buy-premium.html" class="menu-item pro-btn"><i class="fas fa-crown"></i> Buy Premium</a>
+            </div>
+            <div id="partnerApplyArea">
+                <a href="/apply-coupon.html" class="menu-item" style="color:#6366f1;"><i class="fas fa-handshake"></i> Become a Partner</a>
+            </div>
+            <div id="privateChannelArea" class="hidden">
+    <a href="https://t.me/+O4W4bDNdITo1Mzdl" target="_blank" class="menu-item" style="background: #f0f9ff; color: #0088cc; font-weight: 700;">
+        <i class="fab fa-telegram"></i> Private Channel
+    </a>
+</div>
+            <button id="sidebarInstallBtn">
+  <i class="fas fa-download" style="margin-right: 8px;"></i> Install App
+            </button>
+            
+
+            <div class="border-bottom my-2"></div>
+            
+            <a href="/saved" class="menu-item"><i class="fas fa-bookmark"></i> Saved Questions</a>
+
+        
+            <a href="/privacy-policy.html" class="menu-item"><i class="fas fa-shield-halved"></i> Privacy Policy</a>
+            
+            <div id="logoutArea" class="hidden mt-4 px-3">
+                <button onclick="handleLogout()" class="btn btn-outline-danger w-100 fw-bold rounded-3">Logout Account</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="greeting-section">
+        <div class="greeting-text">Welcome, <span id="userGreetName">Aspirant</span></div>
+        <div class="small text-muted fw-bold">ON MOCK MATRIX HUB</div>
+    </div>
+    <div class="banner-container">
+    <div class="banner-wrapper">
+        <div class="banner-slide active" id="slide0">
+            <div class="banner-loader"></div>
+            <img src="" style="display:none;" id="imgDetector0" onload="this.parentElement.classList.add('loaded')">
+            <a href="/pricing.html" class="banner-btn">VIEW PLAN</a>
+        </div>
+        
+        <div class="banner-slide" id="slide1">
+            <div class="banner-loader"></div>
+            <img src="" style="display:none;" id="imgDetector1" onload="this.parentElement.classList.add('loaded')">
+            <a href="/apply-coupon.html" class="banner-btn">BECOME PARTNER</a>
+        </div>
+    </div>
+
+    <div class="banner-nav">
+        <div class="nav-arrow" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></div>
+        <div class="nav-arrow" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></div>
+    </div>
+
+    <div class="banner-dots">
+        <div class="dot active" id="dot0"></div>
+        <div class="dot" id="dot1"></div>
+    </div>
+</div>
+
+    <div id="pwaInstallModal" class="install-modal">
+  <div class="install-content">
+    <img src="/logo.png" class="install-app-icon" alt="App Icon">
+    <h3>Install App</h3>
+    <p>Install the Mock Matrix Hub app for a faster and smoother testing experience.</p>
+    <div class="install-actions">
+      <button class="btn-install-now" id="doInstall">Install Now</button>
+      <button class="btn-install-cancel" id="closeInstall">Maybe Later</button>
+    </div>
+  </div>
+    </div>
+    
+<script>
+    /* This script updates the hidden detector images so the scroller works on all devices */
+    function updateDetectors() {
+        const isDesktop = window.innerWidth >= 992;
+        const img0 = document.getElementById('imgDetector0');
+        const img1 = document.getElementById('imgDetector1');
+
+        if (isDesktop) {
+            img0.src = "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Desktop.jpg";
+            img1.src = "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Desktop.jpg";
+        } else {
+            img0.src = "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Banner.jpg";
+            img1.src = "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Banner.jpg";
+        }
+    }
+    // Run on load
+    updateDetectors();
+</script>
+   
+<div class="whats-new-section" id="whatsNewSection" style="display:none;">
+    <div class="whats-new-heading"><i class="fas fa-bullhorn"></i> What's New?</div>
+    <div class="whats-new-card" id="whatsNewCard"></div>
+</div>
+
+<div class="action-container">
+        <div class="action-row">
+            <a href="/exams/" class="box-style box-1">
+                <div class="box-content">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>EXPLORE EXAMS</h4>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
+            </a>
+            <a href="/series/" class="box-style box-1" style="position: relative;">
+    <div class="box-content">
+        <i class="fas fa-layer-group"></i>
+        <h4>IMPORTANT SERIES</h4>
+        <span class="new-badge-blink">NEW</span>
+    </div>
+    <i class="fas fa-chevron-right box-arrow"></i>
+            </a>
+            
+            <a href="/live-test" class="box-style box-2">
+                <div class="box-content">
+                    <i class="fas fa-tower-broadcast"></i>
+                    <h4>LIVE TESTS <span class="free-badge-green">FREE</span></h4>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
+            </a>
+
+            <a href="#" class="box-style box-3" onclick="alert('Important PDFs and Notes are coming soon!')">
+                <div class="box-content">
+                    <i class="fas fa-file-pdf"></i>
+                    <h4>IMPORTANT PDFs & NOTES</h4>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="rec-section">
+        <div class="section-header">
+            <h3>RECOMMENDED SERIES</h3>
+            <a href="/exams/" class="view-all-btn">VIEW ALL</a>
+        </div>
+        <div class="rec-grid">
+            <a href="/exams/cgl/" class="rec-card">
+                <div class="rec-left">
+                    <img src="/ssc-logo.jpg" alt="SSC CGL">
+                    <div class="text-start">
+                        <h4>SSC CGL</h4>
+                        <p>Mocks</p>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
+            </a>
+
+            <a href="/exams/chsl/" class="rec-card">
+                <div class="rec-left">
+                    <img src="/ssc-logo.jpg" alt="SSC CHSL">
+                    <div class="text-start">
+                        <h4>SSC CHSL</h4>
+                        <p>Mocks</p>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right box-arrow"></i>
+            </a>
+        </div>
+    </div>
+   
+    <div class="tagline">PRACTICE TO PERFECTION</div>
+
+    <div class="fab-container">
+        <a href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank" class="fab fab-wa shadow-lg">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://t.me/SSC_COMPILATIONS_2025" target="_blank" class="fab fab-tg shadow-lg">
+            <i class="fab fa-telegram-plane"></i>
+        </a>
+    </div>
+
+    <nav class="bottom-nav">
+    <a href="/" class="nav-item active"><i class="fas fa-home-alt"></i><span>HOME</span></a>
+    <a href="/exams/" class="nav-item"><i class="fas fa-file-pen"></i><span>EXAMS</span></a>
+    <a href="/live-test" class="nav-item"><i class="fas fa-bolt"></i><span>LIVE</span></a>
+    <a href="/notifications.html" class="nav-item" style="position:relative;">
+        <i class="fas fa-bell"></i>
+        <span class="notif-badge-dot"></span>
+        <span>ALERTS</span>
+    </a>
+    <a href="/profile" class="nav-item" id="bottomProfileLink"><i class="fas fa-user-circle"></i><span>PROFILE</span></a>
+</nav>
+    
+    <footer style="padding: 40px 20px; background: #fff; border-top: 1px solid #e2e8f0; text-align: center; font-family: 'Inter', sans-serif;">
+    <div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+        <a href="/about-us.html" 
+           onmouseover="this.style.textDecoration='underline'" 
+           onmouseout="this.style.textDecoration='none'" 
+           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">About Us</a>
+           
+        <a href="/contact-us.html" 
+           onmouseover="this.style.textDecoration='underline'" 
+           onmouseout="this.style.textDecoration='none'" 
+           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">Contact Us</a>
+           
+        <a href="/privacy-policy.html" 
+           onmouseover="this.style.textDecoration='underline'" 
+           onmouseout="this.style.textDecoration='none'" 
+           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">Privacy Policy</a>
+           
+        <a href="/refund-policy.html" 
+           onmouseover="this.style.textDecoration='underline'" 
+           onmouseout="this.style.textDecoration='none'" 
+           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">Refund Policy</a>
+           
+        <a href="/terms-conditions.html" 
+           onmouseover="this.style.textDecoration='underline'" 
+           onmouseout="this.style.textDecoration='none'" 
+           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">Terms & Conditions</a>
+    </div>
+    <p style="color: #94a3b8; font-size: 12px; margin-top: 10px;">© 2026 Mock Matrix Hub. All Rights Reserved.</p>
+    </footer>
+
+    
+
+    <div style="height: 100px;"></div>
+
+    <div id="tgPopupOverlay" class="sidebar-overlay" style="display: none; align-items: center; justify-content: center; z-index: 2000;">
+    <div class="bg-white rounded-4 p-4 text-center shadow-lg mx-3" style="max-width: 350px; border: 2px solid #0088cc;">
+        <i class="fab fa-telegram text-primary mb-3" style="font-size: 3rem;"></i>
+        <h5 class="fw-bold mb-2">Join Private Channel</h5>
+        <p class="small text-muted mb-4">Exclusive updates, PDFs, and Premium Mocks await you in our private group.</p>
+        <div class="d-grid gap-2">
+            <a href="https://t.me/+O4W4bDNdITo1Mzdl" target="_blank" onclick="closeTgPopup()" class="btn btn-primary fw-bold py-2 rounded-3">JOIN NOW</a>
+            <button onclick="closeTgPopup()" class="btn btn-outline-secondary btn-sm fw-bold border-0">ALREADY JOINED</button>
+        </div>
+    </div>
+    </div>
+    
+
+    <script>
+        function toggleSidebar() {
+            const sb = document.getElementById('appSidebar');
+            const ov = document.getElementById('sidebarOverlay');
+            sb.classList.toggle('show');
+            ov.style.display = sb.classList.contains('show') ? 'block' : 'none';
+        }
+
+        // ===== REFACTORED DOMAIN-WIDE DARK MODE TOGGLE =====
+function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    const newTheme = isDark ? 'dark' : 'light';
+    
+    // Write state synchronization parameters across cross-page files
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('mmh_theme', newTheme);
+    
+    // Swap dynamic icon presentation parameters natively
+    const toggleBtn = document.getElementById('darkModeToggle');
+    if (toggleBtn) {
+        toggleBtn.textContent = isDark ? '☀️' : '🌙';
+    }
+}
+
+// Ensure parsing routines apply configuration vectors immediately on render execution
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('mmh_theme') || 'light';
+    const isDark = savedTheme === 'dark';
+    
+    if (isDark) {
+        document.body.classList.add('dark-mode');
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.body.classList.remove('dark-mode');
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+    
+    // Set matching top bar icon display parameters
+    const toggleBtn = document.getElementById('darkModeToggle');
+    if (toggleBtn) {
+        toggleBtn.textContent = isDark ? '☀️' : '🌙';
+    }
+
+    // Refresh application profile components
+    refreshAppUI();
+});
+
+
+// Add these two helper functions
+function checkTelegramPopup() {
+    if (!localStorage.getItem('mmh_tg_popup_seen')) {
+        const overlay = document.getElementById('tgPopupOverlay');
+        overlay.style.display = 'flex';
+    }
+}
+
+function closeTgPopup() {
+    localStorage.setItem('mmh_tg_popup_seen', 'true');
+    document.getElementById('tgPopupOverlay').style.display = 'none';
+}
+        
+
+        function updateUI(profile) {
+            if (!profile) return;
+            document.documentElement.classList.remove('user-is-logged-in');
+            document.getElementById('authHeaderArea').style.visibility = "visible";
+            document.getElementById('authHeaderArea').style.opacity = "1";
+            
+            const username = profile.username || 'Aspirant';
+            document.getElementById('sidebarUserName').innerText = username;
+            document.getElementById('userGreetName').innerText = username;
+            document.getElementById('logoutArea').classList.remove('hidden');
+            if(profile.is_paid) {
+        document.getElementById('sidebarPlanBadge').innerHTML = '<span class="badge-pro"><i class="fas fa-crown me-1"></i>PRO USER</span>';
+        document.getElementById('buyPremiumArea').classList.add('hidden');
+
+                        // NEW: Trigger the Popup check
+        checkTelegramPopup();
+
+        
+        // SHOW THE PRIVATE CHANNEL BUTTON HERE
+        if(document.getElementById('privateChannelArea')) {
+            document.getElementById('privateChannelArea').classList.remove('hidden');
+        }
+    } else {
+        document.getElementById('sidebarPlanBadge').innerHTML = '<span class="badge bg-secondary" style="font-size:10px">FREE PLAN</span>';
+        document.getElementById('buyPremiumArea').classList.remove('hidden');
+        
+        // HIDE IT FOR FREE USERS
+        if(document.getElementById('privateChannelArea')) {
+            document.getElementById('privateChannelArea').classList.add('hidden');
+        }
+    }
+          
+            if(profile.role === 'admin') document.getElementById('adminLinkArea').classList.remove('hidden');
+            if(profile.is_partner) {
+                document.getElementById('partnerLinkArea').classList.remove('hidden');
+                document.getElementById('partnerApplyArea').classList.add('hidden');
+            }
+            document.getElementById('authHeaderArea').innerHTML = `<div onclick="toggleSidebar()" style="width:38px; height:38px; background:var(--primary-light); color:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:800; border:2px solid var(--primary); font-size:14px;">${username.charAt(0).toUpperCase()}</div>`;
+        }
+
+        // --- BANNER SLIDER LOGIC ---
+        let currentSlide = 0;
+        const totalSlides = 2;
+        let slideTimer;
+
+        function showSlide(index) {
+            currentSlide = (index + totalSlides) % totalSlides;
+            document.querySelectorAll('.banner-slide').forEach((s, i) => {
+                s.classList.toggle('active', i === currentSlide);
+            });
+            document.querySelectorAll('.dot').forEach((d, i) => {
+                d.classList.toggle('active', i === currentSlide);
+            });
+            resetTimer();
+        }
+
+        function moveSlide(step) {
+            showSlide(currentSlide + step);
+        }
+
+        function resetTimer() {
+            clearInterval(slideTimer);
+            slideTimer = setInterval(() => moveSlide(1), 4000);
+        }
+
+        resetTimer();
+
+// 1. Function to handle the UI refresh logic
+function refreshAppUI() {
+    const p = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+    if (p) {
+        updateUI(p);
+        document.documentElement.classList.add('user-is-logged-in');
+    } else {
+        document.documentElement.classList.remove('user-is-logged-in');
+    }
+}
+
+// 2. Run on initial page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle theme
+    if (localStorage.getItem('mmh_theme') === 'dark') document.body.classList.add('dark-mode');
+    
+    // Check if profile already exists in localStorage
+    refreshAppUI();
+});
+
+// 3. Listen for the "Handshake" from auth.js (Instant Login Update)
+window.addEventListener('profileUpdated', () => {
+    refreshAppUI();
+});
+
+// 4. Handle Back/Forward browser navigation
+window.addEventListener('pageshow', (event) => {
+    refreshAppUI();
+});
+        
+// ============================================================
+// WHAT'S NEW MARQUEE — loads /whats-new.json, shows newest first,
+// each row scrolls its full text right-to-left (Sarkari-Result style
+// ticker) so nothing is ever cut off with "...".
+// ============================================================
+const WHATS_NEW_MAX_ROWS = 3;
+const WHATS_NEW_SPEED_PX_PER_SEC = 55; // constant scroll speed regardless of text length
+
+async function loadWhatsNew() {
+    try {
+        const res = await fetch('/whats-new.json?v=' + Date.now());
+        if (!res.ok) return;
+        const items = await res.json();
+        if (!Array.isArray(items) || items.length === 0) return;
+
+        // Always render newest first, regardless of order in the file
+        items.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        const card = document.getElementById('whatsNewCard');
+        const section = document.getElementById('whatsNewSection');
+        if (!card || !section) return;
+
+        const rows = items.slice(0, WHATS_NEW_MAX_ROWS);
+
+        card.innerHTML = rows.map(item => `
+            <div class="whats-new-row">
+                <div class="whats-new-track">
+                    <a href="${item.link}" class="whats-new-link">${item.title}</a>
+                    ${item.badge ? `<span class="new-badge-blink">${item.badge}</span>` : ''}
+                    <span class="whats-new-date">${formatWhatsNewDate(item.date)}</span>
+                </div>
+            </div>
+        `).join('');
+
+        section.style.display = 'block';
+
+        // Wait one frame so layout is ready, then measure & animate each row
+        requestAnimationFrame(() => {
+            card.querySelectorAll('.whats-new-row').forEach(startMarqueeRow);
+        });
+    } catch (e) {
+        console.error('Failed to load What\'s New:', e);
+    }
+}
+
+function formatWhatsNewDate(dateStr) {
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+}
+
+// Scrolls one row's full text from just-off-right to just-off-left at a
+// constant speed, so longer titles simply take a bit longer — never cut.
+function startMarqueeRow(rowEl) {
+    const track = rowEl.querySelector('.whats-new-track');
+    if (!track) return;
+
+    const rowWidth = rowEl.offsetWidth;
+    const trackWidth = track.scrollWidth;
+    const totalDistance = rowWidth + trackWidth;
+    const duration = Math.max(totalDistance / WHATS_NEW_SPEED_PX_PER_SEC, 6);
+
+    track.style.setProperty('--wn-start', rowWidth + 'px');
+    track.style.setProperty('--wn-end', (-trackWidth) + 'px');
+    track.style.animation = `whatsNewMarquee ${duration}s linear infinite`;
+}
+
+document.addEventListener('DOMContentLoaded', loadWhatsNew);
+
+// ---------------------------------------------------------------
+// Recover from a killed tab mid-payment: if buy-premium.html set a
+// pending flag before opening the Razorpay modal and the browser
+// reloaded this page before polling finished, force one fresh
+// profile fetch here so premium status isn't stuck showing stale
+// (cached) data for up to 7 days.
+// ---------------------------------------------------------------
+(async function checkPendingPayment() {
+    const raw = localStorage.getItem('mmh_payment_pending');
+    if (!raw) return;
+
+    let pending;
+    try { pending = JSON.parse(raw); } catch (e) { localStorage.removeItem('mmh_payment_pending'); return; }
+
+    const oneHour = 60 * 60 * 1000;
+    if (!pending.ts || Date.now() - pending.ts > oneHour) {
+        localStorage.removeItem('mmh_payment_pending'); // give up, likely abandoned
+        return;
+    }
+
+    try {
+        const { data: userData } = await _supabase.auth.getUser();
+        const userId = userData?.user?.id;
+        if (!userId) return;
+
+        const { data: profile } = await _supabase
+            .from('profiles')
+            .select('is_paid, expires_at')
+            .eq('id', userId)
+            .maybeSingle();
+
+        if (profile && profile.is_paid) {
+            const cached = getLocalProfile() || {};
+            saveLocalProfile({ ...cached, is_paid: true, expires_at: profile.expires_at });
+            localStorage.removeItem('mmh_payment_pending');
+        }
+        // else: leave the flag in place, will retry on next page load
+    } catch (e) {
+        // silent — will retry on next load
+    }
+})();
+
+let deferredPrompt;
+const installModal = document.getElementById('pwaInstallModal');
+const sidebarBtn = document.getElementById('sidebarInstallBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  
+  // Show the Sidebar button
+  if(sidebarBtn) sidebarBtn.style.display = 'block';
+
+  // Check if we have already shown the popup this session to avoid annoyance
+  if (!sessionStorage.getItem('pwaPromptShown')) {
+    setTimeout(() => {
+      installModal.style.display = 'flex';
+      sessionStorage.setItem('pwaPromptShown', 'true');
+    }, 3000); // Show after 3 seconds
+  }
+});
+
+// Handle the "Install" button in the modal or sidebar
+const triggerInstall = async () => {
+  if (!deferredPrompt) return;
+  
+  installModal.style.display = 'none';
+  deferredPrompt.prompt();
+  
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    console.log('User accepted the install prompt');
+    if(sidebarBtn) sidebarBtn.style.display = 'none';
+  }
+  deferredPrompt = null;
+};
+
+document.getElementById('doInstall').onclick = triggerInstall;
+if(sidebarBtn) sidebarBtn.onclick = triggerInstall;
+
+// Cancel button
+document.getElementById('closeInstall').onclick = () => {
+  installModal.style.display = 'none';
+};
+
+// Hide UI if installed
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  installModal.style.display = 'none';
+  if(sidebarBtn) sidebarBtn.style.display = 'none';
+});
+        // ============================================================
+// MOCK MATRIX HUB — Notifications (Service Worker + Push + Bell)
+// ============================================================
+const NOTIFY_API_BASE = 'https://mmh-notify-worker.mockmatrixsupport.workers.dev';
+
+let swRegistration = null;
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((reg) => {
+                console.log('Service worker registered:', reg.scope);
+                swRegistration = reg;
+                if (Notification.permission === 'granted') {
+                    initPushSubscription(reg);
+                }
+            })
+            .catch((err) => console.error('SW registration failed:', err));
+    });
+}
+
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const rawData = atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; i++) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+}
+
+async function initPushSubscription(registration) {
+    if (!('PushManager' in window)) return;
+    if (Notification.permission === 'denied') return;
+
+    try {
+        let subscription = await registration.pushManager.getSubscription();
+
+        if (!subscription) {
+            const keyRes = await fetch(`${NOTIFY_API_BASE}/api/notify/vapid-key`);
+            const { publicKey } = await keyRes.json();
+
+            subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(publicKey)
+            });
+        }
+
+        const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+        await fetch(`${NOTIFY_API_BASE}/api/notify/subscribe`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                subscription: subscription.toJSON(),
+                user_id: profile ? profile.id || profile.user_id || null : null
+            })
+        });
+    } catch (err) {
+        console.error('Push subscription failed:', err);
+    }
+}
+
+
+function handleBellTap(event) {
+    if (!('Notification' in window)) return;
+
+    const currentPermission = Notification.permission;
+
+    if (currentPermission === 'granted') {
+        if (swRegistration) initPushSubscription(swRegistration);
+        return;
+    }
+
+    if (currentPermission === 'denied') {
+        showPermissionBlockedNotice();
+        return;
+    }
+
+    Notification.requestPermission().then((permission) => {
+        if (permission === 'granted' && swRegistration) {
+            initPushSubscription(swRegistration);
+        }
+    });
+}
+
+function showPermissionBlockedNotice() {
+    if (window.__mmhPermissionNoticeShown) return;
+    window.__mmhPermissionNoticeShown = true;
+
+    alert(
+        'Notifications are blocked for this site in your browser settings.\n\n' +
+        'To enable them: open your browser settings → Site settings → Notifications, ' +
+        'find this site, and set it to "Allow".'
+    );
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.notif-bell-wrap, a[href="/notifications.html"]').forEach(el => {
+        el.addEventListener('click', handleBellTap);
+    });
+});
+
+
+async function refreshNotificationBadge() {
+    try {
+        const res = await fetch(`${NOTIFY_API_BASE}/api/notify/list?limit=11`);
+        const data = await res.json();
+        const list = data.notifications || [];
+        if (list.length === 0) return;
+
+        const lastSeenId = parseInt(localStorage.getItem('mmh_last_seen_notif_id') || '0', 10);
+        const unreadCount = list.filter(n => n.id > lastSeenId).length;
+
+        const displayValue = unreadCount > 10 ? '10+' : String(unreadCount);
+        const dots = document.querySelectorAll('.notif-badge-dot');
+
+        dots.forEach(el => {
+            if (unreadCount > 0) {
+                el.textContent = displayValue;
+                el.style.display = 'flex';
+            } else {
+                el.style.display = 'none';
+            }
+        });
+    } catch (err) {
+        console.error('Failed to refresh notification badge:', err);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', refreshNotificationBadge);
+window.addEventListener('pageshow', refreshNotificationBadge);
+        
+
+    
+    </script>
+    
+    <!-- ============================================================
+         MOCK MATRIX HUB — "We've Moved" Prompt (index.html ONLY)
+         Tries to force-open Chrome specifically on Android; if Chrome
+         isn't installed, falls back to whatever browser is available.
+         ============================================================ -->
+    <div id="mmh-move-overlay" style="
+        display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(3px); z-index: 999998;
+        align-items: center; justify-content: center; padding: 20px;
+    ">
+        <div style="
+            background: white; border-radius: 24px; max-width: 380px; width: 100%;
+            padding: 28px 24px; text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            font-family: 'Poppins', -apple-system, sans-serif;
+        ">
+            <div style="
+                width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 18px;
+                background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+                display: flex; align-items: center; justify-content: center;
+                font-size: 32px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+            ">🚀</div>
+
+            <p style="font-weight: 800; font-size: 19px; color: #0f172a; margin: 0 0 8px 0;">
+                We've Moved to a New Website!
+            </p>
+            <p style="font-size: 13.5px; color: #64748b; margin: 0 0 22px 0; line-height: 1.5;">
+                Our new official website is <b>mockmatrixhub.in</b>. Please shift to the new site or install our new app.
+            </p>
+
+            <a href="#" id="mmh-visit-new" style="
+                display: block; width: 100%;
+                background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+                color: white; font-weight: 700; font-size: 15px; padding: 14px;
+                border-radius: 12px; text-decoration: none;
+                box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+                box-sizing: border-box; margin-bottom: 10px;
+            ">Visit New Website</a>
+
+            <a href="#" id="mmh-install-new" style="
+                display: block; width: 100%;
+                background: #eff6ff; color: #2563eb; font-weight: 700; font-size: 14px;
+                padding: 12px; border-radius: 12px; text-decoration: none;
+                box-sizing: border-box; margin-bottom: 10px; border: 1px solid #bfdbfe;
+            ">Install New App</a>
+
+            <button id="mmh-move-later" style="
+                display: block; width: 100%; background: transparent; color: #94a3b8;
+                font-weight: 600; font-size: 13px; padding: 8px; border: none; cursor: pointer;
+            ">Remind me later</button>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        const NEW_SITE = "https://mockmatrixhub.in";
+        const SNOOZE_KEY = "mmh_move_snooze_until";
+        const overlay = document.getElementById('mmh-move-overlay');
+
+        // Only show the popup if there's no active snooze (or it has expired)
+        const snoozeUntil = parseInt(localStorage.getItem(SNOOZE_KEY) || "0", 10);
+        if (Date.now() < snoozeUntil) {
+            return; // still within the 24-hour "remind me later" window — don't show
+        }
+        overlay.style.display = "flex";
+
+        function openPreferChrome(url) {
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            if (isAndroid) {
+                const bareUrl = url.replace(/^https?:\/\//, "");
+                const intentUrl =
+                    "intent://" + bareUrl +
+                    "#Intent;scheme=https;package=com.android.chrome;" +
+                    "S.browser_fallback_url=" + encodeURIComponent(url) +
+                    ";end;";
+                window.location.href = intentUrl;
+            } else {
+                window.location.href = url;
+            }
+        }
+
+        document.getElementById('mmh-visit-new').addEventListener('click', function(e) {
+            e.preventDefault();
+            openPreferChrome(NEW_SITE);
+        });
+
+        document.getElementById('mmh-install-new').addEventListener('click', function(e) {
+            e.preventDefault();
+            openPreferChrome(NEW_SITE);
+        });
+
+        document.getElementById('mmh-move-later').addEventListener('click', function() {
+            // Snooze for 24 hours from now
+            localStorage.setItem(SNOOZE_KEY, String(Date.now() + 24 * 60 * 60 * 1000));
+            overlay.remove();
+        });
+    })();
+    </script>
+
+</body>
+</html>
