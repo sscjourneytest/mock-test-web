@@ -1445,8 +1445,93 @@ window.addEventListener('pageshow', refreshNotificationBadge);
     
     </script>
     
+    <!-- ============================================================
+         MOCK MATRIX HUB — "We've Moved" Prompt (index.html ONLY)
+         Tries to force-open Chrome specifically on Android; if Chrome
+         isn't installed, falls back to whatever browser is available.
+         ============================================================ -->
+    <div id="mmh-move-overlay" style="
+        position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(3px); z-index: 999998;
+        display: flex; align-items: center; justify-content: center; padding: 20px;
+    ">
+        <div style="
+            background: white; border-radius: 24px; max-width: 380px; width: 100%;
+            padding: 28px 24px; text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            font-family: 'Poppins', -apple-system, sans-serif;
+        ">
+            <div style="
+                width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 18px;
+                background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+                display: flex; align-items: center; justify-content: center;
+                font-size: 32px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+            ">🚀</div>
+
+            <p style="font-weight: 800; font-size: 19px; color: #0f172a; margin: 0 0 8px 0;">
+                We've Moved to a New Website!
+            </p>
+            <p style="font-size: 13.5px; color: #64748b; margin: 0 0 22px 0; line-height: 1.5;">
+                Our new official website is <b>mockmatrixhub.in</b>. Please shift to the new site or install our new app.
+            </p>
+
+            <a href="#" id="mmh-visit-new" style="
+                display: block; width: 100%;
+                background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+                color: white; font-weight: 700; font-size: 15px; padding: 14px;
+                border-radius: 12px; text-decoration: none;
+                box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+                box-sizing: border-box; margin-bottom: 10px;
+            ">Visit New Website</a>
+
+            <a href="#" id="mmh-install-new" style="
+                display: block; width: 100%;
+                background: #eff6ff; color: #2563eb; font-weight: 700; font-size: 14px;
+                padding: 12px; border-radius: 12px; text-decoration: none;
+                box-sizing: border-box; margin-bottom: 10px; border: 1px solid #bfdbfe;
+            ">Install New App</a>
+
+            <button id="mmh-move-later" style="
+                display: block; width: 100%; background: transparent; color: #94a3b8;
+                font-weight: 600; font-size: 13px; padding: 8px; border: none; cursor: pointer;
+            ">Remind me later</button>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        const NEW_SITE = "https://mockmatrixhub.in";
+
+        function openPreferChrome(url) {
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            if (isAndroid) {
+                const bareUrl = url.replace(/^https?:\/\//, "");
+                const intentUrl =
+                    "intent://" + bareUrl +
+                    "#Intent;scheme=https;package=com.android.chrome;" +
+                    "S.browser_fallback_url=" + encodeURIComponent(url) +
+                    ";end;";
+                window.location.href = intentUrl;
+            } else {
+                window.location.href = url;
+            }
+        }
+
+        document.getElementById('mmh-visit-new').addEventListener('click', function(e) {
+            e.preventDefault();
+            openPreferChrome(NEW_SITE);
+        });
+
+        document.getElementById('mmh-install-new').addEventListener('click', function(e) {
+            e.preventDefault();
+            openPreferChrome(NEW_SITE);
+        });
+
+        document.getElementById('mmh-move-later').addEventListener('click', function() {
+            document.getElementById('mmh-move-overlay').remove();
+        });
+    })();
+    </script>
+
 </body>
 </html>
-
-
-
