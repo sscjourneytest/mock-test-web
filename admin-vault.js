@@ -122,9 +122,10 @@ async function loadStats() {
 // -----------------------------------------------------------
 // Revenue tab
 // -----------------------------------------------------------
-// State for the per-payment, date-paginated table.
-let revenueDateGroups = [];  // [{ dateKey, rows: [...] }, ...] sorted newest first
-let revenueDatesShown = 0;   // how many date groups are currently rendered
+// State for the flat, paginated transaction table.
+const REVENUE_PAGE_SIZE = 10;
+let revenueRows = [];      // all payments for the current filter, newest first
+let revenueRowsShown = 0;  // how many rows are currently rendered
 
 function initRevenueFilters() {
   document.querySelectorAll(".filter-btn[data-range]").forEach((btn) => {
@@ -144,7 +145,7 @@ function initRevenueFilters() {
   const viewMoreBtn = document.getElementById("revenueViewMoreBtn");
   if (viewMoreBtn) {
     viewMoreBtn.addEventListener("click", () => {
-      revenueDatesShown++;
+      revenueRowsShown += REVENUE_PAGE_SIZE;
       renderRevenueTable();
     });
   }
@@ -180,21 +181,11 @@ async function loadRevenue(range, customFrom, customTo) {
   document.getElementById("periodRevenue").textContent = "₹" + total.toLocaleString("en-IN");
   document.getElementById("periodCount").textContent = rows.length;
 
-  // Group by IST calendar day, newest date first, rows within a day newest first.
-  const byDay = {};
-  rows.forEach((p) => {
-    const dateKey = toISTDateKey(p.created_at);
-    if (!byDay[dateKey]) byDay[dateKey] = [];
-    byDay[dateKey].push(p);
-  });
+  // Flat, newest-first list of every transaction in the selected range.
+  revenueRows = rows;
 
-  revenueDateGroups = Object.keys(byDay)
-    .sort()
-    .reverse()
-    .map((dateKey) => ({ dateKey, rows: byDay[dateKey] }));
-
-  // Default: only the most recent date's rows are shown.
-  revenueDatesShown = revenueDateGroups.length > 0 ? 1 : 0;
+  // Default: first page only.
+  revenueRowsShown = Math.min(REVENUE_PAGE_SIZE, revenueRows.length);
 
   renderRevenueTable();
 }
@@ -203,25 +194,28 @@ function renderRevenueTable() {
   const tbody = document.getElementById("revenueTable");
   const viewMoreBtn = document.getElementById("revenueViewMoreBtn");
 
-  const groupsToShow = revenueDateGroups.slice(0, revenueDatesShown);
+  const rowsToShow = revenueRows.slice(0, revenueRowsShown);
 
   let html = "";
-  groupsToShow.forEach((group) => {
-    html += `<tr class="date-divider"><td colspan="4"><b>${istDateKeyToLabel(group.dateKey)}</b></td></tr>`;
-    group.rows.forEach((p) => {
-      html += `<tr>
-        <td>${toISTTimeLabel(p.created_at)}</td>
-        <td>₹${Number(p.amount_paid).toLocaleString("en-IN")}</td>
-        <td>${p.coupon_code || "-"}</td>
-        <td style="font-family:'IBM Plex Mono',monospace; font-size:11px;">${p.user_id}</td>
-      </tr>`;
-    });
+  let lastDateKey = null;
+  rowsToShow.forEach((p) => {
+    const dateKey = toISTDateKey(p.created_at);
+    if (dateKey !== lastDateKey) {
+      html += `<tr class="date-divider"><td colspan="4"><b>${istDateKeyToLabel(dateKey)}</b></td></tr>`;
+      lastDateKey = dateKey;
+    }
+    html += `<tr>
+      <td>${toISTTimeLabel(p.created_at)}</td>
+      <td>₹${Number(p.amount_paid).toLocaleString("en-IN")}</td>
+      <td>${p.coupon_code || "-"}</td>
+      <td style="font-family:'IBM Plex Mono',monospace; font-size:11px;">${p.user_id}</td>
+    </tr>`;
   });
 
   tbody.innerHTML = html || '<tr><td colspan="4">No payments in this period.</td></tr>';
 
   if (viewMoreBtn) {
-    const hasMore = revenueDatesShown < revenueDateGroups.length;
+    const hasMore = revenueRowsShown < revenueRows.length;
     viewMoreBtn.style.display = hasMore ? "inline-block" : "none";
   }
 }
@@ -481,3 +475,4 @@ async function rejectLegacy(id) {
   await _supabase.from("payment_requests").update({ status: "rejected", rejection_reason: reason }).eq("id", id);
   loadLegacyPayments();
 }
+
