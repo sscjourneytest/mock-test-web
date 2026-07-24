@@ -134,10 +134,20 @@
         .menu-item {
             display: flex; align-items: center; padding: 14px 25px;
             color: var(--text-dark); text-decoration: none; font-weight: 500;
-            transition: 0.2s;
+            position: relative;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.12s ease, padding-left 0.2s ease;
         }
-        .menu-item i { width: 35px; font-size: 1.1rem; color: var(--text-grey); }
-        .menu-item:hover { background: var(--primary-light); color: var(--primary); }
+        .menu-item::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+            background: var(--primary); transform: scaleY(0); transform-origin: center;
+            transition: transform 0.2s ease;
+        }
+        .menu-item i { width: 35px; font-size: 1.1rem; color: var(--text-grey); transition: color 0.2s ease, transform 0.2s ease; }
+        .menu-item:hover { background: var(--primary-light); color: var(--primary); padding-left: 29px; }
+        .menu-item:hover::before { transform: scaleY(1); }
+        .menu-item:hover i { color: var(--primary); }
+        .menu-item:active { background: var(--primary-light); transform: scale(0.97); transition-duration: 0.08s; }
+        .menu-item:active i { transform: scale(0.9); }
         .menu-item.pro-btn { background: #fff7ed; color: #9a3412; font-weight: 700; }
         .menu-item.admin-btn { background: #f0fdf4; color: #166534; font-weight: 700; }
 
@@ -1081,10 +1091,17 @@ function closeTgPopup() {
         }
     }
           
-            if(profile.role === 'admin') document.getElementById('adminLinkArea').classList.remove('hidden');
-            if(profile.is_partner) {
-                document.getElementById('partnerLinkArea').classList.remove('hidden');
-                document.getElementById('partnerApplyArea').classList.add('hidden');
+            if(['admin', 'owner', 'subowner'].includes(profile.role)) document.getElementById('adminLinkArea').classList.remove('hidden');
+
+            // Partner status now lives in the coupons table (profiles.is_partner was removed).
+            if (profile.id) {
+                _supabase.from('coupons').select('code').eq('owner_user_id', profile.id).eq('is_active', true).maybeSingle()
+                    .then(({ data: activeCoupon }) => {
+                        if (activeCoupon) {
+                            document.getElementById('partnerLinkArea').classList.remove('hidden');
+                            document.getElementById('partnerApplyArea').classList.add('hidden');
+                        }
+                    });
             }
             document.getElementById('authHeaderArea').innerHTML = `<div onclick="toggleSidebar()" style="width:38px; height:38px; background:var(--primary-light); color:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:800; border:2px solid var(--primary); font-size:14px;">${username.charAt(0).toUpperCase()}</div>`;
         }
@@ -1546,3 +1563,4 @@ window.addEventListener('pageshow', refreshNotificationBadge);
 
 </body>
 </html>
+
