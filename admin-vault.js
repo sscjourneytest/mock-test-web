@@ -11,14 +11,13 @@ let myToken = null;
 // -----------------------------------------------------------
 const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
 
-// Returns a Date representing UTC-instant-equivalent of IST midnight
+// Returns a Date representing the UTC instant equal to IST midnight
 // for "today" (or for an arbitrary Date passed in).
 function istMidnightUTC(baseDate = new Date()) {
   const istNow = new Date(baseDate.getTime() + IST_OFFSET_MS);
   const y = istNow.getUTCFullYear();
   const m = istNow.getUTCMonth();
   const d = istNow.getUTCDate();
-  // Midnight IST expressed as a UTC instant = UTC midnight - 5:30
   return new Date(Date.UTC(y, m, d) - IST_OFFSET_MS);
 }
 
@@ -34,6 +33,22 @@ function istDateInputToUTC(dateStr) {
 function toISTDateKey(isoString) {
   const istDate = new Date(new Date(isoString).getTime() + IST_OFFSET_MS);
   return istDate.toISOString().slice(0, 10);
+}
+
+// Formats an ISO timestamp as an IST time string, e.g. "8:49 AM".
+function toISTTimeLabel(isoString) {
+  return new Date(isoString).toLocaleTimeString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
+// Formats a "YYYY-MM-DD" IST date key as a readable date, e.g. "Fri Jul 24 2026".
+function istDateKeyToLabel(dateKey) {
+  const [y, m, d] = dateKey.split("-").map(Number);
+  return new Date(y, m - 1, d).toDateString();
 }
 
 // -----------------------------------------------------------
@@ -107,6 +122,10 @@ async function loadStats() {
 // -----------------------------------------------------------
 // Revenue tab
 // -----------------------------------------------------------
+// State for the per-payment, date-paginated table.
+let revenueDateGroups = [];  // [{ dateKey, rows: [...] }, ...] sorted newest first
+let revenueDatesShown = 0;   // how many date groups are currently rendered
+
 function initRevenueFilters() {
   document.querySelectorAll(".filter-btn[data-range]").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -122,6 +141,13 @@ function initRevenueFilters() {
     document.querySelectorAll(".filter-btn[data-range]").forEach((b) => b.classList.remove("active"));
     loadRevenue("custom", from, to);
   });
+  const viewMoreBtn = document.getElementById("revenueViewMoreBtn");
+  if (viewMoreBtn) {
+    viewMoreBtn.addEventListener("click", () => {
+      revenueDatesShown++;
+      renderRevenueTable();
+    });
+  }
 }
 initRevenueFilters();
 
@@ -140,40 +166,64 @@ async function loadRevenue(range, customFrom, customTo) {
     fromDate = istDateInputToUTC(customFrom);
   }
 
-  let query = _supabase.from("payments").select("amount_paid, created_at").gte("created_at", fromDate.toISOString());
+  let query = _supabase.from("payments").select("amount_paid, coupon_code, user_id, created_at").gte("created_at", fromDate.toISOString());
   if (range === "custom" && customTo) {
-    // End of day IST for the "to" date = start of next IST day
     const toStart = istDateInputToUTC(customTo);
     const toDate = new Date(toStart.getTime() + 86400000 - 1);
     query = query.lte("created_at", toDate.toISOString());
   }
 
-  const { data: payments } = await query;
+  const { data: payments } = await query.order("created_at", { ascending: false });
   const rows = payments || [];
 
   const total = rows.reduce((s, p) => s + Number(p.amount_paid), 0);
   document.getElementById("periodRevenue").textContent = "₹" + total.toLocaleString("en-IN");
   document.getElementById("periodCount").textContent = rows.length;
 
-  // Group by IST calendar day
+  // Group by IST calendar day, newest date first, rows within a day newest first.
   const byDay = {};
   rows.forEach((p) => {
-    const day = toISTDateKey(p.created_at);
-    if (!byDay[day]) byDay[day] = { count: 0, revenue: 0 };
-    byDay[day].count++;
-    byDay[day].revenue += Number(p.amount_paid);
+    const dateKey = toISTDateKey(p.created_at);
+    if (!byDay[dateKey]) byDay[dateKey] = [];
+    byDay[dateKey].push(p);
   });
 
-  const days = Object.keys(byDay).sort().reverse();
+  revenueDateGroups = Object.keys(byDay)
+    .sort()
+    .reverse()
+    .map((dateKey) => ({ dateKey, rows: byDay[dateKey] }));
+
+  // Default: only the most recent date's rows are shown.
+  revenueDatesShown = revenueDateGroups.length > 0 ? 1 : 0;
+
+  renderRevenueTable();
+}
+
+function renderRevenueTable() {
+  const tbody = document.getElementById("revenueTable");
+  const viewMoreBtn = document.getElementById("revenueViewMoreBtn");
+
+  const groupsToShow = revenueDateGroups.slice(0, revenueDatesShown);
+
   let html = "";
-  days.forEach((day) => {
-    // day is "YYYY-MM-DD" in IST — render without re-parsing through
-    // local Date (which would shift it back across midnight again).
-    const [y, m, d] = day.split("-").map(Number);
-    const label = new Date(y, m - 1, d).toDateString();
-    html += `<tr><td>${label}</td><td>${byDay[day].count}</td><td>₹${byDay[day].revenue.toLocaleString("en-IN")}</td></tr>`;
+  groupsToShow.forEach((group) => {
+    html += `<tr class="date-divider"><td colspan="4"><b>${istDateKeyToLabel(group.dateKey)}</b></td></tr>`;
+    group.rows.forEach((p) => {
+      html += `<tr>
+        <td>${toISTTimeLabel(p.created_at)}</td>
+        <td>₹${Number(p.amount_paid).toLocaleString("en-IN")}</td>
+        <td>${p.coupon_code || "-"}</td>
+        <td style="font-family:'IBM Plex Mono',monospace; font-size:11px;">${p.user_id}</td>
+      </tr>`;
+    });
   });
-  document.getElementById("revenueTable").innerHTML = html || '<tr><td colspan="3">No payments in this period.</td></tr>';
+
+  tbody.innerHTML = html || '<tr><td colspan="4">No payments in this period.</td></tr>';
+
+  if (viewMoreBtn) {
+    const hasMore = revenueDatesShown < revenueDateGroups.length;
+    viewMoreBtn.style.display = hasMore ? "inline-block" : "none";
+  }
 }
 
 // -----------------------------------------------------------
@@ -431,4 +481,3 @@ async function rejectLegacy(id) {
   await _supabase.from("payment_requests").update({ status: "rejected", rejection_reason: reason }).eq("id", id);
   loadLegacyPayments();
 }
-
