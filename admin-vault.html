@@ -3,248 +3,169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Become a Partner — Mock Matrix Hub</title>
+<title>Admin Vault — Mock Matrix Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/admin-vault.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/auth.js"></script>
-<style>
-  :root { --paper:#F6F3EC; --paper-raised:#FFFFFF; --navy:#0F2A4A; --navy-soft:#1D3E63; --seal:#A8241C; --gold:#B8901F; --ink:#2B2E33; --ink-soft:#6B7280; --line:#DCD6C6; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--paper); color: var(--ink); font-family: 'Inter', sans-serif; padding: 76px 16px 60px; }
-
-  .topbar { position: fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; gap:16px; background:#fff; border-bottom:1px solid #E5E1D6; padding:14px 18px; }
-  .topbar .left { display:flex; align-items:center; gap:14px; }
-  .topbar a.back { display:flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#F1EEE4; color:var(--navy); text-decoration:none; font-size:15px; }
-  .topbar a.back:hover { background: var(--navy); color: #fff; }
-  .topbar span.title { font-weight:700; font-size:20px; color:var(--navy); }
-  .topbar-logo { width:34px; height:34px; border-radius:8px; border:1.5px solid var(--line); }
-
-  .wrap { max-width: 640px; margin: 0 auto; }
-  .header { text-align:center; margin-bottom:26px; }
-  .header h1 { font-family:'Lora', serif; font-size: clamp(24px,4vw,32px); color:var(--navy); }
-  .header p { color: var(--ink-soft); margin-top:8px; font-size:14px; }
-
-  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
-  .step { background:var(--paper-raised); border:1px solid var(--line); border-radius:6px; padding:12px; text-align:center; }
-  .step i { color:var(--gold); font-size:16px; margin-bottom:6px; display:block; }
-  .step p { font-size:10.5px; font-weight:700; text-transform:uppercase; color:var(--navy); }
-
-  .card { background: var(--paper-raised); border:1px solid var(--line); border-radius:6px; padding:24px; margin-bottom:16px; }
-  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:22px; }
-  .info-item { background: var(--paper); padding:14px; border-radius:6px; border-left:3px solid var(--gold); }
-  .info-item h4 { color:var(--navy); font-size:13px; margin-bottom:4px; }
-  .info-item p { font-size:12px; color:var(--ink-soft); line-height:1.5; }
-
-  .form-group { margin-bottom:16px; }
-  .form-group label { display:block; font-weight:600; font-size:12.5px; color:var(--navy); margin-bottom:6px; }
-  .form-group input, .form-group textarea { width:100%; padding:12px; border:1.5px solid var(--line); border-radius:5px; outline:none; font-family:inherit; font-size:14px; background:#FCFAF5; }
-  .form-group input:focus, .form-group textarea:focus { border-color: var(--navy); }
-  .form-group input[readonly] { background:#F1EEE4; color:var(--ink-soft); }
-  .form-group small { display:block; margin-top:5px; font-size:11px; color:var(--ink-soft); }
-
-  .uuid-box { font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); background:var(--paper); padding:8px 10px; border-radius:5px; word-break:break-all; margin-bottom:16px; }
-
-  .submit-btn { width:100%; padding:15px; background:var(--seal); color:#fff; border:none; border-radius:6px; font-weight:700; cursor:pointer; font-size:15px; margin-bottom:10px; }
-  .submit-btn:disabled { background:#A8A29E; cursor:not-allowed; }
-  .status-btn { width:100%; padding:13px; background:#fff; color:var(--navy); border:1.5px solid var(--navy); border-radius:6px; font-weight:700; cursor:pointer; font-size:13px; }
-
-  .contact-footer { text-align:center; margin-top:20px; }
-  .contact-link { color:var(--link, #1D4ED8); text-decoration:none; font-weight:600; font-size:13px; }
-
-  @media (max-width:600px) { .info-grid, .steps { grid-template-columns:1fr; } }
-</style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="left">
     <a href="/index.html" class="back" aria-label="Back to home"><i class="fas fa-arrow-left"></i></a>
-    <span class="title">Become a Partner</span>
+    <span class="title">Admin Vault</span>
   </div>
   <img src="/logo.png" alt="Mock Matrix Hub" class="topbar-logo">
 </div>
 
-<div class="wrap">
-  <div class="header">
-    <h1>Join the Mock Matrix Hub Partner Program</h1>
-    <p>Share your code, earn on every sale</p>
-  </div>
-
-  <div class="steps">
-    <div class="step"><i class="fas fa-file-signature"></i><p>1. Apply</p></div>
-    <div class="step"><i class="fas fa-user-check"></i><p>2. Get Approved</p></div>
-    <div class="step"><i class="fas fa-money-bill-wave"></i><p>3. Earn &amp; Withdraw</p></div>
-  </div>
-
-  <div class="card">
-    <div class="info-grid">
-      <div class="info-item"><h4><i class="fas fa-percentage"></i> Real Commission</h4><p>Earn a share of every discount your code gives students — your exact rate is set when you're approved.</p></div>
-      <div class="info-item"><h4><i class="fas fa-wallet"></i> Track Everything</h4><p>Once approved, your Partner Dashboard shows every sale and lets you request payouts.</p></div>
-    </div>
-
-    <form id="applyForm">
-      <div class="form-group"><label>Username</label><input type="text" id="partnerName" readonly></div>
-      <div class="form-group"><label>Email Address</label><input type="email" id="partnerEmail" readonly></div>
-      <div class="form-group">
-        <label>Your Account ID</label>
-        <div class="uuid-box" id="partnerUuid">--</div>
-      </div>
-      <div class="form-group">
-        <label>Mobile Number *</label>
-        <input type="tel" id="partnerPhone" required placeholder="Enter 10-digit number" pattern="[0-9]{10}">
-      </div>
-      <div class="form-group">
-        <label>UPI ID (For Payouts) *</label>
-        <input type="text" id="partnerUpi" required placeholder="yourname@upi">
-      </div>
-      <div class="form-group">
-        <label>Channel / Social Link *</label>
-        <textarea id="channelLinks" required placeholder="https://youtube.com/... or https://t.me/..." rows="3"></textarea>
-        <small>Must be a valid https:// link to YouTube, Telegram, Instagram, X/Twitter, or Facebook.</small>
-      </div>
-      <div class="form-group">
-        <label>Requested Coupon Code *</label>
-        <input type="text" id="requestedCode" maxlength="10" required placeholder="Ex: HUB25" style="text-transform:uppercase;">
-        <small>Max 10 letters &amp; numbers.</small>
-      </div>
-
-      <button type="submit" class="submit-btn" id="subBtn">Submit Partnership Request</button>
-      <button type="button" class="status-btn" onclick="checkRequestStatus()">Check Request Status</button>
-    </form>
-
-    <div class="contact-footer">
-      <a href="https://t.me/MOCK_MATRIX__HUB_SUPPORT_BOT" class="contact-link"><i class="fab fa-telegram"></i> Contact Admin for Fast Approval</a>
-    </div>
-  </div>
+<div id="deniedScreen" class="denied" style="display:none;">
+  <i class="fas fa-lock"></i>
+  <h2>Access Restricted</h2>
+  <p>This page is limited to Owner, Subowner, and Admin roles.</p>
 </div>
 
-<script>
-  const ALLOWED_DOMAINS = ["youtube.com", "youtu.be", "t.me", "telegram.me", "instagram.com", "twitter.com", "x.com", "facebook.com", "fb.com"];
+<div id="vaultApp" class="wrap" style="display:none;">
 
-  function isValidSocialLink(raw) {
-    const link = raw.trim();
-    if (!link.toLowerCase().startsWith("https://")) return false;
-    try {
-      const host = new URL(link).hostname.replace(/^www\./, "");
-      return ALLOWED_DOMAINS.some((d) => host === d || host.endsWith("." + d));
-    } catch (e) {
-      return false;
-    }
-  }
+  <div class="stats-row">
+    <div class="stat-card"><p>Total Users</p><h3 id="statTotalUsers">--</h3></div>
+    <div class="stat-card gold"><p>Premium Users</p><h3 id="statPaidUsers">--</h3></div>
+    <div class="stat-card navy"><p>All-Time Revenue</p><h3 id="statTotalRevenue">₹--</h3></div>
+  </div>
 
-  document.addEventListener('DOMContentLoaded', async () => {
-    const profile = getLocalProfile();
-    if (profile) {
-      document.getElementById('partnerName').value = profile.username || "";
-      document.getElementById('partnerEmail').value = profile.email || "";
-      document.getElementById('partnerUuid').textContent = profile.id || "--";
+  <div class="tabs" id="tabBar">
+    <button class="tab-btn active" data-tab="revenue">Revenue</button>
+    <button class="tab-btn" data-tab="coupons">Partner Coupons</button>
+    <button class="tab-btn owner-only" data-tab="pricing">Pricing &amp; Sale</button>
+    <button class="tab-btn owner-only" data-tab="grant">Direct Grant</button>
+    <button class="tab-btn" data-tab="payouts">Payouts</button>
+    <button class="tab-btn" data-tab="legacy">Legacy Requests</button>
+  </div>
 
-      const { data: existingCoupon } = await _supabase.from('coupons')
-        .select('code').eq('owner_user_id', profile.id).eq('is_active', true).maybeSingle();
+  <!-- ================= REVENUE TAB ================= -->
+  <section id="tab-revenue" class="tab-panel active">
+    <div class="panel-card">
+      <div class="filter-row">
+        <button class="filter-btn active" data-range="today">Today</button>
+        <button class="filter-btn" data-range="7">Last 7 Days</button>
+        <button class="filter-btn" data-range="30">Last 30 Days</button>
+        <button class="filter-btn" data-range="all">All Time</button>
+        <input type="date" id="customFrom">
+        <span>to</span>
+        <input type="date" id="customTo">
+        <button class="filter-btn" id="customApply">Apply</button>
+      </div>
+      <div class="period-summary">
+        <div><p>Period Revenue</p><h2 id="periodRevenue">₹0</h2></div>
+        <div><p>Payments</p><h2 id="periodCount">0</h2></div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Date</th><th>Payments</th><th>Revenue</th></tr></thead>
+          <tbody id="revenueTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
-      if (existingCoupon) {
-        const sBtn = document.getElementById('subBtn');
-        sBtn.disabled = true;
-        sBtn.innerText = "Partner Account Active ✅";
-        sBtn.style.background = "#16a34a";
-      }
-    }
+  <!-- ================= COUPONS TAB ================= -->
+  <section id="tab-coupons" class="tab-panel">
+    <div class="panel-card">
+      <h3>Pending Partner Requests</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>User</th><th>Requested Code</th><th>Links</th><th>UPI</th><th>Discount %</th><th>Payout %</th><th>Actions</th></tr></thead>
+          <tbody id="pendingCouponTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel-card">
+      <h3>Active &amp; Inactive Coupons</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Code</th><th>Owner</th><th>Discount %</th><th>Payout %</th><th>Revenue via code</th><th>Uses</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="couponsTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
-    if (localStorage.getItem('pending_partner_request') === 'true') {
-      const sBtn = document.getElementById('subBtn');
-      sBtn.disabled = true;
-      sBtn.innerText = "Application Under Review...";
-      sBtn.style.background = "#64748b";
-    }
-  });
+  <!-- ================= PRICING TAB (owner only) ================= -->
+  <section id="tab-pricing" class="tab-panel">
+    <div class="panel-card">
+      <div class="section-header"><h3>Plans</h3><button class="btn-primary" id="addPlanBtn">+ Add Plan</button></div>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Plan Name</th><th>Original ₹</th><th>Offer ₹</th><th>Validity (days)</th><th>Active</th><th>Actions</th></tr></thead>
+          <tbody id="pricingTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel-card">
+      <h3>Create Sale Coupon</h3>
+      <div class="form-grid">
+        <input type="text" id="saleCode" placeholder="COUPON CODE">
+        <input type="text" id="saleOwnerName" placeholder="Owner name / UUID">
+        <input type="number" id="saleDiscount" placeholder="Discount %" value="20">
+        <input type="number" id="salePayout" placeholder="Payout %" value="0">
+        <input type="text" id="saleUpi" placeholder="UPI ID (optional)">
+        <input type="date" id="saleValidUntil">
+      </div>
+      <button class="btn-primary" id="createSaleCouponBtn">Create Coupon</button>
+    </div>
+  </section>
 
-  document.getElementById('requestedCode').addEventListener('input', (e) => {
-    e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  });
+  <!-- ================= DIRECT GRANT TAB (owner only) ================= -->
+  <section id="tab-grant" class="tab-panel">
+    <div class="panel-card narrow">
+      <h3>Grant Premium Directly</h3>
+      <p class="hint">Bypasses payment entirely — use only for manual approvals, refund goodwill, etc.</p>
+      <input type="email" id="grantEmail" placeholder="user@email.com">
+      <input type="number" id="grantDays" placeholder="Validity in days" value="365">
+      <button class="btn-primary" id="grantBtn">Grant Access</button>
+      <p id="grantMsg"></p>
+    </div>
+  </section>
 
-  document.getElementById('applyForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('subBtn');
-    const userEmail = document.getElementById('partnerEmail').value;
-    const profile = getLocalProfile();
-    const links = document.getElementById('channelLinks').value;
+  <!-- ================= PAYOUTS TAB ================= -->
+  <section id="tab-payouts" class="tab-panel">
+    <div class="panel-card">
+      <h3>Pending Payout Requests</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Partner</th><th>Amount</th><th>Upto Date</th><th>Actions</th></tr></thead>
+          <tbody id="payoutTable"></tbody>
+        </table>
+      </div>
+      <span class="history-label">History</span>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Partner</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="payoutHistoryTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
-    if (!isValidSocialLink(links)) {
-      alert("Please enter a valid https:// link to YouTube, Telegram, Instagram, X/Twitter, or Facebook.");
-      return;
-    }
+  <!-- ================= LEGACY REQUESTS TAB (last) ================= -->
+  <section id="tab-legacy" class="tab-panel">
+    <div class="panel-card">
+      <h3>Legacy Manual Buy Requests</h3>
+      <p class="hint">Kept as a fallback only — the automated Razorpay flow handles all new purchases.</p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>User</th><th>UTR</th><th>Amount</th><th>Actions</th></tr></thead>
+          <tbody id="legacyPaymentTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
-    btn.disabled = true;
-    btn.innerText = "Processing...";
+</div>
 
-    const { data: recent } = await _supabase.from('coupon_requests')
-      .select('created_at').eq('email', userEmail).order('created_at', { ascending: false }).limit(1);
-
-    if (recent && recent.length > 0) {
-      const lastTime = new Date(recent[0].created_at);
-      if ((new Date() - lastTime) / (1000 * 60 * 60) < 24) {
-        alert("Error: You can only submit one request every 24 hours.");
-        btn.disabled = false; btn.innerText = "Submit Partnership Request";
-        return;
-      }
-    }
-
-    const code = document.getElementById('requestedCode').value;
-    const { data: codeExists } = await _supabase.from('coupons').select('code').eq('code', code).maybeSingle();
-    const { data: reqExists } = await _supabase.from('coupon_requests').select('requested_code').eq('requested_code', code).maybeSingle();
-
-    if (codeExists || reqExists) {
-      alert("This coupon code is already taken. Please try another.");
-      btn.disabled = false; btn.innerText = "Submit Partnership Request";
-      return;
-    }
-
-    const { error: insertError } = await _supabase.from('coupon_requests').insert([{
-      user_id: profile.id,
-      username: document.getElementById('partnerName').value,
-      email: userEmail,
-      phone: document.getElementById('partnerPhone').value,
-      upi_id: document.getElementById('partnerUpi').value,
-      channel_links: links,
-      requested_code: code,
-      status: 'pending'
-    }]);
-
-    if (!insertError) {
-      localStorage.setItem('pending_partner_request', 'true');
-      alert("Request Submitted! Verification takes 12-24 hours.");
-      location.reload();
-    } else {
-      alert("Error: " + insertError.message);
-      btn.disabled = false; btn.innerText = "Submit Partnership Request";
-    }
-  });
-
-  async function checkRequestStatus() {
-    const profile = getLocalProfile();
-    const { data } = await _supabase.from('coupon_requests')
-      .select('status, requested_code').eq('user_id', profile.id)
-      .order('created_at', { ascending: false }).limit(1).maybeSingle();
-
-    if (data) {
-      if (data.status === 'pending') {
-        alert(`⏳ Under Review: Your request for code [${data.requested_code}] is being verified.`);
-      } else if (data.status === 'approved') {
-        localStorage.removeItem('pending_partner_request');
-        alert("🎉 Approved! Redirecting to your new Partner Dashboard...");
-        window.location.href = "/partner-dashboard.html";
-      } else if (data.status === 'rejected') {
-        localStorage.removeItem('pending_partner_request');
-        alert("❌ Rejected: Your application was not accepted. Contact support for details.");
-        location.reload();
-      }
-    } else {
-      alert("No active partnership requests found.");
-    }
-  }
-</script>
+<script src="/admin-vault.js"></script>
 </body>
 </html>
 
