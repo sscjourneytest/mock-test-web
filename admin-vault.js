@@ -3,6 +3,40 @@ let myRole = null;
 let myToken = null;
 
 // -----------------------------------------------------------
+// IST helpers
+// All "day" boundaries and calendar-date groupings in this file
+// are anchored to IST (UTC+5:30), not the browser's local zone
+// and not raw UTC. created_at in Supabase is stored in UTC, so
+// every comparison/grouping converts through these helpers.
+// -----------------------------------------------------------
+const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+
+// Returns a Date representing UTC-instant-equivalent of IST midnight
+// for "today" (or for an arbitrary Date passed in).
+function istMidnightUTC(baseDate = new Date()) {
+  const istNow = new Date(baseDate.getTime() + IST_OFFSET_MS);
+  const y = istNow.getUTCFullYear();
+  const m = istNow.getUTCMonth();
+  const d = istNow.getUTCDate();
+  // Midnight IST expressed as a UTC instant = UTC midnight - 5:30
+  return new Date(Date.UTC(y, m, d) - IST_OFFSET_MS);
+}
+
+// Parses a "YYYY-MM-DD" <input type="date"> value as IST midnight
+// (not UTC midnight, which is what `new Date("YYYY-MM-DD")` gives).
+function istDateInputToUTC(dateStr) {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d) - IST_OFFSET_MS);
+}
+
+// Given an ISO timestamp string, returns its IST calendar date
+// as "YYYY-MM-DD" for grouping purposes.
+function toISTDateKey(isoString) {
+  const istDate = new Date(new Date(isoString).getTime() + IST_OFFSET_MS);
+  return istDate.toISOString().slice(0, 10);
+}
+
+// -----------------------------------------------------------
 // Role gate
 // -----------------------------------------------------------
 document.addEventListener("DOMContentLoaded", async () => {
@@ -93,24 +127,24 @@ initRevenueFilters();
 
 async function loadRevenue(range, customFrom, customTo) {
   let fromDate;
-  const now = new Date();
 
   if (range === "today") {
-    fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    fromDate = istMidnightUTC();
   } else if (range === "7") {
-    fromDate = new Date(now.getTime() - 7 * 86400000);
+    fromDate = new Date(istMidnightUTC().getTime() - 6 * 86400000);
   } else if (range === "30") {
-    fromDate = new Date(now.getTime() - 30 * 86400000);
+    fromDate = new Date(istMidnightUTC().getTime() - 29 * 86400000);
   } else if (range === "all") {
     fromDate = new Date("2000-01-01");
   } else if (range === "custom") {
-    fromDate = new Date(customFrom);
+    fromDate = istDateInputToUTC(customFrom);
   }
 
   let query = _supabase.from("payments").select("amount_paid, created_at").gte("created_at", fromDate.toISOString());
   if (range === "custom" && customTo) {
-    const toDate = new Date(customTo);
-    toDate.setHours(23, 59, 59, 999);
+    // End of day IST for the "to" date = start of next IST day
+    const toStart = istDateInputToUTC(customTo);
+    const toDate = new Date(toStart.getTime() + 86400000 - 1);
     query = query.lte("created_at", toDate.toISOString());
   }
 
@@ -121,10 +155,10 @@ async function loadRevenue(range, customFrom, customTo) {
   document.getElementById("periodRevenue").textContent = "₹" + total.toLocaleString("en-IN");
   document.getElementById("periodCount").textContent = rows.length;
 
-  // Group by day
+  // Group by IST calendar day
   const byDay = {};
   rows.forEach((p) => {
-    const day = new Date(p.created_at).toISOString().slice(0, 10);
+    const day = toISTDateKey(p.created_at);
     if (!byDay[day]) byDay[day] = { count: 0, revenue: 0 };
     byDay[day].count++;
     byDay[day].revenue += Number(p.amount_paid);
@@ -133,7 +167,11 @@ async function loadRevenue(range, customFrom, customTo) {
   const days = Object.keys(byDay).sort().reverse();
   let html = "";
   days.forEach((day) => {
-    html += `<tr><td>${new Date(day).toDateString()}</td><td>${byDay[day].count}</td><td>₹${byDay[day].revenue.toLocaleString("en-IN")}</td></tr>`;
+    // day is "YYYY-MM-DD" in IST — render without re-parsing through
+    // local Date (which would shift it back across midnight again).
+    const [y, m, d] = day.split("-").map(Number);
+    const label = new Date(y, m - 1, d).toDateString();
+    html += `<tr><td>${label}</td><td>${byDay[day].count}</td><td>₹${byDay[day].revenue.toLocaleString("en-IN")}</td></tr>`;
   });
   document.getElementById("revenueTable").innerHTML = html || '<tr><td colspan="3">No payments in this period.</td></tr>';
 }
@@ -283,7 +321,7 @@ function wireForms() {
     const { error } = await _supabase.from("coupons").insert([{
       code, owner_name: ownerName || "MMH Sale", discount_percent: discount, payout_percent: payout,
       upi_id: upi || null, is_active: true,
-      valid_until: validUntil ? new Date(validUntil).toISOString() : null,
+      valid_until: validUntil ? istDateInputToUTC(validUntil).toISOString() : null,
     }]);
     if (error) return alert("Error: " + error.message);
     alert("Sale coupon created!");
@@ -393,3 +431,4 @@ async function rejectLegacy(id) {
   await _supabase.from("payment_requests").update({ status: "rejected", rejection_reason: reason }).eq("id", id);
   loadLegacyPayments();
 }
+
