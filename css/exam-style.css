@@ -139,6 +139,36 @@ body.dark-mode {
     gap: 10px;
 }
 
+/* --- SKELETON LOADING CARD --- */
+.skeleton-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.skeleton-line {
+    background: var(--border);
+    border-radius: 6px;
+    animation: skeleton-blink 1.2s ease-in-out infinite;
+}
+
+.skeleton-title { height: 14px; width: 65%; margin-bottom: 8px; }
+.skeleton-meta  { height: 11px; width: 40%; }
+.skeleton-btn   { height: 32px; width: 90px; border-radius: 8px; flex-shrink: 0; }
+
+@keyframes skeleton-blink {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
 .card-info { flex: 1; min-width: 0; } /* Allow text to wrap/truncate */
 
 .card-title { 
@@ -250,4 +280,5 @@ body.dark-mode .pill-filter.active {
 body.dark-mode .score-text {
     color: var(--text-dark);
 }
+
 

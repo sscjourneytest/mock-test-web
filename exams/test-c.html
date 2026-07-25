@@ -1469,6 +1469,7 @@ body.mode-solution .container {
   --dash-pink: #db2777;
   --text-dark-solid: #111111;
   --track-gray: #e9ecef;
+  --result-header-height: 52px; /* height of the sticky dash-header-bar */
 }
 
 [data-theme="dark"] {
@@ -1476,39 +1477,21 @@ body.mode-solution .container {
   --track-gray: #2a2a2a;
 }
 
-/* ==========================================================================
-   9. HYBRID DUAL-DEVICE EDGE-TO-EDGE RESULT DASHBOARD DESIGN
-   ========================================================================== */
-
-/* High-Contrast Design Structural Tokens */
-:root {
-  --dash-blue: #2563eb;
-  --dash-green: #10b981;
-  --dash-red: #ef4444;
-  --dash-gold: #f59e0b;
-  --dash-pink: #db2777;
-  --text-dark-solid: #111111;
-  --track-gray: #e9ecef;
-}
-
-[data-theme="dark"] {
-  --text-dark-solid: #ffffff;
-  --track-gray: #2a2a2a;
-}
-
-/* ── MULTI-DEVICE MASTER WORKSPACE OVERRIDES ── */
+/* ── FIX 1: #results escapes .container left padding (16px) and top padding (12px) ── */
 #results {
   position: relative !important;
   background: var(--results-bg) !important;
-  width: 100% !important;
+  /* Pull left by 16px (container padding-left) and expand width to cover it */
+  width: calc(100% + 16px) !important;
   min-height: 100vh;
-  margin: 0 !important;
+  margin: -12px 0 0 -16px !important;
   padding: 0 !important;
   display: none;
   z-index: 100;
   box-sizing: border-box;
 }
-  .analysis-container {
+
+.analysis-container {
   background: var(--analysis-bg);
   width: 100% !important;
   max-width: 100% !important;
@@ -1517,36 +1500,48 @@ body.mode-solution .container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  }
+}
 
-
-
+/* ── FIX 2: main content window — push down by header height on desktop so header doesn't overlap content ── */
 .main-dashboard-window {
   flex: 1;
   width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
   margin-left: 260px;
+  /* Push content below the sticky header */
+  padding-top: var(--result-header-height);
 }
-  @media (max-width: 991px) {
+
+@media (max-width: 991px) {
   .main-dashboard-window {
     margin-left: 0;
+    padding-top: var(--result-header-height);
   }
   .dash-sidebar {
     display: none;
   }
-  }
-
-
-
+}
 
 /* Base View Layout Visibility Mechanics */
-.mobile-performance-view { display: block; }  /* Default on Phone */
-.desktop-performance-view { display: none; } /* Hidden on Phone */
+.mobile-performance-view { display: block; }
+.desktop-performance-view { display: none; }
 
 /* ── MULTI-DEVICE EDGE-TO-EDGE FLUID CONTENT WINDOW ── */
 .content-body {
-  padding: 0 0 40px 0 !important; /* Complete removal of side padding to fit full-bleed screen edge-to-edge */
+  padding: 0 0 40px 0 !important;
+}
+
+/* ── FIX 3: Inner elements get 12px breathing room so nothing touches screen edges ── */
+.subheader-banner,
+.module-section-title,
+.compare-tabs-list,
+.legend-box,
+.comparison-table-stack,
+.toppers-avatars-row {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  box-sizing: border-box;
 }
 
 /* Mobile Icon Grid Engine Cards Layout */
@@ -1557,7 +1552,7 @@ body.mode-solution .container {
   row-gap: 20px;
   margin-bottom: 25px;
   margin-top: 15px;
-  padding: 0 12px; /* Isolates item card bounds slightly from inner view limits */
+  padding: 0 12px;
 }
 
 .stat-card-mobile {
@@ -1624,7 +1619,7 @@ body.mode-solution .container {
 .math-card-panel {
   border: 2px solid transparent;
   border-radius: 14px;
-  background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, 
+  background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
               linear-gradient(135deg, #ff6b6b, #4dabf7) border-box;
   padding: 15px;
   display: flex;
@@ -1639,7 +1634,7 @@ body.mode-solution .container {
 .math-card-text span:last-child { color: var(--text-dark-solid); }
 
 /* --- LEFT NAV SIDEBAR (Desktop Locked View Mode) --- */
-  .dash-sidebar {
+.dash-sidebar {
   width: 260px;
   background-color: var(--card-bg);
   border-right: 1px solid var(--border-color);
@@ -1647,14 +1642,14 @@ body.mode-solution .container {
   flex-direction: column;
   flex-shrink: 0;
   position: fixed;
+  /* ── FIX 4: sidebar starts BELOW the sticky header so they don't overlap ── */
   top: 0;
   left: 0;
-  height: 100vh;
+  height: calc(100vh - var(--result-header-height));
   overflow-y: auto;
   scrollbar-width: thin;
   z-index: 10;
-  }
-
+}
 
 .sidebar-brand-header {
   padding: 16px 20px;
@@ -1709,49 +1704,107 @@ body.mode-solution .container {
 .sidebar-item-link.link-premium i { color: var(--dash-gold); }
 .sidebar-divider { border-top: 1px solid var(--border-color); margin: 10px 0; }
 
-/* Universal Layout App-Bar Modules */
+
+/* ── FIX 5: dash-header-bar — fixed to top, full width, doesn't scroll, sits above sidebar ── */
+
 .dash-header-bar {
-  background-color: var(--dash-blue);
+  background: linear-gradient(135deg, #1e3fa0 0%, #2d55c8 100%);
+  
   color: #ffffff;
-  padding: 14px 15px;
+  height: var(--result-header-height);
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 260px;   /* desktop: starts after sidebar */
+  right: 0;
+  width: calc(100% - 260px);
+  z-index: 200;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
-.dash-header-title { font-size: 22px; font-weight: 700; }
-.dash-header-controls { display: flex; align-items: center; gap: 12px; }
-.dash-dropdown-select { background: #ffffff; color: #111111; border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 4px; font-size: 14px; font-weight: 600; }
-.dash-btn-solution { background-color: #ffffff; color: #111111; border: 1px solid var(--border-color); padding: 6px 16px; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+@media (max-width: 991px) {
+  .dash-header-bar {
+    left: 0;
+    width: 100%;
+  }
+}
+/* ── FIX 6: improved button styles inside the header ── */
+.dash-header-title {
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dash-header-controls { display: flex; align-items: center; gap: 10px; }
+
+  /* Attempt dropdown — frosted glass pill */
+.dash-dropdown-select {
+  background: rgba(255,255,255,0.18);
+  color: #ffffff;
+  border: 1.5px solid rgba(255,255,255,0.6);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.3px;
+}
+.dash-dropdown-select option {
+  background: #1e40af;
+  color: #ffffff;
+}
+
+/* Solution button — red pill */
+.dash-btn-solution {
+  background-color: #e8445a;
+  color: #ffffff;
+  border: none;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  box-shadow: 0 2px 6px rgba(232,68,90,0.4);
+}
+.dash-btn-solution:hover { opacity: 0.88; }
 
 .subheader-banner { padding: 20px 12px 10px 12px; font-size: 19px; font-weight: 700; color: var(--text-dark-solid); }
 .module-section-title { font-size: 17px; font-weight: 700; color: var(--text-dark-solid); margin-top: 35px; margin-bottom: 18px; padding: 0 12px; display: flex; align-items: center; gap: 10px; }
 .badge-cutoff { background-color: var(--dash-red); color: #ffffff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
 
-/* Filter Tabs Refactored Into Separate Pill Buttons Layout */
-.compare-tabs-list { 
-  display: flex; 
-  gap: 10px; 
-  margin-bottom: 22px; 
-  overflow-x: auto; 
-  padding: 0 12px 8px 12px; 
+/* Filter Tabs */
+.compare-tabs-list {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 22px;
+  overflow-x: auto;
+  padding: 0 12px 8px 12px;
   border-bottom: none !important;
 }
-.compare-tab-item { 
-  font-size: 14px; 
-  font-weight: 600; 
-  color: var(--muted-text); 
-  padding: 6px 16px; 
-  cursor: pointer; 
-  border: 1.5px solid var(--border-color); 
-  border-radius: 0; 
-  background: #ffffff; 
-  white-space: nowrap; 
-  transition: all 0.2s ease; 
+.compare-tab-item {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted-text);
+  padding: 6px 16px;
+  cursor: pointer;
+  border: 1.5px solid var(--border-color);
+  border-radius: 0;
+  background: #ffffff;
+  white-space: nowrap;
+  transition: all 0.2s ease;
 }
-.compare-tab-item.active { 
-  color: var(--dash-blue); 
-  border-color: var(--dash-blue); 
-  background: rgba(37, 99, 235, 0.05); 
+.compare-tab-item.active {
+  color: var(--dash-blue);
+  border-color: var(--dash-blue);
+  background: rgba(37, 99, 235, 0.05);
 }
 .compare-tab-item.active::after { display: none !important; }
 
@@ -1769,77 +1822,55 @@ body.mode-solution .container {
 .fill-t-flat { background-color: var(--dash-gold); height: 100%; }
 .val-metric-side { width: 110px; display: flex; flex-direction: column; gap: 5px; text-align: left; font-size: 13px; color: var(--text-dark-solid); font-weight: 700; }
 
-/* Leaderboard Profile Row Layout Configuration */
-.toppers-avatars-row { 
-  display: flex; 
-  flex-wrap: wrap; /* Permits safe row multi-line layout folding instead of single-line horizontal scrolling */
-  gap: 12px; 
-  margin-top: 15px; 
+/* Leaderboard Profile Row */
+.toppers-avatars-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
   padding: 10px 12px 15px 12px;
 }
 
-.topper-avatar-box { 
-  flex: 0 0 calc(14.28% - 11px); /* Splits uniformly across a 7-column layout footprint on desktops */
+.topper-avatar-box {
+  flex: 0 0 calc(14.28% - 11px);
   min-width: 90px;
-  background: var(--card-bg); 
-  border-radius: 8px; 
-  padding: 8px 4px; 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   box-sizing: border-box;
 }
 
-/* Perfect reference-matched circular profile icon container */
-.user-circle-icon { 
-  width: 52px; 
-  height: 52px; 
-  background-color: #2563eb; 
-  border-radius: 50%; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  color: #ffffff !important; 
-  font-size: 24px; 
-  margin-bottom: 6px; 
-  box-shadow: 0 0 0 4px #ffffff, 0 4px 10px rgba(0,0,0,0.15); 
+.user-circle-icon {
+  width: 52px;
+  height: 52px;
+  background-color: #2563eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff !important;
+  font-size: 24px;
+  margin-bottom: 6px;
+  box-shadow: 0 0 0 4px #ffffff, 0 4px 10px rgba(0,0,0,0.15);
 }
 
-.top-rnk-num { 
-  font-size: 11px; 
-  color: var(--muted-text); 
-  font-weight: 500; 
-  margin-bottom: 2px; 
-}
-
-.top-user-name { 
-  font-size: 11px; 
-  color: var(--text-dark-solid); 
-  font-weight: 600; 
-  width: 100%;
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  margin-bottom: 2px; 
-}
-
-.top-user-score { 
-  font-size: 11px; 
-  color: var(--muted-text); 
-  font-weight: 700; 
-}
+.top-rnk-num { font-size: 11px; color: var(--muted-text); font-weight: 500; margin-bottom: 2px; }
+.top-user-name { font-size: 11px; color: var(--text-dark-solid); font-weight: 600; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.top-user-score { font-size: 11px; color: var(--muted-text); font-weight: 700; }
 
 .right-social-panel { position: fixed; right: 10px; top: 320px; display: flex; flex-direction: column; gap: 12px; z-index: 101; }
 .social-icon-btn { width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #ffffff; font-size: 14px; text-decoration: none; }
 
-/* ── DESKTOP MONITOR SPECIFIC RULES (>= 992px) ── */
+/* ── DESKTOP >= 992px ── */
 @media (min-width: 992px) {
-  .mobile-performance-view { display: none !important; }  
-  .desktop-performance-view { display: grid !important; padding: 0 12px; } 
-  
-  /* Thick SVG Ring Chart Layout configuration rules */
+  .mobile-performance-view { display: none !important; }
+  .desktop-performance-view { display: grid !important; padding: 0 12px; }
+
   .performance-rings-row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -1868,26 +1899,26 @@ body.mode-solution .container {
    ========================================================================== */
 @media (max-width: 991px) {
   #timeWarningLabel,
-  .dash-sidebar, .sidebar { 
-    display: none !important; 
+  .dash-sidebar, .sidebar {
+    display: none !important;
   }
 
   .dash-header-title {
-    font-size: 16px !important;
+    font-size: 14px !important;
   }
 
-  /* Single-Row Horizontal Scrolling Subject Performance Panels Container */
+  /* Single-Row Horizontal Scrolling Subject Performance Panels */
   .section-wise-grid {
-    display: flex !important; 
+    display: flex !important;
     gap: 12px !important;
-    overflow-x: auto !important; 
-    padding: 8px 4px 15px 4px !important;
+    overflow-x: auto !important;
+    padding: 8px 12px 15px 12px !important;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
   }
 
   .math-card-panel {
-    flex: 0 0 210px !important; 
+    flex: 0 0 210px !important;
     width: 210px !important;
     min-height: 160px;
     border: 2px solid transparent;
@@ -1901,24 +1932,24 @@ body.mode-solution .container {
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     box-sizing: border-box;
   }
-.math-card-title { 
-    font-size: 14px; 
-    font-weight: 700; 
-    color: var(--text-dark-solid); 
+
+  .math-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark-solid);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+  }
 
-
-  /* Leaderboard Grid Matrix Override - Maps cleanly inside a standard 3-column multi-row wrap schema */
-  .toppers-avatars-row { 
+  /* Leaderboard Grid 3-column */
+  .toppers-avatars-row {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 10px !important;
-    padding: 10px 4px 15px 4px !important;
+    padding: 10px 12px 15px 12px !important;
   }
-  
+
   .topper-avatar-box {
     flex: none !important;
     width: 100% !important;
@@ -1936,29 +1967,28 @@ body.mode-solution .container {
     margin-bottom: 10px !important;
     font-weight: 700;
   }
-
-  .dash-dropdown-select,
+.dash-dropdown-select,
   .dash-btn-solution {
-    padding: 4px 10px !important;
+    padding: 4px 12px !important;
     font-size: 12px !important;
-    border-radius: 6px !important;
+    border-radius: 20px !important;
   }
+
 
   .grid-container-mobile {
     column-gap: 12px !important;
     row-gap: 14px !important;
     margin-bottom: 15px !important;
     margin-top: 10px !important;
-    padding: 0 4px !important;
+    padding: 0 12px !important;
   }
 
   .stat-title-mobile { font-size: 12px !important; font-weight: 600 !important; }
   .stat-value-mobile { font-size: 11px !important; font-weight: 700 !important; }
   .ui-icon-mobile { width: 32px !important; height: 32px !important; }
 
-  /* Ultra Long & Thin Metric Progress Bars Tuning Engine */
   .lbl-metric-side {
-    width: 65px !important; /* Maximizes horizontal space lane stretch for metrics lines */
+    width: 65px !important;
     font-size: 12px !important;
   }
 
@@ -1968,10 +1998,8 @@ body.mode-solution .container {
     gap: 4px !important;
     text-align: right !important;
   }
-  
-  .comp-metric-line {
-    margin-bottom: 6px;
-  }
+
+  .comp-metric-line { margin-bottom: 6px; }
 
   .bars-dual-combinator {
     gap: 6px !important;
@@ -1979,16 +2007,16 @@ body.mode-solution .container {
   }
 
   .progress-bar-flat {
-    height: 8px !important; /* Slimmed track rule line to look crisp and long */
+    height: 8px !important;
     border-radius: 0;
   }
-  
+
   .compare-tabs-list {
     gap: 6px !important;
     margin-bottom: 15px !important;
-    padding: 0 4px 8px 4px !important;
+    padding: 0 12px 8px 12px !important;
   }
-  
+
   .compare-tab-item {
     font-size: 12px !important;
     padding: 4px 12px !important;
@@ -2058,13 +2086,30 @@ mjx-container[display="true"] {
   max-width: 100% !important;
 }
 
-/* Allow math content to wrap */
+/* Allow math content to wrap, but never break inside a \text{} phrase */
 mjx-math {
   white-space: normal !important;
+}
+mjx-mtext {
+  white-space: nowrap !important;
 }
 .qtext, #qtext, .opt-text, .explanation {
   overflow-wrap: break-word !important;
   word-break: normal !important;
+}
+
+/* Caps an <img> only if it would otherwise be wider than its container
+   (e.g. a math-as-image or handwritten-solution photo injected via JSON
+   text). max-width never enlarges a smaller image, and height:auto only
+   applies once max-width has actually reduced the width, so images that
+   already fit are completely unaffected — no display/margin/alignment
+   changes, nothing else touched. */
+.qtext img,
+#qtext img,
+.opt-text img,
+.explanation img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Update your .container and .card styles */
@@ -2092,11 +2137,52 @@ mjx-math {
   display:flex; justify-content:center; align-items:center; flex-direction:column;
 }
 .spinner {
-  width: 40px; height: 40px; border: 4px solid #f3f3f3;
-  border-top: 4px solid #0b5ed7; border-radius: 50%;
-  animation: spin 1s linear infinite; margin-bottom:15px;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: conic-gradient(from 0deg, #2563eb 0%, #f59e0b 50%, #2563eb 100%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+  animation: spin 0.9s linear infinite; margin-bottom:15px;
+  filter: drop-shadow(0 2px 6px rgba(37, 99, 235, 0.35));
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Premium Required Box (shown inside loadingOverlay when a test needs premium) */
+.premium-required-box {
+  text-align: center;
+  max-width: 340px;
+  padding: 32px 28px;
+  background: var(--card-bg, #fff);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+.prb-icon {
+  width: 64px; height: 64px; margin: 0 auto 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+}
+.prb-icon i { font-size: 26px; color: #fff; }
+.prb-title {
+  font-size: 18px; font-weight: 800; margin: 0 0 8px;
+  color: var(--body-text, #0f172a);
+}
+.prb-subtitle {
+  font-size: 13.5px; color: var(--muted-text, #64748b);
+  margin: 0 0 22px; line-height: 1.5;
+}
+.prb-buy-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border-radius: 50px;
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 60%, #f59e0b 100%);
+  color: #fff !important; font-weight: 800; font-size: 14px;
+  text-decoration: none; letter-spacing: 0.3px;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.prb-buy-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(245, 158, 11, 0.45); }
+.prb-buy-btn i { font-size: 14px; }
 
   /* =========================================
    NEW: SECTION NAVIGATION & TABLE STYLES
@@ -2366,10 +2452,14 @@ mjx-math {
   body.mode-solution .hdr-timer-box {
   display: none !important;
 }
-  body.mode-result #paletteBtn {
+  
+body.mode-result #paletteBtn {
   display: none !important;
 }
 
+body.mode-result button[onclick*="refreshLatestRankOnDemand"] {
+  display: none !important;
+}
 body.mode-result #palette {
   display: none !important;
 }
@@ -2422,65 +2512,66 @@ body.mode-solution #palSectionSubmitBtn {
 };
 
 /* --- GLOBAL CONFIGURATION (Add at the very top of your first script) --- */
-const urlParams = new URLSearchParams(window.location.search);
+// Fixes links where & and = inside the id were encoded as %26 / %3D (e.g. ?id=X%26section%3DY)
+function getFixedSearchParams() {
+  const fixedSearch = window.location.search.replace(/%26/gi, '&').replace(/%3D/gi, '=');
+  return new URLSearchParams(fixedSearch);
+}
+const urlParams = getFixedSearchParams();
 const quizIdParam = urlParams.get('id') || ""; // KEEP EXACT CASE for file fetching
 const quizIdLower = quizIdParam.toLowerCase();
 
 // Define these globally using 'var' or 'let' outside any function
 var GITHUB_PATH = ""; 
-var selectedConfig = null;
 
-// Logic to decide Path and Firebase Project
+// Logic to decide GitHub content path for this exam
+// (per-exam Firebase project selection removed — quiz_results/attempt_history
+// now live in D1, not Firebase; only the shared "common" Firebase project
+// below, used for Saved Questions, is still needed.)
 if (quizIdLower.includes("cgl")) {
-    selectedConfig = FIREBASE_PROJECTS.cgl;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cgl/subject" : "ssc/cgl/full-mock";
 } 
 else if (quizIdLower.includes("chsl")) {
-    selectedConfig = FIREBASE_PROJECTS.chsl;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/chsl/subject" : "ssc/chsl/full-mock";
 }
 else if (quizIdLower.includes("mts")) {
-    selectedConfig = FIREBASE_PROJECTS.mts;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/mts/subject" : "ssc/mts/full-mock";
 }
   else if (quizIdLower.includes("selection-post")) {
-    selectedConfig = FIREBASE_PROJECTS.phase;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/phase/subject" : "ssc/phase/full-mock";
 }
  else if (quizIdLower.includes("gd")) {
-    selectedConfig = FIREBASE_PROJECTS.gd;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/gd/subject" : "ssc/gd/full-mock";
   }
 else if (quizIdLower.includes("cpo")) {
-    selectedConfig = FIREBASE_PROJECTS.cpo;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/cpo/subject" : "ssc/cpo/full-mock";
 }
 else if (quizIdLower.includes("steno")) {
-    selectedConfig = FIREBASE_PROJECTS.steno;
     GITHUB_PATH = quizIdLower.includes("-sub") ? "ssc/steno/subject" : "ssc/steno/full-mock";
   }
 
 else if (quizIdLower.includes("ssc-sub-25")) {
-    selectedConfig = FIREBASE_PROJECTS["ssc-sub"];
     GITHUB_PATH = "ssc-sub/2025/mocks";
 }
   else if (quizIdLower.includes("ntpcg")) {
-    selectedConfig = FIREBASE_PROJECTS.ntpc;
     GITHUB_PATH = "rrb/ntpcg/full-mock";
   }
+    else if (quizIdLower.includes("ntpc-ug")) {
+    GITHUB_PATH = "rrb/ntpc-ug/full-mock";
+    }
   
   else if (quizIdLower.includes("imps")) {
-    selectedConfig = FIREBASE_PROJECTS.imps;
     GITHUB_PATH = "imps/full-mock";
   }
-// Initialize with selected project
-if (selectedConfig) {
-    firebase.initializeApp(selectedConfig);
-} else {
-    console.error("No Firebase config mapped for ID:", quizIdParam);
-}
-const db = firebase.database();
-  // ✅ 1. Initialize the secondary project for Saved Questions
+
+// D1 Attempts Worker URL — resolved from /cloudflare-config.json (same
+// substring-matching logic as the GitHub path selection above, just
+// sourced from an external file instead of a hardcoded object). See
+// loadAttemptsWorkerConfig(), called at the start of loadQuizData().
+var ATTEMPTS_WORKER_URL = "";
+
+// Initialize the shared "common" Firebase project — still needed for
+// Saved Questions (bookmarks), which is unrelated to quiz results/rank.
 const commonApp = firebase.initializeApp(FIREBASE_PROJECTS.common, "CommonApp");
 const savedDb = commonApp.database();
 
@@ -2491,8 +2582,15 @@ const savedDb = commonApp.database();
 </head>
 <body>
 <div id="loadingOverlay">
-  <div class="spinner"></div>
+  <div class="spinner" id="loaderSpinner"></div>
   <h3 id="loadingText">FETCHING TEST...</h3>
+
+  <div id="premiumRequiredBox" class="premium-required-box" style="display:none;">
+    <div class="prb-icon"><i class="fa-solid fa-crown"></i></div>
+    <h3 class="prb-title">This Test is for Premium Members</h3>
+    <p class="prb-subtitle">Unlock this test and hundreds more by upgrading to Mock Matrix Hub Premium.</p>
+    <a href="/pricing.html" class="prb-buy-btn"><i class="fa-solid fa-crown"></i> Buy Mock Matrix Hub Premium</a>
+  </div>
 </div>
 
 <div class="welcome-screen" id="welcomeScreen">
@@ -2861,6 +2959,27 @@ const savedDb = commonApp.database();
   </div>
 </div>
 
+<div id="saveSubjectModal" class="report-modal">
+  <div class="report-content">
+    <h3>Save Question</h3>
+    <label class="report-label">Select subject in which questions belongs</label>
+    <select id="saveSubjectSelect" class="report-input">
+      <option value="">-- Select Subject --</option>
+      <option value="MATHS">MATHS</option>
+      <option value="REASONING">REASONING</option>
+      <option value="GK & GS">GK & GS</option>
+      <option value="ENGLISH">ENGLISH</option>
+      <option value="HINDI">HINDI</option>
+      <option value="COMPUTER">COMPUTER</option>
+      <option value="Other">Other</option>
+    </select>
+    <div class="report-actions">
+      <button class="report-btn cancel" onclick="hideSaveSubjectModal()">Cancel</button>
+      <button id="confirmSaveSubjectBtn" class="report-btn submit" style="background:var(--accent);" onclick="confirmSaveWithSubject()">Save</button>
+    </div>
+  </div>
+</div>
+
 <script>
 
 // 🔧 DYNAMIC CONFIGURATION
@@ -2885,6 +3004,7 @@ let seconds = 0;              // Changed from placeholder
 let timerInterval = null;
 let isQuiz = true;
 let LAST_RESULT_HTML = "";
+let VIEWING_HISTORICAL_ATTEMPT = false; // true while showing a past (non-latest) attempt via viewAttempt()
 let isPracticeToggle = false;
 let currentLang = "en";
 
@@ -2896,7 +3016,7 @@ let SECTION_NAMES = [];      // New: Names for Part-A, Part-B
 let currentSectionIdx = 0;   // New: Active section tracking
 
 
-const RESULT_HTML_VERSION = "v0";
+const RESULT_HTML_VERSION = "v10";
 
 let sectionTime = {};
 let SECTION_TIMERS = {};     // seconds per section from JSON
@@ -3366,7 +3486,7 @@ const getLangText = (obj) => {
   const imgBox = document.getElementById("questionImage");
   imgBox.innerHTML = "";
 
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = getFixedSearchParams();
   const baseQuizId = urlParams.get('id');
   const qidStr = String(q.id);
   const cleanIdx = parseInt(qidStr.slice(1));
@@ -3582,12 +3702,12 @@ async function saveQuestion() {
 
   if (saveBtn.disabled) return;
 
-  // Get current saves from Local Storage
+  // Get current saves from Local Storage (value = subject the question was saved under)
   let localSaves = JSON.parse(localStorage.getItem(storageKey) || "{}");
-  const isAlreadySaved = localSaves[uniqueKey];
+  const savedSubject = localSaves[uniqueKey];
 
   // --- CASE A: UNSAVE THE QUESTION ---
-  if (isAlreadySaved) {
+  if (savedSubject) {
     const confirmUnsave = confirm("This question is already saved. Do you want to remove it from your saved collection?");
     if (!confirmUnsave) return;
 
@@ -3595,8 +3715,8 @@ async function saveQuestion() {
       saveBtn.disabled = true;
       saveBtn.style.opacity = "0.6";
 
-      // 1. Remove from Common Firebase Project
-      await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${uniqueKey}`).remove();
+      // 1. Remove from Common Firebase Project (subject-wise path)
+      await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${savedSubject}/${uniqueKey}`).remove();
 
       // 2. Remove from Local Storage
       delete localSaves[uniqueKey];
@@ -3616,18 +3736,48 @@ async function saveQuestion() {
     return;
   }
 
-  // --- CASE B: SAVE THE QUESTION ---
+  // --- CASE B: SAVE THE QUESTION -> ask for subject first ---
+  showSaveSubjectModal();
+}
+
+function showSaveSubjectModal() {
+  const sel = document.getElementById('saveSubjectSelect');
+  if (sel) sel.value = "";
+  document.getElementById('saveSubjectModal').style.display = 'flex';
+}
+
+function hideSaveSubjectModal() {
+  document.getElementById('saveSubjectModal').style.display = 'none';
+}
+
+// ✅ Called after user picks a subject in the popup and confirms
+async function confirmSaveWithSubject() {
+  const subject = document.getElementById('saveSubjectSelect').value;
+  if (!subject) {
+    alert("Please select a subject.");
+    return;
+  }
+  hideSaveSubjectModal();
+
+  const q = QUESTIONS[current];
+  const saveBtn = document.getElementById('cardSaveBtn');
+  const storageKey = `saved_status_${USER_EMAIL_KEY}`;
+  const uniqueKey = `${QUIZ_ID}_${q.id}`;
+  let localSaves = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
   try {
     saveBtn.disabled = true;
     saveBtn.style.opacity = "0.6";
 
-    await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${uniqueKey}`).set({
+    // Firebase path: saved_questions / username / subject / question
+    await savedDb.ref(`saved_questions/${USER_EMAIL_KEY}/${subject}/${uniqueKey}`).set({
       quiz_id: QUIZ_ID,
+      subject: subject,
       question_data: q,
       saved_at: Date.now()
     });
 
-    localSaves[uniqueKey] = true;
+    localSaves[uniqueKey] = subject;
     localStorage.setItem(storageKey, JSON.stringify(localSaves));
 
     saveBtn.classList.add('saved');
@@ -3705,7 +3855,7 @@ async function submitReport() {
   const reportLink = window.location.href; // Captures exact URL including quiz ID
 
 
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = getFixedSearchParams();
   const quizIdParam = urlParams.get('id');
   // 1. Define variables for Deep Links
   // We use the global QUIZ_ID and GITHUB_PATH defined at the top of your template
@@ -3827,8 +3977,7 @@ function normalizeMathForQuiz(container) {
   if (!container) return;
   // Convert $$...$$ block math to \(...\) inline math for better mobile flow
   container.innerHTML = container.innerHTML
-    .replace(/(\S)\s*\$\$(.+?)\$\*\s*(\S)/g, '$1 \\($2\\) $3')
-    .replace(/\$\$(.+?)\$\$/g, '\\($1\\)');
+    .replace(/\$\$([\s\S]+?)\$\$/g, '\\($1\\)');
 }
 // Update Prev/Next Button States for BOTH Desktop and Mobile
 function updateNavButtons() {
@@ -3985,7 +4134,10 @@ SECTION_NAMES.forEach(sName => {
     emailKey: USER_EMAIL_KEY,
     sections: sectionalDataForFirebase,
     responseStream: responseStream,
-    submittedAt: (isAuto === "silent" && answers.originalTimestamp) ? answers.originalTimestamp : Date.now()
+    submittedAt: Date.now(), // informational only now — At_no (not submittedAt) identifies the D1 row
+    // D1 row identifier: carried over from cloud recovery on the silent
+    // path, or filled in after saveAttemptHistory() resolves on a fresh submit.
+    atNo: (isAuto === "silent" && answers.originalAtNo) ? answers.originalAtNo : null
   };
 
   // --- DYNAMIC UI GENERATION MECHANICS ---
@@ -4001,6 +4153,13 @@ SECTION_NAMES.forEach(sName => {
     const pctScore = maxTotalMarks > 0 ? (totalMarks / maxTotalMarks * 100).toFixed(1) : 0;
     const pctAttempted = totalQuestionsCount > 0 ? (attempted / totalQuestionsCount * 100).toFixed(1) : 0;
 
+    // Top-of-dashboard status: either "viewing a past attempt" (with a way back
+    // to latest) or a sync indicator showing whether THIS attempt is confirmed
+    // saved in D1 (has an atNo) or not (save may have failed / still pending).
+    const syncBadgeHTML = VIEWING_HISTORICAL_ATTEMPT
+      ? `<div class="sync-status-badge" style="font-size:11px;margin-top:4px;color:#3498db;">📂 Attempt #${firebasePayload.atNo || '?'} (Past) &middot; <a href="javascript:void(0)" onclick="restoreLatestResult()" style="color:#3498db;text-decoration:underline;">Back to Latest</a></div>`
+      : `<div class="sync-status-badge" style="font-size:11px;margin-top:4px;color:${firebasePayload.atNo ? '#2ecc71' : '#e67e22'};">${firebasePayload.atNo ? '✅ Synced' : '⚠️ Not Synced'}</div>`;
+
     let dashboardHTML = `
     <div class="analysis-container">
       
@@ -4012,7 +4171,7 @@ SECTION_NAMES.forEach(sName => {
           </div>
           <div class="sidebar-user-box">
               <div class="user-avatar-circle"><i class="fa-solid fa-user"></i></div>
-              <div class="user-meta-info"><span class="user-name-title">${USER_DISPLAY_NAME}</span></div>
+              <div class="user-meta-info"><span class="user-name-title">${USER_DISPLAY_NAME}</span>${syncBadgeHTML}</div>
           
           </div>
           <div class="sidebar-menu-wrapper">
@@ -4031,10 +4190,10 @@ SECTION_NAMES.forEach(sName => {
           <div class="dash-header-bar">
               
               <div class="dash-header-title" style="display:flex;align-items:center;gap:12px;">
-  <button onclick="window.location.href='./'" style="background:#ffffff;color:#2563eb;border:1.5px solid #2563eb;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">Go to Test</button>
+  <button onclick="goToTestOrigin()" style="background:#e8445a;color:#ffffff;border:none;border-radius:20px;padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:0 2px 6px rgba(232,68,90,0.4);">Go to Test</button>
 </div>
               <div class="dash-header-controls">
-                  <select class="dash-dropdown-select"><option>Attempt 1</option></select>
+                  <select class="dash-dropdown-select" id="attemptSelectorDropdown" onfocus="populateAttemptSelector()" onchange="handleAttemptSelectorChange(this)">${firebasePayload.atNo ? `<option value="${firebasePayload.atNo}">Attempt ${firebasePayload.atNo}</option>` : `<option value="">Previous Attempts</option>`}</select>
                   <button class="dash-btn-solution" onclick="enterSolutionMode()">Solution</button>
               </div>
           </div>
@@ -4252,9 +4411,10 @@ SECTION_NAMES.forEach(sName => {
               <div class="toppers-avatars-row" id="toppersGalleryContainer"></div>
               
               <div style="text-align:center; margin-top:40px;">
-                 <button class="btn" style="width:100%; max-width:420px; padding:14px; background:var(--dash-blue) !important; color:#fff;" onclick="refreshLatestRankOnDemand(this)">
-                   🔄 GET LIVE UPDATED RANK
-                 </button>
+                 ${VIEWING_HISTORICAL_ATTEMPT
+                    ? `<button class="btn" style="width:100%; max-width:420px; padding:14px; background:#ccc !important; color:#fff; cursor:not-allowed;" disabled title="Go to your latest attempt to refresh rank">🔄 GET LIVE UPDATED RANK</button>`
+                    : `<button class="btn" style="width:100%; max-width:420px; padding:14px; background:var(--dash-blue) !important; color:#fff;" onclick="refreshLatestRankOnDemand(this)">🔄 GET LIVE UPDATED RANK</button>`
+                 }
               </div>
 
           </div>
@@ -4288,15 +4448,17 @@ SECTION_NAMES.forEach(sName => {
       rankData.percentile
     );
     
-LAST_RESULT_HTML = resBox.innerHTML;
+if (!VIEWING_HISTORICAL_ATTEMPT) {
+  LAST_RESULT_HTML = resBox.innerHTML;
   localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
-  submitted: true,
-  resultHTML: LAST_RESULT_HTML,
-  htmlVersion: RESULT_HTML_VERSION,
-  answers, marked, current: 0, questionTime,
-  sectionalData: sectionalDataForFirebase,
-  totalMarks, timeTakenSeconds, firebasePayload
-}));
+    submitted: true,
+    resultHTML: LAST_RESULT_HTML,
+    htmlVersion: RESULT_HTML_VERSION,
+    answers, marked, current: 0, questionTime,
+    sectionalData: sectionalDataForFirebase,
+    totalMarks, timeTakenSeconds, firebasePayload
+  }));
+}
 
 
     
@@ -4306,19 +4468,17 @@ LAST_RESULT_HTML = resBox.innerHTML;
     renderMath();
   };
 
-  // --- HYBRID SYNC GUARD: SELECTIVE FIREBASE WRITE ---
+  // --- SYNC GUARD: SILENT (resume/recalc display only, read-only, one
+  // combined call) vs FRESH SUBMIT (writes to D1, rank+toppers come back
+  // in the SAME response as the write) ---
   if (isAuto === "silent") {
-    Promise.all([
-      getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
-      getToppersList(QUIZ_ID)
-    ]).then(runUIGeneration);
+    getRankAndToppers(QUIZ_ID, totalMarks, timeTakenSeconds).then(runUIGeneration);
   } else {
-    saveResultFirebase(firebasePayload).finally(() => {
-      saveAttemptHistory(firebasePayload);
-      Promise.all([
-        getRankAndPercentile(QUIZ_ID, totalMarks, timeTakenSeconds, firebasePayload.submittedAt),
-        getToppersList(QUIZ_ID)
-      ]).then(runUIGeneration);
+    saveAttemptHistory(firebasePayload).then(data => {
+      firebasePayload.atNo = data ? data.atNo : null;
+      runUIGeneration(data
+        ? [{ rank: data.rank, total: data.total, percentile: data.percentile }, data.toppers || []]
+        : [{ rank: 0, total: 0, percentile: "0.00" }, []]);
     });
   }
 }
@@ -4369,82 +4529,159 @@ LAST_RESULT_HTML = resBox.innerHTML;
      
 
 // ===============================
-// 📊 FIREBASE & DATA FUNCTIONS
+// 📊 D1 ATTEMPTS WORKER & DATA FUNCTIONS
+// (attempt_history + quiz_results both replaced by one D1 database
+//  per exam — see ATTEMPTS_WORKER_URL selection above)
 // ===============================
 
-
-// 1. Save Result (uses email as unique folder)
-function saveResultFirebase(payload) {
-  const ref = db.ref("quiz_results/" + payload.quizId + "/" + USER_EMAIL_KEY);
-  return ref.once("value").then(snap => {
-    if (snap.exists()) return false; 
-    return ref.set(payload);
-  });
-}
-
-// 2. Save History
-function saveAttemptHistory(payload) {
-  const ref = db.ref("attempt_history/" + payload.quizId + "/" + USER_EMAIL_KEY + "/" + payload.submittedAt);
-  return ref.set(payload);
-}
-
-
-// 3. Calculate Rank & Percentile (Enhanced for Sectional Support)
-function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
-  return db.ref("attempt_history/" + quizId).once("value").then(snapshot => {
-    const data = snapshot.val() || {};
-    let attempts = [];
-
-    // Flatten all attempts
-    Object.values(data).forEach(deviceData => {
-      Object.values(deviceData).forEach(att => attempts.push(att));
-    });
-
-    // Sort: Score DESC, Time ASC
-    attempts.sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return a.timeTaken - b.timeTaken;
-    });
-
-    const total = attempts.length;
-    let rank = total + 1; 
-
-    // Find my rank
-    for (let i = 0; i < attempts.length; i++) {
-      if (attempts[i].score === myScore &&
-          attempts[i].timeTaken === myTime &&
-          attempts[i].submittedAt === mySubmittedAt) {
-        rank = i + 1;
-        break;
+// Resolves ATTEMPTS_WORKER_URL from /cloudflare-config.json — same
+// substring-matching selection logic as the Firebase project selection
+// above (quizIdLower.includes(key)), except the URL map now lives in an
+// external file instead of hardcoded in this script, so a new/changed
+// Worker URL never requires editing this HTML — only the JSON file.
+// Must be awaited before anything calls the D1 functions below, so it's
+// called first thing inside loadQuizData().
+async function loadAttemptsWorkerConfig() {
+  try {
+    const res = await fetch("/cloudflare-config.json");
+    const config = await res.json();
+    // Object.keys() preserves insertion order for string keys, so the
+    // order of entries in cloudflare-config.json determines match
+    // precedence — keep more specific keys (e.g. "ssc-sub-25") before
+    // broader ones if that ever matters, same as the old if/else chain.
+    for (const key of Object.keys(config)) {
+      if (quizIdLower.includes(key)) {
+        ATTEMPTS_WORKER_URL = config[key];
+        return;
       }
     }
-
-    // Calculate Percentile
-    const below = attempts.filter(a =>
-      a.score < myScore || (a.score === myScore && a.timeTaken > myTime)
-    ).length;
-
-    const percentile = total ? ((below / total) * 100).toFixed(2) : "0.00";
-
-    return { rank, percentile, total };
-  });
+    console.error("No Attempts Worker mapped for ID:", quizIdParam, "— rank/attempt-history will not work for this exam.");
+  } catch (err) {
+    console.error("Failed to load cloudflare-config.json:", err);
+  }
 }
 
-// 4. Fetch Top 10 List
-function getToppersList(quizId) {
-  return db.ref("quiz_results/" + quizId).once("value").then(snapshot => {
-    const data = snapshot.val();
-    if (!data) return [];
-
-    let all = Object.values(data);
-    // Sort: Score High->Low, Time Low->High
-    all.sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return a.timeTaken - b.timeTaken;
-    });
-
-    return all.slice(0, 10);
+// Helper: shrink the full sectionalDataForFirebase object down to
+// {sectionName: {score, correct, wrong, timeTaken}} before sending to D1.
+// correct/wrong are needed here (not just overall) because
+// updateComparisonBars() reads topTopper.sections[tab].correct/.wrong
+// to draw the per-section topper comparison bars.
+function buildAttemptSections(sectionalData) {
+  const out = {};
+  Object.keys(sectionalData || {}).forEach(name => {
+    const s = sectionalData[name] || {};
+    out[name] = {
+      score: s.score || 0,
+      correct: s.correct || 0,
+      wrong: s.wrong || 0,
+      timeTaken: s.timeTaken || 0
+    };
   });
+  return out;
+}
+
+// 1. Save Attempt — every call inserts a NEW row (next At_no) in D1.
+// Resolves to the assigned At_no so the caller can store it for later
+// (cross-device resume, live-recalc updates).
+function saveAttemptHistory(payload) {
+  return fetch(ATTEMPTS_WORKER_URL + "/save-attempt", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      quizId: payload.quizId,
+      emailKey: payload.emailKey,
+      score: payload.score,
+      correct: payload.correct,
+      wrong: payload.wrong,
+      timeTaken: payload.timeTaken,
+      responseStream: payload.responseStream,
+      sections: buildAttemptSections(payload.sections)
+    })
+  })
+    .then(res => res.json())
+    .then(data => data.error ? null : data)
+    .catch(err => {
+      console.error("D1 save-attempt failed:", err);
+      return null;
+    });
+}
+
+// 2. Update an existing attempt row in place (used by
+// refreshLatestRankOnDemand when an answer key correction changes the
+// score) — does NOT create a new At_no and does NOT bump total_attempts.
+function updateAttemptD1(quizId, emailKey, atNo, score, correct, wrong, sectionalData) {
+  if (!atNo) {
+    console.warn("updateAttemptD1: no atNo available, skipping D1 update.");
+    return Promise.resolve(null);
+  }
+  return fetch(ATTEMPTS_WORKER_URL + "/update-attempt", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      quizId, emailKey, atNo, score, correct, wrong,
+      sections: buildAttemptSections(sectionalData)
+    })
+  })
+    .then(res => res.json())
+    .then(data => data.error ? null : data)
+    .catch(err => {
+      console.error("D1 update-attempt failed:", err);
+      return null;
+    });
+}
+
+// 3. Calculate Rank & Percentile — D1 does the count/sort server-side
+// via the (quiz_id, score DESC, time_taken ASC) index, so this is now
+// two small indexed lookups instead of pulling every attempt down.
+// mySubmittedAt is no longer needed (D1 ranks by score+time directly)
+// but the 4th param is kept so existing call sites don't need edits.
+function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
+  const url = ATTEMPTS_WORKER_URL + "/rank?quizId=" + encodeURIComponent(quizId) +
+              "&score=" + encodeURIComponent(myScore) +
+              "&timeTaken=" + encodeURIComponent(myTime);
+  return fetch(url)
+    .then(res => res.json())
+    .then(data => ({
+      rank: data.rank || 0,
+      percentile: data.percentile || "0.00",
+      total: data.total || 0
+    }))
+    .catch(err => {
+      console.error("D1 rank fetch failed:", err);
+      return { rank: 0, percentile: "0.00", total: 0 };
+    });
+}
+
+// 4. Fetch Top 10 List — now sourced from D1 attempts (ALL attempts,
+// including reattempts), not the old single-row-per-user quiz_results.
+function getToppersList(quizId) {
+  const url = ATTEMPTS_WORKER_URL + "/toppers?quizId=" + encodeURIComponent(quizId) + "&limit=10";
+  return fetch(url)
+    .then(res => res.json())
+    .then(data => data.toppers || [])
+    .catch(err => {
+      console.error("D1 toppers fetch failed:", err);
+      return [];
+    });
+}
+
+// Combined read-only rank+toppers — used for silent restore (viewing an
+// already-submitted attempt). Resolves to the same [rankData, toppersList]
+// tuple shape runUIGeneration expects, one round trip instead of two.
+function getRankAndToppers(quizId, myScore, myTime) {
+  const url = ATTEMPTS_WORKER_URL + "/rank-and-toppers?quizId=" + encodeURIComponent(quizId) +
+              "&score=" + encodeURIComponent(myScore) +
+              "&timeTaken=" + encodeURIComponent(myTime);
+  return fetch(url)
+    .then(res => res.json())
+    .then(data => data.error
+      ? [{ rank: 0, percentile: "0.00", total: 0 }, []]
+      : [{ rank: data.rank || 0, percentile: data.percentile || "0.00", total: data.total || 0 }, data.toppers || []]
+    )
+    .catch(err => {
+      console.error("D1 rank-and-toppers fetch failed:", err);
+      return [{ rank: 0, percentile: "0.00", total: 0 }, []];
+    });
 }
 
 // 5. Get Topper Stats for Bar Chart (Updated for Sectional scaling)
@@ -4462,9 +4699,10 @@ function getTopperStatsForComparison(toppersList, totalQ) {
     correct: t.correct, 
     wrong: t.wrong, 
     time: t.timeTaken,
-    sections: t.sections || {} // NEW: Include topper's sectional breakdown
+    sections: t.sections || {} // Include topper's sectional breakdown
   };
 }
+
 
 /* ==========================================================================
    MOCK MATRIX HUB - DASHBOARD ENGINES SUBSIDIARY SUBROUTINES
@@ -4616,7 +4854,7 @@ function generateFlatTrackRow(lbl, uVal, uMax, tVal, tMax, unit, isTimeMode = fa
 
 /**
  * 6. RENDERS TOPPERS LEADERBOARD BLOCK
- * Iterates through the top 7 rows to populate user profiles and person icon frames.
+ * Iterates through the top 10 rows to populate user profiles and person icon frames.
  */
  function renderToppersGallery() {
   const container = document.getElementById("toppersGalleryContainer");
@@ -4624,9 +4862,9 @@ function generateFlatTrackRow(lbl, uVal, uMax, tVal, tMax, unit, isTimeMode = fa
   container.innerHTML = "";
 
   const elementsList = window.currentToppersList || [];
-  const labelsMap = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th"];
+  const labelsMap = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
 
-  for (let idx = 0; idx < 7; idx++) {
+  for (let idx = 0; idx < 10; idx++) {
     const cardCell = document.createElement("div");
     cardCell.className = "topper-avatar-box";
 
@@ -4812,7 +5050,20 @@ function reattemptQuiz() {
   
 
 // Restore Dashboard (From History/Solution Mode)
+// "Go to Test" header button: if the user arrived here from another page
+// on this site in this tab (e.g. exams/cgl -> exams/test?id=...), go back
+// to that page. Only falls back to './' (the exams listing) when there's
+// no same-origin page to return to — e.g. opened directly / new tab.
+function goToTestOrigin() {
+  if (document.referrer && document.referrer.indexOf(window.location.origin) === 0 && window.history.length > 1) {
+    window.history.back();
+  } else {
+    window.location.href = './';
+  }
+}
+
 function restoreLatestResult() {
+  VIEWING_HISTORICAL_ATTEMPT = false; // back to latest — future silent renders may persist again
   if(LAST_RESULT_HTML) {
     // 🔴 CRITICAL FIX: analysis page must NEVER show section buttons
     const sNav = document.getElementById("sectionNav");
@@ -4860,7 +5111,7 @@ async function refreshLatestRankOnDemand(btn) {
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = getFixedSearchParams();
   const quizIdParam = urlParams.get('id');
 
   if (!quizIdParam) {
@@ -4911,7 +5162,7 @@ if (specificSection && standardizedFreshSections[specificSection]) {
     const jsonSectionTime = sectionConfig ? sectionConfig.time_seconds : null;
 
     const timeMap = { 
-        "REASONING": 15, "GENERAL AWARENESS": 15, "GK": 15, "MATH": 15, 
+        "REASONING": 30, "GENERAL AWARENESS": 15, "GK": 30, "MATH": 30, 
         "MATHS": 15, "ENGLISH": 15, "MATH AND REASONING": 45, 
         "ENGLISH AND GK": 45, "SECTION 1": 60, "SECTION 2": 60
     };
@@ -4977,17 +5228,10 @@ if (specificSection && standardizedFreshSections[specificSection]) {
   
   
 
-    // 3. Firebase Sync: Update BOTH results and history so rank remains accurate
-    const fbUpdate = {
-      score: newTotalMarks,
-      correct: newTotalCorrect,
-      wrong: newTotalWrong,
-      sections: newSectionalData
-    };
-
-    // Change these lines:
-    await db.ref("quiz_results/" + QUIZ_ID + "/" + USER_EMAIL_KEY).update(fbUpdate);
-    await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
+    // 3. D1 Sync: Update this attempt's row in place (score/correct/wrong/
+    // sections) — rank+toppers come back in the SAME response, no extra
+    // round trips needed after this.
+    const updateResult = await updateAttemptD1(QUIZ_ID, USER_EMAIL_KEY, resultData.firebasePayload.atNo, newTotalMarks, newTotalCorrect, newTotalWrong, newSectionalData);
 
     // Define payload with updated values for UI rendering
     const payload = {
@@ -5003,18 +5247,15 @@ if (specificSection && standardizedFreshSections[specificSection]) {
     const scorePerQ = Number(freshData.meta.correct_score) || 2;
     const totalQuestionsCount = payload.total / scorePerQ;
 
-    // 1. Update Latest Global Total Rank
-    const totalRank = await getRankAndPercentile(
-      QUIZ_ID,
-      payload.score,
-      payload.timeTaken,
-      payload.submittedAt
-    );
-    
+    // 1. Latest Global Total Rank — came back from updateAttemptD1() above
+    const totalRank = updateResult
+      ? { rank: updateResult.rank || 0, total: updateResult.total || 0, percentile: updateResult.percentile || "0.00" }
+      : { rank: 0, total: 0, percentile: "0.00" };
+
     // --- CONNECTING DATA TO DUAL-VIEWPORT INTERFACE ELEMENTS ---
-    
+
     // Globalize state markers so helper subroutines pull fresh sync updates
-    window.currentToppersList = await getToppersList(QUIZ_ID);
+    window.currentToppersList = updateResult ? (updateResult.toppers || []) : [];
     window.currentSectionalData = newSectionalData;
     window.currentOverallAccuracy = (payload.correct + payload.wrong) ? ((payload.correct / (payload.correct + payload.wrong)) * 100).toFixed(2) : "0.00";
     window.currentOverallTime = payload.timeTaken;
@@ -5077,7 +5318,8 @@ if (specificSection && standardizedFreshSections[specificSection]) {
       resultHTML: LAST_RESULT_HTML
     }));
     console.log("All Ranks and Comparison Bars updated to the latest data!");
-     
+    localStorage.setItem("rankLastAutoRefreshedAt_" + USER_EMAIL_KEY + "_" + QUIZ_ID, String(Date.now()));
+
       } catch (err) {
     console.error("Live Update Error:", err);
       } finally {
@@ -5103,9 +5345,12 @@ function formatTimeValues(container) {
 
 
 // ===============================
-// ?? HISTORY & ATTEMPT REVIEW
+// 📂 HISTORY & ATTEMPT REVIEW
 // ===============================
 
+// Total possible marks for the currently loaded quiz (excludes qualifying
+// sections, same rule as scoring) — D1 doesn't store this per attempt since
+// it's constant for the quiz, so we compute it fresh from loaded SECTIONS.
 // Load list of past attempts
 function loadPreviousAttempts(quizId) {
   const box = document.getElementById("previousAttempts");
@@ -5117,31 +5362,27 @@ function loadPreviousAttempts(quizId) {
   document.getElementById("attemptReplay").style.display = "none";
 
   // USE THE GLOBAL USER_EMAIL_KEY
-  db.ref("attempt_history/" + quizId + "/" + USER_EMAIL_KEY)
-    .once("value")
-    .then(snapshot => {
-      const data = snapshot.val();
-      if (!data) {
+  fetch(ATTEMPTS_WORKER_URL + "/attempts?quizId=" + encodeURIComponent(quizId) + "&emailKey=" + encodeURIComponent(USER_EMAIL_KEY))
+    .then(res => res.json())
+    .then(data => {
+      const attempts = data.attempts || []; // already newest-first (At_no DESC) from the Worker
+      if (attempts.length === 0) {
         box.innerHTML = '<div class="card"><p style="text-align:center">No previous attempts found.</p><button class="btn-dash btn-outline" style="width:100%" onclick="restoreLatestResult()">⬅ Back</button></div>';
         return;
       }
-
-      // Sort by date (Newest first)
-      const attempts = Object.values(data).sort((a, b) => b.submittedAt - a.submittedAt);
 
       let html = `<div class="card-dashboard">
         <h3 class="section-title">📂 Attempt History</h3>
         <div style="display:flex; flex-direction:column; gap:10px;">`;
 
-      attempts.forEach((a, i) => {
-        const date = new Date(a.submittedAt).toLocaleDateString();
+      attempts.forEach(a => {
         html += `
           <div style="background:#f8f9fa; padding:12px; border:1px solid #eee; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
             <div>
-              <div style="font-weight:700; color:#333;">Attempt ${attempts.length - i}</div>
-              <div style="font-size:12px; color:#666;">${date} • Score: ${a.score}</div>
+              <div style="font-weight:700; color:#333;">Attempt ${a.atNo}</div>
+              <div style="font-size:12px; color:#666;">Score: ${a.score}</div>
             </div>
-            <button class="btn-ghost" onclick='showAttempt(${JSON.stringify(a)})'>View Analysis</button>
+            <button class="btn-ghost" onclick='viewAttempt(${a.atNo})'>View Analysis</button>
           </div>
         `;
       });
@@ -5149,57 +5390,92 @@ function loadPreviousAttempts(quizId) {
       html += `</div><div style="margin-top:15px"><button class="btn-dash btn-outline" style="width:100%" onclick="restoreLatestResult()">⬅ Back to Latest Result</button></div></div>`;
 
       box.innerHTML = html;
+    })
+    .catch(err => {
+      console.error("D1 attempts fetch failed:", err);
+      box.innerHTML = '<div class="card"><p style="text-align:center">Could not load history.</p><button class="btn-dash btn-outline" style="width:100%" onclick="restoreLatestResult()">⬅ Back</button></div>';
     });
 }
 
-// Render Analysis Dashboard for a Past Attempt
-function showAttempt(attempt) {
-  const box = document.getElementById("attemptReplay");
-  box.innerHTML = '<div style="text-align:center; padding:20px;">Loading analysis...</div>';
+// View a specific past attempt using the SAME full results dashboard as the
+// latest result (not a separate mini-summary) — fetches the full attempt row,
+// rebuilds quiz state from its response_stream via applyAttemptDataToState(),
+// then reuses submitQuiz("silent") to render it exactly like any other result.
+// VIEWING_HISTORICAL_ATTEMPT stops that render from overwriting the cached
+// "latest result" — restoreLatestResult() clears the flag when going back.
+async function viewAttempt(atNo) {
+  document.getElementById("results").style.display = "none";
+  document.getElementById("attemptReplay").style.display = "none";
+
+  const box = document.getElementById("previousAttempts");
   box.style.display = "block";
-  document.getElementById("previousAttempts").style.display = "none";
+  box.innerHTML = '<div style="text-align:center; padding:20px;">Loading attempt...</div>';
 
-  // Fetch Rank for this old attempt
-  getRankAndPercentile(QUIZ_ID, attempt.score, attempt.timeTaken, attempt.submittedAt)
-    .then(rankData => {
+  try {
+    const url = ATTEMPTS_WORKER_URL + "/attempt-by-no?quizId=" + encodeURIComponent(QUIZ_ID) +
+                "&emailKey=" + encodeURIComponent(USER_EMAIL_KEY) + "&atNo=" + atNo;
+    const res = await fetch(url);
+    const data = await res.json();
 
-      // Calculate Stats
-      const totalQ = QUESTIONS.length;
-      // Note: We don't have full topper list for past dates easily, so we skip Topper Comparison bars for history
-      // or use current topper data as reference (using current toppers for simplicity)
+    if (!data.found) {
+      box.innerHTML = '<div class="card"><p style="text-align:center">Attempt not found.</p><button class="btn-dash btn-outline" style="width:100%" onclick="loadPreviousAttempts(QUIZ_ID)">⬅ Back</button></div>';
+      return;
+    }
 
-      let dashboardHTML = `
-      <div class="analysis-container">
-        <div class="card-dashboard">
-          <div class="info-grid">
-            <div><b>Attempt Date:</b> ${new Date(attempt.submittedAt).toLocaleString()}</div>
-            <div><b>Quiz ID:</b> ${QUIZ_ID}</div>
-          </div>
-        </div>
+    applyAttemptDataToState(data);
+    VIEWING_HISTORICAL_ATTEMPT = true;
 
-        <div class="card-dashboard">
-           <div class="action-grid">
-              <button class="btn-dash btn-outline" onclick="loadPreviousAttempts(QUIZ_ID)">⬅ Back to History</button>
-                <button class="btn-dash btn-outline" onclick="restoreLatestResult()">🏠 Latest Result</button>
-           </div>
-        </div>
+    box.style.display = "none";
+    document.getElementById("results").style.display = "block";
+    document.body.classList.add("mode-result");
 
-        <div class="card-dashboard score-summary">
-          <div class="score-item"><h4>🏆 Rank</h4><p>${rankData.rank} / ${rankData.total}</p></div>
-          <div class="score-item"><h4>📊 Percentile</h4><p>${rankData.percentile}%</p></div>
-          <div class="score-item"><h4>🧮 Score</h4><p>${attempt.score} / ${attempt.total}</p></div>
-          <div class="score-item"><h4>⏱ Time</h4><p>${fmt(attempt.timeTaken)}</p></div>
-        </div>
+    submitQuiz("silent");
+  } catch (err) {
+    console.error("D1 attempt-by-no fetch failed:", err);
+    box.innerHTML = '<div class="card"><p style="text-align:center">Could not load attempt.</p><button class="btn-dash btn-outline" style="width:100%" onclick="loadPreviousAttempts(QUIZ_ID)">⬅ Back</button></div>';
+  }
+}
 
-        <div class="card-dashboard attempt-summary">
-           <div class="attempt-box at-correct">✅ Correct<span>${attempt.correct}</span></div>
-           <div class="attempt-box at-wrong">❌ Wrong<span>${attempt.wrong}</span></div>
-           <div class="attempt-box at-unattempted">🟡 Left<span>${totalQ - (attempt.correct + attempt.wrong)}</span></div>
-        </div>
-      </div>`;
+// Header "Attempt N" pill (a native <select>) — lazily fetches the full
+// attempt list ONLY when the user actually opens it (onfocus), never on
+// page load or on submit. Latest attempt first (Worker's default order),
+// current attempt pre-selected.
+async function populateAttemptSelector() {
+  const sel = document.getElementById("attemptSelectorDropdown");
+  if (!sel || sel.dataset.loaded === "1") return;
+  sel.dataset.loaded = "1";
 
-      box.innerHTML = dashboardHTML;
-    });
+  try {
+    const res = await fetch(ATTEMPTS_WORKER_URL + "/attempts?quizId=" + encodeURIComponent(QUIZ_ID) + "&emailKey=" + encodeURIComponent(USER_EMAIL_KEY));
+    const data = await res.json();
+    const attempts = data.attempts || []; // newest-first (At_no DESC) from the Worker
+
+    if (attempts.length === 0) return; // leave placeholder as-is
+
+    const currentAtNo = sel.value ? Number(sel.value) : attempts[0].atNo;
+    sel.dataset.latestAtNo = attempts[0].atNo;
+
+    sel.innerHTML = attempts.map((a, i) =>
+      `<option value="${a.atNo}"${a.atNo === currentAtNo ? " selected" : ""}>Attempt ${a.atNo}${i === 0 ? " (Latest)" : ""}</option>`
+    ).join("");
+  } catch (err) {
+    console.error("D1 attempts fetch failed (selector):", err);
+    sel.dataset.loaded = "0"; // allow retry next time it's opened
+  }
+}
+
+// Picking an attempt from the header dropdown: the latest one restores the
+// already-cached result (no network call), any older one loads via the
+// same viewAttempt() flow used by the Attempt History screen.
+function handleAttemptSelectorChange(sel) {
+  const atNo = Number(sel.value);
+  if (!atNo) return;
+  const latestAtNo = Number(sel.dataset.latestAtNo || 0);
+  if (latestAtNo && atNo === latestAtNo) {
+    restoreLatestResult();
+  } else {
+    viewAttempt(atNo);
+  }
 }
 
 // ===============================
@@ -5725,8 +6001,15 @@ if (resultSaved) {
   if (liveBtn) {
     liveBtn.disabled = false;
     liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
-    // ADD THIS LINE TO AUTO-TRIGGER THE REFRESH ON RELOAD
-    refreshLatestRankOnDemand(liveBtn); 
+
+    // Auto-refresh at most once every 15 minutes per user per quiz — catches
+    // an answer-key correction without re-writing to D1 on every reload.
+    const autoRefreshKey = "rankLastAutoRefreshedAt_" + USER_EMAIL_KEY + "_" + QUIZ_ID;
+    const lastAutoRefreshedAt = Number(localStorage.getItem(autoRefreshKey)) || 0;
+    const AUTO_REFRESH_COOLDOWN_MS = 15 * 60 * 1000;
+    if (Date.now() - lastAutoRefreshedAt >= AUTO_REFRESH_COOLDOWN_MS) {
+      refreshLatestRankOnDemand(liveBtn);
+    }
   }
 }, 100); // Changed from 0 to 100ms
 
@@ -5861,9 +6144,55 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// Rebuilds answers/marked/questionTime/sectionTime/seconds from a D1 attempt
+// row's response_stream, and points future live-recalc updates at the right
+// At_no. Shared by checkPreviousSubmission() (latest attempt, cross-device
+// resume) and viewAttempt() (any specific past attempt).
+function applyAttemptDataToState(latest) {
+  localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, latest.responseStream);
+
+  const recAns = {}, recTime = {}, recMarked = {};
+  const stream = latest.responseStream.split('|');
+  let gIdx = 0;
+
+  SECTION_NAMES.forEach(sName => {
+    SECTIONS[sName].forEach(q => {
+      if (stream[gIdx]) {
+        const parts = stream[gIdx].split(':');
+        const ans = parts[0];
+        const time = parts[1];
+        const isMarked = parts[2] === 'Y';
+
+        if (ans !== "0") recAns[q.id] = ans;
+        recTime[q.id] = parseInt(time) || 0;
+        if (isMarked) recMarked[q.id] = true;
+      }
+      gIdx++;
+    });
+  });
+
+  // Extract only the numbers for sectionTime to avoid the object-string bug
+  sectionTime = {};
+  if (latest.sections) {
+    Object.keys(latest.sections).forEach(sName => {
+      const sec = latest.sections[sName];
+      sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
+    });
+  }
+
+  // Assign to Global Variables
+  answers = recAns;
+  marked = recMarked;
+  questionTime = recTime;
+  seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
+  answers.originalAtNo = latest.atNo;
+
+  return { recAns, recMarked, recTime };
+}
+
 async function checkPreviousSubmission() {
   let resultSaved = localStorage.getItem(QUIZ_RESULT_KEY);
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = getFixedSearchParams();
 
     if (urlParams.get('mode') === 'reattempt') {
     localStorage.removeItem(QUIZ_RESULT_KEY);
@@ -5872,53 +6201,27 @@ async function checkPreviousSubmission() {
     }
   // 1. If no local result, try Cloud Recovery
   if (!resultSaved && !urlParams.get('mode')) {
-    const cloudSnap = await db.ref("attempt_history/" + QUIZ_ID + "/" + USER_EMAIL_KEY)
-      .orderByChild("submittedAt")
-      .limitToLast(1)
-      .once("value");
+    let latest = null;
+    try {
+      const attemptRes = await fetch(ATTEMPTS_WORKER_URL + "/attempt?quizId=" + encodeURIComponent(QUIZ_ID) + "&emailKey=" + encodeURIComponent(USER_EMAIL_KEY));
+      const attemptData = await attemptRes.json();
+      if (attemptData.found) {
+        latest = {
+          atNo: attemptData.atNo,
+          score: attemptData.score,
+          correct: attemptData.correct,
+          wrong: attemptData.wrong,
+          timeTaken: attemptData.timeTaken,
+          responseStream: attemptData.responseStream,
+          sections: attemptData.sections
+        };
+      }
+    } catch (err) {
+      console.error("D1 attempt fetch failed:", err);
+    }
 
-    if (cloudSnap.exists()) {
-      const history = cloudSnap.val();
-      const latest = Object.values(history)[0];
-
-      if (latest && latest.responseStream) {
-        localStorage.setItem(QUIZ_RESPONSE_STREAM_KEY, latest.responseStream);
-   
-        const recAns = {}, recTime = {}, recMarked = {};
-        const stream = latest.responseStream.split('|');
-        let gIdx = 0;
-
-        SECTION_NAMES.forEach(sName => {
-          SECTIONS[sName].forEach(q => {
-            if (stream[gIdx]) {
-              const parts = stream[gIdx].split(':');
-              const ans = parts[0];
-              const time = parts[1];
-              const isMarked = parts[2] === 'Y';
-
-              if (ans !== "0") recAns[q.id] = ans;
-              recTime[q.id] = parseInt(time) || 0;
-              if (isMarked) recMarked[q.id] = true;
-            }
-            gIdx++;
-          });
-        });
-
-        // FIX: Extract only the numbers for sectionTime to avoid the object-string bug
-        sectionTime = {}; 
-        if (latest.sections) {
-          Object.keys(latest.sections).forEach(sName => {
-            const sec = latest.sections[sName];
-            sectionTime[sName] = (typeof sec === 'object') ? (sec.timeTaken || 0) : (sec || 0);
-          });
-        }
-
-        // Assign to Global Variables
-        answers = recAns;
-        marked = recMarked;
-        questionTime = recTime;
-        seconds = TOTAL_TIME_SECONDS - (latest.timeTaken || 0);
-        answers.originalTimestamp = latest.submittedAt;
+    if (latest && latest.responseStream) {
+        const { recAns, recMarked, recTime } = applyAttemptDataToState(latest);
 
         const syncData = {
           submitted: true,
@@ -5934,7 +6237,6 @@ async function checkPreviousSubmission() {
 
         localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify(syncData));
         resultSaved = JSON.stringify(syncData);
-      }
     }
   }
 
@@ -5955,9 +6257,9 @@ async function checkPreviousSubmission() {
   marked = data.marked || {};
   questionTime = data.questionTime || {};
 
-  // ✅ CRITICAL: Restore original timestamp so rank lookup matches Firebase
-  const originalTs = data.firebasePayload?.submittedAt || data.submittedAt || null;
-  if (originalTs) answers.originalTimestamp = originalTs;
+  // ✅ CRITICAL: Restore original At_no so live-recalc updates the right D1 row
+  const originalAtNo = data.firebasePayload?.atNo || null;
+  if (originalAtNo) answers.originalAtNo = originalAtNo;
 
   sectionTime = data.sectionalData 
     ? Object.fromEntries(Object.entries(data.sectionalData).map(([k,v]) => [k, v.timeTaken || 0]))
@@ -6005,14 +6307,28 @@ async function checkPreviousSubmission() {
 // ===============================
 
 
+// Swaps the loader spinner/text for the "Buy Premium" prompt
+function showPremiumRequired() {
+  const spinner = document.getElementById("loaderSpinner");
+  const text = document.getElementById("loadingText");
+  const box = document.getElementById("premiumRequiredBox");
+  if (spinner) spinner.style.display = "none";
+  if (text) text.style.display = "none";
+  if (box) box.style.display = "block";
+}
+
 async function loadQuizData() {
+  // Resolve the D1 Attempts Worker URL for this exam before anything
+  // below (checkPreviousSubmission, submitQuiz, etc.) needs to call it.
+  await loadAttemptsWorkerConfig();
+
   const profile = getLocalProfile();
   if (profile) {
       USER_DISPLAY_NAME = profile.username || "Guest";
       USER_EMAIL_KEY = profile.username || "Guest"; // Use username consistently
   }
       
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = getFixedSearchParams();
   const quizIdParam = urlParams.get('id');
   const specificSection = urlParams.get('section'); // Get section from URL
 
@@ -6041,7 +6357,7 @@ try {
     });
     
     // Handle specific error codes from your Worker
-    if (response.status === 402) throw new Error("Upgrade Required: You need a Premium Plan for this test.");
+    if (response.status === 402) { showPremiumRequired(); return; }
     if (response.status === 401) throw new Error("Invalid Session: Please log in again.");
     if (!response.ok) throw new Error("Quiz file not found or Access Denied.");
     
@@ -6084,7 +6400,7 @@ try {
         const jsonSectionTime = sectionConfig ? sectionConfig.time_seconds : null;
 
         const timeMap = {
-            "REASONING": 15, "GENERAL AWARENESS": 15, "GK": 15, "MATH": 15, 
+            "REASONING": 30, "GENERAL AWARENESS": 15, "GK": 30, "MATH": 30, 
             "MATHS": 30, "ENGLISH": 15, "MATH AND REASONING": 45,
             "ENGLISH AND GK": 45, "SECTION 1": 60, "SECTION 2": 60
         };

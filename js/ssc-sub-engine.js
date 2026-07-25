@@ -92,7 +92,15 @@ async function initExamEngine() {
 
     let examName = _getExamNameFromUrl();
 
-    document.getElementById('grid-sync').innerText = "🔄 Syncing Database...";
+    document.getElementById('grid-sync').innerText = "";
+    document.getElementById('quizGrid').innerHTML = Array(6).fill(`
+        <div class="skeleton-card">
+            <div class="card-info">
+                <div class="skeleton-line skeleton-title"></div>
+                <div class="skeleton-line skeleton-meta"></div>
+            </div>
+            <div class="skeleton-line skeleton-btn"></div>
+        </div>`).join('');
     try {
         const rawUrl = `https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/data/${examName}-data.json?t=${Date.now()}`;
         const response = await fetch(rawUrl);
@@ -373,8 +381,9 @@ function renderMocks() {
         if (searchVal && !item.title.toLowerCase().includes(searchVal)) return;
 
         // Release date lock
+        const isManuallyLocked = item.releaseDate && item.releaseDate.trim().toLowerCase() === 'locked';
         let isLockedDate = false;
-        if (item.releaseDate && item.releaseDate.trim() !== "") {
+        if (!isManuallyLocked && item.releaseDate && item.releaseDate.trim() !== "") {
             const [day, month, year] = item.releaseDate.split('-').map(Number);
             const releaseDateObj = new Date(year, month - 1, day);
             const today = new Date();
@@ -388,7 +397,9 @@ function renderMocks() {
         const isSubmitted  = localResult !== null || !!CLOUD_CHECKLIST[item.id];
 
         let actionHtml = '';
-        if (isLockedDate) {
+        if (isManuallyLocked) {
+            actionHtml = `<div class="action-btn locked-btn" style="opacity:0.6; cursor:default; pointer-events:none;">🔒 Locked</div>`;
+        } else if (isLockedDate) {
             actionHtml = `<div class="action-btn unlock-btn" style="opacity:0.6; cursor:default;">Available ${item.releaseDate}</div>`;
         } else if (accessDenied) {
             actionHtml = `<a href="/buy-premium.html" class="action-btn unlock-btn">🔒 UNLOCK TEST</a>`;
@@ -470,4 +481,5 @@ window.addEventListener('pageshow', function(event) {
         if (typeof renderMocks === 'function' && EXAM_JSON) { renderMocks(); }
     }
 });
+
 

@@ -1,0 +1,27 @@
+{
+  "series": [
+    
+    {
+      "id": "atoz-v",
+      "title": "A TO Z VOCABULARY Series",
+      "subtitle": "2020-2025 SSC EXAMS + OTHER EXAMS VOCABULARY",
+      "icon": "fas fa-font",
+      "iconColor": "text-primary",
+      "logo": "",
+      "url": "/series/portal.html?atoz-v",
+      "badges": ["FREE", "NEW"],
+      "comingSoon": false
+    },
+    {
+      "id": "upcoming",
+      "title": "Upcoming Series",
+      "subtitle": "Mathematics and Reasoning special series...",
+      "icon": "fas fa-layer-group",
+      "iconColor": "text-secondary",
+      "logo": "",
+      "url": "",
+      "badges": [],
+      "comingSoon": true
+    }
+  ]
+}
