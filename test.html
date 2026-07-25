@@ -4545,21 +4545,52 @@ async function loadAttemptsWorkerConfig() {
   try {
     const res = await fetch("/cloudflare-config.json");
     const config = await res.json();
-    // Object.keys() preserves insertion order for string keys, so the
-    // order of entries in cloudflare-config.json determines match
-    // precedence — keep more specific keys (e.g. "ssc-sub-25") before
-    // broader ones if that ever matters, same as the old if/else chain.
-    for (const key of Object.keys(config)) {
-      if (quizIdLower.includes(key)) {
-        ATTEMPTS_WORKER_URL = config[key];
-        return;
-      }
+
+    // Same if/else chain, same order, same keys as the Firebase
+    // project / GITHUB_PATH selection above — guarantees identical
+    // matching behavior for all 11 exams, no JSON order dependency.
+    if (quizIdLower.includes("cgl")) {
+      ATTEMPTS_WORKER_URL = config["cgl"];
     }
-    console.error("No Attempts Worker mapped for ID:", quizIdParam, "— rank/attempt-history will not work for this exam.");
+    else if (quizIdLower.includes("chsl")) {
+      ATTEMPTS_WORKER_URL = config["chsl"];
+    }
+    else if (quizIdLower.includes("mts")) {
+      ATTEMPTS_WORKER_URL = config["mts"];
+    }
+    else if (quizIdLower.includes("selection-post")) {
+      ATTEMPTS_WORKER_URL = config["mts"];
+    }
+    else if (quizIdLower.includes("gd")) {
+      ATTEMPTS_WORKER_URL = config["cpo"];
+    }
+    else if (quizIdLower.includes("cpo")) {
+      ATTEMPTS_WORKER_URL = config["cpo"];
+    }
+    else if (quizIdLower.includes("steno")) {
+      ATTEMPTS_WORKER_URL = config["cpo"];
+    }
+    else if (quizIdLower.includes("ssc-sub-25")) {
+      ATTEMPTS_WORKER_URL = config["ssc-sub"];
+    }
+    else if (quizIdLower.includes("ntpcg")) {
+      ATTEMPTS_WORKER_URL = config["ntpc"];
+    }
+    else if (quizIdLower.includes("ntpc-ug")) {
+      ATTEMPTS_WORKER_URL = config["ntpc"];
+    }
+    else if (quizIdLower.includes("imps")) {
+      ATTEMPTS_WORKER_URL = config["imps"];
+    }
+
+    if (!ATTEMPTS_WORKER_URL) {
+      console.error("No Attempts Worker mapped for ID:", quizIdParam, "— rank/attempt-history will not work for this exam.");
+    }
   } catch (err) {
     console.error("Failed to load cloudflare-config.json:", err);
   }
 }
+
 
 // Helper: shrink the full sectionalDataForFirebase object down to
 // {sectionName: {score, correct, wrong, timeTaken}} before sending to D1.
