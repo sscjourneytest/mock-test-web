@@ -210,6 +210,9 @@ async function startCheckout() {
       handler: function (response) {
         // This fires client-side on success — NOT the source of truth.
         // The webhook confirms the payment server-side; we just start polling.
+        // Show the full-screen "don't close / wait for redirect" overlay right
+        // now, since this is exactly the window where users tend to bail out.
+        document.getElementById("processingOverlay").classList.add("active");
         btn.innerText = "Confirming payment...";
         pollForAccess();
       },
@@ -283,6 +286,7 @@ async function pollForAccess() {
 
     if (attempts >= maxAttempts) {
       clearInterval(interval);
+      document.getElementById("processingOverlay").classList.remove("active");
       alert(
         "Payment received, but confirmation is taking longer than usual. " +
         "Please check back in a few minutes — your access will activate automatically."
@@ -294,6 +298,27 @@ async function pollForAccess() {
 }
 
 // -----------------------------------------------------------
+// 4. Pre-payment instruction popup — must be acknowledged (checkbox)
+// before Razorpay actually opens. The main "Continue" button on the
+// page never calls startCheckout() directly anymore; it only opens
+// this popup. startCheckout() only runs from the popup's own
+// Continue button, once the checkbox is checked.
+// -----------------------------------------------------------
+function openInstructionPopup() {
+  const overlay = document.getElementById("paymentInstructionOverlay");
+  const checkbox = document.getElementById("popupAckCheckbox");
+  const popupBtn = document.getElementById("popupContinueBtn");
+
+  checkbox.checked = false;
+  popupBtn.disabled = true;
+  overlay.classList.add("active");
+}
+
+function closeInstructionPopup() {
+  document.getElementById("paymentInstructionOverlay").classList.remove("active");
+}
+
+// -----------------------------------------------------------
 // Wire up events
 // -----------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
@@ -301,7 +326,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const applyBtn = document.getElementById("applyCouponBtn");
   const payBtn = document.getElementById("payBtn");
+  const popupCheckbox = document.getElementById("popupAckCheckbox");
+  const popupBtn = document.getElementById("popupContinueBtn");
 
   if (applyBtn) applyBtn.addEventListener("click", applyCoupon);
-  if (payBtn) payBtn.addEventListener("click", startCheckout);
+
+  // Main "Continue" button -> open instructions popup (does NOT open Razorpay directly)
+  if (payBtn) payBtn.addEventListener("click", openInstructionPopup);
+
+  // Checkbox enables/disables the popup's own Continue button
+  if (popupCheckbox) {
+    popupCheckbox.addEventListener("change", () => {
+      popupBtn.disabled = !popupCheckbox.checked;
+    });
+  }
+
+  // Popup's Continue -> close popup, THEN actually start Razorpay checkout
+  if (popupBtn) {
+    popupBtn.addEventListener("click", () => {
+      if (popupCheckbox.checked) {
+        closeInstructionPopup();
+        startCheckout();
+      }
+    });
+  }
 });
+
