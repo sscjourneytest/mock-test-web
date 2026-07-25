@@ -421,8 +421,19 @@
                 const { error: updateError } = await client.auth.updateUser({ password: newPass });
                 if (updateError) throw updateError;
 
-                showMessage("Success! Password updated. Redirecting...", false);
-                setTimeout(() => { window.location.href = "/login.html"; }, 2000);
+                // Don't redirect back to login.html — verifyOtp(type: 'recovery')
+                // already signed this session in, so reloading login.html here
+                // just makes auth.js's initAuth() detect the login and
+                // auto-redirect AGAIN right after, which is the double-hop
+                // that looks like the page "getting stuck / flipping" on
+                // login. Load the profile and go straight to the destination
+                // instead — same pattern login()/signup() already use.
+                showMessage("Success! Password updated. Loading your profile...", false);
+                const { data: userData } = await client.auth.getUser();
+                const profile = userData?.user ? await fetchAndCacheProfile(client, userData.user) : null;
+
+                showMessage("Success! Redirecting...", false);
+                window.location.href = profile ? getSafeRedirectTarget() : "/index.html";
             } catch (error) {
                 showMessage("Error: " + error.message, true);
             }
