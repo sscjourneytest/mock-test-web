@@ -33,6 +33,11 @@
     <div class="stat-card"><p>Total Users</p><h3 id="statTotalUsers">--</h3></div>
     <div class="stat-card gold"><p>Premium Users</p><h3 id="statPaidUsers">--</h3></div>
     <div class="stat-card navy"><p>All-Time Revenue</p><h3 id="statTotalRevenue">₹--</h3></div>
+    <div class="stat-card seal">
+      <p>Not Cleared Revenue</p>
+      <h3 id="statNotCleared">₹--</h3>
+      <span class="stat-sub" id="clearedUpToLabel">Cleared up to: --</span>
+    </div>
   </div>
 
   <div class="tabs" id="tabBar">
@@ -41,6 +46,7 @@
     <button class="tab-btn owner-only" data-tab="pricing">Pricing &amp; Sale</button>
     <button class="tab-btn owner-only" data-tab="grant">Direct Grant</button>
     <button class="tab-btn" data-tab="payouts">Payouts</button>
+    <button class="tab-btn" data-tab="clearance">Clear Payments</button>
     <button class="tab-btn" data-tab="legacy">Legacy Requests</button>
   </div>
 
@@ -108,9 +114,10 @@
     </div>
     <div class="panel-card">
       <h3>Create Sale Coupon</h3>
+      <p class="hint">Linked to your own account automatically — you'll see any sales made through it under "Partner Coupons."</p>
       <div class="form-grid">
         <input type="text" id="saleCode" placeholder="COUPON CODE">
-        <input type="text" id="saleOwnerName" placeholder="Owner name / UUID">
+        <input type="text" id="saleOwnerDisplay" placeholder="Owner" readonly>
         <input type="number" id="saleDiscount" placeholder="Discount %" value="20">
         <input type="number" id="salePayout" placeholder="Payout %" value="0">
         <input type="text" id="saleUpi" placeholder="UPI ID (optional)">
@@ -151,6 +158,59 @@
       </div>
     </div>
   </section>
+
+  <!-- ================= CLEAR PAYMENTS TAB ================= -->
+  <section id="tab-clearance" class="tab-panel">
+
+    <div class="panel-card owner-only">
+      <h3>Revenue Split % (Owner Only)</h3>
+      <p class="hint">Decides how each new clearance is divided. Doesn't affect clearances already created.</p>
+      <div id="splitEditor"></div>
+      <button class="btn-primary" id="saveSplitBtn">Save Split</button>
+    </div>
+
+    <div class="panel-card">
+      <h3>New Clearance</h3>
+      <p class="hint" id="clearanceFromLabel">From: --</p>
+      <div class="form-grid">
+        <input type="date" id="clearanceToDate">
+        <button class="btn-primary" id="previewClearanceBtn">Preview Revenue</button>
+      </div>
+      <div id="clearancePreview" class="clearance-preview" style="display:none;">
+        <p>Revenue in this range: <b id="previewAmount">₹0</b> (<span id="previewCount">0</span> payments)</p>
+        <button class="btn-primary" id="confirmClearanceBtn">Clear Payment</button>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <h3>All-Time Partner Summary</h3>
+      <p class="hint">Totals across every clearance batch combined.</p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Partner</th><th>Total Due</th><th>Total Paid</th><th>Total Pending</th></tr></thead>
+          <tbody id="summaryTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <h3>Clearance History</h3>
+      <div id="clearanceHistory"></div>
+    </div>
+  </section>
+
+  <!-- Clearance confirmation popup -->
+  <div class="modal-overlay" id="clearanceModal">
+    <div class="modal-box">
+      <h3>Confirm Clearance</h3>
+      <p class="hint" id="modalRangeLabel"></p>
+      <div id="modalShareRows"></div>
+      <div class="modal-actions">
+        <button class="filter-btn" id="modalCancelBtn">Cancel</button>
+        <button class="btn-primary" id="modalConfirmBtn">Create Batch</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ================= LEGACY REQUESTS TAB (last) ================= -->
   <section id="tab-legacy" class="tab-panel">
