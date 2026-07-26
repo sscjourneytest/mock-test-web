@@ -149,7 +149,9 @@ body.dark-mode .q-bar-btn.remove { background: #7f1d1d; color: #fee2e2; }
   content: ""; position: absolute; width: 10px; height: 10px;
   background: var(--primary); border-radius: 50%;
 }
-/* Correct / wrong — color lives in the circle only, no row background wash */
+/* Correct / wrong — full row highlight, matching the live quiz template */
+.opt.correct { background: #dcfce7; }
+body.dark-mode .opt.correct { background: #14532d; }
 .opt.correct .custom-radio::before { border-color: var(--success); background: var(--success); }
 .opt.correct .custom-radio::after {
   content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900;
@@ -297,3 +299,4 @@ mjx-math { white-space: normal !important; }
   animation: spin 1s linear infinite;
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
