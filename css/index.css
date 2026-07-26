@@ -685,3 +685,31 @@ body.dark-mode .app-switch__btn--active { background: #2d3748; color: #f1f5f9; }
     0%, 100% { opacity: 0.4; }
     50% { opacity: 1; }
 }
+
+/* ---------- Mobile number backfill prompt ---------- */
+.mobile-prompt-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 2100;
+  background: rgba(15,23,42,0.75);
+  align-items: center; justify-content: center;
+  padding: 16px;
+}
+.mobile-prompt-overlay.active { display: flex; }
+.mobile-prompt-box {
+  background: #fff; border-radius: 12px; max-width: 360px; width: 100%;
+  padding: 26px 22px; text-align: center;
+}
+.mobile-prompt-box h3 { margin: 0 0 8px; color: #1e293b; font-size: 19px; }
+.mobile-prompt-box p { font-size: 13px; color: #64748b; margin-bottom: 16px; line-height: 1.5; }
+.mobile-prompt-box input {
+  width: 100%; padding: 12px; margin-bottom: 12px; border: 1.5px solid #cbd5e1;
+  border-radius: 8px; box-sizing: border-box; font-size: 14px; outline: none;
+}
+.mobile-prompt-box input:focus { border-color: #2563eb; }
+#mobilePromptMsg { font-size: 12px; color: #dc2626; min-height: 16px; margin-bottom: 10px; }
+.mobile-prompt-box button {
+  width: 100%; padding: 12px; background: #2563eb; color: #fff; border: none;
+  border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px;
+}
+.mobile-prompt-box button:hover { background: #1e40af; }
+
