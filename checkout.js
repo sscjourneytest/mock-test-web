@@ -150,6 +150,67 @@ async function checkAlreadyPremiumOnLoad() {
   }
 }
 
+function showSuccessBanner() {
+  const processing = document.getElementById("processingOverlay");
+  if (processing) processing.classList.remove("active");
+
+  const success = document.getElementById("successOverlay");
+  if (success) success.classList.add("active");
+
+  setTimeout(() => {
+    window.location.href = "/index.html";
+  }, 1800);
+}
+
+// -----------------------------------------------------------
+// 1.5 Recover from a killed tab mid-payment — same job as the
+// check in index.html, but this one runs on buy-premium.html
+// itself, since Android usually relaunches a killed PWA back on
+// the exact page it died on, not on index.html.
+// -----------------------------------------------------------
+async function recoverPendingPayment() {
+  const raw = localStorage.getItem("mmh_payment_pending");
+  if (!raw) return;
+
+  let pending;
+  try { pending = JSON.parse(raw); } catch (e) { localStorage.removeItem("mmh_payment_pending"); return; }
+
+  const oneHour = 60 * 60 * 1000;
+  if (!pending.ts || Date.now() - pending.ts > oneHour) {
+    localStorage.removeItem("mmh_payment_pending");
+    return;
+  }
+
+  // Show the same "confirming payment" overlay immediately — the user
+  // just came back from a UPI app, this is exactly the moment they're
+  // looking at the screen wondering what happened.
+  const overlay = document.getElementById("processingOverlay");
+  if (overlay) overlay.classList.add("active");
+
+  const { data: userData } = await _supabase.auth.getUser();
+  const userId = userData?.user?.id;
+  if (!userId) { if (overlay) overlay.classList.remove("active"); return; }
+
+  const { data: profile } = await _supabase
+    .from("profiles")
+    .select("is_paid, expires_at")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (profile && profile.is_paid) {
+    const cached = getLocalProfile() || {};
+    saveLocalProfile({ ...cached, is_paid: true, expires_at: profile.expires_at });
+    localStorage.removeItem("mmh_payment_pending");
+    showSuccessBanner();
+    return;
+  }
+
+  // Not confirmed yet — fall back to the normal polling loop instead
+  // of leaving the user stuck on a silent overlay.
+  if (overlay) overlay.classList.remove("active");
+  pollForAccess();
+}
+
 // -----------------------------------------------------------
 // 2. Start checkout — creates order, opens Razorpay modal
 // -----------------------------------------------------------
@@ -297,8 +358,7 @@ async function pollForAccess() {
         const cached = getLocalProfile() || {};
         saveLocalProfile({ ...cached, is_paid: true, expires_at: profile.expires_at });
         localStorage.removeItem("mmh_payment_pending");
-        alert("Payment confirmed! Your premium access is now active.");
-        window.location.href = "/index.html";
+        showSuccessBanner();
         return;
       }
     }
@@ -342,6 +402,7 @@ function closeInstructionPopup() {
 // -----------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   loadPlans();
+  recoverPendingPayment();
   checkAlreadyPremiumOnLoad();
 
   const applyBtn = document.getElementById("applyCouponBtn");
