@@ -400,3 +400,44 @@ window.addEventListener('pageshow', refreshNotificationBadge);
         
         
 
+
+// -----------------------------------------------------------
+// Mobile number backfill — only for existing users who signed
+// up before the mobile field existed. New signups already
+// provide it, so this naturally stops firing once everyone's
+// backfilled.
+// -----------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+  if (!profile || !profile.id) return;
+  if (profile.mobile) return; // already has one
+
+  const overlay = document.getElementById('mobilePromptOverlay');
+  if (!overlay) return;
+  overlay.classList.add('active');
+
+  document.getElementById('mobilePromptSubmit').addEventListener('click', async () => {
+    const input = document.getElementById('mobilePromptInput');
+    const msgEl = document.getElementById('mobilePromptMsg');
+    const mobile = input.value.trim();
+
+    if (!/^[0-9]{10}$/.test(mobile)) {
+      msgEl.textContent = "Enter a valid 10-digit mobile number.";
+      return;
+    }
+
+    const { error } = await _supabase.from('profiles').update({ mobile }).eq('id', profile.id);
+    if (error) {
+      msgEl.textContent = "Error: " + error.message;
+      return;
+    }
+
+    // Save to local cache immediately, as requested — no need to
+    // wait for the next full profile refetch to reflect it.
+    const cached = getLocalProfile() || {};
+    saveLocalProfile({ ...cached, mobile });
+
+    overlay.classList.remove('active');
+  });
+});
+
