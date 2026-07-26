@@ -240,7 +240,11 @@ async function loadCoupons() {
     pHtml += `<tr>
       <td><b>${r.username}</b><br><small>${r.email}</small></td>
       <td>${r.requested_code}</td>
-      <td style="max-width:180px; overflow-wrap:anywhere;">${r.channel_links || ""}</td>
+      <td style="max-width:180px; overflow-wrap:anywhere;">${
+        r.channel_links
+          ? `<a class="btn-sm edit" href="${r.channel_links}" target="_blank" rel="noopener noreferrer">Open Link</a>`
+          : "-"
+      }</td>
       <td>${r.upi_id || "-"}</td>
       <td><input type="number" class="inline-input" id="disc-${r.id}" value="20"></td>
       <td><input type="number" class="inline-input" id="pay-${r.id}" value="20"></td>
@@ -787,4 +791,5 @@ async function markShareDone(shareId) {
   loadClearanceHistory();
   loadSummaryTable();
 }
+
 
