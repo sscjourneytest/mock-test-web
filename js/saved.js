@@ -4,18 +4,16 @@
 
 let SAVED_DATA_RAW = {};      // raw firebase tree (subject-nested + any legacy leaves)
 let QUESTION_LIST = [];       // flattened: [{key, quiz_id, question_data, saved_at, subject, legacy}]
-let FILTERED_LIST = [];       // after search + subject-chip filtering
+let FILTERED_LIST = [];       // after subject-chip filtering
 let currentFocusIdx = 0;
 let currentLang = localStorage.getItem("quiz_lang") || "en";
 let USER_EMAIL_KEY = "";
 
 // Canonical subject taxonomy — same list used by the "Save Question" modal elsewhere.
-const SUBJECTS = ["REASONING", "MATH", "GK", "ENGLISH", "HINDI", "MISCELLANEOUS"];
+const SUBJECTS = ["REASONING", "MATH", "GK", "ENGLISH", "HINDI", "COMPUTER", "MISCELLANEOUS"];
 
 let REATTEMPT_MODE = localStorage.getItem('mmh_saved_reattempt') === '1';
-let PALETTE_MODE = localStorage.getItem('mmh_saved_palette') === '1';
 let activeSubjectFilter = "ALL";
-let MOVE_CONTEXT = null;
 
 if (!firebase.apps.length) { firebase.initializeApp(FIREBASE_PROJECTS.common); }
 const savedDb = firebase.database();
@@ -38,13 +36,22 @@ async function loadSavedQuestionsWithAuth() {
     }
     USER_EMAIL_KEY = profile.username;
 
-    // Restore toggle states in the UI
-    document.getElementById('reattemptToggle').checked = REATTEMPT_MODE;
-    document.getElementById('paletteToggle').checked = PALETTE_MODE;
+    // Restore toggle state in the UI (Reattempt only — Palette has no toggle
+    // anymore, it's always available in Focus mode, same as the quiz template)
+    const reattemptEl = document.getElementById('reattemptToggle');
+    if (reattemptEl) reattemptEl.checked = REATTEMPT_MODE;
 
     loadSavedQuestions();
 }
 window.addEventListener('DOMContentLoaded', loadSavedQuestionsWithAuth);
+
+// ------------------------------------------------------------
+// Header back button — same pattern as the quiz template
+// ------------------------------------------------------------
+function goBack() {
+    if (window.history.length > 1) window.history.back();
+    else window.location.href = "/index.html";
+}
 
 // ------------------------------------------------------------
 // Subject auto-detection for legacy (un-subjected) saved questions.
@@ -197,10 +204,8 @@ function setSubjectFilter(s) {
 }
 
 function applyFilters() {
-    const term = document.getElementById('searchBar').value.toLowerCase();
     let list = QUESTION_LIST;
     if (activeSubjectFilter !== 'ALL') list = list.filter(i => i.subject === activeSubjectFilter);
-    if (term) list = list.filter(i => JSON.stringify(i).toLowerCase().includes(term));
     FILTERED_LIST = list;
 
     const isFocus = document.getElementById('focusView').style.display === 'block';
@@ -272,7 +277,9 @@ function renderImg(url, quizId, qId, num, isOpt = false) {
 }
 
 // ------------------------------------------------------------
-// Options rendering — supports Reattempt Mode (hide answer until tapped)
+// Options rendering — supports Reattempt Mode (hide answer until tapped).
+// Text div comes FIRST, radio-circle div SECOND — matches the CSS grid
+// (1fr 44px) that puts the circle on the right side of the row.
 // ------------------------------------------------------------
 function renderOptions(item) {
     const q = item.question_data;
@@ -310,12 +317,17 @@ function mmhSelectOption(ev, isCorrect) {
 }
 
 // ------------------------------------------------------------
-// Card header (q-bar): quiz id + qno on row 1, subject + Move/Remove on row 2
-// (stacks to 2 rows automatically on small screens via CSS)
+// Card header (q-bar): quiz id + qno on row 1, Move-to select + Remove on row 2
+// (stacks to 2 rows automatically on small screens via CSS). Move-to is a
+// native <select> — same style/behavior as the language selector — instead
+// of a button that opened a separate modal.
 // ------------------------------------------------------------
 function buildQBar(item, indexLabel) {
     const q = item.question_data;
     const qNoDisplay = String(q.id).slice(1).replace(/^0+/, '');
+    const moveOptions = SUBJECTS.map(s =>
+        `<option value="${s}" ${s === item.subject ? 'selected' : ''}>${s}</option>`
+    ).join('');
     return `
         <div class="q-bar">
             <div class="q-bar-row1">
@@ -324,7 +336,7 @@ function buildQBar(item, indexLabel) {
             </div>
             <div class="q-bar-row2">
                 <div class="q-bar-actions">
-                    <button class="q-bar-btn move" onclick="openMoveModal('${item.key}', '${item.subject}')"><i class="fas fa-arrows-alt"></i> Move to...</button>
+                    <select class="move-select" onchange="moveToSection('${item.key}', this.value)">${moveOptions}</select>
                     <button class="q-bar-btn remove" onclick="confirmUnsave('${item.key}')"><i class="fas fa-trash"></i> Remove</button>
                 </div>
             </div>
@@ -354,7 +366,6 @@ function renderListView() {
     list.forEach((item) => {
         const card = document.createElement('div');
         card.className = 'q-card';
-        card.id = `card-${item.key}`;
         card.dataset.key = item.key;
         card.innerHTML = buildQuestionCardHTML(item);
         container.appendChild(card);
@@ -387,7 +398,11 @@ const observer = new IntersectionObserver(entries => {
 });
 
 // ------------------------------------------------------------
-// Focus Mode — one question at a time, with optional Palette navigator
+// Focus Mode — one question at a time, with the Palette navigator.
+// Palette has no on/off toggle anymore — it's always available whenever
+// Focus mode is active, same as the live quiz template: a green FAB that
+// opens a right-side slide-in panel on mobile, and an always-visible
+// right sidebar on desktop.
 // ------------------------------------------------------------
 function switchMode(m) {
     document.getElementById('listModeBtn').classList.toggle('active', m === 'list');
@@ -402,23 +417,29 @@ function switchMode(m) {
     }
 }
 
-// Palette is only ever eligible to show when Focus mode is active AND the
-// Palette toggle is on. On mobile that just makes the green FAB appear
-// (tapping it opens the bottom-sheet panel). On desktop (see saved.css
-// media query) it's shown automatically as an always-visible right sidebar,
-// and the FAB is hidden entirely.
 function updatePaletteVisibility() {
     const isFocus = document.getElementById('focusView').style.display === 'block';
-    const enabled = isFocus && PALETTE_MODE;
     const wrap = document.getElementById('paletteWrap');
     const fab = document.getElementById('paletteFab');
-    wrap.classList.toggle('enabled', enabled);
-    fab.classList.toggle('enabled', enabled);
-    if (!enabled) wrap.classList.remove('open');
+    const backdrop = document.getElementById('paletteBackdrop');
+    wrap.classList.toggle('enabled', isFocus);
+    fab.classList.toggle('enabled', isFocus);
+    if (!isFocus) {
+        wrap.classList.remove('open');
+        if (backdrop) backdrop.classList.remove('open');
+    }
 }
 
 function togglePaletteSheet() {
-    document.getElementById('paletteWrap').classList.toggle('open');
+    const open = document.getElementById('paletteWrap').classList.toggle('open');
+    const backdrop = document.getElementById('paletteBackdrop');
+    if (backdrop) backdrop.classList.toggle('open', open);
+}
+
+function closePaletteSheet() {
+    document.getElementById('paletteWrap').classList.remove('open');
+    const backdrop = document.getElementById('paletteBackdrop');
+    if (backdrop) backdrop.classList.remove('open');
 }
 
 function renderFocusMode() {
@@ -442,16 +463,17 @@ function renderFocusMode() {
     normalizeMathForQuiz(focusContent);
     renderMath(focusContent);
 
-    if (PALETTE_MODE) {
-        document.getElementById('paletteGrid').innerHTML = list.map((it, idx) =>
-            `<button class="palette-btn ${idx === currentFocusIdx ? 'current' : ''}" onclick="jumpFocus(${idx})">${idx + 1}</button>`
-        ).join('');
-    }
+    // Palette only ever shows the CURRENTLY FILTERED subject's questions —
+    // it reads from the same FILTERED_LIST the card itself came from.
+    document.getElementById('paletteGrid').innerHTML = list.map((it, idx) =>
+        `<button class="palette-btn ${idx === currentFocusIdx ? 'current' : ''}" onclick="jumpFocus(${idx})">${idx + 1}</button>`
+    ).join('');
 }
 
 function jumpFocus(idx) {
     currentFocusIdx = idx;
     renderFocusMode();
+    closePaletteSheet();
 }
 
 function navFocus(d) {
@@ -462,7 +484,7 @@ function navFocus(d) {
 }
 
 // ------------------------------------------------------------
-// Toggles: Reattempt Mode + Palette Navigation
+// Reattempt Mode toggle
 // ------------------------------------------------------------
 function onReattemptToggle(checked) {
     REATTEMPT_MODE = checked;
@@ -470,35 +492,13 @@ function onReattemptToggle(checked) {
     applyFilters(); // re-render current view under the new mode
 }
 
-function onPaletteToggle(checked) {
-    PALETTE_MODE = checked;
-    localStorage.setItem('mmh_saved_palette', checked ? '1' : '0');
-    updatePaletteVisibility();
-    const isFocus = document.getElementById('focusView').style.display === 'block';
-    if (isFocus) renderFocusMode();
-}
-
 // ------------------------------------------------------------
-// Move to Section modal
+// Move to Section — now a direct inline <select> on each card, no modal
 // ------------------------------------------------------------
-function openMoveModal(key, currentSubject) {
-    MOVE_CONTEXT = { key, currentSubject };
-    const wrap = document.getElementById('moveSubjectOptions');
-    wrap.innerHTML = SUBJECTS.map(s =>
-        `<button class="mmh-subject-option" onclick="moveToSection('${key}', '${s}')">${s}${s === currentSubject ? ' (current)' : ''}</button>`
-    ).join('');
-    document.getElementById('moveModalOverlay').classList.add('active');
-}
-
-function closeMoveModal() {
-    document.getElementById('moveModalOverlay').classList.remove('active');
-    MOVE_CONTEXT = null;
-}
-
 async function moveToSection(key, newSubject) {
     const item = QUESTION_LIST.find(i => i.key === key);
-    if (!item) return closeMoveModal();
-    if (item.subject === newSubject) return closeMoveModal();
+    if (!item) return;
+    if (item.subject === newSubject) return;
 
     const payload = { quiz_id: item.quiz_id, question_data: item.question_data, saved_at: item.saved_at };
     const oldPath = item.legacy
@@ -512,7 +512,6 @@ async function moveToSection(key, newSubject) {
         item.subject = newSubject;
         item.legacy = false;
         showToast(`Moved to ${newSubject}`);
-        closeMoveModal();
         renderSubjectChips();
         applyFilters();
     } catch (e) {
