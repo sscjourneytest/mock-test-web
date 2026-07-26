@@ -46,36 +46,20 @@
 
   <div class="header">
     <div class="header-top">
-      <div class="header-title">SAVED QUESTIONS</div>
-      <select id="globalLangSelect" class="mode-btn" style="flex: 0 0 90px; border: 1px solid #cbd5e1;" onchange="changeGlobalLang(this.value)">
+      <div class="header-title-group">
+        <button class="icon-circle-btn" onclick="goBack()" aria-label="Back"><i class="fas fa-arrow-left"></i></button>
+        <div class="header-title">SAVED QUESTIONS</div>
+      </div>
+      <select id="globalLangSelect" class="lang-select" onchange="changeGlobalLang(this.value)">
         <option value="en">English</option>
         <option value="hi">हिन्दी</option>
         <option value="bilingual">Bilingual</option>
       </select>
     </div>
 
-    <input type="text" id="searchBar" class="search-box" placeholder="Search Quiz ID or question text..." oninput="applyFilters()">
-
     <div class="mode-switch">
       <button id="listModeBtn" class="mode-btn active" onclick="switchMode('list')">LIST VIEW</button>
       <button id="focusModeBtn" class="mode-btn" onclick="switchMode('focus')">FOCUS MODE</button>
-    </div>
-
-    <div class="toggles-bar">
-      <div class="toggle-row">
-        <span class="toggle-label">Reattempt Mode</span>
-        <label class="toggle-switch">
-          <input type="checkbox" id="reattemptToggle" onchange="onReattemptToggle(this.checked)">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="toggle-row">
-        <span class="toggle-label">Palette Navigate</span>
-        <label class="toggle-switch">
-          <input type="checkbox" id="paletteToggle" onchange="onPaletteToggle(this.checked)">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
     </div>
 
     <div class="subject-filter-row" id="subjectFilterRow"></div>
@@ -99,33 +83,27 @@
     </div>
   </div>
 
+  <!-- Question Palette — right-slide overlay on mobile, persistent sidebar on desktop -->
+  <div class="palette-backdrop" id="paletteBackdrop" onclick="closePaletteSheet()"></div>
   <div class="palette-wrap" id="paletteWrap">
+    <button class="icon-circle-btn palette-close-btn" onclick="closePaletteSheet()" aria-label="Close"><i class="fas fa-times"></i></button>
     <div class="palette-grid" id="paletteGrid"></div>
   </div>
   <button class="palette-fab" id="paletteFab" onclick="togglePaletteSheet()" aria-label="Question palette">
     <i class="fas fa-th"></i>
   </button>
 
+  <!-- Thin bottom bar: small Previous / Reattempt toggle / Next — replaces bottom-nav -->
   <div class="focus-nav" id="focusNav" style="display:none;">
-    <button class="btn" style="background:var(--primary); color:white; height:42px;" onclick="navFocus(-1)">PREVIOUS</button>
-    <button class="btn" style="background:var(--primary); color:white; height:42px;" onclick="navFocus(1)">NEXT</button>
-  </div>
-
-  <div class="bottom-nav">
-    <a href="/index.html" class="nav-item"><i class="fas fa-home"></i>HOME</a>
-    <a href="/exams" class="nav-item"><i class="fas fa-file-alt"></i>EXAMS</a>
-    <a href="/live-test" class="nav-item"><i class="fas fa-bolt"></i>LIVE</a>
-    <a href="/saved.html" class="nav-item active"><i class="fas fa-star"></i>SAVED</a>
-    <a href="/profile.html" class="nav-item"><i class="fas fa-user-circle"></i>PROFILE</a>
-  </div>
-
-  <!-- Move to Section modal -->
-  <div class="mmh-modal-overlay" id="moveModalOverlay">
-    <div class="mmh-modal-box">
-      <h4>Move to Section</h4>
-      <div id="moveSubjectOptions"></div>
-      <button class="mmh-modal-cancel" onclick="closeMoveModal()">Cancel</button>
+    <button class="focus-nav-btn" onclick="navFocus(-1)">PREV</button>
+    <div class="focus-reattempt">
+      <span class="focus-reattempt-label">Reattempt</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="reattemptToggle" onchange="onReattemptToggle(this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
     </div>
+    <button class="focus-nav-btn" onclick="navFocus(1)">NEXT</button>
   </div>
 
   <script src="/js/saved.js"></script>
