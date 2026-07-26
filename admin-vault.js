@@ -1,6 +1,9 @@
 const WORKER_BASE = "https://mmh-vault-2.mockmatrixhub.workers.dev";
 let myRole = null;
 let myToken = null;
+let myUserId = null;
+let myEmail = null;
+let myUsername = null;
 
 // -----------------------------------------------------------
 // IST helpers
@@ -63,14 +66,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
   myToken = session.access_token;
+  myUserId = session.user.id;
+  myEmail = session.user.email;
 
   const { data: profile } = await _supabase
     .from("profiles")
-    .select("role")
+    .select("role, username")
     .eq("id", session.user.id)
     .maybeSingle();
 
   myRole = profile?.role;
+  myUsername = profile?.username || myEmail;
 
   if (!["owner", "subowner", "admin"].includes(myRole)) {
     document.getElementById("deniedScreen").style.display = "block";
@@ -78,6 +84,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (myRole === "owner") document.body.classList.add("role-owner");
+
+  const ownerDisplay = document.getElementById("saleOwnerDisplay");
+  if (ownerDisplay) ownerDisplay.value = `${myUsername} (${myEmail})`;
 
   document.getElementById("vaultApp").style.display = "block";
   initTabs();
@@ -87,6 +96,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadPricing();
   loadPayouts();
   loadLegacyPayments();
+  initClearanceTab();
   wireForms();
 });
 
@@ -354,7 +364,6 @@ function wireForms() {
 
   document.getElementById("createSaleCouponBtn").addEventListener("click", async () => {
     const code = document.getElementById("saleCode").value.trim().toUpperCase();
-    const ownerName = document.getElementById("saleOwnerName").value.trim();
     const discount = Number(document.getElementById("saleDiscount").value) || 0;
     const payout = Number(document.getElementById("salePayout").value) || 0;
     const upi = document.getElementById("saleUpi").value.trim();
@@ -363,7 +372,8 @@ function wireForms() {
     if (!code) return alert("Enter a coupon code");
 
     const { error } = await _supabase.from("coupons").insert([{
-      code, owner_name: ownerName || "MMH Sale", discount_percent: discount, payout_percent: payout,
+      code, owner_name: myUsername, owner_user_id: myUserId, owner_email: myEmail,
+      discount_percent: discount, payout_percent: payout,
       upi_id: upi || null, is_active: true,
       valid_until: validUntil ? istDateInputToUTC(validUntil).toISOString() : null,
     }]);
@@ -474,5 +484,307 @@ async function rejectLegacy(id) {
   if (reason === null || reason.trim() === "") return;
   await _supabase.from("payment_requests").update({ status: "rejected", rejection_reason: reason }).eq("id", id);
   loadLegacyPayments();
+}
+
+
+async function loadSummaryTable() {
+  const { data: shares } = await _supabase.from("clearance_shares").select("user_id, username, amount_due, amount_paid");
+  const byUser = {};
+  (shares || []).forEach((s) => {
+    if (!byUser[s.user_id]) byUser[s.user_id] = { username: s.username, due: 0, paid: 0 };
+    byUser[s.user_id].due += Number(s.amount_due);
+    byUser[s.user_id].paid += Number(s.amount_paid);
+  });
+
+  let html = "";
+  Object.values(byUser).forEach((u) => {
+    const pending = Math.max(0, u.due - u.paid);
+    html += `<tr>
+      <td><b>${u.username}</b></td>
+      <td>₹${u.due.toLocaleString("en-IN")}</td>
+      <td>₹${u.paid.toLocaleString("en-IN")}</td>
+      <td>${pending > 0 ? "₹" + pending.toLocaleString("en-IN") : "—"}</td>
+    </tr>`;
+  });
+  document.getElementById("summaryTable").innerHTML = html || '<tr><td colspan="4">No clearances yet.</td></tr>';
+}
+
+// -----------------------------------------------------------
+// Payment Clearance tab
+// -----------------------------------------------------------
+let staffList = [];          // [{id, username}] for owner/subowner/admin
+let lastClearedToDate = null; // "YYYY-MM-DD" or null if never cleared
+let previewFromKey = null;
+let previewToKey = null;
+
+async function initClearanceTab() {
+  await loadStaffList();
+  await loadSplitEditor();
+  await refreshClearanceFromDate();
+  await updateNotClearedStat();
+  await loadClearanceHistory();
+  await loadSummaryTable();
+
+  document.getElementById("saveSplitBtn").addEventListener("click", saveSplit);
+  document.getElementById("previewClearanceBtn").addEventListener("click", previewClearance);
+  document.getElementById("confirmClearanceBtn").addEventListener("click", openClearanceModal);
+  document.getElementById("modalCancelBtn").addEventListener("click", closeClearanceModal);
+  document.getElementById("modalConfirmBtn").addEventListener("click", confirmClearance);
+}
+
+async function loadStaffList() {
+  const { data } = await _supabase.from("profiles").select("id, username").in("role", ["owner", "subowner", "admin"]);
+  staffList = data || [];
+}
+
+async function loadSplitEditor() {
+  const { data: splits } = await _supabase.from("staff_revenue_split").select("*");
+  const container = document.getElementById("splitEditor");
+  let html = "";
+  staffList.forEach((s) => {
+    const existing = (splits || []).find((sp) => sp.user_id === s.id);
+    const pct = existing ? existing.percentage : (100 / staffList.length).toFixed(2);
+    html += `<div class="split-row"><span>${s.username}</span><input type="number" step="0.01" class="inline-input split-input" id="split-${s.id}" value="${pct}"></div>`;
+  });
+  container.innerHTML = html;
+}
+
+async function saveSplit() {
+  const rows = staffList.map((s) => ({
+    user_id: s.id,
+    percentage: Number(document.getElementById(`split-${s.id}`).value) || 0,
+    updated_at: new Date().toISOString(),
+  }));
+  const { error } = await _supabase.from("staff_revenue_split").upsert(rows, { onConflict: "user_id" });
+  if (error) return alert("Error: " + error.message);
+  alert("Split saved.");
+}
+
+async function getLastClearedToDate() {
+  const { data } = await _supabase.from("revenue_clearances").select("to_date").order("to_date", { ascending: false }).limit(1);
+  return data && data[0] ? data[0].to_date : null;
+}
+
+async function refreshClearanceFromDate() {
+  lastClearedToDate = await getLastClearedToDate();
+  const label = document.getElementById("clearanceFromLabel");
+  if (lastClearedToDate) {
+    const next = new Date(lastClearedToDate + "T00:00:00Z");
+    next.setUTCDate(next.getUTCDate() + 1);
+    label.textContent = "From: " + next.toISOString().slice(0, 10) + "  (cleared up to " + lastClearedToDate + ")";
+  } else {
+    label.textContent = "From: the very beginning (no clearance done yet)";
+  }
+}
+
+async function updateNotClearedStat() {
+  const fromKey = lastClearedToDate;
+  let query = _supabase.from("payments").select("amount_paid");
+  if (fromKey) {
+    const fromUTC = istDateInputToUTC(fromKey);
+    const fromEnd = new Date(fromUTC.getTime() + 86400000); // end of that IST day
+    query = query.gte("created_at", fromEnd.toISOString());
+  }
+  const { data } = await query;
+  const total = (data || []).reduce((s, p) => s + Number(p.amount_paid), 0);
+  document.getElementById("statNotCleared").textContent = "₹" + total.toLocaleString("en-IN");
+  document.getElementById("clearedUpToLabel").textContent = "Cleared up to: " + (lastClearedToDate || "Never");
+}
+
+async function previewClearance() {
+  const toInput = document.getElementById("clearanceToDate").value;
+  if (!toInput) return alert("Pick a 'to' date");
+
+  const fromUTC = lastClearedToDate
+    ? new Date(istDateInputToUTC(lastClearedToDate).getTime() + 86400000)
+    : new Date("2000-01-01T00:00:00Z");
+  const toStart = istDateInputToUTC(toInput);
+  const toUTC = new Date(toStart.getTime() + 86400000 - 1);
+
+  if (toUTC < fromUTC) return alert("'To' date must be after the last cleared date.");
+
+  const { data } = await _supabase.from("payments").select("amount_paid")
+    .gte("created_at", fromUTC.toISOString()).lte("created_at", toUTC.toISOString());
+
+  const total = (data || []).reduce((s, p) => s + Number(p.amount_paid), 0);
+
+  previewFromKey = lastClearedToDate
+    ? new Date(fromUTC.getTime()).toISOString().slice(0, 10)
+    : "2000-01-01";
+  previewToKey = toInput;
+
+  document.getElementById("previewAmount").textContent = "₹" + total.toLocaleString("en-IN");
+  document.getElementById("previewCount").textContent = (data || []).length;
+  document.getElementById("clearancePreview").dataset.total = total;
+  document.getElementById("clearancePreview").style.display = "block";
+}
+
+async function openClearanceModal() {
+  const total = Number(document.getElementById("clearancePreview").dataset.total || 0);
+  const { data: splits } = await _supabase.from("staff_revenue_split").select("*");
+
+  document.getElementById("modalRangeLabel").textContent =
+    `${previewFromKey} → ${previewToKey}  ·  Total ₹${total.toLocaleString("en-IN")}`;
+
+  let html = "";
+  staffList.forEach((s) => {
+    const split = (splits || []).find((sp) => sp.user_id === s.id);
+    const pct = split ? Number(split.percentage) : (100 / staffList.length);
+    const due = Math.round(total * pct / 100 * 100) / 100;
+    html += `<div class="modal-share-row" data-user="${s.id}" data-username="${s.username}" data-pct="${pct}" data-due="${due}">
+      <div class="msr-name">${s.username}</div>
+      <div class="msr-due">To be paid (locked, ${pct}%): ₹${due.toLocaleString("en-IN")}</div>
+      <label><input type="checkbox" class="msr-cleared" checked onchange="toggleClearedRow(this)"> Fully cleared now</label>
+      <input type="number" class="msr-paid-input" value="${due}" disabled>
+    </div>`;
+  });
+  document.getElementById("modalShareRows").innerHTML = html;
+  document.getElementById("clearanceModal").classList.add("active");
+}
+
+function toggleClearedRow(checkbox) {
+  const row = checkbox.closest(".modal-share-row");
+  const input = row.querySelector(".msr-paid-input");
+  const due = Number(row.dataset.due);
+  if (checkbox.checked) {
+    input.value = due;
+    input.disabled = true;
+  } else {
+    input.disabled = false;
+    input.focus();
+  }
+}
+
+function closeClearanceModal() {
+  document.getElementById("clearanceModal").classList.remove("active");
+}
+
+async function confirmClearance() {
+  const total = Number(document.getElementById("clearancePreview").dataset.total || 0);
+
+  const rows = Array.from(document.querySelectorAll(".modal-share-row")).map((row) => {
+    const due = Number(row.dataset.due);
+    let paid = Number(row.querySelector(".msr-paid-input").value) || 0;
+    if (paid > due) paid = due; // can't pay more than what's due in this batch
+    return {
+      user_id: row.dataset.user,
+      username: row.dataset.username,
+      percentage_at_time: Number(row.dataset.pct),
+      amount_due: due,
+      amount_paid: paid,
+      status: paid >= due ? "done" : "pending",
+    };
+  });
+
+  if (!confirm(`Create this clearance batch for ₹${total.toLocaleString("en-IN")}?`)) return;
+
+  const { data: batch, error: batchErr } = await _supabase.from("revenue_clearances").insert([{
+    from_date: previewFromKey, to_date: previewToKey, total_amount: total, created_by: myUserId,
+  }]).select().single();
+
+  if (batchErr) return alert("Error: " + batchErr.message);
+
+  const shareRows = rows.map((r) => ({ ...r, clearance_id: batch.id }));
+  const { error: shareErr } = await _supabase.from("clearance_shares").insert(shareRows);
+  if (shareErr) return alert("Error creating shares: " + shareErr.message);
+
+  alert("Cleared!");
+  closeClearanceModal();
+  document.getElementById("clearancePreview").style.display = "none";
+  document.getElementById("clearanceToDate").value = "";
+  await refreshClearanceFromDate();
+  await updateNotClearedStat();
+  await loadClearanceHistory();
+  await loadSummaryTable();
+}
+
+async function loadClearanceHistory() {
+  const { data: batches } = await _supabase.from("revenue_clearances").select("*").order("to_date", { ascending: false });
+  const container = document.getElementById("clearanceHistory");
+
+  if (!batches || batches.length === 0) {
+    container.innerHTML = '<p class="hint">No clearances yet.</p>';
+    return;
+  }
+
+  let html = "";
+  for (const batch of batches) {
+    const { data: shares } = await _supabase.from("clearance_shares").select("*").eq("clearance_id", batch.id).order("username");
+    html += `<div class="clearance-batch">
+      <div class="clearance-batch-head">
+        <b>${batch.from_date} → ${batch.to_date}</b>
+        <span>Total: ₹${Number(batch.total_amount).toLocaleString("en-IN")}</span>
+      </div>`;
+    (shares || []).forEach((sh) => {
+      const remaining = Math.max(0, Number(sh.amount_due) - Number(sh.amount_paid));
+      html += `<div class="share-row">
+        <span class="share-name">${sh.username}</span>
+        <span class="share-amounts">
+          Due ₹<input type="number" class="pay-input" id="due-${sh.id}" value="${sh.amount_due}" style="width:80px;">
+          · Paid ₹${Number(sh.amount_paid).toLocaleString("en-IN")}${remaining > 0 ? " · Pending ₹" + remaining.toLocaleString("en-IN") : ""}
+        </span>
+        <span class="badge ${sh.status === "done" ? "on" : "off"}">${sh.status}</span>
+        <div class="share-actions">
+          <button class="btn-sm edit" onclick="saveDueEdit('${sh.id}')">Save Due</button>
+          <input type="number" class="pay-input" id="addpay-${sh.id}" placeholder="Add ₹">
+          <button class="btn-sm edit" onclick="addSharePayment('${sh.id}')">Add</button>
+          <button class="btn-sm approve" onclick="markShareDone('${sh.id}')">Mark Done</button>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  container.innerHTML = html;
+}
+
+async function saveDueEdit(shareId) {
+  const newDue = Number(document.getElementById(`due-${shareId}`).value);
+  if (isNaN(newDue) || newDue < 0) return alert("Enter a valid amount");
+  if (!confirm(`Change amount due to ₹${newDue}? This is a manual correction.`)) return;
+
+  const { data: share } = await _supabase.from("clearance_shares").select("*").eq("id", shareId).single();
+  const newStatus = Number(share.amount_paid) >= newDue ? "done" : "pending";
+
+  const { error } = await _supabase.from("clearance_shares").update({
+    amount_due: newDue, status: newStatus, updated_at: new Date().toISOString(),
+  }).eq("id", shareId);
+
+  if (error) return alert("Error: " + error.message);
+  loadClearanceHistory();
+  loadSummaryTable();
+}
+
+async function addSharePayment(shareId) {
+  const input = document.getElementById(`addpay-${shareId}`);
+  const addAmount = Number(input.value);
+  if (!addAmount || addAmount <= 0) return alert("Enter a valid amount");
+
+  const { data: share } = await _supabase.from("clearance_shares").select("*").eq("id", shareId).single();
+  if (!share) return;
+
+  const newPaid = Number(share.amount_paid) + addAmount;
+  const newStatus = newPaid >= Number(share.amount_due) ? "done" : "pending";
+
+  const { error } = await _supabase.from("clearance_shares").update({
+    amount_paid: newPaid, status: newStatus, updated_at: new Date().toISOString(),
+  }).eq("id", shareId);
+
+  if (error) return alert("Error: " + error.message);
+  loadClearanceHistory();
+  loadSummaryTable();
+}
+
+async function markShareDone(shareId) {
+  const { data: share } = await _supabase.from("clearance_shares").select("*").eq("id", shareId).single();
+  if (!share) return;
+  if (!confirm(`Mark ₹${share.amount_due} as fully paid to ${share.username}?`)) return;
+
+  const { error } = await _supabase.from("clearance_shares").update({
+    amount_paid: share.amount_due, status: "done", updated_at: new Date().toISOString(),
+  }).eq("id", shareId);
+
+  if (error) return alert("Error: " + error.message);
+  loadClearanceHistory();
+  loadSummaryTable();
 }
 
