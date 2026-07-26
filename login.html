@@ -177,8 +177,8 @@
             <h2>Welcome Back</h2>
             <p class="mandatory-notice">Please enter your credentials <span>*</span></p>
             
-            <label>Gmail or Username <span>*</span></label>
-            <input type="text" id="l-identity" class="input-box" placeholder="Enter Gmail or Username">
+            <label>Gmail, Username or Mobile <span>*</span></label>
+            <input type="text" id="l-identity" class="input-box" placeholder="Enter Gmail, Username or Mobile">
             
             <label>Password <span>*</span></label>
             <div class="pass-container">
@@ -250,9 +250,14 @@
 
              <label>Unique Username <span>*</span></label>
             <input type="text" id="s-username" class="input-box" placeholder="Letters and numbers only">
-          
+            <p style="font-size:11.5px; color:#64748b; margin:-14px 0 16px;">This will be used as your ID for mock tests.</p>
+
             <label>Gmail Address <span>*</span></label>
             <input type="email" id="s-email" class="input-box" placeholder="example@gmail.com">
+
+            <label>Mobile Number <span>*</span></label>
+            <input type="tel" id="s-mobile" class="input-box" placeholder="10-digit mobile number" maxlength="10">
+            <p style="font-size:11.5px; color:#64748b; margin:-14px 0 16px;">This number must have an active Telegram or WhatsApp account — used for support and important updates.</p>
             
             <label>Create Password <span>*</span></label>
             <div class="pass-container">
@@ -470,10 +475,13 @@
             const confirmPass = document.getElementById('s-confirm-password').value;
             const name = document.getElementById('s-name').value.trim();
             const user = document.getElementById('s-username').value.trim();
+            const mobile = document.getElementById('s-mobile').value.trim();
             const userRegex = /^[A-Za-z0-9]+$/;
+            const mobileRegex = /^[0-9]{10}$/;
 
-            if(!email || !pass || !confirmPass || !name || !user) return showMessage("Error: All fields are mandatory!", true);
+            if(!email || !pass || !confirmPass || !name || !user || !mobile) return showMessage("Error: All fields are mandatory!", true);
             if(!userRegex.test(user)) return showMessage("Error: Username must only contain letters and numbers.", true);
+            if(!mobileRegex.test(mobile)) return showMessage("Error: Enter a valid 10-digit mobile number.", true);
             if(pass.length < 6) return showMessage("Error: Password should be at least 6 characters.", true);
             if(pass !== confirmPass) return showMessage("Error: Passwords do not match.", true);
 
@@ -484,18 +492,35 @@
             try {
                 const client = await getLoginClient();
 
+                // Quick instant-feedback checks (the DB's unique constraint + the
+                // trigger below are what actually enforce this — this is just UX).
                 const { data: emailExist } = await client.from('profiles').select('id').eq('email', email).maybeSingle();
                 if (emailExist) return showMessage("Error: This Email is already registered!", true);
 
                 const { data: userExist } = await client.from('profiles').select('username').eq('username', user).maybeSingle();
                 if (userExist) return showMessage("Error: Username already taken.", true);
 
-                const { data: authData, error: authError } = await client.auth.signUp({ email, password: pass });
-                if (authError) return showMessage("Error: " + authError.message, true);
-                if (!authData.user) return showMessage("Error: Registration failed. Please try again.", true);
+                // Everything the profile needs travels as signup metadata — a
+                // database trigger creates the profiles row automatically, in the
+                // SAME transaction as the auth user itself. No separate insert
+                // step here means no way for a profile row to end up missing.
+                const { data: authData, error: authError } = await client.auth.signUp({
+                    email,
+                    password: pass,
+                    options: {
+                        data: { full_name: name, username: user, mobile: mobile }
+                    }
+                });
 
-                const { error } = await client.from('profiles').insert([{ id: authData.user.id, username: user, full_name: name, email: email }]);
-                if (error) return showMessage("Error: " + error.message, true);
+                if (authError) {
+                    // The trigger's unique constraint on username surfaces here as
+                    // a raw Postgres error if two people raced for the same one.
+                    if (authError.message && authError.message.toLowerCase().includes('username')) {
+                        return showMessage("Error: That username was just taken. Please pick another.", true);
+                    }
+                    return showMessage("Error: " + authError.message, true);
+                }
+                if (!authData.user) return showMessage("Error: Registration failed. Please try again.", true);
 
                 // Don't leave this page until the profile has actually loaded.
                 showMessage("Loading your profile...", false);
@@ -525,9 +550,13 @@
                 let loginEmail = identity;
 
                 if (!identity.includes('@')) {
-                    const { data } = await client.from('profiles').select('email').eq('username', identity).maybeSingle();
+                    // Accepts either a username or a 10-digit mobile number here.
+                    const { data } = await client.from('profiles')
+                        .select('email')
+                        .or(`username.eq.${identity},mobile.eq.${identity}`)
+                        .maybeSingle();
                     if (data) loginEmail = data.email;
-                    else return showMessage("Error: Username not found.", true);
+                    else return showMessage("Error: Username or mobile number not found.", true);
                 } else {
                     loginEmail = identity.toLowerCase();
                 }
@@ -552,6 +581,7 @@
     </script>
 </body>
 </html>
+
 
 
 
