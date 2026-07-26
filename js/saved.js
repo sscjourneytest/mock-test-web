@@ -10,7 +10,21 @@ let currentLang = localStorage.getItem("quiz_lang") || "en";
 let USER_EMAIL_KEY = "";
 
 // Canonical subject taxonomy — same list used by the "Save Question" modal elsewhere.
-const SUBJECTS = ["REASONING", "MATH", "GK", "ENGLISH", "HINDI", "COMPUTER", "MISCELLANEOUS"];
+const SUBJECTS = ["REASONING", "MATH", "GK", "ENGLISH", "HINDI", "MISCELLANEOUS"];
+
+// Normalizes any subject string (from Firebase, from a <select>, from the
+// legacy auto-detect rules) into one of the canonical SUBJECTS values above.
+// This is the single choke point every subject string must pass through —
+// it's what keeps the filter chips, the move-to <select>, and the Firebase
+// node name from ever disagreeing again. Also strips characters that are
+// illegal in Firebase RTDB keys (. # $ [ ] /) and folds GS/General
+// Awareness/General Studies variants into GK.
+function normalizeSubject(s) {
+    if (!s) return "MISCELLANEOUS";
+    let u = String(s).trim().toUpperCase().replace(/[.#$\[\]\/]/g, "");
+    if (u === "GS" || u === "GENERALSTUDIES" || u === "GENERALAWARENESS") u = "GK";
+    return SUBJECTS.includes(u) ? u : "MISCELLANEOUS";
+}
 
 let REATTEMPT_MODE = localStorage.getItem('mmh_saved_reattempt') === '1';
 let activeSubjectFilter = "ALL";
@@ -121,7 +135,7 @@ function parseRawTree(raw) {
 
         if (topVal.question_data) {
             // Legacy leaf — no subject node yet
-            const subject = detectSubjectFromRules(topVal.quiz_id, topVal.question_data.id) || "MISCELLANEOUS";
+            const subject = normalizeSubject(detectSubjectFromRules(topVal.quiz_id, topVal.question_data.id));
             result.push({
                 key: topKey,
                 quiz_id: topVal.quiz_id,
@@ -132,7 +146,7 @@ function parseRawTree(raw) {
             });
         } else {
             // Subject bucket — topKey IS the subject name
-            const subjectName = topKey.toUpperCase();
+            const subjectName = normalizeSubject(topKey);
             for (const qKey in topVal) {
                 const qVal = topVal[qKey];
                 if (!qVal || !qVal.question_data) continue;
@@ -496,6 +510,7 @@ function onReattemptToggle(checked) {
 // Move to Section — now a direct inline <select> on each card, no modal
 // ------------------------------------------------------------
 async function moveToSection(key, newSubject) {
+    newSubject = normalizeSubject(newSubject);
     const item = QUESTION_LIST.find(i => i.key === key);
     if (!item) return;
     if (item.subject === newSubject) return;
@@ -556,3 +571,4 @@ function changeGlobalLang(val) {
     localStorage.setItem("quiz_lang", val);
     applyFilters();
 }
+
