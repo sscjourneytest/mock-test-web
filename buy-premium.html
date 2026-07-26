@@ -299,6 +299,45 @@
     font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600;
     color: var(--seal); margin-right: 6px;
   }
+
+  /* ---------- Payment successful banner ---------- */
+  .success-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 700;
+    background: rgba(15,42,74,0.82);
+    align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .success-overlay.active { display: flex; }
+  .success-box {
+    background: var(--paper-raised);
+    border-radius: 10px;
+    max-width: 380px; width: 100%;
+    padding: 38px 26px 30px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    animation: mmh-pop 0.3s ease;
+  }
+  @keyframes mmh-pop { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  .success-check { width: 76px; height: 76px; margin: 0 auto 20px; }
+  .success-check svg { width: 100%; height: 100%; }
+  .success-check circle {
+    stroke: #16a34a; stroke-width: 3;
+    stroke-dasharray: 157; stroke-dashoffset: 157;
+    animation: mmh-circle 0.5s ease forwards;
+  }
+  .success-check path {
+    stroke: #16a34a; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 36; stroke-dashoffset: 36;
+    animation: mmh-check 0.3s 0.4s ease forwards;
+  }
+  @keyframes mmh-circle { to { stroke-dashoffset: 0; } }
+  @keyframes mmh-check { to { stroke-dashoffset: 0; } }
+
+  .success-box h3 { font-family: 'Lora', serif; font-size: 21px; color: var(--navy); margin-bottom: 6px; }
+  .success-sub { font-size: 14.5px; color: #16a34a; font-weight: 700; margin-bottom: 16px; }
+  .success-redirect { font-size: 12px; color: var(--ink-soft); font-family: 'IBM Plex Mono', monospace; }
 </style>
 </head>
 <body>
@@ -479,8 +518,21 @@
   </div>
 </div>
 
+<!-- Payment successful — green banner, Razorpay-style -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <div class="success-check">
+      <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="25" fill="none"/><path fill="none" d="M14 27l7 7 16-16"/></svg>
+    </div>
+    <h3>Payment Successful</h3>
+    <p class="success-sub">Premium Access Granted 🎉</p>
+    <p class="success-redirect">Redirecting to home page...</p>
+  </div>
+</div>
+
 <script src="/checkout.js"></script>
 </body>
 </html>
+
 
 
