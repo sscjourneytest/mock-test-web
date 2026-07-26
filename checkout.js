@@ -131,6 +131,25 @@ function showAlreadyPremium(expiresAt) {
   msgEl.textContent = validText;
 }
 
+async function checkAlreadyPremiumOnLoad() {
+  const { data: sessionData } = await _supabase.auth.getSession();
+  const userId = sessionData?.session?.user?.id;
+  if (!userId) return;
+
+  const { data: profile } = await _supabase
+    .from("profiles")
+    .select("is_paid, expires_at")
+    .eq("id", userId)
+    .maybeSingle();
+
+  const stillValid = profile && profile.is_paid &&
+    (!profile.expires_at || new Date(profile.expires_at) > new Date());
+
+  if (stillValid) {
+    showAlreadyPremium(profile.expires_at);
+  }
+}
+
 // -----------------------------------------------------------
 // 2. Start checkout — creates order, opens Razorpay modal
 // -----------------------------------------------------------
@@ -323,6 +342,7 @@ function closeInstructionPopup() {
 // -----------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   loadPlans();
+  checkAlreadyPremiumOnLoad();
 
   const applyBtn = document.getElementById("applyCouponBtn");
   const payBtn = document.getElementById("payBtn");
@@ -332,6 +352,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (applyBtn) applyBtn.addEventListener("click", applyCoupon);
 
   // Main "Continue" button -> open instructions popup (does NOT open Razorpay directly)
+  // If the on-load check already disabled this button (already premium), this
+  // handler simply never fires — disabled buttons don't dispatch click events.
   if (payBtn) payBtn.addEventListener("click", openInstructionPopup);
 
   // Checkbox enables/disables the popup's own Continue button
@@ -351,4 +373,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
