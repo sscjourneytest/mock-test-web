@@ -73,11 +73,19 @@ function selectPlan(planName) {
 
 // -----------------------------------------------------------
 // 1. Apply coupon — live price update, no payment yet
+//
+// FIX: the input field only LOOKS uppercase (CSS text-transform),
+// the actual .value keeps whatever case the user typed. Without
+// normalizing here, a lowercase/mixed-case entry fails to match
+// the coupon code stored in the DB — this was causing "Invalid,
+// inactive, or expired coupon" for some users but not others,
+// depending purely on the case they happened to type in.
 // -----------------------------------------------------------
 async function applyCoupon() {
   const codeInput = document.getElementById("couponCode");
   const msgEl = document.getElementById("couponMsg");
-  const code = codeInput.value.trim();
+  const code = codeInput.value.trim().toUpperCase();
+  codeInput.value = code; // reflect the normalized value back into the field
 
   if (!selectedPlan) return;
 
@@ -92,12 +100,19 @@ async function applyCoupon() {
   msgEl.textContent = "Checking coupon...";
 
   try {
+    const requestBody = { plan_name: selectedPlan.plan_name, coupon_code: code };
+    console.log("[coupon-debug] sending:", requestBody, "to:", `${WORKER_BASE}/validate-coupon`);
+
     const res = await fetch(`${WORKER_BASE}/validate-coupon`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ plan_name: selectedPlan.plan_name, coupon_code: code }),
+      body: JSON.stringify(requestBody),
     });
+
+    console.log("[coupon-debug] response status:", res.status, res.statusText);
+
     const data = await res.json();
+    console.log("[coupon-debug] response body:", data);
 
     if (!res.ok || !data.valid) {
       msgEl.style.color = "#dc2626";
@@ -111,6 +126,7 @@ async function applyCoupon() {
     msgEl.style.color = "#16a34a";
     msgEl.textContent = `Coupon applied — ${data.discount_percent}% off`;
   } catch (err) {
+    console.error("[coupon-debug] fetch threw an error:", err);
     msgEl.style.color = "#dc2626";
     msgEl.textContent = "Could not check coupon, try again";
     appliedCoupon = null;
@@ -129,6 +145,86 @@ function showAlreadyPremium(expiresAt) {
     : "You already have Premium access.";
   msgEl.style.color = "#16a34a";
   msgEl.textContent = validText;
+}
+
+async function checkAlreadyPremiumOnLoad() {
+  const { data: sessionData } = await _supabase.auth.getSession();
+  const userId = sessionData?.session?.user?.id;
+  if (!userId) return;
+
+  const { data: profile } = await _supabase
+    .from("profiles")
+    .select("is_paid, expires_at")
+    .eq("id", userId)
+    .maybeSingle();
+
+  const stillValid = profile && profile.is_paid &&
+    (!profile.expires_at || new Date(profile.expires_at) > new Date());
+
+  if (stillValid) {
+    showAlreadyPremium(profile.expires_at);
+  }
+}
+
+function showSuccessBanner() {
+  const processing = document.getElementById("processingOverlay");
+  if (processing) processing.classList.remove("active");
+
+  const success = document.getElementById("successOverlay");
+  if (success) success.classList.add("active");
+
+  setTimeout(() => {
+    window.location.href = "/index.html";
+  }, 1800);
+}
+
+// -----------------------------------------------------------
+// 1.5 Recover from a killed tab mid-payment — same job as the
+// check in index.html, but this one runs on buy-premium.html
+// itself, since Android usually relaunches a killed PWA back on
+// the exact page it died on, not on index.html.
+// -----------------------------------------------------------
+async function recoverPendingPayment() {
+  const raw = localStorage.getItem("mmh_payment_pending");
+  if (!raw) return;
+
+  let pending;
+  try { pending = JSON.parse(raw); } catch (e) { localStorage.removeItem("mmh_payment_pending"); return; }
+
+  const oneHour = 60 * 60 * 1000;
+  if (!pending.ts || Date.now() - pending.ts > oneHour) {
+    localStorage.removeItem("mmh_payment_pending");
+    return;
+  }
+
+  // Show the same "confirming payment" overlay immediately — the user
+  // just came back from a UPI app, this is exactly the moment they're
+  // looking at the screen wondering what happened.
+  const overlay = document.getElementById("processingOverlay");
+  if (overlay) overlay.classList.add("active");
+
+  const { data: userData } = await _supabase.auth.getUser();
+  const userId = userData?.user?.id;
+  if (!userId) { if (overlay) overlay.classList.remove("active"); return; }
+
+  const { data: profile } = await _supabase
+    .from("profiles")
+    .select("is_paid, expires_at")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (profile && profile.is_paid) {
+    const cached = getLocalProfile() || {};
+    saveLocalProfile({ ...cached, is_paid: true, expires_at: profile.expires_at });
+    localStorage.removeItem("mmh_payment_pending");
+    showSuccessBanner();
+    return;
+  }
+
+  // Not confirmed yet — fall back to the normal polling loop instead
+  // of leaving the user stuck on a silent overlay.
+  if (overlay) overlay.classList.remove("active");
+  pollForAccess();
 }
 
 // -----------------------------------------------------------
@@ -210,6 +306,9 @@ async function startCheckout() {
       handler: function (response) {
         // This fires client-side on success — NOT the source of truth.
         // The webhook confirms the payment server-side; we just start polling.
+        // Show the full-screen "don't close / wait for redirect" overlay right
+        // now, since this is exactly the window where users tend to bail out.
+        document.getElementById("processingOverlay").classList.add("active");
         btn.innerText = "Confirming payment...";
         pollForAccess();
       },
@@ -275,14 +374,14 @@ async function pollForAccess() {
         const cached = getLocalProfile() || {};
         saveLocalProfile({ ...cached, is_paid: true, expires_at: profile.expires_at });
         localStorage.removeItem("mmh_payment_pending");
-        alert("Payment confirmed! Your premium access is now active.");
-        window.location.href = "/index.html";
+        showSuccessBanner();
         return;
       }
     }
 
     if (attempts >= maxAttempts) {
       clearInterval(interval);
+      document.getElementById("processingOverlay").classList.remove("active");
       alert(
         "Payment received, but confirmation is taking longer than usual. " +
         "Please check back in a few minutes — your access will activate automatically."
@@ -294,14 +393,61 @@ async function pollForAccess() {
 }
 
 // -----------------------------------------------------------
+// 4. Pre-payment instruction popup — must be acknowledged (checkbox)
+// before Razorpay actually opens. The main "Continue" button on the
+// page never calls startCheckout() directly anymore; it only opens
+// this popup. startCheckout() only runs from the popup's own
+// Continue button, once the checkbox is checked.
+// -----------------------------------------------------------
+function openInstructionPopup() {
+  const overlay = document.getElementById("paymentInstructionOverlay");
+  const checkbox = document.getElementById("popupAckCheckbox");
+  const popupBtn = document.getElementById("popupContinueBtn");
+
+  checkbox.checked = false;
+  popupBtn.disabled = true;
+  overlay.classList.add("active");
+}
+
+function closeInstructionPopup() {
+  document.getElementById("paymentInstructionOverlay").classList.remove("active");
+}
+
+// -----------------------------------------------------------
 // Wire up events
 // -----------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   loadPlans();
+  recoverPendingPayment();
+  checkAlreadyPremiumOnLoad();
 
   const applyBtn = document.getElementById("applyCouponBtn");
   const payBtn = document.getElementById("payBtn");
+  const popupCheckbox = document.getElementById("popupAckCheckbox");
+  const popupBtn = document.getElementById("popupContinueBtn");
 
   if (applyBtn) applyBtn.addEventListener("click", applyCoupon);
-  if (payBtn) payBtn.addEventListener("click", startCheckout);
+
+  // Main "Continue" button -> open instructions popup (does NOT open Razorpay directly)
+  // If the on-load check already disabled this button (already premium), this
+  // handler simply never fires — disabled buttons don't dispatch click events.
+  if (payBtn) payBtn.addEventListener("click", openInstructionPopup);
+
+  // Checkbox enables/disables the popup's own Continue button
+  if (popupCheckbox) {
+    popupCheckbox.addEventListener("change", () => {
+      popupBtn.disabled = !popupCheckbox.checked;
+    });
+  }
+
+  // Popup's Continue -> close popup, THEN actually start Razorpay checkout
+  if (popupBtn) {
+    popupBtn.addEventListener("click", () => {
+      if (popupCheckbox.checked) {
+        closeInstructionPopup();
+        startCheckout();
+      }
+    });
+  }
 });
+
