@@ -500,6 +500,9 @@
                 const { data: userExist } = await client.from('profiles').select('username').eq('username', user).maybeSingle();
                 if (userExist) return showMessage("Error: Username already taken.", true);
 
+                const { data: mobileExist } = await client.from('profiles').select('id').eq('mobile', mobile).maybeSingle();
+                if (mobileExist) return showMessage("Error: This mobile number is already registered with another account.", true);
+
                 // Everything the profile needs travels as signup metadata — a
                 // database trigger creates the profiles row automatically, in the
                 // SAME transaction as the auth user itself. No separate insert
@@ -513,10 +516,14 @@
                 });
 
                 if (authError) {
-                    // The trigger's unique constraint on username surfaces here as
-                    // a raw Postgres error if two people raced for the same one.
-                    if (authError.message && authError.message.toLowerCase().includes('username')) {
+                    // The trigger's unique constraints surface here as a raw
+                    // Postgres error if someone raced past the pre-checks above.
+                    const msg = (authError.message || '').toLowerCase();
+                    if (msg.includes('username')) {
                         return showMessage("Error: That username was just taken. Please pick another.", true);
+                    }
+                    if (msg.includes('mobile')) {
+                        return showMessage("Error: That mobile number is already registered with another account.", true);
                     }
                     return showMessage("Error: " + authError.message, true);
                 }
