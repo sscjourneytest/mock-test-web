@@ -114,4 +114,94 @@ document.addEventListener("DOMContentLoaded", () => {
       await wireForegroundMessages();
     });
   });
+
+  maybeShowSubscribePrompt();
 });
+
+// ------------------------------------------------------------------
+// Auto-shown "Get Mock Test Updates" prompt — appears once per browser
+// session, a few seconds after page load, only if the user hasn't
+// already granted/denied notification permission. Tapping "Allow"
+// runs the exact same subscribe flow as tapping the bell icon.
+// ------------------------------------------------------------------
+function maybeShowSubscribePrompt() {
+  if (!("Notification" in window)) return;
+  if (Notification.permission !== "default") return; // already granted or denied — don't ask again
+  if (sessionStorage.getItem("mmh_subscribe_prompt_shown")) return;
+
+  setTimeout(() => {
+    sessionStorage.setItem("mmh_subscribe_prompt_shown", "true");
+
+    const style = document.createElement("style");
+    style.textContent = `
+      @keyframes mmh-notif-slide-up {
+        from { transform: translateY(100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      .mmh-subscribe-banner {
+        position: fixed;
+        bottom: 16px; left: 16px; right: 16px;
+        max-width: 420px; margin: 0 auto;
+        background: var(--white, #fff);
+        border: 1px solid var(--border, #e2e8f0);
+        border-radius: 18px;
+        padding: 16px;
+        display: flex; align-items: center; gap: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        font-family: 'Inter', -apple-system, sans-serif;
+        z-index: 99999;
+        animation: mmh-notif-slide-up 0.35s ease-out;
+      }
+      .mmh-subscribe-icon {
+        flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px;
+        background: linear-gradient(135deg, var(--primary, #2563eb), #1e3a8a);
+        color: white; display: flex; align-items: center; justify-content: center;
+        font-size: 20px;
+      }
+      .mmh-subscribe-text { flex: 1; min-width: 0; }
+      .mmh-subscribe-title {
+        font-weight: 800; font-size: 13.5px; margin: 0 0 2px;
+        color: var(--text-dark, #0f172a);
+      }
+      .mmh-subscribe-sub {
+        font-size: 11.5px; color: var(--text-grey, #64748b); margin: 0; line-height: 1.35;
+      }
+      .mmh-subscribe-actions { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+      .mmh-subscribe-allow {
+        background: var(--primary, #2563eb); color: white; border: none;
+        font-weight: 700; font-size: 12px; padding: 8px 14px; border-radius: 9px; cursor: pointer;
+      }
+      .mmh-subscribe-later {
+        background: none; border: none; color: var(--text-grey, #64748b);
+        font-size: 11px; font-weight: 600; cursor: pointer; padding: 2px;
+      }
+    `;
+    document.head.appendChild(style);
+
+    const banner = document.createElement("div");
+    banner.className = "mmh-subscribe-banner";
+    banner.innerHTML = `
+      <div class="mmh-subscribe-icon"><i class="fas fa-bell"></i></div>
+      <div class="mmh-subscribe-text">
+        <p class="mmh-subscribe-title">Get Mock Test Updates</p>
+        <p class="mmh-subscribe-sub">New mocks, results & important alerts — straight to your device.</p>
+      </div>
+      <div class="mmh-subscribe-actions">
+        <button class="mmh-subscribe-allow" id="mmh-subscribe-allow">Allow</button>
+        <button class="mmh-subscribe-later" id="mmh-subscribe-later">Not now</button>
+      </div>
+    `;
+    document.body.appendChild(banner);
+
+    document.getElementById("mmh-subscribe-allow").addEventListener("click", async () => {
+      banner.remove();
+      await initFcmAndSubscribe();
+      await wireForegroundMessages();
+    });
+
+    document.getElementById("mmh-subscribe-later").addEventListener("click", () => {
+      banner.remove();
+    });
+  }, 3000);
+}
+
