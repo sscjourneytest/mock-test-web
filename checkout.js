@@ -163,6 +163,16 @@ async function checkAlreadyPremiumOnLoad() {
 
   if (stillValid) {
     showAlreadyPremium(profile.expires_at);
+
+    // DB says paid, but if the local cache is stale (still shows free —
+    // e.g. cached before this payment, or from before the 7-day refresh),
+    // fix it here too. Otherwise the user sees "Already Premium" on this
+    // page but other pages (which read getLocalProfile(), not the DB)
+    // would still show them as free until the cache naturally expires.
+    const cached = getLocalProfile();
+    if (cached && !cached.is_paid) {
+      saveLocalProfile({ ...cached, is_paid: true, expires_at: profile.expires_at });
+    }
   }
 }
 
@@ -450,4 +460,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
