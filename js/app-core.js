@@ -110,15 +110,16 @@ function closeTgPopup() {
           
             if(['admin', 'owner', 'subowner'].includes(profile.role)) document.getElementById('adminLinkArea').classList.remove('hidden');
 
-            // Partner status now lives in the coupons table (profiles.is_partner was removed).
-            if (profile.id) {
-                _supabase.from('coupons').select('code').eq('owner_user_id', profile.id).eq('is_active', true).maybeSingle()
-                    .then(({ data: activeCoupon }) => {
-                        if (activeCoupon) {
-                            document.getElementById('partnerLinkArea').classList.remove('hidden');
-                            document.getElementById('partnerApplyArea').classList.add('hidden');
-                        }
-                    });
+            // Partner status lives in the coupons table, but is resolved and
+            // cached into the local profile by auth.js's fetchAndCacheProfile()
+            // (once per login / once every 7 days) — NOT queried here on every
+            // page load. This is a synchronous read, so no flash of stale state.
+            if (profile.is_partner) {
+                document.getElementById('partnerLinkArea').classList.remove('hidden');
+                document.getElementById('partnerApplyArea').classList.add('hidden');
+            } else {
+                document.getElementById('partnerLinkArea').classList.add('hidden');
+                document.getElementById('partnerApplyArea').classList.remove('hidden');
             }
             document.getElementById('authHeaderArea').innerHTML = `<div onclick="toggleSidebar()" style="width:38px; height:38px; background:var(--primary-light); color:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:800; border:2px solid var(--primary); font-size:14px;">${username.charAt(0).toUpperCase()}</div>`;
         }
