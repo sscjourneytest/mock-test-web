@@ -398,8 +398,8 @@ function showToast(message, isError) {
     try {
         const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
 
-        if (!profile || profile.role !== 'admin') {
-            showDenied();
+        if (!profile || !['admin', 'subowner', 'owner'].includes(profile.role)) {
+            window.location.href = '/index.html';
             return;
         }
 
@@ -408,7 +408,7 @@ function showToast(message, isError) {
         loadHistory(true);
     } catch (err) {
         console.error('Admin check failed:', err);
-        showDenied();
+        window.location.href = '/index.html';
     }
 }
 
@@ -630,3 +630,4 @@ async function loadHistory(isFirstLoad) {
 
 </body>
 </html>
+
