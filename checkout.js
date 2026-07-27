@@ -28,9 +28,28 @@ async function loadPlans() {
     }
 
     selectPlan(plans[0].plan_name);
+
+    // Auto-apply a coupon passed via ?c=CODE in the URL (e.g. from a
+    // shared referral/from.link). Must run AFTER selectPlan() above,
+    // since applyCoupon() needs selectedPlan to already be set.
+    applyCouponFromUrl();
   } catch (err) {
     // silently keep hardcoded fallback price if this fails
   }
+}
+
+// -----------------------------------------------------------
+// 0.5 Auto-apply coupon from ?c=CODE query param
+// -----------------------------------------------------------
+function applyCouponFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("c");
+  if (!code) return;
+
+  const codeInput = document.getElementById("couponCode");
+  if (codeInput) codeInput.value = code.toUpperCase();
+
+  applyCoupon(code);
 }
 
 function renderPlanSelector() {
@@ -81,10 +100,10 @@ function selectPlan(planName) {
 // inactive, or expired coupon" for some users but not others,
 // depending purely on the case they happened to type in.
 // -----------------------------------------------------------
-async function applyCoupon() {
+async function applyCoupon(codeOverride) {
   const codeInput = document.getElementById("couponCode");
   const msgEl = document.getElementById("couponMsg");
-  const code = codeInput.value.trim().toUpperCase();
+  const code = (codeOverride !== undefined ? codeOverride : codeInput.value).trim().toUpperCase();
   codeInput.value = code; // reflect the normalized value back into the field
 
   if (!selectedPlan) return;
@@ -460,5 +479,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
 
