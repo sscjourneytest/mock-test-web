@@ -428,7 +428,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const { error } = await _supabase.from('profiles').update({ mobile }).eq('id', profile.id);
     if (error) {
-      msgEl.textContent = "Error: " + error.message;
+      if ((error.message || '').toLowerCase().includes('mobile')) {
+        msgEl.textContent = "This mobile number is already registered with another account.";
+      } else {
+        msgEl.textContent = "Error: " + error.message;
+      }
       return;
     }
 
