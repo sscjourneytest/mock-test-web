@@ -177,7 +177,7 @@
             <h2>Welcome Back</h2>
             <p class="mandatory-notice">Please enter your credentials <span>*</span></p>
             
-            <label>Email only<span>*</span></label>
+            <label>Only email<span>*</span></label>
             <input type="text" id="l-identity" class="input-box" placeholder="Enter Gmail, Username or Mobile">
             
             <label>Password <span>*</span></label>
@@ -469,8 +469,8 @@
                 // login. Load the profile and go straight to the destination
                 // instead — same pattern login()/signup() already use.
                 showMessage("Success! Password updated. Loading your profile...", false);
-                const { data: userData } = await client.auth.getUser();
-                const profile = userData?.user ? await fetchAndCacheProfile(client, userData.user) : null;
+                const { data: { session } } = await client.auth.getSession();
+                const profile = session?.user ? await fetchAndCacheProfile(client, session.user) : null;
 
                 showMessage("Success! Redirecting...", false);
                 window.location.href = profile ? getSafeRedirectTarget() : "/index.html";
@@ -623,6 +623,7 @@
     </script>
 </body>
 </html>
+
 
 
 
