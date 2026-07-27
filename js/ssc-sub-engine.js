@@ -445,7 +445,7 @@ async function reattempt(id, url) {
         localStorage.removeItem(`stream_${username}_${id}`);
 
         // Step 2: Update in-memory checklist and save updated cache
-        const user = profile.username;  // original case — NOT lowercased
+        const user = username;  // original case — NOT lowercased ("Guest" if not logged in)
        
         const exam     = examName.toLowerCase();
         const cacheKey = `CLOUD_SYNC_${user}_${exam}`;
@@ -481,5 +481,6 @@ window.addEventListener('pageshow', function(event) {
         if (typeof renderMocks === 'function' && EXAM_JSON) { renderMocks(); }
     }
 });
+
 
 
