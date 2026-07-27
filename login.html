@@ -233,7 +233,7 @@
             <p class="match-msg" id="otp-match-msg"></p>
             
             <button class="btn btn-primary" onclick="verifyOtpAndChangePassword()">Update Password</button>
-            <button class="btn btn-link" onclick="toggleView('reset')">Resend Code</button>
+            <button class="btn btn-link" onclick="localStorage.removeItem('mmh_otp_reset_pending'); toggleView('reset')">Resend Code</button>
         </div>
 
         <div id="signup-section" class="hidden">
@@ -348,7 +348,34 @@
                 otpConfirm.addEventListener('input', check);
                 otpPass.addEventListener('input', check);
             }
+
+            restoreOtpFlowIfPending();
         });
+
+        // If the page reloaded (PWA process killed by Android on tab switch,
+        // manual refresh, etc.) while the user was mid-way through the
+        // "enter OTP + new password" screen, put them right back on that
+        // screen instead of silently dropping them back to the login form.
+        // Supabase's recovery OTP is typically valid for about an hour, so a
+        // 45-minute local cutoff stays safely inside that window without
+        // resurrecting a flow so old the code would fail anyway.
+        function restoreOtpFlowIfPending() {
+            const raw = localStorage.getItem('mmh_otp_reset_pending');
+            if (!raw) return;
+
+            let pending;
+            try { pending = JSON.parse(raw); } catch (e) { localStorage.removeItem('mmh_otp_reset_pending'); return; }
+
+            const fortyFiveMin = 45 * 60 * 1000;
+            if (!pending.email || !pending.ts || Date.now() - pending.ts > fortyFiveMin) {
+                localStorage.removeItem('mmh_otp_reset_pending');
+                return;
+            }
+
+            window.tempEmail = pending.email;
+            toggleView('otp');
+            showMessage(`Resuming — enter the 8-digit code sent to ${pending.email}.`, false);
+        }
 
         function toggleView(v) {
             document.getElementById('login-section').classList.toggle('hidden', v !== 'login');
@@ -388,6 +415,13 @@
                     showMessage("Error: " + error.message, true);
                 } else {
                     window.tempEmail = email; // Save for OTP verification
+                    // Also persist to localStorage — a PWA's process can be
+                    // killed by Android on tab switch (unlike a Chrome tab,
+                    // which the OS keeps alive). Without this, window.tempEmail
+                    // and the visible OTP section both reset to nothing on
+                    // reload, making the page look like it "disappeared"
+                    // mid-OTP-entry. See restoreOtpFlowIfPending() below.
+                    localStorage.setItem('mmh_otp_reset_pending', JSON.stringify({ email, ts: Date.now() }));
                     toggleView('otp');
                     showMessage("Check your Gmail for the 8-digit code.", false);
                 }
@@ -423,6 +457,8 @@
 
                 const { error: updateError } = await client.auth.updateUser({ password: newPass });
                 if (updateError) throw updateError;
+
+                localStorage.removeItem('mmh_otp_reset_pending');
 
                 // Don't redirect back to login.html — verifyOtp(type: 'recovery')
                 // already signed this session in, so reloading login.html here
@@ -586,6 +622,7 @@
     </script>
 </body>
 </html>
+
 
 
 
