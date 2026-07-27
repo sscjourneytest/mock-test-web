@@ -2,252 +2,626 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MOCK MATRIX HUB</title>
-    <meta name="description" content="Free SSC Mock Tests based on 2025 Ediquity pattern. Practice PYQ, Sectional, Subject-wise, and Full Mocks.">
-
-        
-    <script>
-        (function() {
-            // Anti-flash safety check block
-            const savedTheme = localStorage.getItem('mmh_theme');
-            if (savedTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                // Adds safety helper classes early
-                document.documentElement.classList.add('dark-mode'); 
-            }
-            const SECRET_SALT = "mmh_vault_key_99";
-            const raw = localStorage.getItem('u_vault');
-            if (raw) {
-                try {
-                    const decrypted = atob(raw).replace(SECRET_SALT, '');
-                    const profile = JSON.parse(decrypted);
-                    if (profile && profile.cache_expiry > Date.now()) {
-                        document.documentElement.classList.add('user-is-logged-in');
-                    }
-                } catch (e) {}
-            }
-        })();
-    </script>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4B6V3MV51Q');</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Mock Matrix Hub</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/auth.js"></script>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#2563eb">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+        /* Professional Aesthetic */
+        body { 
+            margin: 0; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: #f1f5f9; 
+            font-family: 'Poppins', sans-serif; 
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-    <link href="/css/index.css" rel="stylesheet">
-</head>
-<body>
-    <header class="app-header">
-        <div class="app-header__toprow">
-            <div class="d-flex align-items-center gap-3">
-                <i class="fas fa-bars fs-5" id="menuBtn" style="cursor: pointer;" onclick="toggleSidebar()"></i>
-                <a href="/" class="brand-logo">
-                    <img src="/logo.png" alt="MMH">
-                    <span>MOCK MATRIX <span style="color:var(--text-dark)">HUB</span></span>
-                </a>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-                <button id="darkModeToggle" onclick="toggleTheme()">🌙</button>
-                <a href="/notifications.html" class="notif-bell-wrap" aria-label="Notifications">
-                    <i class="fas fa-bell"></i>
-                    <span class="notif-badge-dot"></span>
-                </a>
-                <div id="authHeaderArea">
-                    <a href="/login.html" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">LOGIN</a>
-                </div>
-            </div>
-        </div>
+        .auth-card { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 40px; 
+            width: 100%; 
+            max-width: 420px; 
+            color: #1e293b; 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); 
+            border: 1px solid #e2e8f0; 
+        }
 
-        <!-- Only rendered/shown when running inside the Rank Score Master
-             app wrapper (AndroidBridge present) — a normal browser or
-             standalone PWA visitor has no "Rank Master" to switch to. -->
-        <div id="appSwitchSlot"></div>
-    </header>
+        /* Mock Matrix Hub Logo Branding */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo-box {
+            width: 60px;
+            height: 60px;
+            background: #2563eb;
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            font-weight: 800;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
+        }
+        .brand-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e3a8a;
+            letter-spacing: -1px;
+        }
+        .brand-hub {
+            background: #1e293b;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
 
-    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
-    <nav id="appSidebar" class="sidebar">
-        <div class="sidebar-header">
-            <div class="d-flex align-items-center gap-3">
-                <div class="user-avatar-circle" id="userAvatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div>
-                    <h6 class="m-0 fw-bold" id="sidebarUserName">Aspirant</h6>
-                    <div id="sidebarPlanBadge" class="mt-1"></div>
-                </div>
-            </div>
-        </div>
-        <div class="py-3 flex-grow-1 overflow-auto">
-            <a href="/" class="menu-item"><i class="fas fa-house-user"></i> Home</a>
-            <a href="/exams/" class="menu-item"><i class="fas fa-file-signature"></i> Mock Tests</a>
-            <a href="/live-test" class="menu-item"><i class="fas fa-bolt-lightning"></i> Live Mocks</a>
+        /* Signup Guide */
+        .guide-box {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #1e40af;
+        }
 
-            <div id="adminLinkArea" class="hidden">
-    <a href="/admin-vault.html" class="menu-item admin-btn"><i class="fas fa-user-shield"></i> Admin Panel</a>
-    <a href="/admin-notify.html" class="menu-item admin-btn"><i class="fas fa-tower-broadcast"></i> Send Notification</a>
-            </div>
-            
-            <div id="partnerLinkArea" class="hidden">
-                <a href="/partner-dashboard.html" class="menu-item admin-btn" style="background:#f0f9ff; color:#0369a1;"><i class="fas fa-chart-pie"></i> Earnings</a>
-            </div>
-            <div id="buyPremiumArea">
-                <a href="/buy-premium.html" class="menu-item pro-btn"><i class="fas fa-crown"></i> Buy Premium</a>
-            </div>
-            <div id="partnerApplyArea">
-                <a href="/apply-coupon.html" class="menu-item" style="color:#6366f1;"><i class="fas fa-handshake"></i> Become a Partner</a>
-            </div>
-            <div id="privateChannelArea" class="hidden">
-    <a href="https://t.me/+O4W4bDNdITo1Mzdl" target="_blank" class="menu-item" style="background: #f0f9ff; color: #0088cc; font-weight: 700;">
-        <i class="fab fa-telegram"></i> Private Channel
-    </a>
-</div>
-            <button id="sidebarInstallBtn">
-  <i class="fas fa-download" style="margin-right: 8px;"></i> Install App
-            </button>
-            
-
-            <div class="border-bottom my-2"></div>
-            
-            <a href="/saved" class="menu-item"><i class="fas fa-bookmark"></i> Saved Questions</a>
-
+        h2 { text-align: center; color: #1e293b; margin: 0 0 20px 0; font-size: 24px; }
+        .mandatory-notice { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 20px; }
+        .mandatory-notice span { color: #ef4444; }
         
-            <a href="/privacy-policy.html" class="menu-item"><i class="fas fa-shield-halved"></i> Privacy Policy</a>
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #475569; }
+        label span { color: #ef4444; }
+
+        .pass-container { position: relative; width: 100%; }
+        .toggle-eye { position: absolute; right: 12px; top: 12px; cursor: pointer; color: #94a3b8; user-select: none; display: flex; }
+        .toggle-eye:hover { color: #64748b; }
+        .toggle-eye svg { display: block; }
+        .toggle-eye .eye-off { display: none; }
+        .match-msg { font-size: 12px; font-weight: 600; margin: -12px 0 14px; min-height: 15px; display: none; }
+        .match-msg.show { display: block; }
+        .match-msg.error { color: #dc2626; }
+        .match-msg.ok { color: #16a34a; }
+
+        .input-box { 
+            width: 100%; padding: 12px; margin-bottom: 18px; 
+            background: #f8fafc; border: 1px solid #cbd5e1; 
+            border-radius: 10px; color: #1e293b; box-sizing: border-box; 
+            outline: none; transition: 0.2s; font-family: inherit;
+        }
+        .input-box:focus { border-color: #2563eb; background: white; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 15px; margin-top: 5px; }
+        .btn-primary { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3); }
+        
+        .btn-link { background: transparent; color: #2563eb; font-size: 14px; font-weight: 600; text-decoration: none; margin-top: 15px; display: block; width: 100%; text-align: center; }
+        .btn-link:hover { text-decoration: underline; }
+        
+        .hidden { display: none; }
+        #msg { text-align: center; font-size: 13px; margin-top: 20px; font-weight: 600; min-height: 20px; padding: 10px; border-radius: 8px; }
+
+   
+  
+    .mmh-floating-support {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        background: #0088cc; /* Telegram Blue */
+        color: #ffffff !important;
+        padding: 10px 18px;
+        border-radius: 50px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .mmh-floating-support:hover {
+        transform: scale(1.05);
+        background: #0077b5;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .mmh-support-icon-circle {
+        background: white;
+        color: #0088cc;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        font-size: 14px;
+    }
+
+    /* Mobile Adjustment */
+    @media (max-width: 600px) {
+        .mmh-floating-support {
+            bottom: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            font-size: 12px;
+        }
+    }
+</style>
+   
+</head>
+
+<body>
+    <div class="auth-card">
+        <div class="brand-header">
+            <div class="logo-box">M</div>
+            <div class="brand-name">MOCK MATRIX <span class="brand-hub">HUB</span></div>
+        </div>
+        
+        <div id="login-section">
+            <h2>Welcome Back</h2>
+            <p class="mandatory-notice">Please enter your credentials <span>*</span></p>
             
-            <div id="logoutArea" class="hidden mt-4 px-3">
-                <button onclick="handleLogout()" class="btn btn-outline-danger w-100 fw-bold rounded-3">Logout Account</button>
+            <label>Gmail, Username or Mobile <span>*</span></label>
+            <input type="text" id="l-identity" class="input-box" placeholder="Enter Gmail, Username or Mobile">
+            
+            <label>Password <span>*</span></label>
+            <div class="pass-container">
+                <input type="password" id="l-password" class="input-box" placeholder="••••••••">
+                <span class="toggle-eye" onclick="toggleEye('l-password')">
+                    <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a21.8 21.8 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </span>
             </div>
+            
+            <a href="javascript:void(0)" onclick="toggleView('reset')" style="font-size: 12px; color: #2563eb; text-decoration: none; display: block; margin-bottom: 15px; text-align: right; font-weight: 600;">Forgot Password?</a>
+            
+            <button class="btn btn-primary" id="login-btn" onclick="login()">Sign In</button>
+            <button class="btn btn-link" onclick="toggleView('signup')">New here? Create Account</button>
         </div>
-    </nav>
 
-    <div class="greeting-section">
-        <div class="greeting-text">Welcome, <span id="userGreetName">Aspirant</span></div>
-        <div class="small text-muted fw-bold">ON MOCK MATRIX HUB</div>
-    </div>
-    <div class="banner-container" id="bannerContainer">
-    <div class="banner-wrapper" id="bannerWrapper"></div>
-
-    <div class="banner-nav">
-        <div class="nav-arrow" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></div>
-        <div class="nav-arrow" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></div>
-    </div>
-
-    <div class="banner-dots" id="bannerDots"></div>
-</div>
-
-    <div id="pwaInstallModal" class="install-modal">
-  <div class="install-content">
-    <img src="/logo.png" class="install-app-icon" alt="App Icon">
-    <h3>Install App</h3>
-    <p>Install the Mock Matrix Hub app for a faster and smoother testing experience.</p>
-    <div class="install-actions">
-      <button class="btn-install-now" id="doInstall">Install Now</button>
-      <button class="btn-install-cancel" id="closeInstall">Maybe Later</button>
-    </div>
-  </div>
-    </div>
-   
-<div class="whats-new-section" id="whatsNewSection" style="display:none;">
-    <div class="whats-new-heading"><i class="fas fa-bullhorn"></i> What's New?</div>
-    <div class="whats-new-card" id="whatsNewCard"></div>
-</div>
-
-<div class="action-container">
-        <div class="action-row" id="actionRow"></div>
-    </div>
-
-    <div class="rec-section">
-        <div class="section-header">
-            <h3>RECOMMENDED SERIES</h3>
-            <a href="/exams/" class="view-all-btn">VIEW ALL</a>
+        <div id="reset-section" class="hidden">
+            <h2>Reset Password</h2>
+            <p class="mandatory-notice">Enter your registered Gmail to receive a reset code.</p>
+            
+            <label>Gmail Address <span>*</span></label>
+            <input type="email" id="r-email" class="input-box" placeholder="example@gmail.com">
+            
+            <button class="btn btn-primary" onclick="forgotPassword()">Send Reset Code</button>
+            <button class="btn btn-link" onclick="toggleView('login')">Back to Login</button>
         </div>
-        <div class="rec-grid" id="recGrid"></div>
-    </div>
-   
-    <div class="tagline">PRACTICE TO PERFECTION</div>
 
-    <div class="fab-container">
-        <a href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank" class="fab fab-wa shadow-lg">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="https://t.me/SSC_COMPILATIONS_2025" target="_blank" class="fab fab-tg shadow-lg">
-            <i class="fab fa-telegram-plane"></i>
-        </a>
+        <div id="otp-reset-section" class="hidden">
+            <h2>Verify OTP</h2>
+            <p class="mandatory-notice">Enter the 8-digit code sent to your Gmail.</p>
+            
+            <label>OTP Code <span>*</span></label>
+            <input type="text" id="otp-code" class="input-box" placeholder="12345678" maxlength="8">
+            
+            <label>New Password <span>*</span></label>
+            <div class="pass-container">
+                <input type="password" id="otp-new-password" class="input-box" placeholder="Min 6 characters">
+                <span class="toggle-eye" onclick="toggleEye('otp-new-password')">
+                    <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a21.8 21.8 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </span>
+            </div>
+
+            <label>Confirm New Password <span>*</span></label>
+            <div class="pass-container">
+                <input type="password" id="otp-confirm-password" class="input-box" placeholder="Re-enter new password">
+                <span class="toggle-eye" onclick="toggleEye('otp-confirm-password')">
+                    <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a21.8 21.8 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </span>
+            </div>
+            <p class="match-msg" id="otp-match-msg"></p>
+            
+            <button class="btn btn-primary" onclick="verifyOtpAndChangePassword()">Update Password</button>
+            <button class="btn btn-link" onclick="localStorage.removeItem('mmh_otp_reset_pending'); toggleView('reset')">Resend Code</button>
+        </div>
+
+        <div id="signup-section" class="hidden">
+            <h2>Create Account</h2>
+            <div class="guide-box">
+                <strong>How to Sign Up:</strong><br>
+                • Use a valid Gmail address.<br>
+                • Username: A-Z and 0-9 only (No spaces/signs).<br>
+                • Password must be at least 6 characters.
+            </div>
+            
+            <label>Full Name <span>*</span></label>
+            <input type="text" id="s-name" class="input-box" placeholder="Real Name">
+
+             <label>Unique Username <span>*</span></label>
+            <input type="text" id="s-username" class="input-box" placeholder="Letters and numbers only">
+            <p style="font-size:11.5px; color:#64748b; margin:-14px 0 16px;">This will be used as your ID for mock tests.</p>
+
+            <label>Gmail Address <span>*</span></label>
+            <input type="email" id="s-email" class="input-box" placeholder="example@gmail.com">
+
+            <label>Mobile Number <span>*</span></label>
+            <input type="tel" id="s-mobile" class="input-box" placeholder="10-digit mobile number" maxlength="10">
+            <p style="font-size:11.5px; color:#64748b; margin:-14px 0 16px;">This number must have an active Telegram or WhatsApp account — used for support and important updates.</p>
+            
+            <label>Create Password <span>*</span></label>
+            <div class="pass-container">
+                <input type="password" id="s-password" class="input-box" placeholder="Min 6 characters">
+                <span class="toggle-eye" onclick="toggleEye('s-password')">
+                    <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a21.8 21.8 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </span>
+            </div>
+
+            <label>Confirm Password <span>*</span></label>
+            <div class="pass-container">
+                <input type="password" id="s-confirm-password" class="input-box" placeholder="Re-enter password">
+                <span class="toggle-eye" onclick="toggleEye('s-confirm-password')">
+                    <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a21.8 21.8 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </span>
+            </div>
+            <p class="match-msg" id="s-match-msg"></p>
+            
+            <button class="btn btn-primary" id="signup-btn" onclick="signup()">Verify & Register</button>
+            <button class="btn btn-link" onclick="toggleView('login')">Already have account? Login</button>
+        </div>
+        <p id="msg"></p>
     </div>
 
-    <nav class="bottom-nav">
-    <a href="/" class="nav-item active"><i class="fas fa-home-alt"></i><span>HOME</span></a>
-    <a href="/exams/" class="nav-item"><i class="fas fa-file-pen"></i><span>EXAMS</span></a>
-    <a href="/live-test" class="nav-item"><i class="fas fa-bolt"></i><span>LIVE</span></a>
-    <a href="/notifications.html" class="nav-item" style="position:relative;">
-        <i class="fas fa-bell"></i>
-        <span class="notif-badge-dot"></span>
-        <span>ALERTS</span>
+    <a href="https://t.me/MOCK_MATRIX__HUB_SUPPORT_BOT" target="_blank" class="mmh-floating-support">
+        <span class="mmh-support-icon-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </span>
+        Contact for Support
     </a>
-    <a href="/profile" class="nav-item" id="bottomProfileLink"><i class="fas fa-user-circle"></i><span>PROFILE</span></a>
-</nav>
-    
-    <footer style="padding: 40px 20px; background: #fff; border-top: 1px solid #e2e8f0; text-align: center; font-family: 'Inter', sans-serif;">
-    <div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
-        <a href="/about-us.html" 
-           onmouseover="this.style.textDecoration='underline'" 
-           onmouseout="this.style.textDecoration='none'" 
-           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">About Us</a>
-           
-        <a href="/contact-us.html" 
-           onmouseover="this.style.textDecoration='underline'" 
-           onmouseout="this.style.textDecoration='none'" 
-           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">Contact Us</a>
-           
-        <a href="/privacy-policy.html" 
-           onmouseover="this.style.textDecoration='underline'" 
-           onmouseout="this.style.textDecoration='none'" 
-           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">Privacy Policy</a>
-           
-        <a href="/refund-policy.html" 
-           onmouseover="this.style.textDecoration='underline'" 
-           onmouseout="this.style.textDecoration='none'" 
-           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">Refund Policy</a>
-           
-        <a href="/terms-conditions.html" 
-           onmouseover="this.style.textDecoration='underline'" 
-           onmouseout="this.style.textDecoration='none'" 
-           style="text-decoration: none; color: #2563eb; font-size: 13px; font-weight: 600; transition: 0.2s;">Terms & Conditions</a>
-    </div>
-    <p style="color: #94a3b8; font-size: 12px; margin-top: 10px;">© 2026 Mock Matrix Hub. All Rights Reserved.</p>
-    </footer>
 
-    
+    <script>
+        async function getLoginClient() {
+            return await getClient();
+        }
 
-    <div style="height: 100px;"></div>
+        function toggleEye(id) {
+            const input = document.getElementById(id);
+            const wasHidden = input.type === "password";
+            input.type = wasHidden ? "text" : "password";
 
-    <div id="tgPopupOverlay" class="sidebar-overlay" style="display: none; align-items: center; justify-content: center; z-index: 2000;"></div>
+            const wrapper = input.closest('.pass-container');
+            if (wrapper) {
+                wrapper.querySelector('.eye-open').style.display = wasHidden ? "none" : "block";
+                wrapper.querySelector('.eye-off').style.display = wasHidden ? "block" : "none";
+            }
+        }
 
-    <div id="salePopupOverlay" class="sidebar-overlay" style="display: none; align-items: center; justify-content: center; z-index: 2000;"></div>
+        // Live "passwords match" check — runs on every keystroke in the
+        // confirm-password box (and also re-checks if the original password
+        // is edited afterward), so the user sees the mismatch immediately
+        // instead of only after clicking submit.
+        function checkPasswordMatch(passId, confirmId, msgId) {
+            const pass = document.getElementById(passId).value;
+            const confirm = document.getElementById(confirmId).value;
+            const msgEl = document.getElementById(msgId);
 
-    <div id="mobilePromptOverlay" class="mobile-prompt-overlay">
-      <div class="mobile-prompt-box">
-        <h3>One quick thing</h3>
-        <p>Please add your mobile number. It must have an active Telegram or WhatsApp — used for support and important updates.</p>
-        <input type="tel" id="mobilePromptInput" maxlength="10" placeholder="10-digit mobile number">
-        <p id="mobilePromptMsg"></p>
-        <button id="mobilePromptSubmit">Save</button>
-      </div>
-    </div>
-    
+            if (!confirm) {
+                msgEl.className = "match-msg";
+                msgEl.innerText = "";
+                return;
+            }
 
-    
-    <script src="/js/home-engine.js"></script>
-    <script src="/js/app-core.js"></script>
+            if (pass !== confirm) {
+                msgEl.className = "match-msg show error";
+                msgEl.innerText = "Passwords do not match";
+            } else {
+                msgEl.className = "match-msg show ok";
+                msgEl.innerText = "Passwords match";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sPass = document.getElementById('s-password');
+            const sConfirm = document.getElementById('s-confirm-password');
+            if (sPass && sConfirm) {
+                const check = () => checkPasswordMatch('s-password', 's-confirm-password', 's-match-msg');
+                sConfirm.addEventListener('input', check);
+                sPass.addEventListener('input', check);
+            }
+
+            const otpPass = document.getElementById('otp-new-password');
+            const otpConfirm = document.getElementById('otp-confirm-password');
+            if (otpPass && otpConfirm) {
+                const check = () => checkPasswordMatch('otp-new-password', 'otp-confirm-password', 'otp-match-msg');
+                otpConfirm.addEventListener('input', check);
+                otpPass.addEventListener('input', check);
+            }
+
+            restoreOtpFlowIfPending();
+        });
+
+        // If the page reloaded (PWA process killed by Android on tab switch,
+        // manual refresh, etc.) while the user was mid-way through the
+        // "enter OTP + new password" screen, put them right back on that
+        // screen instead of silently dropping them back to the login form.
+        // Supabase's recovery OTP is typically valid for about an hour, so a
+        // 45-minute local cutoff stays safely inside that window without
+        // resurrecting a flow so old the code would fail anyway.
+        function restoreOtpFlowIfPending() {
+            const raw = localStorage.getItem('mmh_otp_reset_pending');
+            if (!raw) return;
+
+            let pending;
+            try { pending = JSON.parse(raw); } catch (e) { localStorage.removeItem('mmh_otp_reset_pending'); return; }
+
+            const fortyFiveMin = 45 * 60 * 1000;
+            if (!pending.email || !pending.ts || Date.now() - pending.ts > fortyFiveMin) {
+                localStorage.removeItem('mmh_otp_reset_pending');
+                return;
+            }
+
+            window.tempEmail = pending.email;
+            toggleView('otp');
+            showMessage(`Resuming — enter the 8-digit code sent to ${pending.email}.`, false);
+        }
+
+        function toggleView(v) {
+            document.getElementById('login-section').classList.toggle('hidden', v !== 'login');
+            document.getElementById('signup-section').classList.toggle('hidden', v !== 'signup');
+            document.getElementById('reset-section').classList.toggle('hidden', v !== 'reset');
+            document.getElementById('otp-reset-section').classList.toggle('hidden', v !== 'otp');
+            const msg = document.getElementById('msg');
+            msg.innerText = "";
+            msg.style.background = "transparent";
+        }
+
+        async function forgotPassword() {
+            const email = document.getElementById('r-email').value.trim().toLowerCase();
+            if (!email) return showMessage("Error: Please enter your Gmail address.", true);
+
+            showMessage("Checking email...", false);
+            try {
+                const client = await getLoginClient();
+
+                // Supabase's resetPasswordForEmail() always returns success —
+                // even for an email that was never registered — as an
+                // anti-enumeration security measure. So we check via a
+                // security-definer function (RLS blocks a direct table read
+                // for an anonymous, not-yet-logged-in visitor) to give an
+                // accurate message instead of a false "code sent" confirmation.
+                const { data: check } = await client.rpc('check_availability', { p_email: email });
+                const emailExists = check && check[0] && check[0].email_taken;
+
+                if (!emailExists) {
+                    return showMessage("Error: This email is not registered with us.", true);
+                }
+
+                showMessage("Sending code to your email...", false);
+                const { error } = await client.auth.resetPasswordForEmail(email);
+
+                if (error) {
+                    showMessage("Error: " + error.message, true);
+                } else {
+                    window.tempEmail = email; // Save for OTP verification
+                    // Also persist to localStorage — a PWA's process can be
+                    // killed by Android on tab switch (unlike a Chrome tab,
+                    // which the OS keeps alive). Without this, window.tempEmail
+                    // and the visible OTP section both reset to nothing on
+                    // reload, making the page look like it "disappeared"
+                    // mid-OTP-entry. See restoreOtpFlowIfPending() below.
+                    localStorage.setItem('mmh_otp_reset_pending', JSON.stringify({ email, ts: Date.now() }));
+                    toggleView('otp');
+                    showMessage("Check your Gmail for the 8-digit code.", false);
+                }
+            } catch (err) {
+                showMessage("Error: " + err.message, true);
+            }
+        }
+
+        async function verifyOtpAndChangePassword() {
+            const code = document.getElementById('otp-code').value.trim();
+            const newPass = document.getElementById('otp-new-password').value;
+            const confirmPass = document.getElementById('otp-confirm-password').value;
+            const email = window.tempEmail;
+
+            if (!code || newPass.length < 6) {
+                return showMessage("Error: Enter code and valid password (min 6 chars).", true);
+            }
+            if (newPass !== confirmPass) {
+                return showMessage("Error: Passwords do not match.", true);
+            }
+
+            try {
+                showMessage("Verifying code...", false);
+                const client = await getLoginClient();
+
+                const { error: verifyError } = await client.auth.verifyOtp({
+                    email: email,
+                    token: code,
+                    type: 'recovery'
+                });
+
+                if (verifyError) throw verifyError;
+
+                const { error: updateError } = await client.auth.updateUser({ password: newPass });
+                if (updateError) throw updateError;
+
+                localStorage.removeItem('mmh_otp_reset_pending');
+
+                // Don't redirect back to login.html — verifyOtp(type: 'recovery')
+                // already signed this session in, so reloading login.html here
+                // just makes auth.js's initAuth() detect the login and
+                // auto-redirect AGAIN right after, which is the double-hop
+                // that looks like the page "getting stuck / flipping" on
+                // login. Load the profile and go straight to the destination
+                // instead — same pattern login()/signup() already use.
+                showMessage("Success! Password updated. Loading your profile...", false);
+                const { data: userData } = await client.auth.getUser();
+                const profile = userData?.user ? await fetchAndCacheProfile(client, userData.user) : null;
+
+                showMessage("Success! Redirecting...", false);
+                window.location.href = profile ? getSafeRedirectTarget() : "/index.html";
+            } catch (error) {
+                showMessage("Error: " + error.message, true);
+            }
+        }
+
+        function showMessage(text, isError) {
+            const msg = document.getElementById('msg');
+            msg.innerText = text;
+            msg.style.color = isError ? "#991b1b" : "#166534";
+            msg.style.background = isError ? "#fef2f2" : "#f0fdf4";
+        }
+
+        function setButtonLoading(btn, isLoading, idleText) {
+            if (!btn) return;
+            if (isLoading) {
+                btn.dataset.originalText = btn.dataset.originalText || btn.innerText;
+                btn.innerText = "Verifying...";
+                btn.disabled = true;
+            } else {
+                btn.innerText = idleText || btn.dataset.originalText || btn.innerText;
+                btn.disabled = false;
+            }
+        }
+
+        // If auth.js couldn't load the profile for an already-logged-in
+        // visitor, let them know instead of silently doing nothing.
+        window.addEventListener('profileLoadFailed', () => {
+            showMessage("Error: Could not load your profile. Please refresh and try again.", true);
+        });
+
+        async function signup() {
+            const email = document.getElementById('s-email').value.trim().toLowerCase();
+            const pass = document.getElementById('s-password').value;
+            const confirmPass = document.getElementById('s-confirm-password').value;
+            const name = document.getElementById('s-name').value.trim();
+            const user = document.getElementById('s-username').value.trim();
+            const mobile = document.getElementById('s-mobile').value.trim();
+            const userRegex = /^[A-Za-z0-9]+$/;
+            const mobileRegex = /^[0-9]{10}$/;
+
+            if(!email || !pass || !confirmPass || !name || !user || !mobile) return showMessage("Error: All fields are mandatory!", true);
+            if(!userRegex.test(user)) return showMessage("Error: Username must only contain letters and numbers.", true);
+            if(!mobileRegex.test(mobile)) return showMessage("Error: Enter a valid 10-digit mobile number.", true);
+            if(pass.length < 6) return showMessage("Error: Password should be at least 6 characters.", true);
+            if(pass !== confirmPass) return showMessage("Error: Passwords do not match.", true);
+
+            const btn = document.getElementById('signup-btn');
+            setButtonLoading(btn, true);
+            showMessage("Checking availability...", false);
+
+            try {
+                const client = await getLoginClient();
+
+                // Quick instant-feedback checks (the DB's unique constraint + the
+                // trigger below are what actually enforce this — this is just UX).
+                const { data: check } = await client.rpc('check_availability', {
+                    p_email: email, p_username: user, p_mobile: mobile
+                });
+                const result = check && check[0];
+
+                if (result && result.email_taken) return showMessage("Error: This Email is already registered!", true);
+                if (result && result.username_taken) return showMessage("Error: Username already taken.", true);
+                if (result && result.mobile_taken) return showMessage("Error: This mobile number is already registered with another account.", true);
+
+                // Everything the profile needs travels as signup metadata — a
+                // database trigger creates the profiles row automatically, in the
+                // SAME transaction as the auth user itself. No separate insert
+                // step here means no way for a profile row to end up missing.
+                const { data: authData, error: authError } = await client.auth.signUp({
+                    email,
+                    password: pass,
+                    options: {
+                        data: { full_name: name, username: user, mobile: mobile }
+                    }
+                });
+
+                if (authError) {
+                    // The trigger's unique constraints surface here as a raw
+                    // Postgres error if someone raced past the pre-checks above.
+                    const msg = (authError.message || '').toLowerCase();
+                    if (msg.includes('username')) {
+                        return showMessage("Error: That username was just taken. Please pick another.", true);
+                    }
+                    if (msg.includes('mobile')) {
+                        return showMessage("Error: That mobile number is already registered with another account.", true);
+                    }
+                    return showMessage("Error: " + authError.message, true);
+                }
+                if (!authData.user) return showMessage("Error: Registration failed. Please try again.", true);
+
+                // Don't leave this page until the profile has actually loaded.
+                showMessage("Loading your profile...", false);
+                const profile = await fetchAndCacheProfile(client, authData.user);
+                if (!profile) return showMessage("Error: Could not load your profile. Please refresh and try again.", true);
+
+                showMessage("Registration Successful! Redirecting...", false);
+                window.location.href = getSafeRedirectTarget();
+            } catch (err) {
+                showMessage("Error: " + err.message, true);
+            } finally {
+                setButtonLoading(btn, false, "Verify & Register");
+            }
+        }
+
+        async function login() {
+            const identity = document.getElementById('l-identity').value.trim();
+            const pass = document.getElementById('l-password').value;
+            if(!identity || !pass) return showMessage("Error: All fields are mandatory!", true);
+
+            const btn = document.getElementById('login-btn');
+            setButtonLoading(btn, true);
+            showMessage("Authenticating...", false);
+
+            try {
+                const client = await getLoginClient();
+                let loginEmail = identity;
+
+                if (!identity.includes('@')) {
+                    // Accepts either a username or a 10-digit mobile number here.
+                    const { data } = await client.from('profiles')
+                        .select('email')
+                        .or(`username.eq.${identity},mobile.eq.${identity}`)
+                        .maybeSingle();
+                    if (data) loginEmail = data.email;
+                    else return showMessage("Error: Username or mobile number not found.", true);
+                } else {
+                    loginEmail = identity.toLowerCase();
+                }
+
+                const { data: signInData, error } = await client.auth.signInWithPassword({ email: loginEmail, password: pass });
+                if (error) return showMessage("Error: " + error.message, true);
+
+                // Don't leave this page until the profile has actually loaded.
+                showMessage("Loading your profile...", false);
+                const profile = await fetchAndCacheProfile(client, signInData.user);
+                if (!profile) return showMessage("Error: Could not load your profile. Please try again.", true);
+
+                showMessage("Success! Redirecting...", false);
+                // Sends the user back to the page they came from (or home if none)
+                window.location.href = getSafeRedirectTarget();
+            } catch (err) {
+                showMessage("Error: " + err.message, true);
+            } finally {
+                setButtonLoading(btn, false, "Sign In");
+            }
+        }
+    </script>
 </body>
 </html>
-
 
 
 
