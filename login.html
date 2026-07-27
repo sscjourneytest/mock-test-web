@@ -370,16 +370,14 @@
 
                 // Supabase's resetPasswordForEmail() always returns success —
                 // even for an email that was never registered — as an
-                // anti-enumeration security measure. So we check our own
-                // profiles table first to give an accurate message instead
-                // of a false "code sent" confirmation.
-                const { data: profileExists } = await client
-                    .from('profiles')
-                    .select('id')
-                    .eq('email', email)
-                    .maybeSingle();
+                // anti-enumeration security measure. So we check via a
+                // security-definer function (RLS blocks a direct table read
+                // for an anonymous, not-yet-logged-in visitor) to give an
+                // accurate message instead of a false "code sent" confirmation.
+                const { data: check } = await client.rpc('check_availability', { p_email: email });
+                const emailExists = check && check[0] && check[0].email_taken;
 
-                if (!profileExists) {
+                if (!emailExists) {
                     return showMessage("Error: This email is not registered with us.", true);
                 }
 
@@ -494,14 +492,14 @@
 
                 // Quick instant-feedback checks (the DB's unique constraint + the
                 // trigger below are what actually enforce this — this is just UX).
-                const { data: emailExist } = await client.from('profiles').select('id').eq('email', email).maybeSingle();
-                if (emailExist) return showMessage("Error: This Email is already registered!", true);
+                const { data: check } = await client.rpc('check_availability', {
+                    p_email: email, p_username: user, p_mobile: mobile
+                });
+                const result = check && check[0];
 
-                const { data: userExist } = await client.from('profiles').select('username').eq('username', user).maybeSingle();
-                if (userExist) return showMessage("Error: Username already taken.", true);
-
-                const { data: mobileExist } = await client.from('profiles').select('id').eq('mobile', mobile).maybeSingle();
-                if (mobileExist) return showMessage("Error: This mobile number is already registered with another account.", true);
+                if (result && result.email_taken) return showMessage("Error: This Email is already registered!", true);
+                if (result && result.username_taken) return showMessage("Error: Username already taken.", true);
+                if (result && result.mobile_taken) return showMessage("Error: This mobile number is already registered with another account.", true);
 
                 // Everything the profile needs travels as signup metadata — a
                 // database trigger creates the profiles row automatically, in the
@@ -588,7 +586,6 @@
     </script>
 </body>
 </html>
-
 
 
 
