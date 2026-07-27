@@ -33,7 +33,8 @@ function toggleTheme() {
     // Swap dynamic icon presentation parameters natively
     const toggleBtn = document.getElementById('darkModeToggle');
     if (toggleBtn) {
-        toggleBtn.textContent = isDark ? '☀️' : '🌙';
+        const icon = toggleBtn.querySelector('i');
+        if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
     }
 }
 
@@ -53,7 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set matching top bar icon display parameters
     const toggleBtn = document.getElementById('darkModeToggle');
     if (toggleBtn) {
-        toggleBtn.textContent = isDark ? '☀️' : '🌙';
+        const icon = toggleBtn.querySelector('i');
+        if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
     }
 
     // Refresh application profile components
@@ -357,5 +359,6 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.classList.remove('active');
   });
 });
+
 
 
