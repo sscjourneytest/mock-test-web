@@ -230,8 +230,12 @@ async function recoverPendingPayment() {
   const overlay = document.getElementById("processingOverlay");
   if (overlay) overlay.classList.add("active");
 
-  const { data: userData } = await _supabase.auth.getUser();
-  const userId = userData?.user?.id;
+  // getSession() reads the locally persisted session (fast, no network
+  // round-trip needed unless actually near expiry) — getUser() always
+  // hits the auth server live, and a transient blip there was wrongly
+  // treating a perfectly valid session as logged-out for some users.
+  const { data: sessionData } = await _supabase.auth.getSession();
+  const userId = sessionData?.session?.user?.id;
   if (!userId) { if (overlay) overlay.classList.remove("active"); return; }
 
   const { data: profile } = await _supabase
@@ -277,8 +281,10 @@ async function startCheckout() {
 
     // Check live is_paid + expires_at from profiles before creating an order —
     // don't let an already-premium user pay again.
-    const { data: userData } = await _supabase.auth.getUser();
-    const userId = userData?.user?.id;
+    // (userId comes straight from the session above — no need for a
+    // second, separate getUser() network round-trip that could fail
+    // on its own even when the session itself is perfectly valid.)
+    const userId = sessionData?.session?.user?.id;
 
     if (userId) {
       const { data: profile } = await _supabase
@@ -386,8 +392,8 @@ async function pollForAccess() {
 
   const interval = setInterval(async () => {
     attempts++;
-    const { data: userData } = await _supabase.auth.getUser();
-    const userId = userData?.user?.id;
+    const { data: sessionData } = await _supabase.auth.getSession();
+    const userId = sessionData?.session?.user?.id;
 
     if (userId) {
       const { data: profile } = await _supabase
@@ -477,6 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
 
 
