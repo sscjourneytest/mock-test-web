@@ -78,7 +78,21 @@ function getSafeRedirectTarget() {
 
 async function initAuth() {
     const client = await getClient();
-    const { data: { user } } = await client.auth.getUser();
+
+    // getSession() reads the locally persisted session (refreshing it only
+    // if actually near expiry) instead of round-tripping to the auth server
+    // on every page load like getUser() did. That extra network hop through
+    // the Worker proxy was a single point of failure — any blip there made
+    // a perfectly valid session look logged-out and bounced the user back
+    // to login.html.
+    let user = null;
+    try {
+        const { data: { session } } = await client.auth.getSession();
+        user = session ? session.user : null;
+    } catch (e) {
+        console.error('Session check failed:', e);
+    }
+
     const path = window.location.pathname;
 
         const isLoginPage = path.endsWith("login.html") || path.endsWith("/login");
