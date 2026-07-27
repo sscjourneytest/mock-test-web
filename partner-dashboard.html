@@ -146,7 +146,7 @@
     myCoupon = couponRow;
 
     document.getElementById('myCode').innerText = myCoupon.code;
-    document.getElementById('referralLink').value = `${window.location.origin}/buy-premium.html?c=${myCoupon.code}`;
+    document.getElementById('referralLink').value = `https://mockmatrixhub.in/buy-premium.html?c=${myCoupon.code}`;
 
     const { data: planRow } = await _supabase.from('pricing').select('*').eq('is_active', true).order('offer_price').limit(1).maybeSingle();
     myPlan = planRow;
