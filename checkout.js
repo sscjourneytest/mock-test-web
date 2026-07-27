@@ -28,9 +28,28 @@ async function loadPlans() {
     }
 
     selectPlan(plans[0].plan_name);
+
+    // Auto-apply a coupon passed via ?c=CODE in the URL (e.g. from a
+    // shared referral/from.link). Must run AFTER selectPlan() above,
+    // since applyCoupon() needs selectedPlan to already be set.
+    applyCouponFromUrl();
   } catch (err) {
     // silently keep hardcoded fallback price if this fails
   }
+}
+
+// -----------------------------------------------------------
+// 0.5 Auto-apply coupon from ?c=CODE query param
+// -----------------------------------------------------------
+function applyCouponFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("c");
+  if (!code) return;
+
+  const codeInput = document.getElementById("couponCode");
+  if (codeInput) codeInput.value = code;
+
+  applyCoupon(code);
 }
 
 function renderPlanSelector() {
@@ -74,18 +93,16 @@ function selectPlan(planName) {
 // -----------------------------------------------------------
 // 1. Apply coupon — live price update, no payment yet
 //
-// FIX: the input field only LOOKS uppercase (CSS text-transform),
-// the actual .value keeps whatever case the user typed. Without
-// normalizing here, a lowercase/mixed-case entry fails to match
-// the coupon code stored in the DB — this was causing "Invalid,
-// inactive, or expired coupon" for some users but not others,
-// depending purely on the case they happened to type in.
+// Send the code exactly as the user typed it (just trimmed).
+// The backend check is case-sensitive, so forcing uppercase here
+// was causing valid lowercase-stored coupons to fail as "Invalid,
+// inactive, or expired coupon".
 // -----------------------------------------------------------
-async function applyCoupon() {
+async function applyCoupon(codeOverride) {
   const codeInput = document.getElementById("couponCode");
   const msgEl = document.getElementById("couponMsg");
-  const code = codeInput.value.trim().toUpperCase();
-  codeInput.value = code; // reflect the normalized value back into the field
+  const code = (codeOverride !== undefined ? codeOverride : codeInput.value).trim();
+  codeInput.value = code;
 
   if (!selectedPlan) return;
 
