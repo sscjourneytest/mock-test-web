@@ -37,15 +37,23 @@ async function fetchAndCacheProfile(client, user) {
                 // Resolve it HERE — only when we're already doing a fresh
                 // fetch (once per login / once every 7 days) — instead of
                 // querying it separately on every page load.
+                //
+                // NOTE: an owner_user_id can have MORE THAN ONE active coupon
+                // row (confirmed in production data). maybeSingle() throws
+                // when a query matches more than one row, which was silently
+                // failing here for those users and leaving is_partner=false
+                // even though they do have active coupons. Using a plain
+                // select + limit(1) instead — we only need to know whether
+                // at least one active coupon exists, not fetch a single row.
                 let isPartner = false;
                 try {
-                    const { data: activeCoupon } = await client
+                    const { data: activeCoupons } = await client
                         .from('coupons')
                         .select('code')
                         .eq('owner_user_id', dbProfile.id)
                         .eq('is_active', true)
-                        .maybeSingle();
-                    isPartner = !!activeCoupon;
+                        .limit(1);
+                    isPartner = !!(activeCoupons && activeCoupons.length > 0);
                 } catch (e) {
                     // Leave isPartner false on error; next cache refresh will retry.
                 }
@@ -102,12 +110,24 @@ async function initAuth() {
     // the Worker proxy was a single point of failure — any blip there made
     // a perfectly valid session look logged-out and bounced the user back
     // to login.html.
+    //
+    // getSession() can still hit the network itself when the token is near
+    // expiry and needs a refresh — if THAT call has a transient blip (bad
+    // connection, Worker cold-start), it can throw or come back empty even
+    // though the user is genuinely still logged in. Retry once before
+    // giving up, since a second attempt a moment later often succeeds.
     let user = null;
     try {
         const { data: { session } } = await client.auth.getSession();
         user = session ? session.user : null;
     } catch (e) {
-        console.error('Session check failed:', e);
+        console.error('Session check failed, retrying once:', e);
+        try {
+            const { data: { session } } = await client.auth.getSession();
+            user = session ? session.user : null;
+        } catch (e2) {
+            console.error('Session check failed on retry:', e2);
+        }
     }
 
     const path = window.location.pathname;
@@ -213,7 +233,8 @@ function isCacheExpired() {
 
 async function handleChangePassword() {
     const client = await getClient();
-    const { data: { user } } = await client.auth.getUser();
+    const { data: { session } } = await client.auth.getSession();
+    const user = session ? session.user : null;
     if (user) {
         const { error } = await client.auth.resetPasswordForEmail(user.email, {
             redirectTo: window.location.origin + '/login.html?type=recovery',
