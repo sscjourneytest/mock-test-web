@@ -267,112 +267,24 @@ window.addEventListener('appinstalled', () => {
   if(sidebarBtn) sidebarBtn.style.display = 'none';
 });
         // ============================================================
-// MOCK MATRIX HUB — Notifications (Service Worker + Push + Bell)
+// MOCK MATRIX HUB — Notifications (badge only — actual subscribe/push
+// flow now lives entirely in fcm-init.js, powered by Firebase FCM)
 // ============================================================
-const NOTIFY_API_BASE = 'https://mmh-notify-worker.mockmatrixsupport.workers.dev';
 
-let swRegistration = null;
-
+// Registers the general-purpose service worker for offline caching.
+// Push notifications no longer go through this file — fcm-init.js
+// registers its own firebase-messaging-sw.js separately for that.
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
-            .then((reg) => {
-                console.log('Service worker registered:', reg.scope);
-                swRegistration = reg;
-                if (Notification.permission === 'granted') {
-                    initPushSubscription(reg);
-                }
-            })
+            .then((reg) => console.log('Service worker registered:', reg.scope))
             .catch((err) => console.error('SW registration failed:', err));
     });
 }
 
-function urlBase64ToUint8Array(base64String) {
-    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-    const rawData = atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
-    for (let i = 0; i < rawData.length; i++) {
-        outputArray[i] = rawData.charCodeAt(i);
-    }
-    return outputArray;
-}
-
-async function initPushSubscription(registration) {
-    if (!('PushManager' in window)) return;
-    if (Notification.permission === 'denied') return;
-
-    try {
-        let subscription = await registration.pushManager.getSubscription();
-
-        if (!subscription) {
-            const keyRes = await fetch(`${NOTIFY_API_BASE}/api/notify/vapid-key`);
-            const { publicKey } = await keyRes.json();
-
-            subscription = await registration.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array(publicKey)
-            });
-        }
-
-        const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
-        await fetch(`${NOTIFY_API_BASE}/api/notify/subscribe`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                subscription: subscription.toJSON(),
-                user_id: profile ? profile.id || profile.user_id || null : null
-            })
-        });
-    } catch (err) {
-        console.error('Push subscription failed:', err);
-    }
-}
-
-
-function handleBellTap(event) {
-    if (!('Notification' in window)) return;
-
-    const currentPermission = Notification.permission;
-
-    if (currentPermission === 'granted') {
-        if (swRegistration) initPushSubscription(swRegistration);
-        return;
-    }
-
-    if (currentPermission === 'denied') {
-        showPermissionBlockedNotice();
-        return;
-    }
-
-    Notification.requestPermission().then((permission) => {
-        if (permission === 'granted' && swRegistration) {
-            initPushSubscription(swRegistration);
-        }
-    });
-}
-
-function showPermissionBlockedNotice() {
-    if (window.__mmhPermissionNoticeShown) return;
-    window.__mmhPermissionNoticeShown = true;
-
-    alert(
-        'Notifications are blocked for this site in your browser settings.\n\n' +
-        'To enable them: open your browser settings → Site settings → Notifications, ' +
-        'find this site, and set it to "Allow".'
-    );
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.notif-bell-wrap, a[href="/notifications.html"]').forEach(el => {
-        el.addEventListener('click', handleBellTap);
-    });
-});
-
-
 async function refreshNotificationBadge() {
     try {
-        const res = await fetch(`${NOTIFY_API_BASE}/api/notify/list?limit=11`);
+        const res = await fetch('https://mmh-notify-worker.mockmatrixsupport.workers.dev/api/notify/list?limit=11');
         const data = await res.json();
         const list = data.notifications || [];
         if (list.length === 0) return;
@@ -445,4 +357,5 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.classList.remove('active');
   });
 });
+
 
