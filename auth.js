@@ -33,7 +33,24 @@ async function fetchAndCacheProfile(client, user) {
         try {
             const { data: dbProfile } = await client.from('profiles').select('*').eq('id', user.id).single();
             if (dbProfile) {
-                profile = { ...dbProfile, email: user.email };
+                // Partner status lives in the coupons table, not profiles.
+                // Resolve it HERE — only when we're already doing a fresh
+                // fetch (once per login / once every 7 days) — instead of
+                // querying it separately on every page load.
+                let isPartner = false;
+                try {
+                    const { data: activeCoupon } = await client
+                        .from('coupons')
+                        .select('code')
+                        .eq('owner_user_id', dbProfile.id)
+                        .eq('is_active', true)
+                        .maybeSingle();
+                    isPartner = !!activeCoupon;
+                } catch (e) {
+                    // Leave isPartner false on error; next cache refresh will retry.
+                }
+
+                profile = { ...dbProfile, email: user.email, is_partner: isPartner };
                 saveLocalProfile(profile);
             } else if (!profile) {
                 return null; // nothing cached and nothing fetched = failure
@@ -221,4 +238,5 @@ async function handleLogout() {
 
 // Keep this for the very first initial load
 document.addEventListener('DOMContentLoaded', initAuth);
+
 
