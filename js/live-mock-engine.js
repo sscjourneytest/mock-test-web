@@ -376,37 +376,45 @@ function renderMocks() {
 
         let actionHtml = '';
         if (isManuallyLocked) {
-            actionHtml = `<div class="action-btn locked-btn">🔒 Locked</div>`;
+            actionHtml = `<div class="action-btn locked-btn">🔒 LOCKED</div>`;
         } else if (isLockedDate) {
-            actionHtml = `<div class="action-btn locked-btn">Available ${item.releaseDate}</div>`;
+            actionHtml = `<div class="action-btn locked-btn">AVAILABLE ${item.releaseDate}</div>`;
         } else if (accessDenied) {
             actionHtml = `<a href="/buy-premium.html" class="action-btn unlock-btn">🔒 UNLOCK TEST</a>`;
         } else if (status === 'upcoming') {
-            actionHtml = `<div class="action-btn waiting-btn">Starts Soon</div>`;
+            actionHtml = `<div class="action-btn waiting-btn">STARTS SOON</div>`;
         } else if (isSubmitted) {
             // Attempted: analysis always available; reattempt only once the
             // live window has ended (no reattempt while still live).
             const reattemptBtn = status === 'live'
                 ? `<button class="action-btn reattempt-btn disabled-live" disabled title="Reattempt opens after the live window ends">REATTEMPT</button>`
                 : `<button onclick="reattemptLive('${item.id}', '${testPageLink}?${item.linkParam}')" class="action-btn reattempt-btn">REATTEMPT</button>`;
-            actionHtml = `<div class="btn-grid">
+            actionHtml = `<div class="btn-grid btn-dual">
                 <a href="${testPageLink}?${item.linkParam}" class="action-btn analysis-btn">ANALYSIS</a>
                 ${reattemptBtn}
             </div>`;
         } else if (status === 'previous') {
-            actionHtml = `<div class="action-btn ended-btn">Live Window Ended</div>`;
+            actionHtml = `<div class="action-btn ended-btn">LIVE WINDOW ENDED</div>`;
         } else {
-            actionHtml = `<a href="${testPageLink}?${item.linkParam}" class="action-btn start-btn">START TEST</a>`;
+            actionHtml = `<a href="${testPageLink}?${item.linkParam}" class="action-btn start-btn">START NOW</a>`;
         }
 
         html += `
             <div class="live-mock-card">
-                <span class="badge-type ${item.type === 'free' ? 'free-badge' : 'paid-badge'}">${item.type.toUpperCase()}</span>
-                <span class="countdown-pill ${countdown.cls}">${countdown.text}</span>
-                <div class="card-schedule">${item.liveFrom} → ${item.liveTo}</div>
-                <div class="card-title">${item.title}</div>
-                <div class="card-meta">${item.qs || '--'} Qs • ${item.marks || '--'} Marks • ${item.time || '--'}</div>
-                <div class="btn-grid">${actionHtml}</div>
+                <div class="card-body">
+                    <div class="card-header-row">
+                        <div class="card-title">${item.title}</div>
+                        <div class="card-header-badges">
+                            <span class="badge-type ${item.type === 'free' ? 'free-badge' : 'paid-badge'}">${item.type.toUpperCase()}</span>
+                            <span class="countdown-pill ${countdown.cls}">${countdown.text}</span>
+                        </div>
+                    </div>
+                    <hr class="card-divider">
+                    <div class="card-meta-row"><i class="fas fa-calendar-alt"></i> ${item.liveFrom} - ${item.liveTo}</div>
+                    <div class="card-meta-row"><i class="fas fa-bullseye"></i> ${item.marks || '--'} Marks</div>
+                    <div class="card-meta-row"><i class="fas fa-question-circle"></i> ${item.qs || '--'} Questions</div>
+                </div>
+                ${actionHtml}
             </div>
         `;
     });
@@ -509,3 +517,4 @@ window.addEventListener('pageshow', function (event) {
         if (LIVE_JSON) renderMocks();
     }
 });
+
