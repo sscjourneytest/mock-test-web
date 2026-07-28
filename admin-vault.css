@@ -86,7 +86,12 @@ td { padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: 13px; 
 }
 .form-grid input:focus, .panel-card.narrow input:focus { border-color: var(--navy); }
 
-.inline-input { width: 60px; padding: 5px 7px; border: 1px solid var(--line); border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+.inline-input {
+  width: auto; min-width: 44px; max-width: 100%;
+  field-sizing: content;
+  padding: 5px 7px; border: 1px solid var(--line); border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+}
 
 .history-label { display: block; margin: 22px 0 10px; font-weight: 700; color: var(--ink-soft); font-size: 12px; text-transform: uppercase; }
 
@@ -151,4 +156,5 @@ td { padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: 13px; 
 .modal-share-row label { display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 8px; cursor: pointer; }
 .modal-share-row input[type=number] { width: 100%; padding: 8px 10px; border: 1.5px solid var(--line); border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+
 
