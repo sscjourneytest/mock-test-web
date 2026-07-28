@@ -123,9 +123,17 @@
   let unpaidSalesCount = 0;
   let myCoupon = null; // { code, discount_percent, payout_percent }
   let myPlan = null;
+  let client = null;
 
   document.addEventListener('DOMContentLoaded', async () => {
-    const { data: sessionData } = await _supabase.auth.getSession();
+    // Don't rely on _supabase already being set by auth.js's own
+    // DOMContentLoaded handler (initAuth) — listener execution order
+    // between two separate DOMContentLoaded handlers isn't guaranteed.
+    // getClient() is safe to call here directly; it returns the existing
+    // client if already created.
+    client = await getClient();
+
+    const { data: sessionData } = await client.auth.getSession();
     const session = sessionData?.session;
     if (!session) {
       window.location.href = "/login.html?redirect=/partner-dashboard.html";
@@ -136,8 +144,15 @@
 
     // Source of truth for partner status is the coupons table now —
     // not profiles.is_partner / partner_coupon (removed).
-    const { data: couponRow } = await _supabase.from('coupons')
-      .select('*').eq('owner_user_id', session.user.id).eq('is_active', true).maybeSingle();
+    //
+    // NOTE: an owner can have more than one active coupon row (confirmed
+    // in production data). maybeSingle() throws on multiple rows, which
+    // was silently breaking this page for those users. If someone has
+    // more than one active coupon, this dashboard tracks/manages the
+    // first one.
+    const { data: couponRows } = await client.from('coupons')
+      .select('*').eq('owner_user_id', session.user.id).eq('is_active', true).limit(1);
+    const couponRow = couponRows && couponRows[0];
 
     if (!couponRow) {
       window.location.href = "/apply-coupon.html";
@@ -148,7 +163,7 @@
     document.getElementById('myCode').innerText = myCoupon.code;
     document.getElementById('referralLink').value = `https://mockmatrixhub.in/buy-premium.html?c=${myCoupon.code}`;
 
-    const { data: planRow } = await _supabase.from('pricing').select('*').eq('is_active', true).order('offer_price').limit(1).maybeSingle();
+    const { data: planRow } = await client.from('pricing').select('*').eq('is_active', true).order('offer_price').limit(1).maybeSingle();
     myPlan = planRow;
 
     drawBanner();
@@ -166,12 +181,12 @@
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
     try {
-      const { data: lastReq } = await _supabase.from('payout_requests')
+      const { data: lastReq } = await client.from('payout_requests')
         .select('payout_upto').eq('user_id', userId).neq('status', 'rejected')
         .order('payout_upto', { ascending: false }).limit(1);
       const lastDate = lastReq && lastReq[0] ? lastReq[0].payout_upto : '2000-01-01T00:00:00Z';
 
-      const { data: sales } = await _supabase.from('payments')
+      const { data: sales } = await client.from('payments')
         .select('amount_paid, created_at')
         .eq('coupon_code', myCoupon.code)
         .gt('created_at', lastDate)
@@ -189,7 +204,7 @@
         document.getElementById('lastPaymentTime').innerText = "No sales yet since last payout";
       }
 
-      const { data: history } = await _supabase.from('payout_requests')
+      const { data: history } = await client.from('payout_requests')
         .select('*').eq('user_id', userId).order('requested_at', { ascending: false });
 
       updateUI(history || []);
@@ -231,7 +246,7 @@
   async function requestPayout(profile, userId) {
     if (calculatedEarnings < 100) return alert("Minimum ₹100 required to withdraw.");
 
-    const { error } = await _supabase.from('payout_requests').insert([{
+    const { error } = await client.from('payout_requests').insert([{
       user_id: userId, username: profile?.username, email: profile?.email,
       coupon_code: myCoupon.code, amount: calculatedEarnings,
       status: 'pending', payout_upto: new Date().toISOString(),
@@ -365,4 +380,5 @@
 </script>
 </body>
 </html>
+
 
