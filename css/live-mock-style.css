@@ -150,111 +150,131 @@ body.dark-mode {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Grid: 2+ columns on wider screens, single column under 500px */
+/* Single column under 550px; 2+ columns fit automatically above that */
 .live-mock-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 16px;
 }
-@media (max-width: 499px) {
-    .live-mock-grid { grid-template-columns: 1fr; }
+@media (min-width: 551px) {
+    .live-mock-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 }
 
-/* ── Live Mock Card — vertical, centered title, countdown top-right ───── */
+/* ── Live Mock Card — left-aligned header, icon meta rows, full-bleed button ── */
 .live-mock-card {
     position: relative;
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 16px 14px 14px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden; /* keeps the full-bleed button's corners rounded */
     min-width: 0;
 }
 
+.live-mock-card .card-body { padding: 16px 16px 14px; }
+
+.live-mock-card .card-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.live-mock-card .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.3;
+    margin: 0;
+}
+
 .live-mock-card .badge-type {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 8px;
-    padding: 2px 5px;
-    border-radius: 3px;
-    font-weight: 900;
+    flex-shrink: 0;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-top: 2px;
 }
 .free-badge { background: #dcfce7; color: #166534; }
 .paid-badge { background: #fef3c7; color: #92400e; }
 
-/* Countdown pill — top right of card */
+/* Countdown pill sits in the same top-right slot as the type badge when
+   there's room, stacked below it on narrow cards */
 .countdown-pill {
-    position: absolute;
-    top: 8px;
-    right: 8px;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
     background: rgba(220, 38, 38, 0.1);
     color: var(--live-red);
-    font-size: 10px;
-    font-weight: 800;
-    padding: 3px 7px;
-    border-radius: 20px;
-    line-height: 1.4;
-    white-space: nowrap;
 }
 .countdown-pill.upcoming { background: var(--primary-light); color: var(--primary); }
 .countdown-pill.ended { background: var(--bg-light); color: var(--text-grey); }
 
-.live-mock-card .card-schedule {
-    font-size: 10.5px;
-    color: var(--text-grey);
-    font-weight: 600;
-    margin-top: 18px; /* clears the absolutely-positioned badges above */
+.live-mock-card .card-header-badges {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
 }
 
-.live-mock-card .card-title {
+.live-mock-card .card-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 14px 0 12px;
+}
+
+.live-mock-card .card-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 14.5px;
-    font-weight: 800;
-    color: var(--text-dark);
-    line-height: 1.35;
-    padding: 0 4px;
-}
-
-.live-mock-card .card-meta {
-    font-size: 11.5px;
     color: var(--text-grey);
-    font-weight: 700;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.live-mock-card .card-meta-row:last-of-type { margin-bottom: 0; }
+.live-mock-card .card-meta-row i {
+    width: 16px;
+    text-align: center;
+    color: var(--text-grey);
+    font-size: 13px;
 }
 
 .live-mock-card .btn-grid {
-    width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 2px;
+    margin-top: 16px;
 }
+.live-mock-card .btn-grid.btn-dual { gap: 1px; } /* hairline seam when 2 buttons split the width */
 
 .action-btn {
-    border-radius: 8px;
-    padding: 9px 12px;
-    font-size: 12.5px;
-    font-weight: 800;
+    flex: 1;
+    padding: 15px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
     text-align: center;
     text-decoration: none;
+    text-transform: uppercase;
     border: none;
     cursor: pointer;
-    width: 100%;
     display: block;
     transition: 0.15s;
+    border-radius: 0; /* full-bleed — card's overflow:hidden rounds the outer corners */
 }
-.action-btn:active { transform: scale(0.98); }
+.action-btn:active { filter: brightness(0.95); }
 
 .start-btn { background: var(--primary); color: white; }
 .start-btn:hover { background: #1d4ed8; color: white; }
 .analysis-btn { background: #4f46e5; color: white; }
-.reattempt-btn { background: transparent; color: var(--primary); border: 1px solid var(--primary); padding: 8px 11px; }
+.reattempt-btn { background: transparent; color: var(--primary); border-top: 1px solid var(--border); }
 .reattempt-btn:disabled, .reattempt-btn.disabled-live {
-    opacity: 0.5; cursor: not-allowed; border-color: var(--text-grey); color: var(--text-grey);
+    opacity: 0.5; cursor: not-allowed; color: var(--text-grey);
 }
 .unlock-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
 .locked-btn, .waiting-btn, .ended-btn {
@@ -266,16 +286,15 @@ body.dark-mode {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 16px 14px 14px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 10px;
 }
 .skeleton-line { background: var(--border); border-radius: 6px; animation: skeleton-blink 1.2s ease-in-out infinite; }
-.skeleton-title { height: 14px; width: 80%; margin-top: 8px; }
-.skeleton-meta { height: 11px; width: 50%; }
-.skeleton-btn { height: 34px; width: 100%; border-radius: 8px; margin-top: 4px; }
+.skeleton-title { height: 20px; width: 70%; }
+.skeleton-meta { height: 13px; width: 45%; }
+.skeleton-btn { height: 44px; width: 100%; border-radius: 8px; margin-top: 6px; }
 
 @keyframes skeleton-blink {
     0%, 100% { opacity: 0.4; }
@@ -298,3 +317,4 @@ body.dark-mode .pill-filter { color: var(--text-grey); }
 body.dark-mode .pill-filter.active { color: var(--primary); }
 body.dark-mode .live-status-tab { color: var(--text-grey); }
 body.dark-mode .live-status-tab.active { color: var(--primary); }
+
