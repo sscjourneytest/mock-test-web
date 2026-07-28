@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadLegacyPayments();
   initClearanceTab();
   wireForms();
+  initUserInfoTab();
 });
 
 // -----------------------------------------------------------
@@ -792,4 +793,92 @@ async function markShareDone(shareId) {
   loadSummaryTable();
 }
 
+
+
+// -----------------------------------------------------------
+// User Info tab — find any user's full profile row by email,
+// username, or mobile, and edit it directly.
+// -----------------------------------------------------------
+const USER_INFO_READONLY = ["id", "created_at", "updated_at"];
+let currentUserInfoRow = null;
+
+function initUserInfoTab() {
+  document.getElementById("userSearchBtn").addEventListener("click", searchUserInfo);
+  document.getElementById("userSearchInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") searchUserInfo();
+  });
+  document.getElementById("saveUserBtn").addEventListener("click", saveUserInfoEdits);
+}
+
+async function searchUserInfo() {
+  const q = document.getElementById("userSearchInput").value.trim();
+  const resultCard = document.getElementById("userResultCard");
+  if (!q) return alert("Enter an email, username, or mobile number");
+
+  const { data, error } = await _supabase
+    .from("profiles")
+    .select("*")
+    .or(`email.eq.${q},username.eq.${q},mobile.eq.${q}`)
+    .maybeSingle();
+
+  if (error) return alert("Error: " + error.message);
+  if (!data) {
+    resultCard.style.display = "none";
+    return alert("No user found with that email, username, or mobile.");
+  }
+
+  renderUserInfoRow(data);
+  resultCard.style.display = "block";
+}
+
+function renderUserInfoRow(row) {
+  currentUserInfoRow = row;
+  let html = "";
+  Object.keys(row).forEach((key) => {
+    const val = row[key];
+    const displayVal = val === null || val === undefined ? "" : val;
+    if (USER_INFO_READONLY.includes(key)) {
+      html += `<tr><td><b>${key}</b></td><td>${displayVal}</td></tr>`;
+    } else if (typeof val === "boolean") {
+      html += `<tr><td><b>${key}</b></td><td><input type="checkbox" id="uf-${key}" ${val ? "checked" : ""}></td></tr>`;
+    } else {
+      html += `<tr><td><b>${key}</b></td><td><input type="text" class="inline-input" id="uf-${key}" value="${displayVal}"></td></tr>`;
+    }
+  });
+  document.getElementById("userInfoTable").innerHTML = html;
+  document.getElementById("userSaveMsg").textContent = "";
+}
+
+async function saveUserInfoEdits() {
+  if (!currentUserInfoRow) return;
+  const update = {};
+  Object.keys(currentUserInfoRow).forEach((key) => {
+    if (USER_INFO_READONLY.includes(key)) return;
+    const el = document.getElementById(`uf-${key}`);
+    if (!el) return;
+    if (el.type === "checkbox") {
+      update[key] = el.checked;
+    } else {
+      const raw = el.value;
+      update[key] = typeof currentUserInfoRow[key] === "number"
+        ? (raw === "" ? null : Number(raw))
+        : (raw === "" ? null : raw);
+    }
+  });
+
+  if (!confirm("Save changes to this user's profile?")) return;
+
+  const msgEl = document.getElementById("userSaveMsg");
+  msgEl.style.color = "";
+  msgEl.textContent = "Saving...";
+
+  const { error } = await _supabase.from("profiles").update(update).eq("id", currentUserInfoRow.id);
+  if (error) {
+    msgEl.style.color = "#dc2626";
+    msgEl.textContent = "Error: " + error.message;
+    return;
+  }
+  msgEl.style.color = "#16a34a";
+  msgEl.textContent = "Saved.";
+}
 
