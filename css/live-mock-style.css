@@ -150,14 +150,15 @@ body.dark-mode {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Single column under 550px; 2+ columns fit automatically above that */
+/* Single column under 550px; fixed-width cards above that so a lone card
+   doesn't stretch to fill the row — auto-fit's 1fr was doing that. */
 .live-mock-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
 }
 @media (min-width: 551px) {
-    .live-mock-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .live-mock-grid { grid-template-columns: repeat(auto-fill, 320px); }
 }
 
 /* ── Live Mock Card — left-aligned header, icon meta rows, full-bleed button ── */
@@ -186,6 +187,11 @@ body.dark-mode {
     color: var(--text-dark);
     line-height: 1.3;
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .live-mock-card .badge-type {
