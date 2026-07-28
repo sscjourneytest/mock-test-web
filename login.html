@@ -177,7 +177,7 @@
             <h2>Welcome Back</h2>
             <p class="mandatory-notice">Please enter your credentials <span>*</span></p>
             
-            <label>Only email<span>*</span></label>
+            <label>Email<span>*</span></label>
             <input type="text" id="l-identity" class="input-box" placeholder="Enter Email Only">
             
             <label>Password <span>*</span></label>
@@ -595,13 +595,14 @@
 
                 if (!identity.includes('@')) {
                     // Accepts either a username or a 10-digit mobile number here.
-                    const { data } = await client.from('profiles')
-                        .select('email')
-                        .or(`username.eq.${identity},mobile.eq.${identity}`)
-                        .maybeSingle();
-                    if (data) loginEmail = data.email;
+                    const { data, error: lookupError } = await client.rpc('get_login_email', {
+                        p_identity: identity
+                    });
+                    if (lookupError) return showMessage("Error: " + lookupError.message, true);
+                    if (data) loginEmail = data;
                     else return showMessage("Error: Username or mobile number not found.", true);
                 } else {
+
                     loginEmail = identity.toLowerCase();
                 }
 
