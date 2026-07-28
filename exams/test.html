@@ -2482,7 +2482,36 @@ body.mode-solution #palSectionSubmitBtn {
   display: none !important;
   }
 
+.qtext table,
+#qtext table,
+.opt-text table,
+.explanation table {
+  width: 100% !important;
+  table-layout: auto !important;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
 
+.qtext table colgroup col,
+#qtext table colgroup col,
+.opt-text table colgroup col,
+.explanation table colgroup col {
+  width: auto !important;
+}
+
+.qtext table td,
+.qtext table th,
+#qtext table td,
+#qtext table th,
+.opt-text table td,
+.opt-text table th,
+.explanation table td,
+.explanation table th {
+  white-space: normal;
+}
 
 </style>
 
