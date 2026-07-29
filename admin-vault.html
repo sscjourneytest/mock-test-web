@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="/admin-vault.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="/auth.js"></script>
 </head>
 <body>
@@ -184,7 +185,7 @@
     </div>
 
     <div class="panel-card">
-      <h3>All-Time Partner Summary</h3>
+      <div class="section-header"><h3>All-Time Partner Summary</h3><button class="btn-primary" id="downloadReceiptBtn">Download Receipt (PDF)</button></div>
       <p class="hint">Totals across every clearance batch combined.</p>
       <div class="table-wrapper">
         <table>
