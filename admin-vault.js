@@ -515,6 +515,153 @@ async function loadSummaryTable() {
 }
 
 // -----------------------------------------------------------
+// Downloadable payment receipt (PDF) — every clearance batch,
+// its date range, and to-be-paid/paid/due per partner, plus
+// the all-time grand totals.
+// -----------------------------------------------------------
+function loadLogoAsDataURL() {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      canvas.getContext("2d").drawImage(img, 0, 0);
+      try { resolve(canvas.toDataURL("image/png")); } catch (e) { reject(e); }
+    };
+    img.onerror = reject;
+    img.src = "/logo.png";
+  });
+}
+
+function fmtAmt(n) {
+  const v = Number(n);
+  return (v < 0 ? "-Rs " : "Rs ") + Math.abs(v).toLocaleString("en-IN");
+}
+
+async function downloadPaymentReceipt() {
+  const btn = document.getElementById("downloadReceiptBtn");
+  btn.disabled = true;
+  const originalLabel = btn.textContent;
+  btn.textContent = "Generating...";
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const marginX = 14;
+
+    let logoData = null;
+    try { logoData = await loadLogoAsDataURL(); } catch (e) { /* logo optional */ }
+
+    function drawWatermark() {
+      if (!logoData) return;
+      doc.saveGraphicsState();
+      doc.setGState(new doc.GState({ opacity: 0.06 }));
+      const size = 110;
+      doc.addImage(logoData, "PNG", (pageW - size) / 2, (pageH - size) / 2, size, size);
+      doc.restoreGraphicsState();
+    }
+
+    function drawHeader() {
+      drawWatermark();
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(20);
+      doc.setTextColor(20, 30, 60);
+      doc.text("MOCK MATRIX PAYMENTS", pageW / 2, 18, { align: "center" });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.setTextColor(90, 90, 90);
+      doc.text(`Generated: ${new Date().toLocaleString("en-IN")}`, pageW / 2, 24, { align: "center" });
+      doc.setTextColor(0, 0, 0);
+    }
+
+    let y = 34;
+    function ensureSpace(rowHeight) {
+      if (y + rowHeight > pageH - 16) {
+        doc.addPage();
+        drawHeader();
+        y = 34;
+      }
+    }
+
+    drawHeader();
+
+    const { data: batches } = await _supabase.from("revenue_clearances").select("*").order("to_date", { ascending: true });
+    const { data: allShares } = await _supabase.from("clearance_shares").select("*").order("username");
+
+    let grandDue = 0, grandPaid = 0;
+
+    (batches || []).forEach((batch) => {
+      ensureSpace(16);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.text(`Clearance: ${batch.from_date}  to  ${batch.to_date}`, marginX, y);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text(`Batch Total: ${fmtAmt(batch.total_amount)}`, pageW - marginX, y, { align: "right" });
+      y += 6;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      doc.text("Partner", marginX, y);
+      doc.text("To Be Paid", marginX + 70, y);
+      doc.text("Paid", marginX + 110, y);
+      doc.text("Due", marginX + 145, y);
+      y += 4;
+      doc.setDrawColor(210);
+      doc.line(marginX, y, pageW - marginX, y);
+      y += 5;
+
+      doc.setFont("helvetica", "normal");
+      const shares = (allShares || []).filter((s) => s.clearance_id === batch.id);
+      shares.forEach((s) => {
+        ensureSpace(7);
+        const due = Number(s.amount_due), paid = Number(s.amount_paid);
+        doc.text(String(s.username), marginX, y);
+        doc.text(fmtAmt(due), marginX + 70, y);
+        doc.text(fmtAmt(paid), marginX + 110, y);
+        doc.text(fmtAmt(due - paid), marginX + 145, y);
+        y += 6;
+        grandDue += due;
+        grandPaid += paid;
+      });
+      y += 5;
+    });
+
+    if (!batches || batches.length === 0) {
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(11);
+      doc.text("No clearance batches yet.", marginX, y);
+      y += 8;
+    }
+
+    ensureSpace(30);
+    doc.setDrawColor(20, 30, 60);
+    doc.setLineWidth(0.5);
+    doc.line(marginX, y, pageW - marginX, y);
+    y += 8;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("All-Time Totals", marginX, y);
+    y += 7;
+    doc.setFontSize(11);
+    doc.text(`Total To Be Paid: ${fmtAmt(grandDue)}`, marginX, y); y += 6;
+    doc.text(`Total Paid: ${fmtAmt(grandPaid)}`, marginX, y); y += 6;
+    doc.text(`Total Due: ${fmtAmt(grandDue - grandPaid)}`, marginX, y);
+
+    doc.save(`MockMatrix-Payment-Receipt-${new Date().toISOString().slice(0, 10)}.pdf`);
+  } catch (err) {
+    alert("Could not generate receipt: " + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+}
+
+// -----------------------------------------------------------
 // Payment Clearance tab
 // -----------------------------------------------------------
 let staffList = [];          // [{id, username}] for owner/subowner/admin
@@ -535,6 +682,7 @@ async function initClearanceTab() {
   document.getElementById("confirmClearanceBtn").addEventListener("click", openClearanceModal);
   document.getElementById("modalCancelBtn").addEventListener("click", closeClearanceModal);
   document.getElementById("modalConfirmBtn").addEventListener("click", confirmClearance);
+  document.getElementById("downloadReceiptBtn").addEventListener("click", downloadPaymentReceipt);
 }
 
 async function loadStaffList() {
@@ -881,4 +1029,5 @@ async function saveUserInfoEdits() {
   msgEl.style.color = "#16a34a";
   msgEl.textContent = "Saved.";
 }
+
 
