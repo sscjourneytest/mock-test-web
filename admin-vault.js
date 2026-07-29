@@ -503,12 +503,13 @@ async function loadSummaryTable() {
 
   let html = "";
   Object.values(byUser).forEach((u) => {
-    const pending = Math.max(0, u.due - u.paid);
+    const pending = u.due - u.paid;
+    const pendingLabel = pending === 0 ? "—" : (pending < 0 ? "-₹" + Math.abs(pending).toLocaleString("en-IN") : "₹" + pending.toLocaleString("en-IN"));
     html += `<tr>
       <td><b>${u.username}</b></td>
       <td>₹${u.due.toLocaleString("en-IN")}</td>
       <td>₹${u.paid.toLocaleString("en-IN")}</td>
-      <td>${pending > 0 ? "₹" + pending.toLocaleString("en-IN") : "—"}</td>
+      <td>${pendingLabel}</td>
     </tr>`;
   });
   document.getElementById("summaryTable").innerHTML = html || '<tr><td colspan="4">No clearances yet.</td></tr>';
@@ -524,11 +525,25 @@ function loadLogoAsDataURL() {
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = () => {
+      // Downscale to a small fixed size — this is only ever drawn as a
+      // faint 110mm watermark, so the source resolution doesn't matter.
+      // Embedding the logo at its native size (e.g. 2000x2000) was what
+      // blew the PDF up to several MB for a single page of text.
+      const MAX_DIM = 500;
+      const scale = Math.min(1, MAX_DIM / Math.max(img.naturalWidth, img.naturalHeight));
+      const w = Math.round(img.naturalWidth * scale);
+      const h = Math.round(img.naturalHeight * scale);
       const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      canvas.getContext("2d").drawImage(img, 0, 0);
-      try { resolve(canvas.toDataURL("image/png")); } catch (e) { reject(e); }
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      // JPEG has no alpha channel, so fill white first (matches the
+      // white PDF page it sits on) instead of letting transparency
+      // render as black.
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      try { resolve(canvas.toDataURL("image/jpeg", 0.8)); } catch (e) { reject(e); }
     };
     img.onerror = reject;
     img.src = "/logo.png";
@@ -561,7 +576,7 @@ async function downloadPaymentReceipt() {
       doc.saveGraphicsState();
       doc.setGState(new doc.GState({ opacity: 0.06 }));
       const size = 110;
-      doc.addImage(logoData, "PNG", (pageW - size) / 2, (pageH - size) / 2, size, size);
+      doc.addImage(logoData, "JPEG", (pageW - size) / 2, (pageH - size) / 2, size, size);
       doc.restoreGraphicsState();
     }
 
@@ -818,7 +833,6 @@ async function confirmClearance() {
   const rows = Array.from(document.querySelectorAll(".modal-share-row")).map((row) => {
     const due = Number(row.dataset.due);
     let paid = Number(row.querySelector(".msr-paid-input").value) || 0;
-    if (paid > due) paid = due; // can't pay more than what's due in this batch
     return {
       user_id: row.dataset.user,
       username: row.dataset.username,
