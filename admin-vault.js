@@ -795,10 +795,21 @@ async function openClearanceModal() {
     `${previewFromKey} → ${previewToKey}  ·  Total ₹${total.toLocaleString("en-IN")}`;
 
   let html = "";
-  staffList.forEach((s) => {
+  let allocated = 0;
+  staffList.forEach((s, idx) => {
     const split = (splits || []).find((sp) => sp.user_id === s.id);
     const pct = split ? Number(split.percentage) : (100 / staffList.length);
-    const due = Math.round(total * pct / 100 * 100) / 100;
+    let due;
+    if (idx === staffList.length - 1) {
+      // Last partner gets whatever's left, so the shares always add up
+      // to the exact batch total — independently rounding every partner's
+      // own % (e.g. three 33.33% splits only total 99.99%) leaves a small
+      // gap that never gets assigned to anyone.
+      due = Math.round((total - allocated) * 100) / 100;
+    } else {
+      due = Math.round(total * pct / 100 * 100) / 100;
+      allocated += due;
+    }
     html += `<div class="modal-share-row" data-user="${s.id}" data-username="${s.username}" data-pct="${pct}" data-due="${due}">
       <div class="msr-name">${s.username}</div>
       <div class="msr-due">To be paid (locked, ${pct}%): ₹${due.toLocaleString("en-IN")}</div>
