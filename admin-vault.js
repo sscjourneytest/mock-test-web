@@ -555,6 +555,14 @@ function fmtAmt(n) {
   return (v < 0 ? "-Rs " : "Rs ") + Math.abs(v).toLocaleString("en-IN");
 }
 
+// For aggregate "Total" figures only (batch total, all-time grand total).
+// Individual partner amounts keep their exact paise via fmtAmt — this is
+// only for the summary lines, which should read as clean whole rupees.
+function fmtAmtInt(n) {
+  const v = Math.round(Number(n));
+  return (v < 0 ? "-Rs " : "Rs ") + Math.abs(v).toLocaleString("en-IN");
+}
+
 async function downloadPaymentReceipt() {
   const btn = document.getElementById("downloadReceiptBtn");
   btn.disabled = true;
@@ -617,7 +625,7 @@ async function downloadPaymentReceipt() {
       doc.text(`Clearance: ${batch.from_date}  to  ${batch.to_date}`, marginX, y);
       doc.setFont("helvetica", "normal");
       doc.setFontSize(10);
-      doc.text(`Batch Total: ${fmtAmt(batch.total_amount)}`, pageW - marginX, y, { align: "right" });
+      doc.text(`Batch Total: ${fmtAmtInt(batch.total_amount)}`, pageW - marginX, y, { align: "right" });
       y += 6;
 
       doc.setFont("helvetica", "bold");
@@ -700,9 +708,9 @@ async function downloadPaymentReceipt() {
     doc.text("All-Time Totals", marginX, y);
     y += 7;
     doc.setFontSize(11);
-    doc.text(`Total To Be Paid: ${fmtAmt(grandDue)}`, marginX, y); y += 6;
-    doc.text(`Total Paid: ${fmtAmt(grandPaid)}`, marginX, y); y += 6;
-    doc.text(`Total Due: ${fmtAmt(grandDue - grandPaid)}`, marginX, y);
+    doc.text(`Total To Be Paid: ${fmtAmtInt(grandDue)}`, marginX, y); y += 6;
+    doc.text(`Total Paid: ${fmtAmtInt(grandPaid)}`, marginX, y); y += 6;
+    doc.text(`Total Due: ${fmtAmtInt(grandDue - grandPaid)}`, marginX, y);
 
     doc.save(`MockMatrix-Payment-Receipt-${new Date().toISOString().slice(0, 10)}.pdf`);
   } catch (err) {
@@ -824,29 +832,58 @@ async function previewClearance() {
   document.getElementById("clearancePreview").style.display = "block";
 }
 
+async function getPriorLeftover() {
+  // Whole-rupee splits can leave 1-2 rupees unassigned in a batch (e.g. a
+  // total that isn't evenly divisible 3 ways). Rather than padding one
+  // partner's share, that remainder is carried into the next batch's total
+  // and re-split from there. This looks at the most recent batch and
+  // returns (its total) minus (sum of what was actually assigned to
+  // partners in it).
+  const { data: lastBatchArr } = await _supabase.from("revenue_clearances").select("*").order("to_date", { ascending: false }).limit(1);
+  const lastBatch = lastBatchArr && lastBatchArr[0];
+  if (!lastBatch) return 0;
+  const { data: shares } = await _supabase.from("clearance_shares").select("amount_due").eq("clearance_id", lastBatch.id);
+  const assigned = (shares || []).reduce((s, r) => s + Number(r.amount_due), 0);
+  const leftover = Math.round(Number(lastBatch.total_amount) - assigned);
+  return leftover > 0 ? leftover : 0;
+}
+
 async function openClearanceModal() {
-  const total = Number(document.getElementById("clearancePreview").dataset.total || 0);
+  const previewTotal = Number(document.getElementById("clearancePreview").dataset.total || 0);
+  const priorLeftover = await getPriorLeftover();
+  const total = previewTotal + priorLeftover;
+  // Save the carried-forward total back so confirmClearance stores this
+  // same number as the batch's total_amount — the batch total should
+  // include whatever rolled in from the last one.
+  document.getElementById("clearancePreview").dataset.total = total;
+
   const { data: splits } = await _supabase.from("staff_revenue_split").select("*");
 
   document.getElementById("modalRangeLabel").textContent =
-    `${previewFromKey} → ${previewToKey}  ·  Total ₹${total.toLocaleString("en-IN")}`;
+    `${previewFromKey} → ${previewToKey}  ·  Total ₹${total.toLocaleString("en-IN")}` +
+    (priorLeftover > 0 ? ` (incl. ₹${priorLeftover} carried forward)` : "");
 
   let html = "";
-  let allocated = 0;
-  staffList.forEach((s, idx) => {
+  const pctList = staffList.map((s) => {
     const split = (splits || []).find((sp) => sp.user_id === s.id);
-    const pct = split ? Number(split.percentage) : (100 / staffList.length);
-    let due;
-    if (idx === staffList.length - 1) {
-      // Last partner gets whatever's left, so the shares always add up
-      // to the exact batch total — independently rounding every partner's
-      // own % (e.g. three 33.33% splits only total 99.99%) leaves a small
-      // gap that never gets assigned to anyone.
-      due = Math.round((total - allocated) * 100) / 100;
-    } else {
-      due = Math.round(total * pct / 100 * 100) / 100;
-      allocated += due;
-    }
+    return split ? Number(split.percentage) : (100 / staffList.length);
+  });
+  // Normalize against the sum of everyone's stored % rather than a fixed
+  // 100 — three partners saved at 33.33% each only add to 99.99%, but
+  // 33.33/99.99 is exactly 1/3, so this splits the total evenly.
+  const sumPct = pctList.reduce((a, b) => a + b, 0) || 100;
+
+  let assignedTotal = 0;
+  staffList.forEach((s, idx) => {
+    const pct = pctList[idx];
+    // Whole rupees only, always rounded down — nobody gets a decimal
+    // padded on to make the split "come out even". If the total divides
+    // evenly (e.g. divisible by 3 for an equal three-way split) everyone
+    // already gets a clean integer; any 1-2 rupees left over stay
+    // unassigned this batch and carry into the next one via
+    // getPriorLeftover() above.
+    const due = Math.floor(total * pct / sumPct);
+    assignedTotal += due;
     html += `<div class="modal-share-row" data-user="${s.id}" data-username="${s.username}" data-pct="${pct}" data-due="${due}">
       <div class="msr-name">${s.username}</div>
       <div class="msr-due">To be paid (locked, ${pct}%): ₹${due.toLocaleString("en-IN")}</div>
@@ -854,7 +891,11 @@ async function openClearanceModal() {
       <input type="number" class="msr-paid-input" value="${due}" disabled>
     </div>`;
   });
-  document.getElementById("modalShareRows").innerHTML = html;
+
+  const unassigned = total - assignedTotal;
+  document.getElementById("modalShareRows").innerHTML = html +
+    (unassigned > 0 ? `<p class="hint">₹${unassigned} isn't evenly splittable this batch — carries into the next clearance.</p>` : "");
+
   document.getElementById("clearanceModal").classList.add("active");
 }
 
