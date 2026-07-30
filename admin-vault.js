@@ -641,6 +641,7 @@ async function downloadPaymentReceipt() {
 
       doc.setFont("helvetica", "normal");
       const shares = (allShares || []).filter((s) => s.clearance_id === batch.id);
+      let batchAssigned = 0;
       shares.forEach((s) => {
         ensureSpace(7);
         const due = Number(s.amount_due), paid = Number(s.amount_paid);
@@ -651,10 +652,22 @@ async function downloadPaymentReceipt() {
         y += 6;
         grandDue += due;
         grandPaid += paid;
+        batchAssigned += due;
         if (!partnerTotals[s.username]) partnerTotals[s.username] = { due: 0, paid: 0 };
         partnerTotals[s.username].due += due;
         partnerTotals[s.username].paid += paid;
       });
+
+      const batchLeftover = Math.round(Number(batch.total_amount) - batchAssigned);
+      if (batchLeftover > 0) {
+        ensureSpace(6);
+        doc.setFont("helvetica", "italic");
+        doc.setFontSize(8.5);
+        doc.setTextColor(140, 100, 20);
+        doc.text(`₹${batchLeftover} not evenly splittable — carried into next clearance`, marginX, y);
+        doc.setTextColor(0, 0, 0);
+        y += 6;
+      }
       y += 5;
     });
 
@@ -966,11 +979,13 @@ async function loadClearanceHistory() {
   let html = "";
   for (const batch of batches) {
     const { data: shares } = await _supabase.from("clearance_shares").select("*").eq("clearance_id", batch.id).order("username");
+    const batchAssigned = (shares || []).reduce((s, r) => s + Number(r.amount_due), 0);
+    const batchLeftover = Math.round(Number(batch.total_amount) - batchAssigned);
     html += `<div class="clearance-batch">
       <div class="clearance-batch-head">
         <b>${batch.from_date} → ${batch.to_date}</b>
         <span>Total: ₹${Number(batch.total_amount).toLocaleString("en-IN")}</span>
-      </div>`;
+      </div>${batchLeftover > 0 ? `<p class="hint" style="color:#a06414;">₹${batchLeftover} not evenly splittable — carried into next clearance</p>` : ""}`;
     (shares || []).forEach((sh) => {
       const remaining = Math.max(0, Number(sh.amount_due) - Number(sh.amount_paid));
       html += `<div class="share-row">
