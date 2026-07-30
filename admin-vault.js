@@ -608,6 +608,7 @@ async function downloadPaymentReceipt() {
     const { data: allShares } = await _supabase.from("clearance_shares").select("*").order("username");
 
     let grandDue = 0, grandPaid = 0;
+    const partnerTotals = {}; // username -> { due, paid }
 
     (batches || []).forEach((batch) => {
       ensureSpace(16);
@@ -642,6 +643,9 @@ async function downloadPaymentReceipt() {
         y += 6;
         grandDue += due;
         grandPaid += paid;
+        if (!partnerTotals[s.username]) partnerTotals[s.username] = { due: 0, paid: 0 };
+        partnerTotals[s.username].due += due;
+        partnerTotals[s.username].paid += paid;
       });
       y += 5;
     });
@@ -652,6 +656,39 @@ async function downloadPaymentReceipt() {
       doc.text("No clearance batches yet.", marginX, y);
       y += 8;
     }
+
+    ensureSpace(30);
+    doc.setDrawColor(20, 30, 60);
+    doc.setLineWidth(0.5);
+    doc.line(marginX, y, pageW - marginX, y);
+    y += 8;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("All-Time Partner Summary", marginX, y);
+    y += 7;
+
+    doc.setFontSize(9);
+    doc.text("Partner", marginX, y);
+    doc.text("Total Due", marginX + 70, y);
+    doc.text("Total Paid", marginX + 110, y);
+    doc.text("Total Pending", marginX + 145, y);
+    y += 4;
+    doc.setDrawColor(210);
+    doc.line(marginX, y, pageW - marginX, y);
+    y += 5;
+
+    doc.setFont("helvetica", "normal");
+    Object.keys(partnerTotals).forEach((username) => {
+      ensureSpace(7);
+      const t = partnerTotals[username];
+      const pending = t.due - t.paid;
+      doc.text(username, marginX, y);
+      doc.text(fmtAmt(t.due), marginX + 70, y);
+      doc.text(fmtAmt(t.paid), marginX + 110, y);
+      doc.text(pending === 0 ? "-" : fmtAmt(pending), marginX + 145, y);
+      y += 6;
+    });
+    y += 5;
 
     ensureSpace(30);
     doc.setDrawColor(20, 30, 60);
@@ -1054,5 +1091,6 @@ async function saveUserInfoEdits() {
   msgEl.style.color = "#16a34a";
   msgEl.textContent = "Saved.";
 }
+
 
 
