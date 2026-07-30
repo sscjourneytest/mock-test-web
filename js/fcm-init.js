@@ -127,10 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
 function maybeShowSubscribePrompt() {
   if (!("Notification" in window)) return;
   if (Notification.permission !== "default") return; // already granted or denied — don't ask again
-  if (sessionStorage.getItem("mmh_subscribe_prompt_shown")) return;
+
+  const SNOOZE_KEY = "mmh_subscribe_snooze_until";
+  const snoozeUntil = parseInt(localStorage.getItem(SNOOZE_KEY) || "0", 10);
+  if (Date.now() < snoozeUntil) return; // user dismissed it recently — respect the 24h cooldown
 
   setTimeout(() => {
-    sessionStorage.setItem("mmh_subscribe_prompt_shown", "true");
 
     const style = document.createElement("style");
     style.textContent = `
@@ -195,13 +197,14 @@ function maybeShowSubscribePrompt() {
 
     document.getElementById("mmh-subscribe-allow").addEventListener("click", async () => {
       banner.remove();
+      localStorage.removeItem(SNOOZE_KEY);
       await initFcmAndSubscribe();
       await wireForegroundMessages();
     });
 
     document.getElementById("mmh-subscribe-later").addEventListener("click", () => {
+      localStorage.setItem(SNOOZE_KEY, String(Date.now() + 24 * 60 * 60 * 1000));
       banner.remove();
     });
   }, 3000);
 }
-
