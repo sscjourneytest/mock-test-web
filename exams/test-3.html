@@ -2099,6 +2099,10 @@ body.mode-solution .container {
 .modal-content { background: var(--modal-bg); color: var(--body-text); padding: 20px; border-radius: 8px; max-width: 400px; width: 90%; text-align: center; }
 .modal h3 { margin-top: 0; color: var(--accent); }
 .modal .actions { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+.pause-modal-content { padding: 26px 22px 22px; }
+.pause-modal-icon { width: 54px; height: 54px; margin: 0 auto 14px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 22px; display: flex; align-items: center; justify-content: center; }
+.pause-modal-content p { font-size: 14px; line-height: 1.5; opacity: 0.85; margin: 6px 0 0; }
+.pause-modal-content .actions button { min-width: 130px; }
 
 
     /* ✅ Fix MathJax Overflow Properly */
@@ -2815,7 +2819,7 @@ const savedDb = commonApp.database();
     </div>
     
     <div class="ws-action-footer">
-      <button class="ws-control-btn-yellow" onclick="window.location.href='./'">Go to Tests</button>
+      <button class="ws-control-btn-yellow" onclick="goToTestOrigin()">Go to Tests</button>
       <button class="ws-control-btn-blue" onclick="document.getElementById('welcomePage1').classList.remove('active'); document.getElementById('welcomePage2').classList.add('active');">Next</button>
     </div>
   </div>
@@ -3033,6 +3037,17 @@ const savedDb = commonApp.database();
     </div>
   </div>
 </div>
+<div id="pauseModal" class="modal">
+  <div class="modal-content pause-modal-content">
+    <div class="pause-modal-icon"><i class="fas fa-pause"></i></div>
+    <h3>Pause Test?</h3>
+    <p>Your progress will be saved. You can resume later from where you left off.</p>
+    <div class="actions">
+      <button id="pauseModalNo" class="btn-ghost">No</button>
+      <button id="pauseModalYes" class="btn">Yes, Pause</button>
+    </div>
+  </div>
+</div>
 <div id="reportModal" class="report-modal">
   <div class="report-content">
     <h3>Report Question</h3>
@@ -3109,6 +3124,12 @@ let marked = {};
 let seconds = 0;              // Changed from placeholder
 let timerInterval = null;
 let isQuiz = true;
+// True only once the test has actually begun (Start Test clicked, or a
+// genuine resume of a previously-started session) — NOT true just because
+// the page loaded / Welcome Screen is showing. Guards saveQuizState() and
+// the Back-button pause-guard so neither fires while still on Welcome Screen.
+let testStarted = false;
+let backGuardArmed = false; // prevents arming the Back-button guard more than once
 let LAST_RESULT_HTML = "";
 let VIEWING_HISTORICAL_ATTEMPT = false; // true while showing a past (non-latest) attempt via viewAttempt()
 let isPracticeToggle = false;
@@ -3154,7 +3175,7 @@ function fmt(s){
   return `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
 }
 function saveQuizState(){
-  if(!isQuiz) return;
+  if(!isQuiz || !testStarted) return;
   const state = {
     current,
     answers,
@@ -3461,35 +3482,78 @@ function toggleActionBar() {
     document.documentElement.style.setProperty('--header-height', '115px');
   }
 }
+// Same origin/fallback rule as goToTestOrigin(), but navigates via location
+// (not history.back()) so it's safe to call from the Back-button guard below
+// without fighting the extra history entries that guard pushes.
+function redirectToTestOrigin() {
+  if (document.referrer && document.referrer.indexOf(window.location.origin) === 0) {
+    window.location.href = document.referrer;
+  } else {
+    window.location.href = './';
+  }
+}
+
+// Shared by the Pause button AND the intercepted Back button — shows the
+// custom pause modal (no native confirm()) and runs the same save+redirect
+// flow if the user taps "Yes, Pause".
+function handlePauseRequest() {
+  const modal = document.getElementById("pauseModal");
+  if (modal) modal.style.display = "flex";
+}
+
+function runPauseAndRedirect() {
+  // Force save the current state (Answers, Time, Current Question)
+  saveQuizState();
+
+  // Update the saved state to include the 'isPaused' flag for the index page to detect
+  const savedState = localStorage.getItem(QUIZ_STATE_KEY);
+  if (savedState) {
+    const stateData = JSON.parse(savedState);
+    stateData.isPaused = true;
+    localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(stateData));
+  }
+
+  // Stop the timer immediately
+  if (timerInterval) clearInterval(timerInterval);
+
+  // Same "go back to where you came from, else exam list" logic as the result page
+  redirectToTestOrigin();
+}
+
+document.getElementById("pauseModalYes")?.addEventListener("click", runPauseAndRedirect);
+document.getElementById("pauseModalNo")?.addEventListener("click", () => {
+  const modal = document.getElementById("pauseModal");
+  if (modal) modal.style.display = "none";
+});
+
 function setupPauseFeature() {
   if (!isQuiz) return;
 
   document.querySelectorAll("#pauseBtn").forEach(pBtn => {
-    pBtn.onclick = () => {
+    pBtn.onclick = handlePauseRequest;
+  });
+  // NOTE: the Back-button guard is intentionally NOT armed here anymore —
+  // this runs on every page load (including while Welcome Screen is still
+  // showing), and arming it here caused Back on the Welcome Screen to wrongly
+  // trigger the Pause dialog. It's armed explicitly via armBackButtonGuard()
+  // once the test has actually started (Start Test click, or a real resume).
+}
 
-    // 2. Simple but effective confirmation popup
-    if (confirm("⏸️ Pause Quiz?\n\nYour progress and time will be saved. You can resume from the home page later.")) {
-      
-      // 3. Force save the current state (Answers, Time, Current Question)
-      saveQuizState();
-      
-      // 4. Update the saved state to include the 'isPaused' flag for the index page to detect
-      const savedState = localStorage.getItem(QUIZ_STATE_KEY);
-      if (savedState) {
-        const stateData = JSON.parse(savedState);
-        stateData.isPaused = true;
-        localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(stateData));
-      }
+// Intercept the browser/hardware Back button while the test is running:
+// push a guard history entry so the first Back press lands back on this
+// same page (via popstate) instead of leaving immediately, then show the
+// same pause confirmation. Only call this once the test has genuinely
+// started — never while Welcome Screen is still showing.
+function armBackButtonGuard() {
+  if (backGuardArmed || !isQuiz || !testStarted) return;
+  backGuardArmed = true;
 
-      // 5. Stop the timer immediately
-      if (timerInterval) clearInterval(timerInterval);
-
-      // 6. Redirect back to the parent folder (e.g., from full_test1 to the index list)
-      const currentUrl = window.location.pathname;
-      const parentFolder = currentUrl.substring(0, currentUrl.lastIndexOf('/')) + '/';
-      window.location.href = parentFolder;
-    }
-  };
+  history.pushState({ quizGuard: true }, "", window.location.href);
+  window.addEventListener("popstate", function onQuizBackGuard() {
+    if (!isQuiz || !testStarted) return; // test finished/paused via another path — let Back work normally
+    // Re-arm the guard for the next Back press before showing the prompt
+    history.pushState({ quizGuard: true }, "", window.location.href);
+    handlePauseRequest();
   });
 }
 
@@ -5337,6 +5401,18 @@ if (specificSection && standardizedFreshSections[specificSection]) {
      
 
     // ------------------------------
+
+    // Keep in-memory question data in sync with the corrected answer key —
+    // otherwise Solution Mode keeps showing the old (pre-correction) answer
+    // for the changed question until the page is reloaded.
+    Object.keys(freshSections).forEach(name => {
+      if (SECTIONS[name]) SECTIONS[name] = freshSections[name];
+    });
+    if (document.body.classList.contains("mode-solution")) {
+      QUESTIONS = SECTIONS[SECTION_NAMES[currentSectionIdx]] || QUESTIONS;
+      renderQuestion(current);
+    }
+
     QUALIFYING_SECTIONS = freshData.meta.qualifying_sections || [];
     
     // 2. Re-Calculation Loop: Re-evaluate answers against standardized arrays
@@ -6292,6 +6368,11 @@ document.getElementById("welcomeStartBtn").addEventListener("click", function() 
   currentLang = selected;
   document.getElementById("langSelect").value = selected; // Sync header dropdown
 
+  // Test has genuinely begun now — allow state-saving and arm the
+  // Back-button pause-guard (both were withheld while on Welcome Screen)
+  testStarted = true;
+  armBackButtonGuard();
+
   // Proceed to quiz
   document.getElementById("welcomeScreen").style.display = "none";
   document.getElementById("mainHeader").style.display = "block";
@@ -6774,6 +6855,8 @@ if (savedState && !alreadySubmitted) {
 
       if (canResume) {
         console.log("Resuming active session...");
+        testStarted = true;
+        armBackButtonGuard();
         currentSectionIdx = state.currentSectionIdx || 0;
         
         seconds = state.seconds ?? seconds; 
@@ -6955,6 +7038,30 @@ function toggleDarkMode() {
     
   
   });
+})();
+</script>
+
+<!-- Fix: reposition fixed instructions footer using visualViewport, since Safari's
+     layout-viewport-based "position:fixed" can miscalculate the bottom offset when
+     the browser chrome (tab bar, multiple tabs, address bar) changes height. -->
+<script>
+(function() {
+  if (!window.visualViewport) return; // unsupported browsers keep normal CSS fixed behavior
+
+  function repositionActionFooters() {
+    var offset = Math.max(0, (window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop));
+    document.querySelectorAll('.ws-action-footer').forEach(function(footer) {
+      footer.style.bottom = offset + 'px';
+    });
+  }
+
+  window.visualViewport.addEventListener('resize', repositionActionFooters);
+  window.visualViewport.addEventListener('scroll', repositionActionFooters);
+  window.addEventListener('orientationchange', function() {
+    setTimeout(repositionActionFooters, 50);
+  });
+
+  repositionActionFooters();
 })();
 </script>
 </body>
