@@ -368,7 +368,7 @@ function buildQuestionCardHTML(item, indexLabel) {
     const q = item.question_data;
     return `
         ${buildQBar(item, indexLabel)}
-        <div class="qtext">${applyBoldHighlight(getLangText(q.question))}${renderImg(q.question_image, item.quiz_id, q.id, 1)}</div>
+        <div class="qtext">${applyBoldHighlight(getLangText(q.question).replace(/(\s|<br\s*\/?>)+$/gi, ''))}${renderImg(q.question_image, item.quiz_id, q.id, 1)}</div>
         <div class="options-engine">${renderOptions(item)}</div>
         <div class="explanation" style="${REATTEMPT_MODE ? 'display:none;' : ''}"><strong>SOLUTION:</strong><br><div class="sol-text">${applyBoldHighlight(getLangText(q.solution_text))}</div>${renderImg(q.solution_image, item.quiz_id, q.id, 6)}</div>
         ${REATTEMPT_MODE ? '<div class="reattempt-hint">Tap an option to check the answer</div>' : ''}
