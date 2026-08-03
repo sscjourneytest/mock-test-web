@@ -23,6 +23,7 @@ function normalizeSubject(s) {
     if (!s) return "MISCELLANEOUS";
     let u = String(s).trim().toUpperCase().replace(/[.#$\[\]\/]/g, "");
     if (u === "GS" || u === "GENERALSTUDIES" || u === "GENERALAWARENESS") u = "GK";
+    if (u === "MATHS" || u === "MATHEMATICS") u = "MATH"; // alias — save modal sends "MATHS"
     return SUBJECTS.includes(u) ? u : "MISCELLANEOUS";
 }
 
@@ -145,7 +146,12 @@ function parseRawTree(raw) {
                 legacy: true
             });
         } else {
-            // Subject bucket — topKey IS the subject name
+            // Subject bucket — topKey IS the actual Firebase key (may not match
+            // canonical SUBJECTS spelling, e.g. "MATHS" instead of "MATH").
+            // subject = normalized value, used for display/filtering.
+            // rawSubject = the real key, used for building delete/move paths —
+            // deleting/moving by the normalized value silently fails whenever
+            // the two disagree, which is what caused items to "come back".
             const subjectName = normalizeSubject(topKey);
             for (const qKey in topVal) {
                 const qVal = topVal[qKey];
@@ -156,6 +162,7 @@ function parseRawTree(raw) {
                     question_data: qVal.question_data,
                     saved_at: qVal.saved_at || 0,
                     subject: subjectName,
+                    rawSubject: topKey,
                     legacy: false
                 });
             }
@@ -518,13 +525,14 @@ async function moveToSection(key, newSubject) {
     const payload = { quiz_id: item.quiz_id, question_data: item.question_data, saved_at: item.saved_at };
     const oldPath = item.legacy
         ? `saved_questions/${USER_EMAIL_KEY}/${key}`
-        : `saved_questions/${USER_EMAIL_KEY}/${item.subject}/${key}`;
+        : `saved_questions/${USER_EMAIL_KEY}/${item.rawSubject}/${key}`;
     const newPath = `saved_questions/${USER_EMAIL_KEY}/${newSubject}/${key}`;
 
     try {
         await savedDb.ref(newPath).set(payload);
         await savedDb.ref(oldPath).remove();
         item.subject = newSubject;
+        item.rawSubject = newSubject; // now correctly filed under the canonical key
         item.legacy = false;
         showToast(`Moved to ${newSubject}`);
         renderSubjectChips();
@@ -545,7 +553,7 @@ async function confirmUnsave(key) {
     try {
         const refPath = item.legacy
             ? `saved_questions/${USER_EMAIL_KEY}/${key}`
-            : `saved_questions/${USER_EMAIL_KEY}/${item.subject}/${key}`;
+            : `saved_questions/${USER_EMAIL_KEY}/${item.rawSubject}/${key}`;
         await savedDb.ref(refPath).remove();
 
         QUESTION_LIST = QUESTION_LIST.filter(i => i.key !== key);
@@ -571,4 +579,5 @@ function changeGlobalLang(val) {
     localStorage.setItem("quiz_lang", val);
     applyFilters();
 }
+
 
