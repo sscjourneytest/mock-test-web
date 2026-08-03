@@ -1,4 +1,4 @@
-// exam-engine.js — SSC Journey Mock Page Engine
+// exam-engine.js
 // Cross-device attempt sync: Worker → Firebase user_attempts index (no GitHub)
 
 let EXAM_JSON = null;
@@ -227,7 +227,21 @@ function setupFilters(years) {
         typePills[0].innerHTML = `Full Mocks (${fullCount})`;
         typePills[1].innerHTML = `Sectionals (${sectionalCount})`;
         typePills[2].innerHTML = `Subject Wise (${subjectCount})`;
-        typePills[1].style.display = (sectionsCount === 0) ? 'none' : 'block';
+
+        const showFull      = fullCount > 0;
+        const showSectional = sectionsCount > 0 && fullCount > 0;
+        const showSubject   = subjectCount > 0;
+
+        typePills[0].style.display = showFull      ? 'block' : 'none';
+        typePills[1].style.display = showSectional ? 'block' : 'none';
+        typePills[2].style.display = showSubject   ? 'block' : 'none';
+
+        // If the currently active type has no items, fall back to the first visible one
+        const visibility = { full_mocks: showFull, sectional: showSectional, subject_wise: showSubject };
+        if (!visibility[currentFilters.type]) {
+            const fallback = ['full_mocks', 'sectional', 'subject_wise'].find(t => visibility[t]);
+            if (fallback) currentFilters.type = fallback;
+        }
     }
 
     typePills.forEach(pill => {
@@ -489,4 +503,5 @@ window.addEventListener('pageshow', function (event) {
         }
     }
 });
+
 
