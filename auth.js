@@ -18,6 +18,34 @@ const SECRET_SALT = "mmh_vault_key_99";
  * has actually arrived.
  * Returns the profile object on success, or null if it could not be loaded.
  */
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Attempts the profiles fetch up to `retries` times with a short backoff
+ * between attempts (network blips, cold-start Worker, etc). Throws the
+ * last error if every attempt fails. A "no row found" response is also
+ * treated as a failure here (single() errors on 0 rows) so it goes
+ * through the same retry path — cheap insurance in case it was actually
+ * transient replication lag rather than a truly missing profile.
+ */
+async function fetchProfileWithRetry(client, userId, retries = 3) {
+    let lastError = null;
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            const { data, error } = await client.from('profiles').select('*').eq('id', userId).single();
+            if (error) throw error;
+            if (data) return data;
+            throw new Error('Profile row not found');
+        } catch (e) {
+            lastError = e;
+            if (attempt < retries) await sleep(attempt * 700); // 700ms, then 1400ms
+        }
+    }
+    throw lastError;
+}
+
 async function fetchAndCacheProfile(client, user) {
     // 1. BACKGROUND SYNC: If user has a pending request, check status automatically
     if (localStorage.getItem('pending_premium_request') === 'true') {
@@ -31,40 +59,65 @@ async function fetchAndCacheProfile(client, user) {
     // 2. CACHE MANAGEMENT: Fetch profile if missing or expired
     if (forceFetch || isCacheExpired()) {
         try {
-            const { data: dbProfile } = await client.from('profiles').select('*').eq('id', user.id).single();
-            if (dbProfile) {
-                // Partner status lives in the coupons table, not profiles.
-                // Resolve it HERE — only when we're already doing a fresh
-                // fetch (once per login / once every 7 days) — instead of
-                // querying it separately on every page load.
-                //
-                // NOTE: an owner_user_id can have MORE THAN ONE active coupon
-                // row (confirmed in production data). maybeSingle() throws
-                // when a query matches more than one row, which was silently
-                // failing here for those users and leaving is_partner=false
-                // even though they do have active coupons. Using a plain
-                // select + limit(1) instead — we only need to know whether
-                // at least one active coupon exists, not fetch a single row.
-                let isPartner = false;
-                try {
-                    const { data: activeCoupons } = await client
-                        .from('coupons')
-                        .select('code')
-                        .eq('owner_user_id', dbProfile.id)
-                        .eq('is_active', true)
-                        .limit(1);
-                    isPartner = !!(activeCoupons && activeCoupons.length > 0);
-                } catch (e) {
-                    // Leave isPartner false on error; next cache refresh will retry.
-                }
+            const dbProfile = await fetchProfileWithRetry(client, user.id, 3);
 
-                profile = { ...dbProfile, email: user.email, is_partner: isPartner };
-                saveLocalProfile(profile);
-            } else if (!profile) {
-                return null; // nothing cached and nothing fetched = failure
+            // Partner status lives in the coupons table, not profiles.
+            // Resolve it HERE — only when we're already doing a fresh
+            // fetch (once per login / once every 7 days) — instead of
+            // querying it separately on every page load.
+            //
+            // NOTE: an owner_user_id can have MORE THAN ONE active coupon
+            // row (confirmed in production data). maybeSingle() throws
+            // when a query matches more than one row, which was silently
+            // failing here for those users and leaving is_partner=false
+            // even though they do have active coupons. Using a plain
+            // select + limit(1) instead — we only need to know whether
+            // at least one active coupon exists, not fetch a single row.
+            let isPartner = false;
+            try {
+                const { data: activeCoupons } = await client
+                    .from('coupons')
+                    .select('code')
+                    .eq('owner_user_id', dbProfile.id)
+                    .eq('is_active', true)
+                    .limit(1);
+                isPartner = !!(activeCoupons && activeCoupons.length > 0);
+            } catch (e) {
+                // Leave isPartner false on error; next cache refresh will retry.
             }
+
+            const freshProfile = { ...dbProfile, email: user.email, is_partner: isPartner };
+            saveLocalProfile(freshProfile);
+
+            // GUARANTEE: never treat this as a successful load unless it's
+            // actually readable back from localStorage. Protects against a
+            // silent write failure (quota exceeded, private-browsing storage
+            // caps, etc) where saveLocalProfile() ran but nothing actually
+            // persisted — we don't want to hand back a "profile loaded"
+            // result that isn't backed by cache.
+            const verify = getLocalProfile();
+            if (!verify || verify.id !== freshProfile.id) {
+                throw new Error('Profile save to localStorage could not be verified');
+            }
+
+            // Only now — save confirmed — does this become "the" profile.
+            profile = freshProfile;
         } catch (e) {
-            if (!profile) return null;
+            console.error('Profile fetch failed after retries:', e);
+
+            if (!profile) {
+                // No cached fallback AND every retry failed (or the save
+                // itself couldn't be verified) — the app can't safely treat
+                // this as "logged in" (no username, no plan, no permissions).
+                // Force a clean logout instead of leaving a half-authenticated
+                // session dangling, and send them back to login.html with a
+                // flag so it can show a clear retry message.
+                await handleLogout('/login.html?authFailed=1');
+                return null;
+            }
+            // A cached profile still exists (e.g. this was just a periodic
+            // 7-day cache refresh that failed) — keep serving the stale
+            // cached copy rather than logging the user out over it.
         }
     }
 
@@ -162,10 +215,11 @@ async function initAuth() {
             if (profile) {
                 // Profile confirmed loaded — safe to leave the login page now.
                 window.location.href = getSafeRedirectTarget();
-            } else {
-                // Profile failed to load — stay put and let the login page know.
-                window.dispatchEvent(new Event('profileLoadFailed'));
             }
+            // If profile is null here, fetchAndCacheProfile() already retried
+            // 3x and, finding no cached fallback either, called handleLogout()
+            // itself — a redirect to index.html is already in flight, so
+            // there's nothing left to do on this page.
         }
 
     } else {
@@ -243,7 +297,7 @@ async function handleChangePassword() {
     }
 }
 
-async function handleLogout() {
+async function handleLogout(redirectTo) {
     const client = await getClient();
     localStorage.removeItem('u_vault');
     localStorage.removeItem('mmh_guide_seen');
@@ -252,12 +306,13 @@ async function handleLogout() {
             if (key.startsWith('CLOUD_SYNC_')) localStorage.removeItem(key);
         });
         await client.auth.signOut();
-        window.location.href = "/index.html?v=" + Date.now(); // Force fresh load
+        window.location.href = redirectTo || ("/index.html?v=" + Date.now()); // Force fresh load
    
 }
 
 
 // Keep this for the very first initial load
 document.addEventListener('DOMContentLoaded', initAuth);
+
 
 

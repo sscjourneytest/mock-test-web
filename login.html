@@ -352,6 +352,19 @@
                 otpPass.addEventListener('input', check);
             }
 
+            // auth.js redirects here with this flag when it retried loading
+            // the profile 3x and gave up (and had no cache to fall back on),
+            // signing the user out in the process. Let them know why they're
+            // back on the login screen instead of leaving it unexplained.
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('authFailed') === '1') {
+                showMessage("Could not log you in. Please try again.", true);
+                // Clean the URL so a refresh doesn't re-show the message.
+                params.delete('authFailed');
+                const cleanQs = params.toString();
+                history.replaceState({}, '', window.location.pathname + (cleanQs ? '?' + cleanQs : ''));
+            }
+
             restoreOtpFlowIfPending();
         });
 
@@ -474,8 +487,14 @@
                 const { data: { session } } = await client.auth.getSession();
                 const profile = session?.user ? await fetchAndCacheProfile(client, session.user) : null;
 
-                showMessage("Success! Redirecting...", false);
-                window.location.href = profile ? getSafeRedirectTarget() : "/index.html";
+                if (profile) {
+                    showMessage("Success! Redirecting...", false);
+                    window.location.href = getSafeRedirectTarget();
+                }
+                // If profile is null, fetchAndCacheProfile() already retried
+                // 3x, found no cached fallback, and called handleLogout()
+                // itself — that redirect to index.html is already in flight,
+                // so we don't also navigate here (would double-hop / flash).
             } catch (error) {
                 showMessage("Error: " + error.message, true);
             }
@@ -499,12 +518,6 @@
                 btn.disabled = false;
             }
         }
-
-        // If auth.js couldn't load the profile for an already-logged-in
-        // visitor, let them know instead of silently doing nothing.
-        window.addEventListener('profileLoadFailed', () => {
-            showMessage("Error: Could not load your profile. Please refresh and try again.", true);
-        });
 
         async function signup() {
             const email = document.getElementById('s-email').value.trim().toLowerCase();
@@ -626,6 +639,7 @@
     </script>
 </body>
 </html>
+
 
 
 
