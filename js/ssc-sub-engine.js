@@ -284,8 +284,8 @@ function setupFilters(years) {
         if (topicWrapEl) {
             const div = document.createElement('div');
             div.id = 'subtopic-wrap';
-            div.className = 'hidden';
-            div.innerHTML = '<div id="subtopic-scroll" class="pill-scroll"></div>';
+            div.className = 'filter-scroll-wrapper hidden';
+            div.innerHTML = '<div id="subtopic-scroll" class="d-flex gap-2"></div>';
             topicWrapEl.insertAdjacentElement('afterend', div);
         }
     }
