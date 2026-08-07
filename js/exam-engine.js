@@ -504,4 +504,16 @@ window.addEventListener('pageshow', function (event) {
     }
 });
 
+// If getLocalProfile() was empty/broken at the time renderMocks() first ran
+// (session live, cache not yet populated), mock cards would have rendered
+// as locked/free using the "Guest" default instead of reflecting the
+// visitor's real is_paid status. auth.js fetches fresh and fires this once
+// the real profile lands — re-render so lock state corrects itself.
+window.addEventListener('profileUpdated', function () {
+    if (typeof renderMocks === 'function' && EXAM_JSON) {
+        renderMocks();
+    }
+});
+
+
 

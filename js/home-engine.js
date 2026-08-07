@@ -284,3 +284,19 @@ window.addEventListener('resize', () => {
     // Re-pick desktop/mobile banner image on orientation/resize changes
     if (bannerSlides.length) renderBanners(bannerSlides);
 });
+
+// If the local profile cache was empty/broken when initHomeEngine() first
+// ran, _isPaidUser() would have returned false by default — meaning any
+// paid-only buttons/banners, or the free-user sale popup, could have
+// rendered as if the visitor were a free user even though they're actually
+// paid. auth.js fetches fresh and fires this event once the real profile
+// lands; re-run the audience-dependent renders against the config already
+// fetched so the page corrects itself without a full reload.
+window.addEventListener('profileUpdated', () => {
+    const config = window.HOME_CONFIG;
+    if (!config) return; // initHomeEngine() hasn't fetched the config yet
+    renderButtons(config.buttons || []);
+    renderBanners(config.banners || []);
+    renderSalePopup(config.salePopup);
+});
+

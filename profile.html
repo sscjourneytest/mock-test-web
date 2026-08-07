@@ -125,8 +125,8 @@
 <body>
 
     <header class="app-header">
-        <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
-        <h1 class="header-title">My Account</h1>
+        <button class="back-btn" onclick="window.location.href='/'"><i class="fas fa-arrow-left"></i></button>
+                <h1 class="header-title">My Account</h1>
     </header>
 
     <div class="profile-hero">
@@ -176,6 +176,39 @@
     </nav>
 
     <script>
+        function renderProfile(profile) {
+            if (!profile) return;
+
+            // Set UI Values
+            const name = profile.username || "User";
+            document.getElementById('dispName').innerText = name;
+            document.getElementById('valName').innerText = name;
+            document.getElementById('valEmail').innerText = profile.email || "No Email Found";
+            document.getElementById('avatarLetter').innerText = name.charAt(0).toUpperCase();
+
+            // Paid Logic
+            if (profile.is_paid) {
+                document.getElementById('statusBadge').innerHTML = '<span class="badge-status status-pro">PRO MEMBER</span>';
+                document.getElementById('upgradeBtn').style.display = 'none';
+
+                if (profile.expires_at) {
+                    const date = new Date(profile.expires_at);
+                    document.getElementById('valExpiry').innerText = date.toLocaleDateString('en-GB', {
+                        day: 'numeric', month: 'short', year: 'numeric'
+                    });
+                }
+            } else {
+                document.getElementById('statusBadge').innerHTML = '<span class="badge-status status-free">FREE ACCOUNT</span>';
+                document.getElementById('upgradeBtn').style.display = '';
+            }
+
+            // Partner Logic
+            if (profile.is_partner && profile.partner_coupon) {
+                document.getElementById('partnerRow').style.display = 'flex';
+                document.getElementById('valPartner').innerText = profile.partner_coupon;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('mmh_theme') === 'dark') document.body.classList.add('dark-mode');
 
@@ -183,37 +216,26 @@
             const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
 
             if (profile) {
-                // Set UI Values
-                const name = profile.username || "User";
-                document.getElementById('dispName').innerText = name;
-                document.getElementById('valName').innerText = name;
-                document.getElementById('valEmail').innerText = profile.email || "No Email Found";
-                document.getElementById('avatarLetter').innerText = name.charAt(0).toUpperCase();
-
-                // Paid Logic
-                if (profile.is_paid) {
-                    document.getElementById('statusBadge').innerHTML = '<span class="badge-status status-pro">PRO MEMBER</span>';
-                    document.getElementById('upgradeBtn').style.display = 'none';
-                    
-                    if (profile.expires_at) {
-                        const date = new Date(profile.expires_at);
-                        document.getElementById('valExpiry').innerText = date.toLocaleDateString('en-GB', {
-                            day: 'numeric', month: 'short', year: 'numeric'
-                        });
-                    }
-                } else {
-                    document.getElementById('statusBadge').innerHTML = '<span class="badge-status status-free">FREE ACCOUNT</span>';
-                }
-
-                // Partner Logic
-                if (profile.is_partner && profile.partner_coupon) {
-                    document.getElementById('partnerRow').style.display = 'flex';
-                    document.getElementById('valPartner').innerText = profile.partner_coupon;
-                }
-            } else {
-                // If no profile exists, redirect to login
-                window.location.href = "/login.html";
+                renderProfile(profile);
             }
+            // If cache is empty here, don't redirect — auth.js's initAuth()
+            // is already checking the actual Supabase session in parallel.
+            // A cache miss isn't the same as being logged out: the session
+            // could still be live with the cache just not populated yet
+            // (or wiped). Redirecting straight to login.html off a cache-only
+            // check caused exactly the flip we fixed on saved.html — auth.js
+            // finds the live session, fetches the profile, and bounces the
+            // user right back here. If there's truly no session, initAuth()
+            // itself will handle the redirect to login.html; we don't need
+            // to duplicate that check here.
+        });
+
+        // Fires once auth.js finishes fetching a fresh profile — covers
+        // both the "cache was empty at load" case above and the normal
+        // 7-day cache refresh, so this page never gets stuck on stale data.
+        window.addEventListener('profileUpdated', () => {
+            const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+            renderProfile(profile);
         });
     </script>
 </body>

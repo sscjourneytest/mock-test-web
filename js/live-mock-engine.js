@@ -518,3 +518,12 @@ window.addEventListener('pageshow', function (event) {
     }
 });
 
+// If getLocalProfile() was empty/broken when renderMocks() first ran
+// (session live, cache not yet populated), mock cards would have rendered
+// using the "Guest" default instead of the visitor's real is_paid status.
+// auth.js fires this once the real profile lands — re-render to correct.
+window.addEventListener('profileUpdated', function () {
+    if (LIVE_JSON) renderMocks();
+});
+
+
