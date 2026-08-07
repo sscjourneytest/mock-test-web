@@ -9,6 +9,16 @@ const SYNC_EXPIRY_MS = 48 * 60 * 60 * 1000;
 
 const WORKER_URL = "https://mmh-userdata-test.maniyamaniya789.workers.dev";
 
+// ── HTML-attribute JS-string escape helper ──────────────────────────────────
+// Used whenever a subject/topic/subtopic name is embedded inside a single-quoted
+// JS string literal in an onclick="..." attribute. Without this, any name
+// containing an apostrophe (e.g. "Earth's Interior...") breaks the inline JS
+// and the pill silently fails to fire its click handler.
+function _escJs(str) {
+    return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+// ────────────────────────────────────────────────────────────────────────────
+
 // ── Exam Name Resolution Helper ──────────────────────────────────────────────
 // Exam name is the bare token in the query string (e.g. "?ssc-cgl-2025"),
 // picked out from any other real params (like &filter=...) using URLSearchParams
@@ -28,14 +38,22 @@ function _getExamNameFromUrl() {
 // Reads &filter=year=2025,subject=Maths,topic=Algebra,subtopic=Percentage
 // Any subset of levels can be given; applied top-down and validated afterwards
 // by the existing fallback logic in initExamEngine.
+//
+// NOTE: pair-separator is a comma, but some subtopic names legitimately
+// contain commas (e.g. "Rocks, Continents, and Oceans"). To avoid shredding
+// those values, we only treat a comma as a pair-separator when it's
+// immediately followed by one of the four known keys + "=". Any other comma
+// is left alone and stays part of the value it belongs to.
 function _getUrlFilters() {
     const params = new URLSearchParams(window.location.search);
     const raw = params.get('filter');
     if (!raw) return null;
 
-    const result = {};
     const allowedKeys = ['year', 'subject', 'topic', 'subtopic'];
-    raw.split(',').forEach(pair => {
+    const splitPattern = new RegExp(`,(?=(?:${allowedKeys.join('|')})=)`);
+
+    const result = {};
+    raw.split(splitPattern).forEach(pair => {
         const idx = pair.indexOf('=');
         if (idx === -1) return;
         const key = pair.slice(0, idx).trim();
@@ -218,7 +236,7 @@ function setupFilters(years) {
         } else {
             yearScroll.style.display = 'flex';
             yearScroll.innerHTML = years.map(y =>
-                `<div class="pill-filter ${y === currentFilters.year ? 'active' : ''}" onclick="setYear('${y}', this)">${y}</div>`
+                `<div class="pill-filter ${y === currentFilters.year ? 'active' : ''}" onclick="setYear('${_escJs(y)}', this)">${y}</div>`
             ).join('');
         }
     }
@@ -232,7 +250,7 @@ function setupFilters(years) {
         subScroll.innerHTML = subjects.map(s => {
             const subData = EXAM_JSON.data[currentFilters.year][s];
             const count = _countItems(subData);
-            return `<div class="pill-filter ${s === currentFilters.subject ? 'active' : ''}" onclick="setDeepFilter('subject', '${s}')">${s} (${count})</div>`;
+            return `<div class="pill-filter ${s === currentFilters.subject ? 'active' : ''}" onclick="setDeepFilter('subject', '${_escJs(s)}')">${s} (${count})</div>`;
         }).join('');
     }
 
@@ -252,7 +270,7 @@ function setupFilters(years) {
 
         topicScroll.innerHTML = topics.map(t => {
             const count = _countItems(selectedSubData[t]);
-            return `<div class="pill-filter ${t === currentFilters.topic ? 'active' : ''}" onclick="setDeepFilter('topic', '${t}')">${t} (${count})</div>`;
+            return `<div class="pill-filter ${t === currentFilters.topic ? 'active' : ''}" onclick="setDeepFilter('topic', '${_escJs(t)}')">${t} (${count})</div>`;
         }).join('');
     } else {
         topicWrap?.classList.add('hidden');
@@ -286,7 +304,7 @@ function setupFilters(years) {
 
             subtopicScroll.innerHTML = subtopics.map(st => {
                 const count = Array.isArray(topicData[st]) ? topicData[st].length : 0;
-                return `<div class="pill-filter ${st === currentFilters.subtopic ? 'active' : ''}" onclick="setDeepFilter('subtopic', '${st}')">${st} (${count})</div>`;
+                return `<div class="pill-filter ${st === currentFilters.subtopic ? 'active' : ''}" onclick="setDeepFilter('subtopic', '${_escJs(st)}')">${st} (${count})</div>`;
             }).join('');
         } else {
             subtopicWrap?.classList.add('hidden');
@@ -489,6 +507,4 @@ window.addEventListener('pageshow', function(event) {
 window.addEventListener('profileUpdated', function() {
     if (typeof renderMocks === 'function' && EXAM_JSON) { renderMocks(); }
 });
-
-
 
