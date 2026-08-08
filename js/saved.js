@@ -402,11 +402,19 @@ function renderMath(target) {
     }
 }
 
-function normalizeMathForQuiz(container) {
-    if (!container) return;
-    container.innerHTML = container.innerHTML
+// Shared string-level transform — used both on the live container's innerHTML
+// and on the PDF body string before it's ever written into the print doc.
+// Folds $$...$$ display-math delimiters down to inline \( ... \) so MathJax
+// never renders a centered block (which is what caused the extra gaps).
+function normalizeMathString(html) {
+    return html
         .replace(/(\S)\s*\$\$(.+?)\$\$\s*(\S)/g, '$1 \\($2\\) $3')
         .replace(/\$\$(.+?)\$\$/g, '\\($1\\)');
+}
+
+function normalizeMathForQuiz(container) {
+    if (!container) return;
+    container.innerHTML = normalizeMathString(container.innerHTML);
 }
 
 const observer = new IntersectionObserver(entries => {
@@ -650,6 +658,9 @@ function renderPdfOptions(item, markCorrect) {
     return html;
 }
 
+// withSolution=true  -> shows SOLUTION block (if present) AND the Answer line
+// withSolution=false -> shows plain options only, plus the Answer line
+// The Answer line is now ALWAYS printed, regardless of mode.
 function buildPdfQuestionHTML(item, no, withSolution) {
     const q = item.question_data;
     const qtext = applyBoldHighlight(getLangText(q.question).replace(/(\s|<br\s*\/?>)+$/gi, ''));
@@ -662,11 +673,13 @@ function buildPdfQuestionHTML(item, no, withSolution) {
         if (solText && solText.trim() !== "") {
             html += `<div class="pdf-explanation"><strong>SOLUTION:</strong><br>${applyBoldHighlight(solText)}${renderImg(q.solution_image, item.quiz_id, q.id, 6)}</div>`;
         }
-    } else {
-        const letters = ['a', 'b', 'c', 'd', 'e'];
-        const letter = letters[parseInt(q.answer, 10) - 1] || q.answer;
-        html += `<div class="pdf-answer-only"><strong>Answer:</strong> (${letter})</div>`;
     }
+
+    // Answer line — always shown now, in both With-Solution and Only-Answers modes
+    const letters = ['a', 'b', 'c', 'd', 'e'];
+    const letter = letters[parseInt(q.answer, 10) - 1] || q.answer;
+    html += `<div class="pdf-answer-only"><strong>Answer:</strong> (${letter})</div>`;
+
     html += `</div>`;
     return html;
 }
@@ -726,7 +739,10 @@ async function generatePdf() {
     pdfWin.document.write('<p style="font-family:sans-serif;padding:40px;color:#666;">Preparing your PDF…</p>');
 
     const watermarkBg = await buildWatermarkBackground();
-    const bodyHTML = buildPdfDocumentBody(items, withSolution);
+    // Fold $$...$$ down to inline \( ... \) BEFORE the string is ever written into
+    // the print document — this is what stops MathJax from rendering the block
+    // (centered, extra-margin) form that was causing the visible gaps.
+    const bodyHTML = normalizeMathString(buildPdfDocumentBody(items, withSolution));
     const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
     const doc = `<!DOCTYPE html>
@@ -770,8 +786,10 @@ window.MathJax = {
   }
   .pdf-subject-heading:first-of-type { margin-top: 0; }
 
-  /* Content is allowed to flow across columns/pages — no forced avoid, no big empty gaps */
-  .pdf-q { margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dashed #ddd; }
+  /* Content is allowed to flow across columns/pages — no forced avoid, no big empty gaps.
+     Opaque white background + z-index so the tiled watermark behind the page wrap
+     stays hidden underneath question text/images instead of showing through them. */
+  .pdf-q { margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dashed #ddd; background: #fff; position: relative; z-index: 1; }
   .pdf-qtext { font-size: 11px; line-height: 1.32; font-weight: 600; margin-bottom: 3px; }
   .pdf-qno { color: #2563eb; font-weight: 800; }
   .pdf-options { margin: 2px 0 3px 1px; }
@@ -783,7 +801,7 @@ window.MathJax = {
   /* Plain running text, same size/weight family as the question — not a quoted/boxed callout */
   .pdf-explanation { margin-top: 3px; font-size: 11px; line-height: 1.32; }
   .pdf-answer-only { font-size: 11px; font-weight: 700; margin-top: 2px; }
-  .pdf-q img { max-width: 150px; max-height: 130px; display: block; margin: 3px 0; object-fit: contain; }
+  .pdf-q img { max-width: 150px; max-height: 130px; display: block; margin: 3px 0; object-fit: contain; background: #fff; }
 
   /* Same MathJax wrap rules as the live page — equations stay inside the (narrower) column, never overflow */
   mjx-container { max-width: 100% !important; overflow: visible !important; }
@@ -842,6 +860,4 @@ window.MathJax = {
     pdfWin.document.close();
     closePdfModal();
 }
-
-
 
