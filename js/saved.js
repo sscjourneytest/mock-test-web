@@ -682,11 +682,50 @@ function buildPdfDocumentBody(items, withSolution) {
     return body;
 }
 
-function generatePdf() {
+// Builds one small tiled SVG (as a data URI) containing the diagonal text repeats
+// plus the logo, and used as a normal `background-image` on the page container.
+// This avoids `position: fixed` + opacity/transform overlays, which is what was
+// forcing Chrome's print pipeline to rasterize whole pages into large images.
+async function buildWatermarkBackground() {
+    let logoTag = '';
+    try {
+        const resp = await fetch('/logo.png');
+        if (resp.ok) {
+            const blob = await resp.blob();
+            const base64 = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+            logoTag = `<image href="${base64}" x="125" y="125" width="90" height="90" opacity="0.10"/>`;
+        }
+    } catch (e) {
+        // Logo not reachable — the text watermark alone still covers the requirement
+    }
+
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="340" height="340">
+      <g transform="rotate(-30 170 170)" font-family="Arial, sans-serif" font-weight="800" font-size="19" fill="#2563eb" fill-opacity="0.09">
+        <text x="0" y="70">MOCK MATRIX HUB</text>
+        <text x="0" y="270">MOCK MATRIX HUB</text>
+      </g>
+      ${logoTag}
+    </svg>`;
+    return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+}
+
+async function generatePdf() {
     const items = getPdfSelectedItems();
     if (items.length === 0) { showToast("No questions in the selected subject"); return; }
     const withSolution = document.querySelector('input[name="pdfSolMode"]:checked').value === 'with';
 
+    // Open the tab synchronously, inside the click gesture — pop-up blockers require
+    // this. The logo fetch below is async, so we write to this handle once it's ready.
+    const pdfWin = window.open('', '_blank');
+    if (!pdfWin) { alert("Please allow pop-ups to generate the PDF."); return; }
+    pdfWin.document.write('<p style="font-family:sans-serif;padding:40px;color:#666;">Preparing your PDF…</p>');
+
+    const watermarkBg = await buildWatermarkBackground();
     const bodyHTML = buildPdfDocumentBody(items, withSolution);
     const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
@@ -699,7 +738,7 @@ function generatePdf() {
 <script>
 window.MathJax = {
   tex: { inlineMath: [['\\\\(', '\\\\)']], displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']], processEscapes: true },
-  chtml: { mtextInheritFont: true, displayAlign: 'left' },
+  chtml: { mtextInheritFont: true, displayAlign: 'left', linebreaks: { allow: true, width: 'container', overflow: 'linebreak' } },
   options: { skipHtmlTags: ['script', 'style', 'textarea', 'pre'] },
   startup: {
     ready: () => {
@@ -713,33 +752,48 @@ window.MathJax = {
 <style>
   * { box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; color: #111; margin: 0; background: #e5e7eb; }
-  .pdf-page-wrap { max-width: 900px; margin: 20px auto; background: #fff; padding: 28px 30px; position: relative; }
-  .pdf-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 10px; margin-bottom: 18px; }
-  .pdf-header-title { font-size: 20px; font-weight: 800; color: #111; }
+  .pdf-page-wrap {
+    max-width: 900px; margin: 12px auto; background-color: #fff; padding: 14px 16px;
+    background-image: url('${watermarkBg}'); background-repeat: repeat;
+  }
+  .pdf-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #2563eb; padding-bottom: 5px; margin-bottom: 8px; }
+  .pdf-header-title { font-size: 15px; font-weight: 800; color: #111; }
   .pdf-header-title span { color: #2563eb; }
-  .pdf-header-date { font-size: 11px; color: #666; font-weight: 600; }
+  .pdf-header-date { font-size: 10px; color: #666; font-weight: 600; }
 
-  .pdf-subject-heading { font-size: 15px; font-weight: 800; color: #fff; background: #2563eb; padding: 7px 12px; border-radius: 5px; margin: 22px 0 12px; }
+  /* Two-column layout with a vertical divider between columns, like a printed answer sheet */
+  .pdf-columns { column-count: 2; column-gap: 16px; column-rule: 1px solid #d0d0d0; column-fill: auto; }
+
+  .pdf-subject-heading {
+    column-span: all; font-size: 12px; font-weight: 800; color: #fff; background: #2563eb;
+    padding: 3px 9px; border-radius: 3px; margin: 8px 0 6px;
+  }
   .pdf-subject-heading:first-of-type { margin-top: 0; }
 
-  .pdf-q { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px dashed #ccc; page-break-inside: avoid; break-inside: avoid; }
-  .pdf-qtext { font-size: 13.5px; line-height: 1.5; font-weight: 600; margin-bottom: 8px; }
+  /* Content is allowed to flow across columns/pages — no forced avoid, no big empty gaps */
+  .pdf-q { margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dashed #ddd; }
+  .pdf-qtext { font-size: 11px; line-height: 1.32; font-weight: 600; margin-bottom: 3px; }
   .pdf-qno { color: #2563eb; font-weight: 800; }
-  .pdf-options { margin: 6px 0 8px 4px; }
-  .pdf-opt { display: flex; gap: 6px; font-size: 12.5px; line-height: 1.4; padding: 3px 0; }
+  .pdf-options { margin: 2px 0 3px 1px; }
+  /* A single option row is kept intact — this is a tiny block, so it never causes a visible gap */
+  .pdf-opt { display: flex; gap: 5px; font-size: 10.5px; line-height: 1.28; padding: 1.5px 3px; break-inside: avoid; border-radius: 3px; }
   .pdf-opt-label { font-weight: 700; flex-shrink: 0; }
-  .pdf-correct { color: #15803d; font-weight: 700; }
-  .pdf-explanation { margin-top: 6px; padding: 8px 10px; background: #f0f9ff; border-left: 3px solid #2563eb; font-size: 12.5px; line-height: 1.5; }
-  .pdf-answer-only { font-size: 12.5px; font-weight: 700; color: #15803d; margin-top: 4px; }
-  .pdf-q img { max-width: 260px; max-height: 220px; display: block; margin: 6px 0; object-fit: contain; }
+  /* Correct option: same light-green background the live page uses — no colored text, no box/quote look */
+  .pdf-opt.pdf-correct { background: #dcfce7; }
+  /* Plain running text, same size/weight family as the question — not a quoted/boxed callout */
+  .pdf-explanation { margin-top: 3px; font-size: 11px; line-height: 1.32; }
+  .pdf-answer-only { font-size: 11px; font-weight: 700; margin-top: 2px; }
+  .pdf-q img { max-width: 150px; max-height: 130px; display: block; margin: 3px 0; object-fit: contain; }
 
-  .pdf-watermark { position: fixed; inset: 0; pointer-events: none; z-index: 0; display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around; overflow: hidden; }
-  .pdf-watermark span { font-size: 34px; font-weight: 800; color: #2563eb; opacity: 0.07; transform: rotate(-30deg); white-space: nowrap; }
-  .pdf-watermark img { position: absolute; top: 50%; left: 50%; width: 260px; height: 260px; transform: translate(-50%, -50%) rotate(-30deg); opacity: 0.06; object-fit: contain; }
-  .pdf-page-wrap > *:not(.pdf-watermark) { position: relative; z-index: 1; }
+  /* Same MathJax wrap rules as the live page — equations stay inside the (narrower) column, never overflow */
+  mjx-container { max-width: 100% !important; overflow: visible !important; }
+  mjx-container, mjx-math, mjx-mtext { word-break: normal !important; overflow-wrap: normal !important; }
+  mjx-container[display="true"] { display: block !important; max-width: 100% !important; }
+  mjx-math { white-space: normal !important; }
+  .pdf-qtext, .pdf-opt-text, .pdf-explanation { overflow-wrap: break-word !important; word-break: normal !important; }
 
   @media print {
-    @page { size: A4; margin: 14mm 12mm; }
+    @page { size: A4; margin: 9mm 8mm; }
     body { background: #fff; }
     .pdf-page-wrap { max-width: none; margin: 0; padding: 0; }
   }
@@ -747,16 +801,13 @@ window.MathJax = {
 </head>
 <body>
   <div class="pdf-page-wrap">
-    <div class="pdf-watermark">
-      <span>MOCK MATRIX HUB</span><span>MOCK MATRIX HUB</span>
-      <span>MOCK MATRIX HUB</span><span>MOCK MATRIX HUB</span>
-      <img src="/logo.png" onerror="this.style.display='none'">
-    </div>
     <div class="pdf-header">
       <div class="pdf-header-title">Mock Matrix Hub <span>| Saved Questions</span></div>
       <div class="pdf-header-date">${dateStr}</div>
     </div>
-    ${bodyHTML}
+    <div class="pdf-columns">
+      ${bodyHTML}
+    </div>
   </div>
   <script>
     window.__mmhMathDone = false;
@@ -786,8 +837,6 @@ window.MathJax = {
 </body>
 </html>`;
 
-    const pdfWin = window.open('', '_blank');
-    if (!pdfWin) { alert("Please allow pop-ups to generate the PDF."); return; }
     pdfWin.document.open();
     pdfWin.document.write(doc);
     pdfWin.document.close();
