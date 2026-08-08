@@ -94,6 +94,12 @@
         .match-msg.error { color: #dc2626; }
         .match-msg.ok { color: #16a34a; }
 
+        .pass-reqs { list-style: none; padding: 0; margin: -10px 0 16px; font-size: 11.5px; }
+        .pass-reqs li { color: #dc2626; font-weight: 600; margin-bottom: 3px; transition: color 0.2s; }
+        .pass-reqs li::before { content: "✕ "; }
+        .pass-reqs li.met { color: #16a34a; }
+        .pass-reqs li.met::before { content: "✓ "; }
+
         .input-box { 
             width: 100%; padding: 12px; margin-bottom: 18px; 
             background: #f8fafc; border: 1px solid #cbd5e1; 
@@ -208,10 +214,10 @@
 
         <div id="otp-reset-section" class="hidden">
             <h2>Verify OTP</h2>
-            <p class="mandatory-notice">Enter the 8-digit code sent to your Gmail.</p>
+            <p class="mandatory-notice">Enter the 6-digit code sent to your Gmail.</p>
             
             <label>OTP Code <span>*</span></label>
-            <input type="text" id="otp-code" class="input-box" placeholder="12345678" maxlength="8">
+            <input type="text" id="otp-code" class="input-box" placeholder="123456" maxlength="6">
             
             <label>New Password <span>*</span></label>
             <div class="pass-container">
@@ -221,6 +227,12 @@
                     <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a21.8 21.8 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                 </span>
             </div>
+            <ul class="pass-reqs" id="otp-pass-reqs">
+                <li id="otp-req-len">Minimum 6 characters</li>
+                <li id="otp-req-upper">One capital letter (A-Z)</li>
+                <li id="otp-req-digit">One digit (0-9)</li>
+                <li id="otp-req-special">One special symbol (!@#$%...)</li>
+            </ul>
 
             <label>Confirm New Password <span>*</span></label>
             <div class="pass-container">
@@ -270,6 +282,12 @@
                     <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a21.8 21.8 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
                 </span>
             </div>
+            <ul class="pass-reqs" id="s-pass-reqs">
+                <li id="s-req-len">Minimum 6 characters</li>
+                <li id="s-req-upper">One capital letter (A-Z)</li>
+                <li id="s-req-digit">One digit (0-9)</li>
+                <li id="s-req-special">One special symbol (!@#$%...)</li>
+            </ul>
 
             <label>Confirm Password <span>*</span></label>
             <div class="pass-container">
@@ -335,6 +353,23 @@
             }
         }
 
+        // Live password-strength checklist — turns each rule green as soon
+        // as the typed password satisfies it, red otherwise. Visual only;
+        // does not change what signup()/verifyOtpAndChangePassword() accept.
+        function checkPasswordStrength(passId, prefix) {
+            const pass = document.getElementById(passId).value;
+            const rules = {
+                len: pass.length >= 6,
+                upper: /[A-Z]/.test(pass),
+                digit: /[0-9]/.test(pass),
+                special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?~`]/.test(pass)
+            };
+            Object.keys(rules).forEach(key => {
+                const li = document.getElementById(prefix + '-req-' + key);
+                if (li) li.classList.toggle('met', rules[key]);
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const sPass = document.getElementById('s-password');
             const sConfirm = document.getElementById('s-confirm-password');
@@ -342,6 +377,7 @@
                 const check = () => checkPasswordMatch('s-password', 's-confirm-password', 's-match-msg');
                 sConfirm.addEventListener('input', check);
                 sPass.addEventListener('input', check);
+                sPass.addEventListener('input', () => checkPasswordStrength('s-password', 's'));
             }
 
             const otpPass = document.getElementById('otp-new-password');
@@ -350,6 +386,7 @@
                 const check = () => checkPasswordMatch('otp-new-password', 'otp-confirm-password', 'otp-match-msg');
                 otpConfirm.addEventListener('input', check);
                 otpPass.addEventListener('input', check);
+                otpPass.addEventListener('input', () => checkPasswordStrength('otp-new-password', 'otp'));
             }
 
             // auth.js redirects here with this flag when it retried loading
@@ -390,7 +427,7 @@
 
             window.tempEmail = pending.email;
             toggleView('otp');
-            showMessage(`Resuming — enter the 8-digit code sent to ${pending.email}.`, false);
+            showMessage(`Resuming — enter the 6-digit code sent to ${pending.email}.`, false);
         }
 
         function toggleView(v) {
@@ -439,7 +476,7 @@
                     // mid-OTP-entry. See restoreOtpFlowIfPending() below.
                     localStorage.setItem('mmh_otp_reset_pending', JSON.stringify({ email, ts: Date.now() }));
                     toggleView('otp');
-                    showMessage("Check your Gmail for the 8-digit code.", false);
+                    showMessage("Check your Gmail for the 6-digit code.", false);
                 }
             } catch (err) {
                 showMessage("Error: " + err.message, true);
@@ -639,6 +676,7 @@
     </script>
 </body>
 </html>
+
 
 
 
