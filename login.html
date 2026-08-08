@@ -14,6 +14,7 @@
             margin: 0; 
             min-height: 100vh; 
             display: flex; 
+            flex-direction: column;
             justify-content: center; 
             align-items: center; 
             background: #f1f5f9; 
@@ -25,7 +26,7 @@
         .auth-card { 
             background: white; 
             border-radius: 20px; 
-            padding: 40px; 
+            padding: 32px; 
             width: 100%; 
             max-width: 420px; 
             color: #1e293b; 
@@ -36,7 +37,7 @@
         /* Mock Matrix Hub Logo Branding */
         .brand-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
         .logo-box {
             width: 60px;
@@ -66,22 +67,25 @@
             font-size: 16px;
         }
 
-        /* Signup Guide */
-        .guide-box {
+        /* Signup Guide (shown outside the card, below it, only during signup) */
+        .guide-box-external {
+            width: 100%;
+            max-width: 420px;
             background: #eff6ff;
             border-left: 4px solid #2563eb;
             padding: 12px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-top: 16px;
             font-size: 12px;
             color: #1e40af;
+            box-sizing: border-box;
         }
 
-        h2 { text-align: center; color: #1e293b; margin: 0 0 20px 0; font-size: 24px; }
-        .mandatory-notice { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 20px; }
+        h2 { text-align: center; color: #1e293b; margin: 0 0 16px 0; font-size: 24px; }
+        .mandatory-notice { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 16px; }
         .mandatory-notice span { color: #ef4444; }
         
-        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #475569; }
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #475569; }
         label span { color: #ef4444; }
 
         .pass-container { position: relative; width: 100%; }
@@ -89,34 +93,34 @@
         .toggle-eye:hover { color: #64748b; }
         .toggle-eye svg { display: block; }
         .toggle-eye .eye-off { display: none; }
-        .match-msg { font-size: 12px; font-weight: 600; margin: -12px 0 14px; min-height: 15px; display: none; }
+        .match-msg { font-size: 12px; font-weight: 600; margin: -10px 0 12px; min-height: 15px; display: none; }
         .match-msg.show { display: block; }
         .match-msg.error { color: #dc2626; }
         .match-msg.ok { color: #16a34a; }
 
-        .pass-reqs { list-style: none; padding: 0; margin: -10px 0 16px; font-size: 11.5px; }
-        .pass-reqs li { color: #dc2626; font-weight: 600; margin-bottom: 3px; transition: color 0.2s; }
+        .pass-reqs { list-style: none; padding: 0; margin: -8px 0 14px; font-size: 11.5px; }
+        .pass-reqs li { color: #dc2626; font-weight: 600; margin-bottom: 2px; transition: color 0.2s; }
         .pass-reqs li::before { content: "✕ "; }
         .pass-reqs li.met { color: #16a34a; }
         .pass-reqs li.met::before { content: "✓ "; }
 
         .input-box { 
-            width: 100%; padding: 12px; margin-bottom: 18px; 
+            width: 100%; padding: 11px 12px; margin-bottom: 14px; 
             background: #f8fafc; border: 1px solid #cbd5e1; 
             border-radius: 10px; color: #1e293b; box-sizing: border-box; 
             outline: none; transition: 0.2s; font-family: inherit;
         }
         .input-box:focus { border-color: #2563eb; background: white; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
 
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 15px; margin-top: 5px; }
+        .btn { width: 100%; padding: 13px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 15px; margin-top: 4px; }
         .btn-primary { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
         .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3); }
         
-        .btn-link { background: transparent; color: #2563eb; font-size: 14px; font-weight: 600; text-decoration: none; margin-top: 15px; display: block; width: 100%; text-align: center; }
+        .btn-link { background: transparent; color: #2563eb; font-size: 14px; font-weight: 600; text-decoration: none; margin-top: 12px; display: block; width: 100%; text-align: center; }
         .btn-link:hover { text-decoration: underline; }
         
         .hidden { display: none; }
-        #msg { text-align: center; font-size: 13px; margin-top: 20px; font-weight: 600; min-height: 20px; padding: 10px; border-radius: 8px; }
+        #msg { text-align: center; font-size: 13px; margin-top: 16px; font-weight: 600; min-height: 20px; padding: 10px; border-radius: 8px; }
 
    
   
@@ -245,34 +249,28 @@
             <p class="match-msg" id="otp-match-msg"></p>
             
             <button class="btn btn-primary" onclick="verifyOtpAndChangePassword()">Update Password</button>
-            <button class="btn btn-link" onclick="localStorage.removeItem('mmh_otp_reset_pending'); toggleView('reset')">Resend Code</button>
+            <button class="btn btn-link" id="resend-otp-btn" onclick="localStorage.removeItem('mmh_otp_reset_pending'); toggleView('reset')">Resend Code</button>
             <button class="btn btn-link" onclick="localStorage.removeItem('mmh_otp_reset_pending'); toggleView('login')">Back to Login</button>
         </div>
 
         <div id="signup-section" class="hidden">
             <h2>Create Account</h2>
-            <div class="guide-box">
-                <strong>How to Sign Up:</strong><br>
-                • Use a valid Gmail address.<br>
-                • Username: A-Z and 0-9 only (No spaces/signs).<br>
-                • Password must be at least 6 characters.
-            </div>
             
             <label>Full Name <span>*</span></label>
             <input type="text" id="s-name" class="input-box" placeholder="Real Name">
 
              <label>Unique Username <span>*</span></label>
             <input type="text" id="s-username" class="input-box" placeholder="Letters and numbers only">
-            <p style="font-size:11.5px; color:#64748b; margin:-14px 0 16px;">This will be used as your ID for mock tests.</p>
+            <p style="font-size:11.5px; color:#64748b; margin:-10px 0 14px;">This will be used as your ID for mock tests.</p>
 
             <label>Gmail Address <span>*</span></label>
             <input type="email" id="s-email" class="input-box" placeholder="example@gmail.com">
-              <p style="font-size:11.5px; color:#64748b; margin:-14px 0 16px;">Must be a valid email if invalid your account will be terminated.</p>
+              <p style="font-size:11.5px; color:#64748b; margin:-10px 0 14px;">Must be a valid email if invalid your account will be terminated.</p>
 
             
             <label>Mobile Number <span>*</span></label>
             <input type="tel" id="s-mobile" class="input-box" placeholder="10-digit mobile number" maxlength="10">
-            <p style="font-size:11.5px; color:#64748b; margin:-14px 0 16px;">This number must have an active Telegram or WhatsApp account — used for support and important updates.</p>
+            <p style="font-size:11.5px; color:#64748b; margin:-10px 0 14px;">This number must have an active Telegram or WhatsApp account — used for support and important updates.</p>
             
             <label>Create Password <span>*</span></label>
             <div class="pass-container">
@@ -303,6 +301,13 @@
             <button class="btn btn-link" onclick="toggleView('login')">Already have account? Login</button>
         </div>
         <p id="msg"></p>
+    </div>
+
+    <div class="guide-box-external hidden" id="signup-guide-external">
+        <strong>How to Sign Up:</strong><br>
+        • Use a valid Gmail address.<br>
+        • Username: A-Z and 0-9 only (No spaces/signs).<br>
+        • Password must be at least 6 characters.
     </div>
 
     <a href="https://t.me/MOCK_MATRIX__HUB_SUPPORT_BOT" target="_blank" class="mmh-floating-support">
@@ -426,18 +431,56 @@
             }
 
             window.tempEmail = pending.email;
-            toggleView('otp');
+            const elapsedSec = Math.floor((Date.now() - pending.ts) / 1000);
+            const remainingCooldown = Math.max(0, 65 - elapsedSec);
+            toggleView('otp', remainingCooldown);
             showMessage(`Resuming — enter the 6-digit code sent to ${pending.email}.`, false);
         }
 
-        function toggleView(v) {
+        function toggleView(v, resendCooldownSeconds) {
             document.getElementById('login-section').classList.toggle('hidden', v !== 'login');
             document.getElementById('signup-section').classList.toggle('hidden', v !== 'signup');
             document.getElementById('reset-section').classList.toggle('hidden', v !== 'reset');
             document.getElementById('otp-reset-section').classList.toggle('hidden', v !== 'otp');
+            document.getElementById('signup-guide-external').classList.toggle('hidden', v !== 'signup');
             const msg = document.getElementById('msg');
             msg.innerText = "";
             msg.style.background = "transparent";
+            if (v === 'otp') startResendCountdown(resendCooldownSeconds);
+        }
+
+        // Disables the "Resend Code" button and shows a live countdown
+        // ("You can resend OTP in Ns") for 65 seconds, so the user can't
+        // spam OTP requests. Re-enables and restores the label once it
+        // reaches 0.
+        function startResendCountdown(seconds) {
+            const btn = document.getElementById('resend-otp-btn');
+            if (!btn) return;
+
+            if (window.resendCountdownInterval) clearInterval(window.resendCountdownInterval);
+
+            let remaining = (typeof seconds === 'number' && !isNaN(seconds)) ? seconds : 65;
+
+            const render = () => {
+                if (remaining <= 0) {
+                    clearInterval(window.resendCountdownInterval);
+                    btn.disabled = false;
+                    btn.style.opacity = "";
+                    btn.style.cursor = "";
+                    btn.innerText = "Resend Code";
+                } else {
+                    btn.disabled = true;
+                    btn.style.opacity = "0.6";
+                    btn.style.cursor = "not-allowed";
+                    btn.innerText = `You can resend OTP in ${remaining}s`;
+                }
+            };
+
+            render();
+            window.resendCountdownInterval = setInterval(() => {
+                remaining--;
+                render();
+            }, 1000);
         }
 
         async function forgotPassword() {
@@ -676,10 +719,4 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
 
