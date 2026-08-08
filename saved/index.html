@@ -50,11 +50,16 @@
         <button class="icon-circle-btn" onclick="goBack()" aria-label="Back"><i class="fas fa-arrow-left"></i></button>
         <div class="header-title">SAVED QUESTIONS</div>
       </div>
-      <select id="globalLangSelect" class="lang-select" onchange="changeGlobalLang(this.value)">
-        <option value="en">English</option>
-        <option value="hi">हिन्दी</option>
-        <option value="bilingual">Bilingual</option>
-      </select>
+      <div class="header-actions">
+        <button class="pdf-btn" id="pdfBtn" onclick="openPdfModal()" aria-label="Save as PDF">
+          <i class="fas fa-file-pdf"></i><span class="pdf-btn-text">PDF</span>
+        </button>
+        <select id="globalLangSelect" class="lang-select" onchange="changeGlobalLang(this.value)">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="bilingual">Bilingual</option>
+        </select>
+      </div>
     </div>
 
     <div class="mode-switch">
@@ -106,7 +111,30 @@
     <button class="focus-nav-btn" onclick="navFocus(1)">NEXT</button>
   </div>
 
+  <!-- Save as PDF modal -->
+  <div class="pdf-modal-backdrop" id="pdfModalBackdrop" onclick="closePdfModal()"></div>
+  <div class="pdf-modal" id="pdfModal">
+    <div class="pdf-modal-head">
+      <h3>Save as PDF</h3>
+      <button class="icon-circle-btn" onclick="closePdfModal()" aria-label="Close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pdf-modal-body">
+      <div class="pdf-section-label">Select Subjects</div>
+      <div class="pdf-subject-list" id="pdfSubjectList"></div>
+
+      <div class="pdf-section-label">Include</div>
+      <div class="pdf-radio-row">
+        <label class="pdf-radio"><input type="radio" name="pdfSolMode" value="with" checked> With Solutions</label>
+        <label class="pdf-radio"><input type="radio" name="pdfSolMode" value="without"> Only Answers</label>
+      </div>
+    </div>
+    <div class="pdf-modal-foot">
+      <button class="pdf-generate-btn" id="pdfGenerateBtn" onclick="generatePdf()"><i class="fas fa-file-pdf"></i> Generate PDF</button>
+    </div>
+  </div>
+
   <script src="/js/saved.js"></script>
 </body>
 </html>
+
 
