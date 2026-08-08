@@ -361,10 +361,10 @@
 
     /* 2. Swap to Horizontal Images */
     #slide0 { 
-        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Desktop.jpg') !important; 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/passdesktop_124price.jpg') !important; 
     }
     #slide1 { 
-        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Desktop.jpg') !important; 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/partnerdesktop_20commission.jpg') !important; 
     }
 }
 
@@ -372,10 +372,10 @@
 @media (max-width: 991px) {
     /* Ensure Mobile uses the Square images */
     #slide0 { 
-        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Banner.jpg') !important; 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/passdesktop_124price.jpg') !important; 
     }
     #slide1 { 
-        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Banner.jpg') !important; 
+        background-image: url('https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/partnermobile_20commission.jpg') !important; 
     }
 }      
         /* --- FLOATING ICONS (ORIGINAL) --- */
