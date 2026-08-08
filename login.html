@@ -25,8 +25,8 @@
 
         .auth-card { 
             background: white; 
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 20px; 
+            padding: 32px; 
             width: 100%; 
             max-width: 420px; 
             color: #1e293b; 
@@ -249,7 +249,7 @@
             <p class="match-msg" id="otp-match-msg"></p>
             
             <button class="btn btn-primary" onclick="verifyOtpAndChangePassword()">Update Password</button>
-            <button class="btn btn-link" id="resend-otp-btn" onclick="localStorage.removeItem('mmh_otp_reset_pending'); toggleView('reset')">Resend Code</button>
+            <button class="btn btn-link" onclick="localStorage.removeItem('mmh_otp_reset_pending'); toggleView('reset')">Resend Code</button>
             <button class="btn btn-link" onclick="localStorage.removeItem('mmh_otp_reset_pending'); toggleView('login')">Back to Login</button>
         </div>
 
@@ -431,13 +431,11 @@
             }
 
             window.tempEmail = pending.email;
-            const elapsedSec = Math.floor((Date.now() - pending.ts) / 1000);
-            const remainingCooldown = Math.max(0, 65 - elapsedSec);
-            toggleView('otp', remainingCooldown);
+            toggleView('otp');
             showMessage(`Resuming — enter the 6-digit code sent to ${pending.email}.`, false);
         }
 
-        function toggleView(v, resendCooldownSeconds) {
+        function toggleView(v) {
             document.getElementById('login-section').classList.toggle('hidden', v !== 'login');
             document.getElementById('signup-section').classList.toggle('hidden', v !== 'signup');
             document.getElementById('reset-section').classList.toggle('hidden', v !== 'reset');
@@ -446,41 +444,6 @@
             const msg = document.getElementById('msg');
             msg.innerText = "";
             msg.style.background = "transparent";
-            if (v === 'otp') startResendCountdown(resendCooldownSeconds);
-        }
-
-        // Disables the "Resend Code" button and shows a live countdown
-        // ("You can resend OTP in Ns") for 65 seconds, so the user can't
-        // spam OTP requests. Re-enables and restores the label once it
-        // reaches 0.
-        function startResendCountdown(seconds) {
-            const btn = document.getElementById('resend-otp-btn');
-            if (!btn) return;
-
-            if (window.resendCountdownInterval) clearInterval(window.resendCountdownInterval);
-
-            let remaining = (typeof seconds === 'number' && !isNaN(seconds)) ? seconds : 65;
-
-            const render = () => {
-                if (remaining <= 0) {
-                    clearInterval(window.resendCountdownInterval);
-                    btn.disabled = false;
-                    btn.style.opacity = "";
-                    btn.style.cursor = "";
-                    btn.innerText = "Resend Code";
-                } else {
-                    btn.disabled = true;
-                    btn.style.opacity = "0.6";
-                    btn.style.cursor = "not-allowed";
-                    btn.innerText = `You can resend OTP in ${remaining}s`;
-                }
-            };
-
-            render();
-            window.resendCountdownInterval = setInterval(() => {
-                remaining--;
-                render();
-            }, 1000);
         }
 
         async function forgotPassword() {
