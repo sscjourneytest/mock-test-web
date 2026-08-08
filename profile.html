@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My Profile | Mock Matrix Hub</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/auth.js"></script>
+
+    <style>
+        /* =====================================================
+           TOKENS — "Admit Card" identity: candidates already know
+           this object by heart (photo box, printed mono details,
+           official stamp, perforated tear-line). Blue stays as
+           the established brand accent; everything else is built
+           around the hall-ticket concept, not a generic dark card.
+           ===================================================== */
+        :root {
+            --bg: #f4f6fb;
+            --shell-bg: #ffffff;
+            --card: #ffffff;
+            --card-alt: #f8fafc;
+            --border: #e3e8f2;
+            --text: #0f172a;
+            --text-dim: #64748b;
+            --primary: #2563eb;
+            --primary-dark: #1e3fae;
+            --primary-tint: #eaf1ff;
+            --gold: #b8860b;
+            --gold-tint: #fdf3dc;
+            --danger: #ef4444;
+            --danger-tint: #fee2e2;
+            --success: #16a34a;
+            --success-tint: #f0fdf4;
+            --scrim: rgba(15, 23, 42, 0.55);
+            --shadow-card: 0 1px 2px rgba(15,23,42,0.04), 0 10px 24px -12px rgba(15,23,42,0.12);
+        }
+
+        body.dark-mode {
+            --bg: #05070d;
+            --shell-bg: #0c1220;
+            --card: #111827;
+            --card-alt: #161f30;
+            --border: #232e42;
+            --text: #eef2f9;
+            --text-dim: #8b94a8;
+            --primary: #4f8bff;
+            --primary-dark: #2f5fd6;
+            --primary-tint: rgba(79, 139, 255, 0.14);
+            --gold: #e8b83f;
+            --gold-tint: rgba(232, 184, 63, 0.14);
+            --danger-tint: rgba(239, 68, 68, 0.14);
+            --success-tint: rgba(22, 163, 74, 0.14);
+            --scrim: rgba(0, 0, 0, 0.72);
+            --shadow-card: 0 1px 2px rgba(0,0,0,0.3), 0 14px 30px -14px rgba(0,0,0,0.55);
+        }
+
+        * { box-sizing: border-box; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+        }
+
+        html { background: var(--bg); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Desktop/tablet: keep the phone-width composition (this is a
+           PWA screen, not a marketing page) but present it as a floating
+           card on an ambient backdrop instead of stretching full-bleed. */
+        .app-shell {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--shell-bg);
+            padding-bottom: 104px;
+            position: relative;
+        }
+        @media (min-width: 560px) {
+            body {
+                background:
+                    radial-gradient(circle at 15% 10%, var(--primary-tint), transparent 45%),
+                    radial-gradient(circle at 85% 90%, var(--gold-tint), transparent 40%),
+                    var(--bg);
+                padding: 32px 16px;
+            }
+            .app-shell {
+                min-height: auto;
+                border-radius: 28px;
+                box-shadow: var(--shadow-card), 0 0 0 1px var(--border);
+                overflow: hidden;
+                padding-bottom: 96px;
+            }
+            .bottom-nav { border-radius: 0 0 28px 28px; }
+        }
+
+        /* --- HEADER --- */
+        .app-header {
+            background: var(--shell-bg);
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        .back-btn {
+            background: var(--card-alt); border: 1px solid var(--border); border-radius: 10px;
+            width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+            font-size: 0.95rem; color: var(--text); cursor: pointer; flex-shrink: 0;
+        }
+        .header-title { font-weight: 800; font-size: 1.05rem; margin: 0; letter-spacing: -0.2px; }
+
+        /* =====================================================
+           HALL TICKET HERO — the signature. Fine guilloché line
+           pattern (security-print reference), mono "candidate
+           ID" line, and a rotated official-stamp seal for status.
+           A perforated tear-line closes it off from the detail
+           list below, like tearing the stub off a real ticket.
+           ===================================================== */
+        .ticket-wrap { padding: 20px 18px 0; }
+
+        .ticket {
+            position: relative;
+            background: linear-gradient(155deg, var(--primary-dark) 0%, var(--primary) 62%, #3f7cf0 100%);
+            border-radius: 20px 20px 0 0;
+            padding: 26px 22px 30px;
+            color: #fff;
+            overflow: hidden;
+            animation: ticketIn 0.5s cubic-bezier(.2,.7,.3,1) both;
+        }
+        @keyframes ticketIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .ticket::before {
+            /* guilloché-style fine line pattern, like security printing */
+            content: '';
+            position: absolute; inset: 0;
+            background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.07) 0px, rgba(255,255,255,0.07) 1px, transparent 1px, transparent 9px);
+            opacity: 0.55;
+            pointer-events: none;
+        }
+        .ticket::after {
+            content: '';
+            position: absolute; top: -70px; left: -50px;
+            width: 200px; height: 200px; border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            pointer-events: none;
+        }
+
+        .ticket-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px; font-weight: 700; letter-spacing: 2.5px;
+            text-transform: uppercase; color: rgba(255,255,255,0.65);
+            position: relative; z-index: 1;
+        }
+
+        .ticket-body { display: flex; align-items: center; gap: 16px; margin-top: 14px; position: relative; z-index: 1; }
+
+        .user-avatar {
+            width: 62px; height: 62px; background: #fff; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; color: var(--primary); font-weight: 800;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .ticket-id { min-width: 0; }
+        .ticket-id h4 {
+            margin: 0 0 4px; font-family: 'Poppins', sans-serif; font-weight: 800;
+            font-size: 1.15rem; letter-spacing: -0.3px;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .ticket-id .uname {
+            font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 500;
+            color: rgba(255,255,255,0.8); letter-spacing: 0.5px;
+        }
+
+        /* Rotated official-stamp seal — reads status at a glance */
+        .seal {
+            position: absolute; top: 16px; right: 18px; z-index: 1;
+            width: 56px; height: 56px; border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transform: rotate(-11deg);
+            border: 2px dashed rgba(255,255,255,0.75);
+            font-family: 'Poppins', sans-serif;
+        }
+        .seal .seal-top { font-size: 8px; font-weight: 800; letter-spacing: 1px; line-height: 1; }
+        .seal .seal-main { font-size: 9.5px; font-weight: 800; letter-spacing: 0.5px; margin-top: 2px; }
+        .seal.pro { color: #3a2a00; background: var(--gold); border-color: rgba(255,255,255,0.85); box-shadow: 0 4px 10px rgba(184,134,11,0.4); }
+        .seal.free { color: #fff; background: rgba(255,255,255,0.14); }
+
+        /* Perforated tear line joining hero to the detail list */
+        .perforation {
+            position: relative;
+            height: 0;
+            border-top: 2px dashed rgba(255,255,255,0.35);
+            margin: 0;
+        }
+        .perf-notch {
+            position: absolute; top: -11px; width: 22px; height: 22px; border-radius: 50%;
+            background: var(--shell-bg);
+        }
+        .perf-notch.left { left: -11px; }
+        .perf-notch.right { right: -11px; }
+
+        /* --- DETAIL LIST --- */
+        .info-container { padding: 22px 18px 0; }
+        .info-group-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1.5px; color: var(--text-dim); margin: 0 4px 9px;
+        }
+        .info-group {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 4px 0;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-card);
+            margin-bottom: 22px;
+        }
+
+        .info-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px; border-bottom: 1px solid var(--border);
+            gap: 10px;
+        }
+        .info-item:last-child { border-bottom: none; }
+
+        .info-label { display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .info-label i {
+            width: 30px; height: 30px; border-radius: 9px;
+            background: var(--primary-tint); color: var(--primary);
+            display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0;
+        }
+        .info-label span { font-weight: 600; font-size: 13px; color: var(--text-dim); }
+
+        .info-right { display: flex; align-items: center; gap: 9px; min-width: 0; }
+        .info-value {
+            font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13.5px;
+            color: var(--text); text-align: right; overflow: hidden; text-overflow: ellipsis;
+            white-space: nowrap; max-width: 148px;
+        }
+        .info-value.muted { color: var(--text-dim); font-weight: 500; font-style: italic; font-family: 'Inter', sans-serif; }
+
+        .edit-icon-btn {
+            width: 30px; height: 30px; border-radius: 9px; border: 1px dashed var(--border);
+            background: transparent; color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; cursor: pointer; flex-shrink: 0; transition: 0.2s;
+        }
+        .edit-icon-btn:hover { background: var(--primary); color: white; border-style: solid; border-color: var(--primary); }
+        .edit-icon-btn:active { transform: scale(0.92); }
+        .edit-icon-btn:focus-visible, .btn-profile:focus-visible, .field-input:focus-visible, .btn-overlay-primary:focus-visible, .btn-overlay-ghost:focus-visible, .nav-item:focus-visible {
+            outline: 2.5px solid var(--primary); outline-offset: 2px;
+        }
+
+        .partner-code { color: var(--gold); }
+
+        /* --- BUTTONS --- */
+        .action-area { padding: 0 18px; display: flex; flex-direction: column; gap: 11px; }
+        .btn-profile {
+            width: 100%; padding: 14px; border-radius: 13px; font-weight: 700;
+            border: none; cursor: pointer; transition: 0.2s; font-size: 14.5px;
+        }
+        .btn-profile:active { transform: scale(0.98); }
+        .btn-premium { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; box-shadow: 0 6px 16px -4px rgba(37, 99, 235, 0.5); }
+        .btn-premium i { color: var(--gold); }
+        .btn-logout { background: var(--danger-tint); color: var(--danger); }
+
+        /* --- BOTTOM NAV --- */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; margin: 0 auto; max-width: 480px;
+            background: var(--shell-bg); display: flex; justify-content: space-around;
+            padding: 11px 0; border-top: 1px solid var(--border); z-index: 1000;
+        }
+        .nav-item { text-align: center; color: var(--text-dim); text-decoration: none; font-size: 0.68rem; font-weight: 700; flex: 1; letter-spacing: 0.3px; }
+        .nav-item i { display: block; font-size: 1.25rem; margin-bottom: 4px; }
+        .nav-item.active { color: var(--primary); }
+
+        /* ============================================================
+           OVERLAYS
+           ============================================================ */
+        .overlay {
+            position: fixed; inset: 0; background: var(--scrim);
+            display: none; align-items: flex-end; justify-content: center;
+            z-index: 2000; backdrop-filter: blur(3px);
+        }
+        .overlay.active { display: flex; }
+        @media (min-width: 480px) { .overlay { align-items: center; } }
+
+        .overlay-box {
+            background: var(--card); color: var(--text);
+            width: 100%; max-width: 420px;
+            border-radius: 22px 22px 0 0;
+            padding: 24px 22px calc(22px + env(safe-area-inset-bottom));
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.25);
+            animation: slideUp 0.25s ease;
+            border: 1px solid var(--border);
+        }
+        @media (min-width: 480px) { .overlay-box { border-radius: 20px; padding: 26px; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .overlay-handle { width: 38px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 18px; }
+        @media (min-width: 480px) { .overlay-handle { display: none; } }
+
+        .overlay-icon {
+            width: 46px; height: 46px; border-radius: 13px;
+            background: var(--primary-tint); color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 19px; margin-bottom: 14px;
+        }
+        .overlay-title { font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 800; margin: 0 0 4px; }
+        .overlay-sub { font-size: 12.5px; color: var(--text-dim); margin: 0 0 20px; line-height: 1.5; }
+        .overlay-sub strong { color: var(--text); }
+
+        .field-label { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.6px; }
+        .field-input {
+            width: 100%; padding: 13px 14px; margin-bottom: 14px;
+            background: var(--card-alt); border: 1.5px solid var(--border);
+            border-radius: 12px; color: var(--text); outline: none;
+            font-family: inherit; font-size: 15px; transition: 0.2s;
+        }
+        .field-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-tint); }
+        .field-input.otp-input { font-family: 'JetBrains Mono', monospace; letter-spacing: 7px; font-weight: 700; text-align: center; font-size: 18px; }
+
+        .overlay-msg { font-size: 12.5px; font-weight: 600; min-height: 18px; margin: -4px 0 14px; color: var(--text-dim); }
+        .overlay-msg.error { color: var(--danger); }
+        .overlay-msg.success { color: var(--success); }
+
+        .overlay-btn-row { display: flex; flex-direction: column; gap: 8px; }
+        .btn-overlay-primary {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; font-weight: 700; font-size: 14.5px; cursor: pointer; transition: 0.2s;
+        }
+        .btn-overlay-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-overlay-primary:active:not(:disabled) { transform: scale(0.98); }
+
+        .btn-overlay-ghost { width: 100%; padding: 11px; border: none; background: transparent; color: var(--text-dim); font-weight: 700; font-size: 13px; cursor: pointer; }
+        .btn-overlay-ghost:hover { color: var(--text); }
+        .btn-overlay-ghost.link-primary { color: var(--primary); }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+<div class="app-shell">
+
+    <header class="app-header">
+        <button class="back-btn" onclick="window.location.href='/'" aria-label="Go back"><i class="fas fa-arrow-left"></i></button>
+        <h1 class="header-title">My Account</h1>
+    </header>
+
+    <div class="ticket-wrap">
+        <div class="ticket">
+            <div class="ticket-eyebrow">Mock Matrix Hub · Candidate ID</div>
+            <div class="ticket-body">
+                <div class="user-avatar" id="avatarLetter">U</div>
+                <div class="ticket-id">
+                    <h4 id="dispName">User Account</h4>
+                    <div class="uname" id="statusBadge">@loading</div>
+                </div>
+            </div>
+            <div class="seal free" id="statusSeal">
+                <span class="seal-top">MEMBER</span>
+                <span class="seal-main">FREE</span>
+            </div>
+        </div>
+        <div class="perforation">
+            <div class="perf-notch left"></div>
+            <div class="perf-notch right"></div>
+        </div>
+    </div>
+
+    <div class="info-container">
+        <p class="info-group-title">Account Details</p>
+        <div class="info-group">
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-user-circle"></i><span>Username</span></div>
+                <div class="info-value" id="valName">Loading...</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-id-badge"></i><span>Full Name</span></div>
+                <div class="info-value" id="valFullName" style="font-family: 'Inter', sans-serif;">Loading...</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-envelope"></i><span>Email</span></div>
+                <div class="info-right">
+                    <div class="info-value" id="valEmail">Loading...</div>
+                    <button class="edit-icon-btn" onclick="openEmailOverlay()" aria-label="Change email"><i class="fas fa-pen"></i></button>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-mobile-alt"></i><span>Mobile</span></div>
+                <div class="info-right">
+                    <div class="info-value" id="valMobile">Loading...</div>
+                    <button class="edit-icon-btn" onclick="openMobileOverlay()" aria-label="Edit mobile number"><i class="fas fa-pen"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <p class="info-group-title">Subscription</p>
+        <div class="info-group">
+            <div class="info-item">
+                <div class="info-label"><i class="fas fa-calendar-check"></i><span>Plan Expiry</span></div>
+                <div class="info-value" id="valExpiry" style="font-family: 'Inter', sans-serif; font-weight:700;">Not Active</div>
+            </div>
+            <div class="info-item" id="partnerRow" style="display: none;">
+                <div class="info-label"><i class="fas fa-ticket-alt"></i><span>Partner Code</span></div>
+                <div class="info-value partner-code" id="valPartner">NONE</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-area">
+        <button onclick="window.location.href='/buy-premium.html'" class="btn-profile btn-premium" id="upgradeBtn">
+            <i class="fas fa-crown me-2"></i> Upgrade to Premium
+        </button>
+        <button onclick="handleLogout()" class="btn-profile btn-logout">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout Account
+        </button>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item"><i class="fas fa-home-alt"></i><span>HOME</span></a>
+        <a href="/exams/" class="nav-item"><i class="fas fa-file-pen"></i><span>EXAMS</span></a>
+        <a href="/live-test" class="nav-item"><i class="fas fa-bolt"></i><span>LIVE</span></a>
+        <a href="/profile" class="nav-item active"><i class="fas fa-user-circle"></i><span>PROFILE</span></a>
+    </nav>
+
+    <!-- ===================== MOBILE EDIT OVERLAY ===================== -->
+    <div class="overlay" id="mobileEditOverlay">
+        <div class="overlay-box">
+            <div class="overlay-handle"></div>
+            <div class="overlay-icon"><i class="fas fa-mobile-alt"></i></div>
+            <h3 class="overlay-title">Update Mobile Number</h3>
+            <p class="overlay-sub">Used for support (Telegram/WhatsApp) — not for login.</p>
+
+            <label class="field-label">Mobile Number</label>
+            <input type="tel" id="mobileEditInput" class="field-input" maxlength="10" placeholder="10-digit mobile number">
+            <p class="overlay-msg" id="mobileEditMsg"></p>
+
+            <div class="overlay-btn-row">
+                <button class="btn-overlay-primary" id="mobileSaveBtn" onclick="saveMobileNumber()">Save</button>
+                <button class="btn-overlay-ghost" onclick="closeMobileOverlay()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== EMAIL CHANGE OVERLAY ===================== -->
+    <div class="overlay" id="emailChangeOverlay">
+        <div class="overlay-box">
+            <div class="overlay-handle"></div>
+
+            <div id="emailStepRequest">
+                <div class="overlay-icon"><i class="fas fa-envelope-open-text"></i></div>
+                <h3 class="overlay-title">Change Email</h3>
+                <p class="overlay-sub">We'll send a 6-digit code to your <strong>new</strong> Gmail to confirm it's yours.</p>
+
+                <label class="field-label">New Gmail Address</label>
+                <input type="email" id="newEmailInput" class="field-input" placeholder="new@gmail.com" autocomplete="off">
+                <p class="overlay-msg" id="emailMsg"></p>
+
+                <div class="overlay-btn-row">
+                    <button class="btn-overlay-primary" id="sendOtpBtn" onclick="sendEmailOtp()">Send Code</button>
+                    <button class="btn-overlay-ghost" onclick="closeEmailOverlay()">Cancel</button>
+                </div>
+            </div>
+
+            <div id="emailStepOtp" class="hidden">
+                <div class="overlay-icon"><i class="fas fa-shield-halved"></i></div>
+                <h3 class="overlay-title">Verify Code</h3>
+                <p class="overlay-sub">Enter the 6-digit code sent to <strong id="otpSentTo"></strong></p>
+
+                <label class="field-label">OTP Code</label>
+                <input type="text" id="emailOtpInput" class="field-input otp-input" maxlength="6" placeholder="••••••" inputmode="numeric">
+                <p class="overlay-msg" id="emailMsg2"></p>
+
+                <div class="overlay-btn-row">
+                    <button class="btn-overlay-primary" id="verifyOtpBtn" onclick="verifyEmailOtp()">Verify &amp; Update</button>
+                    <button class="btn-overlay-ghost link-primary" onclick="resendEmailOtp()">Change email / Resend code</button>
+                    <button class="btn-overlay-ghost" onclick="cancelEmailOtp()"><i class="fas fa-arrow-left me-1"></i> Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <script>
+        // =====================================================
+        // RENDER
+        // =====================================================
+        function renderProfile(profile) {
+            if (!profile) return;
+
+            const name = profile.username || "User";
+            document.getElementById('dispName').innerText = name;
+            document.getElementById('valName').innerText = name;
+            document.getElementById('valFullName').innerText = profile.full_name || "Not set";
+            document.getElementById('valEmail').innerText = profile.email || "No Email Found";
+            document.getElementById('avatarLetter').innerText = name.charAt(0).toUpperCase();
+            document.getElementById('statusBadge').innerText = '@' + name;
+
+            const mobileEl = document.getElementById('valMobile');
+            if (profile.mobile) {
+                mobileEl.innerText = profile.mobile;
+                mobileEl.classList.remove('muted');
+            } else {
+                mobileEl.innerText = "Not set";
+                mobileEl.classList.add('muted');
+            }
+
+            const seal = document.getElementById('statusSeal');
+            if (profile.is_paid) {
+                seal.classList.remove('free');
+                seal.classList.add('pro');
+                seal.innerHTML = '<span class="seal-top">MEMBER</span><span class="seal-main">PRO</span>';
+                document.getElementById('upgradeBtn').style.display = 'none';
+                if (profile.expires_at) {
+                    const date = new Date(profile.expires_at);
+                    document.getElementById('valExpiry').innerText = date.toLocaleDateString('en-GB', {
+                        day: 'numeric', month: 'short', year: 'numeric'
+                    });
+                }
+            } else {
+                seal.classList.remove('pro');
+                seal.classList.add('free');
+                seal.innerHTML = '<span class="seal-top">MEMBER</span><span class="seal-main">FREE</span>';
+                document.getElementById('upgradeBtn').style.display = '';
+            }
+
+            if (profile.is_partner && profile.partner_coupon) {
+                document.getElementById('partnerRow').style.display = 'flex';
+                document.getElementById('valPartner').innerText = profile.partner_coupon;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('mmh_theme') === 'dark') document.body.classList.add('dark-mode');
+
+            const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+            if (profile) renderProfile(profile);
+            // Cache miss isn't the same as logged out — auth.js's initAuth()
+            // handles the real session check / redirect in parallel.
+
+            resumeEmailOtpIfPending();
+        });
+
+        window.addEventListener('profileUpdated', () => {
+            const profile = typeof getLocalProfile === 'function' ? getLocalProfile() : null;
+            renderProfile(profile);
+        });
+
+        // =====================================================
+        // SHARED HELPERS
+        // =====================================================
+        function setBtnLoading(btn, loading, idleText) {
+            if (!btn) return;
+            if (loading) {
+                btn.dataset.idle = btn.dataset.idle || btn.innerText;
+                btn.innerText = "Please wait...";
+                btn.disabled = true;
+            } else {
+                btn.innerText = idleText || btn.dataset.idle || btn.innerText;
+                btn.disabled = false;
+            }
+        }
+
+        function setMsg(id, text, kind) {
+            const el = document.getElementById(id);
+            el.innerText = text || "";
+            el.classList.remove('error', 'success');
+            if (kind) el.classList.add(kind);
+        }
+
+        // =====================================================
+        // MOBILE NUMBER
+        // =====================================================
+        function openMobileOverlay() {
+            const profile = getLocalProfile() || {};
+            document.getElementById('mobileEditInput').value = profile.mobile || '';
+            setMsg('mobileEditMsg', '');
+            document.getElementById('mobileEditOverlay').classList.add('active');
+        }
+
+        function closeMobileOverlay() {
+            document.getElementById('mobileEditOverlay').classList.remove('active');
+        }
+
+        async function saveMobileNumber() {
+            const input = document.getElementById('mobileEditInput');
+            const mobile = input.value.trim();
+
+            if (!/^[0-9]{10}$/.test(mobile)) {
+                return setMsg('mobileEditMsg', 'Enter a valid 10-digit mobile number.', 'error');
+            }
+
+            const profile = getLocalProfile();
+            if (!profile || !profile.id) return setMsg('mobileEditMsg', 'Not logged in.', 'error');
+            if (mobile === profile.mobile) return setMsg('mobileEditMsg', 'That is already your saved number.', 'error');
+
+            const btn = document.getElementById('mobileSaveBtn');
+            setBtnLoading(btn, true);
+            setMsg('mobileEditMsg', '');
+
+            try {
+                const client = await getClient();
+                const { error } = await client.from('profiles').update({ mobile }).eq('id', profile.id);
+                if (error) {
+                    const isDupe = (error.message || '').toLowerCase().includes('mobile');
+                    return setMsg('mobileEditMsg', isDupe
+                        ? 'This mobile number is already registered with another account.'
+                        : 'Error: ' + error.message, 'error');
+                }
+
+                saveLocalProfile({ ...profile, mobile });
+                document.getElementById('valMobile').innerText = mobile;
+                document.getElementById('valMobile').classList.remove('muted');
+                setMsg('mobileEditMsg', 'Mobile number updated.', 'success');
+                setTimeout(closeMobileOverlay, 800);
+            } catch (err) {
+                setMsg('mobileEditMsg', 'Error: ' + err.message, 'error');
+            } finally {
+                setBtnLoading(btn, false, 'Save');
+            }
+        }
+
+        // =====================================================
+        // EMAIL CHANGE
+        // =====================================================
+        const EMAIL_OTP_PENDING_KEY = 'mmh_email_otp_pending';
+        const EMAIL_OTP_WINDOW_MS = 5 * 60 * 1000;
+
+        function openEmailOverlay() {
+            document.getElementById('emailChangeOverlay').classList.add('active');
+            showEmailStep('request');
+            document.getElementById('newEmailInput').value = '';
+            setMsg('emailMsg', '');
+            setMsg('emailMsg2', '');
+        }
+
+        function closeEmailOverlay() {
+            document.getElementById('emailChangeOverlay').classList.remove('active');
+        }
+
+        function showEmailStep(step) {
+            document.getElementById('emailStepRequest').classList.toggle('hidden', step !== 'request');
+            document.getElementById('emailStepOtp').classList.toggle('hidden', step !== 'otp');
+        }
+
+        async function sendEmailOtp() {
+            const newEmail = document.getElementById('newEmailInput').value.trim().toLowerCase();
+            setMsg('emailMsg', '');
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) {
+                return setMsg('emailMsg', 'Enter a valid email address.', 'error');
+            }
+            const profile = getLocalProfile();
+            if (profile && profile.email && newEmail === profile.email.toLowerCase()) {
+                return setMsg('emailMsg', 'That is already your current email.', 'error');
+            }
+
+            const btn = document.getElementById('sendOtpBtn');
+            setBtnLoading(btn, true);
+            setMsg('emailMsg', 'Sending code...');
+
+            try {
+                const client = await getClient();
+                const { error } = await client.auth.updateUser({ email: newEmail });
+                if (error) return setMsg('emailMsg', 'Error: ' + error.message, 'error');
+
+                localStorage.setItem(EMAIL_OTP_PENDING_KEY, JSON.stringify({ email: newEmail, ts: Date.now() }));
+                window.pendingNewEmail = newEmail;
+
+                document.getElementById('otpSentTo').textContent = newEmail;
+                showEmailStep('otp');
+                setMsg('emailMsg2', 'Code sent. It expires shortly, so verify soon.');
+            } catch (err) {
+                setMsg('emailMsg', 'Error: ' + err.message, 'error');
+            } finally {
+                setBtnLoading(btn, false, 'Send Code');
+            }
+        }
+
+        async function verifyEmailOtp() {
+            const code = document.getElementById('emailOtpInput').value.trim();
+            const newEmail = window.pendingNewEmail;
+
+            if (!newEmail) return setMsg('emailMsg2', 'Session expired — please request a new code.', 'error');
+            if (!code) return setMsg('emailMsg2', 'Enter the code.', 'error');
+
+            const btn = document.getElementById('verifyOtpBtn');
+            setBtnLoading(btn, true);
+            setMsg('emailMsg2', 'Verifying...');
+
+            try {
+                const client = await getClient();
+                const { error } = await client.auth.verifyOtp({ email: newEmail, token: code, type: 'email_change' });
+                if (error) return setMsg('emailMsg2', 'Error: ' + error.message, 'error');
+
+                localStorage.removeItem(EMAIL_OTP_PENDING_KEY);
+                window.pendingNewEmail = null;
+
+                const cached = getLocalProfile() || {};
+                saveLocalProfile({ ...cached, email: newEmail });
+                document.getElementById('valEmail').innerText = newEmail;
+
+                setMsg('emailMsg2', 'Email updated successfully.', 'success');
+                setTimeout(closeEmailOverlay, 900);
+            } catch (err) {
+                setMsg('emailMsg2', 'Error: ' + err.message, 'error');
+            } finally {
+                setBtnLoading(btn, false, 'Verify & Update');
+            }
+        }
+
+        function resendEmailOtp() {
+            localStorage.removeItem(EMAIL_OTP_PENDING_KEY);
+            window.pendingNewEmail = null;
+            document.getElementById('emailOtpInput').value = '';
+            showEmailStep('request');
+            setMsg('emailMsg', '');
+        }
+
+        function cancelEmailOtp() {
+            localStorage.removeItem(EMAIL_OTP_PENDING_KEY);
+            window.pendingNewEmail = null;
+            closeEmailOverlay();
+        }
+
+        function resumeEmailOtpIfPending() {
+            const raw = localStorage.getItem(EMAIL_OTP_PENDING_KEY);
+            if (!raw) return;
+
+            let pending;
+            try { pending = JSON.parse(raw); } catch (e) { localStorage.removeItem(EMAIL_OTP_PENDING_KEY); return; }
+
+            if (!pending.email || !pending.ts || Date.now() - pending.ts > EMAIL_OTP_WINDOW_MS) {
+                localStorage.removeItem(EMAIL_OTP_PENDING_KEY);
+                return;
+            }
+
+            window.pendingNewEmail = pending.email;
+            document.getElementById('emailChangeOverlay').classList.add('active');
+            showEmailStep('otp');
+            document.getElementById('otpSentTo').textContent = pending.email;
+            setMsg('emailMsg2', 'Resuming — enter the code sent to ' + pending.email + '.');
+        }
+    </script>
+</body>
+</html>
