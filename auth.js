@@ -86,7 +86,7 @@ async function fetchAndCacheProfile(client, user) {
                 // Leave isPartner false on error; next cache refresh will retry.
             }
 
-            const freshProfile = { ...dbProfile, email: user.email, is_partner: isPartner };
+            const freshProfile = { ...dbProfile, is_partner: isPartner };
             saveLocalProfile(freshProfile);
 
             // GUARANTEE: never treat this as a successful load unless it's
