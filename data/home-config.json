@@ -34,11 +34,11 @@
       "visible": true
     }
   ],
-  "banners": [
+    "banners": [
     {
       "id": "premium-plan",
-      "imageDesktop": "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Desktop.jpg",
-      "imageMobile": "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Pass_Banner.jpg",
+      "imageDesktop": "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/passdesktop_124price.jpg",
+      "imageMobile": "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/passmobile_124price.jpg",
       "link": "/buy-premium.html",
       "buttonLabel": "VIEW PLAN",
       "audience": "all",
@@ -46,14 +46,14 @@
     },
     {
       "id": "become-partner",
-      "imageDesktop": "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Desktop.jpg",
-      "imageMobile": "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/MMH_Partner_Banner.jpg",
+      "imageDesktop": "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/partnerdesktop_20commission.jpg",
+      "imageMobile": "https://raw.githubusercontent.com/sscjourneytest/sscjourneytest/main/partnermobile_20commission.jpg",
       "link": "/apply-coupon.html",
       "buttonLabel": "BECOME PARTNER",
       "audience": "all",
       "visible": true
     }
-  ],
+    ],
   "recommendations": [
     {
       "id": "ssc-cgl",
