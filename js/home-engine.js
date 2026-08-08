@@ -124,13 +124,16 @@ function renderBanners(banners) {
 
     const isDesktop = window.innerWidth >= 992;
 
-    wrapper.innerHTML = bannerSlides.map((b, i) => `
-        <div class="banner-slide${i === 0 ? ' active' : ''}" id="slide${i}">
+    wrapper.innerHTML = bannerSlides.map((b, i) => {
+        const imgUrl = isDesktop ? b.imageDesktop : b.imageMobile;
+        return `
+        <div class="banner-slide${i === 0 ? ' active' : ''}" id="slide${i}" style="background-image:url('${imgUrl}')">
             <div class="banner-loader"></div>
-            <img src="${isDesktop ? b.imageDesktop : b.imageMobile}" style="display:none;"
+            <img src="${imgUrl}" style="display:none;"
                  id="imgDetector${i}" onload="this.parentElement.classList.add('loaded')">
             <a href="${b.link}" class="banner-btn">${b.buttonLabel}</a>
-        </div>`).join('');
+        </div>`;
+    }).join('');
 
     if (navDots) {
         navDots.innerHTML = bannerSlides.map((_, i) =>
@@ -299,4 +302,5 @@ window.addEventListener('profileUpdated', () => {
     renderBanners(config.banners || []);
     renderSalePopup(config.salePopup);
 });
+
 
