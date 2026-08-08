@@ -300,3 +300,81 @@ mjx-math { white-space: normal !important; }
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+/* ---------- PDF button (header) — supplemental, doesn't touch original rules above ---------- */
+.header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.header-title-group { min-width: 0; flex: 1 1 auto; overflow: hidden; }
+.header-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.pdf-btn {
+  display: flex; align-items: center; gap: 5px; border: none; border-radius: 20px;
+  padding: 6px 12px; font-size: 12px; font-weight: 800; cursor: pointer;
+  background: linear-gradient(135deg, #dc2626, #ef4444); color: #fff; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(220,38,38,0.35);
+}
+.pdf-btn:active { transform: scale(0.96); }
+
+/* Header never breaks to a 2nd row on narrow screens — text stays one line, PDF btn shrinks to icon-only */
+@media (max-width: 400px) {
+  .header-title { font-size: 12.5px; }
+  .pdf-btn-text { display: none; }
+  .pdf-btn { padding: 7px 9px; }
+  .lang-select { padding: 5px 8px; font-size: 11px; }
+}
+
+/* ---------- Save as PDF modal ---------- */
+.pdf-modal-backdrop {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 3005;
+}
+.pdf-modal-backdrop.open { display: block; }
+
+.pdf-modal {
+  display: none; position: fixed; left: 50%; bottom: 0; transform: translateX(-50%);
+  width: 100%; max-width: 440px; max-height: 82vh; overflow-y: auto;
+  background: var(--card-bg); border-radius: 16px 16px 0 0; z-index: 3006;
+  box-shadow: 0 -6px 24px rgba(0,0,0,0.2);
+}
+.pdf-modal.open { display: block; }
+
+@media (min-width: 640px) {
+  .pdf-modal {
+    bottom: auto; top: 50%; transform: translate(-50%, -50%);
+    border-radius: 16px; width: 92%;
+  }
+}
+
+.pdf-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 16px 8px; position: sticky; top: 0; background: var(--card-bg);
+}
+.pdf-modal-head h3 { margin: 0; font-size: 16px; color: var(--text-main); }
+
+.pdf-modal-body { padding: 4px 16px 16px; }
+.pdf-section-label {
+  font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase;
+  letter-spacing: 0.03em; margin: 14px 0 8px;
+}
+.pdf-subject-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.pdf-subject-chk {
+  display: flex; align-items: center; gap: 6px; border: 1.3px solid var(--soft-border);
+  border-radius: 20px; padding: 6px 12px; font-size: 12.5px; font-weight: 700;
+  color: var(--text-main); cursor: pointer; background: var(--bg);
+}
+.pdf-subject-chk input { accent-color: var(--primary); width: 15px; height: 15px; cursor: pointer; }
+.pdf-subject-chk.checked { background: #eef5ff; border-color: var(--primary); color: var(--primary); }
+body.dark-mode .pdf-subject-chk.checked { background: #075985; color: #e0f2fe; }
+
+.pdf-radio-row { display: flex; gap: 16px; }
+.pdf-radio { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-main); cursor: pointer; }
+.pdf-radio input { accent-color: var(--primary); width: 15px; height: 15px; cursor: pointer; }
+
+.pdf-modal-foot { padding: 8px 16px 20px; position: sticky; bottom: 0; background: var(--card-bg); }
+.pdf-generate-btn {
+  width: 100%; border: none; border-radius: 12px; padding: 13px; font-size: 14.5px;
+  font-weight: 800; cursor: pointer; color: #fff; display: flex; align-items: center;
+  justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  box-shadow: 0 4px 12px rgba(220,38,38,0.3);
+}
+.pdf-generate-btn:active { transform: scale(0.98); }
+
+
