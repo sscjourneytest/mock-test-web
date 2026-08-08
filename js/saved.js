@@ -580,4 +580,219 @@ function changeGlobalLang(val) {
     applyFilters();
 }
 
+// ============================================================
+// Save as PDF (Windows Print) — reuses renderImg/getLangText/
+// applyBoldHighlight exactly as the live page does, so images and
+// math render identically to what the user already sees on-screen.
+// ============================================================
+let pdfSelectedSubjects = new Set(["ALL"]);
+
+function openPdfModal() {
+    if (QUESTION_LIST.length === 0) { showToast("No saved questions to export"); return; }
+    pdfSelectedSubjects = new Set(["ALL"]);
+    renderPdfSubjectList();
+    document.getElementById('pdfModal').classList.add('open');
+    document.getElementById('pdfModalBackdrop').classList.add('open');
+}
+
+function closePdfModal() {
+    document.getElementById('pdfModal').classList.remove('open');
+    document.getElementById('pdfModalBackdrop').classList.remove('open');
+}
+
+function renderPdfSubjectList() {
+    const present = SUBJECTS.filter(s => QUESTION_LIST.some(i => i.subject === s));
+    const order = ["ALL", ...present];
+    const wrap = document.getElementById('pdfSubjectList');
+    wrap.innerHTML = order.map(s => {
+        const checked = pdfSelectedSubjects.has(s);
+        return `<label class="pdf-subject-chk ${checked ? 'checked' : ''}">
+            <input type="checkbox" value="${s}" ${checked ? 'checked' : ''} onchange="onPdfSubjectToggle('${s}', this.checked)">
+            ${s === 'ALL' ? 'All Subjects' : s}
+        </label>`;
+    }).join('');
+}
+
+// ALL is mutually exclusive with individual subjects. Set can never end
+// up empty — unchecking the last thing always falls back to ALL.
+function onPdfSubjectToggle(subj, isChecked) {
+    if (subj === 'ALL') {
+        pdfSelectedSubjects = isChecked ? new Set(["ALL"]) : new Set();
+    } else {
+        pdfSelectedSubjects.delete('ALL');
+        if (isChecked) pdfSelectedSubjects.add(subj);
+        else pdfSelectedSubjects.delete(subj);
+    }
+    if (pdfSelectedSubjects.size === 0) pdfSelectedSubjects.add('ALL');
+    renderPdfSubjectList();
+}
+
+function getPdfSelectedItems() {
+    if (pdfSelectedSubjects.has('ALL')) return QUESTION_LIST.slice();
+    return QUESTION_LIST.filter(i => pdfSelectedSubjects.has(i.subject));
+}
+
+// markCorrect=false (Without-Solution mode) prints plain options with no
+// highlight — the correct one is stated separately via "Answer: (x)".
+function renderPdfOptions(item, markCorrect) {
+    const q = item.question_data;
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+    let html = "";
+    for (let i = 1; i <= 5; i++) {
+        if (!q[`option_${i}`]) continue;
+        const isCor = markCorrect && String(q.answer) === String(i);
+        html += `
+            <div class="pdf-opt ${isCor ? 'pdf-correct' : ''}">
+                <span class="pdf-opt-label">(${letters[i - 1]})</span>
+                <span class="pdf-opt-text">${applyBoldHighlight(getLangText(q[`option_${i}`]))}${renderImg(q[`option_image_${i}`], item.quiz_id, q.id, i + 1, true)}</span>
+            </div>`;
+    }
+    return html;
+}
+
+function buildPdfQuestionHTML(item, no, withSolution) {
+    const q = item.question_data;
+    const qtext = applyBoldHighlight(getLangText(q.question).replace(/(\s|<br\s*\/?>)+$/gi, ''));
+    let html = `<div class="pdf-q">
+        <div class="pdf-qtext"><span class="pdf-qno">Q${no}.</span> ${qtext}${renderImg(q.question_image, item.quiz_id, q.id, 1)}</div>
+        <div class="pdf-options">${renderPdfOptions(item, withSolution)}</div>`;
+
+    if (withSolution) {
+        const solText = getLangText(q.solution_text);
+        if (solText && solText.trim() !== "") {
+            html += `<div class="pdf-explanation"><strong>SOLUTION:</strong><br>${applyBoldHighlight(solText)}${renderImg(q.solution_image, item.quiz_id, q.id, 6)}</div>`;
+        }
+    } else {
+        const letters = ['a', 'b', 'c', 'd', 'e'];
+        const letter = letters[parseInt(q.answer, 10) - 1] || q.answer;
+        html += `<div class="pdf-answer-only"><strong>Answer:</strong> (${letter})</div>`;
+    }
+    html += `</div>`;
+    return html;
+}
+
+function buildPdfDocumentBody(items, withSolution) {
+    let body = "";
+    const subjectsInOrder = SUBJECTS.filter(s => items.some(i => i.subject === s));
+    subjectsInOrder.forEach(subj => {
+        const subjItems = items.filter(i => i.subject === subj);
+        body += `<h2 class="pdf-subject-heading">${subj}</h2>`;
+        subjItems.forEach((item, idx) => { body += buildPdfQuestionHTML(item, idx + 1, withSolution); });
+    });
+    return body;
+}
+
+function generatePdf() {
+    const items = getPdfSelectedItems();
+    if (items.length === 0) { showToast("No questions in the selected subject"); return; }
+    const withSolution = document.querySelector('input[name="pdfSolMode"]:checked').value === 'with';
+
+    const bodyHTML = buildPdfDocumentBody(items, withSolution);
+    const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+    const doc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024">
+<title>Mock Matrix Hub - Saved Questions</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\\\(', '\\\\)']], displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']], processEscapes: true },
+  chtml: { mtextInheritFont: true, displayAlign: 'left' },
+  options: { skipHtmlTags: ['script', 'style', 'textarea', 'pre'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => { window.__mmhMathDone = true; window.__mmhTryPrint && window.__mmhTryPrint(); });
+    }
+  }
+};
+<\/script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer><\/script>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #111; margin: 0; background: #e5e7eb; }
+  .pdf-page-wrap { max-width: 900px; margin: 20px auto; background: #fff; padding: 28px 30px; position: relative; }
+  .pdf-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 10px; margin-bottom: 18px; }
+  .pdf-header-title { font-size: 20px; font-weight: 800; color: #111; }
+  .pdf-header-title span { color: #2563eb; }
+  .pdf-header-date { font-size: 11px; color: #666; font-weight: 600; }
+
+  .pdf-subject-heading { font-size: 15px; font-weight: 800; color: #fff; background: #2563eb; padding: 7px 12px; border-radius: 5px; margin: 22px 0 12px; }
+  .pdf-subject-heading:first-of-type { margin-top: 0; }
+
+  .pdf-q { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px dashed #ccc; page-break-inside: avoid; break-inside: avoid; }
+  .pdf-qtext { font-size: 13.5px; line-height: 1.5; font-weight: 600; margin-bottom: 8px; }
+  .pdf-qno { color: #2563eb; font-weight: 800; }
+  .pdf-options { margin: 6px 0 8px 4px; }
+  .pdf-opt { display: flex; gap: 6px; font-size: 12.5px; line-height: 1.4; padding: 3px 0; }
+  .pdf-opt-label { font-weight: 700; flex-shrink: 0; }
+  .pdf-correct { color: #15803d; font-weight: 700; }
+  .pdf-explanation { margin-top: 6px; padding: 8px 10px; background: #f0f9ff; border-left: 3px solid #2563eb; font-size: 12.5px; line-height: 1.5; }
+  .pdf-answer-only { font-size: 12.5px; font-weight: 700; color: #15803d; margin-top: 4px; }
+  .pdf-q img { max-width: 260px; max-height: 220px; display: block; margin: 6px 0; object-fit: contain; }
+
+  .pdf-watermark { position: fixed; inset: 0; pointer-events: none; z-index: 0; display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around; overflow: hidden; }
+  .pdf-watermark span { font-size: 34px; font-weight: 800; color: #2563eb; opacity: 0.07; transform: rotate(-30deg); white-space: nowrap; }
+  .pdf-watermark img { position: absolute; top: 50%; left: 50%; width: 260px; height: 260px; transform: translate(-50%, -50%) rotate(-30deg); opacity: 0.06; object-fit: contain; }
+  .pdf-page-wrap > *:not(.pdf-watermark) { position: relative; z-index: 1; }
+
+  @media print {
+    @page { size: A4; margin: 14mm 12mm; }
+    body { background: #fff; }
+    .pdf-page-wrap { max-width: none; margin: 0; padding: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="pdf-page-wrap">
+    <div class="pdf-watermark">
+      <span>MOCK MATRIX HUB</span><span>MOCK MATRIX HUB</span>
+      <span>MOCK MATRIX HUB</span><span>MOCK MATRIX HUB</span>
+      <img src="/logo.png" onerror="this.style.display='none'">
+    </div>
+    <div class="pdf-header">
+      <div class="pdf-header-title">Mock Matrix Hub <span>| Saved Questions</span></div>
+      <div class="pdf-header-date">${dateStr}</div>
+    </div>
+    ${bodyHTML}
+  </div>
+  <script>
+    window.__mmhMathDone = false;
+    window.__mmhImgsDone = false;
+    window.__mmhPrinted = false;
+    window.__mmhTryPrint = function() {
+      if (window.__mmhMathDone && window.__mmhImgsDone && !window.__mmhPrinted) {
+        window.__mmhPrinted = true;
+        setTimeout(() => window.print(), 200);
+      }
+    };
+    window.addEventListener('load', function() {
+      const imgs = Array.from(document.images);
+      let remaining = imgs.length;
+      if (remaining === 0) window.__mmhImgsDone = true;
+      imgs.forEach(img => {
+        if (img.complete) { remaining--; if (remaining <= 0) { window.__mmhImgsDone = true; window.__mmhTryPrint(); } }
+        else {
+          img.addEventListener('load', () => { remaining--; if (remaining <= 0) { window.__mmhImgsDone = true; window.__mmhTryPrint(); } });
+          img.addEventListener('error', () => { remaining--; if (remaining <= 0) { window.__mmhImgsDone = true; window.__mmhTryPrint(); } });
+        }
+      });
+      setTimeout(() => { window.__mmhMathDone = true; window.__mmhImgsDone = true; window.__mmhTryPrint(); }, 6000);
+      window.__mmhTryPrint();
+    });
+  <\/script>
+</body>
+</html>`;
+
+    const pdfWin = window.open('', '_blank');
+    if (!pdfWin) { alert("Please allow pop-ups to generate the PDF."); return; }
+    pdfWin.document.open();
+    pdfWin.document.write(doc);
+    pdfWin.document.close();
+    closePdfModal();
+}
+
+
 
